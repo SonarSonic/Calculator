@@ -103,8 +103,8 @@ item.Broccoli.name=西兰花
 tile.BroccoliPlant.name=西兰花植株
 
 item.CoalDust.name=煤粉
-item.PrunaeSeeds.name=Prunae Seeds
-tile.PrunaePlant.name=Prunae Plant
+item.PrunaeSeeds.name=精华煤种子
+tile.PrunaePlant.name=精华煤植株
 
 item.FiddledewFruit.name=琴露果
 tile.FiddledewPlant.name=琴露植株
@@ -437,4 +437,4 @@ tile.reinforcedstoneBrick.name=强化石砖
 tile.reinforceddirtBrick.name=强化土砖
 death.attack.stone=%1$s 被一块石头砸到了
 tile.Transmitter.name=发送器
-tile.WeatherStation.name=天气中心
+tile.WeatherStation.name=气象雷达
