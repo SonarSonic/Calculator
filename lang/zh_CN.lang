@@ -433,3 +433,8 @@ research.newRecipes=没有配方
 
 info.standard=标准
 info.unlocked=解锁
+tile.reinforcedstoneBrick.name=强化石砖
+tile.reinforceddirtBrick.name=强化土砖
+death.attack.stone=%1$s 被一块石头砸到了
+tile.Transmitter.name=发送器
+tile.WeatherStation.name=天气中心
