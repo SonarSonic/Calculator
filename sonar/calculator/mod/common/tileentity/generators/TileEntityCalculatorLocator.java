@@ -34,9 +34,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	public byte active;
-	public byte stability;
+	public int stability;
 	public int energyGenerated = CalculatorConfig.locatorRF;
 	public int luckTicks;
+	public int size;
 
 	public TileEntityCalculatorLocator() {
 		super.storage = new EnergyStorage(25000000, 25000000);
@@ -65,10 +66,20 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		this.markDirty();
 	}
 
+	public int currentGenerated(){
+		System.out.print(stability);
+		if(size!=0 && (((int)(2*size+1)*(2*size+1))-1)!=0){
+		int stable = (int)(stability *100) / ((int)(2*size+1)*(2*size+1));
+		return  ((int)(1000*(Math.sqrt(size*1.8)) - 100*(Math.sqrt(100-stable))) / (int)(11-Math.sqrt(stable))) * size;
+		
+		}
+		return 0;
+	}
+	
 	public void getStability() {
-		byte currentStable = 0;
-		for (int Z = -1; Z <= 1; Z++) {
-			for (int X = -1; X <= 1; X++) {
+		int currentStable = 0;
+		for (int Z = -(size); Z <= (size); Z++) {
+			for (int X = -(size); X <= (size); X++) {
 				TileEntity target = this.worldObj.getTileEntity(xCoord + X, yCoord, zCoord + Z);
 				if (target != null && target instanceof TileEntityCalculatorPlug) {
 					TileEntityCalculatorPlug plug = (TileEntityCalculatorPlug) target;
@@ -80,11 +91,11 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	}
 
 	public boolean canStart() {
-		if (multiblock(this.worldObj, xCoord, yCoord, this.zCoord)) {
+		if (multiblock(this.worldObj, xCoord, yCoord, this.zCoord)!=-1) {
 			getStability();
 			if (isLocated()) {
 				if (this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) {
-					if (this.stability == 8) {
+					if (this.stability >= 7) {
 						this.active = 1;
 						return true;
 					} else {
@@ -104,7 +115,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	}
 
 	public void start() {
-		storage.receiveEnergy(energyGenerated, false);
+		storage.receiveEnergy(currentGenerated(), false);
 		if (!this.worldObj.isRemote) {
 			if (this.luckTicks >= 0 && this.luckTicks != 50) {
 				this.luckTicks++;
@@ -267,20 +278,17 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		return "None";
 	}
 
-	public boolean multiblock(World world, int x, int y, int z) {
-		{
-			Block block = this.blockType;
-			CalculatorLocator locator = (CalculatorLocator) block;
-
-			if (CalculatorLocator.isMultiBlockStructureWithDifferentBlocks(getWorldObj(), xCoord, yCoord, zCoord)) {
-				return true;
+	public int multiblock(World world, int x, int y, int z) {
+			int size = CalculatorLocator.multiBlockStructure(getWorldObj(), xCoord, yCoord, zCoord);
+			if(size-1!=this.size){
+				this.size=size-1;
+				this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
-		}
-		return false;
+		return this.size;
 	}
 
 	public boolean multiblockstring() {
-		if (multiblock(getWorldObj(), xCoord, yCoord, zCoord)) {
+		if (size!=-1) {
 			return true;
 		}
 		return false;
@@ -290,9 +298,10 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	public void readFromNBT(NBTTagCompound nbt) {
 
 		super.readFromNBT(nbt);
-		this.stability = nbt.getByte("stability");
+		this.stability = nbt.getInteger("stability");
 		this.active = nbt.getByte("active");
 		this.luckTicks = nbt.getInteger("ticks");
+		this.size = nbt.getInteger("size");
 
 	}
 
@@ -300,9 +309,10 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	public void writeToNBT(NBTTagCompound nbt) {
 
 		super.writeToNBT(nbt);
-		nbt.setByte("stability", this.stability);
+		nbt.setInteger("stability", this.stability);
 		nbt.setByte("active", this.active);
 		nbt.setInteger("ticks", this.luckTicks);
+		nbt.setInteger("size", this.size);
 
 	}
 
@@ -350,7 +360,10 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 			this.active = (byte) data;
 			break;
 		case SyncType.SPECIAL1:
-			this.stability = (byte) data;
+			this.stability = data;
+			break;
+		case SyncType.SPECIAL2:
+			this.size = data;
 			break;
 		}
 	}
@@ -362,6 +375,8 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 			return new SyncData(true, active);
 		case SyncType.SPECIAL1:
 			return new SyncData(true, stability);
+		case SyncType.SPECIAL2:
+			return new SyncData(true, size);
 		}
 		return super.getSyncData(id);
 	}

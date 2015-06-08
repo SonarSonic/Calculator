@@ -50,13 +50,11 @@ public class CalculatorLocator extends SonarMachineBlock implements IWrench {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z,
-			EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		this.getCollisionBoundingBoxFromPool(world, x, y, z);
 		if (player != null) {
 			if (!world.isRemote) {
-				player.openGui(Calculator.instance,
-						CalculatorGui.CalculatorLocator, world, x, y, z);
+				player.openGui(Calculator.instance, CalculatorGui.CalculatorLocator, world, x, y, z);
 			}
 		}
 		return true;
@@ -64,11 +62,9 @@ public class CalculatorLocator extends SonarMachineBlock implements IWrench {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z,
-			Random random) {
-		TileEntityCalculatorLocator te = (TileEntityCalculatorLocator) world
-				.getTileEntity(x, y, z);
-		if (te.active==1) {
+	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+		TileEntityCalculatorLocator te = (TileEntityCalculatorLocator) world.getTileEntity(x, y, z);
+		if (te.active == 1) {
 			float x1 = x + random.nextFloat();
 			float y1 = y + 0.5F;
 			float z1 = z + random.nextFloat();
@@ -78,42 +74,54 @@ public class CalculatorLocator extends SonarMachineBlock implements IWrench {
 		}
 	}
 
-	public static boolean isMultiBlockStructureWithDifferentBlocks(World world, int x, int y, int z) {
-		for(int X = -2; X<=2; X++){
-			for(int Z= -2;Z<=2; Z++){
-				if(!(X==-2 && Z==-2) && (X==-2 && Z==2) && (X==2 && Z==-2) && (X==2 && Z==2)){
-					if(!(world.getBlock(x + X, y - 1, z + Z) == Calculator.stablestoneBlock)){
-						return false;					
+	public static int multiBlockStructure(World world, int x, int y, int z) {
+		for(int size = 1; size<12; size++){
+			if(checkSize(world,x,y,z,size)){
+				
+				return size;
+			}
+		}
+		return 0;
+	}
+	
+	public static boolean checkSize(World world, int x, int y, int z, int size){
+		for (int X = -size; X <= size; X++) {
+			for (int Z = -size; Z <= size; Z++) {
+				if (!(X == -size && Z == -size) && (X == -size && Z == size) && (X == size && Z == -size) && (X == size && Z == size)) {
+					if (!(world.getBlock(x + X, y - 1, z + Z) == Calculator.stablestoneBlock)) {
+						return false;
 					}
 				}
 			}
 		}
-		for(int XZ = -1; XZ<=1; XZ++){	
-			if(!(world.getBlock(x + XZ, y, z+2) == Calculator.stablestoneBlock)){
+
+		for(int XZ = -(size-1); XZ<=(size-1); XZ++){	
+			if(!(world.getBlock(x + XZ, y, z+size) == Calculator.stablestoneBlock)){
+				System.out.print(size);
 				return false;
 			}
-			else if(!(world.getBlock(x + XZ, y, z-2) == Calculator.stablestoneBlock)){
+			else if(!(world.getBlock(x + XZ, y, z-size) == Calculator.stablestoneBlock)){
 				return false;
 			}
-			else if(!(world.getBlock(x + 2, y, z+XZ) == Calculator.stablestoneBlock)){
+			else if(!(world.getBlock(x + size, y, z+XZ) == Calculator.stablestoneBlock)){
 				return false;
 			}
-			else if(!(world.getBlock(x -2, y, z+XZ) == Calculator.stablestoneBlock)){
+			else if(!(world.getBlock(x-size, y, z+XZ) == Calculator.stablestoneBlock)){
 				return false;
 			}
 			
 		}
 		
-		for(int X = -1; X<=1; X++){
-			for(int Z= -1;Z<=1; Z++){
-				if(!(X==0 && Z==0)){
-				if(!(world.getBlock(x + X, y, z + Z) == Calculator.calculatorplug)){
-					return false;
-				}
+
+		for (int X = -(size-1); X <= (size-1); X++) {
+			for (int Z = -(size-1); Z <= (size-1); Z++) {
+				if (!(X == 0 && Z == 0)) {
+					if (!(world.getBlock(x + X, y, z + Z) == Calculator.calculatorplug)) {
+						return false;
+					}
 				}
 			}
 		}
-					
 		return true;
 	}
 
@@ -128,20 +136,18 @@ public class CalculatorLocator extends SonarMachineBlock implements IWrench {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player,
-			List list) {
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-		
+
 	}
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 		if (CalculatorConfig.energyStorageType == 2) {
-			list.add(StatCollector.translateToLocal("energy.generate")+": " + CalculatorConfig.locatorRF / 4 + " EU/t");
+			list.add(StatCollector.translateToLocal("energy.generate") + ": " + CalculatorConfig.locatorRF / 4 + " EU/t");
 
 		} else {
-			list.add(StatCollector.translateToLocal("energy.generate")+": "
-					+ CalculatorConfig.locatorRF + " RF/t");
+			list.add(StatCollector.translateToLocal("energy.generate") + ": " + CalculatorConfig.locatorRF + " RF/t");
 		}
 	}
 }

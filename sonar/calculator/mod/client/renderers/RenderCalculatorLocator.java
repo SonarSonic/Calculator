@@ -97,13 +97,14 @@ public void renderTileEntityAt(TileEntity tileentity, double x, double y, double
     GL11.glDisable(GL11.GL_BLEND);
     GL11.glDepthMask(true);
     OpenGlHelper.glBlendFunc(770, 1, 1, 0);
+    GL11.glTranslated(0.0, 0.70, 0.0);
     float f2 = (float)tileentity.getWorldObj().getTotalWorldTime() + 20;
     float f3 = -f2 * 0.2F - (float)MathHelper.floor_float(-f2 * 0.1F);
     byte b0 = 1;
     double d3 = (double)f2 * 0.025D * (1.0D - (double)(b0 & 1) * 2.5D);
     tessellator.startDrawingQuads();
     tessellator.setColorRGBA(255, 255, 255, 32);
-    double d5 = (double)b0 * 0.1D;
+    double d5 = (double)b0 * tile.size/20;
     double d7 = 0.5D + Math.cos(d3 + 2.356194490192345D) * d5;
     double d9 = 0.5D + Math.sin(d3 + 2.356194490192345D) * d5;
     double d11 = 0.5D + Math.cos(d3 + (Math.PI / 4D)) * d5;
@@ -116,7 +117,7 @@ public void renderTileEntityAt(TileEntity tileentity, double x, double y, double
     double d25 = 0.0D;
     double d27 = 1.0D;
     double d28 = (double)(-1.0F + f3);
-    double d29 = (double)(height) * (0.5D / d5) + d28;
+    double d29 = (double)(height) * (0.6D / d5) + d28;
     
     tessellator.addVertexWithUV(x + d7, y + d23, z + d9, d27, d29);
     tessellator.addVertexWithUV(x + d7, y, z + d9, d27, d28);
@@ -137,13 +138,15 @@ public void renderTileEntityAt(TileEntity tileentity, double x, double y, double
     
     
     tessellator.draw();
+
+    GL11.glTranslated(0.0, -0.70, 0.0);
     GL11.glEnable(GL11.GL_BLEND);
     OpenGlHelper.glBlendFunc(770, 771, 1, 0);
     GL11.glDepthMask(false);
     tessellator.startDrawingQuads();
     tessellator.setColorRGBA(255, 255, 255, 32);
-    double offset = 0.2D;
-    double d6 = 0.8D;
+    double offset = 0.2D - (tile.size-1)/4;
+    double d6 = 0.8D+(tile.size-1)/4;
     double d18 = (double)(height);
     double d20 = 0.0D;
     double d22 = 1.0D;

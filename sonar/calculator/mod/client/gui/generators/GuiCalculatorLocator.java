@@ -38,10 +38,12 @@ public class GuiCalculatorLocator extends GuiContainer {
 
 		if (this.entity.multiblockstring()) {
 			FontHelper.text(StatCollector.translateToLocal("locator.multiblock") + ": " + StatCollector.translateToLocal("locator.true"), 25, 21, 0);
-			if (this.entity.stability < 1) {
-				FontHelper.text((StatCollector.translateToLocal("circuit.stability") + ": "+ (this.entity.stability * 100 / 8) + "%"), 25, 43, 2);
+
+			System.out.print(entity.size);
+			if (this.entity.stability ==0 || this.entity.size==0) {
+				FontHelper.text((StatCollector.translateToLocal("circuit.stability") + ": "+ 0 + "%"), 25, 43, 2);
 			} else {
-				FontHelper.text(StatCollector.translateToLocal("circuit.stability") + ": " +(this.entity.stability * 100 / 8) + "%", 25, 43, 0);
+				FontHelper.text(StatCollector.translateToLocal("circuit.stability") + ": "+ String.valueOf((this.entity.stability  *100 / (((2*entity.size)+1)*((2*entity.size)+1)-1)))  + "%", 25, 43, 0);
 			}
 		} else {
 			FontHelper.text(StatCollector.translateToLocal("locator.multiblock") + ": " + StatCollector.translateToLocal("locator.false"), 25, 21, 2);
@@ -49,7 +51,7 @@ public class GuiCalculatorLocator extends GuiContainer {
 
 		}
 		if (this.entity.active == 1) {
-			FontHelper.text(StatCollector.translateToLocal("locator.active")+": " + StatCollector.translateToLocal("locator.true"), 25, 10, 0);
+			FontHelper.text(StatCollector.translateToLocal("locator.active")+": " + this.entity.currentGenerated() + " rf/t", 25, 10, 0);
 		} else {
 			FontHelper.text(StatCollector.translateToLocal("locator.active")+": " + StatCollector.translateToLocal("locator.false"), 25, 10, 2);
 		}

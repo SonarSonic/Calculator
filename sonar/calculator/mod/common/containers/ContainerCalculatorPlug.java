@@ -7,6 +7,7 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -45,7 +46,7 @@ public class ContainerCalculatorPlug extends ContainerSync {
 			itemstack = itemstack1.copy();
 
 			if ((p_82846_2_ != 0)) {
-				if (itemstack1.getItem() == Calculator.circuitBoard) {
+				if (itemstack1.getItem() instanceof IStability) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 
 						return null;

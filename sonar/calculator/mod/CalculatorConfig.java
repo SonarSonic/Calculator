@@ -66,7 +66,7 @@ public class CalculatorConfig extends Calculator {
 		starchRF = config.getInt("(Default: 40) = RF per Tick",	"energy generation", 40, 1, 128, "Starch Extractor");
 		redstoneRF = config.getInt("(Default: 80) = RF per Tick","energy generation", 80, 4, 192, "Redstone Extractor");
 		glowstoneRF = config.getInt("(Default: 160) = RF per Tick","energy generation", 160, 16, 256, "Glowstone Extractor");
-		locatorRF = config.getInt("(Default: 10000) = RF per Tick","energy generation", 1000, 100, 2500000, "Calculator Locator");
+		locatorRF = config.getInt("(Default: 1000) = RF per Tick","energy generation", 1000, 100, 2500000, "Calculator Locator");
 		timeEffect = config.getBoolean("Locator Can Change Time", "settings",true, "Calculator Locator");
 		beamEffect = config.getBoolean("Locator has a beam", "settings", true,"Calculator Locator");
 		enableWaila = config.getBoolean("enable Waila integration", "api",true, "Waila");
