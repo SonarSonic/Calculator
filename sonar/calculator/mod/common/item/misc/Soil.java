@@ -7,12 +7,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.common.item.CalcItem;
 import sonar.calculator.mod.common.tileentity.entities.EntitySmallStone;
 import sonar.calculator.mod.common.tileentity.entities.EntitySoil;
 
-public class Soil extends CalcItem {
-	
+public class Soil extends CalcItem implements IStability {
+
 	public Soil() {
 		setUnlocalizedName("Soil").setCreativeTab(Calculator.Calculator).setTextureName("Calculator:soil");
 	}
@@ -52,5 +53,14 @@ public class Soil extends CalcItem {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public boolean getStability(ItemStack stack) {
+		return true;
+	}
+
+	@Override
+	public void onFalse(ItemStack stack) {
 	}
 }
