@@ -43,7 +43,7 @@ public class CalculatorConfig extends Calculator {
 	public static Property itemsblackList;
 
 	public static void initConfiguration(FMLPreInitializationEvent event) {
-		
+
 		loadMainConfig();
 		loadAtomicBlacklist();
 		loadBlocks();
@@ -54,28 +54,28 @@ public class CalculatorConfig extends Calculator {
 		Configuration config = new Configuration(new File("config/CalculatorMod/CalculatorMod.cfg"));
 		config.load();
 
-		energyStorageType = config.getInt("Energy Storage Type RF=1, EU=2",	"api", 1, 1, 2, "Calculator");
-		calculatorEnergy = config.getInt("(Default: 1000)", "energy storage",1000, 10, 50000, "Calculator");
-		craftingEnergy = config.getInt("(Default: 5000)", "energy storage",	5000, 10, 500000, "Crafting Calculator");
-		scientificEnergy = config.getInt("(Default: 2000)", "energy storage",2000, 10, 50000, "Scientific Calculator");
-		flawlessEnergy = config.getInt("(Default: 10000)", "energy storage",100000, 10000, 500000, "Flawless Calculator");
-		terrainEnergy = config.getInt("(Default: 400)", "energy storage", 400,100, 50000, "Terrain Module");
-		advancedEnergy = config.getInt("(Default: 2000)", "energy storage",	2000, 100, 50000, "Advanced Terrain Module");
-		moduleEnergy = config.getInt("(Default: 100000)", "energy storage",	100000, 1000, 1000000, "Energy Module");
-		cubeEnergy = config.getInt("(Default: 50000)", "energy storage", 50000,	1000, 1000000, "Default Machine Energy");
-		starchRF = config.getInt("(Default: 40) = RF per Tick",	"energy generation", 40, 1, 128, "Starch Extractor");
-		redstoneRF = config.getInt("(Default: 80) = RF per Tick","energy generation", 80, 4, 192, "Redstone Extractor");
-		glowstoneRF = config.getInt("(Default: 160) = RF per Tick","energy generation", 160, 16, 256, "Glowstone Extractor");
-		locatorRF = config.getInt("(Default: 1000) = RF per Tick","energy generation", 1000, 100, 2500000, "Calculator Locator");
-		timeEffect = config.getBoolean("Locator Can Change Time", "settings",true, "Calculator Locator");
-		beamEffect = config.getBoolean("Locator has a beam", "settings", true,"Calculator Locator");
-		enableWaila = config.getBoolean("enable Waila integration", "api",true, "Waila");
-		enableGrenades = config.getBoolean("allow grenades?", "items", true,"Grenades");
-		conductorRF = config.getInt("(Default: 5000) = RF per strike","lightning farms", 5000, 200, 5000000, "Conductor Mast");
-		weatherstationRF = config.getInt("(Default: 5000) = RF per strike",	"lightning farms", 1000, 200, 5000000, "Weather Station");
+		energyStorageType = config.getInt("Energy Storage Type RF=1, EU=2", "api", 1, 1, 2, "Calculator");
+		calculatorEnergy = config.getInt("(Default: 1000)", "energy storage", 1000, 10, 50000, "Calculator");
+		craftingEnergy = config.getInt("(Default: 5000)", "energy storage", 5000, 10, 500000, "Crafting Calculator");
+		scientificEnergy = config.getInt("(Default: 2000)", "energy storage", 2000, 10, 50000, "Scientific Calculator");
+		flawlessEnergy = config.getInt("(Default: 10000)", "energy storage", 100000, 10000, 500000, "Flawless Calculator");
+		terrainEnergy = config.getInt("(Default: 400)", "energy storage", 400, 100, 50000, "Terrain Module");
+		advancedEnergy = config.getInt("(Default: 2000)", "energy storage", 2000, 100, 50000, "Advanced Terrain Module");
+		moduleEnergy = config.getInt("(Default: 100000)", "energy storage", 100000, 1000, 1000000, "Energy Module");
+		cubeEnergy = config.getInt("(Default: 50000)", "energy storage", 50000, 1000, 1000000, "Default Machine Energy");
+		starchRF = config.getInt("(Default: 40) = RF per Tick", "energy generation", 40, 1, 128, "Starch Extractor");
+		redstoneRF = config.getInt("(Default: 80) = RF per Tick", "energy generation", 80, 4, 192, "Redstone Extractor");
+		glowstoneRF = config.getInt("(Default: 160) = RF per Tick", "energy generation", 160, 16, 256, "Glowstone Extractor");
+		locatorRF = config.getInt("(Default: 1000) = RF per Tick", "energy generation", 1000, 100, 2500000, "Calculator Locator");
+		timeEffect = config.getBoolean("Locator Can Change Time", "settings", true, "Calculator Locator");
+		beamEffect = config.getBoolean("Locator has a beam", "settings", true, "Calculator Locator");
+		enableWaila = config.getBoolean("enable Waila integration", "api", true, "Waila");
+		enableGrenades = config.getBoolean("allow grenades?", "items", true, "Grenades");
+		conductorRF = config.getInt("(Default: 5000) = RF per strike", "lightning farms", 5000, 200, 5000000, "Conductor Mast");
+		weatherstationRF = config.getInt("(Default: 5000) = RF per strike", "lightning farms", 1000, 200, 5000000, "Weather Station");
 
-		unlockedRecipes = config.getInt("ID for saving unlocked recipes","Player Data", 30, 19, 31, "Unlocked Recipes");
-		newRecipes = config.getInt("ID for saving latest recipes","Player Data", 31, 19, 31, "New Recipes");
+		unlockedRecipes = config.getInt("ID for saving unlocked recipes", "Player Data", 30, 19, 31, "Unlocked Recipes");
+		newRecipes = config.getInt("ID for saving latest recipes", "Player Data", 31, 19, 31, "New Recipes");
 
 		config.save();
 
@@ -94,8 +94,8 @@ public class CalculatorConfig extends Calculator {
 		blackDefaults[6] = "Calculator:ElectricDiamond";
 		blackDefaults[7] = "Calculator:FlawlessFireDiamond";
 		blackDefaults[8] = "Calculator:FlawlessDiamond";
-		
-		atomicblackList = blacklist.get("Atomic Multiplier Blacklist","disabled", blackDefaults);
+
+		atomicblackList = blacklist.get("Atomic Multiplier Blacklist", "disabled", blackDefaults);
 		blacklist.save();
 
 	}
@@ -106,7 +106,7 @@ public class CalculatorConfig extends Calculator {
 		String[] blockExamples = new String[2];
 		blockExamples[0] = "ExampleBlock";
 		blockExamples[1] = "ExampleBlock2";
-		
+
 		blocksblackList = blocks.get("Block Config", "Disabled", blockExamples);
 		blocks.save();
 	}
@@ -117,37 +117,46 @@ public class CalculatorConfig extends Calculator {
 		String[] itemExamples = new String[2];
 		itemExamples[0] = "ExampleItem";
 		itemExamples[1] = "ExampleItem2";
-		
+
 		itemsblackList = items.get("Item Config", "Disabled", itemExamples);
 		items.save();
 	}
 
 	private static boolean isBlockEnabled(String block) {
-		String[] blacklisted = blocksblackList.getStringList();
-		for (int i = 0; i < blacklisted.length; i++) {
-			if (blacklisted[i] != null && blacklisted[i].equals(block)) {
-				return false;
+		if (block != null) {
+			String[] blacklisted = blocksblackList.getStringList();
+			for (int i = 0; i < blacklisted.length; i++) {
+				if (blacklisted[i] != null && blacklisted[i].equals(block)) {
+					return false;
+				}
 			}
+			return true;
+		} else {
+			return false;
 		}
-		return true;
 	}
 
 	private static boolean isItemEnabled(String item) {
-		String[] blacklisted = itemsblackList.getStringList();
-		for (int i = 0; i < blacklisted.length; i++) {
-			if (blacklisted[i] != null && blacklisted[i].equals(item)) {
-				return false;
+		if (item != null) {
+			String[] blacklisted = itemsblackList.getStringList();
+			for (int i = 0; i < blacklisted.length; i++) {
+				if (blacklisted[i] != null && blacklisted[i].equals(item)) {
+					return false;
+				}
 			}
+			return true;
+		} else {
+			return false;
 		}
-		return true;
 	}
+
 	/**
 	 * 
 	 * @param stack the ItemStack you wish to check
 	 * @return if the Item/Block is enabled
 	 */
 	public static boolean isEnabled(ItemStack stack) {
-		if(stack==null){
+		if (stack == null) {
 			return true;
 		}
 		Block block = Block.getBlockFromItem(stack.getItem());
@@ -155,18 +164,18 @@ public class CalculatorConfig extends Calculator {
 		if (block != null && item instanceof ItemBlock) {
 			if (CalculatorConfig.isBlockEnabled(GameRegistry.findUniqueIdentifierFor(block).name)) {
 				return true;
-				
+
 			} else {
 				return false;
 			}
 		} else if (item != null) {
 			if (CalculatorConfig.isItemEnabled(GameRegistry.findUniqueIdentifierFor(item).name)) {
 				return true;
-				
+
 			} else {
 				return false;
 			}
-		}else{
+		} else {
 			return true;
 		}
 	}
