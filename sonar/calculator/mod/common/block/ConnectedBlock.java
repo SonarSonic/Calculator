@@ -11,7 +11,7 @@ import sonar.calculator.mod.api.IWrench;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ConnectedBlock extends Block implements IWrench {
+public class ConnectedBlock extends Block {
 
 	public String type;
 	public int target;
@@ -31,10 +31,6 @@ public class ConnectedBlock extends Block implements IWrench {
 		}
 	}
 
-	@Override
-	public boolean canWrench() {
-		return true;
-	}
 
 	@Override
 	@SideOnly(Side.CLIENT)

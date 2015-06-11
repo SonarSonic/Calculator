@@ -24,8 +24,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemCircuit extends CalcItem implements IStability {
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list,
-			boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
 		if (stack.stackTagCompound != null) {
 			int stable = stack.stackTagCompound.getInteger("Stable");
@@ -62,8 +61,7 @@ public class ItemCircuit extends CalcItem implements IStability {
 		}
 	}
 
-	public void onUpdate(ItemStack stack, World world, Entity entity, int par,
-			boolean bool) {
+	public void onUpdate(ItemStack stack, World world, Entity entity, int par, boolean bool) {
 		if (stack.stackTagCompound == null && !stack.hasTagCompound()) {
 			NBTTagCompound nbtData = stack.stackTagCompound;
 			if (stack != null) {
@@ -105,13 +103,13 @@ public class ItemCircuit extends CalcItem implements IStability {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public IIcon func_77617_a(int p_77617_1_) {
+	public IIcon getIconFromDamage(int p_77617_1_) {
 		CircuitType type = CircuitType.getTypeFromDamage(p_77617_1_);
 		return type.getIcon();
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void func_150895_a(Item item, CreativeTabs tab, List list) {
+	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		CircuitType[] atype = CircuitType.values();
 		int i = atype.length;
 
@@ -122,15 +120,13 @@ public class ItemCircuit extends CalcItem implements IStability {
 		}
 	}
 
-	public String func_77667_c(ItemStack stack) {
+	public String getUnlocalizedName(ItemStack stack) {
 		CircuitType type = CircuitType.getTypeFromStack(stack);
 		return getUnlocalizedName() + "." + type.name();
 	}
 
 	public static enum CircuitType {
-		C1(0, "1"), C2(1, "2"), C3(2, "3"), C4(3, "4"), C5(4, "5"), C6(5, "6"), C7(
-				6, "7"), C8(7, "8"), C9(8, "9"), C10(9, "10"), C11(10, "11"), C12(
-				11, "12"), C13(12, "13"), C14(13, "14");
+		C1(0, "1"), C2(1, "2"), C3(2, "3"), C4(3, "4"), C5(4, "5"), C6(5, "6"), C7(6, "7"), C8(7, "8"), C9(8, "9"), C10(9, "10"), C11(10, "11"), C12(11, "12"), C13(12, "13"), C14(13, "14");
 
 		private static final Map circuits;
 		private final int number;
@@ -153,8 +149,7 @@ public class ItemCircuit extends CalcItem implements IStability {
 
 		@SideOnly(Side.CLIENT)
 		public void registerIcon(IIconRegister register) {
-			this.icon = register.registerIcon("Calculator:circuits/circuit"
-					+ this.name);
+			this.icon = register.registerIcon("Calculator:circuits/circuit" + this.name);
 		}
 
 		@SideOnly(Side.CLIENT)
@@ -168,8 +163,7 @@ public class ItemCircuit extends CalcItem implements IStability {
 		}
 
 		public static CircuitType getTypeFromStack(ItemStack p_150978_0_) {
-			return (p_150978_0_.getItem() instanceof ItemCircuit) ? getTypeFromDamage(p_150978_0_
-					.getItemDamage()) : C1;
+			return (p_150978_0_.getItem() instanceof ItemCircuit) ? getTypeFromDamage(p_150978_0_.getItemDamage()) : C1;
 		}
 
 		static {
@@ -197,7 +191,7 @@ public class ItemCircuit extends CalcItem implements IStability {
 
 	@Override
 	public void onFalse(ItemStack stack) {
-			stack.stackTagCompound.setInteger("Stable", 0);
-		
+		stack.stackTagCompound.setInteger("Stable", 0);
+
 	}
 }

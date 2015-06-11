@@ -55,7 +55,6 @@ public class ContainerAnalysingChamber extends ContainerSync {
 		if ((slot != null) && (slot.getHasStack())) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			System.out.print(num >= 2 && num<8);
 			if (num >= 2 && num<8) {
 				if (!mergeItemStack(itemstack1, 8, 43, true)) {
 					return null;

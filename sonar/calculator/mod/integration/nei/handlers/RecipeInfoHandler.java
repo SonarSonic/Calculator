@@ -2,24 +2,15 @@ package sonar.calculator.mod.integration.nei.handlers;
 
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
-import sonar.calculator.mod.client.gui.calculators.GuiInfoCalculator;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
+import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipe;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
-import sonar.calculator.mod.integration.nei.handlers.CalculatorRecipeHandler.SmeltingPair;
-import sonar.calculator.mod.utils.InfoList;
-import sonar.calculator.mod.utils.helpers.ResearchPlayer;
-import codechicken.nei.NEIServerUtils;
-import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class RecipeInfoHandler extends CalculatorRecipeHandler {
@@ -45,10 +36,10 @@ public class RecipeInfoHandler extends CalculatorRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		ResearchPlayer player =ResearchPlayer.get(Minecraft.getMinecraft().thePlayer);
-		int[] unblocked = player.unblocked(Minecraft.getMinecraft().thePlayer);
-		int[] newRecipes = player.newRecipes(Minecraft.getMinecraft().thePlayer);
-		if ((outputId.equals("calculator"))	&& (getClass() == RecipeInfoHandler.class)) {
+		/*
+		if ((outputId.equals("calculator"))	&& (getClass() == RecipeInfoHandler.class) && Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() == Calculator.itemCalculator) {
+
+			int[] unblocked = CalculatorItem.getResearch(Minecraft.getMinecraft().thePlayer.getHeldItem());
 			Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
 			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
 				if (unblocked != null && unblocked.length >= 1) {
@@ -72,7 +63,10 @@ public class RecipeInfoHandler extends CalculatorRecipeHandler {
 				}
 				}
 			}
-		}else if ((outputId.equals("New-Recipes"))&& (getClass() == RecipeInfoHandler.class)) {
+		}
+		/*
+		
+		else if ((outputId.equals("New-Recipes"))&& (getClass() == RecipeInfoHandler.class)) {
 			Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
 			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
 				if (newRecipes != null && newRecipes.length >= 1) {
@@ -98,7 +92,9 @@ public class RecipeInfoHandler extends CalculatorRecipeHandler {
 					}
 				}
 			}		
-		}else if ((outputId.equals("Standard-Recipes"))&& (getClass() == RecipeInfoHandler.class)) {
+		}
+		
+		else if ((outputId.equals("Standard-Recipes"))&& (getClass() == RecipeInfoHandler.class)) {
 			Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
 			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
 					if (!recipe.getValue().hidden) {
@@ -129,8 +125,11 @@ public class RecipeInfoHandler extends CalculatorRecipeHandler {
 					}
 				}				
 			}		
-		}
+		
 	}
+		*/
+	}
+	
 	
 	@Override
 	public String getOverlayIdentifier() {

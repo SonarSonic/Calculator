@@ -1,27 +1,18 @@
 package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.crafting.AtomicCalculatorCraftingManager;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
 import sonar.calculator.mod.common.recipes.crafting.ScientificCalculatorRecipes;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
-import sonar.calculator.mod.integration.nei.AtomicCalculatorNEIRecipes;
-import sonar.calculator.mod.utils.helpers.ResearchPlayer;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
-import sonar.core.common.item.InventoryItem;
-import sonar.core.utils.SlotLimiter;
 
 
 public class ContainerDynamicCalculator extends Container {
@@ -37,7 +28,7 @@ public class ContainerDynamicCalculator extends Container {
 	public TileEntityCalculator.Dynamic entity;
 	
 
-	public ContainerDynamicCalculator(EntityPlayer player,TileEntityCalculator.Dynamic entity) {
+	public ContainerDynamicCalculator(EntityPlayer player, TileEntityCalculator.Dynamic entity) {
 		this.entity=entity;
 		this.player=player;
 		
@@ -89,8 +80,8 @@ public class ContainerDynamicCalculator extends Container {
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
 		
-		this.calculatorResult.setInventorySlotContents(0,CalculatorRecipes.recipes().findMatchingRecipe(calculatorMatrix, player));		
-		this.scientificResult.setInventorySlotContents(3,ScientificCalculatorRecipes.recipes().findMatchingRecipe(scientficMatrix, player));
+		this.calculatorResult.setInventorySlotContents(0,CalculatorRecipes.recipes().findMatchingRecipe(calculatorMatrix, entity.getUnblocked()));		
+		this.scientificResult.setInventorySlotContents(3,ScientificCalculatorRecipes.recipes().findMatchingRecipe(scientficMatrix));
 		this.atomicResult.setInventorySlotContents(6,AtomicCalculatorCraftingManager.getInstance().findMatchingRecipe(this.atomicMatrix,this.entity.getWorldObj()));
 	
 	}

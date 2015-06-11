@@ -19,8 +19,8 @@ public class GuiCalculator
 {
   private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/calculator.png");
   
-  public GuiCalculator(EntityPlayer player, InventoryPlayer inv, CalculatorItem.CalculatorInventory inventory) { 
-	  super(new ContainerCalculator(player, inv, inventory));
+  public GuiCalculator(EntityPlayer player, InventoryPlayer inv) { 
+	  super(new ContainerCalculator(player, inv));
 
     this.xSize = 176;
     this.ySize = 166;

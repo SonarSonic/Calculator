@@ -97,7 +97,6 @@ public class CalculatorLocator extends SonarMachineBlock implements IWrench {
 
 		for(int XZ = -(size-1); XZ<=(size-1); XZ++){	
 			if(!(world.getBlock(x + XZ, y, z+size) == Calculator.stablestoneBlock)){
-				System.out.print(size);
 				return false;
 			}
 			else if(!(world.getBlock(x + XZ, y, z-size) == Calculator.stablestoneBlock)){

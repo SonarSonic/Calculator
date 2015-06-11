@@ -19,8 +19,8 @@ public class GuiPortableDynamic
 {
   private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/dynamiccalculator.png");
   
-  public GuiPortableDynamic(EntityPlayer player, InventoryPlayer inv, InventoryItem inventory) { 
-	  super(new ContainerPortableDynamic(player, inv, inventory));
+  public GuiPortableDynamic(EntityPlayer player, InventoryPlayer inv) { 
+	  super(new ContainerPortableDynamic(player, inv));
     
     this.xSize = 176;
     this.ySize = 166;

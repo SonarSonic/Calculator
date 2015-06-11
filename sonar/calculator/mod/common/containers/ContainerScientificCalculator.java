@@ -8,9 +8,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
 import sonar.calculator.mod.common.recipes.crafting.ScientificCalculatorRecipes;
-import sonar.calculator.mod.utils.helpers.ResearchPlayer;
 import sonar.core.client.gui.ContainerCraftInventory;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
@@ -50,7 +48,7 @@ public class ContainerScientificCalculator extends ContainerCraftInventory{
 
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
-		craftResult.setInventorySlotContents(0,ScientificCalculatorRecipes.recipes().findMatchingRecipe(craftMatrix, player));
+		craftResult.setInventorySlotContents(0,ScientificCalculatorRecipes.recipes().findMatchingRecipe(craftMatrix));
 
 	}
 

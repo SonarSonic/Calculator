@@ -7,17 +7,14 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.IResearchStore;
+import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
 import sonar.calculator.mod.common.recipes.crafting.AtomicCalculatorCraftingManager;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
 import sonar.calculator.mod.common.recipes.crafting.ScientificCalculatorRecipes;
-import sonar.calculator.mod.integration.nei.AtomicCalculatorNEIRecipes;
-import sonar.calculator.mod.utils.helpers.ResearchPlayer;
 import sonar.core.client.gui.ContainerCraftInventory;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
-import sonar.core.common.item.InventoryItem;
-import sonar.core.utils.SlotLimiter;
 
 public class ContainerPortableDynamic extends ContainerCraftInventory {
 	public InventoryCrafting calculatorMatrix;
@@ -26,52 +23,43 @@ public class ContainerPortableDynamic extends ContainerCraftInventory {
 	public IInventory scientificResult;
 	public InventoryCrafting atomicMatrix;
 	public IInventory atomicResult;
+	public ItemStack stack;
 
-	public ContainerPortableDynamic(EntityPlayer player, InventoryPlayer inv,
-			InventoryItem calc) {
-		super(player, inv, calc);
-		this.calculatorMatrix = new InventoryStoredCrafting(this, 2, 1,
-				inventory);
+	public ContainerPortableDynamic(EntityPlayer player, InventoryPlayer inv) {
+		super(player, inv,new FlawlessCalc.DynamicInventory(player.getHeldItem()));
+		this.stack = player.getHeldItem();
+		this.calculatorMatrix = new InventoryStoredCrafting(this, 2, 1, inventory);
 		this.calculatorResult = new InventoryStoredResult(inventory);
-		this.scientficMatrix = new InventoryStoredCrafting(this, 2, 1,
-				inventory, 3, 2);
+		this.scientficMatrix = new InventoryStoredCrafting(this, 2, 1, inventory, 3, 2);
 		this.scientificResult = new InventoryStoredResult(inventory, 3);
-		this.atomicMatrix = new InventoryStoredCrafting(this, 3, 1, inventory,
-				6, 3);
+		this.atomicMatrix = new InventoryStoredCrafting(this, 3, 1, inventory, 6, 3);
 		this.atomicResult = new InventoryStoredResult(inventory, 6);
 
-		addSlotToContainer(new SlotCrafting(player, this.calculatorMatrix,
-				this.calculatorResult, 0, 134, 9));
-		addSlotToContainer(new SlotCrafting(player, this.scientficMatrix,
-				this.scientificResult, 3, 134, 35));
-		addSlotToContainer(new SlotCrafting(player, this.atomicMatrix,
-				this.atomicResult, 6, 134, 61));
+		addSlotToContainer(new SlotCrafting(player, this.calculatorMatrix, this.calculatorResult, 0, 134, 9));
+		addSlotToContainer(new SlotCrafting(player, this.scientficMatrix, this.scientificResult, 3, 134, 35));
+		addSlotToContainer(new SlotCrafting(player, this.atomicMatrix, this.atomicResult, 6, 134, 61));
 
 		for (int i = 0; i < 1; i++) {
 			for (int k = 0; k < 2; k++) {
-				addSlotToContainer(new Slot(this.calculatorMatrix, k + i * 2,
-						25 + k * 54, 9 + i * 18));
+				addSlotToContainer(new Slot(this.calculatorMatrix, k + i * 2, 25 + k * 54, 9 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 1; i++) {
 			for (int k = 0; k < 2; k++) {
-				addSlotToContainer(new Slot(this.scientficMatrix, k + i * 2,
-						25 + k * 54, 35 + i * 18));
+				addSlotToContainer(new Slot(this.scientficMatrix, k + i * 2, 25 + k * 54, 35 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 1; i++) {
 			for (int k = 0; k < 3; k++) {
-				addSlotToContainer(new Slot(this.atomicMatrix, k + i * 2,
-						20 + k * 32, 61 + i * 18));
+				addSlotToContainer(new Slot(this.atomicMatrix, k + i * 2, 20 + k * 32, 61 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 3; i++) {
 			for (int k = 0; k < 9; k++) {
-				addSlotToContainer(new Slot(player.inventory, k + i * 9 + 9,
-						8 + k * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(player.inventory, k + i * 9 + 9, 8 + k * 18, 84 + i * 18));
 			}
 		}
 
@@ -85,69 +73,53 @@ public class ContainerPortableDynamic extends ContainerCraftInventory {
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
 
-		this.calculatorResult.setInventorySlotContents(0, CalculatorRecipes.recipes().findMatchingRecipe(calculatorMatrix, player));
-		this.scientificResult.setInventorySlotContents(3,ScientificCalculatorRecipes.recipes().findMatchingRecipe(scientficMatrix, player));
-		this.atomicResult.setInventorySlotContents(6,AtomicCalculatorCraftingManager.getInstance().findMatchingRecipe(this.atomicMatrix, this.worldObj));
+		this.calculatorResult.setInventorySlotContents(0, CalculatorRecipes.recipes().findMatchingRecipe(calculatorMatrix, ((IResearchStore)stack.getItem()).getResearch(stack)));
+		this.scientificResult.setInventorySlotContents(3, ScientificCalculatorRecipes.recipes().findMatchingRecipe(scientficMatrix));
+		this.atomicResult.setInventorySlotContents(6, AtomicCalculatorCraftingManager.getInstance().findMatchingRecipe(this.atomicMatrix, this.worldObj));
 
 	}
 
-    public ItemStack transferStackInSlot(EntityPlayer player, int id)
-    {
-        ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(id);
+	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
+		ItemStack itemstack = null;
+		Slot slot = (Slot) this.inventorySlots.get(id);
 
-        if (slot != null && slot.getHasStack())
-        {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
 
-            if (id == 0 || id == 3 || id == 6)
-            {
-                if (!this.mergeItemStack(itemstack1, 10, 46, true))
-                {
-                    return null;
-                }
+			if (id == 0 || id == 3 || id == 6) {
+				if (!this.mergeItemStack(itemstack1, 10, 46, true)) {
+					return null;
+				}
 
-                slot.onSlotChange(itemstack1, itemstack);
-            }
-            else if (id >= 10 && id < 37)
-            {
-                if (!this.mergeItemStack(itemstack1, 37, 46, false))
-                {
-                    return null;
-                }
-            }
-            else if (id >= 37 && id < 46)
-            {
-                if (!this.mergeItemStack(itemstack1, 10, 37, false))
-                {
-                    return null;
-                }
-            }
-            else if (!this.mergeItemStack(itemstack1, 10, 46, false))
-            {
-                return null;
-            }
+				slot.onSlotChange(itemstack1, itemstack);
+			} else if (id >= 10 && id < 37) {
+				if (!this.mergeItemStack(itemstack1, 37, 46, false)) {
+					return null;
+				}
+			} else if (id >= 37 && id < 46) {
+				if (!this.mergeItemStack(itemstack1, 10, 37, false)) {
+					return null;
+				}
+			} else if (!this.mergeItemStack(itemstack1, 10, 46, false)) {
+				return null;
+			}
 
-            if (itemstack1.stackSize == 0)
-            {
-                slot.putStack((ItemStack)null);
-            }
-            else
-            {
-                slot.onSlotChanged();
-            }
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
 
-            if (itemstack1.stackSize == itemstack.stackSize)
-            {
-                return null;
-            }
+			if (itemstack1.stackSize == itemstack.stackSize) {
+				return null;
+			}
 
-            slot.onPickupFromSlot(player, itemstack1);
-        }
+			slot.onPickupFromSlot(player, itemstack1);
+		}
 
-        return itemstack;
-    }
+		return itemstack;
+	}
 
 	public int currentUsage() {
 

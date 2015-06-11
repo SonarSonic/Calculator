@@ -112,441 +112,407 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.relauncher.Side;
 
 public class CalculatorCommon implements IGuiHandler {
-	
+
 	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
-	
-	public static void registerPackets(){
-	    Calculator.network.registerMessage(PacketConductorMast.Handler.class, PacketConductorMast.class, 0, Side.SERVER);
-	    Calculator.network.registerMessage(PacketMachineButton.Handler.class, PacketMachineButton.class, 1, Side.SERVER);
-	    Calculator.network.registerMessage(PacketTileSync.Handler.class, PacketTileSync.class, 2, Side.CLIENT);
-	    Calculator.network.registerMessage(PacketSonarSides.Handler.class, PacketSonarSides.class, 3, Side.CLIENT);
-	    Calculator.network.registerMessage(PacketStorageChamber.Handler.class, PacketStorageChamber.class, 4, Side.CLIENT);
+
+	public static void registerPackets() {
+		Calculator.network.registerMessage(PacketConductorMast.Handler.class, PacketConductorMast.class, 0, Side.SERVER);
+		Calculator.network.registerMessage(PacketMachineButton.Handler.class, PacketMachineButton.class, 1, Side.SERVER);
+		Calculator.network.registerMessage(PacketTileSync.Handler.class, PacketTileSync.class, 2, Side.CLIENT);
+		Calculator.network.registerMessage(PacketSonarSides.Handler.class, PacketSonarSides.class, 3, Side.CLIENT);
+		Calculator.network.registerMessage(PacketStorageChamber.Handler.class, PacketStorageChamber.class, 4, Side.CLIENT);
 	}
-	
-	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
-  {
-    TileEntity entity = world.getTileEntity(x, y, z);
-    
-    ItemStack equipped; 
-
-
-    if (entity != null) {
-      switch (ID) {
-      case CalculatorGui.PowerCube: 
-        if ((entity instanceof TileEntityPowerCube)) {
-          return new ContainerPowerCube(player.inventory, (TileEntityPowerCube)entity);
-        }
-      case CalculatorGui.StoneSeperator: 
-        if ((entity instanceof TileEntityMachines.StoneSeperator)) {
-          return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.StoneSeperator)entity);
-        }
-        return null;
-      case CalculatorGui.AlgorithmSeperator: 
-        if ((entity instanceof TileEntityMachines.AlgorithmSeperator)) {
-          return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.AlgorithmSeperator)entity);
-        }
-        return null;
-      case CalculatorGui.HungerProcessor: 
-        if ((entity instanceof TileEntityHungerProcessor)) {
-          return new ContainerHungerProcessor(player.inventory, (TileEntityHungerProcessor)entity);
-        }
-      case CalculatorGui.CalculatorLocator: 
-        if ((entity instanceof TileEntityCalculatorLocator)) {
-          return new ContainerCalculatorLocator(player.inventory, (TileEntityCalculatorLocator)entity);
-        }
-      case CalculatorGui.CalculatorPlug: 
-        if ((entity instanceof TileEntityCalculatorPlug)) {
-          return new ContainerCalculatorPlug(player.inventory, (TileEntityCalculatorPlug)entity);
-        }
-      case CalculatorGui.StarchExtractor: 
-        if ((entity instanceof TileEntityGenerator.StarchExtractor)) {
-          return new ContainerStarchExtractor(player.inventory, (TileEntityGenerator.StarchExtractor)entity);
-        }
-      case CalculatorGui.CrankedGenerator: 
-        if ((entity instanceof TileEntityCrankedGenerator)) {
-          return new ContainerCrankedGenerator(player.inventory, (TileEntityCrankedGenerator)entity);
-        }
-      case CalculatorGui.HealthProcessor: 
-        if ((entity instanceof TileEntityHealthProcessor)) {
-          return new ContainerHealthProcessor(player.inventory, (TileEntityHealthProcessor)entity);
-        }
-      case CalculatorGui.RestorationChamber: 
-        if ((entity instanceof TileEntityMachines.RestorationChamber)) {
-          return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.RestorationChamber)entity);
-        }
-      case CalculatorGui.ReassemblyChamber: 
-        if ((entity instanceof TileEntityMachines.ReassemblyChamber)) {
-          return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.ReassemblyChamber)entity);
-        }
-      case CalculatorGui.ProcessingChamber: 
-        if ((entity instanceof TileEntityMachines.ProcessingChamber)) {
-          return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.ProcessingChamber)entity);
-        }
-      case CalculatorGui.ExtractionChamber: 
-        if ((entity instanceof TileEntityMachines.ExtractionChamber)) {
-          return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.ExtractionChamber)entity);
-        }
-      case CalculatorGui.AnalysingChamber: 
-        if ((entity instanceof TileEntityAnalysingChamber)) {
-          return new ContainerAnalysingChamber(player.inventory, (TileEntityAnalysingChamber)entity);
-        }
-      case CalculatorGui.GlowstoneExtractor: 
-          if ((entity instanceof TileEntityGenerator.GlowstoneExtractor)) {
-            return new ContainerGlowstoneExtractor(player.inventory, (TileEntityGenerator.GlowstoneExtractor)entity);
-          }
-      case CalculatorGui.RedstoneExtractor: 
-          if ((entity instanceof TileEntityGenerator.RedstoneExtractor)) {
-            return new ContainerRedstoneExtractor(player.inventory, (TileEntityGenerator.RedstoneExtractor)entity);
-          }
-      case CalculatorGui.AtomicMultiplier: 
-          if ((entity instanceof TileEntityAtomicMultiplier)) {
-            return new ContainerAtomicMultiplier(player.inventory, (TileEntityAtomicMultiplier)entity);
-          }
-      case CalculatorGui.ConductorMast:  
-          if ((entity instanceof TileEntityConductorMast)) {
-            return new ContainerConductorMast(player.inventory, (TileEntityConductorMast)entity);
-          }
-      case CalculatorGui.PrecisionChamber:  
-          if ((entity instanceof TileEntityMachines.PrecisionChamber)) {
-            return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.PrecisionChamber)entity);
-          }
-      case CalculatorGui.AdvancedGreenhouse: 
-          if ((entity instanceof TileEntityAdvancedGreenhouse)) {
-            return new ContainerAdvancedGreenhouse(player.inventory, (TileEntityAdvancedGreenhouse)entity);
-          }
-
-      case CalculatorGui.Lantern: 
-          if ((entity instanceof TileEntityGasLantern)) {
-            return new ContainerLantern(player.inventory, (TileEntityGasLantern)entity);
-          }
-      case CalculatorGui.BasicGreenhouse: 
-          if ((entity instanceof TileEntityBasicGreenhouse)) {
-            return new ContainerBasicGreenhouse(player.inventory, (TileEntityBasicGreenhouse)entity);
-          }
-      case CalculatorGui.FlawlessGreenhouse: 
-          if ((entity instanceof TileEntityFlawlessGreenhouse)) {
-            return new ContainerFlawlessGreenhouse(player.inventory, (TileEntityFlawlessGreenhouse)entity);
-          }
-      case CalculatorGui.CO2Generator: 
-          if ((entity instanceof TileEntityCO2Generator)) {
-            return new ContainerCO2Generator(player.inventory, (TileEntityCO2Generator)entity);
-          }
-      case CalculatorGui.advancedCube: 
-          if ((entity instanceof TileEntityAdvancedPowerCube)) {
-            return new ContainerPowerCube(player.inventory, (TileEntityAdvancedPowerCube)entity);
-          }
-      case CalculatorGui.ReinforcedFurnace: 
-          if ((entity instanceof TileEntityMachines.ReinforcedFurnace)) {
-            return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.ReinforcedFurnace)entity);
-          }
-      case CalculatorGui.DockingStation: 
-          if ((entity instanceof TileEntityDockingStation)) {
-            return new ContainerDockingStation(player.inventory, (TileEntityDockingStation)entity);
-          }
-      case CalculatorGui.StorageChamber: 
-          if ((entity instanceof TileEntityStorageChamber)) {
-            return new ContainerStorageChamber(player.inventory, (TileEntityStorageChamber)entity);
-          }
-      case CalculatorGui.ResearchChamber: 
-          if ((entity instanceof TileEntityResearchChamber)) {
-            return new ContainerResearchChamber(player, (TileEntityResearchChamber)entity);
-          }
-      case CalculatorGui.DynamicCalculator: 
-          if ((entity instanceof TileEntityCalculator.Dynamic)) {
-            return new ContainerDynamicCalculator(player, (TileEntityCalculator.Dynamic)entity);
-          }
-      case CalculatorGui.AtomicCalculator: 
-          if ((entity instanceof TileEntityCalculator.Atomic)) {
-            return new ContainerAtomicCalculator(player, (TileEntityCalculator.Atomic)entity);
-          }
-        break;
-      }
-    } 
-    
-    else{
-    	switch(ID){
-    	case CalculatorGui.Calculator:
-			return new ContainerCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(player.getHeldItem()));
-    	case CalculatorGui.ScientificCalculator:
-        	return new ContainerScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(player.getHeldItem()));
-        	
-    	case CalculatorGui.CraftingCalculator:
-        	return new ContainerCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(player.getHeldItem()));
-        	
-    	case CalculatorGui.FlawlessCalculator:
-    		return new ContainerFlawlessCalculator(player, player.inventory, new FlawlessCalc.FlawlessInventory(player.getHeldItem()));    
-    		
-    	case CalculatorGui.InfoCalculator:
-        	return new ContainerInfoCalculator(player, player.inventory, world, x, y, z);
-        	
-    	case CalculatorGui.PortableDynamic:
-    		return new ContainerPortableDynamic(player, player.inventory, new FlawlessCalc.DynamicInventory(player.getHeldItem()));    
-    	
-    	case CalculatorGui.PortableCrafting:
-    		return new ContainerCraftingCalculator(player, player.inventory, new FlawlessCalc.CraftingInventory(player.getHeldItem()));    
-    	
-    	case CalculatorGui.StorageModule:
-    		return new ContainerStorageModule(player, player.inventory, new StorageModule.StorageInventory(player.getHeldItem()));    
-    	
-    	case CalculatorGui.SmeltingModule:
-    		return new ContainerSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(player.getHeldItem()), player.getHeldItem());    
-    	
-    	case CalculatorGui.RecipeInfo:
-        	return new ContainerInfoCalculator(player, player.inventory, world, x, y, z);
-        				
-    	}
-    	
-    	
-   }
-    return null;
-  }
 
 	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z) {
+	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		TileEntity entity = world.getTileEntity(x, y, z);
+
+		ItemStack equipped;
+
+		if (entity != null) {
+			switch (ID) {
+			case CalculatorGui.PowerCube:
+				if ((entity instanceof TileEntityPowerCube)) {
+					return new ContainerPowerCube(player.inventory, (TileEntityPowerCube) entity);
+				}
+			case CalculatorGui.StoneSeperator:
+				if ((entity instanceof TileEntityMachines.StoneSeperator)) {
+					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.StoneSeperator) entity);
+				}
+				return null;
+			case CalculatorGui.AlgorithmSeperator:
+				if ((entity instanceof TileEntityMachines.AlgorithmSeperator)) {
+					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.AlgorithmSeperator) entity);
+				}
+				return null;
+			case CalculatorGui.HungerProcessor:
+				if ((entity instanceof TileEntityHungerProcessor)) {
+					return new ContainerHungerProcessor(player.inventory, (TileEntityHungerProcessor) entity);
+				}
+			case CalculatorGui.CalculatorLocator:
+				if ((entity instanceof TileEntityCalculatorLocator)) {
+					return new ContainerCalculatorLocator(player.inventory, (TileEntityCalculatorLocator) entity);
+				}
+			case CalculatorGui.CalculatorPlug:
+				if ((entity instanceof TileEntityCalculatorPlug)) {
+					return new ContainerCalculatorPlug(player.inventory, (TileEntityCalculatorPlug) entity);
+				}
+			case CalculatorGui.StarchExtractor:
+				if ((entity instanceof TileEntityGenerator.StarchExtractor)) {
+					return new ContainerStarchExtractor(player.inventory, (TileEntityGenerator.StarchExtractor) entity);
+				}
+			case CalculatorGui.CrankedGenerator:
+				if ((entity instanceof TileEntityCrankedGenerator)) {
+					return new ContainerCrankedGenerator(player.inventory, (TileEntityCrankedGenerator) entity);
+				}
+			case CalculatorGui.HealthProcessor:
+				if ((entity instanceof TileEntityHealthProcessor)) {
+					return new ContainerHealthProcessor(player.inventory, (TileEntityHealthProcessor) entity);
+				}
+			case CalculatorGui.RestorationChamber:
+				if ((entity instanceof TileEntityMachines.RestorationChamber)) {
+					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.RestorationChamber) entity);
+				}
+			case CalculatorGui.ReassemblyChamber:
+				if ((entity instanceof TileEntityMachines.ReassemblyChamber)) {
+					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.ReassemblyChamber) entity);
+				}
+			case CalculatorGui.ProcessingChamber:
+				if ((entity instanceof TileEntityMachines.ProcessingChamber)) {
+					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.ProcessingChamber) entity);
+				}
+			case CalculatorGui.ExtractionChamber:
+				if ((entity instanceof TileEntityMachines.ExtractionChamber)) {
+					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.ExtractionChamber) entity);
+				}
+			case CalculatorGui.AnalysingChamber:
+				if ((entity instanceof TileEntityAnalysingChamber)) {
+					return new ContainerAnalysingChamber(player.inventory, (TileEntityAnalysingChamber) entity);
+				}
+			case CalculatorGui.GlowstoneExtractor:
+				if ((entity instanceof TileEntityGenerator.GlowstoneExtractor)) {
+					return new ContainerGlowstoneExtractor(player.inventory, (TileEntityGenerator.GlowstoneExtractor) entity);
+				}
+			case CalculatorGui.RedstoneExtractor:
+				if ((entity instanceof TileEntityGenerator.RedstoneExtractor)) {
+					return new ContainerRedstoneExtractor(player.inventory, (TileEntityGenerator.RedstoneExtractor) entity);
+				}
+			case CalculatorGui.AtomicMultiplier:
+				if ((entity instanceof TileEntityAtomicMultiplier)) {
+					return new ContainerAtomicMultiplier(player.inventory, (TileEntityAtomicMultiplier) entity);
+				}
+			case CalculatorGui.ConductorMast:
+				if ((entity instanceof TileEntityConductorMast)) {
+					return new ContainerConductorMast(player.inventory, (TileEntityConductorMast) entity);
+				}
+			case CalculatorGui.PrecisionChamber:
+				if ((entity instanceof TileEntityMachines.PrecisionChamber)) {
+					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.PrecisionChamber) entity);
+				}
+			case CalculatorGui.AdvancedGreenhouse:
+				if ((entity instanceof TileEntityAdvancedGreenhouse)) {
+					return new ContainerAdvancedGreenhouse(player.inventory, (TileEntityAdvancedGreenhouse) entity);
+				}
+
+			case CalculatorGui.Lantern:
+				if ((entity instanceof TileEntityGasLantern)) {
+					return new ContainerLantern(player.inventory, (TileEntityGasLantern) entity);
+				}
+			case CalculatorGui.BasicGreenhouse:
+				if ((entity instanceof TileEntityBasicGreenhouse)) {
+					return new ContainerBasicGreenhouse(player.inventory, (TileEntityBasicGreenhouse) entity);
+				}
+			case CalculatorGui.FlawlessGreenhouse:
+				if ((entity instanceof TileEntityFlawlessGreenhouse)) {
+					return new ContainerFlawlessGreenhouse(player.inventory, (TileEntityFlawlessGreenhouse) entity);
+				}
+			case CalculatorGui.CO2Generator:
+				if ((entity instanceof TileEntityCO2Generator)) {
+					return new ContainerCO2Generator(player.inventory, (TileEntityCO2Generator) entity);
+				}
+			case CalculatorGui.advancedCube:
+				if ((entity instanceof TileEntityAdvancedPowerCube)) {
+					return new ContainerPowerCube(player.inventory, (TileEntityAdvancedPowerCube) entity);
+				}
+			case CalculatorGui.ReinforcedFurnace:
+				if ((entity instanceof TileEntityMachines.ReinforcedFurnace)) {
+					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.ReinforcedFurnace) entity);
+				}
+			case CalculatorGui.DockingStation:
+				if ((entity instanceof TileEntityDockingStation)) {
+					return new ContainerDockingStation(player.inventory, (TileEntityDockingStation) entity);
+				}
+			case CalculatorGui.StorageChamber:
+				if ((entity instanceof TileEntityStorageChamber)) {
+					return new ContainerStorageChamber(player.inventory, (TileEntityStorageChamber) entity);
+				}
+			case CalculatorGui.ResearchChamber:
+				if ((entity instanceof TileEntityResearchChamber)) {
+					return new ContainerResearchChamber(player, (TileEntityResearchChamber) entity);
+				}
+			case CalculatorGui.DynamicCalculator:
+				if ((entity instanceof TileEntityCalculator.Dynamic)) {
+					return new ContainerDynamicCalculator(player, (TileEntityCalculator.Dynamic) entity);
+				}
+			case CalculatorGui.AtomicCalculator:
+				if ((entity instanceof TileEntityCalculator.Atomic)) {
+					return new ContainerAtomicCalculator(player, (TileEntityCalculator.Atomic) entity);
+				}
+				break;
+			}
+		}
+
+		else {
+			switch (ID) {
+			case CalculatorGui.Calculator:
+				return new ContainerCalculator(player, player.inventory);
+			case CalculatorGui.ScientificCalculator:
+				return new ContainerScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(player.getHeldItem()));
+
+			case CalculatorGui.CraftingCalculator:
+				return new ContainerCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(player.getHeldItem()));
+
+			case CalculatorGui.FlawlessCalculator:
+				return new ContainerFlawlessCalculator(player, player.inventory, new FlawlessCalc.FlawlessInventory(player.getHeldItem()));
+
+			case CalculatorGui.InfoCalculator:
+				return new ContainerInfoCalculator(player, player.inventory, world, x, y, z);
+
+			case CalculatorGui.PortableDynamic:
+				return new ContainerPortableDynamic(player, player.inventory);
+
+			case CalculatorGui.PortableCrafting:
+				return new ContainerCraftingCalculator(player, player.inventory, new FlawlessCalc.CraftingInventory(player.getHeldItem()));
+
+			case CalculatorGui.StorageModule:
+				return new ContainerStorageModule(player, player.inventory, new StorageModule.StorageInventory(player.getHeldItem()));
+
+			case CalculatorGui.SmeltingModule:
+				return new ContainerSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(player.getHeldItem()), player.getHeldItem());
+
+			case CalculatorGui.RecipeInfo:
+				return new ContainerInfoCalculator(player, player.inventory, world, x, y, z);
+
+			}
+
+		}
+		return null;
+	}
+
+	@Override
+	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
 		ItemStack equipped;
 		if (entity != null) {
 			switch (ID) {
 			case CalculatorGui.PowerCube:
 				if ((entity instanceof TileEntityPowerCube)) {
-					return new GuiPowerCube(player.inventory,
-							(TileEntityPowerCube) entity);
+					return new GuiPowerCube(player.inventory, (TileEntityPowerCube) entity);
 				}
 				return null;
 
 			case CalculatorGui.StoneSeperator:
 				if ((entity instanceof TileEntityMachines.StoneSeperator)) {
-					return new GuiDualOutputSmelting.StoneSeperator(player.inventory,
-							(TileEntityMachines.StoneSeperator) entity);
+					return new GuiDualOutputSmelting.StoneSeperator(player.inventory, (TileEntityMachines.StoneSeperator) entity);
 				}
 				return null;
 
 			case CalculatorGui.AlgorithmSeperator:
 				if ((entity instanceof TileEntityMachines.AlgorithmSeperator)) {
-					return new GuiDualOutputSmelting.AlgorithmSeperator(player.inventory,
-							(TileEntityMachines.AlgorithmSeperator) entity);
+					return new GuiDualOutputSmelting.AlgorithmSeperator(player.inventory, (TileEntityMachines.AlgorithmSeperator) entity);
 				}
 				return null;
 
 			case CalculatorGui.HungerProcessor:
 				if ((entity instanceof TileEntityHungerProcessor)) {
-					return new GuiHungerProcessor(player.inventory,
-							(TileEntityHungerProcessor) entity);
+					return new GuiHungerProcessor(player.inventory, (TileEntityHungerProcessor) entity);
 				}
 
 			case CalculatorGui.CalculatorLocator:
 				if ((entity instanceof TileEntityCalculatorLocator)) {
-					return new GuiCalculatorLocator(player.inventory,
-							(TileEntityCalculatorLocator) entity);
+					return new GuiCalculatorLocator(player.inventory, (TileEntityCalculatorLocator) entity);
 				}
 
 			case CalculatorGui.CalculatorPlug:
 				if ((entity instanceof TileEntityCalculatorPlug)) {
-					return new GuiCalculatorPlug(player.inventory,
-							(TileEntityCalculatorPlug) entity);
+					return new GuiCalculatorPlug(player.inventory, (TileEntityCalculatorPlug) entity);
 				}
 
 			case CalculatorGui.StarchExtractor:
 				if ((entity instanceof TileEntityGenerator.StarchExtractor)) {
-					return new GuiStarchExtractor(player.inventory,
-							(TileEntityGenerator.StarchExtractor) entity);
+					return new GuiStarchExtractor(player.inventory, (TileEntityGenerator.StarchExtractor) entity);
 				}
 
 			case CalculatorGui.CrankedGenerator:
 				if ((entity instanceof TileEntityCrankedGenerator)) {
-					return new GuiCrankedGenerator(player.inventory,
-							(TileEntityCrankedGenerator) entity);
+					return new GuiCrankedGenerator(player.inventory, (TileEntityCrankedGenerator) entity);
 				}
 
 			case CalculatorGui.HealthProcessor:
 				if ((entity instanceof TileEntityHealthProcessor)) {
-					return new GuiHealthProcessor(player.inventory,
-							(TileEntityHealthProcessor) entity);
+					return new GuiHealthProcessor(player.inventory, (TileEntityHealthProcessor) entity);
 				}
 
 			case CalculatorGui.RestorationChamber:
 				if ((entity instanceof TileEntityMachines.RestorationChamber)) {
-					return new GuiSmeltingBlock.RestorationChamber(player.inventory,
-							(TileEntityMachines.RestorationChamber) entity);
+					return new GuiSmeltingBlock.RestorationChamber(player.inventory, (TileEntityMachines.RestorationChamber) entity);
 				}
 
 			case CalculatorGui.ReassemblyChamber:
 				if ((entity instanceof TileEntityMachines.ReassemblyChamber)) {
-					return new GuiSmeltingBlock.ReassemblyChamber(player.inventory,
-							(TileEntityMachines.ReassemblyChamber) entity);
+					return new GuiSmeltingBlock.ReassemblyChamber(player.inventory, (TileEntityMachines.ReassemblyChamber) entity);
 				}
 
 			case CalculatorGui.ProcessingChamber:
 				if ((entity instanceof TileEntityMachines.ProcessingChamber)) {
-					return new GuiSmeltingBlock.ProcessingChamber(player.inventory,
-							(TileEntityMachines.ProcessingChamber) entity);
+					return new GuiSmeltingBlock.ProcessingChamber(player.inventory, (TileEntityMachines.ProcessingChamber) entity);
 				}
 
 			case CalculatorGui.ExtractionChamber:
 				if ((entity instanceof TileEntityMachines.ExtractionChamber)) {
-					return new GuiDualOutputSmelting.ExtractionChamber(player.inventory,
-							(TileEntityMachines.ExtractionChamber) entity);
+					return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, (TileEntityMachines.ExtractionChamber) entity);
 				}
 
 			case CalculatorGui.AnalysingChamber:
 				if ((entity instanceof TileEntityAnalysingChamber)) {
-					return new GuiAnalysingChamber(player.inventory,
-							(TileEntityAnalysingChamber) entity);
+					return new GuiAnalysingChamber(player.inventory, (TileEntityAnalysingChamber) entity);
 				}
 
 			case CalculatorGui.GlowstoneExtractor:
 				if ((entity instanceof TileEntityGenerator.GlowstoneExtractor)) {
-					return new GuiGlowstoneExtractor(player.inventory,
-							(TileEntityGenerator.GlowstoneExtractor) entity);
+					return new GuiGlowstoneExtractor(player.inventory, (TileEntityGenerator.GlowstoneExtractor) entity);
 				}
 
 			case CalculatorGui.RedstoneExtractor:
 				if ((entity instanceof TileEntityGenerator.RedstoneExtractor)) {
-					return new GuiRedstoneExtractor(player.inventory,
-							(TileEntityGenerator.RedstoneExtractor) entity);
+					return new GuiRedstoneExtractor(player.inventory, (TileEntityGenerator.RedstoneExtractor) entity);
 				}
 
 			case CalculatorGui.AtomicMultiplier:
 				if ((entity instanceof TileEntityAtomicMultiplier)) {
-					return new GuiAtomicMultiplier(player.inventory,
-							(TileEntityAtomicMultiplier) entity);
+					return new GuiAtomicMultiplier(player.inventory, (TileEntityAtomicMultiplier) entity);
 				}
 
 			case CalculatorGui.ConductorMast:
 				if ((entity instanceof TileEntityConductorMast)) {
-					return new GuiConductorMast(player.inventory,
-							(TileEntityConductorMast) entity);
+					return new GuiConductorMast(player.inventory, (TileEntityConductorMast) entity);
 				}
 
 			case CalculatorGui.PrecisionChamber:
 				if ((entity instanceof TileEntityMachines.PrecisionChamber)) {
-					return new GuiDualOutputSmelting.PrecisionChamber(player.inventory,
-							(TileEntityMachines.PrecisionChamber) entity);
+					return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, (TileEntityMachines.PrecisionChamber) entity);
 				}
 
 			case CalculatorGui.AdvancedGreenhouse:
 				if ((entity instanceof TileEntityAdvancedGreenhouse)) {
-					return new GuiAdvancedGreenhouse(player.inventory,
-							(TileEntityAdvancedGreenhouse) entity);
+					return new GuiAdvancedGreenhouse(player.inventory, (TileEntityAdvancedGreenhouse) entity);
 				}
 
 			case CalculatorGui.Lantern:
 				if ((entity instanceof TileEntityGasLantern)) {
-					return new GuiGasLantern(player.inventory,
-							(TileEntityGasLantern) entity);
+					return new GuiGasLantern(player.inventory, (TileEntityGasLantern) entity);
 				}
 
 			case CalculatorGui.BasicGreenhouse:
 				if ((entity instanceof TileEntityBasicGreenhouse)) {
-					return new GuiBasicGreenhouse(player.inventory,
-							(TileEntityBasicGreenhouse) entity);
+					return new GuiBasicGreenhouse(player.inventory, (TileEntityBasicGreenhouse) entity);
 				}
-
 
 			case CalculatorGui.FlawlessGreenhouse:
 				if ((entity instanceof TileEntityFlawlessGreenhouse)) {
-					return new GuiFlawlessGreenhouse(player.inventory,
-							(TileEntityFlawlessGreenhouse) entity);
+					return new GuiFlawlessGreenhouse(player.inventory, (TileEntityFlawlessGreenhouse) entity);
 				}
 
 			case CalculatorGui.CO2Generator:
 				if ((entity instanceof TileEntityCO2Generator)) {
-					return new GuiCO2Generator(player.inventory,
-							(TileEntityCO2Generator) entity);
+					return new GuiCO2Generator(player.inventory, (TileEntityCO2Generator) entity);
 				}
 			case CalculatorGui.advancedCube:
 				if ((entity instanceof TileEntityAdvancedPowerCube)) {
-					return new GuiAdvancedPowerCube(player.inventory,(TileEntityAdvancedPowerCube) entity);
+					return new GuiAdvancedPowerCube(player.inventory, (TileEntityAdvancedPowerCube) entity);
 				}
-			
+
 			case CalculatorGui.ReinforcedFurnace:
 				if ((entity instanceof TileEntityMachines.ReinforcedFurnace)) {
-					return new GuiSmeltingBlock.ReinforcedFurnace(player.inventory,(TileEntityMachines.ReinforcedFurnace) entity);
+					return new GuiSmeltingBlock.ReinforcedFurnace(player.inventory, (TileEntityMachines.ReinforcedFurnace) entity);
 				}
-				
+
 			case CalculatorGui.DockingStation:
 				if ((entity instanceof TileEntityDockingStation)) {
-					return new GuiDockingStation(player.inventory,(TileEntityDockingStation) entity);
+					return new GuiDockingStation(player.inventory, (TileEntityDockingStation) entity);
 				}
 			case CalculatorGui.StorageChamber:
 				if ((entity instanceof TileEntityStorageChamber)) {
-					return new GuiStorageChamber(player.inventory,(TileEntityStorageChamber) entity);
+					return new GuiStorageChamber(player.inventory, (TileEntityStorageChamber) entity);
 				}
 			case CalculatorGui.ResearchChamber:
 				if ((entity instanceof TileEntityResearchChamber)) {
-					return new GuiResearchChamber(player,(TileEntityResearchChamber) entity);
+					return new GuiResearchChamber(player, (TileEntityResearchChamber) entity);
 				}
 			case CalculatorGui.DynamicCalculator:
 				if ((entity instanceof TileEntityCalculator.Dynamic)) {
-					return new GuiDynamicCalculator(player,(TileEntityCalculator.Dynamic) entity);
+					return new GuiDynamicCalculator(player, (TileEntityCalculator.Dynamic) entity);
 				}
 			case CalculatorGui.AtomicCalculator:
 				if ((entity instanceof TileEntityCalculator.Atomic)) {
-					return new GuiAtomicCalculator(player,(TileEntityCalculator.Atomic) entity);
+					return new GuiAtomicCalculator(player, (TileEntityCalculator.Atomic) entity);
 				}
 			}
 
-		}
-		  else{
-		    	switch(ID){
-		    	case CalculatorGui.Calculator:
-					return new GuiCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(player.getHeldItem()));
+		} else {
+			switch (ID) {
+			case CalculatorGui.Calculator:
+				return new GuiCalculator(player, player.inventory);
 
-		    	case CalculatorGui.ScientificCalculator:
-		        	return new GuiScientificCalculator(player, player.inventory,new CalculatorItem.CalculatorInventory(player.getHeldItem()));
-		        	
-		    	case CalculatorGui.CraftingCalculator:
-		        	return new GuiCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(player.getHeldItem()));
-		        	
-		    	case CalculatorGui.FlawlessCalculator:
-		    		Item item = player.getHeldItem().getItem();
-		    		if(item!=null && item instanceof IItemInventory){
-		    			IItemInventory target = (IItemInventory) item;	
-		        	return new GuiFlawlessCalculator(player, player.inventory, target.getInventory(player.getHeldItem()));
-		    		}
-		    		break;
-		        	
-		    	case CalculatorGui.InfoCalculator:
-		        	return new GuiInfoCalculator(player, player.inventory, world, x, y, z);
-		    	
-		    	case CalculatorGui.PortableDynamic:
-		    		return new GuiPortableDynamic(player, player.inventory, new FlawlessCalc.DynamicInventory(player.getHeldItem()));    
-		    	
-		    	case CalculatorGui.PortableCrafting:
-		    		return new GuiCraftingCalculator(player, player.inventory, new FlawlessCalc.CraftingInventory(player.getHeldItem()));    
-		    	
-		    	case CalculatorGui.StorageModule:
-		    		return new GuiStorageModule(player, player.inventory, new StorageModule.StorageInventory(player.getHeldItem()));    
-		    	
-		    	case CalculatorGui.SmeltingModule:
-		    		return new GuiSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(player.getHeldItem()), player.getHeldItem());    
-		    	
-		    	case CalculatorGui.RecipeInfo:
-		        	return new GuiRecipeInfo(player, player.inventory, world, x, y, z);
-		    					
-		    	   	}	
-		    	
-		   }
-	
+			case CalculatorGui.ScientificCalculator:
+				return new GuiScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(player.getHeldItem()));
+
+			case CalculatorGui.CraftingCalculator:
+				return new GuiCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(player.getHeldItem()));
+
+			case CalculatorGui.FlawlessCalculator:
+				Item item = player.getHeldItem().getItem();
+				if (item != null && item instanceof IItemInventory) {
+					IItemInventory target = (IItemInventory) item;
+					return new GuiFlawlessCalculator(player, player.inventory, target.getInventory(player.getHeldItem()));
+				}
+				break;
+
+			case CalculatorGui.InfoCalculator:
+				return new GuiInfoCalculator(player, player.inventory, world, x, y, z);
+
+			case CalculatorGui.PortableDynamic:
+				return new GuiPortableDynamic(player, player.inventory);
+
+			case CalculatorGui.PortableCrafting:
+				return new GuiCraftingCalculator(player, player.inventory, new FlawlessCalc.CraftingInventory(player.getHeldItem()));
+
+			case CalculatorGui.StorageModule:
+				return new GuiStorageModule(player, player.inventory, new StorageModule.StorageInventory(player.getHeldItem()));
+
+			case CalculatorGui.SmeltingModule:
+				return new GuiSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(player.getHeldItem()), player.getHeldItem());
+
+			case CalculatorGui.RecipeInfo:
+				return new GuiRecipeInfo(player, player.inventory, world, x, y, z);
+
+			}
+
+		}
 
 		return null;
 	}
 
-	public void registerRenderThings(){
-		
-	}
-	
-	
-	public static void storeEntityData(String name, NBTTagCompound compound)
-	{
-	extendedEntityData.put(name, compound);
+	public void registerRenderThings() {
+
 	}
 
-	public static NBTTagCompound getEntityData(String name)
-	{
-	return extendedEntityData.remove(name);
+	public static void storeEntityData(String name, NBTTagCompound compound) {
+		extendedEntityData.put(name, compound);
 	}
-	
+
+	public static NBTTagCompound getEntityData(String name) {
+		return extendedEntityData.remove(name);
+	}
+
 }

@@ -10,9 +10,10 @@ import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.IResearchStore;
+import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
 import sonar.calculator.mod.integration.nei.FlawlessCalcNEIRecipes;
-import sonar.calculator.mod.utils.helpers.ResearchPlayer;
 import sonar.core.client.gui.ContainerCraftInventory;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
@@ -23,10 +24,11 @@ public class ContainerCalculator extends ContainerCraftInventory{
 
 	public InventoryCrafting craftMatrix;
 	public IInventory craftResult;	
+	public ItemStack stack;
 	
-	public ContainerCalculator(EntityPlayer player,InventoryPlayer inv, InventoryItem calc) {
-		super(player,inv,calc);
-		
+	public ContainerCalculator(EntityPlayer player,InventoryPlayer inv) {
+		super(player,inv,new CalculatorItem.CalculatorInventory(player.getHeldItem()));
+		this.stack = player.getHeldItem();
     	this.craftMatrix = new InventoryStoredCrafting(this, 2, 1, inventory);
     	this.craftResult = new InventoryStoredResult(inventory);
 
@@ -52,7 +54,7 @@ public class ContainerCalculator extends ContainerCraftInventory{
 
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
-		craftResult.setInventorySlotContents(0,CalculatorRecipes.recipes().findMatchingRecipe(craftMatrix, player));
+		craftResult.setInventorySlotContents(0,CalculatorRecipes.recipes().findMatchingRecipe(craftMatrix, ((IResearchStore)stack.getItem()).getResearch(stack)));
 	}
 
 	@Override

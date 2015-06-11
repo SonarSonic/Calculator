@@ -1,6 +1,7 @@
 package sonar.calculator.mod.common.item.calculators;
 
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityEnderPearl;
@@ -13,7 +14,10 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInventory;
+import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipe;
+import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.entities.EntityGrenade;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
@@ -22,34 +26,36 @@ import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class FlawlessCalc extends SonarCalculator implements IItemInventory {
-	
-	public static class FlawlessInventory extends InventoryItem{
-		public FlawlessInventory(ItemStack stack){
-			super(stack,5,"FlawlessInv");
+public class FlawlessCalc extends SonarCalculator implements IItemInventory, IResearchStore {
+
+	public static class FlawlessInventory extends InventoryItem {
+		public FlawlessInventory(ItemStack stack) {
+			super(stack, 5, "FlawlessInv");
 		}
 	}
-	public static class DynamicInventory extends InventoryItem{
-		public DynamicInventory(ItemStack stack){
-			super(stack,10,"DynamicInv");
+
+	public static class DynamicInventory extends InventoryItem {
+		public DynamicInventory(ItemStack stack) {
+			super(stack, 10, "DynamicInv");
 		}
 	}
-	public static class CraftingInventory extends InventoryItem{
-		public CraftingInventory(ItemStack stack){
-			super(stack,10,"CraftingInv");
+
+	public static class CraftingInventory extends InventoryItem {
+		public CraftingInventory(ItemStack stack) {
+			super(stack, 10, "CraftingInv");
 		}
 	}
 
 	@Override
-	public InventoryItem getInventory(ItemStack stack) {	
+	public InventoryItem getInventory(ItemStack stack) {
 		NBTTagCompound nbtData = stack.stackTagCompound;
 		if (nbtData == null) {
 			nbtData = new NBTTagCompound();
 			stack.setTagCompound(nbtData);
 		}
 		int mode = nbtData.getInteger("Mode");
-		switch(mode){
-		case 0: 
+		switch (mode) {
+		case 0:
 			return new FlawlessInventory(stack);
 		case 1:
 			return new DynamicInventory(stack);
@@ -58,7 +64,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory {
 		}
 		return null;
 	}
-	
+
 	public FlawlessCalc() {
 		capacity = CalculatorConfig.flawlessEnergy;
 		maxReceive = CalculatorConfig.flawlessEnergy;
@@ -75,8 +81,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list,
-			boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
 
 		NBTTagCompound nbtData = stack.stackTagCompound;
@@ -84,102 +89,90 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory {
 			nbtData = new NBTTagCompound();
 			stack.setTagCompound(nbtData);
 		}
-		list.add(StatCollector.translateToLocal(
-				"calc.mode")+": " + chat(stack, player));
+		list.add(StatCollector.translateToLocal("calc.mode") + ": " + chat(stack, player));
 
-		int storedItems = new FlawlessInventory(stack).getItemsStored(stack)
-				+new DynamicInventory(stack).getItemsStored(stack)
-				+ new CraftingInventory(stack).getItemsStored(stack);
-		if(storedItems!=0){
-			list.add(StatCollector.translateToLocal("calc.storedstacks")+": " + storedItems);}
+		int storedItems = new FlawlessInventory(stack).getItemsStored(stack) + new DynamicInventory(stack).getItemsStored(stack) + new CraftingInventory(stack).getItemsStored(stack);
+		if (storedItems != 0) {
+			list.add(StatCollector.translateToLocal("calc.storedstacks") + ": " + storedItems);
+		}
+		if (stack.hasTagCompound()) {
+			int max = stack.stackTagCompound.getInteger("Max");
+			int stored = stack.stackTagCompound.getInteger("Stored");
+			if (max != 0) {
+				list.add(StatCollector.translateToLocal("research.recipe") + ": " + stored + "/" + max);
+			}
+		}
 	}
-	
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world,
-			EntityPlayer player) {
-			NBTTagCompound nbtData = stack.stackTagCompound;
-			if (nbtData == null) {
-				nbtData = new NBTTagCompound();
-				stack.setTagCompound(nbtData);
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		NBTTagCompound nbtData = stack.stackTagCompound;
+		if (nbtData == null) {
+			nbtData = new NBTTagCompound();
+			stack.setTagCompound(nbtData);
+		}
+		int mode = nbtData.getInteger("Mode");
+		if (player.isSneaking()) {
+			mode = (mode + 1) % 6;
+			nbtData.setInteger("Mode", mode);
+			nbtData.setBoolean("Grenade", false);
+			if (!world.isRemote) {
+				FontHelper.sendMessage(chat(stack, player), world, player);
 			}
-			int mode = nbtData.getInteger("Mode");
-			if (player.isSneaking()) {
-				mode = (mode + 1) % 6;
-				nbtData.setInteger("Mode", mode);
-				nbtData.setBoolean("Grenade", false);
-				if(!world.isRemote){
-				FontHelper.sendMessage(chat(stack, player), world, player);}
-			} else {
-				switch (mode) {
-				case FlawlessCraft:
-					player.openGui(Calculator.instance,
-							CalculatorGui.FlawlessCalculator, world,
-							(int) player.posX, (int) player.posY,
-							(int) player.posZ);
+		} else {
+			switch (mode) {
+			case FlawlessCraft:
+				player.openGui(Calculator.instance, CalculatorGui.FlawlessCalculator, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 
-					break;
-				case DynamicCraft:
-					player.openGui(Calculator.instance,
-							CalculatorGui.PortableDynamic, world,
-							(int) player.posX, (int) player.posY,
-							(int) player.posZ);
+				break;
+			case DynamicCraft:
+				player.openGui(Calculator.instance, CalculatorGui.PortableDynamic, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 
-					break;
-				case Crafting:
-					player.openGui(Calculator.instance,
-							CalculatorGui.PortableCrafting, world,
-							(int) player.posX, (int) player.posY,
-							(int) player.posZ);
-					break;
+				break;
+			case Crafting:
+				player.openGui(Calculator.instance, CalculatorGui.PortableCrafting, world, (int) player.posX, (int) player.posY, (int) player.posZ);
+				break;
 
-				case Grenade:
+			case Grenade:
 
-					if (CalculatorConfig.enableGrenades) {
+				if (CalculatorConfig.enableGrenades) {
 					if (!world.isRemote && player.capabilities.isCreativeMode) {
-						explosion(stack,world, player);
+						explosion(stack, world, player);
 
 					} else if (getEnergyStored(stack) >= 1000) {
-						explosion(stack,world, player);
+						explosion(stack, world, player);
 						this.extractEnergy(stack, 1000, false);
-					} else if ((getEnergyStored(stack) <= 1000)
-							&& (!world.isRemote)) {
-						player.addChatComponentMessage(new ChatComponentText(
-								StatCollector.translateToLocal("energy.notEnough")));
+					} else if ((getEnergyStored(stack) <= 1000) && (!world.isRemote)) {
+						player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("energy.notEnough")));
 					}
-					}else{
-						FontHelper.sendMessage(StatCollector.translateToLocal("calc.ban"), world, player);
-					}
-					break;
-				case Ender:
-					if (player.capabilities.isCreativeMode) {
-						ender(world, player);
+				} else {
+					FontHelper.sendMessage(StatCollector.translateToLocal("calc.ban"), world, player);
+				}
+				break;
+			case Ender:
+				if (player.capabilities.isCreativeMode) {
+					ender(world, player);
 
-					} else if (getEnergyStored(stack) >= 1000) {
-						ender(world, player);
-						this.extractEnergy(stack, 1000, false);
-					} else if ((getEnergyStored(stack) <= 1000)
-							&& (!world.isRemote)) {
-						player.addChatComponentMessage(new ChatComponentText(
-								StatCollector.translateToLocal("energy.notEnough")));
-					}
-
-					break;
-
-				case Teleport:
-					teleport(player, world, stack);
-					break;
+				} else if (getEnergyStored(stack) >= 1000) {
+					ender(world, player);
+					this.extractEnergy(stack, 1000, false);
+				} else if ((getEnergyStored(stack) <= 1000) && (!world.isRemote)) {
+					player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("energy.notEnough")));
 				}
 
-			}
-			return super.onItemRightClick(stack, world, player);
-		}
+				break;
 
-	
+			case Teleport:
+				teleport(player, world, stack);
+				break;
+			}
+
+		}
+		return super.onItemRightClick(stack, world, player);
+	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
-			int x, int y, int z, int par7, float par8, float par9, float par10) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par7, float par8, float par9, float par10) {
 
 		if (!(world.getBlock(x, y, z) == Calculator.stablestoneBlock)) {
 			return false;
@@ -188,37 +181,28 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory {
 		if (world.getBlock(x, y, z) == Calculator.stablestoneBlock) {
 			if (stack.hasTagCompound()) {
 				if (mode == FlawlessCalc.Teleport) {
-					if ((world.getBlock(x, y, z) == Calculator.stablestoneBlock)
-							&& (!stack.stackTagCompound.getBoolean("Tele"))) {
+					if ((world.getBlock(x, y, z) == Calculator.stablestoneBlock) && (!stack.stackTagCompound.getBoolean("Tele"))) {
 						stack.stackTagCompound.setDouble("TeleX", x);
 						stack.stackTagCompound.setDouble("TeleY", y + 1);
 						stack.stackTagCompound.setDouble("TeleZ", z);
 						stack.stackTagCompound.setBoolean("Tele", true);
-						stack.stackTagCompound.setInteger("Dimension",
-								player.dimension);
+						stack.stackTagCompound.setInteger("Dimension", player.dimension);
 						if (!world.isRemote) {
 							player.addChatComponentMessage(new ChatComponentText(
 
-									StatCollector.translateToLocal("calc.position")));
+							StatCollector.translateToLocal("calc.position")));
 						}
 
 					} else if ((world.getBlock(x, y, z) == Calculator.stablestoneBlock)
 							&& (stack.stackTagCompound.getBoolean("Tele"))
-							&& (world.getBlock((int) stack.stackTagCompound
-									.getDouble("TeleX"),
-									(int) stack.stackTagCompound
-											.getDouble("TeleY") - 1,
-									(int) stack.stackTagCompound
-											.getDouble("TeleZ")) != Calculator.stablestoneBlock)) {
+							&& (world.getBlock((int) stack.stackTagCompound.getDouble("TeleX"), (int) stack.stackTagCompound.getDouble("TeleY") - 1, (int) stack.stackTagCompound.getDouble("TeleZ")) != Calculator.stablestoneBlock)) {
 						stack.stackTagCompound.setDouble("TeleX", x);
 						stack.stackTagCompound.setDouble("TeleY", y + 1);
 						stack.stackTagCompound.setDouble("TeleZ", z);
 						stack.stackTagCompound.setBoolean("Tele", true);
-						stack.stackTagCompound.setInteger("Dimension",
-								player.dimension);
+						stack.stackTagCompound.setInteger("Dimension", player.dimension);
 						if (!world.isRemote) {
-							player.addChatComponentMessage(new ChatComponentText(
-									StatCollector.translateToLocal("calc.position")));
+							player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("calc.position")));
 						}
 
 					}
@@ -232,38 +216,26 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory {
 	public void teleport(EntityPlayer player, World world, ItemStack stack) {
 		if (player.dimension == stack.stackTagCompound.getInteger("Dimension")) {
 			if (stack.stackTagCompound.getBoolean("Tele")) {
-				if (world.getBlock(
-						(int) stack.stackTagCompound.getDouble("TeleX"),
-						(int) stack.stackTagCompound.getDouble("TeleY") - 1,
-						(int) stack.stackTagCompound.getDouble("TeleZ")) == Calculator.stablestoneBlock) {
-					player.setPositionAndUpdate(
-							stack.stackTagCompound.getDouble("TeleX"),
-							stack.stackTagCompound.getDouble("TeleY"),
-							stack.stackTagCompound.getDouble("TeleZ"));
+				if (world.getBlock((int) stack.stackTagCompound.getDouble("TeleX"), (int) stack.stackTagCompound.getDouble("TeleY") - 1, (int) stack.stackTagCompound.getDouble("TeleZ")) == Calculator.stablestoneBlock) {
+					player.setPositionAndUpdate(stack.stackTagCompound.getDouble("TeleX"), stack.stackTagCompound.getDouble("TeleY"), stack.stackTagCompound.getDouble("TeleZ"));
 
 				}
 
-				if ((world.getBlock(
-						(int) stack.stackTagCompound.getDouble("TeleX"),
-						(int) stack.stackTagCompound.getDouble("TeleY") - 1,
-						(int) stack.stackTagCompound.getDouble("TeleZ")) != Calculator.stablestoneBlock)
+				if ((world.getBlock((int) stack.stackTagCompound.getDouble("TeleX"), (int) stack.stackTagCompound.getDouble("TeleY") - 1, (int) stack.stackTagCompound.getDouble("TeleZ")) != Calculator.stablestoneBlock)
 						&& (!world.isRemote)) {
 					player.addChatComponentMessage(new ChatComponentText(
 
-							StatCollector.translateToLocal("calc.stableStone")));
+					StatCollector.translateToLocal("calc.stableStone")));
 				}
 
-			} else if ((!stack.stackTagCompound.getBoolean("Tele"))
-					&& (!world.isRemote)) {
-				player.addChatComponentMessage(new ChatComponentText(
-						StatCollector.translateToLocal("calc.noPosition")));
+			} else if ((!stack.stackTagCompound.getBoolean("Tele")) && (!world.isRemote)) {
+				player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("calc.noPosition")));
 			}
 		}
 
 		if (player.dimension != stack.stackTagCompound.getInteger("Dimension")) {
 			if (!world.isRemote) {
-				player.addChatComponentMessage(new ChatComponentText(
-						StatCollector.translateToLocal("calc.dimension")));
+				player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("calc.dimension")));
 			}
 		}
 	}
@@ -275,8 +247,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconregister) {
-		this.itemIcon = iconregister
-				.registerIcon("Calculator:flawlesscalculator");
+		this.itemIcon = iconregister.registerIcon("Calculator:flawlesscalculator");
 	}
 
 	public void ender(World world, EntityPlayer player) {
@@ -287,21 +258,20 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory {
 	}
 
 	public void explosion(ItemStack stack, World world, EntityPlayer player) {
-		if(stack.stackTagCompound.getBoolean("Grenade")){
-		world.playSoundAtEntity(player, "random.fizz", 0.7F, 0.8F);
+		if (stack.stackTagCompound.getBoolean("Grenade")) {
+			world.playSoundAtEntity(player, "random.fizz", 0.7F, 0.8F);
 
-		if (!world.isRemote) {
-			world.spawnEntityInWorld(new EntityGrenade(world, player));
-		}
-		stack.stackTagCompound.setBoolean("Grenade", false);
-		}else{
 			if (!world.isRemote) {
-				player.addChatComponentMessage(new ChatComponentText(
-						StatCollector.translateToLocal("calc.grenade")));
-			}	
+				world.spawnEntityInWorld(new EntityGrenade(world, player));
+			}
+			stack.stackTagCompound.setBoolean("Grenade", false);
+		} else {
+			if (!world.isRemote) {
+				player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("calc.grenade")));
+			}
 			stack.stackTagCompound.setBoolean("Grenade", true);
 		}
-		
+
 	}
 
 	public String chat(ItemStack stack, EntityPlayer player) {
@@ -333,15 +303,43 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory {
 	public boolean hasEffect(ItemStack stack) {
 		return true;
 	}
-	
-	public int getMode(ItemStack stack){
+
+	public int getMode(ItemStack stack) {
 		NBTTagCompound nbtData = stack.stackTagCompound;
 		if (nbtData == null) {
 			nbtData = new NBTTagCompound();
 			stack.setTagCompound(nbtData);
 		}
 		return nbtData.getInteger("Mode");
-		
+
 	}
 
+	public int[] getResearch(ItemStack stack) {
+		int[] unblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+		if (stack != null && stack.getItem() == Calculator.itemFlawlessCalculator) {
+			if (!stack.hasTagCompound()) {
+				stack.setTagCompound(new NBTTagCompound());
+			}
+			unblocked = stack.stackTagCompound.getIntArray("Unblocked");
+			if (unblocked != null && unblocked.length > 1) {
+				return unblocked;
+			} else {
+				return new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+			}
+		} else {
+			return unblocked;
+		}
+	}
+
+	public void setResearch(ItemStack stack, int[] unblocked, int stored, int max) {
+		if (stack != null && stack.getItem() == Calculator.itemFlawlessCalculator) {
+			if (!stack.hasTagCompound()) {
+				stack.setTagCompound(new NBTTagCompound());
+			}
+			stack.stackTagCompound.setIntArray("Unblocked", unblocked);
+			stack.stackTagCompound.setInteger("Max", max);
+			stack.stackTagCompound.setInteger("Stored", stored);
+
+		}
+	}
 }

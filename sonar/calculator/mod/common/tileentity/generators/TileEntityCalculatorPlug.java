@@ -90,10 +90,6 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 
 	}
 
-	@Override
-	public int getInventoryStackLimit() {
-		return 1;
-	}
 
 	public byte getS() {
 		if (stable == 2) {

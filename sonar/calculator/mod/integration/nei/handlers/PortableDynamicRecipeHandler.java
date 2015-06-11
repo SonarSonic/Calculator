@@ -11,12 +11,9 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 public class PortableDynamicRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadTransferRects() {
-		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
-				new Rectangle(100, 0, 22, 14), "calculator", new Object[0]));
-		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
-				new Rectangle(100, 25, 22, 14), "scientific", new Object[0]));
-		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
-				new Rectangle(100, 50, 22, 14), "atomic", new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(100, 0, 22, 14), "calculator", new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(100, 25, 22, 14), "scientific", new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(100, 50, 22, 14), "atomic", new Object[0]));
 	}
 
 	@Override
@@ -36,7 +33,6 @@ public class PortableDynamicRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector
-				.translateToLocal("tile.dynamiccalculatorBlock.name");
+		return StatCollector.translateToLocal("tile.dynamiccalculatorBlock.name");
 	}
 }

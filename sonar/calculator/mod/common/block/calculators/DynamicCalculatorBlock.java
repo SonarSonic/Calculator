@@ -15,8 +15,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarBlock;
@@ -46,27 +48,33 @@ public class DynamicCalculatorBlock extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.iconFront : side == 0 ? this.iconTop
-				: side == 1 ? this.iconTop	: (metadata == 0) && (side == 3) ? this.iconFront: this.blockIcon;
+		return side == metadata ? this.iconFront : side == 0 ? this.iconTop : side == 1 ? this.iconTop : (metadata == 0) && (side == 3) ? this.iconFront : this.blockIcon;
 	}
 
-	
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z,
-			EntityPlayer player, int side, float hitX, float hitY, float hitZ) {		
-			player.openGui(Calculator.instance,CalculatorGui.DynamicCalculator, world, x, y, z);
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityplayer, ItemStack itemstack) {
+		super.onBlockPlacedBy(world, x, y, z, entityplayer, itemstack);
+		TileEntity target = world.getTileEntity(x, y, z);
+		if (target != null && target instanceof TileEntityCalculator.Dynamic) {
+			TileEntityCalculator.Dynamic calc = (TileEntityCalculator.Dynamic) target;
+			calc.getResearch();
+		}
+	}
+
+	@Override
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		player.openGui(Calculator.instance, CalculatorGui.DynamicCalculator, world, x, y, z);
 		return true;
-		
+
 	}
 
 	@Override
 	public boolean dropStandard(World world, int x, int y, int z) {
-		return true;
+		return false;
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player,	List list) {
-		
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 	}
 
 	@Override
@@ -77,17 +85,17 @@ public class DynamicCalculatorBlock extends SonarMachineBlock {
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityCalculator.Dynamic();
 	}
+
 	@Override
-	public void breakBlock(World world, int x, int y, int z,
-			Block oldblock, int oldMetadata) {
+	public void breakBlock(World world, int x, int y, int z, Block oldblock, int oldMetadata) {
 		TileEntity entity = world.getTileEntity(x, y, z);
-		
+
 		if (entity != null && entity instanceof IInventory) {
 			IInventory tileentity = (IInventory) world.getTileEntity(x, y, z);
-			for (int i = 0; i < tileentity.getSizeInventory(); i++) {			
+			for (int i = 0; i < tileentity.getSizeInventory(); i++) {
 				ItemStack itemstack = tileentity.getStackInSlot(i);
 
-				if (itemstack != null && i!=0 && i!=3 && i!=6) {
+				if (itemstack != null && i != 0 && i != 3 && i != 6) {
 					float f = this.rand.nextFloat() * 0.8F + 0.1F;
 					float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
 					float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
@@ -101,9 +109,7 @@ public class DynamicCalculatorBlock extends SonarMachineBlock {
 
 						itemstack.stackSize -= j;
 
-						EntityItem item = new EntityItem(world, x + f, y + f1,
-								z + f2, new ItemStack(itemstack.getItem(), j,
-										itemstack.getItemDamage()));
+						EntityItem item = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j, itemstack.getItemDamage()));
 
 						if (itemstack.hasTagCompound()) {
 							item.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());

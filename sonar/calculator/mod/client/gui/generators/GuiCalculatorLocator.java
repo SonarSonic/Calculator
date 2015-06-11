@@ -39,7 +39,6 @@ public class GuiCalculatorLocator extends GuiContainer {
 		if (this.entity.multiblockstring()) {
 			FontHelper.text(StatCollector.translateToLocal("locator.multiblock") + ": " + StatCollector.translateToLocal("locator.true"), 25, 21, 0);
 
-			System.out.print(entity.size);
 			if (this.entity.stability ==0 || this.entity.size==0) {
 				FontHelper.text((StatCollector.translateToLocal("circuit.stability") + ": "+ 0 + "%"), 25, 43, 2);
 			} else {

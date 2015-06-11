@@ -30,9 +30,6 @@ public class CalculatorConfig extends Calculator {
 	public static int conductorRF;
 	public static int weatherstationRF;
 
-	public static int unlockedRecipes;
-	public static int newRecipes;
-
 	public static boolean timeEffect;
 	public static boolean beamEffect;
 	public static boolean enableWaila;
@@ -73,10 +70,6 @@ public class CalculatorConfig extends Calculator {
 		enableGrenades = config.getBoolean("allow grenades?", "items", true, "Grenades");
 		conductorRF = config.getInt("(Default: 5000) = RF per strike", "lightning farms", 5000, 200, 5000000, "Conductor Mast");
 		weatherstationRF = config.getInt("(Default: 5000) = RF per strike", "lightning farms", 1000, 200, 5000000, "Weather Station");
-
-		unlockedRecipes = config.getInt("ID for saving unlocked recipes", "Player Data", 30, 19, 31, "Unlocked Recipes");
-		newRecipes = config.getInt("ID for saving latest recipes", "Player Data", 31, 19, 31, "New Recipes");
-
 		config.save();
 
 	}

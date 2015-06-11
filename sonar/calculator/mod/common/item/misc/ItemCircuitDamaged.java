@@ -35,14 +35,14 @@ public class ItemCircuitDamaged
   
 
   @SideOnly(Side.CLIENT)
-  public IIcon func_77617_a(int p_77617_1_)
+  public IIcon getIconFromDamage(int p_77617_1_)
   {
     DamagedType type = DamagedType.getTypeFromDamage(p_77617_1_);
     return type.getIcon();
   }
   
   @SideOnly(Side.CLIENT)
-  public void func_150895_a(Item item, CreativeTabs tab, List list)
+  public void getSubItems(Item item, CreativeTabs tab, List list)
   {
     DamagedType[] atype = DamagedType.values();
     int i = atype.length;
@@ -56,7 +56,7 @@ public class ItemCircuitDamaged
   }
   
 
-  public String func_77667_c(ItemStack stack)
+  public String getUnlocalizedName(ItemStack stack)
   {
     DamagedType type = DamagedType.getTypeFromStack(stack);
     return getUnlocalizedName() + "." + type.name();

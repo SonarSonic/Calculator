@@ -7,22 +7,20 @@ import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.client.gui.calculators.GuiCalculator;
+import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipe;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
-import sonar.calculator.mod.utils.helpers.ResearchPlayer;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
 public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {
@@ -40,9 +38,7 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 
 		@Override
 		public List<PositionedStack> getIngredients() {
-			return getCycledIngredients(
-					CalculatorRecipeHandler.this.cycleticks / 48,
-					Arrays.asList(new PositionedStack[] { this.input }));
+			return getCycledIngredients(CalculatorRecipeHandler.this.cycleticks / 48, Arrays.asList(new PositionedStack[] { this.input }));
 		}
 
 		@Override
@@ -58,8 +54,7 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadTransferRects() {
-		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
-				new Rectangle(100, 25, 22, 14), "calculator", new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(100, 25, 22, 14), "calculator", new Object[0]));
 	}
 
 	@Override
@@ -74,33 +69,45 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		ResearchPlayer player =ResearchPlayer.get(Minecraft.getMinecraft().thePlayer);
-		int[] unblocked = player.unblocked(Minecraft.getMinecraft().thePlayer);
-		if ((outputId.equals("calculator"))	&& (getClass() == CalculatorRecipeHandler.class)) {
+		if ((outputId.equals("calculator"))
+				&& (getClass() == CalculatorRecipeHandler.class && Minecraft.getMinecraft().thePlayer.getHeldItem() != null && Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() instanceof IResearchStore)) {
+			IResearchStore calc = (IResearchStore) Minecraft.getMinecraft().thePlayer.getHeldItem().getItem();
+			int[] unblocked = calc.getResearch(Minecraft.getMinecraft().thePlayer.getHeldItem());
 			Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
 			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
-				if (unblocked != null && unblocked.length >= 1) {
-					if (recipe.getValue().hidden
-							&& unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input)] != 0
-							&& unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input2)] != 0
-							|| unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().output)] != 0) {
-
-				    	if(CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)){
-						this.arecipes.add(new SmeltingPair(
-								((CalculatorRecipe) recipe.getValue()).input,
-								((CalculatorRecipe) recipe.getValue()).input2,
-								((CalculatorRecipe) recipe.getValue()).output));}
+				if (!recipe.getValue().hidden) {
+					if (CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)) {
+						this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe.getValue()).input, ((CalculatorRecipe) recipe.getValue()).input2, ((CalculatorRecipe) recipe.getValue()).output));
 					}
-				 else if (!recipe.getValue().hidden) {
-				    if(CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)){
-					this.arecipes.add(new SmeltingPair(
-							((CalculatorRecipe) recipe.getValue()).input,
-							((CalculatorRecipe) recipe.getValue()).input2,
-							((CalculatorRecipe) recipe.getValue()).output));}
+				} else if (unblocked != null && unblocked.length >= 1) {
+					if (recipe.getValue().hidden && unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().input)] != 0
+							&& unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().input2)] != 0 || unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().output)] != 0) {
+						if (CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)) {
+							this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe.getValue()).input, ((CalculatorRecipe) recipe.getValue()).input2,
+									((CalculatorRecipe) recipe.getValue()).output));
+						}
+					}
 				}
+
+			}
+		}
+		else if ((outputId.equals("dynacalculator")) && Minecraft.getMinecraft().thePlayer.openContainer instanceof ContainerDynamicCalculator) {
+
+			int[] unblocked = ((ContainerDynamicCalculator) Minecraft.getMinecraft().thePlayer.openContainer).entity.unblocked;
+			Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
+			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
+				if (!recipe.getValue().hidden) {
+					if (CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)) {
+						this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe.getValue()).input, ((CalculatorRecipe) recipe.getValue()).input2, ((CalculatorRecipe) recipe.getValue()).output));
+					}
+				} else if (unblocked != null && unblocked.length >= 1) {
+					if (recipe.getValue().hidden && unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().input)] != 0
+							&& unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().input2)] != 0 || unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().output)] != 0) {
+						if (CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)) {
+							this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe.getValue()).input, ((CalculatorRecipe) recipe.getValue()).input2,
+									((CalculatorRecipe) recipe.getValue()).output));
+						}
+					}
 				}
 			}
 		} else {
@@ -110,36 +117,27 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		ResearchPlayer player =ResearchPlayer.get(Minecraft.getMinecraft().thePlayer);
-		int[] unblocked = player.unblocked(Minecraft.getMinecraft().thePlayer);
-		Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();		
+		IInventory inv = Minecraft.getMinecraft().thePlayer.inventory;
+		int[] unblocked = findResearch(inv);
+		Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
 
 		for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
 
-			if (NEIServerUtils.areStacksSameTypeCrafting(
-					((CalculatorRecipe) recipe.getValue()).output, result)) {				
+			if (NEIServerUtils.areStacksSameTypeCrafting(((CalculatorRecipe) recipe.getValue()).output, result)) {
 				if (unblocked != null && unblocked.length >= 1) {
-					if (recipe.getValue().hidden
-							&& unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input)] != 0
-							&& unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input2)] != 0
-							|| unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().output)] != 0) {
+					if (recipe.getValue().hidden && unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().input)] != 0
+							&& unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().input2)] != 0 || unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().output)] != 0) {
 
-				    	if(CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)){
-						this.arecipes.add(new SmeltingPair(
-								((CalculatorRecipe) recipe.getValue()).input,
-								((CalculatorRecipe) recipe.getValue()).input2,
-								((CalculatorRecipe) recipe.getValue()).output));}
+						if (CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)) {
+							this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe.getValue()).input, ((CalculatorRecipe) recipe.getValue()).input2,
+									((CalculatorRecipe) recipe.getValue()).output));
+						}
+					} else if (!recipe.getValue().hidden) {
+						if (CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)) {
+							this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe.getValue()).input, ((CalculatorRecipe) recipe.getValue()).input2,
+									((CalculatorRecipe) recipe.getValue()).output));
+						}
 					}
-				 else if (!recipe.getValue().hidden) {
-				    	if(CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)){
-					this.arecipes.add(new SmeltingPair(
-							((CalculatorRecipe) recipe.getValue()).input,
-							((CalculatorRecipe) recipe.getValue()).input2,
-							((CalculatorRecipe) recipe.getValue()).output));}
-				}
 				}
 
 			}
@@ -148,8 +146,7 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
-		if ((inputId.equals("calculator"))
-				&& (getClass() == CalculatorRecipeHandler.class)) {
+		if ((inputId.equals("calculator")) && (getClass() == CalculatorRecipeHandler.class)) {
 			loadCraftingRecipes("calculator", new Object[0]);
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);
@@ -158,39 +155,40 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		ResearchPlayer player =ResearchPlayer.get(Minecraft.getMinecraft().thePlayer);
-		int[] unblocked = player.unblocked(Minecraft.getMinecraft().thePlayer);
-		Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes()
-				.getStandardList();
-		for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameTypeCrafting(
-					((CalculatorRecipe) recipe.getValue()).input, ingredient) || NEIServerUtils.areStacksSameTypeCrafting(
-							((CalculatorRecipe) recipe.getValue()).input2, ingredient)) {
-				if (unblocked != null && unblocked.length >= 1) {
-					if (recipe.getValue().hidden
-							&& unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input)] != 0
-							&& unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input2)] != 0
-							|| unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().output)] != 0) {
+		Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
+		IInventory inv = Minecraft.getMinecraft().thePlayer.inventory;
+		int[] unblocked = findResearch(inv);
 
-				    	if(CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)){
-						this.arecipes.add(new SmeltingPair(
-								((CalculatorRecipe) recipe.getValue()).input,
-								((CalculatorRecipe) recipe.getValue()).input2,
-								((CalculatorRecipe) recipe.getValue()).output));}
+		for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
+			if (NEIServerUtils.areStacksSameTypeCrafting(((CalculatorRecipe) recipe.getValue()).input, ingredient)
+					|| NEIServerUtils.areStacksSameTypeCrafting(((CalculatorRecipe) recipe.getValue()).input2, ingredient)) {
+				if (unblocked != null && unblocked.length >= 1) {
+					if (recipe.getValue().hidden && unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().input)] != 0
+							&& unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().input2)] != 0 || unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().output)] != 0) {
+
+						if (CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)) {
+							this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe.getValue()).input, ((CalculatorRecipe) recipe.getValue()).input2,
+									((CalculatorRecipe) recipe.getValue()).output));
+						}
 					}
-				 else if (!recipe.getValue().hidden) {
-				    	if(CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)){
-					this.arecipes.add(new SmeltingPair(
-							((CalculatorRecipe) recipe.getValue()).input,
-							((CalculatorRecipe) recipe.getValue()).input2,
-							((CalculatorRecipe) recipe.getValue()).output));}
-				}
+				} else if (!recipe.getValue().hidden) {
+					if (CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)) {
+						this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe.getValue()).input, ((CalculatorRecipe) recipe.getValue()).input2, ((CalculatorRecipe) recipe.getValue()).output));
+					}
+
 				}
 			}
 		}
+	}
+
+	public static int[] findResearch(IInventory inv) {
+		for (int i = 0; i < inv.getSizeInventory(); i++) {
+			ItemStack target = inv.getStackInSlot(i);
+			if (target != null && target.getItem() instanceof IResearchStore) {
+				return ((IResearchStore) target.getItem()).getResearch(target);
+			}
+		}
+		return null;
 	}
 
 	@Override

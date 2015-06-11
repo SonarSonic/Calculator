@@ -11,7 +11,6 @@ import sonar.calculator.mod.common.block.CalculatorSaplings;
 import sonar.calculator.mod.common.containers.ContainerCalculator;
 import sonar.calculator.mod.common.containers.ContainerCraftingCalculator;
 import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
-import sonar.calculator.mod.utils.helpers.ResearchPlayer;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -19,6 +18,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 public class CalculatorEvents
 {
 	
+	/*
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event)
 	{
@@ -54,7 +54,7 @@ public class CalculatorEvents
 			event.entity.registerExtendedProperties(ResearchPlayer.tag, new ResearchPlayer((EntityPlayer) event.entity));
 		}
 	}
-	
+	*/
   @SubscribeEvent
   public void CalculatorCraftingCraft(ItemCraftedEvent event){	  
     EntityPlayer player = event.player;

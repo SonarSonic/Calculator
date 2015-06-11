@@ -16,8 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ContainerHealthProcessor extends ContainerSync {
 	private TileEntityHealthProcessor entity;
 
-	public ContainerHealthProcessor(InventoryPlayer inventory,
-			TileEntityHealthProcessor entity) {
+	public ContainerHealthProcessor(InventoryPlayer inventory, TileEntityHealthProcessor entity) {
 		super(entity);
 		this.entity = entity;
 
@@ -26,8 +25,7 @@ public class ContainerHealthProcessor extends ContainerSync {
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
@@ -61,8 +59,7 @@ public class ContainerHealthProcessor extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 29, 38, false)) {
 						return null;
 					}
-				} else if ((p_82846_2_ >= 29) && (p_82846_2_ < 38)
-						&& (!mergeItemStack(itemstack1, 2, 29, false))) {
+				} else if ((p_82846_2_ >= 29) && (p_82846_2_ < 38) && (!mergeItemStack(itemstack1, 2, 29, false))) {
 					return null;
 				}
 			} else if (!mergeItemStack(itemstack1, 2, 38, false)) {
@@ -85,8 +82,8 @@ public class ContainerHealthProcessor extends ContainerSync {
 		return itemstack;
 	}
 
-	  @Override
+	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		    return entity.isUseableByPlayer(player);
-		  }
+		return entity.isUseableByPlayer(player);
+	}
 }

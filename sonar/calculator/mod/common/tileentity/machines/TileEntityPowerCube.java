@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -15,10 +13,8 @@ import cofh.api.energy.EnergyStorage;
 
 public class TileEntityPowerCube extends TileEntityInventoryReceiver {
 
-	public boolean loaded;
-	
 	public TileEntityPowerCube() {
-		super.storage = new EnergyStorage(CalculatorConfig.cubeEnergy,CalculatorConfig.cubeEnergy);
+		super.storage = new EnergyStorage(CalculatorConfig.cubeEnergy, CalculatorConfig.cubeEnergy);
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 1;
 	}
@@ -26,8 +22,8 @@ public class TileEntityPowerCube extends TileEntityInventoryReceiver {
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-			charge(0);		
-			discharge(1);	
+		charge(0);
+		discharge(1);
 		this.markDirty();
 	}
 
