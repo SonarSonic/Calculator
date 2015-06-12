@@ -144,6 +144,7 @@ public class NEICalculatorConfig
     API.hideItem(new ItemStack(Calculator.scarecrowBlock));
     API.hideItem(new ItemStack(Calculator.gas_lantern_on));
     API.hideItem(new ItemStack(Calculator.weatherStationBlock));
+    API.hideItem(new ItemStack(Calculator.stablePort));
   }
   
   @Override

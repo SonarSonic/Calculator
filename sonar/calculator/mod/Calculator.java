@@ -47,7 +47,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 	
 	public static final String modid = "Calculator";
-	public static final String version = "1.7.4";	
+	public static final String version = "1.7.5";	
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -301,7 +301,7 @@ public class Calculator {
 		public static Item soil, small_stone;
 
 		// common blocks
-		public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock,reinforceddirtBrick,purifiedobsidianBlock, stablestoneBlock, flawlessGlass;
+		public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock,reinforceddirtBrick,purifiedobsidianBlock, stablestoneBlock, stablePort, flawlessGlass;
 
 		// trees
 		public static Block leaves, amethystLeaf, tanzaniteLeaf, pearLeaf,diamondLeaf, diamondleaves;

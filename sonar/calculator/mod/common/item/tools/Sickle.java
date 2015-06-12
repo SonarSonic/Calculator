@@ -18,9 +18,8 @@ public class Sickle extends CalcItem {
 	private static Random rand = new Random();
 
 	public Sickle() {
-		this.setMaxDamage(1000);
+		this.setMaxDamage(10000);
 		this.maxStackSize = 1;
-		setMaxDamage(64);
 
 	}
 

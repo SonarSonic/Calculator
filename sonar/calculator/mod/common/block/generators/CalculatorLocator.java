@@ -16,6 +16,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.api.ILocatorBlock;
 import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.network.CalculatorGui;
@@ -75,45 +76,41 @@ public class CalculatorLocator extends SonarMachineBlock implements IWrench {
 	}
 
 	public static int multiBlockStructure(World world, int x, int y, int z) {
-		for(int size = 1; size<12; size++){
-			if(checkSize(world,x,y,z,size)){
-				
+		for (int size = 1; size < 12; size++) {
+			if (checkSize(world, x, y, z, size)) {
 				return size;
 			}
 		}
 		return 0;
 	}
-	
-	public static boolean checkSize(World world, int x, int y, int z, int size){
+
+	public static boolean checkSize(World world, int x, int y, int z, int size) {
 		for (int X = -size; X <= size; X++) {
 			for (int Z = -size; Z <= size; Z++) {
 				if (!(X == -size && Z == -size) && (X == -size && Z == size) && (X == size && Z == -size) && (X == size && Z == size)) {
-					if (!(world.getBlock(x + X, y - 1, z + Z) == Calculator.stablestoneBlock)) {
+					if (!(world.getBlock(x + X, y - 1, z + Z) instanceof ILocatorBlock)) {
 						return false;
 					}
 				}
 			}
 		}
 
-		for(int XZ = -(size-1); XZ<=(size-1); XZ++){	
-			if(!(world.getBlock(x + XZ, y, z+size) == Calculator.stablestoneBlock)){
-				return false;
+		for (int XZ = -(size - 1); XZ <= (size - 1); XZ++) {
+			for (int Y = -1; Y <= 0; Y++) {
+				if (!(world.getBlock(x + XZ, y + Y, z + size) instanceof ILocatorBlock)) {
+					return false;
+				} else if (!(world.getBlock(x + XZ, y + Y, z - size) instanceof ILocatorBlock)) {
+					return false;
+				} else if (!(world.getBlock(x + size, y + Y, z + XZ) instanceof ILocatorBlock)) {
+					return false;
+				} else if (!(world.getBlock(x - size, y + Y, z + XZ) instanceof ILocatorBlock)) {
+					return false;
+				}
 			}
-			else if(!(world.getBlock(x + XZ, y, z-size) == Calculator.stablestoneBlock)){
-				return false;
-			}
-			else if(!(world.getBlock(x + size, y, z+XZ) == Calculator.stablestoneBlock)){
-				return false;
-			}
-			else if(!(world.getBlock(x-size, y, z+XZ) == Calculator.stablestoneBlock)){
-				return false;
-			}
-			
 		}
-		
 
-		for (int X = -(size-1); X <= (size-1); X++) {
-			for (int Z = -(size-1); Z <= (size-1); Z++) {
+		for (int X = -(size - 1); X <= (size - 1); X++) {
+			for (int Z = -(size - 1); Z <= (size - 1); Z++) {
 				if (!(X == 0 && Z == 0)) {
 					if (!(world.getBlock(x + X, y, z + Z) == Calculator.calculatorplug)) {
 						return false;

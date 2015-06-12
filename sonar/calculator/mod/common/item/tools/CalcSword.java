@@ -41,4 +41,9 @@ public class CalcSword extends ItemSword {
 			list.add(StatCollector.translateToLocal("calc.ban"));
 		}
 	}
+	@Override
+    public boolean isItemTool(ItemStack stack)
+    {
+        return true;
+    }
 }

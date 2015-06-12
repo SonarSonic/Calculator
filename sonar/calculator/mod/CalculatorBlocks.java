@@ -1,5 +1,6 @@
 package sonar.calculator.mod;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import sonar.calculator.mod.common.block.CalcBlockItem;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
@@ -49,6 +50,7 @@ import sonar.calculator.mod.common.block.misc.ReinforcedDirtBlock;
 import sonar.calculator.mod.common.block.misc.ReinforcedStoneBlock;
 import sonar.calculator.mod.common.block.misc.Scarecrow;
 import sonar.calculator.mod.common.block.misc.ScarecrowBlock;
+import sonar.calculator.mod.common.block.misc.StablePort;
 import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
@@ -74,6 +76,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityStablePort;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CalculatorBlocks extends Calculator {
@@ -89,8 +92,11 @@ public class CalculatorBlocks extends Calculator {
 	GameRegistry.registerBlock(reinforceddirtBlock, CalcBlockItem.class, "reinforceddirtBlock");
 	reinforceddirtBrick = new ReinforcedDirtBlock().setBlockName("reinforceddirtBrick").setCreativeTab(Calculator).setBlockTextureName(modid + ":" + "reinforceddirtbrick");
 	GameRegistry.registerBlock(reinforceddirtBrick, CalcBlockItem.class, "reinforceddirtBrick");
-	stablestoneBlock = new ConnectedBlock(Material.rock,"stablestone",0).setBlockName("stablestoneBlock").setCreativeTab(Calculator).setHardness(5.0F);
+	stablestoneBlock = new ConnectedBlock.Stable().setBlockName("stablestoneBlock").setCreativeTab(Calculator).setHardness(5.0F);
 	GameRegistry.registerBlock(stablestoneBlock, CalcBlockItem.class, "stablestoneBlock");
+	stablePort = new StablePort().setBlockName("stablePort").setHardness(5.0F).setBlockTextureName(modid + ":" + "stable_port");
+	GameRegistry.registerBlock(stablePort, "stablePort");
+	GameRegistry.registerTileEntity(TileEntityStablePort.class, "stablePort");
 	purifiedobsidianBlock = new ConnectedBlock(Material.rock, "purifiedobsidian",2).setBlockName("purifiedobsidianBlock").setCreativeTab(Calculator);
 	GameRegistry.registerBlock(purifiedobsidianBlock, CalcBlockItem.class, "purifiedobsidianBlock");
 	flawlessGlass = new ConnectedBlock(Material.glass,"flawlessglass",1).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(5.0F);;

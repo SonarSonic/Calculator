@@ -20,7 +20,6 @@ import sonar.core.utils.SlotLimiter;
 
 public class ContainerFlawlessCalculator extends ContainerCraftInventory {
 	public final int width = 4;
-	public final int length = 1;
 
 	public InventoryCrafting craftMatrix;
 	public IInventory craftResult;	
@@ -28,15 +27,13 @@ public class ContainerFlawlessCalculator extends ContainerCraftInventory {
 	public ContainerFlawlessCalculator(EntityPlayer player,
 			InventoryPlayer inv, InventoryItem calc) {
 		super(player, inv, calc);
-		this.craftMatrix = new InventoryStoredCrafting(this, width, length,inventory);
+		this.craftMatrix = new InventoryStoredCrafting(this, width, 1,inventory);
 		this.craftResult = new InventoryStoredResult(inventory);
 
 		addSlotToContainer(new SlotCrafting(player, this.craftMatrix,this.craftResult, 0, 145, 35));
 
-		for (int i = 0; i < length; i++) {
-			for (int k = 0; k < width; k++) {
-				addSlotToContainer(new Slot(this.craftMatrix, k + i * 2,17 + k * 32, 35 + i * 18));
-			}
+		for (int k = 0; k < width; k++) {
+			addSlotToContainer(new Slot(this.craftMatrix, k,17 + k * 32, 35));
 		}
 		for (int i = 0; i < 3; i++) {
 			for (int k = 0; k < 9; k++) {

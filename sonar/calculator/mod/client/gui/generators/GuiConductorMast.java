@@ -40,8 +40,8 @@ public class GuiConductorMast
   public void initGui()
   {
       super.initGui();
-      this.buttonList.add(new GuiButton(0, this.guiLeft + 20, this.guiTop + 60, 50, 20, StatCollector.translateToLocal("lightning.day")));
-      this.buttonList.add(new GuiButton(1, this.guiLeft +108, this.guiTop + 60, 50, 20, StatCollector.translateToLocal("lightning.night")));
+      this.buttonList.add(new GuiButton(0, this.guiLeft + 20, this.guiTop + 60, 50, 20, StatCollector.translateToLocal("lightning.time")));
+      this.buttonList.add(new GuiButton(1, this.guiLeft +108, this.guiTop + 60, 50, 20, StatCollector.translateToLocal("lightning.rain")));
   }
 
 

@@ -26,7 +26,7 @@ public class ContainerPortableDynamic extends ContainerCraftInventory {
 	public ItemStack stack;
 
 	public ContainerPortableDynamic(EntityPlayer player, InventoryPlayer inv) {
-		super(player, inv,new FlawlessCalc.DynamicInventory(player.getHeldItem()));
+		super(player, inv, new FlawlessCalc.DynamicInventory(player.getHeldItem()));
 		this.stack = player.getHeldItem();
 		this.calculatorMatrix = new InventoryStoredCrafting(this, 2, 1, inventory);
 		this.calculatorResult = new InventoryStoredResult(inventory);
@@ -39,22 +39,16 @@ public class ContainerPortableDynamic extends ContainerCraftInventory {
 		addSlotToContainer(new SlotCrafting(player, this.scientficMatrix, this.scientificResult, 3, 134, 35));
 		addSlotToContainer(new SlotCrafting(player, this.atomicMatrix, this.atomicResult, 6, 134, 61));
 
-		for (int i = 0; i < 1; i++) {
-			for (int k = 0; k < 2; k++) {
-				addSlotToContainer(new Slot(this.calculatorMatrix, k + i * 2, 25 + k * 54, 9 + i * 18));
-			}
+		for (int k = 0; k < 2; k++) {
+			addSlotToContainer(new Slot(this.calculatorMatrix, k, 25 + k * 54, 9));
 		}
 
-		for (int i = 0; i < 1; i++) {
-			for (int k = 0; k < 2; k++) {
-				addSlotToContainer(new Slot(this.scientficMatrix, k + i * 2, 25 + k * 54, 35 + i * 18));
-			}
+		for (int k = 0; k < 2; k++) {
+			addSlotToContainer(new Slot(this.scientficMatrix, k, 25 + k * 54, 35));
 		}
 
-		for (int i = 0; i < 1; i++) {
-			for (int k = 0; k < 3; k++) {
-				addSlotToContainer(new Slot(this.atomicMatrix, k + i * 2, 20 + k * 32, 61 + i * 18));
-			}
+		for (int k = 0; k < 3; k++) {
+			addSlotToContainer(new Slot(this.atomicMatrix, k, 20 + k * 32, 61));
 		}
 
 		for (int i = 0; i < 3; i++) {
@@ -73,7 +67,7 @@ public class ContainerPortableDynamic extends ContainerCraftInventory {
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
 
-		this.calculatorResult.setInventorySlotContents(0, CalculatorRecipes.recipes().findMatchingRecipe(calculatorMatrix, ((IResearchStore)stack.getItem()).getResearch(stack)));
+		this.calculatorResult.setInventorySlotContents(0, CalculatorRecipes.recipes().findMatchingRecipe(calculatorMatrix, ((IResearchStore) stack.getItem()).getResearch(stack)));
 		this.scientificResult.setInventorySlotContents(3, ScientificCalculatorRecipes.recipes().findMatchingRecipe(scientficMatrix));
 		this.atomicResult.setInventorySlotContents(6, AtomicCalculatorCraftingManager.getInstance().findMatchingRecipe(this.atomicMatrix, this.worldObj));
 
