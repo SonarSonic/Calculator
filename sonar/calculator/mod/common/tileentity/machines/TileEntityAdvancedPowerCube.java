@@ -13,7 +13,8 @@ import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Optional.Method;
 
-@Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2", striprefs = true), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2", striprefs = true),
+@Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2", striprefs = true),
+		@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2", striprefs = true),
 		@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "IC2", striprefs = true) })
 public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IEnergySource {
 
@@ -70,6 +71,14 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 		} else {
 			energySide = par;
 		}
+	}
+
+	@Override
+	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+		if (from == ForgeDirection.getOrientation(energySide)) {
+			return this.storage.extractEnergy(maxExtract, simulate);
+		}
+		return 0;
 	}
 
 	@Method(modid = "IC2")

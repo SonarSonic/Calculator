@@ -2,16 +2,11 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
-import sonar.core.utils.DischargeValues;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerHealthProcessor extends ContainerSync {
 	private TileEntityHealthProcessor entity;

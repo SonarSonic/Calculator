@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
-import sonar.calculator.mod.network.packets.PacketTileSync;
 import sonar.calculator.mod.utils.SlotBigStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

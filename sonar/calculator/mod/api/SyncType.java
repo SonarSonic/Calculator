@@ -21,6 +21,6 @@ public class SyncType {
 	public static final int SPECIAL8 = 15;
 	public static final int SPECIAL9 = 16;
 
-	public static final int MAX = 16;
+	public static final int MAX = 17;
 
 }

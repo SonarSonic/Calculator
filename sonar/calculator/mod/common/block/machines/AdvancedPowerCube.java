@@ -29,7 +29,7 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AdvancedPowerCube extends SonarMachineBlock implements IWrench {
+public class AdvancedPowerCube extends SonarMachineBlock{
 	@SideOnly(Side.CLIENT)
 	private IIcon front1, front2, side1, side2;
 	private static boolean keepInventory;

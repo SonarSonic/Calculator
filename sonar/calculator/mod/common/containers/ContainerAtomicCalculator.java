@@ -8,7 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.crafting.AtomicCalculatorCraftingManager;
-import sonar.calculator.mod.common.recipes.machines.AtomicCalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.integration.nei.AtomicCalculatorNEIRecipes;
 import sonar.core.client.gui.InventoryStoredCrafting;

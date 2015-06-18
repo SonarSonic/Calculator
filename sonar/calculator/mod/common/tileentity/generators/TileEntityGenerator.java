@@ -44,10 +44,11 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		item();
-		energy();
-		addEnergy();
-
+		if (!this.worldObj.isRemote) {
+			item();
+			energy();
+			addEnergy();
+		}
 		this.markDirty();
 	}
 
@@ -86,26 +87,26 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		TileEntity south = worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
 		TileEntity east = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
 		TileEntity west = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
+		
 		if (direction == "down") {
 			if (SonarHelper.isEnergyHandlerFromSide(down, ForgeDirection.DOWN)) {
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(down, ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false));
-
+				this.storage.extractEnergy(SonarHelper.pushEnergy(down, ForgeDirection.UP, maxTransfer, false), false);
 			}
 		} else if (direction == "west") {
 			if (SonarHelper.isEnergyHandlerFromSide(west, ForgeDirection.WEST)) {
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(west, ForgeDirection.EAST, this.storage.extractEnergy(maxTransfer, true), false));
+				this.storage.extractEnergy(SonarHelper.pushEnergy(west, ForgeDirection.EAST, this.storage.extractEnergy(maxTransfer, true), false), false);
 			}
 		} else if (direction == "east") {
 			if (SonarHelper.isEnergyHandlerFromSide(east, ForgeDirection.EAST)) {
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(east, ForgeDirection.WEST, this.storage.extractEnergy(maxTransfer, true), false));
+				this.storage.extractEnergy(SonarHelper.pushEnergy(east, ForgeDirection.WEST, this.storage.extractEnergy(maxTransfer, true), false), false);
 			}
 		} else if (direction == "north") {
 			if (SonarHelper.isEnergyHandlerFromSide(north, ForgeDirection.NORTH)) {
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(north, ForgeDirection.SOUTH, this.storage.extractEnergy(maxTransfer, true), false));
+				this.storage.extractEnergy(SonarHelper.pushEnergy(north, ForgeDirection.SOUTH, this.storage.extractEnergy(maxTransfer, true), false), false);
 			}
 		} else if (direction == "south") {
 			if (SonarHelper.isEnergyHandlerFromSide(south, ForgeDirection.SOUTH)) {
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(south, ForgeDirection.NORTH, this.storage.extractEnergy(maxTransfer, true), false));
+				this.storage.extractEnergy(SonarHelper.pushEnergy(south, ForgeDirection.NORTH, this.storage.extractEnergy(maxTransfer, true), false), false);
 			}
 		}
 

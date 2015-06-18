@@ -87,7 +87,7 @@ public class CalculatorLocator extends SonarMachineBlock implements IWrench {
 	public static boolean checkSize(World world, int x, int y, int z, int size) {
 		for (int X = -size; X <= size; X++) {
 			for (int Z = -size; Z <= size; Z++) {
-				if (!(X == -size && Z == -size) && (X == -size && Z == size) && (X == size && Z == -size) && (X == size && Z == size)) {
+				if (!(X == 0 && Z == 0)) {
 					if (!(world.getBlock(x + X, y - 1, z + Z) instanceof ILocatorBlock)) {
 						return false;
 					}
@@ -95,22 +95,22 @@ public class CalculatorLocator extends SonarMachineBlock implements IWrench {
 			}
 		}
 
-		for (int XZ = -(size - 1); XZ <= (size - 1); XZ++) {
+		for (int XZ = -(size); XZ <= (size); XZ++) {
 			for (int Y = -1; Y <= 0; Y++) {
-				if (!(world.getBlock(x + XZ, y + Y, z + size) instanceof ILocatorBlock)) {
+				if (!(world.getBlock(x + XZ, y + Y, z + size+1) instanceof ILocatorBlock)) {
 					return false;
-				} else if (!(world.getBlock(x + XZ, y + Y, z - size) instanceof ILocatorBlock)) {
+				} else if (!(world.getBlock(x + XZ, y + Y, z - (size+1)) instanceof ILocatorBlock)) {
 					return false;
-				} else if (!(world.getBlock(x + size, y + Y, z + XZ) instanceof ILocatorBlock)) {
+				} else if (!(world.getBlock(x + (size+1), y + Y, z + XZ) instanceof ILocatorBlock)) {
 					return false;
-				} else if (!(world.getBlock(x - size, y + Y, z + XZ) instanceof ILocatorBlock)) {
+				} else if (!(world.getBlock(x - (size+1), y + Y, z + XZ) instanceof ILocatorBlock)) {
 					return false;
 				}
 			}
 		}
 
-		for (int X = -(size - 1); X <= (size - 1); X++) {
-			for (int Z = -(size - 1); Z <= (size - 1); Z++) {
+		for (int X = -(size); X <= (size); X++) {
+			for (int Z = -(size); Z <= (size); Z++) {
 				if (!(X == 0 && Z == 0)) {
 					if (!(world.getBlock(x + X, y, z + Z) == Calculator.calculatorplug)) {
 						return false;
@@ -139,11 +139,6 @@ public class CalculatorLocator extends SonarMachineBlock implements IWrench {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		if (CalculatorConfig.energyStorageType == 2) {
-			list.add(StatCollector.translateToLocal("energy.generate") + ": " + CalculatorConfig.locatorRF / 4 + " EU/t");
 
-		} else {
-			list.add(StatCollector.translateToLocal("energy.generate") + ": " + CalculatorConfig.locatorRF + " RF/t");
-		}
 	}
 }

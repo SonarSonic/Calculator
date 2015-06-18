@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.core.utils.helpers.FontHelper;
 
 public class CalculatorHelper {
 
@@ -25,11 +26,8 @@ public class CalculatorHelper {
 	public static void addEnergytoToolTip(ItemStack stack, EntityPlayer player, List list) {
 		int energy = stack.getTagCompound().getInteger("energy");
 		if (energy != 0) {
-			if (CalculatorConfig.energyStorageType == 2) {
-				list.add(StatCollector.translateToLocal("energy.stored") + ": " + energy / 4 + " EU");
-			} else {
-				list.add(StatCollector.translateToLocal("energy.stored") + ": " + energy + " RF");
-			}
+			list.add(StatCollector.translateToLocal("energy.stored") + ": " + FontHelper.formatStorage(energy));
+
 		}
 	}
 

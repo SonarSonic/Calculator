@@ -6,8 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,8 +15,6 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse
 import sonar.core.utils.DischargeValues;
 import sonar.core.utils.SonarAPI;
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerBasicGreenhouse extends ContainerSync {
 	private TileEntityBasicGreenhouse entity;

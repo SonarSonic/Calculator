@@ -2,15 +2,11 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.machines.ConductorMastRecipes;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.core.utils.SlotBlockedInventory;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerConductorMast extends ContainerSync {
 	private TileEntityConductorMast entity;

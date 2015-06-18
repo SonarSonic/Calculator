@@ -1,6 +1,5 @@
 package sonar.calculator.mod;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import sonar.calculator.mod.common.block.CalcBlockItem;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
@@ -45,12 +44,13 @@ import sonar.calculator.mod.common.block.machines.Transmitter;
 import sonar.calculator.mod.common.block.machines.WeatherStation;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
 import sonar.calculator.mod.common.block.misc.CO2Generator;
+import sonar.calculator.mod.common.block.misc.FluxPlug;
+import sonar.calculator.mod.common.block.misc.FluxPoint;
 import sonar.calculator.mod.common.block.misc.GasLantern;
 import sonar.calculator.mod.common.block.misc.ReinforcedDirtBlock;
 import sonar.calculator.mod.common.block.misc.ReinforcedStoneBlock;
 import sonar.calculator.mod.common.block.misc.Scarecrow;
 import sonar.calculator.mod.common.block.misc.ScarecrowBlock;
-import sonar.calculator.mod.common.block.misc.StablePort;
 import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
@@ -74,9 +74,10 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityBasicLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityStablePort;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CalculatorBlocks extends Calculator {
@@ -94,9 +95,6 @@ public class CalculatorBlocks extends Calculator {
 	GameRegistry.registerBlock(reinforceddirtBrick, CalcBlockItem.class, "reinforceddirtBrick");
 	stablestoneBlock = new ConnectedBlock.Stable().setBlockName("stablestoneBlock").setCreativeTab(Calculator).setHardness(5.0F);
 	GameRegistry.registerBlock(stablestoneBlock, CalcBlockItem.class, "stablestoneBlock");
-	stablePort = new StablePort().setBlockName("stablePort").setHardness(5.0F).setBlockTextureName(modid + ":" + "stable_port");
-	GameRegistry.registerBlock(stablePort, "stablePort");
-	GameRegistry.registerTileEntity(TileEntityStablePort.class, "stablePort");
 	purifiedobsidianBlock = new ConnectedBlock(Material.rock, "purifiedobsidian",2).setBlockName("purifiedobsidianBlock").setCreativeTab(Calculator);
 	GameRegistry.registerBlock(purifiedobsidianBlock, CalcBlockItem.class, "purifiedobsidianBlock");
 	flawlessGlass = new ConnectedBlock(Material.glass,"flawlessglass",1).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(5.0F);;
@@ -178,6 +176,14 @@ public class CalculatorBlocks extends Calculator {
 	carbondioxideGenerator= new CO2Generator().setBlockName("CO2Generator").setCreativeTab(Calculator).setHardness(1.5F).setResistance(5.0F);;
 	GameRegistry.registerBlock(carbondioxideGenerator,CalcBlockItem.class, "CO2Generator");
 	GameRegistry.registerTileEntity(TileEntityCO2Generator.class, "CO2Generator");
+	
+	fluxPlug= new FluxPlug().setBlockName("FluxPlug").setCreativeTab(Calculator).setHardness(1.5F).setResistance(5.0F).setBlockTextureName(modid + ":" + "stablestone");
+	GameRegistry.registerBlock(fluxPlug,CalcBlockItem.class, "FluxPlug");
+	GameRegistry.registerTileEntity(TileEntityFluxPlug.class, "FluxPlug");
+	fluxPoint= new FluxPoint().setBlockName("FluxPoint").setCreativeTab(Calculator).setHardness(1.5F).setResistance(5.0F).setBlockTextureName(modid + ":" + "stablestone");
+	GameRegistry.registerBlock(fluxPoint,CalcBlockItem.class, "FluxPoint");
+	GameRegistry.registerTileEntity(TileEntityFluxPoint.class, "FluxPoint");
+	
 	atomicMultiplier = new AtomicMultiplier().setBlockName("AtomicMultiplier").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(6.5F).setBlockTextureName(modid + ":" + "stablestone").setResistance(5.0F);;
 	GameRegistry.registerBlock(atomicMultiplier,CalcBlockItem.class, "AtomicMultiplier");
 	GameRegistry.registerTileEntity(TileEntityAtomicMultiplier.class, "AtomicMultiplier");

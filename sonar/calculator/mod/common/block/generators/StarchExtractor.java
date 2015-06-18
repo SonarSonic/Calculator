@@ -31,6 +31,7 @@ public class StarchExtractor extends SonarMachineBlock implements IWrench {
 
 	public StarchExtractor() {
 		super(SonarMaterials.machine);
+		this.setBlockBounds(0.0625F, 0.0625F, 0.0625F, 1 - 0.0625F, 1 - 0.0625F, 1 - 0.0625F);
 	}
 
 	@Override
@@ -105,11 +106,7 @@ public class StarchExtractor extends SonarMachineBlock implements IWrench {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		if (CalculatorConfig.energyStorageType == 2) {
-			list.add(StatCollector.translateToLocal("energy.generate") + ": " + CalculatorConfig.starchRF / 4 + " EU/t");
+		list.add(StatCollector.translateToLocal("energy.generate") + ": " + CalculatorConfig.starchRF + " RF/t");
 
-		} else {
-			list.add(StatCollector.translateToLocal("energy.generate") + ": " + CalculatorConfig.starchRF + " RF/t");
-		}
 	}
 }

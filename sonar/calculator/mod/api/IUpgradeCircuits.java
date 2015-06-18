@@ -21,7 +21,6 @@ public interface IUpgradeCircuits {
 	public abstract int getMaxUpgrades(int type);
 	
 	/**@param type circuit type to increment*/
-	public abstract void incrementUpgrades(int type, int increment);
-	
-	
+	public abstract void incrementUpgrades(int type, int increment);	
+
 }

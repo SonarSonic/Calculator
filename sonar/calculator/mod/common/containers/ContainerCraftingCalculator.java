@@ -8,7 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.core.client.gui.ContainerCraftInventory;
 import sonar.core.client.gui.InventoryStoredCrafting;

@@ -2,17 +2,11 @@ package sonar.calculator.mod.common.containers;
 
 import ic2.api.item.IElectricItem;
 import ic2.api.item.ISpecialElectricItem;
-import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntityFurnace;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.modules.WIPSmeltingModule;
 import sonar.core.client.gui.ContainerCraftInventory;
@@ -21,6 +15,9 @@ import sonar.core.utils.DischargeValues;
 import sonar.core.utils.SlotBlockedInventory;
 import sonar.core.utils.SlotLimiter;
 import sonar.core.utils.SonarAPI;
+import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerSmeltingModule extends ContainerCraftInventory {
     private WIPSmeltingModule module;

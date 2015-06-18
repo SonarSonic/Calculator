@@ -27,8 +27,7 @@ import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender
-		implements ISidedInventory, ISonarSides, IUpgradeCircuits {
+public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender implements ISidedInventory, ISonarSides, IUpgradeCircuits {
 
 	public int stable, vUpgrade, analysed;
 	public int maxTransfer = 2000;
@@ -66,12 +65,9 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender
 
 	private void addEnergy() {
 
-		TileEntity entity = this.worldObj.getTileEntity(xCoord, yCoord - 1,	zCoord);
+		TileEntity entity = this.worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
 		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN)) {
-			this.storage.modifyEnergyStored(-((IEnergyHandler) entity)
-					.receiveEnergy(ForgeDirection.UP,
-							this.storage.extractEnergy(maxTransfer, true),
-							false));
+			this.storage.modifyEnergyStored(-((IEnergyHandler) entity).receiveEnergy(ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false));
 		}
 	}
 
@@ -81,10 +77,8 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender
 			this.storage.receiveEnergy(storedEnergy, false);
 
 			if (vUpgrade == 0) {
-				ItemStack item1 = AnalysingChamberRecipes.instance().getResult(
-						1, slots[slot].stackTagCompound.getInteger("Item1"));
-				ItemStack item2 = AnalysingChamberRecipes.instance().getResult(
-						1, slots[slot].stackTagCompound.getInteger("Item2"));
+				ItemStack item1 = AnalysingChamberRecipes.instance().getResult(1, slots[slot].stackTagCompound.getInteger("Item1"));
+				ItemStack item2 = AnalysingChamberRecipes.instance().getResult(1, slots[slot].stackTagCompound.getInteger("Item2"));
 				if (!(item1 == null)) {
 					add(item1, 2);
 				}
@@ -92,14 +86,10 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender
 					add(item2, 3);
 				}
 			}
-			ItemStack item3 = AnalysingChamberRecipes.instance().getResult(2,
-					slots[slot].stackTagCompound.getInteger("Item3"));
-			ItemStack item4 = AnalysingChamberRecipes.instance().getResult(3,
-					slots[slot].stackTagCompound.getInteger("Item4"));
-			ItemStack item5 = AnalysingChamberRecipes.instance().getResult(4,
-					slots[slot].stackTagCompound.getInteger("Item5"));
-			ItemStack item6 = AnalysingChamberRecipes.instance().getResult(5,
-					slots[slot].stackTagCompound.getInteger("Item6"));
+			ItemStack item3 = AnalysingChamberRecipes.instance().getResult(2, slots[slot].stackTagCompound.getInteger("Item3"));
+			ItemStack item4 = AnalysingChamberRecipes.instance().getResult(3, slots[slot].stackTagCompound.getInteger("Item4"));
+			ItemStack item5 = AnalysingChamberRecipes.instance().getResult(4, slots[slot].stackTagCompound.getInteger("Item5"));
+			ItemStack item6 = AnalysingChamberRecipes.instance().getResult(5, slots[slot].stackTagCompound.getInteger("Item6"));
 
 			if (!(item3 == null)) {
 				add(item3, 4);
@@ -141,9 +131,7 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender
 	private boolean canAnalyse() {
 		if (slots[0] != null) {
 			if (slots[0].getItem() == Calculator.circuitBoard) {
-				if (this.slots[2] == null && this.slots[3] == null
-						&& this.slots[4] == null && this.slots[5] == null
-						&& this.slots[6] == null && this.slots[7] == null) {
+				if (this.slots[2] == null && this.slots[3] == null && this.slots[4] == null && this.slots[5] == null && this.slots[6] == null && this.slots[7] == null) {
 					return true;
 				}
 			}
@@ -206,8 +194,7 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender
 
 	private int stable(int par) {
 		if (slots[par] != null) {
-			if (slots[par].hasTagCompound()
-					&& slots[par].getItem() instanceof IStability) {
+			if (slots[par].hasTagCompound() && slots[par].getItem() instanceof IStability) {
 				IStability item = (IStability) slots[par].getItem();
 				boolean stable = item.getStability(slots[par]);
 				if (!stable) {
@@ -254,7 +241,7 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
-		return slot!=1;
+		return slot != 1;
 	}
 
 	@Override
@@ -295,6 +282,7 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender
 		}
 	}
 
+
 	@Override
 	public void onSync(int data, int id) {
 		super.onSync(data, id);
@@ -317,9 +305,7 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender
 
 	@Override
 	public void sendPacket(int dimension, int side, int value) {
-		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord,
-				zCoord, side, value), new TargetPoint(dimension, xCoord,
-				yCoord, zCoord, 32));
+		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
 
 	}
 

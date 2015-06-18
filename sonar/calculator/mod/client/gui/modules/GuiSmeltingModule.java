@@ -32,13 +32,8 @@ public class GuiSmeltingModule extends GuiContainer{
     protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
     {
         FontHelper.textCentre(StatCollector.translateToLocal("item.SmeltingModule.name"), this.xSize, 6, 0);
-    	String power= null;
-	    switch(CalculatorConfig.energyStorageType){
-		case 1: power = this.module.syncEnergy + " RF";	break;
-		case 2: power = (this.module.syncEnergy/4) + " EU";	break;
-		}
-	    FontHelper.textCentre(power, xSize, 64, 2);
 
+		FontHelper.textCentre(FontHelper.formatStorage(this.module.syncEnergy), this.xSize, 64, 2);
     }
 
     @Override

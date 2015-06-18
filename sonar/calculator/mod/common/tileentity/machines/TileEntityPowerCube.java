@@ -22,8 +22,10 @@ public class TileEntityPowerCube extends TileEntityInventoryReceiver {
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
+		if(!this.worldObj.isRemote){
 		charge(0);
 		discharge(1);
+		}
 		this.markDirty();
 	}
 

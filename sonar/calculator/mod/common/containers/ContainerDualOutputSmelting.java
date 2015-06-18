@@ -3,23 +3,14 @@ package sonar.calculator.mod.common.containers;
 import ic2.api.item.IElectricItem;
 import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.ISyncTile;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
-import sonar.calculator.mod.network.packets.PacketTileSync;
 import sonar.core.utils.DischargeValues;
 import sonar.core.utils.SlotBlockedInventory;
 import sonar.core.utils.SonarAPI;
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerDualOutputSmelting extends ContainerSync {
 	

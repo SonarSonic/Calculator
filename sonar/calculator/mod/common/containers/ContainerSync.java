@@ -33,13 +33,13 @@ public abstract class ContainerSync extends Container {
 		if (sync != null) {
 			for (int i = 0; i < syncData.length; i++) {
 				if (sync.getSyncData(i).used) {
-					if (syncData[i] != sync.getSyncData(i).data && crafters != null) {
+					if (crafters != null) {						
 						for (Object o : crafters){
 							if (o != null && o instanceof EntityPlayerMP){
 								Calculator.network.sendTo(new PacketTileSync(tile.xCoord, tile.yCoord, tile.zCoord,i, sync.getSyncData(i).data), (EntityPlayerMP) o);
 							}
 						}
-						//syncData[i] = sync.getSyncData(i).data;
+						syncData[i] = sync.getSyncData(i).data;
 
 					}
 				}

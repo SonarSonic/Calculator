@@ -14,7 +14,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CalculatorConfig extends Calculator {
 
-	public static int energyStorageType;
 	public static int calculatorEnergy;
 	public static int craftingEnergy;
 	public static int scientificEnergy;
@@ -51,7 +50,6 @@ public class CalculatorConfig extends Calculator {
 		Configuration config = new Configuration(new File("config/CalculatorMod/CalculatorMod.cfg"));
 		config.load();
 
-		energyStorageType = config.getInt("Energy Storage Type RF=1, EU=2", "api", 1, 1, 2, "Calculator");
 		calculatorEnergy = config.getInt("(Default: 1000)", "energy storage", 1000, 10, 50000, "Calculator");
 		craftingEnergy = config.getInt("(Default: 5000)", "energy storage", 5000, 10, 500000, "Crafting Calculator");
 		scientificEnergy = config.getInt("(Default: 2000)", "energy storage", 2000, 10, 50000, "Scientific Calculator");
@@ -154,14 +152,13 @@ public class CalculatorConfig extends Calculator {
 		}
 		Block block = Block.getBlockFromItem(stack.getItem());
 		Item item = stack.getItem();
-		if (block != null && item instanceof ItemBlock) {
+		if (block != null && item instanceof ItemBlock && GameRegistry.findUniqueIdentifierFor(block)!=null) {
 			if (CalculatorConfig.isBlockEnabled(GameRegistry.findUniqueIdentifierFor(block).name)) {
 				return true;
-
 			} else {
 				return false;
 			}
-		} else if (item != null) {
+		} else if (item != null && GameRegistry.findUniqueIdentifierFor(item)!=null) {
 			if (CalculatorConfig.isItemEnabled(GameRegistry.findUniqueIdentifierFor(item).name)) {
 				return true;
 

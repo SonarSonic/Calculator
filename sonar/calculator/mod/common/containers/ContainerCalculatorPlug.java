@@ -2,15 +2,10 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerCalculatorPlug extends ContainerSync {
 	private TileEntityCalculatorPlug entity;

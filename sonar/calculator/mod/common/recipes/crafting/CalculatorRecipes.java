@@ -599,10 +599,15 @@ public class CalculatorRecipes {
 
 	public int getID(ItemStack stack) {
 		if (stack != null) {
+			if(GameRegistry.findUniqueIdentifierFor(stack.getItem())==null){
+				return 0;
+			}
 			return getID(GameRegistry.findUniqueIdentifierFor(stack.getItem()).toString() + ":" + String.valueOf(stack.getItemDamage()));
-		} else {
+						
+		}else{			
 			return 0;
 		}
+		
 	}
 
 	public int getID(String stack) {

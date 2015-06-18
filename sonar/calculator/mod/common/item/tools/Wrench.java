@@ -24,7 +24,7 @@ public class Wrench extends CalcItem {
 		Block block = world.getBlock(x, y, z);
 		if (!player.isSneaking()) {
 			if (block instanceof IWrenchable) {
-				((IWrenchable) block).onWrench(world, x, y, z);			
+				((IWrenchable) block).onWrench(world, x, y, z, side);			
 			} else if (te != null && te instanceof ISonarSides)
 				if (((ISonarSides) te).canBeConfigured()) {
 					((ISonarSides) te).increaseSide(side, player.dimension);

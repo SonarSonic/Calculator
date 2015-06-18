@@ -26,10 +26,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Optional.InterfaceList(value={
-@Optional.Interface(iface="ic2.api.item.ISpecialElectricItem", modid="IC2", striprefs=true),
-@Optional.Interface(iface="ic2.api.item.IElectricItem", modid="IC2", striprefs=true)
-})
+@Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "IC2", striprefs = true),
+		@Optional.Interface(iface = "ic2.api.item.IElectricItem", modid = "IC2", striprefs = true) })
 public class SonarCalculator extends InventoryContainerItem implements IEnergyContainerItem, ISpecialElectricItem {
 
 	protected int capacity = CalculatorConfig.calculatorEnergy;
@@ -41,49 +39,38 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 		super();
 		setCreativeTab(Calculator.Calculator);
 		setMaxStackSize(1);
-	}	
+	}
 
-	public ItemStack onCalculatorRightClick(ItemStack itemstack, World world,			
-			EntityPlayer player, int ID) {
+	public ItemStack onCalculatorRightClick(ItemStack itemstack, World world, EntityPlayer player, int ID) {
 		if (player.capabilities.isCreativeMode) {
-			player.openGui(Calculator.instance, ID, world, (int) player.posX,
-					(int) player.posY, (int) player.posZ);
+			player.openGui(Calculator.instance, ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 		} else if (getEnergyStored(itemstack) > 1) {
-			player.openGui(Calculator.instance, ID, world, (int) player.posX,
-					(int) player.posY, (int) player.posZ);
+			player.openGui(Calculator.instance, ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 
 		} else if ((getEnergyStored(itemstack) < 1)) {
 			FontHelper.sendMessage(StatCollector.translateToLocal("energy.notEnough"), world, player);
 		}
 		return itemstack;
 	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list,	boolean par4) {
-		if(!CalculatorConfig.isEnabled(stack)){
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+		if (!CalculatorConfig.isEnabled(stack)) {
 			list.add(StatCollector.translateToLocal("calc.ban"));
 		}
 		super.addInformation(stack, player, list, par4);
+		list.add(StatCollector.translateToLocal("energy.stored") + ": " + getEnergyStored(stack) + " RF");
 
-		if(CalculatorConfig.energyStorageType==1){
-		list.add(StatCollector.translateToLocal("energy.stored") + ": "
-				+ getEnergyStored(stack) + " RF");
-		}
-		else if(CalculatorConfig.energyStorageType==2){
-			list.add(StatCollector.translateToLocal("energy.stored") + ": "
-					+ (getEnergyStored(stack)/4) + " EU");
-			}
 	}
 
 	@Override
-	public int receiveEnergy(ItemStack container, int maxReceive,
-			boolean simulate) {
+	public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
 		if (container.stackTagCompound == null) {
 			container.stackTagCompound = new NBTTagCompound();
 		}
 		int energy = container.stackTagCompound.getInteger("Energy");
-		int energyReceived = Math.min(this.capacity - energy,
-				Math.min(this.maxReceive, maxReceive));
+		int energyReceived = Math.min(this.capacity - energy, Math.min(this.maxReceive, maxReceive));
 
 		if (!simulate) {
 			energy += energyReceived;
@@ -93,15 +80,12 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 	}
 
 	@Override
-	public int extractEnergy(ItemStack container, int maxExtract,
-			boolean simulate) {
-		if ((container.stackTagCompound == null)
-				|| (!container.stackTagCompound.hasKey("Energy"))) {
+	public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
+		if ((container.stackTagCompound == null) || (!container.stackTagCompound.hasKey("Energy"))) {
 			return 0;
 		}
 		int energy = container.stackTagCompound.getInteger("Energy");
-		int energyExtracted = Math.min(energy,
-				Math.min(this.maxExtract, maxExtract));
+		int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
 
 		if (!simulate) {
 			energy -= energyExtracted;
@@ -123,48 +107,49 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 		return capacity;
 	}
 
-	@Method(modid="IC2")
+	@Method(modid = "IC2")
 	@Override
 	public boolean canProvideEnergy(ItemStack itemStack) {
 		return true;
 	}
 
-	@Method(modid="IC2")
+	@Method(modid = "IC2")
 	@Override
 	public Item getChargedItem(ItemStack itemStack) {
 		return this;
 	}
 
-	@Method(modid="IC2")
+	@Method(modid = "IC2")
 	@Override
 	public Item getEmptyItem(ItemStack itemStack) {
 		return null;
 	}
 
-	@Method(modid="IC2")
+	@Method(modid = "IC2")
 	@Override
 	public double getMaxCharge(ItemStack itemStack) {
-		return this.capacity/4;
+		return this.capacity / 4;
 	}
 
-	@Method(modid="IC2")
+	@Method(modid = "IC2")
 	@Override
 	public int getTier(ItemStack itemStack) {
 		return 4;
 	}
 
-	@Method(modid="IC2")
+	@Method(modid = "IC2")
 	@Override
 	public double getTransferLimit(ItemStack itemStack) {
-		return this.maxTransfer/4;
+		return this.maxTransfer / 4;
 	}
-	@Method(modid="IC2")
+
+	@Method(modid = "IC2")
 	@Override
 	public IElectricItemManager getManager(ItemStack itemStack) {
-		if(SonarAPI.ic2Loaded()){
-		return new SonarElectricManager();
-		}
-		else return null;
+		if (SonarAPI.ic2Loaded()) {
+			return new SonarElectricManager();
+		} else
+			return null;
 	}
 
 }

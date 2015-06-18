@@ -58,7 +58,6 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 						if (canProcess()) {
 							cookTime++;
 							int energy = currentEnergy / currentSpeed;
-							this.storage.modifyEnergyStored(-energy);
 						} else {
 							flag = 2;
 						}
@@ -254,7 +253,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		}
 		return 1;
 	}
-
+	
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
 		return true;

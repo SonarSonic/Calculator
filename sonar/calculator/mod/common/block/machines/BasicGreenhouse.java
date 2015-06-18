@@ -35,7 +35,7 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BasicGreenhouse extends SonarMachineBlock implements IWrench {
+public class BasicGreenhouse extends SonarMachineBlock {
 	private static boolean keepInventory;
 
 	private Random rand = new Random();

@@ -24,6 +24,8 @@ import sonar.calculator.mod.client.renderers.RenderCalculatorLocator;
 import sonar.calculator.mod.client.renderers.RenderCalculatorPlug;
 import sonar.calculator.mod.client.renderers.RenderCrank;
 import sonar.calculator.mod.client.renderers.RenderFlawlessCapacitor;
+import sonar.calculator.mod.client.renderers.RenderFluxPlug;
+import sonar.calculator.mod.client.renderers.RenderFluxPoint;
 import sonar.calculator.mod.client.renderers.RenderHandlers;
 import sonar.calculator.mod.client.renderers.RenderLantern;
 import sonar.calculator.mod.client.renderers.RenderResearchChamber;
@@ -44,6 +46,8 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityBasicLantern;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import sonar.core.utils.ItemModelRender;
@@ -172,6 +176,14 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer capacitor = new RenderFlawlessCapacitor();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFlawlessCapacitor.class, capacitor);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.flawlessCapacitor), new ItemModelRender(capacitor, new TileEntityFlawlessCapacitor()));
+
+		TileEntitySpecialRenderer fluxPlug = new RenderFluxPlug();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluxPlug.class, fluxPlug);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.fluxPlug), new ItemModelRender(fluxPlug, new TileEntityFluxPlug()));
+		
+		TileEntitySpecialRenderer fluxPoint = new RenderFluxPoint();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluxPoint.class, fluxPoint);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.fluxPoint), new ItemModelRender(fluxPoint, new TileEntityFluxPoint()));
 
 	}
 }

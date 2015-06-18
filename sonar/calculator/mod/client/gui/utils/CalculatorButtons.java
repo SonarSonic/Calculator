@@ -24,7 +24,7 @@ public class CalculatorButtons {
 	}
 
 	@SideOnly(Side.CLIENT)
-	static abstract class ImageButton extends SonarButton {
+	public static abstract class ImageButton extends SonarButton {
 		private final ResourceLocation texture;
 		private final int textureX;
 		private final int textureY;

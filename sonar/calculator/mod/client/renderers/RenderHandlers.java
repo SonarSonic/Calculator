@@ -1,35 +1,10 @@
 package sonar.calculator.mod.client.renderers;
 
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.MinecraftForgeClient;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.models.ModelAtomicMultiplier;
 import sonar.calculator.mod.client.models.ModelConductorMast;
-import sonar.calculator.mod.client.models.ModelFlawlessCapacitor;
 import sonar.calculator.mod.client.models.ModelGenerator;
 import sonar.calculator.mod.client.models.ModelScarecrow;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.core.client.renderers.SonarTERender;
-import sonar.core.utils.helpers.RenderHelper;
 
 public class RenderHandlers {
 
@@ -67,4 +42,5 @@ public class RenderHandlers {
 			super(new ModelGenerator(),"Calculator:textures/model/glowstoneextractor.png");
 		}			
 	}
+	
 }

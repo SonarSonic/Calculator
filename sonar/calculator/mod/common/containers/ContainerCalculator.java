@@ -2,22 +2,18 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
-import sonar.calculator.mod.integration.nei.FlawlessCalcNEIRecipes;
 import sonar.core.client.gui.ContainerCraftInventory;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
-import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.SlotLimiter;
 
 public class ContainerCalculator extends ContainerCraftInventory {

@@ -24,6 +24,7 @@ import sonar.calculator.mod.network.packets.PacketMachineButton;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
 import sonar.calculator.mod.network.packets.PacketTileSync;
+import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.core.utils.SonarAPI;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -33,6 +34,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -71,15 +73,6 @@ public class Calculator {
 	       
 		CalculatorConfig.initConfiguration(event);		
 		logger.info("Loaded Configuration");				
-		
-		if(CalculatorConfig.energyStorageType==1){
-			logger.info("Default energy type = RF from 'Thermal Expansion'");
-		
-		}else if (CalculatorConfig.energyStorageType==2){
-			logger.info("Default energy type = EU from 'IC2'");
-		
-		}else{
-			logger.warn("Default energy type = RF by default (see Config)");}
 		
 		if(SonarAPI.ic2Loaded()){
 			logger.info("Integrated with 'IC2'");
@@ -139,7 +132,11 @@ public class Calculator {
         BlockDispenser.dispenseBehaviorRegistry.putObject(small_stone, new CalculatorThrow(2));
         BlockDispenser.dispenseBehaviorRegistry.putObject(soil, new CalculatorThrow(3));
 	}
-	
+
+	@EventHandler
+	public void loadFluxNetwork(FMLServerStoppingEvent event) {
+		FluxRegistry.removeAll();		
+	}
 	// calculators
 		public static Item itemCalculator;
 		public static Item itemInfoCalculator;
@@ -180,6 +177,7 @@ public class Calculator {
 		public static Block advancedGreenhouse;
 		public static Block flawlessGreenhouse;
 		public static Block carbondioxideGenerator;
+		public static Block fluxPlug, fluxPoint;
 		public static Block scarecrow;
 		public static Block scarecrowBlock;
 		public static Block gas_lantern_on;
@@ -301,7 +299,7 @@ public class Calculator {
 		public static Item soil, small_stone;
 
 		// common blocks
-		public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock,reinforceddirtBrick,purifiedobsidianBlock, stablestoneBlock, stablePort, flawlessGlass;
+		public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock,reinforceddirtBrick,purifiedobsidianBlock, stablestoneBlock, flawlessGlass;
 
 		// trees
 		public static Block leaves, amethystLeaf, tanzaniteLeaf, pearLeaf,diamondLeaf, diamondleaves;

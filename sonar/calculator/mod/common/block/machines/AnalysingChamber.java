@@ -29,7 +29,7 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AnalysingChamber extends SonarMachineBlock implements IWrench {
+public class AnalysingChamber extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
 	private IIcon front;
 	@SideOnly(Side.CLIENT)

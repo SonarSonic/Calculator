@@ -28,6 +28,7 @@ import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.core.common.tileentity.TileEntityInventorySender;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -61,20 +62,21 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 				this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 		}
+
 		this.charge(0);
 		this.addEnergy();
 		this.markDirty();
 	}
 
-	public int currentGenerated(){
-		if(size!=0 && (((int)(2*size+1)*(2*size+1))-1)!=0){
-		int stable = (int)(stability *100) / ((int)(2*size+1)*(2*size+1));
-		return  ((int)(1000*(Math.sqrt(size*1.8)) - 100*(Math.sqrt(100-stable))) / (int)(11-Math.sqrt(stable))) * size;
-		
+	public int currentGenerated() {
+		if (size != 0 && (((int) (2 * size + 1) * (2 * size + 1)) - 1) != 0) {
+			int stable = (int) (stability * 100) / ((int) (2 * size + 1) * (2 * size + 1));
+			return 5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size;
+
 		}
 		return 0;
 	}
-	
+
 	public void getStability() {
 		int currentStable = 0;
 		for (int Z = -(size); Z <= (size); Z++) {
@@ -90,10 +92,10 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	}
 
 	public boolean canStart() {
-		if (multiblock(this.worldObj, xCoord, yCoord, this.zCoord)!=-1) {
-			getStability();
-			if (isLocated()) {
-				if (this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) {
+		if (this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) {
+			if (multiblock(this.worldObj, xCoord, yCoord, this.zCoord) != 0) {
+				getStability();
+				if (isLocated()) {
 					if (this.stability >= 7) {
 						this.active = 1;
 						return true;
@@ -110,11 +112,12 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 				}
 			}
 		}
+
 		return false;
 	}
 
 	public void start() {
-		storage.receiveEnergy(currentGenerated(), false);
+		storage.modifyEnergyStored(currentGenerated());
 		if (!this.worldObj.isRemote) {
 			if (this.luckTicks >= 0 && this.luckTicks != 50) {
 				this.luckTicks++;
@@ -138,8 +141,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	private void addEnergy() {
 		TileEntity entity = this.worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
 		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN)) {
-			this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(entity, ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false));
-
+			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, ForgeDirection.UP, maxTransfer, false), false);
 		}
 	}
 
@@ -278,16 +280,16 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	}
 
 	public int multiblock(World world, int x, int y, int z) {
-			int size = CalculatorLocator.multiBlockStructure(getWorldObj(), xCoord, yCoord, zCoord);
-			if(size-1!=this.size){
-				this.size=size-1;
-				this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			}
+		int size = CalculatorLocator.multiBlockStructure(getWorldObj(), xCoord, yCoord, zCoord);
+		if (size != this.size) {
+			this.size = size;
+			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
 		return this.size;
 	}
 
 	public boolean multiblockstring() {
-		if (size!=-1) {
+		if (size != 0) {
 			return true;
 		}
 		return false;

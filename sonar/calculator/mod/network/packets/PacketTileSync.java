@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.api.ISyncTile;
+import sonar.calculator.mod.api.SyncType;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -31,13 +32,13 @@ public class PacketTileSync implements IMessage {
 		this.zCoord = buf.readInt();
 		this.id =buf.readInt();
 		this.sync = buf.readInt();
-		
 		if (Minecraft.getMinecraft().thePlayer.worldObj != null) {
 			TileEntity tile = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(xCoord, yCoord, zCoord);
 			if(tile !=null && tile instanceof ISyncTile){
+				
 				ISyncTile sync = (ISyncTile) tile;
 				sync.onSync(this.sync, id);
-			}			
+			}
 		}
 	}
 

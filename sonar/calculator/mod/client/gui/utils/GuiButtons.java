@@ -20,51 +20,50 @@ import net.minecraft.util.StatCollector;
 
 public abstract class GuiButtons extends GuiContainer {
 
-	public static int circuit=0,pause =2;	
-	public int x,y,z;
-	
+	public static int circuit = 0, confirm = 1, pause = 2;
+	public int x, y, z;
+
 	public GuiButtons(Container container, int x, int y, int z) {
 		super(container);
-		this.x=x;
-		this.y=y;
-		this.z=z;
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 
 	public abstract void initGui(boolean pause);
-	
+
 	@SideOnly(Side.CLIENT)
 	public class PauseButton extends CalculatorButtons.ImageButton {
-		
+
 		boolean paused;
-		
+
 		public PauseButton(int x, int y, boolean paused) {
-			super(pause, x, y, new ResourceLocation("Calculator:textures/gui/buttons/buttons.png"), paused ? 51 : 34, 0, 16 ,16);
-			this.paused=paused;
+			super(pause, x, y, new ResourceLocation("Calculator:textures/gui/buttons/buttons.png"), paused ? 51 : 34, 0, 16, 16);
+			this.paused = paused;
 		}
 
 		public void func_146111_b(int x, int y) {
-			if(paused){
-			drawCreativeTabHoveringText(StatCollector.translateToLocal("buttons.resume"), x, y);
-			}else{
+			if (paused) {
+				drawCreativeTabHoveringText(StatCollector.translateToLocal("buttons.resume"), x, y);
+			} else {
 				drawCreativeTabHoveringText(StatCollector.translateToLocal("buttons.pause"), x, y);
 			}
 		}
 
 		@Override
 		public void onClicked() {
-  			Calculator.network.sendToServer(new PacketMachineButton(pause,x,y,z));
-            buttonList.clear();
-            initGui(!paused);
-            updateScreen();
+			Calculator.network.sendToServer(new PacketMachineButton(pause, x, y, z));
+			buttonList.clear();
+			initGui(!paused);
+			updateScreen();
 		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public class CircuitButton extends CalculatorButtons.ImageButton {
 
 		public CircuitButton(int x, int y) {
-			super(circuit, x, y, new ResourceLocation(
-					"Calculator:textures/gui/buttons/buttons.png"), 0, 0, 16,16);
+			super(circuit, x, y, new ResourceLocation("Calculator:textures/gui/buttons/buttons.png"), 0, 0, 16, 16);
 		}
 
 		public void func_146111_b(int x, int y) {
@@ -73,13 +72,14 @@ public abstract class GuiButtons extends GuiContainer {
 
 		@Override
 		public void onClicked() {
-  			Calculator.network.sendToServer(new PacketMachineButton(circuit,x,y,z));
+			Calculator.network.sendToServer(new PacketMachineButton(circuit, x, y, z));
 		}
 	}
+	
 
 	protected void drawGuiContainerForegroundLayer(int x, int y) {
 
-        RenderHelper.disableStandardItemLighting();
+		RenderHelper.disableStandardItemLighting();
 		Iterator iterator = this.buttonList.iterator();
 
 		while (iterator.hasNext()) {
@@ -90,6 +90,6 @@ public abstract class GuiButtons extends GuiContainer {
 				break;
 			}
 		}
-        RenderHelper.enableGUIStandardItemLighting();
+		RenderHelper.enableGUIStandardItemLighting();
 	}
 }

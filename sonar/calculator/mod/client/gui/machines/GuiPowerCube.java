@@ -14,51 +14,36 @@ import sonar.calculator.mod.common.containers.ContainerPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.core.utils.helpers.FontHelper;
 
-public class GuiPowerCube extends GuiContainer
-{
-  public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guipowercube.png");
-  
-  public TileEntityPowerCube entity;
-  
+public class GuiPowerCube extends GuiContainer {
+	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guipowercube.png");
 
-  public GuiPowerCube(InventoryPlayer inventoryPlayer, TileEntityPowerCube entity)
-  {
-    super(new ContainerPowerCube(inventoryPlayer, entity));
-    
+	public TileEntityPowerCube entity;
 
-    this.entity = entity;
-    
+	public GuiPowerCube(InventoryPlayer inventoryPlayer, TileEntityPowerCube entity) {
+		super(new ContainerPowerCube(inventoryPlayer, entity));
 
-    this.xSize = 176;
-    this.ySize = 166;
-  }
+		this.entity = entity;
 
-
-  @Override
-public void drawGuiContainerForegroundLayer(int par1, int par2)
-  {
-	  FontHelper.textCentre(StatCollector.translateToLocal(entity.getInventoryName()), xSize, 6, 0);
-	String power= null;
-    switch(CalculatorConfig.energyStorageType){
-	case 1: power = this.entity.storage.getEnergyStored() + " RF";	break;
-	case 2: power = (this.entity.storage.getEnergyStored()/4) + " EU";	break;
+		this.xSize = 176;
+		this.ySize = 166;
 	}
-    FontHelper.textCentre(power, xSize, 64, 2);
-    
-  }
-  
 
-  @Override
-protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3)
-  {
-    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-    
+	@Override
+	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+		FontHelper.textCentre(StatCollector.translateToLocal(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 
-    Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
-    drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-    
-    int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
-    int j = 78 - k;
-    drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
-  }
+	}
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
+		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+
+		int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
+		int j = 78 - k;
+		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
+	}
 }

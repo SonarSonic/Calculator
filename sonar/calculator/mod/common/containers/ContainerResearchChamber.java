@@ -1,24 +1,13 @@
 package sonar.calculator.mod.common.containers;
 
-import ic2.api.item.IElectricItem;
-import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.utils.SlotResearch;
 import sonar.calculator.mod.utils.SlotSync;
-import sonar.core.utils.DischargeValues;
-import sonar.core.utils.SonarAPI;
-import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerResearchChamber extends ContainerSync {
 	private TileEntityResearchChamber entity;

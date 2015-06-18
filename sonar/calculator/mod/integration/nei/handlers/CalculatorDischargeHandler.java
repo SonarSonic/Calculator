@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.core.utils.DischargeValues;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -98,14 +99,7 @@ public class CalculatorDischargeHandler extends TemplateRecipeHandler {
 		int info = DischargeValues.discharge().value(stack);
 		int take =  info * 78 / CalculatorConfig.cubeEnergy;
 	    drawProgressBar(49-5, 37-11, 176, 0, take, 10, 48, 0);
-	    String power = "";
-		if (CalculatorConfig.energyStorageType == 2) {
-			power = (info/4) + " EU";
-
-		} else {
-			power = info + " RF";
-		}
-	    CalculatorDischargeHandler.fontRenderer.drawString(power, 176 / 2 - CalculatorDischargeHandler.fontRenderer.getStringWidth(power) / 2-5, 38-11, -1);
+	    CalculatorDischargeHandler.fontRenderer.drawString(FontHelper.formatStorage(info), 176 / 2 - CalculatorDischargeHandler.fontRenderer.getStringWidth(" " + info) / 2-5, 38-11, -1);
 	    
 	    
 	}

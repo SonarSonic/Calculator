@@ -3,20 +3,16 @@ package sonar.calculator.mod.common.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.ILocatorBlock;
-import sonar.calculator.mod.api.IWrench;
-import sonar.calculator.mod.api.IWrenchable;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityStablePort;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ConnectedBlock extends Block implements IWrenchable {
+public class ConnectedBlock extends Block{
 
 	public String type;
 	public int target;
@@ -393,24 +389,6 @@ public class ConnectedBlock extends Block implements IWrenchable {
 
 	}
 
-	@Override
-	public boolean canWrench() {
-		return false;
-	}
-
-	@Override
-	public void onWrench(World world, int x, int y, int z) {
-		if (target == 0) {
-			world.setBlock(x, y, z, Calculator.stablePort);
-			if (!world.isRemote) {
-				TileEntity target = world.getTileEntity(x, y, z);
-				if (target != null && target instanceof TileEntityStablePort) {
-					TileEntityStablePort port = (TileEntityStablePort) target;
-					port.findLocator();
-				}
-			}
-		}
-	}
 	public static class Stable extends ConnectedBlock implements ILocatorBlock{
 
 		public Stable() {

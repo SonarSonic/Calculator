@@ -280,13 +280,7 @@ public class ConductorMast extends BlockContainer implements IWrench, ISpecialTo
 	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-		if (CalculatorConfig.energyStorageType == 2) {
-			list.add(StatCollector.translateToLocal("energy.generate") + ": " + CalculatorConfig.locatorRF / 4 + " EU/t");
 
-		} else {
-			list.add(StatCollector.translateToLocal("energy.generate") + ": " + CalculatorConfig.locatorRF + " RF/t");
-
-		}
 	}
 
 	@Override

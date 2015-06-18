@@ -34,7 +34,7 @@ public class GuiCalculatorLocator extends GuiContainer {
 	}
 
 	@Override
-	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+	public void drawGuiContainerForegroundLayer(int x, int y) {
 
 		if (this.entity.multiblockstring()) {
 			FontHelper.text(StatCollector.translateToLocal("locator.multiblock") + ": " + StatCollector.translateToLocal("locator.true"), 25, 21, 0);
@@ -50,7 +50,7 @@ public class GuiCalculatorLocator extends GuiContainer {
 
 		}
 		if (this.entity.active == 1) {
-			FontHelper.text(StatCollector.translateToLocal("locator.active")+": " + this.entity.currentGenerated() + " rf/t", 25, 10, 0);
+			FontHelper.text(StatCollector.translateToLocal("locator.active")+": " + FontHelper.formatOutput(this.entity.currentGenerated()), 25, 10, 0);
 		} else {
 			FontHelper.text(StatCollector.translateToLocal("locator.active")+": " + StatCollector.translateToLocal("locator.false"), 25, 10, 2);
 		}
@@ -60,18 +60,9 @@ public class GuiCalculatorLocator extends GuiContainer {
 		} else {
 			FontHelper.text(StatCollector.translateToLocal("locator.owner") + ": " + StatCollector.translateToLocal("locator.none"), 25, 32, 2);
 		}
-
-		String power = null;
-		switch (CalculatorConfig.energyStorageType) {
-		case 1:
-			power = this.entity.storage.getEnergyStored() + " RF";
-			break;
-		case 2:
-			power = (this.entity.storage.getEnergyStored() / 4) + " EU";
-			break;
-		}
-		FontHelper.textCentre(power, this.xSize, 64, 2);
-	    super.drawGuiContainerForegroundLayer(par1, par2);
+		
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
+	    super.drawGuiContainerForegroundLayer(x, y);
 	}
 
 	@Override

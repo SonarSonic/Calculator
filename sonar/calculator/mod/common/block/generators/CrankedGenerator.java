@@ -47,33 +47,24 @@ public class CrankedGenerator extends SonarMachineBlock implements IWrench {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.iconFront : side == 0 ? this.iconTop
-				: side == 1 ? this.iconTop
-						: (metadata == 0) && (side == 3) ? this.iconFront
-								: this.blockIcon;
+		return side == metadata ? this.iconFront : side == 0 ? this.iconTop : side == 1 ? this.iconTop : (metadata == 0) && (side == 3) ? this.iconFront : this.blockIcon;
 	}
 
 	@Override
-	public void onNeighborChange(IBlockAccess world, int x, int y, int z,
-			int tileX, int tileY, int tileZ) {
+	public void onNeighborChange(IBlockAccess world, int x, int y, int z, int tileX, int tileY, int tileZ) {
 		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if (tileentity != null
-				&& tileentity instanceof TileEntityCrankedGenerator) {
-			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world
-					.getTileEntity(x, y, z);
+		if (tileentity != null && tileentity instanceof TileEntityCrankedGenerator) {
+			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(x, y, z);
 			generator.updateHandlers();
 		}
 
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z,
-			Block block) {
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if (tileentity != null
-				&& tileentity instanceof TileEntityCrankedGenerator) {
-			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world
-					.getTileEntity(x, y, z);
+		if (tileentity != null && tileentity instanceof TileEntityCrankedGenerator) {
+			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(x, y, z);
 			generator.updateHandlers();
 		}
 	}
@@ -84,20 +75,17 @@ public class CrankedGenerator extends SonarMachineBlock implements IWrench {
 		setDefaultDirection(world, x, y, z);
 		TileEntity te = world.getTileEntity(x, y, z);
 		if (te != null && te instanceof TileEntityCrankedGenerator) {
-			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world
-					.getTileEntity(x, y, z);
+			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(x, y, z);
 			generator.updateHandlers();
 		}
 
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z,
-			EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (player != null) {
 			if (!world.isRemote) {
-				player.openGui(Calculator.instance,
-						CalculatorGui.CrankedGenerator, world, x, y, z);
+				player.openGui(Calculator.instance, CalculatorGui.CrankedGenerator, world, x, y, z);
 			}
 		}
 		return true;
@@ -114,21 +102,14 @@ public class CrankedGenerator extends SonarMachineBlock implements IWrench {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player,
-			List list) {
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-		
+
 	}
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		if (CalculatorConfig.energyStorageType == 2) {
-			list.add(StatCollector.translateToLocal("energy.generate")+": "
-					+ 4.5 + " EU/t");
+		list.add(StatCollector.translateToLocal("energy.generate") + ": " + 18 + " RF/t");
 
-		} else {
-			list.add(StatCollector.translateToLocal("energy.generate")+": "
-					+ 18 + " RF/t");
-		}
 	}
 }
