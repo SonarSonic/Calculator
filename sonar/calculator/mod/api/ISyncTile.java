@@ -8,7 +8,7 @@ public interface ISyncTile {
 	/**client only method for syncing data
 	 * @param data new data value from server
 	 * @param id SyncType number*/
-	public void onSync(int data, int id);
+	public void onSync(Object data, int id);
 
 	/** gets the SyncData for the given SyncType data values
 	 * @param id SyncType number*/

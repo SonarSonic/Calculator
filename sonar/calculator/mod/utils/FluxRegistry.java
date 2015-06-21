@@ -3,11 +3,9 @@ package sonar.calculator.mod.utils;
 import gnu.trove.map.hash.THashMap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import sonar.calculator.mod.api.IFlux;
 import sonar.calculator.mod.api.IFluxPlug;
 import sonar.calculator.mod.api.IFluxPoint;
@@ -17,11 +15,12 @@ public class FluxRegistry {
 	private static Map<Integer, List<IFlux>> points = new THashMap<Integer, List<IFlux>>();
 	private static Map<Integer, List<IFlux>> plugs = new THashMap<Integer, List<IFlux>>();
 	private static Map<Integer, IFlux> masters = new THashMap<Integer, IFlux>();
-
+	private static Map<Integer, Integer> dimensions = new THashMap<Integer, Integer>();
 	public static void removeAll() {
 		points.clear();
 		plugs.clear();
 		masters.clear();
+		dimensions.clear();
 	}
 
 	public static List<IFlux> getPoints(int freq) {
@@ -46,6 +45,15 @@ public class FluxRegistry {
 		return masters.get(freq);
 	}
 
+	public static int getDimension(int freq) {
+		if (freq <= 0) {
+			return 0;
+		}
+		if(dimensions.get(freq)==null){
+			return 0;
+		}
+		return dimensions.get(freq);
+	}
 	public static void addFlux(IFlux flux) {
 		if (flux != null) {
 			if (flux instanceof IFluxPlug) {
@@ -59,7 +67,6 @@ public class FluxRegistry {
 					plugs.get(flux.freq()).add(flux);
 				}
 			} else if (flux instanceof IFluxPoint) {
-				System.out.print("add");
 				if (points.get(flux.freq()) == null) {
 					points.put(flux.freq(), new ArrayList());
 				}
@@ -69,7 +76,7 @@ public class FluxRegistry {
 					points.get(flux.freq()).remove(flux);
 					points.get(flux.freq()).add(flux);
 				}
-			}
+			} 
 		}
 	}
 
@@ -79,7 +86,12 @@ public class FluxRegistry {
 		}
 		masters.put(plug.freq(), plug);
 	}
-
+	public static void addDimension(int freq, int dimension) {
+		if (freq <= 0) {
+			return ;
+		}
+		dimensions.put(freq, dimension);
+	}
 	public static void removeFlux(IFlux flux) {
 		if (flux != null) {
 			if (flux instanceof IFluxPlug) {
@@ -89,7 +101,6 @@ public class FluxRegistry {
 				plugs.get(flux.freq()).remove(flux);
 
 			} else if (flux instanceof IFluxPoint) {
-				System.out.print("remove");
 				if (points.get(flux.freq()) == null) {
 					return;
 				}
@@ -100,10 +111,12 @@ public class FluxRegistry {
 	}
 
 	public static void removeMaster(IFlux point) {
-		//masters.remove(point.freq(), point);
 		masters.remove(point.freq());
 	}
 
+	public static void removeDimension(int freq, int dimension) {
+		dimensions.remove(freq, dimension);
+	}
 	public static int plugCount(int freq) {
 		List<IFlux> plugs = getPlugs(freq);
 		if (plugs != null) {

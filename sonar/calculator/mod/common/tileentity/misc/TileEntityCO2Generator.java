@@ -176,14 +176,14 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 
 	}
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.BURN:
-			this.burnTime = data;
+			this.burnTime = (Integer)data;
 			break;
 		case SyncType.SPECIAL1:
-			this.maxBurnTime = data;
+			this.maxBurnTime = (Integer)data;
 			break;
 		}
 	}

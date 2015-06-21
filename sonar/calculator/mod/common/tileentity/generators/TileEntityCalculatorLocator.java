@@ -354,17 +354,17 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	}
 
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.ACTIVE:
-			this.active = (byte) data;
+			this.active = (Byte) data;
 			break;
 		case SyncType.SPECIAL1:
-			this.stability = data;
+			this.stability =(Integer) data;
 			break;
 		case SyncType.SPECIAL2:
-			this.size = data;
+			this.size =(Integer) data;
 			break;
 		}
 	}

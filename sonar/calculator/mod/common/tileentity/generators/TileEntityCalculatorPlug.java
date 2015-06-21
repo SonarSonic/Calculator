@@ -99,7 +99,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 	}
 
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		switch (id) {
 		case SyncType.SPECIAL1:
 			this.stable = (byte) data;

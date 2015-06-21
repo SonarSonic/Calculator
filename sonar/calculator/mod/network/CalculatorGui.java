@@ -57,6 +57,7 @@ public class CalculatorGui {
 	public static final int AtomicEnergyCube = 39;
 	public static final int FluxPoint = 40;
 	public static final int FluxPlug = 41;
+	public static final int FluxController = 42;
 
 	
 	

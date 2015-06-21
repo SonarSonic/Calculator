@@ -1,6 +1,6 @@
 package sonar.calculator.mod.api;
 
-/**sync IDs*/
+/** sync IDs */
 public class SyncType {
 
 	public static final int ENERGY = 0;
@@ -19,8 +19,11 @@ public class SyncType {
 	public static final int SPECIAL6 = 13;
 	public static final int SPECIAL7 = 14;
 	public static final int SPECIAL8 = 15;
-	public static final int SPECIAL9 = 16;
+	public static final int TRANSFER = 16;
+	public static final int PLAYER = 17;
+	public static final int STATE = 18;
+	public static final int PLAYERSTATE = 19;
 
-	public static final int MAX = 17;
+	public static final int MAX = 20;
 
 }

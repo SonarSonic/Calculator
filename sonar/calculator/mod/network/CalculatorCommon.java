@@ -40,6 +40,7 @@ import sonar.calculator.mod.client.gui.machines.GuiResearchChamber;
 import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.client.gui.machines.GuiStorageChamber;
 import sonar.calculator.mod.client.gui.misc.GuiCO2Generator;
+import sonar.calculator.mod.client.gui.misc.GuiFluxController;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPlug;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPoint;
 import sonar.calculator.mod.client.gui.misc.GuiGasLantern;
@@ -64,6 +65,7 @@ import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
 import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerFlux;
+import sonar.calculator.mod.common.containers.ContainerFluxController;
 import sonar.calculator.mod.common.containers.ContainerGlowstoneExtractor;
 import sonar.calculator.mod.common.containers.ContainerHealthProcessor;
 import sonar.calculator.mod.common.containers.ContainerHungerProcessor;
@@ -104,6 +106,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
@@ -272,6 +275,10 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.FluxPlug:
 				if ((entity instanceof TileEntityFluxPlug)) {
 					return new ContainerFlux(player.inventory, (TileEntityFluxPlug) entity);
+				}
+			case CalculatorGui.FluxController:
+				if ((entity instanceof TileEntityFluxController)) {
+					return new ContainerFluxController(player.inventory, (TileEntityFluxController) entity);
 				}
 				break;
 			}
@@ -479,6 +486,10 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.FluxPlug:
 				if ((entity instanceof TileEntityFluxPlug)) {
 					return new GuiFluxPlug(player.inventory, (TileEntityFluxPlug) entity);
+				}
+			case CalculatorGui.FluxController:
+				if ((entity instanceof TileEntityFluxController)) {
+					return new GuiFluxController(player.inventory, (TileEntityFluxController) entity);
 				}
 			}
 

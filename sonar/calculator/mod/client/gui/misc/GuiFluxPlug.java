@@ -1,5 +1,7 @@
 package sonar.calculator.mod.client.gui.misc;
 
+import java.awt.Color;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -40,15 +42,16 @@ public class GuiFluxPlug extends GuiContainer {
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		id.drawTextBox();
-		FontHelper.textCentre(StatCollector.translateToLocal(entity.blockType.getLocalizedName()), xSize, 6, 0);
-		FontHelper.text("ID:", 89, 22, 0);
+		FontHelper.text(StatCollector.translateToLocal(entity.blockType.getLocalizedName()), 20, 8, 0);
+		FontHelper.text("ID:", 89, 8, 0);
 		FontHelper.text("Sending", 10, 40, 0);
 		FontHelper.text("Recieving", xSize / 2 + 8, 40, 0);
 		FontHelper.text(FontHelper.formatOutput(entity.currentInput), 10, 50, 2);
 		FontHelper.text(FontHelper.formatOutput(entity.currentOutput), xSize / 2 + 8, 50, 2);
 		FontHelper.text("Plugs: " + entity.plugCount, 10, 60, 2);
 		FontHelper.text("Points: " + entity.pointCount, xSize / 2 + 8, 60, 2);
-		FontHelper.textCentre("Transfer: " + FontHelper.formatOutput(entity.transfer), xSize, 73, 0);
+		FontHelper.textCentre("Transfer: " + FontHelper.formatOutput(entity.transfer), xSize, 26, 0);
+		FontHelper.textCentre((this.entity.networkState==1?"Protected: " :"Open: ") + entity.masterName, xSize, 73, (entity.playerState==0 ||this.entity.networkState==0 ? 0 : Color.RED.getRGB()));
 
 	}
 
@@ -56,10 +59,10 @@ public class GuiFluxPlug extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		Keyboard.enableRepeatEvents(true);
-		id = new GuiTextField(this.fontRendererObj, 105, 20, 50, 12);
+		id = new GuiTextField(this.fontRendererObj, 105, 6, 50, 12);
 		id.setMaxStringLength(7);
 		id.setText(String.valueOf(entity.freq));
-		this.buttonList.add(new ConfirmButton(guiLeft + 157, guiTop + 20));
+		this.buttonList.add(new ConfirmButton(guiLeft + 157, guiTop + 6));
 
 	}
 

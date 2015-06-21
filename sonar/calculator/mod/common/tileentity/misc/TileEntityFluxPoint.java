@@ -11,8 +11,8 @@ import sonar.calculator.mod.utils.FluxRegistry;
 
 public class TileEntityFluxPoint extends TileEntityFlux implements IFluxPoint {
 
-	public int priority, maxTransfer=132000;
-	
+	public int priority, maxTransfer = 128000;
+
 	@Override
 	public int maxTransfer() {
 		return maxTransfer;
@@ -22,6 +22,7 @@ public class TileEntityFluxPoint extends TileEntityFlux implements IFluxPoint {
 	public int priority() {
 		return this.priority;
 	}
+
 	public void writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
 		tag.setInteger("priority", priority);
@@ -33,22 +34,23 @@ public class TileEntityFluxPoint extends TileEntityFlux implements IFluxPoint {
 		this.priority = tag.getInteger("priority");
 		this.maxTransfer = tag.getInteger("maxTransfer");
 	}
+
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
-		switch(id){
+		switch (id) {
 		case SyncType.SPECIAL6:
-			this.priority = data;
+			this.priority = (Integer) data;
 			break;
 		case SyncType.SPECIAL7:
-			this.maxTransfer = data;
+			this.maxTransfer = (Integer) data;
 			break;
 		}
 	}
 
 	@Override
 	public SyncData getSyncData(int id) {
-		switch(id){
+		switch (id) {
 		case SyncType.SPECIAL6:
 			return new SyncData(true, priority);
 		case SyncType.SPECIAL7:

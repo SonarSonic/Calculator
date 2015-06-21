@@ -12,7 +12,7 @@ public abstract class ContainerSync extends Container {
 
 	public ISyncTile sync;
 	public TileEntity tile;
-	public int[] syncData = new int[SyncType.MAX];
+	public Object[] syncData = new Object[SyncType.MAX];
 
 	public ContainerSync(ISyncTile sync, TileEntity tile) {
 		this.sync = sync;

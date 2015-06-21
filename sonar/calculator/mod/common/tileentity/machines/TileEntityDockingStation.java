@@ -76,11 +76,11 @@ public class TileEntityDockingStation extends TileEntityInventoryReceiver {
 
 	}
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.SPECIAL1:
-			this.type = data;
+			this.type = (Integer)data;
 			break;
 			
 		}

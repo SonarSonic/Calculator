@@ -469,14 +469,14 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
 	}
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.SPECIAL4:
-			this.plantsGrown = data;
+			this.plantsGrown = (Integer)data;
 			break;
 		case SyncType.SPECIAL5:
-			this.plantsHarvested = data;
+			this.plantsHarvested = (Integer)data;
 			break;
 		}
 	}

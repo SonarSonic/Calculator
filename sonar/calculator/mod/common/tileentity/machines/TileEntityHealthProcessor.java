@@ -151,10 +151,10 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory
 	}
 
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		switch (id) {
 		case SyncType.SPECIAL1:
-			this.storedpoints = data;
+			this.storedpoints = (Integer)data;
 			break;
 		}
 	}

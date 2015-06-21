@@ -105,7 +105,7 @@ public class FluxPlug extends SonarMachineBlock {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add("Short range wireless energy conduit");
+		list.add("Wireless energy system");
 
 	}
 }

@@ -158,11 +158,11 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 	}
 
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.ACTIVE:
-			this.cranked = data == 1 ? true : false;
+			this.cranked = (Boolean)data;
 			break;
 		}
 	}
@@ -171,7 +171,7 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 	public SyncData getSyncData(int id) {
 		switch (id) {
 		case SyncType.ACTIVE:
-			return new SyncData(true, cranked ? 1 : 0);
+			return new SyncData(true, cranked);
 		}
 		return super.getSyncData(id);
 	}

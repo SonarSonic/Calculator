@@ -284,11 +284,11 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 
 
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.SPECIAL1:
-			this.stable = data;
+			this.stable = (Integer)data;
 			break;
 
 		}

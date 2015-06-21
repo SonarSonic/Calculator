@@ -7,6 +7,7 @@ import sonar.calculator.mod.client.gui.utils.GuiButtons;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import net.minecraft.entity.item.EntityItem;
@@ -27,6 +28,7 @@ public class PacketFluxPoint implements IMessage {
 
 	public int xCoord, yCoord, zCoord;
 	public int string, id;
+
 	public PacketFluxPoint() {
 	}
 
@@ -62,18 +64,25 @@ public class PacketFluxPoint implements IMessage {
 		@Override
 		public IMessage onMessage(PacketFluxPoint message, MessageContext ctx) {
 			World world = ctx.getServerHandler().playerEntity.worldObj;
-			TileEntity te =world.getTileEntity(message.xCoord, message.yCoord, message.zCoord);
-			if(te!=null && te instanceof TileEntityFlux){
+			TileEntity te = world.getTileEntity(message.xCoord, message.yCoord, message.zCoord);
+			if (te != null && te instanceof TileEntityFlux) {
 				TileEntityFlux flux = (TileEntityFlux) te;
-				if(message.id==0){
-				flux.setName(message.string);	
-				System.out.print("id");			
-				}else{
+				if (message.id == 0) {
+					flux.setName(message.string);
+				} else if (message.id == 1) {
 					TileEntityFluxPoint point = (TileEntityFluxPoint) te;
-					point.priority=message.string;
-					System.out.print("priority");		
+					point.priority = message.string;
+				} else if (message.id == 2) {
+					TileEntityFluxPoint point = (TileEntityFluxPoint) te;
+					point.maxTransfer = message.string;
 				}
-			}			
+			}
+			if (te != null && te instanceof TileEntityFluxController) {
+				TileEntityFluxController flux = (TileEntityFluxController) te;
+				if (message.id == 0) {
+					flux.setName(message.string);
+				}
+			}
 			return null;
 		}
 

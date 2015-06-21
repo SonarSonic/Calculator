@@ -116,17 +116,17 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	}
 
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.COOK:
-			this.cookTime = data;
+			this.cookTime = (Integer)data;
 			break;
 		case SyncType.CURRENTSPEED:
-			this.currentSpeed = data;
+			this.currentSpeed = (Integer)data;
 			break;
 		case SyncType.PAUSE:
-			this.paused = data == 1 ? true : false;
+			this.paused = (boolean)data;
 			break;
 		}
 	}
@@ -139,7 +139,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		case SyncType.CURRENTSPEED:
 			return new SyncData(true, currentSpeed);
 		case SyncType.PAUSE:
-			return new SyncData(true, paused ? 1 : 0);
+			return new SyncData(true, paused);
 		}
 		return super.getSyncData(id);
 	}

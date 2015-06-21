@@ -1,5 +1,7 @@
 package sonar.calculator.mod.client.gui.misc;
 
+import java.awt.Color;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -28,7 +30,7 @@ import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiFluxPoint extends GuiContainer {
-	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/clean.png");
+	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/fluxPoint.png");
 
 	public TileEntityFluxPoint entity;
 
@@ -40,16 +42,21 @@ public class GuiFluxPoint extends GuiContainer {
 		this.entity = entity;
 
 		this.xSize = 176;
-		this.ySize = 166;
+		this.ySize = 142;
 	}
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		priority.drawTextBox();
 		id.drawTextBox();
-		FontHelper.textCentre(StatCollector.translateToLocal(entity.blockType.getLocalizedName()), xSize, 6, 0);
-		FontHelper.text("ID:", 89, 22, 0);
-		FontHelper.text("Priority:", 10, 22, 0);
+		transfer.drawTextBox();
+		FontHelper.text(StatCollector.translateToLocal(entity.blockType.getLocalizedName()), 20, 8, 0);
+		FontHelper.text("ID:", 89, 8, 0);
+		FontHelper.text("Priority:", 10, 28, 0);
+		FontHelper.text("Max:", 82, 28, 0);
+	
+		FontHelper.textCentre((this.entity.networkState==1?"Protected: " :"Open: ") + entity.masterName, xSize, 47, (entity.playerState==0  ||this.entity.networkState==0 ? 0 : Color.RED.getRGB()));
+	
 
 	}
 
@@ -73,13 +80,18 @@ public class GuiFluxPoint extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		Keyboard.enableRepeatEvents(true);
-		id = new GuiTextField(this.fontRendererObj, 105, 20, 50, 12);
+		id = new GuiTextField(this.fontRendererObj, 105, 6, 50, 12);
 		id.setMaxStringLength(7);
 		id.setText(String.valueOf(entity.freq));
-		priority = new GuiTextField(this.fontRendererObj, 54, 20, 20, 12);
+		
+		priority = new GuiTextField(this.fontRendererObj, 54, 26, 20, 12);
 		priority.setMaxStringLength(2);
 		priority.setText(String.valueOf(entity.priority));
-		this.buttonList.add(new ConfirmButton(guiLeft + 157, guiTop + 20));
+		
+		transfer = new GuiTextField(this.fontRendererObj, 106, 26, 58, 12);
+		transfer.setMaxStringLength(8);
+		transfer.setText(String.valueOf(entity.maxTransfer));
+		this.buttonList.add(new ConfirmButton(guiLeft + 157, guiTop + 6));
 
 	}
 
@@ -88,6 +100,7 @@ public class GuiFluxPoint extends GuiContainer {
 		super.mouseClicked(i, j, k);
 		id.mouseClicked(i - guiLeft, j - guiTop, k);
 		priority.mouseClicked(i - guiLeft, j - guiTop, k);
+		transfer.mouseClicked(i - guiLeft, j - guiTop, k);
 	}
 
 	protected void actionPerformed(GuiButton button) {
@@ -135,6 +148,23 @@ public class GuiFluxPoint extends GuiContainer {
 					entity.priority = 0;
 				} else {
 					entity.priority = Integer.valueOf(order);
+				}
+			}
+		}else if (transfer.isFocused()) {
+			if (c == 13 || c == 27) {
+				transfer.setFocused(false);
+			} else {
+				typeKey(transfer, c, i);
+				final String order = transfer.getText();
+				if (order.isEmpty() || order == "" || order == null) {
+					Calculator.network.sendToServer(new PacketFluxPoint(0, entity.xCoord, entity.yCoord, entity.zCoord, 2));
+				} else {
+					Calculator.network.sendToServer(new PacketFluxPoint(Integer.valueOf(order), entity.xCoord, entity.yCoord, entity.zCoord, 2));
+				}
+				if (order.isEmpty() || order == "" || order == null) {
+					entity.maxTransfer = 0;
+				} else {
+					entity.maxTransfer = Integer.valueOf(order);
 				}
 			}
 		}else{		

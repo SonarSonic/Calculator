@@ -254,17 +254,17 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 	}
 
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.SPECIAL1:
-			this.itemLevel = data;
+			this.itemLevel =(Integer) data;
 			break;
 		case SyncType.SPECIAL2:
-			this.maxBurnTime = data;
+			this.maxBurnTime = (Integer)data;
 			break;
 		case SyncType.BURN:
-			this.burnTime = data;
+			this.burnTime = (Integer)data;
 			break;
 
 		}

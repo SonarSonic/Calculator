@@ -30,7 +30,9 @@ public abstract class GuiButtons extends GuiContainer {
 		this.z = z;
 	}
 
-	public abstract void initGui(boolean pause);
+	public void initGui(boolean pause){
+		
+	}
 
 	@SideOnly(Side.CLIENT)
 	public class PauseButton extends CalculatorButtons.ImageButton {

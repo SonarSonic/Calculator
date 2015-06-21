@@ -44,6 +44,7 @@ import sonar.calculator.mod.common.block.machines.Transmitter;
 import sonar.calculator.mod.common.block.machines.WeatherStation;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
 import sonar.calculator.mod.common.block.misc.CO2Generator;
+import sonar.calculator.mod.common.block.misc.FluxController;
 import sonar.calculator.mod.common.block.misc.FluxPlug;
 import sonar.calculator.mod.common.block.misc.FluxPoint;
 import sonar.calculator.mod.common.block.misc.GasLantern;
@@ -74,6 +75,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityBasicLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
@@ -183,6 +185,9 @@ public class CalculatorBlocks extends Calculator {
 	fluxPoint= new FluxPoint().setBlockName("FluxPoint").setCreativeTab(Calculator).setHardness(1.5F).setResistance(5.0F).setBlockTextureName(modid + ":" + "stablestone");
 	GameRegistry.registerBlock(fluxPoint,CalcBlockItem.class, "FluxPoint");
 	GameRegistry.registerTileEntity(TileEntityFluxPoint.class, "FluxPoint");
+	fluxController= new FluxController().setBlockName("FluxController").setCreativeTab(Calculator).setHardness(1.5F).setResistance(5.0F).setBlockTextureName(modid + ":" + "stablestone").setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100);
+	GameRegistry.registerBlock(fluxController,CalcBlockItem.class, "FluxController");
+	GameRegistry.registerTileEntity(TileEntityFluxController.class, "FluxController");
 	
 	atomicMultiplier = new AtomicMultiplier().setBlockName("AtomicMultiplier").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(6.5F).setBlockTextureName(modid + ":" + "stablestone").setResistance(5.0F);;
 	GameRegistry.registerBlock(atomicMultiplier,CalcBlockItem.class, "AtomicMultiplier");

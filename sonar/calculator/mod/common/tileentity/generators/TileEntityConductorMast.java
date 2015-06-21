@@ -335,23 +335,23 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	}
 
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.COOK:
-			this.cookTime = data;
+			this.cookTime = (Integer)data;
 			break;
 		case SyncType.SPECIAL1:
-			this.lightingTicks = data;
+			this.lightingTicks = (Integer)data;
 			break;
 		case SyncType.SPECIAL2:
-			this.lightTicks = data;
+			this.lightTicks = (Integer)data;
 			break;
 		case SyncType.SPECIAL3:
-			this.random = data;
+			this.random = (Integer)data;
 			break;
 		case SyncType.SPECIAL4:
-			this.lightningSpeed = data;
+			this.lightningSpeed = (Integer)data;
 			break;
 		}
 	}

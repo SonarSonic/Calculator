@@ -197,14 +197,14 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 		return true;
 	}
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.COOK:
-			this.cookTime = data;
+			this.cookTime = (Integer)data;
 			break;
 		case SyncType.ACTIVE:
-			this.active = data;
+			this.active = (Integer)data;
 			break;
 		}
 	}

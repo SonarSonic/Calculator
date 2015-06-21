@@ -6,6 +6,7 @@ import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionHelper;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 
@@ -19,6 +20,7 @@ import sonar.calculator.mod.common.tileentity.entities.EntitySmallStone;
 import sonar.calculator.mod.common.tileentity.entities.EntitySoil;
 import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
 import sonar.calculator.mod.network.CalculatorCommon;
+import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.network.packets.PacketConductorMast;
 import sonar.calculator.mod.network.packets.PacketMachineButton;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
@@ -64,6 +66,8 @@ public class Calculator {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {	
+		
+		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ChunkHandler());
 		
 		network = NetworkRegistry.INSTANCE.newSimpleChannel(modid);
 		logger.info("Registered Network");	
@@ -177,7 +181,7 @@ public class Calculator {
 		public static Block advancedGreenhouse;
 		public static Block flawlessGreenhouse;
 		public static Block carbondioxideGenerator;
-		public static Block fluxPlug, fluxPoint;
+		public static Block fluxPlug, fluxPoint, fluxController;
 		public static Block scarecrow;
 		public static Block scarecrowBlock;
 		public static Block gas_lantern_on;

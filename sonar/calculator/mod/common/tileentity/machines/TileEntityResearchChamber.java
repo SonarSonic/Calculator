@@ -42,7 +42,8 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 
 	public TileEntityResearchChamber() {
 		super.slots = new ItemStack[2];
-		this.unblocked = this.lastUnblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+		this.unblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+		this.lastUnblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
 	}
 
 	@Override
@@ -245,13 +246,13 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 		return unblocked;
 	}
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		switch (id) {
 		case SyncType.SPECIAL1:
-			this.maxRecipes = data;
+			this.maxRecipes = (Integer)data;
 			break;
 		case SyncType.SPECIAL2:
-			this.storedRecipes = data;
+			this.storedRecipes = (Integer)data;
 			break;
 		}
 	}

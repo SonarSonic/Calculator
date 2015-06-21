@@ -606,17 +606,17 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 	}
 
 	@Override
-	public void onSync(int data, int id) {
+	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.SPECIAL1:
-			this.isMulti = data;
+			this.isMulti = (Integer)data;
 			break;
 		case SyncType.SPECIAL2:
-			this.wasBuilt = data;
+			this.wasBuilt = (Integer)data;
 			break;
 		case SyncType.SPECIAL3:
-			this.carbonLevels = data;
+			this.carbonLevels = (Integer)data;
 			break;
 		}
 	}
