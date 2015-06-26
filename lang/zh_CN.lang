@@ -24,6 +24,7 @@ item.VoidUpgrade.name=虚空升级
 tile.reinforcedstoneBlock.name=强化石头
 tile.reinforceddirtBlock.name=强化泥土
 tile.stablestoneBlock.name=稳定石块
+tile.stablePort.name=稳定石块
 
 
 //items for calculators
@@ -442,7 +443,15 @@ tile.WeatherStation.name=气象雷达
 tile.WeatherStationBlock.name=气象雷达
 lightning.day=白天
 lightning.night=夜晚
+lightning.time=时间
+lightning.rain=雨
 lightning.seconds=秒
 buttons.circuits=移除提取物
 buttons.pause=暂停
 buttons.resume=继续
+buttons.confirm=Confirm
+
+tile.FluxPlug.name=Flux Plug
+tile.FluxPoint.name=Flux Point
+tile.FluxController.name=Flux Controller
+item.FluxModule.name=Flux Module

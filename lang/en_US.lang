@@ -24,6 +24,7 @@ item.VoidUpgrade.name=Void Upgrade
 tile.reinforcedstoneBlock.name=Reinforced Stone
 tile.reinforceddirtBlock.name=Reinforced Dirt
 tile.stablestoneBlock.name=Stable Stone
+tile.stablePort.name=Stable Stone
 
 
 //items for calculators
@@ -424,7 +425,7 @@ planting.advanced=Planted with Advanced Greenhouse or Higher
 planting.flawless=Planted with Flawless Greenhouse
 tile.ResearchChamber.name=Research Chamber
 tile.ManipulationChamber.name=Manipulation Chamber
-research.recipe=Recipe
+research.recipe=Recipes
 research.recipeNew=New Recipes Discovered
 research.sync=Sync
 research.stored=Stored
@@ -443,7 +444,15 @@ tile.WeatherStation.name=Weather Station
 tile.WeatherStationBlock.name=Weather Station
 lightning.day=Day
 lightning.night=Night
+lightning.time=Time
+lightning.rain=Rain
 lightning.seconds=seconds
 buttons.circuits=Remove Extracts
 buttons.pause=Pause
 buttons.resume=Resume
+buttons.confirm=Confirm
+
+tile.FluxPlug.name=Flux Plug
+tile.FluxPoint.name=Flux Point
+tile.FluxController.name=Flux Controller
+item.FluxModule.name=Flux Module
