@@ -33,7 +33,7 @@ public class LocatorModule extends CalcItem {
 
 				stack.stackTagCompound.setString("Player", name);
 
-				FontHelper.sendMessage(StatCollector.translateToLocal("locator.owner") + ": " + player.getGameProfile().getName(), world, player);
+				FontHelper.sendMessage(FontHelper.translate("locator.owner") + ": " + player.getGameProfile().getName(), world, player);
 
 			}
 		}
@@ -49,24 +49,24 @@ public class LocatorModule extends CalcItem {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbtData = stack.stackTagCompound;
 			if (stack.stackTagCompound.getString("Player") != "None") {
-				list.add(StatCollector.translateToLocal("locator.owner") + ": " + stack.stackTagCompound.getString("Player"));
+				list.add(FontHelper.translate("locator.owner") + ": " + stack.stackTagCompound.getString("Player"));
 			} else {
-				list.add(StatCollector.translateToLocal("locator.owner") + ": " + StatCollector.translateToLocal("locator.none"));
+				list.add(FontHelper.translate("locator.owner") + ": " + FontHelper.translate("locator.none"));
 			}
 		}
 	}
 
-	public static String getPlayer(ItemStack stack){
-		if(stack.hasTagCompound()){
+	public static String getPlayer(ItemStack stack) {
+		if (stack.hasTagCompound()) {
 			String playerName = stack.getTagCompound().getString("Player");
-			if(playerName =="None"){
+			if (playerName == "None") {
 				return null;
-			}else{
+			} else {
 				return playerName;
 			}
 		}
 		return null;
-		
+
 	}
 
 }

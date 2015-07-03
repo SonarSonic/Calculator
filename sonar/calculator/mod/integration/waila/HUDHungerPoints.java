@@ -9,9 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDHungerPoints implements IWailaDataProvider {
 
@@ -40,7 +40,7 @@ public class HUDHungerPoints implements IWailaDataProvider {
 			TileEntityHungerProcessor tile = (TileEntityHungerProcessor) handler;
 			NBTTagCompound tag = new NBTTagCompound();
 			tile.writeToNBT(tag);
-			String points = StatCollector.translateToLocal("points.hunger") + ": " + tag.getInteger("Food");
+			String points = FontHelper.translate("points.hunger") + ": " + tag.getInteger("Food");
 			currenttip.add(points);
 		
 		}

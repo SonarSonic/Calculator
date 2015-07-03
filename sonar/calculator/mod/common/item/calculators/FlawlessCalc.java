@@ -89,17 +89,17 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 			nbtData = new NBTTagCompound();
 			stack.setTagCompound(nbtData);
 		}
-		list.add(StatCollector.translateToLocal("calc.mode") + ": " + chat(stack, player));
+		list.add(FontHelper.translate("calc.mode") + ": " + chat(stack, player));
 
 		int storedItems = new FlawlessInventory(stack).getItemsStored(stack) + new DynamicInventory(stack).getItemsStored(stack) + new CraftingInventory(stack).getItemsStored(stack);
 		if (storedItems != 0) {
-			list.add(StatCollector.translateToLocal("calc.storedstacks") + ": " + storedItems);
+			list.add(FontHelper.translate("calc.storedstacks") + ": " + storedItems);
 		}
 		if (stack.hasTagCompound()) {
 			int max = stack.stackTagCompound.getInteger("Max");
 			int stored = stack.stackTagCompound.getInteger("Stored");
 			if (max != 0) {
-				list.add(StatCollector.translateToLocal("research.recipe") + ": " + stored + "/" + max);
+				list.add(FontHelper.translate("research.recipe") + ": " + stored + "/" + max);
 			}
 		}
 	}
@@ -143,10 +143,10 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 						explosion(stack, world, player);
 						this.extractEnergy(stack, 1000, false);
 					} else if ((getEnergyStored(stack) <= 1000) && (!world.isRemote)) {
-						player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("energy.notEnough")));
+						player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("energy.notEnough")));
 					}
 				} else {
-					FontHelper.sendMessage(StatCollector.translateToLocal("calc.ban"), world, player);
+					FontHelper.sendMessage(FontHelper.translate("calc.ban"), world, player);
 				}
 				break;
 			case Ender:
@@ -157,7 +157,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 					ender(world, player);
 					this.extractEnergy(stack, 1000, false);
 				} else if ((getEnergyStored(stack) <= 1000) && (!world.isRemote)) {
-					player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("energy.notEnough")));
+					player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("energy.notEnough")));
 				}
 
 				break;
@@ -190,7 +190,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 						if (!world.isRemote) {
 							player.addChatComponentMessage(new ChatComponentText(
 
-							StatCollector.translateToLocal("calc.position")));
+							FontHelper.translate("calc.position")));
 						}
 
 					} else if ((world.getBlock(x, y, z) == Calculator.stablestoneBlock)
@@ -202,7 +202,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 						stack.stackTagCompound.setBoolean("Tele", true);
 						stack.stackTagCompound.setInteger("Dimension", player.dimension);
 						if (!world.isRemote) {
-							player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("calc.position")));
+							player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("calc.position")));
 						}
 
 					}
@@ -225,17 +225,17 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 						&& (!world.isRemote)) {
 					player.addChatComponentMessage(new ChatComponentText(
 
-					StatCollector.translateToLocal("calc.stableStone")));
+					FontHelper.translate("calc.stableStone")));
 				}
 
 			} else if ((!stack.stackTagCompound.getBoolean("Tele")) && (!world.isRemote)) {
-				player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("calc.noPosition")));
+				player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("calc.noPosition")));
 			}
 		}
 
 		if (player.dimension != stack.stackTagCompound.getInteger("Dimension")) {
 			if (!world.isRemote) {
-				player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("calc.dimension")));
+				player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("calc.dimension")));
 			}
 		}
 	}
@@ -267,7 +267,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 			stack.stackTagCompound.setBoolean("Grenade", false);
 		} else {
 			if (!world.isRemote) {
-				player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("calc.grenade")));
+				player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("calc.grenade")));
 			}
 			stack.stackTagCompound.setBoolean("Grenade", true);
 		}
@@ -279,24 +279,24 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 
 		int current = nbtData.getInteger("Mode");
 		if (current == FlawlessCalc.FlawlessCraft) {
-			return StatCollector.translateToLocal("flawless.mode1");
+			return FontHelper.translate("flawless.mode1");
 		}
 		if (current == FlawlessCalc.DynamicCraft) {
-			return StatCollector.translateToLocal("flawless.mode2");
+			return FontHelper.translate("flawless.mode2");
 		}
 		if (current == FlawlessCalc.Crafting) {
-			return StatCollector.translateToLocal("flawless.mode3");
+			return FontHelper.translate("flawless.mode3");
 		}
 		if (current == FlawlessCalc.Grenade) {
-			return StatCollector.translateToLocal("flawless.mode4");
+			return FontHelper.translate("flawless.mode4");
 		}
 		if (current == FlawlessCalc.Ender) {
-			return StatCollector.translateToLocal("flawless.mode5");
+			return FontHelper.translate("flawless.mode5");
 		}
 		if (current == FlawlessCalc.Teleport) {
-			return StatCollector.translateToLocal("flawless.mode6");
+			return FontHelper.translate("flawless.mode6");
 		}
-		return StatCollector.translateToLocal("flawless.mode");
+		return FontHelper.translate("flawless.mode");
 	}
 
 	@Override

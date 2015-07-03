@@ -4,7 +4,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.utils.helpers.RecipeHelper;
+import sonar.core.utils.helpers.RecipeHelper;
 
 public class AtomicCalculatorRecipes extends RecipeHelper {
 
@@ -12,7 +12,7 @@ public class AtomicCalculatorRecipes extends RecipeHelper {
 	private static final AtomicCalculatorRecipes recipes = new AtomicCalculatorRecipes();
 
 	public AtomicCalculatorRecipes() {
-		super(3, 1);
+		super(3, 1, false);
 	}
 	public static final RecipeHelper instance() {
 		return recipes;

@@ -27,15 +27,15 @@ public class GuiInfoCalculator
 
   @Override
 protected void drawGuiContainerForegroundLayer(int i, int j) { 
-	  FontHelper.textCentre(StatCollector.translateToLocal("item.InfoCalculator.name"), xSize, 5, 0);
-	  FontHelper.textOffsetCentre(StatCollector.translateToLocal("info.all"), 43, 17, 0);
-	  FontHelper.textOffsetCentre(StatCollector.translateToLocal("info.blocks"), 43, 35, 0);
-	  FontHelper.textOffsetCentre(StatCollector.translateToLocal("info.calculators"), 43, 53, 0); 
-	  FontHelper.textOffsetCentre(StatCollector.translateToLocal("info.machines"), 43, 71, 0); 
-	  FontHelper.textOffsetCentre(StatCollector.translateToLocal("info.generators"), 134, 17, 0);
-	  FontHelper.textOffsetCentre(StatCollector.translateToLocal("info.modules"), 134, 35, 0);
-	  FontHelper.textOffsetCentre(StatCollector.translateToLocal("info.items"), 134, 53, 0); 
-	  FontHelper.textOffsetCentre(StatCollector.translateToLocal("info.circuits"), 134, 71, 0); 
+	  FontHelper.textCentre(FontHelper.translate("item.InfoCalculator.name"), xSize, 5, 0);
+	  FontHelper.textOffsetCentre(FontHelper.translate("info.all"), 43, 17, 0);
+	  FontHelper.textOffsetCentre(FontHelper.translate("info.blocks"), 43, 35, 0);
+	  FontHelper.textOffsetCentre(FontHelper.translate("info.calculators"), 43, 53, 0); 
+	  FontHelper.textOffsetCentre(FontHelper.translate("info.machines"), 43, 71, 0); 
+	  FontHelper.textOffsetCentre(FontHelper.translate("info.generators"), 134, 17, 0);
+	  FontHelper.textOffsetCentre(FontHelper.translate("info.modules"), 134, 35, 0);
+	  FontHelper.textOffsetCentre(FontHelper.translate("info.items"), 134, 53, 0); 
+	  FontHelper.textOffsetCentre(FontHelper.translate("info.circuits"), 134, 71, 0); 
 	  
 	  }
  

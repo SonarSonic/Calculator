@@ -9,9 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDGreenhouseState implements IWailaDataProvider {
 
@@ -43,10 +43,10 @@ public class HUDGreenhouseState implements IWailaDataProvider {
 			tile.writeToNBT(tag);
 			int multi = tag.getInteger("Multi");
 			switch(multi){
-			case -1:currenttip.add(StatCollector.translateToLocal("locator.state") + ": " + StatCollector.translateToLocal("greenhouse.building"));	break;
-			case 0:currenttip.add(StatCollector.translateToLocal("locator.state") + ": " + StatCollector.translateToLocal("greenhouse.incomplete"));	break;
-			case 1:currenttip.add(StatCollector.translateToLocal("locator.state") + ": " + StatCollector.translateToLocal("greenhouse.complete"));	break;
-			case 2:currenttip.add(StatCollector.translateToLocal("locator.state") + ": " + StatCollector.translateToLocal("greenhouse.complete"));	break;
+			case -1:currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.building"));	break;
+			case 0:currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.incomplete"));	break;
+			case 1:currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.complete"));	break;
+			case 2:currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.complete"));	break;
 			
 			}
 		

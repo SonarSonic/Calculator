@@ -110,6 +110,7 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(healthprocessor, 1), new Object[] { "ABA", "BCB", "ABA", 'A', large_tanzanite, 'B', flawlessdiamond, 'C', advanced_assembly });
 		addShaped(new ItemStack(analysingChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', reinforced_iron_block, 'B', weakeneddiamond, 'C', advanced_assembly });
 		addShaped(new ItemStack(atomicMultiplier, 1), new Object[] { "AEA", "DBD", "ACA", 'A', reinforced_iron_block, 'B', atomic_assembly, 'C', advancedPowerCube, 'D', purifiedobsidianBlock, 'E', redstone_ingot });
+		addShaped(new ItemStack(fluxController, 1), new Object[] { "ABA", "A A", "ACA", 'A', reinforcedstoneBlock, 'B', enddiamond, 'C', stablestoneBlock});
 
 		// generators
 		addShaped(new ItemStack(crank, 1), new Object[] { "  A", "AAA", "A  ", 'A', Items.stick });

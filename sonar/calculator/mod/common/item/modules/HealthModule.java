@@ -41,7 +41,7 @@ public class HealthModule extends CalcItem implements IHealthStore {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
 		if (stack.hasTagCompound()) {
-			list.add(StatCollector.translateToLocal("points.health") + ": " + getHealthPoints(stack));
+			list.add(FontHelper.translate("points.health") + ": " + getHealthPoints(stack));
 		}
 	}
 

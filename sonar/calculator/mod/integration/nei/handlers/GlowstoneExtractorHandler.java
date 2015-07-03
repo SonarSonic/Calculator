@@ -12,9 +12,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.client.gui.generators.GuiGlowstoneExtractor;
 import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.ItemList;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -78,7 +78,7 @@ public class GlowstoneExtractorHandler extends TemplateRecipeHandler
     @Override
     public String getRecipeName()
       {
-        return StatCollector.translateToLocal("tile.glowstoneextractor.name");
+        return FontHelper.translate("tile.glowstoneextractor.name");
       }
 
     @Override

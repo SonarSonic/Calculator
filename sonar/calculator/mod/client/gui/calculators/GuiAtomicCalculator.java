@@ -29,7 +29,7 @@ public class GuiAtomicCalculator extends GuiContainer
   
   @Override
   protected void drawGuiContainerForegroundLayer(int i, int j) { 
-	  FontHelper.textCentre(StatCollector.translateToLocal("tile.atomiccalculatorBlock.name"), xSize, 8, 0); }
+	  FontHelper.textCentre(FontHelper.translate("tile.atomiccalculatorBlock.name"), xSize, 8, 0); }
   
 
   @Override

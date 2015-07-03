@@ -3,8 +3,6 @@ package sonar.calculator.mod.common.tileentity;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
-import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockGlass;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockPane;
@@ -13,13 +11,10 @@ import net.minecraft.block.BlockWood;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
@@ -32,9 +27,9 @@ import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
 import sonar.core.utils.SonarSeeds;
 import sonar.core.utils.SonarSeedsFood;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.RenderHelper;
-import sonar.core.utils.helpers.SonarHelper;
 
 public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 
@@ -359,7 +354,7 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 	/** gets metadata for stairs **/
 	public int intValues(int par, String block) {
 		if (type == 2) {
-			if (block == StatCollector.translateToLocal("greenhouse.stairs")) {
+			if (block == FontHelper.translate("greenhouse.stairs")) {
 				switch (par) {
 				case 3:
 					return 5;
@@ -375,7 +370,7 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 			}
 		}
 		if (type == 1) {
-			if (block == StatCollector.translateToLocal("greenhouse.stairs")) {
+			if (block == FontHelper.translate("greenhouse.stairs")) {
 				switch (par) {
 				case 2:
 					return 3;

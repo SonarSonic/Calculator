@@ -77,7 +77,7 @@ public class ResearchChamber extends SonarMachineBlock implements IWrench {
 					if (entity.isBlocked(entity.lastResearch) && entity.lastResearch != 0) {
 						entity.unblockItem(entity.lastResearch);
 						if (CalculatorRecipes.recipes().discovery(entity.unblockedList(), entity.lastResearch)) {
-							FontHelper.sendMessage(StatCollector.translateToLocal("research.recipeNew"), entity.getWorldObj(), player);
+							FontHelper.sendMessage(FontHelper.translate("research.recipeNew"), entity.getWorldObj(), player);
 						}
 					}
 
@@ -115,7 +115,7 @@ public class ResearchChamber extends SonarMachineBlock implements IWrench {
 		int max = stack.stackTagCompound.getInteger("Max");
 		int stored = stack.stackTagCompound.getInteger("Stored");
 		if (max != 0) {
-			list.add(StatCollector.translateToLocal("research.recipe") + ": " + stored + "/" + max);
+			list.add(FontHelper.translate("research.recipe") + ": " + stored + "/" + max);
 		}
 	}
 

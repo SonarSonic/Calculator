@@ -23,8 +23,7 @@ import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.utils.IDropTile;
 
-public class TileEntityStorageChamber extends TileEntitySidedInventory
-		implements IDropTile, ISidedInventory, IBigInventory {
+public class TileEntityStorageChamber extends TileEntitySidedInventory implements IDropTile, ISidedInventory, IBigInventory {
 
 	public static int maxSize = 1000;
 	public int[] stored;
@@ -33,25 +32,8 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 	public TileEntityStorageChamber() {
 		this.stored = new int[14];
 		super.slots = new ItemStack[15];
-		super.input = new int[] { 200, 201, 202, 203, 204, 205, 206, 207, 208,
-				209, 210, 211, 212, 213 };
-		super.output = new int[] { 100, 101, 102, 103, 104, 105, 106, 107, 108,
-				109, 110, 111, 112, 113 };
-	}
-
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		this.update = nbt.getBoolean("update");
-		stored = nbt.getIntArray("Stored");
-		if (stored == null) {
-			stored = new int[14];
-		}
-	}
-
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setBoolean("update", update);
-		nbt.setIntArray("Stored", stored);
+		super.input = new int[] { 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213 };
+		super.output = new int[] { 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113 };
 	}
 
 	@Override
@@ -67,7 +49,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 	@Override
 	public ItemStack getStackInSlot(int var1) {
 		if (var1 >= 200) {
-			return this.slots[var1 - 200];
+			return null;
 		}
 		if (var1 >= 100) {
 			return this.getSlotStack(var1 - 100);
@@ -77,18 +59,18 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 
 	@Override
 	public ItemStack decrStackSize(int slot, int var2) {
-		if(slot>=100){
-			if(this.stored[slot-100]!=0){
-				ItemStack display = this.getSlotStack(slot-100);
-			this.stored[slot-100]--;
-			if(this.stored[slot-100]==0){
-				this.slots[slot-100]=null;
-				this.resetSavedStack(slot-100);
-			}
-			return display;
+		if (slot >= 100) {
+			if (this.stored[slot - 100] != 0) {
+				ItemStack display = this.getSlotStack(slot - 100);
+				this.stored[slot - 100]--;
+				if (this.stored[slot - 100] == 0) {
+					this.slots[slot - 100] = null;
+					this.resetSavedStack(slot - 100);
+				}
+				return display;
 			}
 			return null;
-		}		
+		}
 		if (this.slots[slot] != null) {
 
 			if (this.slots[slot].stackSize <= var2) {
@@ -104,8 +86,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 
 			return itemstack;
 		}
-		
-		
+
 		return null;
 	}
 
@@ -124,8 +105,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 		} else {
 			this.slots[i] = itemstack;
 
-			if ((itemstack != null)
-					&& (itemstack.stackSize > getInventoryStackLimit())) {
+			if ((itemstack != null) && (itemstack.stackSize > getInventoryStackLimit())) {
 				itemstack.stackSize = getInventoryStackLimit();
 			}
 		}
@@ -137,8 +117,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 				return false;
 			}
 			if (getSavedStack() != null) {
-				if (this.getCircuitType(this.getSavedStack()) == this
-						.getCircuitType(stack)) {
+				if (this.getCircuitType(this.getSavedStack()) == this.getCircuitType(stack)) {
 					return true;
 				}
 			} else {
@@ -161,8 +140,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 				return false;
 			}
 			if (getSavedStack() != null) {
-				if (this.getCircuitType(this.getSavedStack()) == this
-						.getCircuitType(stack)) {
+				if (this.getCircuitType(this.getSavedStack()) == this.getCircuitType(stack)) {
 					return true;
 				}
 			} else {
@@ -176,14 +154,18 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 
 	public ItemStack getFullStack(int slot) {
 		if (stored[slot] != 0 && getSavedStack() != null) {
-			return new ItemStack(getSavedStack().getItem(), stored[slot], slot);
+			ItemStack fullStack = new ItemStack(getSavedStack().getItem(), stored[slot], slot);
+			fullStack.setTagCompound(getSavedStack().getTagCompound());
+			return fullStack;
 		}
 		return null;
 	}
 
 	public ItemStack getSlotStack(int slot) {
 		if (stored[slot] != 0 && getSavedStack() != null) {
-			return new ItemStack(getSavedStack().getItem(), 1, slot);
+			ItemStack slotStack = new ItemStack(getSavedStack().getItem(), 1, slot);
+			slotStack.setTagCompound(getSavedStack().getTagCompound());
+			return slotStack;
 		}
 		return null;
 	}
@@ -227,8 +209,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 						tag.setInteger("Item5", 0);
 						tag.setInteger("Item6", 0);
 						tag.setInteger("Energy", 0);
-						ItemStack stable = new ItemStack(stack.getItem(), 1,
-								stack.getItemDamage());
+						ItemStack stable = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
 						stable.setTagCompound(tag);
 						if (ItemStack.areItemStackTagsEqual(stable, stack)) {
 							return CircuitType.Stable;
@@ -245,8 +226,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 						tag.setInteger("Item5", 0);
 						tag.setInteger("Item6", 0);
 						tag.setInteger("Energy", 0);
-						ItemStack analysed = new ItemStack(stack.getItem(), 1,
-								stack.getItemDamage());
+						ItemStack analysed = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
 						analysed.setTagCompound(tag);
 						if (ItemStack.areItemStackTagsEqual(analysed, stack)) {
 							return CircuitType.Analysed;
@@ -289,11 +269,25 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 		return 1;
 	}
 
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.update = nbt.getBoolean("update");
+		stored = nbt.getIntArray("Stored");
+		if (stored == null) {
+			stored = new int[14];
+		}
+	}
+
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setBoolean("update", update);
+		nbt.setIntArray("Stored", stored);
+	}
+
 	@Override
 	public void readInfo(NBTTagCompound tag) {
 		this.stored = tag.getIntArray("stored");
-		this.setSavedStack(ItemStack.loadItemStackFromNBT(tag
-				.getCompoundTag("saved")));
+		this.setSavedStack(ItemStack.loadItemStackFromNBT(tag.getCompoundTag("saved")));
 	}
 
 	@Override
@@ -303,9 +297,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 			NBTTagCompound stack = new NBTTagCompound();
 			this.getSavedStack().writeToNBT(stack);
 			tag.setTag("saved", stack);
-			tag.setInteger("type", TileEntityStorageChamber
-					.getCircuitValue(TileEntityStorageChamber
-							.getCircuitType(this.getSavedStack())));
+			tag.setInteger("type", TileEntityStorageChamber.getCircuitValue(TileEntityStorageChamber.getCircuitType(this.getSavedStack())));
 		}
 
 	}
@@ -316,9 +308,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory
 
 	@Override
 	public void sendPacket(int dimension, int side, int value) {
-		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord,
-				zCoord, side, value), new TargetPoint(dimension, xCoord,
-				yCoord, zCoord, 32));
+		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
 
 	}
 }

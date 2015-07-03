@@ -9,9 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDLantern implements IWailaDataProvider {
 
@@ -46,10 +46,10 @@ public class HUDLantern implements IWailaDataProvider {
 			int maxBurn = tag.getInteger("maxBurnTime");
 
 			if (burnTime > 0 && maxBurn != 0) {
-				String burn = StatCollector.translateToLocal("co2.burnt") + ": " + burnTime * 100 / maxBurn;
+				String burn = FontHelper.translate("co2.burnt") + ": " + burnTime * 100 / maxBurn;
 				currenttip.add(burn);
 			} else {
-				String burn = StatCollector.translateToLocal("co2.burning");
+				String burn = FontHelper.translate("co2.burning");
 				currenttip.add(burn);
 			}
 		}

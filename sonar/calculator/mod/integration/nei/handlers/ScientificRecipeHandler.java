@@ -7,11 +7,11 @@ import java.util.Map;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.calculators.GuiScientificCalculator;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipe;
 import sonar.calculator.mod.common.recipes.crafting.ScientificCalculatorRecipes;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -61,7 +61,7 @@ public class ScientificRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector.translateToLocal("item.ScientificCalculator.name");
+		return FontHelper.translate("item.ScientificCalculator.name");
 	}
 
 	@Override

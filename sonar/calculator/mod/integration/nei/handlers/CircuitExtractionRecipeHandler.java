@@ -106,11 +106,11 @@ public void drawExtras(int recipe)
 	  ChancePair pair = (ChancePair) this.arecipes.get(recipe);
 	  int chance = pair.chance;
 	  switch (chance){
-	  case 1: FontHelper.textCentre(StatCollector.translateToLocal("info.extractChance") + " = 6 %", 176, 8, 0); break;
-	  case 2: FontHelper.textCentre(StatCollector.translateToLocal("info.extractChance") + " = 0.2 %", 176, 8, 0); break;
-	  case 3: FontHelper.textCentre(StatCollector.translateToLocal("info.extractChance") + " = 0.1 %", 176, 8, 0); break;
-	  case 4: FontHelper.textCentre(StatCollector.translateToLocal("info.extractChance") + " = 0.02 %", 176, 8, 0); break;
-	  case 5: FontHelper.textCentre(StatCollector.translateToLocal("info.extractChance") + " = 0.01 %", 176, 8, 0); break;
+	  case 1: FontHelper.textCentre(FontHelper.translate("info.extractChance") + " = 6 %", 176, 8, 0); break;
+	  case 2: FontHelper.textCentre(FontHelper.translate("info.extractChance") + " = 0.2 %", 176, 8, 0); break;
+	  case 3: FontHelper.textCentre(FontHelper.translate("info.extractChance") + " = 0.1 %", 176, 8, 0); break;
+	  case 4: FontHelper.textCentre(FontHelper.translate("info.extractChance") + " = 0.02 %", 176, 8, 0); break;
+	  case 5: FontHelper.textCentre(FontHelper.translate("info.extractChance") + " = 0.01 %", 176, 8, 0); break;
 	  
 	  }
   }

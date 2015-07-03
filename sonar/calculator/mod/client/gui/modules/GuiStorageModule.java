@@ -26,7 +26,7 @@ public class GuiStorageModule extends GuiContainer {
     }
 	
 	protected void drawGuiContainerForegroundLayer(int x,int y) {
-		  FontHelper.textCentre(StatCollector.translateToLocal("item.StorageModule.name"), xSize, 6, 0);
+		  FontHelper.textCentre(FontHelper.translate("item.StorageModule.name"), xSize, 6, 0);
 	}
 
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {

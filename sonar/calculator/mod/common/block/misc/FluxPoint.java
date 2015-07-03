@@ -14,10 +14,13 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
+import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.network.CalculatorGui;
+import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketTileSync;
+import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarMaterials;
@@ -55,9 +58,10 @@ public class FluxPoint extends SonarMachineBlock {
 				TileEntity target = world.getTileEntity(x, y, z);
 				if (target != null && target instanceof TileEntityFluxPoint) {
 					TileEntityFluxPoint point = (TileEntityFluxPoint) target;
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL1, point.freq), (EntityPlayerMP) player);
+					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL1, FluxRegistry.getNetwork(point.networkID)), (EntityPlayerMP) player);
 					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL6, point.priority), (EntityPlayerMP) player);					
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL7, point.maxTransfer), (EntityPlayerMP) player);					
+					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL7, point.maxTransfer), (EntityPlayerMP) player);			
+					Calculator.network.sendTo(new PacketFluxNetworkList(x, y, z, FluxRegistry.getAvailableNetworks(player.getGameProfile().getName(), null)), (EntityPlayerMP) player);
 					player.openGui(Calculator.instance, CalculatorGui.FluxPoint, world, x, y, z);
 				}
 			}
@@ -83,8 +87,8 @@ public class FluxPoint extends SonarMachineBlock {
 	@Override
 	public void onNeighborChange(IBlockAccess world, int x, int y, int z, int tileX, int tileY, int tileZ) {
 		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if (tileentity != null && tileentity instanceof TileEntityFlux) {
-			TileEntityFlux flux = (TileEntityFlux) world.getTileEntity(x, y, z);
+		if (tileentity != null && tileentity instanceof TileEntityFluxHandler) {
+			TileEntityFluxHandler flux = (TileEntityFluxHandler) world.getTileEntity(x, y, z);
 			flux.updateAdjacentHandlers();
 		}
 
@@ -92,19 +96,18 @@ public class FluxPoint extends SonarMachineBlock {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add("Wireless energy system");
-
+		list.add("Receives Energy");
 	}
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemstack) {
 		super.onBlockPlacedBy(world, x, y, z, player, itemstack);
 		TileEntity target = world.getTileEntity(x, y, z);
-		if (target != null && target instanceof TileEntityFluxPoint) {
-			TileEntityFluxPoint point = (TileEntityFluxPoint) target;
+		if (target != null && target instanceof TileEntityFluxHandler) {
+			TileEntityFluxHandler flux = (TileEntityFluxHandler) target;
 			if (player != null && player instanceof EntityPlayer) {
-				point.setPlayer((EntityPlayer) player);
+				flux.setPlayer((EntityPlayer) player);
 			}
-			point.updateAdjacentHandlers();
+			flux.updateAdjacentHandlers();
 		}
 	}
 

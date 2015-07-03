@@ -9,9 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDCalculatorLocator implements IWailaDataProvider {
 
@@ -44,17 +44,17 @@ public class HUDCalculatorLocator implements IWailaDataProvider {
 			tile.writeToNBT(tag);
 			int active = tag.getInteger("active");
 			if (active == 0) {
-				currenttip.add(StatCollector.translateToLocal("locator.active")+": " + StatCollector.translateToLocal("locator.false"));
+				currenttip.add(FontHelper.translate("locator.active")+": " + FontHelper.translate("locator.false"));
 			}
 			if (active == 1) {
-				currenttip.add(StatCollector.translateToLocal("locator.active")+": " + StatCollector.translateToLocal("locator.true"));
+				currenttip.add(FontHelper.translate("locator.active")+": " + FontHelper.translate("locator.true"));
 			}
 			String user = tile.ownerUsername();
 			if (user != "None") {
-				currenttip.add(StatCollector.translateToLocal("locator.owner")+": " + user);
+				currenttip.add(FontHelper.translate("locator.owner")+": " + user);
 			}
 			if (user == "None") {
-				currenttip.add(StatCollector.translateToLocal("locator.owner")+": " + StatCollector.translateToLocal("locator.none"));
+				currenttip.add(FontHelper.translate("locator.owner")+": " + FontHelper.translate("locator.none"));
 
 			}
 		}

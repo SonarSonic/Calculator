@@ -10,9 +10,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.client.gui.calculators.GuiInfoCalculator;
 import sonar.calculator.mod.utils.InfoList;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -46,7 +46,7 @@ public class InfoUsageHandler extends TemplateRecipeHandler {
 	 @Override
 	  public String getRecipeName()
 	    {
-	      return StatCollector.translateToLocal("info.type");
+	      return FontHelper.translate("info.type");
 	    }
 
 	@Override

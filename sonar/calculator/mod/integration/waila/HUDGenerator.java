@@ -2,7 +2,6 @@ package sonar.calculator.mod.integration.waila;
 
 import java.util.List;
 
-import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -10,8 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDGenerator implements IWailaDataProvider {
 
@@ -43,13 +43,13 @@ public class HUDGenerator implements IWailaDataProvider {
 			tile.writeToNBT(tag);
 			int level = tag.getInteger("ItemLevel") * 100 / 5000;
 			if (tile instanceof TileEntityGenerator.RedstoneExtractor) {
-				String points = StatCollector.translateToLocal("generator.starch") + ": " + level + "%";
+				String points = FontHelper.translate("generator.starch") + ": " + level + "%";
 				currenttip.add(points);
 			} else if (tile instanceof TileEntityGenerator.GlowstoneExtractor) {
-				String points = StatCollector.translateToLocal("generator.glowstone") + ": " + level + "%";
+				String points = FontHelper.translate("generator.glowstone") + ": " + level + "%";
 				currenttip.add(points);
 			} else {
-				String points = StatCollector.translateToLocal("generator.redstone") + ": " + level + "%";
+				String points = FontHelper.translate("generator.redstone") + ": " + level + "%";
 				currenttip.add(points);
 			}
 

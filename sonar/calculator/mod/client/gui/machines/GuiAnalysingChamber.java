@@ -9,9 +9,9 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.client.gui.utils.GuiButtons;
-import sonar.calculator.mod.client.gui.utils.GuiButtons.CircuitButton;
-import sonar.calculator.mod.client.gui.utils.GuiButtons.PauseButton;
+import sonar.calculator.mod.client.gui.utils.GuiSonar;
+import sonar.calculator.mod.client.gui.utils.GuiSonar.CircuitButton;
+import sonar.calculator.mod.client.gui.utils.GuiSonar.PauseButton;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 import sonar.core.utils.helpers.FontHelper;
@@ -34,7 +34,7 @@ public class GuiAnalysingChamber extends GuiContainer {
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 
 		if (this.entity.stable == 1) {
-			FontHelper.textCentre(StatCollector.translateToLocal("circuit.stable"), xSize, 12, 0);
+			FontHelper.textCentre(FontHelper.translate("circuit.stable"), xSize, 12, 0);
 		}
 
 	}

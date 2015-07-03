@@ -23,6 +23,7 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.IDropTile;
 import sonar.core.utils.SonarMaterials;
+import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 
 public class GlowstoneExtractor extends SonarMachineBlock implements IWrench {
@@ -104,7 +105,7 @@ public class GlowstoneExtractor extends SonarMachineBlock implements IWrench {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add(StatCollector.translateToLocal("energy.generate") + ": " + CalculatorConfig.glowstoneRF + " RF/t");
+		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.glowstoneRF + " RF/t");
 
 	}
 }

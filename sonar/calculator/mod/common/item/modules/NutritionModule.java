@@ -16,6 +16,7 @@ import sonar.calculator.mod.api.IHungerStore;
 import sonar.calculator.mod.api.ProcessType;
 import sonar.calculator.mod.common.item.CalcItem;
 import sonar.calculator.mod.utils.helpers.NutritionHelper;
+import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -93,8 +94,8 @@ public class NutritionModule extends CalcItem implements IHealthStore, IHungerSt
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
 		if (stack.hasTagCompound()) {
-			list.add(StatCollector.translateToLocal("points.hunger") + ": " + getHungerPoints(stack));
-			list.add(StatCollector.translateToLocal("points.health") + ": " + getHealthPoints(stack));
+			list.add(FontHelper.translate("points.hunger") + ": " + getHungerPoints(stack));
+			list.add(FontHelper.translate("points.health") + ": " + getHealthPoints(stack));
 		}
 	}
 

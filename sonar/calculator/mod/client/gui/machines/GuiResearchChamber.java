@@ -30,12 +30,12 @@ public class GuiResearchChamber extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(StatCollector.translateToLocal(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
 		if (entity.ticks != 0 && entity.ticks!=-1) {
 			FontHelper.textCentre(("" + this.entity.ticks * 100 / this.entity.researchSpeed) + " %", xSize, 55, 0);
 		}
 		if(entity.maxRecipes!=0){
-			FontHelper.textCentre(StatCollector.translateToLocal("research.recipe") + ": " + entity.storedRecipes + "/" + entity.maxRecipes, xSize, 70, 0);
+			FontHelper.textCentre(FontHelper.translate("research.recipe") + ": " + entity.storedRecipes + "/" + entity.maxRecipes, xSize, 70, 0);
 		}
 	}
 

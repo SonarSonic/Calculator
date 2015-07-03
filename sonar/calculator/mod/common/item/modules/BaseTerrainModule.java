@@ -31,7 +31,7 @@ public class BaseTerrainModule extends SonarCalculator {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list,	boolean par4) {
 		super.addInformation(stack, player, list, par4);	
 		if(stack.hasTagCompound()){
-		list.add(StatCollector.translateToLocal("calc.mode") + ": " + chat(stack,player));
+		list.add(FontHelper.translate("calc.mode") + ": " + chat(stack,player));
 		}
 	}
 
@@ -55,7 +55,7 @@ public class BaseTerrainModule extends SonarCalculator {
 		}
 		
 		if (this.getEnergyStored(stack) == 0) {
-			FontHelper.sendMessage(StatCollector.translateToLocal("energy.noEnergy"), world, player);
+			FontHelper.sendMessage(FontHelper.translate("energy.noEnergy"), world, player);
 		}
 		return true;
 	}

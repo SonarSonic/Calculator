@@ -21,6 +21,21 @@ public class CalculatorOreDict extends Calculator {
 		OreDictionary.registerOre("calculatorCircuit", new ItemStack(circuitBoard, 1, 11));
 		OreDictionary.registerOre("calculatorCircuit", new ItemStack(circuitBoard, 1, 12));
 		OreDictionary.registerOre("calculatorCircuit", new ItemStack(circuitBoard, 1, 13));
+
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 0));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 1));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 2));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 3));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 4));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 5));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 6));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 7));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 8));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 9));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 10));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 11));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 12));
+		OreDictionary.registerOre("calculatorDirty", new ItemStack(circuitBoard, 1, 13));
 		
 		//dusts & ingots
 		OreDictionary.registerOre("ingotEnrichedGold", enrichedgold_ingot);
@@ -76,5 +91,29 @@ public class CalculatorOreDict extends Calculator {
 		OreDictionary.registerOre("reinforcedDirt",reinforceddirtBlock);
 		OreDictionary.registerOre("strongDirt",reinforceddirtBlock);
 		OreDictionary.registerOre("hardDirt",reinforceddirtBlock);
+	}
+	/**
+	 * 
+	 * @param type (Normal=0, Damaged=1, Dirty=2)
+	 * @return
+	 */
+	public static ItemStack[] circuitList(int type){
+		ItemStack[] circuits = new ItemStack[14];
+		for(int i=0;i<circuits.length;i++){
+			switch (type) {
+			case 0:
+				circuits[i] = new ItemStack(circuitBoard, 1, i);
+				break;
+
+			case 1:
+				circuits[i] = new ItemStack(circuitDamaged, 1, i);
+				break;
+
+			case 2:
+				circuits[i] = new ItemStack(circuitDirty, 1, i);
+				break;
+			}
+		}
+		return circuits;		
 	}
 }

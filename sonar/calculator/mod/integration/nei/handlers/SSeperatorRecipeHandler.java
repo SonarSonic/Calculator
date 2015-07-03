@@ -7,9 +7,9 @@ import java.util.Map;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
 import sonar.calculator.mod.common.recipes.machines.StoneSeperatorRecipes;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
@@ -57,7 +57,7 @@ public class SSeperatorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector.translateToLocal("tile.StoneSeperatorIdle.name");
+		return FontHelper.translate("tile.StoneSeperatorIdle.name");
 	}
 
 	@Override

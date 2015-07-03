@@ -25,7 +25,7 @@ public class SlotResearch extends Slot {
 			int[] unblocked = entity.unblockedList();
 			if (entity.isBlocked(entity.lastResearch) && entity.lastResearch != 0) {
 				if (CalculatorRecipes.recipes().discovery(unblocked, entity.lastResearch)) {
-					FontHelper.sendMessage(StatCollector.translateToLocal("research.recipeNew"), entity.getWorldObj(), player);
+					FontHelper.sendMessage(FontHelper.translate("research.recipeNew"), entity.getWorldObj(), player);
 				}
 			}
 			*/
@@ -42,7 +42,7 @@ public class SlotResearch extends Slot {
 			int[] unblocked = entity.unblockedList();
 			if (entity.isBlocked(entity.lastResearch) && entity.lastResearch != 0) {
 				if (CalculatorRecipes.recipes().discovery(unblocked, entity.lastResearch)) {
-					FontHelper.sendMessage(StatCollector.translateToLocal("research.recipeNew"), entity.getWorldObj(), player);
+					FontHelper.sendMessage(FontHelper.translate("research.recipeNew"), entity.getWorldObj(), player);
 				}
 			}
 			*/

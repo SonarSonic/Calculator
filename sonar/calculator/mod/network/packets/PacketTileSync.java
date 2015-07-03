@@ -51,6 +51,9 @@ public class PacketTileSync implements IMessage {
 			else if(obj instanceof Byte){
 				return 5;
 			}
+			else if(obj instanceof Float){
+				return 6;
+			}
 		}
 		return 0;
 	}
@@ -69,6 +72,7 @@ public class PacketTileSync implements IMessage {
 		case 3: this.sync = buf.readBoolean();break;
 		case 4: this.sync = ByteBufUtils.readItemStack(buf);break;
 		case 5: this.sync = buf.readByte();break;
+		case 6: this.sync = buf.readFloat();break;
 		default: this.sync = buf.readInt();break;
 		}
 		if (Minecraft.getMinecraft().thePlayer.worldObj != null) {
@@ -94,6 +98,7 @@ public class PacketTileSync implements IMessage {
 		case 3: buf.writeBoolean((Boolean) sync);break;
 		case 4: ByteBufUtils.writeItemStack(buf, (ItemStack)sync);break;
 		case 5: buf.writeByte((Byte) sync);break;
+		case 6: buf.writeFloat((Float) sync);break;
 		default: buf.writeInt((Integer) sync);break;
 		}
 	}

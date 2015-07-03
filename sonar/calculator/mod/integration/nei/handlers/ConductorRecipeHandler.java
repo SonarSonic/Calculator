@@ -7,9 +7,9 @@ import java.util.Map;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.client.gui.generators.GuiConductorMast;
 import sonar.calculator.mod.common.recipes.machines.ConductorMastRecipes;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -63,7 +63,7 @@ public Class<? extends GuiContainer> getGuiClass()
   @Override
 public String getRecipeName()
   {
-    return StatCollector.translateToLocal("tile.ConductorMast.name");
+    return FontHelper.translate("tile.ConductorMast.name");
   }
   
   @Override

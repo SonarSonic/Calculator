@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.IFlux;
 import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiCraftingCalculator;
@@ -44,6 +45,7 @@ import sonar.calculator.mod.client.gui.misc.GuiFluxController;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPlug;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPoint;
 import sonar.calculator.mod.client.gui.misc.GuiGasLantern;
+import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
 import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
 import sonar.calculator.mod.client.gui.modules.GuiSmeltingModule;
 import sonar.calculator.mod.client.gui.modules.GuiStorageModule;
@@ -81,6 +83,7 @@ import sonar.calculator.mod.common.containers.ContainerSmeltingModule;
 import sonar.calculator.mod.common.containers.ContainerStarchExtractor;
 import sonar.calculator.mod.common.containers.ContainerStorageChamber;
 import sonar.calculator.mod.common.containers.ContainerStorageModule;
+import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.item.calculators.CraftingCalc;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
@@ -104,6 +107,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
@@ -111,7 +115,9 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.network.packets.PacketConductorMast;
+import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
+import sonar.calculator.mod.network.packets.PacketInventorySync;
 import sonar.calculator.mod.network.packets.PacketMachineButton;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
@@ -131,6 +137,8 @@ public class CalculatorCommon implements IGuiHandler {
 		Calculator.network.registerMessage(PacketSonarSides.Handler.class, PacketSonarSides.class, 3, Side.CLIENT);
 		Calculator.network.registerMessage(PacketStorageChamber.Handler.class, PacketStorageChamber.class, 4, Side.CLIENT);
 		Calculator.network.registerMessage(PacketFluxPoint.Handler.class, PacketFluxPoint.class, 5, Side.SERVER);
+		Calculator.network.registerMessage(PacketFluxNetworkList.Handler.class, PacketFluxNetworkList.class, 6, Side.CLIENT);
+		Calculator.network.registerMessage(PacketInventorySync.Handler.class, PacketInventorySync.class, 7, Side.CLIENT);
 	}
 
 	@Override
@@ -270,15 +278,23 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 			case CalculatorGui.FluxPoint:
 				if ((entity instanceof TileEntityFluxPoint)) {
-					return new ContainerFlux(player.inventory, (TileEntityFluxPoint) entity);
+					return new ContainerFlux(player.inventory, (TileEntityFluxPoint) entity, false);
 				}
 			case CalculatorGui.FluxPlug:
 				if ((entity instanceof TileEntityFluxPlug)) {
-					return new ContainerFlux(player.inventory, (TileEntityFluxPlug) entity);
+					return new ContainerFlux(player.inventory, (TileEntityFluxPlug) entity, false);
 				}
 			case CalculatorGui.FluxController:
 				if ((entity instanceof TileEntityFluxController)) {
 					return new ContainerFluxController(player.inventory, (TileEntityFluxController) entity);
+				}
+			case CalculatorGui.NetworkSelect:
+				if ((entity instanceof IFlux)) {
+					return new ContainerFlux(player.inventory, (TileEntity) entity, false);
+				}
+			case CalculatorGui.WeatherController:
+				if ((entity instanceof TileEntityWeatherController)) {
+					return new ContainerWeatherController(player.inventory, (TileEntityWeatherController) entity);
 				}
 				break;
 			}
@@ -491,7 +507,12 @@ public class CalculatorCommon implements IGuiHandler {
 				if ((entity instanceof TileEntityFluxController)) {
 					return new GuiFluxController(player.inventory, (TileEntityFluxController) entity);
 				}
+			case CalculatorGui.WeatherController:
+				if ((entity instanceof TileEntityWeatherController)) {
+					return new GuiWeatherController(player.inventory, (TileEntityWeatherController) entity);
+				}
 			}
+			
 
 		} else {
 			switch (ID) {

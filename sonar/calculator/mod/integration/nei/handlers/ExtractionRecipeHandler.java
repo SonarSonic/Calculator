@@ -7,11 +7,11 @@ import java.util.Map;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorOreDict;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
 import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
-import sonar.calculator.mod.integration.nei.handlers.ASeperatorRecipeHandler.SmeltingPair;
-import codechicken.nei.NEIServerUtils;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
@@ -30,9 +30,7 @@ public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 
 		@Override
 		public List<PositionedStack> getIngredients() {
-			return getCycledIngredients(
-					ExtractionRecipeHandler.this.cycleticks / 48,
-					Arrays.asList(new PositionedStack[] { this.input }));
+			return getCycledIngredients(ExtractionRecipeHandler.this.cycleticks / 48, Arrays.asList(new PositionedStack[] { this.input }));
 		}
 
 		@Override
@@ -41,18 +39,16 @@ public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 		}
 
 		@Override
-		public PositionedStack getOtherStack() {
-			return this.result2;
+		public List<PositionedStack> getOtherStacks() {
+			return getCycledIngredients(ExtractionRecipeHandler.this.cycleticks / 48, Arrays.asList(new PositionedStack[] { this.result2 }));
+
 		}
 	}
 
 	@Override
 	public void loadTransferRects() {
-		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
-				new Rectangle(52, 19, 24, 10), "extraction", new Object[0]));
-		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
-				new Rectangle(49 - 5, 63 - 11, 78, 10), "calculatordischarge",
-				new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(52, 19, 24, 10), "extraction", new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(49 - 5, 63 - 11, 78, 10), "calculatordischarge", new Object[0]));
 
 	}
 
@@ -63,15 +59,16 @@ public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector.translateToLocal("tile.ExtractionChamber.name");
+		return FontHelper.translate("tile.ExtractionChamber.name");
 	}
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		if ((outputId.equals("extraction"))	&& (getClass() == ExtractionRecipeHandler.class)) {
+		if ((outputId.equals("extraction")) && (getClass() == ExtractionRecipeHandler.class)) {
 			Map<Object[], Object[]> recipes = ExtractionChamberRecipes.instance().getRecipes();
 			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], recipe.getValue()[1]));
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict
+						.circuitList(1) : CalculatorOreDict.circuitList(2)));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -80,18 +77,27 @@ public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
+		if(result==null){
+			return;
+		}
 		Map<Object[], Object[]> recipes = ExtractionChamberRecipes.instance().getRecipes();
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-			int pos = ExtractionChamberRecipes.instance().containsStack(result,	recipe.getValue(), false);
-			if (pos != -1) {
-				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], recipe.getValue()[1]));
+			int pos = ExtractionChamberRecipes.instance().containsStack(result, recipe.getValue(), false);
+			
+			if(pos==0){
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0],recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict
+						.circuitList(1) : CalculatorOreDict.circuitList(0)));
+			}else if(result.getItem()==Calculator.circuitDamaged ||result.getItem()==Calculator.circuitDirty){
+			this.arecipes.add(new SmeltingPair(recipe.getKey()[0],recipe.getValue()[0], result.getItem() == Calculator.circuitDamaged ? CalculatorOreDict.circuitList(1)
+							: result.getItem() == Calculator.circuitDirty ? CalculatorOreDict.circuitList(2) : recipe.getValue()[1]));
+				
 			}
 		}
 	}
 
 	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
-		if ((inputId.equals("extraction"))&& (getClass() == ExtractionRecipeHandler.class)) {
+		if ((inputId.equals("extraction")) && (getClass() == ExtractionRecipeHandler.class)) {
 			loadCraftingRecipes("extraction", new Object[0]);
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);

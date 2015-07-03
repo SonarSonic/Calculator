@@ -1,18 +1,10 @@
 package sonar.calculator.mod.integration.nei.handlers;
 
 import java.awt.Rectangle;
-import java.util.Map;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.util.StatCollector;
-import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.client.gui.calculators.GuiDynamicCalculator;
-import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipe;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
-import sonar.calculator.mod.integration.nei.handlers.CalculatorRecipeHandler.SmeltingPair;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class DynamicRecipeHandler extends TemplateRecipeHandler {
@@ -40,6 +32,6 @@ public class DynamicRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector.translateToLocal("tile.dynamiccalculatorBlock.name");
+		return FontHelper.translate("tile.dynamiccalculatorBlock.name");
 	}
 }

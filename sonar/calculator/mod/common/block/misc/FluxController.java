@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.block.misc;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -16,14 +17,16 @@ import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.network.CalculatorGui;
+import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketTileSync;
+import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarMaterials;
 
 public class FluxController extends SonarMachineBlock {
 
-	private Random rand = new Random();
+	private Random rand = new Random();	
 
 	public FluxController() {
 		super(SonarMaterials.machine, false);
@@ -51,13 +54,13 @@ public class FluxController extends SonarMachineBlock {
 			if (!world.isRemote) {
 				TileEntity target = world.getTileEntity(x, y, z);
 				if (target != null && target instanceof TileEntityFluxController) {
-					TileEntityFluxController point = (TileEntityFluxController) target;
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL1, point.freq), (EntityPlayerMP) player);		
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL5, point.recieveMode), (EntityPlayerMP) player);		
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL6, point.sendMode), (EntityPlayerMP) player);							Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL6, point.sendMode), (EntityPlayerMP) player);				
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL7, point.allowDimensions), (EntityPlayerMP) player);				
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL8, point.playerProtect), (EntityPlayerMP) player);				
-		
+					TileEntityFluxController controller = (TileEntityFluxController) target;
+					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL1, FluxRegistry.getNetwork(controller.networkID)), (EntityPlayerMP) player);
+					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL5, controller.recieveMode), (EntityPlayerMP) player);
+					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL6, controller.sendMode), (EntityPlayerMP) player);
+					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL7, controller.transmitterMode), (EntityPlayerMP) player);
+					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL8, controller.playerProtect), (EntityPlayerMP) player);
+					Calculator.network.sendTo(new PacketFluxNetworkList(x, y, z, FluxRegistry.getAvailableNetworks(player.getGameProfile().getName(), controller)), (EntityPlayerMP) player);
 					player.openGui(Calculator.instance, CalculatorGui.FluxController, world, x, y, z);
 				}
 			}
@@ -83,9 +86,9 @@ public class FluxController extends SonarMachineBlock {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add("Wireless energy system");
-
+		list.add("Manages Energy");
 	}
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemstack) {
 		super.onBlockPlacedBy(world, x, y, z, player, itemstack);
@@ -94,9 +97,17 @@ public class FluxController extends SonarMachineBlock {
 			TileEntityFluxController control = (TileEntityFluxController) target;
 			if (player != null && player instanceof EntityPlayer) {
 				control.setPlayer((EntityPlayer) player);
-				control.loadChunks();
 			}
 		}
 	}
 
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block oldblock, int oldMetadata) {
+		TileEntity target = world.getTileEntity(x, y, z);
+		if (target != null && target instanceof TileEntityFluxController) {
+			TileEntityFluxController control = (TileEntityFluxController) target;
+			control.removeChunks();
+		}
+		super.breakBlock(world, x, y, z, oldblock, oldMetadata);
+	}
 }

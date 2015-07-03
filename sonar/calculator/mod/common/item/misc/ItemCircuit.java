@@ -5,6 +5,7 @@ import java.util.Map;
 
 import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.utils.helpers.FontHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -29,7 +30,7 @@ public class ItemCircuit extends CalcItem implements IStability {
 		if (stack.stackTagCompound != null) {
 			int stable = stack.stackTagCompound.getInteger("Stable");
 			if (stable == 1) {
-				list.add(StatCollector.translateToLocal("circuit.stable"));
+				list.add(FontHelper.translate("circuit.stable"));
 			}
 		}
 	}
@@ -192,6 +193,5 @@ public class ItemCircuit extends CalcItem implements IStability {
 	@Override
 	public void onFalse(ItemStack stack) {
 		stack.stackTagCompound.setInteger("Stable", 0);
-
 	}
 }

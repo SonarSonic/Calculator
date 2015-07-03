@@ -19,7 +19,7 @@ public class Wrench extends CalcItem {
 		if (!player.canPlayerEdit(x, y, z, side, stack)) {
 			return false;
 		}
-
+		
 		TileEntity te = world.getTileEntity(x, y, z);
 		Block block = world.getBlock(x, y, z);
 		if (!player.isSneaking()) {

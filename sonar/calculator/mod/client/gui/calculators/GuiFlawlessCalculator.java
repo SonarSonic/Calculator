@@ -29,7 +29,7 @@ public class GuiFlawlessCalculator extends GuiContainer
   
   @Override
 protected void drawGuiContainerForegroundLayer(int i, int j) {
-	  FontHelper.textCentre(StatCollector.translateToLocal("item.FlawlessCalculator.name"), xSize, 8, 0); }
+	  FontHelper.textCentre(FontHelper.translate("item.FlawlessCalculator.name"), xSize, 8, 0); }
   
 
   @Override

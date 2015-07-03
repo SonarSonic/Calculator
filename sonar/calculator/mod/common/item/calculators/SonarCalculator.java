@@ -6,6 +6,7 @@ import ic2.api.item.ISpecialElectricItem;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,6 +15,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.network.packets.PacketInventorySync;
 import sonar.core.common.item.InventoryContainerItem;
 import sonar.core.utils.IItemInventory;
 import sonar.core.utils.SonarAPI;
@@ -42,13 +44,16 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 	}
 
 	public ItemStack onCalculatorRightClick(ItemStack itemstack, World world, EntityPlayer player, int ID) {
+		if (!world.isRemote && player instanceof EntityPlayerMP) {
+			Calculator.network.sendTo(new PacketInventorySync(player.inventory), (EntityPlayerMP) player);
+		}
 		if (player.capabilities.isCreativeMode) {
 			player.openGui(Calculator.instance, ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 		} else if (getEnergyStored(itemstack) > 1) {
 			player.openGui(Calculator.instance, ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 
 		} else if ((getEnergyStored(itemstack) < 1)) {
-			FontHelper.sendMessage(StatCollector.translateToLocal("energy.notEnough"), world, player);
+			FontHelper.sendMessage(FontHelper.translate("energy.notEnough"), world, player);
 		}
 		return itemstack;
 	}
@@ -57,10 +62,10 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		if (!CalculatorConfig.isEnabled(stack)) {
-			list.add(StatCollector.translateToLocal("calc.ban"));
+			list.add(FontHelper.translate("calc.ban"));
 		}
 		super.addInformation(stack, player, list, par4);
-		list.add(StatCollector.translateToLocal("energy.stored") + ": " + getEnergyStored(stack) + " RF");
+		list.add(FontHelper.translate("energy.stored") + ": " + getEnergyStored(stack) + " RF");
 
 	}
 

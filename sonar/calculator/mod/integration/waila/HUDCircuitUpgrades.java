@@ -9,9 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.api.IUpgradeCircuits;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDCircuitUpgrades implements IWailaDataProvider {
 
@@ -47,18 +47,18 @@ public class HUDCircuitUpgrades implements IWailaDataProvider {
 			int energyint = tag.getInteger("eUpgrade");
 			int voidint = tag.getShort("vUpgrade");
 			if(speedint!=0){
-			String speed = StatCollector.translateToLocal("circuit.speed")+": " + speedint;
+			String speed = FontHelper.translate("circuit.speed")+": " + speedint;
 			
 			currenttip.add(speed);
 			}
 
 			if(energyint!=0){
-			String energy = StatCollector.translateToLocal("circuit.energy")+": " + energyint;
+			String energy = FontHelper.translate("circuit.energy")+": " + energyint;
 			currenttip.add(energy);
 			}
 			
 			if(voidint!=0){
-			String voidString = StatCollector.translateToLocal("circuit.void")+": " + StatCollector.translateToLocal("circuit.installed");
+			String voidString = FontHelper.translate("circuit.void")+": " + FontHelper.translate("circuit.installed");
 			currenttip.add(voidString);
 			}
 		}

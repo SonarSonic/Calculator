@@ -30,21 +30,21 @@ public class GuiCalculatorPlug extends GuiContainer {
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 
-		FontHelper.textCentre(StatCollector.translateToLocal(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
 		FontHelper.textCentre(getString(), xSize, 60, 0);
 	}
 
 	private String getString() {
 		if (this.entity.stable == 0) {
-			return StatCollector.translateToLocal("circuit.stable") + ": " + StatCollector.translateToLocal("circuit.noStability");
+			return FontHelper.translate("circuit.stable") + ": " + FontHelper.translate("circuit.noStability");
 		}
 		if (this.entity.stable == 1)
-			return StatCollector.translateToLocal("circuit.stable") + ": " + StatCollector.translateToLocal("locator.false");
+			return FontHelper.translate("circuit.stable") + ": " + FontHelper.translate("locator.false");
 		if (this.entity.stable == 2) {
-			return StatCollector.translateToLocal("circuit.stable") + ": " + StatCollector.translateToLocal("locator.true");
+			return FontHelper.translate("circuit.stable") + ": " + FontHelper.translate("locator.true");
 		}
 
-		return StatCollector.translateToLocal("circuit.stable") + ": " + StatCollector.translateToLocal("locator.unknown");
+		return FontHelper.translate("circuit.stable") + ": " + FontHelper.translate("locator.unknown");
 	}
 
 	@Override

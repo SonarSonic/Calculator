@@ -8,6 +8,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.renderers.ItemAxe;
 import sonar.calculator.mod.client.renderers.ItemCalculatorPlug;
 import sonar.calculator.mod.client.renderers.ItemConductorMask;
+import sonar.calculator.mod.client.renderers.ItemFluxReceiver;
 import sonar.calculator.mod.client.renderers.ItemHoe;
 import sonar.calculator.mod.client.renderers.ItemLantern;
 import sonar.calculator.mod.client.renderers.ItemPickaxe;
@@ -189,6 +190,8 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer fluxController = new RenderHandlers.FluxController();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluxController.class, fluxController);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.fluxController), new ItemModelRender(fluxController, new TileEntityFluxController()));
+	
+		//MinecraftForgeClient.registerItemRenderer(Calculator.itemFluxModule, new ItemFluxReceiver());
 
 	}
 }

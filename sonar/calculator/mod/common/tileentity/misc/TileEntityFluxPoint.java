@@ -1,15 +1,19 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import ic2.api.energy.tile.IEnergySink;
+import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.api.IFluxPlug;
 import sonar.calculator.mod.api.IFluxPoint;
 import sonar.calculator.mod.api.SyncData;
 import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
+import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 
-public class TileEntityFluxPoint extends TileEntityFlux implements IFluxPoint {
+public class TileEntityFluxPoint extends TileEntityFluxHandler implements IFluxPoint {
 
 	public int priority, maxTransfer = 128000;
 

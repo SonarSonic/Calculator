@@ -45,26 +45,26 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 	public void updateEntity() {
 		super.updateEntity();
 
+		if (this.worldObj.isRemote) {
+			return;
+		}
 		if (analysed == 1 && this.slots[0] == null) {
 			this.analysed = 0;
 			this.stable = 0;
 		}
-		if (!this.worldObj.isRemote) {
-			if (canAnalyse()) {
-				analyse(0);
-			}
-
-			charge(1);
-
-			addEnergy();
-			stable = stable(0);
+		if (canAnalyse()) {
+			analyse(0);
 		}
+
+		charge(1);
+
+		addEnergy();
+		stable = stable(0);
 
 		this.markDirty();
 	}
 
 	private void addEnergy() {
-
 		TileEntity entity = this.worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
 		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN)) {
 			this.storage.modifyEnergyStored(-((IEnergyHandler) entity).receiveEnergy(ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false));
@@ -73,44 +73,45 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 
 	private void analyse(int slot) {
 		if (slots[slot].hasTagCompound()) {
+			NBTTagCompound tag = slots[slot].getTagCompound();
 			int storedEnergy = itemEnergy(slots[slot].stackTagCompound.getInteger("Energy"));
 			this.storage.receiveEnergy(storedEnergy, false);
 
 			if (vUpgrade == 0) {
-				ItemStack item1 = AnalysingChamberRecipes.instance().getResult(1, slots[slot].stackTagCompound.getInteger("Item1"));
-				ItemStack item2 = AnalysingChamberRecipes.instance().getResult(1, slots[slot].stackTagCompound.getInteger("Item2"));
-				if (!(item1 == null)) {
+				ItemStack item1 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item1"));
+				ItemStack item2 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item2"));
+				if (item1 != null) {
 					add(item1, 2);
 				}
-				if (!(item2 == null)) {
+				if (item2 == null) {
 					add(item2, 3);
 				}
 			}
-			ItemStack item3 = AnalysingChamberRecipes.instance().getResult(2, slots[slot].stackTagCompound.getInteger("Item3"));
-			ItemStack item4 = AnalysingChamberRecipes.instance().getResult(3, slots[slot].stackTagCompound.getInteger("Item4"));
-			ItemStack item5 = AnalysingChamberRecipes.instance().getResult(4, slots[slot].stackTagCompound.getInteger("Item5"));
-			ItemStack item6 = AnalysingChamberRecipes.instance().getResult(5, slots[slot].stackTagCompound.getInteger("Item6"));
+			ItemStack item3 = AnalysingChamberRecipes.instance().getResult(2, tag.getInteger("Item3"));
+			ItemStack item4 = AnalysingChamberRecipes.instance().getResult(3, tag.getInteger("Item4"));
+			ItemStack item5 = AnalysingChamberRecipes.instance().getResult(4, tag.getInteger("Item5"));
+			ItemStack item6 = AnalysingChamberRecipes.instance().getResult(5, tag.getInteger("Item6"));
 
-			if (!(item3 == null)) {
+			if (item3 != null) {
 				add(item3, 4);
 			}
-			if (!(item4 == null)) {
+			if (item4 != null) {
 				add(item4, 5);
 			}
-			if (!(item5 == null)) {
+			if (item5 != null) {
 				add(item5, 6);
 			}
-			if (!(item6 == null)) {
+			if (item6 != null) {
 				add(item6, 7);
 			}
 
-			slots[slot].stackTagCompound.setInteger("Item1", 0);
-			slots[slot].stackTagCompound.setInteger("Item2", 0);
-			slots[slot].stackTagCompound.setInteger("Item3", 0);
-			slots[slot].stackTagCompound.setInteger("Item4", 0);
-			slots[slot].stackTagCompound.setInteger("Item5", 0);
-			slots[slot].stackTagCompound.setInteger("Item6", 0);
-			slots[slot].stackTagCompound.setInteger("Energy", 0);
+			tag.setInteger("Item1", 0);
+			tag.setInteger("Item2", 0);
+			tag.setInteger("Item3", 0);
+			tag.setInteger("Item4", 0);
+			tag.setInteger("Item5", 0);
+			tag.setInteger("Item6", 0);
+			tag.setInteger("Energy", 0);
 
 			analysed = 1;
 		}
@@ -118,11 +119,8 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 
 	private void add(ItemStack item, int slotID) {
 		if (item != null) {
-			if (item.stackSize != 0) {
-				return;
-			}
 			if (this.canAnalyse()) {
-				this.slots[slotID] = item.copy();
+				this.slots[slotID] = new ItemStack(item.getItem(), 1, item.getItemDamage());
 			}
 		}
 
@@ -282,13 +280,12 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 		}
 	}
 
-
 	@Override
 	public void onSync(Object data, int id) {
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.SPECIAL1:
-			this.stable = (Integer)data;
+			this.stable = (Integer) data;
 			break;
 
 		}

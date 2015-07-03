@@ -10,16 +10,29 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.utils.CalculatorButtons;
-import sonar.calculator.mod.client.gui.utils.GuiButtons;
+import sonar.calculator.mod.client.gui.utils.GuiSonar;
 import sonar.calculator.mod.client.gui.utils.CalculatorButtons.SonarButton;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.core.utils.helpers.FontHelper;
 
-public class GuiDualOutputSmelting extends GuiButtons {
-	public static ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/stoneseperator.png");
-
+public class GuiDualOutputSmelting extends GuiSonar {
+	
 	public TileEntityAbstractProcess entity;
+
+	public GuiDualOutputSmelting(InventoryPlayer inventoryPlayer, TileEntityAbstractProcess entity) {
+		super(new ContainerDualOutputSmelting(inventoryPlayer, entity), entity);
+
+		this.entity = entity;
+
+		this.xSize = 176;
+		this.ySize = 166;
+	}
+
+	@Override
+	public ResourceLocation getBackground() {
+		return new ResourceLocation("Calculator:textures/gui/stoneseperator.png");
+	}
 
 	public void initGui() {
 		super.initGui();
@@ -45,6 +58,26 @@ public class GuiDualOutputSmelting extends GuiButtons {
 		}
 	}
 
+	@Override
+	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+		FontHelper.textCentre(this.entity.getInventoryName(), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
+		super.drawGuiContainerForegroundLayer(par1, par2);
+	}
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+		super.drawGuiContainerBackgroundLayer(var1, var2, var3);
+		int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
+		int j = 78 - k;
+		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
+
+		if (this.entity.currentSpeed!= 0  && this.entity.cookTime != 0) {
+			int l = this.entity.cookTime * 23 / this.entity.currentSpeed;
+			drawTexturedModalRect(this.guiLeft + 62, this.guiTop + 24, 176, 10, l, 16);
+		}
+	}
+
 	public static class AlgorithmSeperator extends GuiDualOutputSmelting {
 		public AlgorithmSeperator(InventoryPlayer inventoryPlayer, TileEntityAbstractProcess entity) {
 			super(inventoryPlayer, entity);
@@ -62,48 +95,22 @@ public class GuiDualOutputSmelting extends GuiButtons {
 
 		public ExtractionChamber(InventoryPlayer inventoryPlayer, TileEntityAbstractProcess entity) {
 			super(inventoryPlayer, entity);
-			super.bground = new ResourceLocation("Calculator:textures/gui/extractionchamber.png");
+		}
+
+		@Override
+		public ResourceLocation getBackground() {
+			return new ResourceLocation("Calculator:textures/gui/extractionchamber.png");
 		}
 	}
 
 	public static class PrecisionChamber extends GuiDualOutputSmelting {
-
 		public PrecisionChamber(InventoryPlayer inventoryPlayer, TileEntityAbstractProcess entity) {
 			super(inventoryPlayer, entity);
-			super.bground = new ResourceLocation("Calculator:textures/gui/extractionchamber.png");
 		}
-	}
 
-	public GuiDualOutputSmelting(InventoryPlayer inventoryPlayer, TileEntityAbstractProcess entity) {
-		super(new ContainerDualOutputSmelting(inventoryPlayer, entity), entity.xCoord, entity.yCoord, entity.zCoord);
-
-		this.entity = entity;
-
-		this.xSize = 176;
-		this.ySize = 166;
-	}
-
-	@Override
-	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(this.entity.getInventoryName(), xSize, 6, 0);
-		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
-		super.drawGuiContainerForegroundLayer(par1, par2);
-	}
-
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-
-		int k = this.entity.storage.getEnergyStored() * 78 / CalculatorConfig.cubeEnergy;
-		int j = 78 - k;
-		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
-
-		if (this.entity.currentSpeed != 0 && this.entity.cookTime != 0) {
-			int l = this.entity.cookTime * 23 / this.entity.currentSpeed;
-			drawTexturedModalRect(this.guiLeft + 62, this.guiTop + 24, 176, 10, l, 16);
+		@Override
+		public ResourceLocation getBackground() {
+			return new ResourceLocation("Calculator:textures/gui/extractionchamber.png");
 		}
 	}
 

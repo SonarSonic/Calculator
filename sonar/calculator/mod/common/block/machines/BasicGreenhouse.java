@@ -62,13 +62,13 @@ public class BasicGreenhouse extends SonarMachineBlock {
 							&& !house.isBeingBuilt()) {
 						FailedCoords coords = house.createBlock();
 						if (!coords.getBoolean()) {
-							FontHelper.sendMessage(StatCollector.translateToLocal("greenhouse.block") + " " 
+							FontHelper.sendMessage(FontHelper.translate("greenhouse.block") + " " 
 									+ "X: " + coords.getX()
 									+ " Y: " + coords.getY()
 									+ " Z: " + coords.getZ()
-									+ " - " + StatCollector.translateToLocal("greenhouse.blocking"), world, player);
+									+ " - " + FontHelper.translate("greenhouse.blocking"), world, player);
 						} else {
-							FontHelper.sendMessage(StatCollector.translateToLocal("greenhouse.construction"), world, player);
+							FontHelper.sendMessage(FontHelper.translate("greenhouse.construction"), world, player);
 						}
 					}
 				}
@@ -80,7 +80,7 @@ public class BasicGreenhouse extends SonarMachineBlock {
 
 					} else if (!(house.storage.getEnergyStored() >= house.requiredBuildEnergy)) {
 						if (!world.isRemote) {
-							FontHelper.sendMessage(StatCollector.translateToLocal("energy.notEnough"), world, player);
+							FontHelper.sendMessage(FontHelper.translate("energy.notEnough"), world, player);
 						}
 
 					}
@@ -92,11 +92,11 @@ public class BasicGreenhouse extends SonarMachineBlock {
 						FontHelper.sendMessage("X: " + coords.getX() + " Y: "
 										+ coords.getY() + " Z: "
 										+ coords.getZ()
-										+ " - " + StatCollector.translateToLocal("greenhouse.equal") + " "
+										+ " - " + FontHelper.translate("greenhouse.equal") + " "
 										+ coords.getBlock(), world, player);
 					}
 				} else if (house.isCompleted()) {
-					FontHelper.sendMessage(StatCollector.translateToLocal("greenhouse.complete"), world, player);
+					FontHelper.sendMessage(FontHelper.translate("greenhouse.complete"), world, player);
 
 				}
 

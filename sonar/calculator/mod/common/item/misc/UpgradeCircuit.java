@@ -39,10 +39,10 @@ public class UpgradeCircuit extends CalcItem {
 
 				} else if (!uTile.canAddUpgrades()
 						&& uTile.canAddUpgrades(type)) {
-					FontHelper.sendMessage(StatCollector.translateToLocal("circuit.upgrade"),world, player);
+					FontHelper.sendMessage(FontHelper.translate("circuit.upgrade"),world, player);
 				}
 			} else {
-				FontHelper.sendMessage(StatCollector.translateToLocal("circuit.acceptedUpgrades")
+				FontHelper.sendMessage(FontHelper.translate("circuit.acceptedUpgrades")
 								+ ": "
 								+ acceptsCircuit(0, uTile)
 								+ acceptsCircuit(1, uTile)
@@ -63,13 +63,13 @@ public class UpgradeCircuit extends CalcItem {
 
 	public String circuitName(int circuit) {
 		if (circuit == 0) {
-			return StatCollector.translateToLocal("item.SpeedUpgrade.name")
+			return FontHelper.translate("item.SpeedUpgrade.name")
 					+ " ";
 		} else if (circuit == 1) {
-			return StatCollector.translateToLocal("item.EnergyUpgrade.name")
+			return FontHelper.translate("item.EnergyUpgrade.name")
 					+ " ";
 		} else if (circuit == 2) {
-			return StatCollector.translateToLocal("item.VoidUpgrade.name")
+			return FontHelper.translate("item.VoidUpgrade.name")
 					+ " ";
 		}
 		return null;

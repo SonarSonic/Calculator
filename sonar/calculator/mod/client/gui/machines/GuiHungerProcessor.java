@@ -40,9 +40,9 @@ public class GuiHungerProcessor
   @Override
 public void drawGuiContainerForegroundLayer(int par1, int par2)
   {
-	  FontHelper.textCentre(StatCollector.translateToLocal(entity.getInventoryName()), xSize, 6, 0);
+	  FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
 
-    String points = StatCollector.translateToLocal("points.hunger")+": " + this.entity.storedpoints;
+    String points = FontHelper.translate("points.hunger")+": " + this.entity.storedpoints;
     FontHelper.textCentre(points, xSize, 60, 0);
   }
   

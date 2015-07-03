@@ -5,14 +5,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.utils.helpers.RecipeHelper;
+import sonar.core.utils.helpers.RecipeHelper;
 
 public class ProcessingChamberRecipes extends RecipeHelper {
 
 	private static final ProcessingChamberRecipes recipes = new ProcessingChamberRecipes();
 
 	public ProcessingChamberRecipes(){
-		super(1,1);
+		super(1,1,false);
 	}
 	public static final RecipeHelper instance() {
 		return recipes;

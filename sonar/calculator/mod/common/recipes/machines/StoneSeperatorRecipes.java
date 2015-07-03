@@ -12,14 +12,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
-import sonar.calculator.mod.utils.helpers.RecipeHelper;
+import sonar.core.utils.helpers.RecipeHelper;
 
 public class StoneSeperatorRecipes extends RecipeHelper {
 
 	private static final StoneSeperatorRecipes recipes = new StoneSeperatorRecipes();
 
 	public StoneSeperatorRecipes(){
-		super(1,2);
+		super(1,2,false);
 	}
 	public static final RecipeHelper instance() {
 		return recipes;

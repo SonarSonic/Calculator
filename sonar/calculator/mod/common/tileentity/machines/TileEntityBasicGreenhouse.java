@@ -6,18 +6,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
-import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.PlantableFilter;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.RenderHelper;
 import cofh.api.energy.EnergyStorage;
@@ -283,7 +279,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 					if (!GreenhouseHelper.r(worldObj, x + X, y + Y, z + Z)) {
 						if (!(this.worldObj.getTileEntity(x + X, y + Y, z + Z) == this)) {
 
-							return new FailedCoords(false, x + X, y + Y, z + Z, StatCollector.translateToLocal("locator.none"));
+							return new FailedCoords(false, x + X, y + Y, z + Z, FontHelper.translate("locator.none"));
 						}
 
 					}
@@ -292,7 +288,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 			}
 		}
 
-		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 	}
 
 	/** Creates Green House Structure **/
@@ -358,7 +354,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				return underroof;
 			}
 
-			return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+			return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 		}
 		return new FailedCoords(false, 0, 0, 0, "Something went wrong...");
 	}
@@ -535,43 +531,43 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setPlanks(x + (hX * i), y + 3, z + (hZ * i));
 				}
-				return new FailedCoords(false, x + (hX * i), y + 3, z + (hZ * i), StatCollector.translateToLocal("greenhouse.planks"));
+				return new FailedCoords(false, x + (hX * i), y + 3, z + (hZ * i), FontHelper.translate("greenhouse.planks"));
 			}
 			if (getPlanks(w.getBlock(x + (hX * i) + (fX * 4), y + 3, z + (hZ * i) + (fZ * 4)))) {
 				if (!check) {
 					setPlanks(x + (hX * i) + (fX * 4), y + 3, z + (hZ * i) + (fZ * 4));
 				}
-				return new FailedCoords(false, x + (hX * i) + (fX * 4), y + 3, z + (hZ * i) + (fZ * 4), StatCollector.translateToLocal("greenhouse.planks"));
+				return new FailedCoords(false, x + (hX * i) + (fX * 4), y + 3, z + (hZ * i) + (fZ * 4), FontHelper.translate("greenhouse.planks"));
 			}
 		}
 
 		for (int i = -1; i <= 5; i++) {
 			for (int s = 2; s <= 4; s++) {
 
-				if (getStairs(w.getBlock(x + (hX * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fZ * i)))) {
+				if (getStairs(w.getBlock(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i)))) {
 					if (!check) {
-						setStairs(x + (hX * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fZ * i), type("r"), 2);
+						setStairs(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("r"), 2);
 					}
-					return new FailedCoords(false, x + (hX * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fZ * i), StatCollector.translateToLocal("greenhouse.stairs"));
+					return new FailedCoords(false, x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 
 				}
-				if (getStairs(w.getBlock(x + (hoX * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fZ * i)))) {
+				if (getStairs(w.getBlock(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i)))) {
 					if (!check) {
-						setStairs(x + (hoX * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fZ * i), type("l"), 2);
+						setStairs(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("l"), 2);
 					}
-					return new FailedCoords(false, x + (hoX * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, StatCollector.translateToLocal("greenhouse.stairs"))) + (fZ * i), StatCollector.translateToLocal("greenhouse.stairs"));
+					return new FailedCoords(false, x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 				}
 				if (getPlanks(w.getBlock(x + (fX * i), y + 4, zCoord + +(fZ * i)))) {
 					if (!check) {
 						setPlanks(x + (fX * i), y + 4, zCoord + (fZ * i));
 					}
-					return new FailedCoords(false, x + (fX * i), y + 4, zCoord + (fZ * i), StatCollector.translateToLocal("greenhouse.stairs"));
+					return new FailedCoords(false, x + (fX * i), y + 4, zCoord + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 				}
 
 			}
 		}
 
-		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 	}
 
 	public FailedCoords underroof(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {
@@ -582,13 +578,13 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 					if (!check) {
 						setStairs(x + (hX) + (fX * i), y + 3, z + (hZ) + (fZ * i), type("d"), 2);
 					}
-					return new FailedCoords(false, x + (hX) + (fX * i), y + 3, z + (hZ) + (fZ * i), StatCollector.translateToLocal("greenhouse.stairs"));
+					return new FailedCoords(false, x + (hX) + (fX * i), y + 3, z + (hZ) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 				}
 				if (getStairs(w.getBlock(x + (hoX) + (fX * i), y + 3, z + (hoZ) + (fZ * i)))) {
 					if (!check) {
 						setStairs(x + (hoX) + (fX * i), y + 3, z + (hoZ) + (fZ * i), type("d2"), 2);
 					}
-					return new FailedCoords(false, x + (hoX) + (fX * i), y + 3, z + (hoZ) + (fZ * i), StatCollector.translateToLocal("greenhouse.stairs"));
+					return new FailedCoords(false, x + (hoX) + (fX * i), y + 3, z + (hoZ) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 				}
 			} else {
 				if (i != 0 && i != 4) {
@@ -596,33 +592,33 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 						if (!check) {
 							setStairs(x + (hX) + (fX * i), y + 3, z + (hZ) + (fZ * i), type("d"), 2);
 						}
-						return new FailedCoords(false, x + (hX) + (fX * i), y + 3, z + (hZ) + (fZ * i), StatCollector.translateToLocal("greenhouse.stairs"));
+						return new FailedCoords(false, x + (hX) + (fX * i), y + 3, z + (hZ) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 					}
 					if (getStairs(w.getBlock(x + (hoX) + (fX * i), y + 3, z + (hoZ) + (fZ * i)))) {
 						if (!check) {
 							setStairs(x + (hoX) + (fX * i), y + 3, z + (hoZ) + (fZ * i), type("d2"), 2);
 						}
-						return new FailedCoords(false, x + (hoX) + (fX * i), y + 3, z + (hoZ) + (fZ * i), StatCollector.translateToLocal("greenhouse.stairs"));
+						return new FailedCoords(false, x + (hoX) + (fX * i), y + 3, z + (hoZ) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 					}
 					if (i != 0 && i != 4) {
 						if (getStairs(w.getBlock(x + (hX * 2) + (fX * i), y + 2, z + (hZ * 2) + (fZ * i)))) {
 							if (!check) {
 								setStairs(x + (hX * 2) + (fX * i), y + 2, z + (hZ * 2) + (fZ * i), type("d"), 2);
 							}
-							return new FailedCoords(false, x + (hX * 2) + (fX * i), y + 2, z + (hZ * 2) + (fZ * i), StatCollector.translateToLocal("greenhouse.stairs"));
+							return new FailedCoords(false, x + (hX * 2) + (fX * i), y + 2, z + (hZ * 2) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 						}
 						if (getStairs(w.getBlock(x + (hoX * 2) + (fX * i), y + 2, z + (hoZ * 2) + (fZ * i)))) {
 							if (!check) {
 								setStairs(x + (hoX * 2) + (fX * i), y + 2, z + (hoZ * 2) + (fZ * i), type("d2"), 2);
 							}
-							return new FailedCoords(false, x + (hoX * 2) + (fX * i), y + 2, z + (hoZ * 2) + (fZ * i), StatCollector.translateToLocal("greenhouse.stairs"));
+							return new FailedCoords(false, x + (hoX * 2) + (fX * i), y + 2, z + (hoZ * 2) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 						}
 					}
 				}
 			}
 		}
 
-		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 	}
 
 	public FailedCoords sides(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {
@@ -633,14 +629,14 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 					if (!check) {
 						setPlanks(x + (hX * 2) + (fX * i), y - 1, z + (hZ * 2) + (fZ * i));
 					}
-					return new FailedCoords(false, x + (hX * 2) + (fX * i), y - 1, z + (hZ * 2) + (fZ * i), StatCollector.translateToLocal("greenhouse.planks"));
+					return new FailedCoords(false, x + (hX * 2) + (fX * i), y - 1, z + (hZ * 2) + (fZ * i), FontHelper.translate("greenhouse.planks"));
 				}
 
 				if (getPlanks(w.getBlock(x + (hoX * 2) + (fX * i), y - 1, z + (hoZ * 2) + (fZ * i)))) {
 					if (!check) {
 						setPlanks(x + (hoX * 2) + (fX * i), y - 1, z + (hoZ * 2) + (fZ * i));
 					}
-					return new FailedCoords(false, x + (hoX * 2) + (fX * i), y - 1, z + (hoZ * 2) + (fZ * i), StatCollector.translateToLocal("greenhouse.planks"));
+					return new FailedCoords(false, x + (hoX * 2) + (fX * i), y - 1, z + (hoZ * 2) + (fZ * i), FontHelper.translate("greenhouse.planks"));
 				}
 
 				for (int s = 0; s <= 1; s++) {
@@ -648,13 +644,13 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 						if (!check) {
 							setGlass(x + (hX * 2) + (fX * i), y + s, z + (hZ * 2) + (fZ * i));
 						}
-						return new FailedCoords(false, x + (hX * 2) + (fX * i), y + s, z + (hZ * 2) + (fZ * i), StatCollector.translateToLocal("greenhouse.glass"));
+						return new FailedCoords(false, x + (hX * 2) + (fX * i), y + s, z + (hZ * 2) + (fZ * i), FontHelper.translate("greenhouse.glass"));
 					}
 					if (getGlass(w.getBlock(x + (hoX * 2) + (fX * i), y + s, z + (hoZ * 2) + (fZ * i)))) {
 						if (!check) {
 							setGlass(x + (hoX * 2) + (fX * i), y + s, z + (hoZ * 2) + (fZ * i));
 						}
-						return new FailedCoords(false, x + (hoX * 2) + (fX * i), y + s, z + (hoZ * 2) + (fZ * i), StatCollector.translateToLocal("greenhouse.glass"));
+						return new FailedCoords(false, x + (hoX * 2) + (fX * i), y + s, z + (hoZ * 2) + (fZ * i), FontHelper.translate("greenhouse.glass"));
 					}
 
 				}
@@ -664,13 +660,13 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setPlanks(x + (hX * 2) + (fX * i), y + 2, z + (hZ * 2) + (fZ * i));
 				}
-				return new FailedCoords(false, x + (hX * 2) + (fX * i), y + 2, z + (hZ * 2) + (fZ * i), StatCollector.translateToLocal("greenhouse.planks"));
+				return new FailedCoords(false, x + (hX * 2) + (fX * i), y + 2, z + (hZ * 2) + (fZ * i), FontHelper.translate("greenhouse.planks"));
 			}
 			if (getPlanks(w.getBlock(x + (hoX * 2) + (fX * i), y + 2, z + (hoZ * 2) + (fZ * i)))) {
 				if (!check) {
 					setPlanks(x + (hoX * 2) + (fX * i), y + 2, z + (hoZ * 2) + (fZ * i));
 				}
-				return new FailedCoords(false, x + (hoX * 2) + (fX * i), y + 2, z + (hoZ * 2) + (fZ * i), StatCollector.translateToLocal("greenhouse.planks"));
+				return new FailedCoords(false, x + (hoX * 2) + (fX * i), y + 2, z + (hoZ * 2) + (fZ * i), FontHelper.translate("greenhouse.planks"));
 			}
 		}
 		for (int Y = 0; Y <= 1; Y++) {
@@ -679,18 +675,18 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setLog(x + (hX * 2) + (fX * 2), y + Y, z + (hZ * 2) + (fZ * 2));
 				}
-				return new FailedCoords(false, x + (hX * 2) + (fX * 2), y + Y, z + (hZ * 2) + (fZ * 2), StatCollector.translateToLocal("greenhouse.logs"));
+				return new FailedCoords(false, x + (hX * 2) + (fX * 2), y + Y, z + (hZ * 2) + (fZ * 2), FontHelper.translate("greenhouse.logs"));
 			}
 
 			if (getLog(w.getBlock(x + (hoX * 2) + (fX * 2), y + Y, z + (hoZ * 2) + (fZ * 2)))) {
 				if (!check) {
 					setLog(x + (hoX * 2) + (fX * 2), y + Y, z + (hoZ * 2) + (fZ * 2));
 				}
-				return new FailedCoords(false, x + (hoX * 2) + (fX * 2), y + Y, z + (hoZ * 2) + (fZ * 2), StatCollector.translateToLocal("greenhouse.logs"));
+				return new FailedCoords(false, x + (hoX * 2) + (fX * 2), y + Y, z + (hoZ * 2) + (fZ * 2), FontHelper.translate("greenhouse.logs"));
 			}
 
 		}
-		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 	}
 
 	public FailedCoords end(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {
@@ -700,7 +696,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setLog(x, y + i, z);
 				}
-				return new FailedCoords(false, x, y + i, z, StatCollector.translateToLocal("greenhouse.logs"));
+				return new FailedCoords(false, x, y + i, z, FontHelper.translate("greenhouse.logs"));
 			}
 
 		}
@@ -711,14 +707,14 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setLog(x + (hX * 2), y + i, z + (hZ * 2));
 				}
-				return new FailedCoords(false, x + (hX * 2), y + i, z + (hZ * 2), StatCollector.translateToLocal("greenhouse.logs"));
+				return new FailedCoords(false, x + (hX * 2), y + i, z + (hZ * 2), FontHelper.translate("greenhouse.logs"));
 			}
 
 			if (getLog(w.getBlock(x + (hoX * 2), y + i, z + (hoZ * 2)))) {
 				if (!check) {
 					setLog(x + (hoX * 2), y + i, z + (hoZ * 2));
 				}
-				return new FailedCoords(false, x + (hoX * 2), y + i, z + (hoZ * 2), StatCollector.translateToLocal("greenhouse.logs"));
+				return new FailedCoords(false, x + (hoX * 2), y + i, z + (hoZ * 2), FontHelper.translate("greenhouse.logs"));
 			}
 
 		}
@@ -728,7 +724,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setGlass(x + (hX), y + i, z + (hZ));
 				}
-				return new FailedCoords(false, x + (hX), y + i, z + (hZ), StatCollector.translateToLocal("greenhouse.glass"));
+				return new FailedCoords(false, x + (hX), y + i, z + (hZ), FontHelper.translate("greenhouse.glass"));
 
 			}
 
@@ -736,12 +732,12 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setGlass(x + (hoX), y + i, z + (hoZ));
 				}
-				return new FailedCoords(false, x + (hoX), y + i, z + (hoZ), StatCollector.translateToLocal("greenhouse.glass"));
+				return new FailedCoords(false, x + (hoX), y + i, z + (hoZ), FontHelper.translate("greenhouse.glass"));
 			}
 
 		}
 
-		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 
 	}
 
@@ -755,7 +751,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setLog(x + (hX * 2), y + i, z + (hZ * 2));
 				}
-				return new FailedCoords(false, x + (hX * 2), y + i, z + (hZ * 2), StatCollector.translateToLocal("greenhouse.logs"));
+				return new FailedCoords(false, x + (hX * 2), y + i, z + (hZ * 2), FontHelper.translate("greenhouse.logs"));
 
 			}
 
@@ -763,7 +759,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setLog(x + (hoX * 2), y + i, z + (hoZ * 2));
 				}
-				return new FailedCoords(false, x + (hoX * 2), y + i, z + (hoZ * 2), StatCollector.translateToLocal("greenhouse.logs"));
+				return new FailedCoords(false, x + (hoX * 2), y + i, z + (hoZ * 2), FontHelper.translate("greenhouse.logs"));
 
 			}
 
@@ -774,7 +770,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setPlanks(x + (hX * 1), y + i, z + (hZ * 1));
 				}
-				return new FailedCoords(false, x + (hX * 1), y + i, z + (hZ * 1), StatCollector.translateToLocal("greenhouse.planks"));
+				return new FailedCoords(false, x + (hX * 1), y + i, z + (hZ * 1), FontHelper.translate("greenhouse.planks"));
 
 			}
 
@@ -782,7 +778,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				if (!check) {
 					setPlanks(x + (hoX * 1), y + i, z + (hoZ * 1));
 				}
-				return new FailedCoords(false, x + (hoX * 1), y + i, z + (hoZ * 1), StatCollector.translateToLocal("greenhouse.planks"));
+				return new FailedCoords(false, x + (hoX * 1), y + i, z + (hoZ * 1), FontHelper.translate("greenhouse.planks"));
 
 			}
 
@@ -791,62 +787,62 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 					if (!check) {
 						setPlanks(x, y + i, z);
 					}
-					return new FailedCoords(false, x, y + i, z, StatCollector.translateToLocal("greenhouse.planks"));
+					return new FailedCoords(false, x, y + i, z, FontHelper.translate("greenhouse.planks"));
 
 				}
 			}
 		}
 
-		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 
 	}
 
 	public String getRequiredStacks() {
 
 		if (slots[0] == null) {
-			return StatCollector.translateToLocal("greenhouse.logStack") + " " + StatCollector.translateToLocal("greenhouse.isEmpty");
+			return FontHelper.translate("greenhouse.logStack") + " " + FontHelper.translate("greenhouse.isEmpty");
 		}
 		if (slots[1] == null) {
-			return StatCollector.translateToLocal("greenhouse.stairsStack") + " " + StatCollector.translateToLocal("greenhouse.isEmpty");
+			return FontHelper.translate("greenhouse.stairsStack") + " " + FontHelper.translate("greenhouse.isEmpty");
 		}
 		if (slots[2] == null) {
-			return StatCollector.translateToLocal("greenhouse.glassStack") + " " + StatCollector.translateToLocal("greenhouse.isEmpty");
+			return FontHelper.translate("greenhouse.glassStack") + " " + FontHelper.translate("greenhouse.isEmpty");
 		}
 		if (slots[3] == null) {
-			return StatCollector.translateToLocal("greenhouse.plankStack") + " " + StatCollector.translateToLocal("greenhouse.isEmpty");
+			return FontHelper.translate("greenhouse.plankStack") + " " + FontHelper.translate("greenhouse.isEmpty");
 		}
 
 		if (slots[0] != null && slots[1] != null && slots[2] != null && slots[3] != null) {
 			if (!checkLog(Block.getBlockFromItem(slots[0].getItem()))) {
-				return StatCollector.translateToLocal("greenhouse.logStack") + " " + StatCollector.translateToLocal("greenhouse.noLogs");
+				return FontHelper.translate("greenhouse.logStack") + " " + FontHelper.translate("greenhouse.noLogs");
 			}
 			if (!checkStairs(Block.getBlockFromItem(slots[1].getItem()))) {
-				return StatCollector.translateToLocal("greenhouse.stairsStack") + " " + StatCollector.translateToLocal("greenhouse.noStairs");
+				return FontHelper.translate("greenhouse.stairsStack") + " " + FontHelper.translate("greenhouse.noStairs");
 			}
 			if (!checkGlass(Block.getBlockFromItem(slots[2].getItem()))) {
-				return StatCollector.translateToLocal("greenhouse.glassStack") + " " + StatCollector.translateToLocal("greenhouse.noGlass");
+				return FontHelper.translate("greenhouse.glassStack") + " " + FontHelper.translate("greenhouse.noGlass");
 			}
 			if (!checkPlanks(Block.getBlockFromItem(slots[3].getItem()))) {
-				return StatCollector.translateToLocal("greenhouse.plankStack") + " " + StatCollector.translateToLocal("greenhouse.noPlanks");
+				return FontHelper.translate("greenhouse.plankStack") + " " + FontHelper.translate("greenhouse.noPlanks");
 			}
 			if (!(slots[0].stackSize >= stackLog)) {
-				String logs = StatCollector.translateToLocal("greenhouse.requires") + " " + (stackLog - slots[0].stackSize) + " " + StatCollector.translateToLocal("greenhouse.moreLogs");
+				String logs = FontHelper.translate("greenhouse.requires") + " " + (stackLog - slots[0].stackSize) + " " + FontHelper.translate("greenhouse.moreLogs");
 				return logs;
 			}
 			if (!(slots[1].stackSize >= stackStairs)) {
-				String stairs = StatCollector.translateToLocal("greenhouse.requires") + " " + (stackStairs - slots[1].stackSize) + " " + StatCollector.translateToLocal("greenhouse.moreStairs");
+				String stairs = FontHelper.translate("greenhouse.requires") + " " + (stackStairs - slots[1].stackSize) + " " + FontHelper.translate("greenhouse.moreStairs");
 				return stairs;
 			}
 			if (!(slots[2].stackSize >= stackGlass)) {
-				String stairs = StatCollector.translateToLocal("greenhouse.requires") + " " + (stackGlass - slots[2].stackSize) + " " + StatCollector.translateToLocal("greenhouse.moreGlass");
+				String stairs = FontHelper.translate("greenhouse.requires") + " " + (stackGlass - slots[2].stackSize) + " " + FontHelper.translate("greenhouse.moreGlass");
 				return stairs;
 			}
 			if (!(slots[3].stackSize >= stackPlanks)) {
-				String stairs = StatCollector.translateToLocal("greenhouse.requires") + " " + (stackPlanks - slots[3].stackSize) + " " + StatCollector.translateToLocal("greenhouse.morePlanks");
+				String stairs = FontHelper.translate("greenhouse.requires") + " " + (stackPlanks - slots[3].stackSize) + " " + FontHelper.translate("greenhouse.morePlanks");
 				return stairs;
 			}
 		}
-		return StatCollector.translateToLocal("locator.unknown");
+		return FontHelper.translate("locator.unknown");
 	}
 
 	/*

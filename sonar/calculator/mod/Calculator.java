@@ -203,6 +203,7 @@ public class Calculator {
 		public static Block atomicMultiplier;
 		public static Block flawlessCapacitor;
 		public static Block handcrankedGenerator;
+		public static Block weatherController, rainSensor;
 		public static Block crank;
 		public static Block researchChamber;
 		
@@ -311,6 +312,8 @@ public class Calculator {
 		public static Block AmethystSapling, tanzaniteSapling, PearSapling,diamondSapling;
 		public static Block amethystPlanks, tanzanitePlanks, pearPlanks,diamondPlanks;
 		public static Block amethystStairs, tanzaniteStairs, pearStairs,diamondStairs;
+		public static Block amethystFence, tanzaniteFence, pearFence,diamondFence;
+		public static Block amethystSlab, tanzaniteSlab, pearSlab,diamondSlab;
 
 		// decorative blocks
 		public static Block amethyst_block, end_diamond_block, enriched_gold_block,flawless_block, flawless_fire_block;

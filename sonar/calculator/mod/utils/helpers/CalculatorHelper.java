@@ -18,7 +18,6 @@ public class CalculatorHelper {
 
 	/**
 	 * Adds stored energy to the Tool Tip
-	 * 
 	 * @param stack Item that will feature list
 	 * @param player Player who is hovering over ToolTip
 	 * @param list Tool Tip
@@ -26,14 +25,13 @@ public class CalculatorHelper {
 	public static void addEnergytoToolTip(ItemStack stack, EntityPlayer player, List list) {
 		int energy = stack.getTagCompound().getInteger("energy");
 		if (energy != 0) {
-			list.add(StatCollector.translateToLocal("energy.stored") + ": " + FontHelper.formatStorage(energy));
+			list.add(FontHelper.translate("energy.stored") + ": " + FontHelper.formatStorage(energy));
 
 		}
 	}
 
 	/**
 	 * Adds stored Item Level for Generators to the Tool Tip
-	 * 
 	 * @param stack Item that will feature list
 	 * @param player Player who is hovering over ToolTip
 	 * @param list Tool Tip
@@ -43,13 +41,13 @@ public class CalculatorHelper {
 			int standardLevel = stack.getTagCompound().getInteger("ItemLevel");
 			int level = standardLevel * 100 / 5000;
 			if (standardLevel != 0 && stack.getItem() == Item.getItemFromBlock(Calculator.starchextractor)) {
-				String points = StatCollector.translateToLocal("generator.starch") + ": " + level + " %";
+				String points = FontHelper.translate("generator.starch") + ": " + level + " %";
 				list.add(points);
 			} else if (standardLevel != 0 && stack.getItem() == Item.getItemFromBlock(Calculator.redstoneextractor)) {
-				String points = StatCollector.translateToLocal("generator.redstone") + ": " + level + " %";
+				String points = FontHelper.translate("generator.redstone") + ": " + level + " %";
 				list.add(points);
 			} else if (standardLevel != 0 && stack.getItem() == Item.getItemFromBlock(Calculator.glowstoneextractor)) {
-				String points = StatCollector.translateToLocal("generator.glowstone") + ": " + level + " %";
+				String points = FontHelper.translate("generator.glowstone") + ": " + level + " %";
 				list.add(points);
 			}
 		}
@@ -57,7 +55,6 @@ public class CalculatorHelper {
 
 	/**
 	 * Adds stored Gas Level for Green Houses to the Tool Tip
-	 * 
 	 * @param stack Item that will feature list
 	 * @param player Player who is hovering over ToolTip
 	 * @param list Tool Tip
@@ -69,11 +66,11 @@ public class CalculatorHelper {
 			int oxygen = stack.getTagCompound().getInteger("Oxygen");
 
 			if (carbon != 0) {
-				String carbonString = StatCollector.translateToLocal("greenhouse.carbon") + ": " + dec.format(carbon * 100 / 100000) + "%";
+				String carbonString = FontHelper.translate("greenhouse.carbon") + ": " + dec.format(carbon * 100 / 100000) + "%";
 				list.add(carbonString);
 			}
 			if (oxygen != 0) {
-				String oxygenString = StatCollector.translateToLocal("greenhouse.oxygen") + ": " + dec.format(oxygen * 100 / 100000) + "%";
+				String oxygenString = FontHelper.translate("greenhouse.oxygen") + ": " + dec.format(oxygen * 100 / 100000) + "%";
 				list.add(oxygenString);
 			}
 		}

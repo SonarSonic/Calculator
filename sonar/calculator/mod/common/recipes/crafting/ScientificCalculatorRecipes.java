@@ -38,6 +38,8 @@ public class ScientificCalculatorRecipes {
 		addRecipe(new ItemStack(Calculator.itemTerrainModule, 1), Calculator.itemCalculator, Calculator.redstone_ingot, false);
 		addRecipe(new ItemStack(Calculator.starchextractor, 1), Calculator.itemEnergyModule, Calculator.small_amethyst, false);
 		addRecipe(new ItemStack(Calculator.itemEnergyModule, 1), Calculator.powerCube, Calculator.purified_coal, false);
+		addRecipe(new ItemStack(Calculator.fluxPlug, 1), Calculator.reinforced_iron_block, Items.ender_eye, false);
+		addRecipe(new ItemStack(Calculator.fluxPoint, 1), Calculator.redstone_ingot, Items.ender_pearl, false);
 
 	}
 

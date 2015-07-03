@@ -26,7 +26,7 @@ public class ContainerSmeltingBlock
 
     addSlotToContainer(new Slot(entity, 0, 53, 24));
     addSlotToContainer(new Slot(entity, 1, 28, 60));
-    addSlotToContainer(new SlotBlockedInventory(entity, 2, 107, 24));
+    addSlotToContainer(new Slot(entity, 2, 107, 24));
     
 
 

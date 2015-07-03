@@ -9,9 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDLightningEnergy implements IWailaDataProvider {
 
@@ -40,7 +40,7 @@ public class HUDLightningEnergy implements IWailaDataProvider {
 			TileEntityConductorMast tile = (TileEntityConductorMast) handler;
 			NBTTagCompound tag = new NBTTagCompound();
 			tile.writeToNBT(tag);
-			String points = StatCollector.translateToLocal("energy.lightning") + ": " + tag.getInteger("Power");
+			String points = FontHelper.translate("energy.lightning") + ": " + tag.getInteger("Power");
 			currenttip.add(points);
 		
 		}

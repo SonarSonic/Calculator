@@ -13,6 +13,7 @@ import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInv
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.IItemInventory;
+import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -47,6 +48,6 @@ public class ScientificCalc extends SonarCalculator implements IItemInventory {
 		super.addInformation(stack, player, list, par4);
 		int storedItems = getInventory(stack).getItemsStored(stack);
 		if(storedItems!=0){
-			list.add(StatCollector.translateToLocal("calc.storedstacks")+": " + storedItems);}
+			list.add(FontHelper.translate("calc.storedstacks")+": " + storedItems);}
 	}
 }

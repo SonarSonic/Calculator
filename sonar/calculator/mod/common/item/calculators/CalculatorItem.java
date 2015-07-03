@@ -19,6 +19,7 @@ import sonar.calculator.mod.integration.nei.handlers.CalculatorRecipeHandler.Sme
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.IItemInventory;
+import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -32,7 +33,7 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
-
+		
 		return onCalculatorRightClick(itemstack, world, player, CalculatorGui.Calculator);
 
 	}
@@ -54,13 +55,13 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 		super.addInformation(stack, player, list, par4);
 		int storedItems = getInventory(stack).getItemsStored(stack);
 		if (storedItems != 0) {
-			list.add(StatCollector.translateToLocal("calc.storedstacks") + ": " + storedItems);
+			list.add(FontHelper.translate("calc.storedstacks") + ": " + storedItems);
 		}
 		if (stack.hasTagCompound()) {
 			int max = stack.stackTagCompound.getInteger("Max");
 			int stored = stack.stackTagCompound.getInteger("Stored");
 			if (max != 0) {
-				list.add(StatCollector.translateToLocal("research.recipe") + ": " + stored + "/" + max);
+				list.add(FontHelper.translate("research.recipe") + ": " + stored + "/" + max);
 			}
 		}
 	}

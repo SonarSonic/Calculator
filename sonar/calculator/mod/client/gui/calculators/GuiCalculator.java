@@ -29,7 +29,7 @@ public class GuiCalculator
   
   @Override
 protected void drawGuiContainerForegroundLayer(int i, int j) {
-	  FontHelper.textCentre(StatCollector.translateToLocal("item.Calculator.name"), xSize, 8, 0);
+	  FontHelper.textCentre(FontHelper.translate("item.Calculator.name"), xSize, 8, 0);
   }
 
 

@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiBeacon;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -20,7 +21,10 @@ public class CalculatorButtons {
 
 		}
 
-		public abstract void onClicked();
+		public void onClicked(){
+			
+		}
+
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -66,4 +70,5 @@ public class CalculatorButtons {
 		}
 
 	}
+	
 }

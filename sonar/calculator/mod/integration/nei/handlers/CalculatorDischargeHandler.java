@@ -46,7 +46,7 @@ public class CalculatorDischargeHandler extends TemplateRecipeHandler {
 	  @Override
 	  public String getRecipeName()
 	    {
-	      return StatCollector.translateToLocal("energy.display");
+	      return FontHelper.translate("energy.display");
 	    }
 	@Override
 	public void loadTransferRects() {

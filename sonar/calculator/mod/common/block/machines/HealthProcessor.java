@@ -27,6 +27,7 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.IDropTile;
 import sonar.core.utils.SonarMaterials;
+import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -109,7 +110,7 @@ public class HealthProcessor extends SonarMachineBlock implements IWrench {
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		int health = stack.getTagCompound().getInteger("Food");
 		if (health != 0) {
-			list.add(StatCollector.translateToLocal("points.health") + ": " + health);
+			list.add(FontHelper.translate("points.health") + ": " + health);
 		}
 	}
 

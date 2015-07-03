@@ -443,6 +443,7 @@ public class CalculatorRecipes {
 
 		addRecipe(new ItemStack(Calculator.reinforcedstoneBrick, 2), Calculator.reinforcedstoneBlock, Calculator.reinforcedstoneBlock, false);
 		addRecipe(new ItemStack(Calculator.reinforceddirtBrick, 2), Calculator.reinforceddirtBlock, Calculator.reinforceddirtBlock, false);
+		addRecipe(new ItemStack(Calculator.rainSensor, 2), Blocks.daylight_detector, Items.bucket, false);
 
 	}
 

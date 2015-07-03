@@ -12,9 +12,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.client.gui.generators.GuiStarchExtractor;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.ItemList;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -67,7 +67,7 @@ public class StarchExtractorHandler extends TemplateRecipeHandler
     @Override
     public String getRecipeName()
       {
-        return StatCollector.translateToLocal("tile.starchextractor.name");
+        return FontHelper.translate("tile.starchextractor.name");
       }
 
     @Override

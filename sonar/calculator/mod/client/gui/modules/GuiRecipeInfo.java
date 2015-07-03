@@ -27,11 +27,11 @@ public class GuiRecipeInfo
 
   @Override
 protected void drawGuiContainerForegroundLayer(int i, int j) { 
-	  //FontHelper.textCentre(StatCollector.translateToLocal("item.Calculator.name"), xSize, 5, 0);
-	  FontHelper.textCentre(StatCollector.translateToLocal("info.all"), xSize, 12, 0);
-	  FontHelper.textCentre(StatCollector.translateToLocal("research.newRecipes"), xSize, 30, 0);		  
-	  FontHelper.textCentre(StatCollector.translateToLocal("info.standard"), xSize, 48, 0);	    	  
-	  FontHelper.textCentre(StatCollector.translateToLocal("info.unlocked"), xSize, 66, 0);	   
+	  //FontHelper.textCentre(FontHelper.translate("item.Calculator.name"), xSize, 5, 0);
+	  FontHelper.textCentre(FontHelper.translate("info.all"), xSize, 12, 0);
+	  FontHelper.textCentre(FontHelper.translate("research.newRecipes"), xSize, 30, 0);		  
+	  FontHelper.textCentre(FontHelper.translate("info.standard"), xSize, 48, 0);	    	  
+	  FontHelper.textCentre(FontHelper.translate("info.unlocked"), xSize, 66, 0);	   
 	  }
  
 

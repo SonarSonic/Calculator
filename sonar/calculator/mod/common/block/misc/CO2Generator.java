@@ -66,20 +66,16 @@ public class CO2Generator extends SonarMachineBlock implements IWrench {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.iconFront : side == 0 ? this.iconTop
-				: side == 1 ? this.iconTop
-						: (metadata == 0) && (side == 3) ? this.iconFront
-								: this.blockIcon;
+		return side == metadata ? this.iconFront : side == 0 ? this.iconTop : side == 1 ? this.iconTop : (metadata == 0) && (side == 3) ? this.iconFront : this.blockIcon;
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z,
-			EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (player != null) {
-		if (!world.isRemote) {
-			player.openGui(Calculator.instance,
-					CalculatorGui.CO2Generator, world, x, y, z);
-		}}
+			if (!world.isRemote) {
+				player.openGui(Calculator.instance, CalculatorGui.CO2Generator, world, x, y, z);
+			}
+		}
 		return true;
 	}
 
@@ -95,15 +91,14 @@ public class CO2Generator extends SonarMachineBlock implements IWrench {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player,
-			List list) {
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-		
+
 	}
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		
+
 	}
 
 }

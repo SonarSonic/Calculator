@@ -41,13 +41,13 @@ public class GuiGasLantern
   @Override
 public void drawGuiContainerForegroundLayer(int par1, int par2)
   {
-	  FontHelper.textCentre(StatCollector.translateToLocal(entity.getInventoryName()), xSize, 6, 0);
+	  FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
     if(entity.burnTime>0 && this.entity.maxBurnTime!=0){
-    String burn = StatCollector.translateToLocal("co2.burnt")+": " + this.entity.burnTime*100/this.entity.maxBurnTime;
+    String burn = FontHelper.translate("co2.burnt")+": " + this.entity.burnTime*100/this.entity.maxBurnTime;
     FontHelper.textCentre(burn, xSize, 60, 0);
     }
     else{
-    	String burn = StatCollector.translateToLocal("co2.burning");
+    	String burn = FontHelper.translate("co2.burning");
     	 FontHelper.textCentre(burn, xSize, 60, 0);
     }
     }

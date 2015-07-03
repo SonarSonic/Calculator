@@ -9,9 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDCO2Generator implements IWailaDataProvider {
 
@@ -46,15 +46,15 @@ public class HUDCO2Generator implements IWailaDataProvider {
 			int maxBurn = tag.getInteger("maxBurnTime");
 
 			if (burnTime > 0 && maxBurn != 0 && tile.gasAdd == 0) {
-				String burn = StatCollector.translateToLocal("co2.control");
+				String burn = FontHelper.translate("co2.control");
 				currenttip.add(burn);
 			}
 
 			else if (burnTime > 0 && maxBurn != 0) {
-				String burn = StatCollector.translateToLocal("co2.burnt")+": " + burnTime * 100 / maxBurn;
+				String burn = FontHelper.translate("co2.burnt")+": " + burnTime * 100 / maxBurn;
 				currenttip.add(burn);
 			} else {
-				String burn = StatCollector.translateToLocal("co2.burning");
+				String burn = FontHelper.translate("co2.burning");
 				currenttip.add(burn);
 			}
 		}

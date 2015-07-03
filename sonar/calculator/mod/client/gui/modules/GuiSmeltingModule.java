@@ -31,7 +31,7 @@ public class GuiSmeltingModule extends GuiContainer{
      */
     protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
     {
-        FontHelper.textCentre(StatCollector.translateToLocal("item.SmeltingModule.name"), this.xSize, 6, 0);
+        FontHelper.textCentre(FontHelper.translate("item.SmeltingModule.name"), this.xSize, 6, 0);
 
 		FontHelper.textCentre(FontHelper.formatStorage(this.module.syncEnergy), this.xSize, 64, 2);
     }

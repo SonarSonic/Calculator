@@ -59,11 +59,11 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IWrench {
 						FontHelper.sendMessage("X: " + coords.getX() + " Y: "
 										+ coords.getY() + " Z: "
 										+ coords.getZ()
-										+ " - " + StatCollector.translateToLocal("greenhouse.equal") + " "
+										+ " - " + FontHelper.translate("greenhouse.equal") + " "
 										+ coords.getBlock(), world, player);
 					}
 				} else if (house.isCompleted()) {
-					FontHelper.sendMessage(StatCollector.translateToLocal("greenhouse.complete"), world, player);
+					FontHelper.sendMessage(FontHelper.translate("greenhouse.complete"), world, player);
 
 				}
 

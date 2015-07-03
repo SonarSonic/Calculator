@@ -9,9 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDCalculatorPlug implements IWailaDataProvider {
 
@@ -51,16 +51,16 @@ public class HUDCalculatorPlug implements IWailaDataProvider {
 
 	private String getString(int stable) {
 		if (stable == 0) {
-			return StatCollector.translateToLocal("circuit.stable")+": " + StatCollector.translateToLocal("circuit.noStability");
+			return FontHelper.translate("circuit.stable")+": " + FontHelper.translate("circuit.noStability");
 		}
 		if (stable == 1){
-			return StatCollector.translateToLocal("circuit.stable")+": " + StatCollector.translateToLocal("locator.false");
+			return FontHelper.translate("circuit.stable")+": " + FontHelper.translate("locator.false");
 		}
 		if (stable == 2) {
-			return StatCollector.translateToLocal("circuit.stable")+": " + StatCollector.translateToLocal("locator.true");
+			return FontHelper.translate("circuit.stable")+": " + FontHelper.translate("locator.true");
 		}
 
-		return StatCollector.translateToLocal("circuit.stable")+": " + StatCollector.translateToLocal("locator.unknown");
+		return FontHelper.translate("circuit.stable")+": " + FontHelper.translate("locator.unknown");
 	}
 
 	@Override

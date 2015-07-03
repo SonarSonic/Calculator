@@ -26,6 +26,7 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarAPI;
 import sonar.core.utils.SonarMaterials;
+import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -59,10 +60,10 @@ public class StorageChamber extends SonarMachineBlock {
 				TileEntityStorageChamber t = (TileEntityStorageChamber) access.getTileEntity(x, y, z);
 				int metadata = access.getBlockMetadata(x, y, z);
 				if (side != metadata) {
-					return t.getBlockTexture(side, metadata) ? this.slot1: this.slot2;
+					return t.getBlockTexture(side, metadata) ? this.slot1 : this.slot2;
 				}
 				if (side == metadata) {
-					return t.getBlockTexture(side, metadata) ? this.front: this.front2;
+					return t.getBlockTexture(side, metadata) ? this.front : this.front2;
 				}
 			}
 		}
@@ -73,17 +74,15 @@ public class StorageChamber extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.slot2 : side == 0 ? this.slot1: side == 1 ? this.slot1
-						: (metadata == 0) && (side == 3) ? this.front: this.slot1;
+		return side == metadata ? this.slot2 : side == 0 ? this.slot1 : side == 1 ? this.slot1 : (metadata == 0) && (side == 3) ? this.front : this.slot1;
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z,
-			EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (player != null) {
-				if (!world.isRemote) {
-					player.openGui(Calculator.instance,	CalculatorGui.StorageChamber, world, x, y, z);
-				}
+			if (!world.isRemote) {
+				player.openGui(Calculator.instance, CalculatorGui.StorageChamber, world, x, y, z);
+			}
 
 		}
 
@@ -101,33 +100,27 @@ public class StorageChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block oldblock,
-			int oldMetadata) {
+	public void breakBlock(World world, int x, int y, int z, Block oldblock, int oldMetadata) {
 		world.removeTileEntity(x, y, z);
 
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player,
-			List list) {
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		switch (stack.getTagCompound().getInteger("type")) {
 		case 1:
-			list.add(StatCollector.translateToLocal("circuit.type") + ": "
-					+ StatCollector.translateToLocal("circuit.analysed"));
+			list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.analysed"));
 			break;
 		case 2:
-			list.add(StatCollector.translateToLocal("circuit.type") + ": "
-					+ StatCollector.translateToLocal("circuit.stable"));
+			list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.stable"));
 			break;
 
 		case 3:
-			list.add(StatCollector.translateToLocal("circuit.type") + ": "
-					+ StatCollector.translateToLocal("circuit.damaged"));
+			list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.damaged"));
 			break;
 
 		case 4:
-			list.add(StatCollector.translateToLocal("circuit.type") + ": "
-					+ StatCollector.translateToLocal("circuit.dirty"));
+			list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.dirty"));
 			break;
 		}
 
@@ -137,7 +130,7 @@ public class StorageChamber extends SonarMachineBlock {
 			total += stored[i];
 		}
 		if (total != 0) {
-			list.add(StatCollector.translateToLocal("circuit.stored") + ": "+ total);
+			list.add(FontHelper.translate("circuit.stored") + ": " + total);
 		}
 
 	}

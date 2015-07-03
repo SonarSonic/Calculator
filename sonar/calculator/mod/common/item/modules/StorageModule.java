@@ -51,11 +51,11 @@ public class StorageModule extends InventoryContainerItem implements
 			boolean par4) {
 		super.addInformation(stack, player, list, par4);
 		if(!CalculatorConfig.isEnabled(stack)){
-			list.add(StatCollector.translateToLocal("calc.ban"));
+			list.add(FontHelper.translate("calc.ban"));
 		}
 		if(stack.hasTagCompound()){
 		int storedItems = getInventory(stack).getItemsStored(stack);
 		if (storedItems != 0) {
-			list.add(StatCollector.translateToLocal("calc.storedstacks")+": " + storedItems);}}
+			list.add(FontHelper.translate("calc.storedstacks")+": " + storedItems);}}
 	}
 }

@@ -2,12 +2,16 @@ package sonar.calculator.mod.client.gui.utils;
 
 import java.util.Iterator;
 
+import org.lwjgl.opengl.GL11;
+
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.utils.CalculatorButtons.SonarButton;
 import sonar.calculator.mod.network.packets.PacketConductorMast;
 import sonar.calculator.mod.network.packets.PacketMachineButton;
+import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiBeacon;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -18,20 +22,50 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-public abstract class GuiButtons extends GuiContainer {
+public abstract class GuiSonar extends GuiContainer {
 
 	public static int circuit = 0, confirm = 1, pause = 2;
 	public int x, y, z;
 
-	public GuiButtons(Container container, int x, int y, int z) {
+	public GuiSonar(Container container, TileEntity entity) {
 		super(container);
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this.x = entity.xCoord;
+		this.y = entity.yCoord;
+		this.z = entity.zCoord;
 	}
 
-	public void initGui(boolean pause){
-		
+	public abstract ResourceLocation getBackground();
+
+	public void reset() {
+		this.buttonList.clear();
+		this.initGui();
+	}
+
+	public void initGui(boolean pause) {
+
+	}
+
+	protected void drawGuiContainerForegroundLayer(int x, int y) {
+
+		RenderHelper.disableStandardItemLighting();
+		Iterator iterator = this.buttonList.iterator();
+
+		while (iterator.hasNext()) {
+			GuiButton guibutton = (GuiButton) iterator.next();
+
+			if (guibutton.func_146115_a()) {
+				guibutton.func_146111_b(x - this.guiLeft, y - this.guiTop);
+				break;
+			}
+		}
+		RenderHelper.enableGUIStandardItemLighting();
+	}
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(this.getBackground());
+		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -46,9 +80,9 @@ public abstract class GuiButtons extends GuiContainer {
 
 		public void func_146111_b(int x, int y) {
 			if (paused) {
-				drawCreativeTabHoveringText(StatCollector.translateToLocal("buttons.resume"), x, y);
+				drawCreativeTabHoveringText(FontHelper.translate("buttons.resume"), x, y);
 			} else {
-				drawCreativeTabHoveringText(StatCollector.translateToLocal("buttons.pause"), x, y);
+				drawCreativeTabHoveringText(FontHelper.translate("buttons.pause"), x, y);
 			}
 		}
 
@@ -69,7 +103,7 @@ public abstract class GuiButtons extends GuiContainer {
 		}
 
 		public void func_146111_b(int x, int y) {
-			drawCreativeTabHoveringText(StatCollector.translateToLocal("buttons.circuits"), x, y);
+			drawCreativeTabHoveringText(FontHelper.translate("buttons.circuits"), x, y);
 		}
 
 		@Override
@@ -77,21 +111,5 @@ public abstract class GuiButtons extends GuiContainer {
 			Calculator.network.sendToServer(new PacketMachineButton(circuit, x, y, z));
 		}
 	}
-	
 
-	protected void drawGuiContainerForegroundLayer(int x, int y) {
-
-		RenderHelper.disableStandardItemLighting();
-		Iterator iterator = this.buttonList.iterator();
-
-		while (iterator.hasNext()) {
-			GuiButton guibutton = (GuiButton) iterator.next();
-
-			if (guibutton.func_146115_a()) {
-				guibutton.func_146111_b(x - this.guiLeft, y - this.guiTop);
-				break;
-			}
-		}
-		RenderHelper.enableGUIStandardItemLighting();
-	}
 }

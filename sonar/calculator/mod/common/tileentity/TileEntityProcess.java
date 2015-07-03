@@ -13,59 +13,67 @@ import sonar.calculator.mod.api.SyncData;
 import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
-import sonar.calculator.mod.utils.helpers.RecipeHelper;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
+import sonar.core.utils.helpers.RecipeHelper;
 
 /** electric smelting tile entity */
 public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable {
 	public int cookTime;
-	public int currentSpeed;
-	public int currentEnergy;
 	public int sUpgrade;
 	public int eUpgrade;
+	public double energyBuffer;
 	public boolean paused;
+	public int currentSpeed;
+	public static int lowestSpeed = 4, lowestEnergy = 1000;
 
 	public void updateEntity() {
 		super.updateEntity();
 		int flag = 0;
-		if (currentSpeed == 0) {
-			this.currentSpeed = this.getFurnaceSpeed();
-		}
-		if (currentEnergy == 0) {
-			this.currentEnergy = this.getRequiredEnergy();
-		}
 
 		if (!paused) {
 			if (this.cookTime > 0) {
 				this.cookTime++;
-				int energy = currentEnergy / currentSpeed;
-				this.storage.modifyEnergyStored(-energy);
 
+				if (!this.worldObj.isRemote) {
+					energyBuffer += energyUsage();
+					int energyUsage = (int) Math.round(energyBuffer);
+					if (energyBuffer - energyUsage < 0) {
+						this.energyBuffer = 0;
+					} else {
+						energyBuffer -= energyUsage;
+					}
+					this.storage.modifyEnergyStored(-energyUsage);
+				}
 			}
-
 			if (this.canProcess()) {
 				if (!this.worldObj.isRemote) {
 					if (cookTime == 0) {
 						this.cookTime++;
-						int energy = currentEnergy / currentSpeed;
-						this.storage.modifyEnergyStored(-energy);
+						energyBuffer += energyUsage();
+						int energyUsage = (int) Math.round(energyBuffer);
+						if (energyBuffer - energyUsage < 0) {
+							this.energyBuffer = 0;
+						} else {
+							energyBuffer -= energyUsage;
+						}
+						this.storage.modifyEnergyStored(-energyUsage);
 						flag = 1;
 					}
-
-					if (this.cookTime == currentSpeed) {
-						this.cookTime = 0;
+					if (this.cookTime >= this.currentSpeed()) {
 						this.finishProcess();
 						if (canProcess()) {
 							cookTime++;
-							int energy = currentEnergy / currentSpeed;
 						} else {
 							flag = 2;
 						}
+						this.cookTime = 0;
+						this.energyBuffer = 0;
 					}
 				}
 			} else {
 				if (cookTime != 0) {
 					this.cookTime = 0;
+					this.energyBuffer = 0;
 					flag = 2;
 				}
 
@@ -85,6 +93,28 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	public abstract void finishProcess();
 
+	public int currentSpeed() {
+		int i = 16 - sUpgrade;
+		return ((4 + ((i * i) * 2 + i)));
+	}
+
+	private int roundNumber(double i) {
+		return (int) (Math.ceil(i / 10) * 10);
+	}
+
+	public double energyUsage() {
+
+		return (double) requiredEnergy() / currentSpeed();
+	}
+
+	public int requiredEnergy() {
+		if (eUpgrade + sUpgrade == 0) {
+			return 1000;
+		}
+		int i = 16 - (eUpgrade - sUpgrade);
+		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (eUpgrade - sUpgrade)));
+	}
+
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1) {
 			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -98,8 +128,6 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		this.cookTime = nbt.getShort("CookTime");
 		this.sUpgrade = nbt.getShort("sUpgrade");
 		this.eUpgrade = nbt.getShort("eUpgrade");
-		this.currentSpeed = nbt.getShort("currentSpeed");
-		this.currentEnergy = nbt.getShort("currentEnergy");
 		this.paused = nbt.getBoolean("pause");
 	}
 
@@ -109,8 +137,6 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		nbt.setShort("CookTime", (short) this.cookTime);
 		nbt.setShort("sUpgrade", (short) this.sUpgrade);
 		nbt.setShort("eUpgrade", (short) this.eUpgrade);
-		nbt.setShort("currentSpeed", (short) this.currentSpeed);
-		nbt.setShort("currentEnergy", (short) this.currentEnergy);
 		nbt.setBoolean("pause", this.paused);
 
 	}
@@ -120,13 +146,13 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		super.onSync(data, id);
 		switch (id) {
 		case SyncType.COOK:
-			this.cookTime = (Integer)data;
-			break;
-		case SyncType.CURRENTSPEED:
-			this.currentSpeed = (Integer)data;
+			this.cookTime = (Integer) data;
 			break;
 		case SyncType.PAUSE:
-			this.paused = (boolean)data;
+			this.paused = (Boolean) data;
+			break;
+		case SyncType.SPEEDUPGRADES:
+			this.currentSpeed = (Integer) data;
 			break;
 		}
 	}
@@ -136,54 +162,12 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		switch (id) {
 		case SyncType.COOK:
 			return new SyncData(true, cookTime);
-		case SyncType.CURRENTSPEED:
-			return new SyncData(true, currentSpeed);
 		case SyncType.PAUSE:
 			return new SyncData(true, paused);
+		case SyncType.SPEEDUPGRADES:
+			return new SyncData(true, this.currentSpeed());
 		}
 		return super.getSyncData(id);
-	}
-
-	public int getFurnaceSpeed() {
-		switch (sUpgrade) {
-		case 1:
-			return 800;
-		case 2:
-			return 600;
-		case 3:
-			return 400;
-		case 4:
-			return 200;
-		case 5:
-			return 100;
-		case 6:
-			return 50;
-		case 7:
-			return 40;
-		case 8:
-			return 20;
-		case 9:
-			return 10;
-		case 10:
-			return 8;
-
-		}
-
-		return 1000;
-	}
-
-	public int getRequiredEnergy() {
-		switch (eUpgrade) {
-		case 1:
-			return 4000;
-		case 2:
-			return 3000;
-		case 3:
-			return 2000;
-		case 4:
-			return 1000;
-		}
-		return 5000;
 	}
 
 	// IPausable
@@ -235,10 +219,8 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public void incrementUpgrades(int type, int increment) {
 		if (type == 0) {
 			sUpgrade += increment;
-			this.currentSpeed = getFurnaceSpeed();
 		} else if (type == 1) {
 			eUpgrade += increment;
-			this.currentEnergy = getRequiredEnergy();
 		}
 
 	}
@@ -247,13 +229,13 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public int getMaxUpgrades(int type) {
 		switch (type) {
 		case 0:
-			return 10;
+			return 16;
 		case 1:
-			return 4;
+			return 16;
 		}
 		return 1;
 	}
-	
+
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
 		return true;

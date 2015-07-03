@@ -3,9 +3,8 @@ package sonar.calculator.mod.integration.nei.handlers;
 import java.awt.Rectangle;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.util.StatCollector;
-import sonar.calculator.mod.client.gui.calculators.GuiDynamicCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiPortableDynamic;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class PortableDynamicRecipeHandler extends TemplateRecipeHandler {
@@ -33,6 +32,6 @@ public class PortableDynamicRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector.translateToLocal("tile.dynamiccalculatorBlock.name");
+		return FontHelper.translate("tile.dynamiccalculatorBlock.name");
 	}
 }

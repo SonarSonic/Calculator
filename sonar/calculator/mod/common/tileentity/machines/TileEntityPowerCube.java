@@ -14,7 +14,7 @@ import cofh.api.energy.EnergyStorage;
 public class TileEntityPowerCube extends TileEntityInventoryReceiver {
 
 	public TileEntityPowerCube() {
-		super.storage = new EnergyStorage(CalculatorConfig.cubeEnergy, CalculatorConfig.cubeEnergy);
+		super.storage = new EnergyStorage(CalculatorConfig.cubeEnergy);
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 1;
 	}

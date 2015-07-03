@@ -7,11 +7,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.Calculator;
@@ -21,6 +17,7 @@ import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.RenderHelper;
 import cofh.api.energy.EnergyStorage;
@@ -187,7 +184,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			return size;
 		}
 
-		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 	}
 	return new FailedCoords(false,0,0,0,"Something went wrong...");
 	}
@@ -417,7 +414,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			return start;
 		}
 
-		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 	}
 
 	public FailedCoords middle(boolean check, World w, int hX, int hZ, int hoX,
@@ -426,21 +423,21 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		for (int i = 0; i <= 3; i++) {
 			if (slabQuartz(x + (hX * i), y + 2, z + (hZ * i))) {
 				return new FailedCoords(false, x + (hX * i), y + 2, z
-						+ (hZ * i), StatCollector.translateToLocal("greenhouse.quartz"));
+						+ (hZ * i), FontHelper.translate("greenhouse.quartz"));
 			}
 
 		}
 		for (int i = 0; i <= 1; i++) {
 			if (flawlessGlass(w.getBlock(x + (hX * 3), y + i, z + (hZ * 3)))) {
 				return new FailedCoords(false, x + (hX * 3), y + i, z
-						+ (hZ * 3), StatCollector.translateToLocal("greenhouse.glass"));
+						+ (hZ * 3), FontHelper.translate("greenhouse.glass"));
 			}
 			if (flawlessGlass(w.getBlock(x, y + i, z))) {
-				return new FailedCoords(false, x, y + i, z, StatCollector.translateToLocal("greenhouse.glass"));
+				return new FailedCoords(false, x, y + i, z, FontHelper.translate("greenhouse.glass"));
 			}
 		}
 
-		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 	}
 
 	public FailedCoords end(boolean check, World w, int hX, int hZ, int hoX,
@@ -449,24 +446,24 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		for (int i = 0; i <= 3; i++) {
 			if (stableStone(w.getBlock(x + (hX * i), y - 1, z + (hZ * i)))) {
 				return new FailedCoords(false, x + (hX * i), y - 1, z
-						+ (hZ * i), StatCollector.translateToLocal("greenhouse.stable"));
+						+ (hZ * i), FontHelper.translate("greenhouse.stable"));
 			}
 			if (slabQuartz(x + (hX * i), y + 2, z + (hZ * i))) {
 				return new FailedCoords(false, x + (hX * i), y + 2, z
-						+ (hZ * i), StatCollector.translateToLocal("greenhouse.quartz"));
+						+ (hZ * i), FontHelper.translate("greenhouse.quartz"));
 			}
 
 		}
 		for (int i = 0; i <= 1; i++) {
 			if (stableStone(w.getBlock(x + (hX * 3), y + i, z + (hZ * 3)))) {
 				return new FailedCoords(false, x + (hX * 3), y + i, z
-						+ (hZ * 3), StatCollector.translateToLocal("greenhouse.stable"));
+						+ (hZ * 3), FontHelper.translate("greenhouse.stable"));
 			}
 			if (stableStone(w.getBlock(x, y + i, z))) {
-				return new FailedCoords(false, x, y + i, z, StatCollector.translateToLocal("greenhouse.stable"));
+				return new FailedCoords(false, x, y + i, z, FontHelper.translate("greenhouse.stable"));
 			}
 		}
-		return new FailedCoords(true, 0, 0, 0, StatCollector.translateToLocal("locator.none"));
+		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 	}
 	@Override
 	public void onSync(Object data, int id) {

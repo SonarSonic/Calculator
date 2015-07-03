@@ -7,11 +7,11 @@ import java.util.Map;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.calculators.GuiFlawlessCalculator;
 import sonar.calculator.mod.integration.nei.FlawlessCalcNEIRecipes;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -69,7 +69,7 @@ public Class<? extends GuiContainer> getGuiClass()
   @Override
 public String getRecipeName()
   {
-    return StatCollector.translateToLocal("item.FlawlessCalculator.name");
+    return FontHelper.translate("item.FlawlessCalculator.name");
   }
   
   @Override

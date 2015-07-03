@@ -9,9 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenerator;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDCrankGenerator implements IWailaDataProvider {
 
@@ -41,11 +41,11 @@ public class HUDCrankGenerator implements IWailaDataProvider {
 		if (accessor.getTileEntity() instanceof TileEntityCrankedGenerator) {
 			TileEntityCrankedGenerator tile = (TileEntityCrankedGenerator) handler;
 			  if(tile.cranked){
-				  String crank = StatCollector.translateToLocal("crank.cranked") + ": " + StatCollector.translateToLocal("locator.true");
+				  String crank = FontHelper.translate("crank.cranked") + ": " + FontHelper.translate("locator.true");
 				  currenttip.add(crank);
 			  }
 			  if(!tile.cranked){
-				  String crank = StatCollector.translateToLocal("crank.cranked") + ": " + StatCollector.translateToLocal("locator.false");
+				  String crank = FontHelper.translate("crank.cranked") + ": " + FontHelper.translate("locator.false");
 				  currenttip.add(crank);
 			  }
 		}

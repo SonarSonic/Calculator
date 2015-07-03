@@ -102,7 +102,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 	public void onSync(Object data, int id) {
 		switch (id) {
 		case SyncType.SPECIAL1:
-			this.stable = (byte) data;
+			this.stable = (Byte) data;
 			break;
 		}
 	}

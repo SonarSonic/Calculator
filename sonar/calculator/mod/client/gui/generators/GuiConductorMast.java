@@ -34,8 +34,8 @@ public class GuiConductorMast extends GuiContainer {
 
 	public void initGui() {
 		super.initGui();
-		this.buttonList.add(new GuiButton(0, this.guiLeft + 20, this.guiTop + 60, 50, 20, StatCollector.translateToLocal("lightning.time")));
-		this.buttonList.add(new GuiButton(1, this.guiLeft + 108, this.guiTop + 60, 50, 20, StatCollector.translateToLocal("lightning.rain")));
+		this.buttonList.add(new GuiButton(0, this.guiLeft + 20, this.guiTop + 60, 50, 20, FontHelper.translate("lightning.time")));
+		this.buttonList.add(new GuiButton(1, this.guiLeft + 108, this.guiTop + 60, 50, 20, FontHelper.translate("lightning.rain")));
 	}
 
 	protected void actionPerformed(GuiButton button) {
@@ -48,52 +48,52 @@ public class GuiConductorMast extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(StatCollector.translateToLocal(entity.getInventoryName()), xSize, 6, 0);
-		FontHelper.textCentre(StatCollector.translateToLocal("energy.required") + " = 10 KRF", xSize, 86, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate("energy.required") + " = 10 KRF", xSize, 86, 0);
 
-		String wait = StatCollector.translateToLocal("conductor.wait") + ": ";
+		String wait = FontHelper.translate("conductor.wait") + ": ";
 		if (!(this.entity.lightningSpeed < 600) && this.entity.lightingTicks < 500) {
 			switch (this.entity.random) {
 			case 0:
-				String power = wait + StatCollector.translateToLocal("conductor.msg");
+				String power = wait + FontHelper.translate("conductor.msg");
 				this.fontRendererObj.drawString(power, this.xSize / 2 - this.fontRendererObj.getStringWidth(power) / 2, 46, 4210752);
 				break;
 			case 1:
-				String power1 = wait + StatCollector.translateToLocal("conductor.msg1");
+				String power1 = wait + FontHelper.translate("conductor.msg1");
 				this.fontRendererObj.drawString(power1, this.xSize / 2 - this.fontRendererObj.getStringWidth(power1) / 2, 46, 4210752);
 				break;
 			case 2:
-				String power2 = wait + StatCollector.translateToLocal("conductor.msg2");
+				String power2 = wait + FontHelper.translate("conductor.msg2");
 				this.fontRendererObj.drawString(power2, this.xSize / 2 - this.fontRendererObj.getStringWidth(power2) / 2, 46, 4210752);
 				break;
 			case 3:
-				String power3 = wait + StatCollector.translateToLocal("conductor.msg3");
+				String power3 = wait + FontHelper.translate("conductor.msg3");
 				this.fontRendererObj.drawString(power3, this.xSize / 2 - this.fontRendererObj.getStringWidth(power3) / 2, 46, 4210752);
 				break;
 			case 4:
-				String power4 = wait + StatCollector.translateToLocal("conductor.msg4");
+				String power4 = wait + FontHelper.translate("conductor.msg4");
 				this.fontRendererObj.drawString(power4, this.xSize / 2 - this.fontRendererObj.getStringWidth(power4) / 2, 46, 4210752);
 				break;
 			case 5:
-				String power5 = wait + StatCollector.translateToLocal("conductor.msg5");
+				String power5 = wait + FontHelper.translate("conductor.msg5");
 				this.fontRendererObj.drawString(power5, this.xSize / 2 - this.fontRendererObj.getStringWidth(power5) / 2, 46, 4210752);
 				break;
 			case 6:
-				String power6 = wait + StatCollector.translateToLocal("conductor.msg6");
+				String power6 = wait + FontHelper.translate("conductor.msg6");
 				this.fontRendererObj.drawString(power6, this.xSize / 2 - this.fontRendererObj.getStringWidth(power6) / 2, 46, 4210752);
 				break;
 			case 7:
-				String power7 = wait + StatCollector.translateToLocal("conductor.msg7");
+				String power7 = wait + FontHelper.translate("conductor.msg7");
 				this.fontRendererObj.drawString(power7, this.xSize / 2 - this.fontRendererObj.getStringWidth(power7) / 2, 46, 4210752);
 				break;
 			case 8:
-				String power8 = wait + StatCollector.translateToLocal("conductor.msg8");
+				String power8 = wait + FontHelper.translate("conductor.msg8");
 				this.fontRendererObj.drawString(power8, this.xSize / 2 - this.fontRendererObj.getStringWidth(power8) / 2, 46, 4210752);
 				break;
 			}
 
 		} else {
-			String power = wait + (this.entity.lightningSpeed / 20 - this.entity.lightingTicks / 20) + " " + StatCollector.translateToLocal("lightning.seconds");
+			String power = wait + (this.entity.lightningSpeed / 20 - this.entity.lightingTicks / 20) + " " + FontHelper.translate("lightning.seconds");
 			this.fontRendererObj.drawString(power, this.xSize / 2 - this.fontRendererObj.getStringWidth(power) / 2, 46, 4210752);
 		}
 

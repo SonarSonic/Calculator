@@ -36,7 +36,7 @@ public class NutritionHelper {
 				player.getFoodStats().addStats(points, 2.0F);
 			}
 		} else if (!world.isRemote) {
-			FontHelper.sendMessage(StatCollector.translateToLocal("points.hunger") + ": " + stack.stackTagCompound.getInteger(tag), world, player);
+			FontHelper.sendMessage(FontHelper.translate("points.hunger") + ": " + stack.stackTagCompound.getInteger(tag), world, player);
 		}
 		return stack;
 	}
@@ -66,7 +66,7 @@ public class NutritionHelper {
 				}
 			}
 		} else {
-			FontHelper.sendMessage(StatCollector.translateToLocal("points.health") + ": " + stack.stackTagCompound.getInteger(tag), world, player);
+			FontHelper.sendMessage(FontHelper.translate("points.health") + ": " + stack.stackTagCompound.getInteger(tag), world, player);
 		}
 		return stack;
 	}

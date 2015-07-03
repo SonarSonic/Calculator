@@ -23,30 +23,30 @@ public class ContainerStorageChamber extends Container {
 			TileEntityStorageChamber entity) {
 		this.entity = entity;
 
-		addSlotToContainer(new SlotBigStorage(entity, 0, 26 + 13, 6));
-		addSlotToContainer(new SlotBigStorage(entity, 1, 62 + 13, 6));
-		addSlotToContainer(new SlotBigStorage(entity, 2, 98 + 13, 6));
-		addSlotToContainer(new SlotBigStorage(entity, 3, 134 + 13, 6));
-		addSlotToContainer(new SlotBigStorage(entity, 4, 8 + 13, 32));
-		addSlotToContainer(new SlotBigStorage(entity, 5, 44 + 13, 32));
-		addSlotToContainer(new SlotBigStorage(entity, 6, 80 + 13, 32));
-		addSlotToContainer(new SlotBigStorage(entity, 7, 116 + 13, 32));
-		addSlotToContainer(new SlotBigStorage(entity, 8, 152 + 13, 32));
-		addSlotToContainer(new SlotBigStorage(entity, 9, 8 + 13, 58));
-		addSlotToContainer(new SlotBigStorage(entity, 10, 44 + 13, 58));
-		addSlotToContainer(new SlotBigStorage(entity, 11, 80 + 13, 58));
-		addSlotToContainer(new SlotBigStorage(entity, 12, 116 + 13, 58));
-		addSlotToContainer(new SlotBigStorage(entity, 13, 152 + 13, 58));
+		addSlotToContainer(new SlotBigStorage(entity, 0, 26, 6+17));
+		addSlotToContainer(new SlotBigStorage(entity, 1, 62, 6+17));
+		addSlotToContainer(new SlotBigStorage(entity, 2, 98, 6+17));
+		addSlotToContainer(new SlotBigStorage(entity, 3, 134, 6+17));
+		addSlotToContainer(new SlotBigStorage(entity, 4, 8, 32+17));
+		addSlotToContainer(new SlotBigStorage(entity, 5, 44, 32+17));
+		addSlotToContainer(new SlotBigStorage(entity, 6, 80, 32+17));
+		addSlotToContainer(new SlotBigStorage(entity, 7, 116, 32+17));
+		addSlotToContainer(new SlotBigStorage(entity, 8, 152, 32+17));
+		addSlotToContainer(new SlotBigStorage(entity, 9, 8, 58+17));
+		addSlotToContainer(new SlotBigStorage(entity, 10, 44, 58+17));
+		addSlotToContainer(new SlotBigStorage(entity, 11, 80, 58+17));
+		addSlotToContainer(new SlotBigStorage(entity, 12, 116, 58+17));
+		addSlotToContainer(new SlotBigStorage(entity, 13, 152, 58+17));
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
 				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + 13 + j * 18, 84 + i * 18));
+						8 + j * 18, 84 + i * 18+17));
 			}
 		}
 
 		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventory, i, 8 + 13 + i * 18, 142));
+			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142+17));
 		}
 	}
 
@@ -105,8 +105,7 @@ public class ContainerStorageChamber extends Container {
 			itemstack = itemstack1.copy();
 
 			if (slotID < 14) {
-				if (!this.mergeItemStack(new ItemStack(itemstack1.getItem(), 1,
-						slotID), 14, this.inventorySlots.size(), true)) {
+				if (!this.mergeItemStack(entity.getSlotStack(slotID), 14, this.inventorySlots.size(), true)) {
 					return null;
 				}
 				if (!entity.getWorldObj().isRemote) {

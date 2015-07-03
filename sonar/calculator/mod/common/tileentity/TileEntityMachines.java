@@ -1,5 +1,8 @@
 package sonar.calculator.mod.common.tileentity;
 
+import java.util.Random;
+
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeperatorRecipes;
@@ -9,22 +12,12 @@ import sonar.calculator.mod.common.recipes.machines.ProcessingChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeperatorRecipes;
-import sonar.calculator.mod.utils.helpers.RecipeHelper;
+import sonar.core.utils.helpers.RecipeHelper;
 
 public class TileEntityMachines {
 
 	/** single process machines */
 	public static class ReassemblyChamber extends TileEntityAbstractProcess {
-		@Override
-		public int getFurnaceSpeed() {
-			return super.getFurnaceSpeed() * 2;
-		}
-
-		@Override
-		public int getRequiredEnergy() {
-			return super.getRequiredEnergy() * 5;
-		}
-
 		@Override
 		public RecipeHelper recipeHelper() {
 			return ReassemblyChamberRecipes.instance();
@@ -44,16 +37,6 @@ public class TileEntityMachines {
 
 	public static class RestorationChamber extends TileEntityAbstractProcess {
 		@Override
-		public int getFurnaceSpeed() {
-			return super.getFurnaceSpeed() * 2;
-		}
-
-		@Override
-		public int getRequiredEnergy() {
-			return super.getRequiredEnergy() * 5;
-		}
-
-		@Override
 		public RecipeHelper recipeHelper() {
 			return RestorationChamberRecipes.instance();
 		}
@@ -70,11 +53,6 @@ public class TileEntityMachines {
 	}
 
 	public static class ProcessingChamber extends TileEntityAbstractProcess {
-
-		@Override
-		public int getFurnaceSpeed() {
-			return super.getFurnaceSpeed() / 2;
-		}
 
 		@Override
 		public RecipeHelper recipeHelper() {
@@ -94,17 +72,7 @@ public class TileEntityMachines {
 
 	public static class ReinforcedFurnace extends TileEntityAbstractProcess {
 		@Override
-		public int getFurnaceSpeed() {
-			return super.getFurnaceSpeed() / 5;
-		}
-
-		@Override
-		public int getRequiredEnergy() {
-			return super.getRequiredEnergy() / 5;
-		}
-
-		@Override
-		public ItemStack[] getOutput(ItemStack... stacks) {
+		public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {
 			return new ItemStack[] { FurnaceRecipes.smelting().getSmeltingResult(stacks[0]) };
 		}
 
@@ -154,6 +122,17 @@ public class TileEntityMachines {
 		public int outputSize() {
 			return 2;
 		}
+
+		public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {
+			if (simulate) {
+				return recipeHelper().getOutput(stacks);
+			} else {
+				ItemStack[] outputs = recipeHelper().getOutput(stacks);
+				outputs[1] = rand.nextInt(8 + 1) == 8 ? new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1)) : null;
+				return outputs;
+			}
+		}
+
 	}
 
 	public static class PrecisionChamber extends TileEntityAbstractProcess {
@@ -171,6 +150,18 @@ public class TileEntityMachines {
 		@Override
 		public int outputSize() {
 			return 2;
+		}
+
+		public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {
+			if (simulate) {
+				return recipeHelper().getOutput(stacks);
+			} else {
+				ItemStack[] outputs = recipeHelper().getOutput(stacks);
+				if (recipeHelper().containsStack(new ItemStack(Blocks.cobblestone, 1), stacks, false) != -1 || recipeHelper().containsStack(new ItemStack(Blocks.dirt, 1), stacks, false) != -1) {
+					outputs[1] =  new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1));
+				}
+				return outputs;
+			}
 		}
 	}
 

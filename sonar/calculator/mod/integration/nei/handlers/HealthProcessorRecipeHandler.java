@@ -53,7 +53,7 @@ public Class<? extends GuiContainer> getGuiClass()
   
 	@Override
 	public String getRecipeName() {
-		return StatCollector.translateToLocal("tile.HealthProcessor.name");
+		return FontHelper.translate("tile.HealthProcessor.name");
 	}
 
   

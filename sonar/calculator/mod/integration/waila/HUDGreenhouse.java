@@ -10,9 +10,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDGreenhouse implements IWailaDataProvider {
 
@@ -48,12 +48,12 @@ public class HUDGreenhouse implements IWailaDataProvider {
 			int oxygen = tile.getOxygen();
 			int carbon = tag.getInteger("Carbon");
 			if (carbon != 0) {
-				String carbonString = StatCollector.translateToLocal("greenhouse.carbon") + ": "
+				String carbonString = FontHelper.translate("greenhouse.carbon") + ": "
 						+ dec.format(carbon * 100 / 100000) + "%";
 				currenttip.add(carbonString);
 			}
 			if (oxygen != 0) {
-				String oxygenString = StatCollector.translateToLocal("greenhouse.oxygen") + ": "
+				String oxygenString = FontHelper.translate("greenhouse.oxygen") + ": "
 						+ dec.format(oxygen * 100 / 100000) + "%";
 				currenttip.add(oxygenString);
 			}

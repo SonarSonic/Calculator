@@ -8,6 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
@@ -18,41 +19,59 @@ import sonar.calculator.mod.utils.SlotBigStorage;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiStorageChamber extends GuiContainer {
-	public static final ResourceLocation bground = new ResourceLocation(
-			"Calculator:textures/gui/circuit_storage.png");
+	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/storage_chamber.png");
 
 	public TileEntityStorageChamber entity;
 
-	public GuiStorageChamber(InventoryPlayer inventoryPlayer,
-			TileEntityStorageChamber entity) {
+	public GuiStorageChamber(InventoryPlayer inventoryPlayer, TileEntityStorageChamber entity) {
 		super(new ContainerStorageChamber(inventoryPlayer, entity));
 
 		this.entity = entity;
 
-		this.xSize = 202;
-		this.ySize = 166;
+		this.xSize = 176;
+		this.ySize = 183;
 	}
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+		
+		String string  = FontHelper.translate("circuit.type") + ": ";
+
+		if (entity.getSavedStack() != null) {
+		switch (TileEntityStorageChamber.getCircuitValue(TileEntityStorageChamber.getCircuitType(entity.getSavedStack()))) {
+		case 1:
+			string = string+ FontHelper.translate("circuit.analysed");
+			break;
+		case 2:
+			string = string+ FontHelper.translate("circuit.stable");
+			break;
+
+		case 3:
+			string = string+ FontHelper.translate("circuit.damaged");
+			break;
+
+		case 4:
+			string = string+ FontHelper.translate("circuit.dirty");
+			break;
+		}
+		}else{
+			string = string+ FontHelper.translate("locator.none");	
+		}
+		FontHelper.textCentre(string, xSize, 8, 0);
 	}
 
 	public void renderItemStack(int stack, int x, int y) {
 		if (entity.stored[stack] != 0) {
-			itemRender.renderItemIntoGUI(this.fontRendererObj, this.mc
-					.getTextureManager(), new ItemStack(entity.getSavedStack()
-					.getItem(), entity.stored[stack], stack), this.guiLeft + x, this.guiTop + y);
+			//itemRender.renderItemIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), new ItemStack(entity.getSavedStack().getItem(), entity.stored[stack], stack), guiLeft + x, guiTop + y);
 		}
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2,
-			int var3) {
+	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize,
-				this.ySize);
+		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 		if (entity.getSavedStack() != null) {
 			renderItemStack(0, 26 + 13, 6);
 			renderItemStack(1, 62 + 13, 6);

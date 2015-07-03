@@ -39,16 +39,16 @@ public class GuiDockingStation extends GuiContainer {
 			name = "Docking Station";
 			break;
 		case 1:
-			name = StatCollector.translateToLocal("item.Calculator.name");
+			name = FontHelper.translate("item.Calculator.name");
 			break;
 		case 2:
-			name = StatCollector.translateToLocal("item.ScientificCalculator.name");
+			name = FontHelper.translate("item.ScientificCalculator.name");
 			break;
 		case 3:
-			name = StatCollector.translateToLocal("item.AtomicCalculator.name");
+			name = FontHelper.translate("item.AtomicCalculator.name");
 			break;
 		case 4:
-			name = StatCollector.translateToLocal("item.FlawlessCalculator.name");
+			name = FontHelper.translate("item.FlawlessCalculator.name");
 			break;
 		}
 		FontHelper.textCentre(name, xSize, 6, 0);

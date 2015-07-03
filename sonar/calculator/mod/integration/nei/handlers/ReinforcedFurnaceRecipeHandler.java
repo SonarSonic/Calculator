@@ -2,9 +2,9 @@ package sonar.calculator.mod.integration.nei.handlers;
 
 import java.awt.Rectangle;
 
-import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.util.StatCollector;
+import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
+import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class ReinforcedFurnaceRecipeHandler extends TemplateRecipeHandler {
@@ -29,7 +29,7 @@ public class ReinforcedFurnaceRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector.translateToLocal("tile.ReinforcedFurnace.name");
+		return FontHelper.translate("tile.ReinforcedFurnace.name");
 	}
 
 	@Override

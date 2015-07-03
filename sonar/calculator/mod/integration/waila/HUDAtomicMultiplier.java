@@ -9,9 +9,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
+import sonar.core.utils.helpers.FontHelper;
 
 public class HUDAtomicMultiplier implements IWailaDataProvider {
 
@@ -43,11 +43,11 @@ public class HUDAtomicMultiplier implements IWailaDataProvider {
 			NBTTagCompound tag = new NBTTagCompound();
 			tile.writeToNBT(tag);
 			  if(tag.getInteger("cookTime")>0){
-				  String active = StatCollector.translateToLocal("locator.state")+":" + StatCollector.translateToLocal("locator.active");
+				  String active = FontHelper.translate("locator.state")+":" + FontHelper.translate("locator.active");
 				  currenttip.add(active);
 			  }
 			  else{
-				  String idle = StatCollector.translateToLocal("locator.state")+":" + StatCollector.translateToLocal("locator.idle");
+				  String idle = FontHelper.translate("locator.state")+":" + FontHelper.translate("locator.idle");
 				  currenttip.add(idle);
 			  }
 		}

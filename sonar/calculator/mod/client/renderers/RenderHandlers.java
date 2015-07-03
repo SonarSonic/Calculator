@@ -12,6 +12,8 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.models.ModelAtomicMultiplier;
 import sonar.calculator.mod.client.models.ModelConductorMast;
 import sonar.calculator.mod.client.models.ModelFluxController;
+import sonar.calculator.mod.client.models.ModelFluxPlug;
+import sonar.calculator.mod.client.models.ModelFluxPoint;
 import sonar.calculator.mod.client.models.ModelGenerator;
 import sonar.calculator.mod.client.models.ModelScarecrow;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
@@ -57,6 +59,7 @@ public class RenderHandlers {
 			super(new ModelGenerator(), "Calculator:textures/model/glowstoneextractor.png");
 		}
 	}
+
 
 	public static class FluxController extends SonarTERender {
 

@@ -42,16 +42,16 @@ public class GuiFlawlessGreenhouse extends GuiContainer {
 			String oxygen = dec.format(oxy) + "%";
 		    FontHelper.textOffsetCentre(oxygen, 97, 79, 0);
 			}	
-		String size = StatCollector.translateToLocal("greenhouse.size")+": " +entity.houseSize;
+		String size = FontHelper.translate("greenhouse.size")+": " +entity.houseSize;
 		FontHelper.textOffsetCentre(size, 144, 10, 0);
 	    
-	    String grown = StatCollector.translateToLocal("greenhouse.grown")+": ";
+	    String grown = FontHelper.translate("greenhouse.grown")+": ";
 	    FontHelper.textOffsetCentre(grown, 144, 30, 0);
 	   
 	    String grown2 = ""+entity.plantsGrown;
 	    FontHelper.textOffsetCentre(grown2, 144, 40, 0);
 	   
-	    String harvest = StatCollector.translateToLocal("greenhouse.harvested")+": ";
+	    String harvest = FontHelper.translate("greenhouse.harvested")+": ";
 	    FontHelper.textOffsetCentre(harvest, 144, 60, 0);
 	   
 	    String harvest2 = ""+entity.plantsHarvested;

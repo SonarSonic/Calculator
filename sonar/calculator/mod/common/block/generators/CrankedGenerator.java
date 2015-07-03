@@ -20,6 +20,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarMaterials;
+import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -109,7 +110,7 @@ public class CrankedGenerator extends SonarMachineBlock implements IWrench {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add(StatCollector.translateToLocal("energy.generate") + ": " + 18 + " RF/t");
+		list.add(FontHelper.translate("energy.generate") + ": " + 18 + " RF/t");
 
 	}
 }
