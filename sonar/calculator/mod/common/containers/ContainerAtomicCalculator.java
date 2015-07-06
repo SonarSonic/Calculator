@@ -17,24 +17,23 @@ public class ContainerAtomicCalculator extends Container {
 	public InventoryCrafting craftMatrix;
 	public IInventory craftResult;
 	public TileEntityCalculator.Atomic entity;
-	
-	public ContainerAtomicCalculator(EntityPlayer player,TileEntityCalculator.Atomic entity) {
+
+	public ContainerAtomicCalculator(EntityPlayer player, TileEntityCalculator.Atomic entity) {
 		this.entity = entity;
 		this.craftMatrix = new InventoryStoredCrafting(this, 3, 1, entity);
 		this.craftResult = new InventoryStoredResult(entity);
 
-		addSlotToContainer(new SlotCrafting(player, this.craftMatrix,	this.craftResult, 0, 134, 35));
+		addSlotToContainer(new SlotCrafting(player, this.craftMatrix, this.craftResult, 0, 134, 35));
+		
 		for (int i = 0; i < 1; i++) {
 			for (int k = 0; k < 3; k++) {
-				addSlotToContainer(new Slot(this.craftMatrix, k + i * 2,
-						20 + k * 32, 35 + i * 18));
+				addSlotToContainer(new Slot(this.craftMatrix, k + i * 2, 20 + k * 32, 35 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 3; i++) {
 			for (int k = 0; k < 9; k++) {
-				addSlotToContainer(new Slot(player.inventory, k + i * 9 + 9,
-						8 + k * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(player.inventory, k + i * 9 + 9, 8 + k * 18, 84 + i * 18));
 			}
 		}
 
@@ -47,14 +46,14 @@ public class ContainerAtomicCalculator extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
-		this.craftResult.setInventorySlotContents(0,AtomicCalculatorCraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.entity.getWorldObj()));
+		this.craftResult.setInventorySlotContents(0, AtomicCalculatorCraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.entity.getWorldObj()));
 
 	}
 
-	 @Override
+	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		    return true;
-		  }
+		return true;
+	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer entityplayer, int slotID) {
@@ -76,13 +75,11 @@ public class ContainerAtomicCalculator extends Container {
 					if (!mergeItemStack(itemstack1, 1, 2, true)) {
 						return null;
 					}
-				} else if (AtomicCalculatorNEIRecipes.smelting().getSmeltingInput2(
-						itemstack1) != null) {
+				} else if (AtomicCalculatorNEIRecipes.smelting().getSmeltingInput2(itemstack1) != null) {
 					if (!mergeItemStack(itemstack1, 2, 3, true)) {
 						return null;
 					}
-				} else if (AtomicCalculatorNEIRecipes.smelting().getSmeltingInput3(
-						itemstack1) != null) {
+				} else if (AtomicCalculatorNEIRecipes.smelting().getSmeltingInput3(itemstack1) != null) {
 					if (!mergeItemStack(itemstack1, 3, 4, true)) {
 						return null;
 					}

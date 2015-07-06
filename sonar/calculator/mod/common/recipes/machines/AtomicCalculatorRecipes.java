@@ -40,7 +40,8 @@ public class AtomicCalculatorRecipes extends RecipeHelper {
 		addRecipe(Calculator.reinforcediron_ingot, Blocks.chest, Calculator.reinforcediron_ingot, new ItemStack(Calculator.itemStorageModule,1));
 		addRecipe(Calculator.reinforcediron_ingot, Calculator.electricdiamond, Calculator.reinforcediron_ingot, Calculator.transmitter);
 		addRecipe(Calculator.reinforcediron_ingot, Calculator.flawlessfirediamond, Calculator.reinforcediron_ingot, Calculator.weatherStation);
-	
+		addRecipe(Calculator.electricdiamond, Calculator.rainSensor, Calculator.electricdiamond, Calculator.weatherController);
+		
 	}
 
 }

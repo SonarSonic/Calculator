@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IFlux;
+import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiCraftingCalculator;
@@ -114,7 +115,6 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
-import sonar.calculator.mod.network.packets.PacketConductorMast;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.network.packets.PacketInventorySync;
@@ -122,6 +122,7 @@ import sonar.calculator.mod.network.packets.PacketMachineButton;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
 import sonar.calculator.mod.network.packets.PacketTileSync;
+import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.IItemInventory;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -131,14 +132,13 @@ public class CalculatorCommon implements IGuiHandler {
 	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
 
 	public static void registerPackets() {
-		Calculator.network.registerMessage(PacketConductorMast.Handler.class, PacketConductorMast.class, 0, Side.SERVER);
-		Calculator.network.registerMessage(PacketMachineButton.Handler.class, PacketMachineButton.class, 1, Side.SERVER);
-		Calculator.network.registerMessage(PacketTileSync.Handler.class, PacketTileSync.class, 2, Side.CLIENT);
-		Calculator.network.registerMessage(PacketSonarSides.Handler.class, PacketSonarSides.class, 3, Side.CLIENT);
-		Calculator.network.registerMessage(PacketStorageChamber.Handler.class, PacketStorageChamber.class, 4, Side.CLIENT);
-		Calculator.network.registerMessage(PacketFluxPoint.Handler.class, PacketFluxPoint.class, 5, Side.SERVER);
-		Calculator.network.registerMessage(PacketFluxNetworkList.Handler.class, PacketFluxNetworkList.class, 6, Side.CLIENT);
-		Calculator.network.registerMessage(PacketInventorySync.Handler.class, PacketInventorySync.class, 7, Side.CLIENT);
+		Calculator.network.registerMessage(PacketMachineButton.Handler.class, PacketMachineButton.class, 0, Side.SERVER);
+		Calculator.network.registerMessage(PacketTileSync.Handler.class, PacketTileSync.class, 1, Side.CLIENT);
+		Calculator.network.registerMessage(PacketSonarSides.Handler.class, PacketSonarSides.class, 2, Side.CLIENT);
+		Calculator.network.registerMessage(PacketStorageChamber.Handler.class, PacketStorageChamber.class, 3, Side.CLIENT);
+		Calculator.network.registerMessage(PacketFluxPoint.Handler.class, PacketFluxPoint.class, 4, Side.SERVER);
+		Calculator.network.registerMessage(PacketFluxNetworkList.Handler.class, PacketFluxNetworkList.class, 5, Side.CLIENT);
+		Calculator.network.registerMessage(PacketInventorySync.Handler.class, PacketInventorySync.class, 6, Side.CLIENT);
 	}
 
 	@Override
@@ -270,7 +270,7 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 			case CalculatorGui.DynamicCalculator:
 				if ((entity instanceof TileEntityCalculator.Dynamic)) {
-					return new ContainerDynamicCalculator(player, (TileEntityCalculator.Dynamic) entity);
+					return new ContainerDynamicCalculator(player, (TileEntityCalculator.Dynamic) entity, ((TileEntityCalculator.Dynamic) entity).getUnblocked());
 				}
 			case CalculatorGui.AtomicCalculator:
 				if ((entity instanceof TileEntityCalculator.Atomic)) {
@@ -301,32 +301,39 @@ public class CalculatorCommon implements IGuiHandler {
 		}
 
 		else {
+			equipped = player.getHeldItem();
+			if (equipped == null) {
+				return null;
+			}
+
 			switch (ID) {
 			case CalculatorGui.Calculator:
-				return new ContainerCalculator(player, player.inventory);
+				return new ContainerCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped), ((IResearchStore)equipped.getItem()).getResearch(equipped));
+			
 			case CalculatorGui.ScientificCalculator:
-				return new ContainerScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(player.getHeldItem()));
+				return new ContainerScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped));
 
 			case CalculatorGui.CraftingCalculator:
-				return new ContainerCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(player.getHeldItem()));
+				return new ContainerCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(equipped));
 
 			case CalculatorGui.FlawlessCalculator:
-				return new ContainerFlawlessCalculator(player, player.inventory, new FlawlessCalc.FlawlessInventory(player.getHeldItem()));
+				return new ContainerFlawlessCalculator(player, player.inventory, new FlawlessCalc.FlawlessInventory(equipped));
 
 			case CalculatorGui.InfoCalculator:
 				return new ContainerInfoCalculator(player, player.inventory, world, x, y, z);
 
 			case CalculatorGui.PortableDynamic:
-				return new ContainerPortableDynamic(player, player.inventory);
+				return new ContainerPortableDynamic(player, player.inventory, new FlawlessCalc.DynamicInventory(equipped), ((IResearchStore)equipped.getItem()).getResearch(equipped));
 
 			case CalculatorGui.PortableCrafting:
-				return new ContainerCraftingCalculator(player, player.inventory, new FlawlessCalc.CraftingInventory(player.getHeldItem()));
+				return new ContainerCraftingCalculator(player, player.inventory, new FlawlessCalc.CraftingInventory(equipped));
 
 			case CalculatorGui.StorageModule:
-				return new ContainerStorageModule(player, player.inventory, new StorageModule.StorageInventory(player.getHeldItem()));
+				return new ContainerStorageModule(player, player.inventory, new StorageModule.StorageInventory(equipped));
 
 			case CalculatorGui.SmeltingModule:
-				return new ContainerSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(player.getHeldItem()), player.getHeldItem());
+
+				return new ContainerSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(equipped), equipped);
 
 			case CalculatorGui.RecipeInfo:
 				return new ContainerInfoCalculator(player, player.inventory, world, x, y, z);
@@ -489,7 +496,7 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 			case CalculatorGui.DynamicCalculator:
 				if ((entity instanceof TileEntityCalculator.Dynamic)) {
-					return new GuiDynamicCalculator(player, (TileEntityCalculator.Dynamic) entity);
+					return new GuiDynamicCalculator(player, (TileEntityCalculator.Dynamic) entity, ((TileEntityCalculator.Dynamic) entity).getUnblocked());
 				}
 			case CalculatorGui.AtomicCalculator:
 				if ((entity instanceof TileEntityCalculator.Atomic)) {
@@ -512,24 +519,28 @@ public class CalculatorCommon implements IGuiHandler {
 					return new GuiWeatherController(player.inventory, (TileEntityWeatherController) entity);
 				}
 			}
-			
 
 		} else {
+			equipped = player.getCurrentEquippedItem();
+			if (equipped == null) {
+				return null;
+			}
+
 			switch (ID) {
 			case CalculatorGui.Calculator:
-				return new GuiCalculator(player, player.inventory);
+				return new GuiCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped), ((IResearchStore)equipped.getItem()).getResearch(equipped));
 
 			case CalculatorGui.ScientificCalculator:
-				return new GuiScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(player.getHeldItem()));
+				return new GuiScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped));
 
 			case CalculatorGui.CraftingCalculator:
-				return new GuiCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(player.getHeldItem()));
+				return new GuiCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(equipped));
 
 			case CalculatorGui.FlawlessCalculator:
 				Item item = player.getHeldItem().getItem();
 				if (item != null && item instanceof IItemInventory) {
 					IItemInventory target = (IItemInventory) item;
-					return new GuiFlawlessCalculator(player, player.inventory, target.getInventory(player.getHeldItem()));
+					return new GuiFlawlessCalculator(player, player.inventory, target.getInventory(equipped));
 				}
 				break;
 
@@ -537,16 +548,16 @@ public class CalculatorCommon implements IGuiHandler {
 				return new GuiInfoCalculator(player, player.inventory, world, x, y, z);
 
 			case CalculatorGui.PortableDynamic:
-				return new GuiPortableDynamic(player, player.inventory);
+				return new GuiPortableDynamic(player, player.inventory, new FlawlessCalc.DynamicInventory(equipped), ((IResearchStore)equipped.getItem()).getResearch(equipped));
 
 			case CalculatorGui.PortableCrafting:
-				return new GuiCraftingCalculator(player, player.inventory, new FlawlessCalc.CraftingInventory(player.getHeldItem()));
+				return new GuiCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(equipped));
 
 			case CalculatorGui.StorageModule:
-				return new GuiStorageModule(player, player.inventory, new StorageModule.StorageInventory(player.getHeldItem()));
+				return new GuiStorageModule(player, player.inventory, new StorageModule.StorageInventory(equipped));
 
 			case CalculatorGui.SmeltingModule:
-				return new GuiSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(player.getHeldItem()), player.getHeldItem());
+				return new GuiSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(equipped), equipped);
 
 			case CalculatorGui.RecipeInfo:
 				return new GuiRecipeInfo(player, player.inventory, world, x, y, z);

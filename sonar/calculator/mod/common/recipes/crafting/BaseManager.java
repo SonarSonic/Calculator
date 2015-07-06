@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.core.client.gui.InventoryStoredCrafting;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -148,7 +149,7 @@ public class BaseManager {
 	  }
 
 
-	  public ItemStack findMatchingRecipe(InventoryCrafting matrix, World world)
+	  public ItemStack findMatchingRecipe(InventoryCrafting craftMatrix, World world)
 	  {
 	      int i = 0;
 	      ItemStack itemstack = null;
@@ -156,9 +157,9 @@ public class BaseManager {
 	      int j;
 
 
-	      for (j = 0; j < matrix.getSizeInventory()-1; ++j)
+	      for (j = 0; j < craftMatrix.getSizeInventory()-1; ++j)
 	      {
-	          ItemStack itemstack2 = matrix.getStackInSlot(j);
+	          ItemStack itemstack2 = craftMatrix.getStackInSlot(j);
 
 	          if (itemstack2 != null)
 	          {
@@ -202,11 +203,11 @@ public class BaseManager {
 	          {
 	              IRecipe irecipe = (IRecipe)this.recipes.get(j);
 
-	              if (irecipe.matches(matrix, world))
+	              if (irecipe.matches(craftMatrix, world))
 	              {
-	            	  ItemStack result = irecipe.getCraftingResult(matrix);
+	            	  ItemStack result = irecipe.getCraftingResult(craftMatrix);
 	            	  if(CalculatorConfig.isEnabled(result)){
-		                  return irecipe.getCraftingResult(matrix);
+		                  return irecipe.getCraftingResult(craftMatrix);
 	            	  }else{
 	            		  return null;
 	            	  }

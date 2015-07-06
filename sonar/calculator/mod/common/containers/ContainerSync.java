@@ -39,7 +39,7 @@ public abstract class ContainerSync extends Container {
 								Calculator.network.sendTo(new PacketTileSync(tile.xCoord, tile.yCoord, tile.zCoord,i, sync.getSyncData(i).data), (EntityPlayerMP) o);
 							}
 						}
-						syncData[i] = sync.getSyncData(i).data;
+						//syncData[i] = sync.getSyncData(i).data;
 
 					}
 				}

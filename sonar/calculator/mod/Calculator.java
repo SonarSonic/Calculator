@@ -5,10 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.potion.PotionHelper;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.EnumHelper;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,11 +19,6 @@ import sonar.calculator.mod.common.tileentity.entities.EntitySoil;
 import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.network.ChunkHandler;
-import sonar.calculator.mod.network.packets.PacketConductorMast;
-import sonar.calculator.mod.network.packets.PacketMachineButton;
-import sonar.calculator.mod.network.packets.PacketSonarSides;
-import sonar.calculator.mod.network.packets.PacketStorageChamber;
-import sonar.calculator.mod.network.packets.PacketTileSync;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.core.utils.SonarAPI;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -41,7 +34,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = Calculator.modid, version = Calculator.version)
 

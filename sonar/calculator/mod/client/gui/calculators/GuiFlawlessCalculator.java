@@ -13,14 +13,15 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiFlawlessCalculator extends GuiContainer
 {
   private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/flawlesscalculator.png");
 
-  public GuiFlawlessCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem inventory) { 
-	  super(new ContainerFlawlessCalculator(player, inv, inventory));
+  public GuiFlawlessCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem inventoryItem) { 
+	  super(new ContainerFlawlessCalculator(player, inv, inventoryItem));
     
     this.xSize = 176;
     this.ySize = 166;

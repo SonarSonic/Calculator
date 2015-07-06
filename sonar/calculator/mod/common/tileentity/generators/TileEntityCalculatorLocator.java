@@ -232,7 +232,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 					case 16:
 						if (luck == 16) {
 							int luck2 = 1 + (int) (Math.random() * ((5) - 1) + 5);
-							if (luck2 == 16) {
+							if (luck2 == 16) { 
 								worldObj.createExplosion(player, x, y, z, 80F, true);
 								player.setHealth(player.getHealth() - 40);
 							}

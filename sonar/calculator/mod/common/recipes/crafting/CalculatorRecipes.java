@@ -15,6 +15,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
+import sonar.core.client.gui.InventoryStoredCrafting;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CalculatorRecipes {
@@ -443,7 +444,7 @@ public class CalculatorRecipes {
 
 		addRecipe(new ItemStack(Calculator.reinforcedstoneBrick, 2), Calculator.reinforcedstoneBlock, Calculator.reinforcedstoneBlock, false);
 		addRecipe(new ItemStack(Calculator.reinforceddirtBrick, 2), Calculator.reinforceddirtBlock, Calculator.reinforceddirtBlock, false);
-		addRecipe(new ItemStack(Calculator.rainSensor, 2), Blocks.daylight_detector, Items.bucket, false);
+		addRecipe(new ItemStack(Calculator.rainSensor, 1), Blocks.daylight_detector, Items.bucket, false);
 
 	}
 
@@ -491,10 +492,10 @@ public class CalculatorRecipes {
 
 	}
 
-	public boolean recipeFull(InventoryCrafting matrix) {
+	public boolean recipeFull(InventoryStoredCrafting calculatorMatrix) {
 		int i = 0;
 		for (int j = 0; j < 2; ++j) {
-			ItemStack itemstack2 = matrix.getStackInSlot(j);
+			ItemStack itemstack2 = calculatorMatrix.getStackInSlot(j);
 
 			if (itemstack2 != null) {
 				++i;
@@ -504,20 +505,17 @@ public class CalculatorRecipes {
 
 	}
 
-	public ItemStack findMatchingRecipe(InventoryCrafting matrix, int[] unblocked) {
-		if (unblocked == null) {
-			return null;
-		}
-		if (!recipeFull(matrix)) {
+	public ItemStack findMatchingRecipe(InventoryStoredCrafting calculatorMatrix, int[] unblocked) {
+		if (!recipeFull(calculatorMatrix)) {
 			return null;
 		}
 		ItemStack result = null;
 		CalculatorRecipe recipe = null;
-		result = findMatch(matrix.getStackInSlot(0), matrix.getStackInSlot(1));
-		recipe = findRecipe(matrix.getStackInSlot(0), matrix.getStackInSlot(1));
+		result = findMatch(calculatorMatrix.getStackInSlot(0), calculatorMatrix.getStackInSlot(1));
+		recipe = findRecipe(calculatorMatrix.getStackInSlot(0), calculatorMatrix.getStackInSlot(1));
 		if (result == null) {
-			result = findMatch(matrix.getStackInSlot(1), matrix.getStackInSlot(0));
-			recipe = findRecipe(matrix.getStackInSlot(1), matrix.getStackInSlot(0));
+			result = findMatch(calculatorMatrix.getStackInSlot(1), calculatorMatrix.getStackInSlot(0));
+			recipe = findRecipe(calculatorMatrix.getStackInSlot(1), calculatorMatrix.getStackInSlot(0));
 		}
 
 		if (result != null && recipe != null) {
@@ -528,8 +526,8 @@ public class CalculatorRecipes {
 					return null;
 				}
 
-			} else if (recipe.hidden && unblocked != null && unblocked.length >= 1 && recipe.hidden && unblocked[CalculatorRecipes.recipes().getID(recipe.input)] != 0
-					&& unblocked[CalculatorRecipes.recipes().getID(recipe.input2)] != 0 || unblocked[CalculatorRecipes.recipes().getID(recipe.output)] != 0) {
+			} else if (unblocked!=null && (recipe.hidden && unblocked != null && unblocked.length >= 1 && recipe.hidden && unblocked[CalculatorRecipes.recipes().getID(recipe.input)] != 0
+					&& unblocked[CalculatorRecipes.recipes().getID(recipe.input2)] != 0 || unblocked[CalculatorRecipes.recipes().getID(recipe.output)] != 0)) {
 				if (CalculatorConfig.isEnabled(result)) {
 					return result;
 				} else {

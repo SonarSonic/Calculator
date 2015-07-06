@@ -26,8 +26,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class CalculatorItem extends SonarCalculator implements IItemInventory, IResearchStore {
 
 	public static class CalculatorInventory extends InventoryItem {
+		public static final int size = 3;
 		public CalculatorInventory(ItemStack stack) {
-			super(stack, 3);
+			super(stack, size, "Items");
 		}
 	}
 

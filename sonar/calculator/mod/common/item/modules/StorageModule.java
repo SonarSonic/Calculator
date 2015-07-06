@@ -17,6 +17,7 @@ import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInv
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryContainerItem;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.IItemInventory;
 import sonar.core.utils.helpers.FontHelper;
 
@@ -25,8 +26,9 @@ public class StorageModule extends InventoryContainerItem implements
 
 	public static class StorageInventory extends InventoryItem {
 
+		public static final int size = 54;
 		public StorageInventory(ItemStack stack) {
-			super(stack, 54);
+			super(stack, size, "Items");
 		}
 	}
 

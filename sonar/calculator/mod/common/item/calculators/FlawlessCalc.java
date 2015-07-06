@@ -1,22 +1,17 @@
 package sonar.calculator.mod.common.item.calculators;
 
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.IResearchStore;
-import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInventory;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipe;
 import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.entities.EntityGrenade;
 import sonar.calculator.mod.network.CalculatorGui;
@@ -29,20 +24,23 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class FlawlessCalc extends SonarCalculator implements IItemInventory, IResearchStore {
 
 	public static class FlawlessInventory extends InventoryItem {
+		public static final int size = 5;
 		public FlawlessInventory(ItemStack stack) {
-			super(stack, 5, "FlawlessInv");
+			super(stack, size, "FlawlessInv");
 		}
 	}
 
 	public static class DynamicInventory extends InventoryItem {
+		public static final int size = 10;
 		public DynamicInventory(ItemStack stack) {
-			super(stack, 10, "DynamicInv");
+			super(stack, size, "DynamicInv");
 		}
 	}
 
 	public static class CraftingInventory extends InventoryItem {
+		public static final int size = 10;
 		public CraftingInventory(ItemStack stack) {
-			super(stack, 10, "CraftingInv");
+			super(stack, size, "CraftingInv");
 		}
 	}
 

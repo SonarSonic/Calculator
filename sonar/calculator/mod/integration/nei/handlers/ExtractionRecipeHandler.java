@@ -77,20 +77,20 @@ public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		if(result==null){
+		if (result == null) {
 			return;
 		}
 		Map<Object[], Object[]> recipes = ExtractionChamberRecipes.instance().getRecipes();
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			int pos = ExtractionChamberRecipes.instance().containsStack(result, recipe.getValue(), false);
-			
-			if(pos==0){
-				this.arecipes.add(new SmeltingPair(recipe.getKey()[0],recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict
-						.circuitList(1) : CalculatorOreDict.circuitList(0)));
-			}else if(result.getItem()==Calculator.circuitDamaged ||result.getItem()==Calculator.circuitDirty){
-			this.arecipes.add(new SmeltingPair(recipe.getKey()[0],recipe.getValue()[0], result.getItem() == Calculator.circuitDamaged ? CalculatorOreDict.circuitList(1)
-							: result.getItem() == Calculator.circuitDirty ? CalculatorOreDict.circuitList(2) : recipe.getValue()[1]));
-				
+
+			if (pos == 0) {
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict
+						.circuitList(1) : CalculatorOreDict.circuitList(2)));
+			} else if (result.getItem() == Calculator.circuitDamaged || result.getItem() == Calculator.circuitDirty) {
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict
+						.circuitList(1) : CalculatorOreDict.circuitList(2)));
+
 			}
 		}
 	}

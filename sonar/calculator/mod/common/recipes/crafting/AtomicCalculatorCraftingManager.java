@@ -43,6 +43,7 @@ public class AtomicCalculatorCraftingManager extends BaseManager {
 	 	this.addRecipe(new ItemStack(Calculator.itemStorageModule, 1), new Object[] {"ABA", 'A', Calculator.reinforcediron_ingot, 'B', Blocks.chest});
 	 	this.addRecipe(new ItemStack(Calculator.transmitter, 1), new Object[] {"ABA", 'A', Calculator.reinforcediron_ingot, 'B', Calculator.electricdiamond});
 		this.addRecipe(new ItemStack(Calculator.weatherStation, 4), new Object[] {"ABA", 'A', Calculator.reinforcediron_ingot, 'B', Calculator.flawlessfirediamond});
+		this.addRecipe(new ItemStack(Calculator.weatherController, 1), new Object[] {"ABA", 'A', Calculator.electricdiamond, 'B', Calculator.rainSensor});
 
 	 	Collections.sort(this.recipes, new AbstractRecipeSorter(this));
     }

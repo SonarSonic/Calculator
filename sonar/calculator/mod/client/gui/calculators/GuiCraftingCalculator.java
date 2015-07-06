@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerCraftingCalculator;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
+import sonar.calculator.mod.common.item.calculators.CraftingCalc.CraftingInventory;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.helpers.FontHelper;
 
@@ -20,8 +21,8 @@ public class GuiCraftingCalculator extends GuiContainer {
 	
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/craftingcalculator.png");
 
-	  public GuiCraftingCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem inventory) { 
-		super(new ContainerCraftingCalculator(player, inv, inventory));
+	  public GuiCraftingCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem craftingInv) { 
+		super(new ContainerCraftingCalculator(player, inv, craftingInv));
 
 		this.xSize = 176;
 		this.ySize = 166;

@@ -240,32 +240,6 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 		tag.setInteger("energy", this.storage.getEnergyStored());
 	}
 
-	public void onPacket(int usage) {
-
-		if (this.storage.getEnergyStored() >= 10000) {
-			switch (usage) {
-			case 0:
-				if (!this.worldObj.isDaytime()) {
-					this.storage.modifyEnergyStored(-10000);
-					this.worldObj.setWorldTime(1000);
-				} else if (this.worldObj.isDaytime()) {
-					this.storage.modifyEnergyStored(-10000);
-					this.worldObj.setWorldTime(13000);
-				}
-
-				break;
-			case 1:
-				if (this.worldObj.isRaining()) {
-					this.worldObj.getWorldInfo().setRaining(false);
-					this.storage.modifyEnergyStored(-10000);
-				} else {
-					this.worldObj.getWorldInfo().setRaining(true);
-					this.storage.modifyEnergyStored(-10000);
-				}
-			}
-		}
-	}
-
 	public static void setWeatherStationAngles(boolean packet, World world, int xCoord, int yCoord, int zCoord) {
 		for (int x = -10; x <= 10; x++) {
 			for (int z = -10; z <= 10; z++) {

@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.core.client.gui.InventoryStoredCrafting;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ScientificCalculatorRecipes {
@@ -87,10 +88,10 @@ public class ScientificCalculatorRecipes {
 
 	}
 
-	public boolean recipeFull(InventoryCrafting matrix) {
+	public boolean recipeFull(InventoryStoredCrafting scientficMatrix) {
 		int i = 0;
-		for (int j = 0; j < matrix.getSizeInventory(); ++j) {
-			ItemStack itemstack2 = matrix.getStackInSlot(j);
+		for (int j = 0; j < scientficMatrix.getSizeInventory(); ++j) {
+			ItemStack itemstack2 = scientficMatrix.getStackInSlot(j);
 
 			if (itemstack2 != null) {
 				++i;
@@ -100,18 +101,18 @@ public class ScientificCalculatorRecipes {
 
 	}
 
-	public ItemStack findMatchingRecipe(InventoryCrafting matrix) {
+	public ItemStack findMatchingRecipe(InventoryStoredCrafting scientficMatrix) {
 
-		if (!recipeFull(matrix)) {
+		if (!recipeFull(scientficMatrix)) {
 			return null;
 		}
 		ItemStack result = null;
 		CalculatorRecipe recipe = null;
-		result = findMatch(matrix.getStackInSlot(0), matrix.getStackInSlot(1));
-		recipe = findRecipe(matrix.getStackInSlot(0), matrix.getStackInSlot(1));
+		result = findMatch(scientficMatrix.getStackInSlot(0), scientficMatrix.getStackInSlot(1));
+		recipe = findRecipe(scientficMatrix.getStackInSlot(0), scientficMatrix.getStackInSlot(1));
 		if (result == null) {
-			result = findMatch(matrix.getStackInSlot(1), matrix.getStackInSlot(0));
-			recipe = findRecipe(matrix.getStackInSlot(1), matrix.getStackInSlot(0));
+			result = findMatch(scientficMatrix.getStackInSlot(1), scientficMatrix.getStackInSlot(0));
+			recipe = findRecipe(scientficMatrix.getStackInSlot(1), scientficMatrix.getStackInSlot(0));
 		}
 
 		if (result != null && recipe != null) {

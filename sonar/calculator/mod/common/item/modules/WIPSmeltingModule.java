@@ -51,7 +51,7 @@ public class WIPSmeltingModule extends SonarCalculator implements IItemInventory
 	public static class SmeltingInventory extends InventoryItem {
 
 		public SmeltingInventory(ItemStack stack) {
-			super(stack, 3);
+			super(stack, 3, "Items");
 		}
 	}
 	@Override
@@ -133,7 +133,7 @@ public class WIPSmeltingModule extends SonarCalculator implements IItemInventory
 			if (inv.getStackInSlot(2) == null) {
 				inv.setInventorySlotContents(2, itemstack.copy());
 			} else if (inv.getStackInSlot(2).isItemEqual(itemstack)) {		
-				this.getInventory(stack).incrStackSize(2, itemstack.stackSize);
+				this.getInventory(stack).decrStackSize(2, itemstack.stackSize);
 			}
 
 			this.getInventory(stack).decrStackSize(0, 1);

@@ -44,9 +44,9 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 	}
 
 	public ItemStack onCalculatorRightClick(ItemStack itemstack, World world, EntityPlayer player, int ID) {
-		if (!world.isRemote && player instanceof EntityPlayerMP) {
-			Calculator.network.sendTo(new PacketInventorySync(player.inventory), (EntityPlayerMP) player);
-		}
+		//if (!world.isRemote && player instanceof EntityPlayerMP) {
+		//	Calculator.network.sendTo(new PacketInventorySync(player.inventory), (EntityPlayerMP) player);
+		//}
 		if (player.capabilities.isCreativeMode) {
 			player.openGui(Calculator.instance, ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 		} else if (getEnergyStored(itemstack) > 1) {
@@ -56,6 +56,7 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 			FontHelper.sendMessage(FontHelper.translate("energy.notEnough"), world, player);
 		}
 		return itemstack;
+		
 	}
 
 	@Override
