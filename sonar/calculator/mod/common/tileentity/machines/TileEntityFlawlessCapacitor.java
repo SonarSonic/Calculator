@@ -6,6 +6,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.EnergyStorage;
 import sonar.core.common.tileentity.TileEntitySender;
 import sonar.core.utils.helpers.SonarHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 /**WIP*/
 public class TileEntityFlawlessCapacitor extends TileEntitySender {
@@ -18,18 +19,23 @@ public class TileEntityFlawlessCapacitor extends TileEntitySender {
 	public void updateEntity(){
 		handleEnergy();
 	}
-	public void writeToNBT(NBTTagCompound tag){
-		super.writeToNBT(tag);
-		tag.setIntArray("outputs", output);
-	}
-	
-	public void readFromNBT(NBTTagCompound tag){
-		super.readFromNBT(tag);
-		this.output = tag.getIntArray("outputs");
-		if(output==null){
-			output=new int[6];
+
+
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.output = nbt.getIntArray("outputs");
 		}
 	}
+
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setIntArray("outputs", output);
+
+		}
+	}
+	
 	public void handleEnergy() {		
 		for(int i =0; i<output.length;i++){
 			if(output[i]==1){
@@ -70,18 +76,4 @@ public class TileEntityFlawlessCapacitor extends TileEntitySender {
 		return output;
 	}
 	
-	@Override
-	public void readInfo(NBTTagCompound tag) {
-		this.output = tag.getIntArray("output");		
-		this.storage.setEnergyStored(tag.getInteger("energy"));
-		if(output.length == 0 || output==null){
-			output=new int[6];
-		}
-	}
-
-	@Override
-	public void writeInfo(NBTTagCompound tag) {
-		tag.setIntArray("output", output);
-		tag.setInteger("energy", this.storage.getEnergyStored());
-	}
 }

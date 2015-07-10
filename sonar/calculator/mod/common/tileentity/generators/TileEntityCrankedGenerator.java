@@ -1,20 +1,15 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import java.util.Random;
+import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
 import sonar.core.common.tileentity.TileEntitySender;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.EnergyStorage;
 
@@ -139,40 +134,34 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 		return "none";
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.cranked = nbt.getBoolean("cranked");
+			this.ticks = nbt.getInteger("ticks");
 
-		super.readFromNBT(nbt);
-		direction = nbt.getString("facing");
-
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-
-		super.writeToNBT(nbt);
-		if (direction == null) {
-			nbt.setString("facing", "none");
-		} else
-			nbt.setString("facing", direction);
-	}
-
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.ACTIVE:
-			this.cranked = (Boolean)data;
-			break;
+			if (type == SyncType.SAVE) {
+				direction = nbt.getString("facing");
+			}
 		}
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.ACTIVE:
-			return new SyncData(true, cranked);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setBoolean("cranked", cranked());
+			nbt.setInteger("ticks", ticks);
+			if (type == SyncType.SAVE) {
+				if (direction == null) {
+					nbt.setString("facing", "none");
+				} else
+					nbt.setString("facing", direction);
+			}
 		}
-		return super.getSyncData(id);
+	}
+
+	public List<String> getWailaInfo(List<String> tooltip) {
+		tooltip.add(FontHelper.translate("crank.cranked") + ": " + (this.cranked ? FontHelper.translate("locator.true") : FontHelper.translate("locator.false")));
+		return tooltip;
 	}
 }

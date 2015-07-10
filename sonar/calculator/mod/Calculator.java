@@ -11,11 +11,13 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.entities.CalculatorThrow;
 import sonar.calculator.mod.common.tileentity.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.tileentity.entities.EntityGrenade;
 import sonar.calculator.mod.common.tileentity.entities.EntitySmallStone;
 import sonar.calculator.mod.common.tileentity.entities.EntitySoil;
+import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.network.ChunkHandler;
@@ -86,14 +88,17 @@ public class Calculator {
 		logger.info("Loaded Blocks");
 		
 		CalculatorItems.registerItems();
-		logger.info("Loaded Items");
+		logger.info("Loaded Items");		
+
+		RecipeRegistry.registerRecipes();
+		logger.info("Registered Calculator Recipes");	
 		
 		CalculatorCrafting.addRecipes();
 		logger.info("Added Crafting Recipes");
 		
 		CalculatorSmelting.addSmeltingRecipes();
 		logger.info("Added Smelting Recipes");		
-		
+				
 		CalculatorOreDict.registerOres();
 		logger.info("Registered OreDict");		
 		
@@ -112,21 +117,28 @@ public class Calculator {
 		logger.info("Registered Events");	
 		
 		calculatorProxy.registerRenderThings();
-		logger.info("Registered Renderers");		
+		logger.info("Registered Renderers");			
+
+		PlanterRegistry.registerPlanters();;
+		logger.info("Registered Planters");	
+		
 	}
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
-		//nothing done here
 	}
 
 	@EventHandler
 	public void postLoad(FMLPostInitializationEvent evt) {
-		//allows entities to be thrown from a Dispenser
         BlockDispenser.dispenseBehaviorRegistry.putObject(baby_grenade, new CalculatorThrow(0));
         BlockDispenser.dispenseBehaviorRegistry.putObject(grenade, new CalculatorThrow(1));
         BlockDispenser.dispenseBehaviorRegistry.putObject(small_stone, new CalculatorThrow(2));
         BlockDispenser.dispenseBehaviorRegistry.putObject(soil, new CalculatorThrow(3));
+        logger.info(RecipeRegistry.getUnblockedSize() + " Hidden Calculator Recipes were loaded");
+        logger.info(RecipeRegistry.getBlockedSize() + " Standard Calculator Recipes were loaded");
+        logger.info(RecipeRegistry.getScientificSize() + " Scientific Recipes were loaded");
+        logger.info(RecipeRegistry.getAtomicSize() + " Atomic Recipes were loaded");
+        logger.info(RecipeRegistry.getFlawlessSize() + " Flawless Recipes were loaded");
 	}
 
 	@EventHandler
@@ -198,6 +210,7 @@ public class Calculator {
 		public static Block weatherController, rainSensor;
 		public static Block crank;
 		public static Block researchChamber;
+		public static Block calculatorScreen;
 		
 		// calculator parts
 		public static Item calculator_screen;

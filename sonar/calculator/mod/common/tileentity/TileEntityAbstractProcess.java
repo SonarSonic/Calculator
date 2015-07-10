@@ -15,8 +15,8 @@ import cofh.api.energy.EnergyStorage;
 
 public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 
-    public Random rand = new Random();
-    
+	public Random rand = new Random();
+
 	public TileEntityAbstractProcess() {
 		int[] inputs = new int[inputSize()];
 		int[] outputs = new int[outputSize()];
@@ -61,19 +61,19 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 				return false;
 			}
 		}
-		ItemStack[] output = getOutput(true,this.slots[0]);
+		ItemStack[] output = getOutput(true, this.slots[0]);
 		for (int o = 0; o < outputSize(); o++) {
 			if (output[o] == null) {
 				return false;
-			}else{
-				
-			if (slots[o + inputSize() + 1] != null) {
-				if (!slots[o + inputSize() + 1].isItemEqual(output[o])) {
-					return false;
-				} else if (slots[o + inputSize() + 1].stackSize + output[o].stackSize > slots[o + inputSize() + 1].getMaxStackSize()) {
-					return false;
+			} else {
+
+				if (slots[o + inputSize() + 1] != null) {
+					if (!slots[o + inputSize() + 1].isItemEqual(output[o])) {
+						return false;
+					} else if (slots[o + inputSize() + 1].stackSize + output[o].stackSize > slots[o + inputSize() + 1].getMaxStackSize()) {
+						return false;
+					}
 				}
-			}
 			}
 		}
 		return true;
@@ -84,7 +84,6 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 		for (int i = 0; i < inputSize(); i++) {
 			if (slots[i] != null) {
 				size = Math.max(size, slots[i].stackSize);
-				System.out.print(size);
 			} else {
 				size = 0;
 			}
@@ -108,13 +107,11 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 
 	public void finishProcess() {
 		ItemStack[] output = getOutput(false, this.slots[0]);
-			for (int o = 0; o < outputSize(); o++) {
-				if (output[o] == null) {
-					return;
-				}
+		for (int o = 0; o < outputSize(); o++) {
+			if (output[o] != null) {
 				if (this.slots[o + inputSize() + 1] == null) {
 					ItemStack outputStack = output[o].copy();
-					if(output[o].getItem() == Calculator.circuitBoard){
+					if (output[o].getItem() == Calculator.circuitBoard) {
 						ItemCircuit.setData(outputStack);
 					}
 					this.slots[o + inputSize() + 1] = outputStack;
@@ -122,18 +119,18 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 					this.slots[o + inputSize() + 1].stackSize += output[o].stackSize;
 
 				}
-
 			}
-			for (int i = 0; i < inputSize(); i++) {
-				if (recipeHelper() != null)
-					this.slots[i].stackSize -= recipeHelper().getInputSize(i, output);
-				else {
-					this.slots[i].stackSize -= 1;
-				}
-				if (this.slots[i].stackSize <= 0) {
-					this.slots[i] = null;
-				}
+		}
+		for (int i = 0; i < inputSize(); i++) {
+			if (recipeHelper() != null) {
+				this.slots[i].stackSize -= recipeHelper().getInputSize(i, output);
+			} else {
+				this.slots[i].stackSize -= 1;
 			}
+			if (this.slots[i].stackSize <= 0) {
+				this.slots[i] = null;
+			}
+		}
 	}
 
 	@Override

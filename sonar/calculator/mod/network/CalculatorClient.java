@@ -23,6 +23,7 @@ import sonar.calculator.mod.client.renderers.ItemWeatherStation;
 import sonar.calculator.mod.client.renderers.ItemWrench;
 import sonar.calculator.mod.client.renderers.RenderCalculatorLocator;
 import sonar.calculator.mod.client.renderers.RenderCalculatorPlug;
+import sonar.calculator.mod.client.renderers.RenderCalculatorScreen;
 import sonar.calculator.mod.client.renderers.RenderCrank;
 import sonar.calculator.mod.client.renderers.RenderFlawlessCapacitor;
 import sonar.calculator.mod.client.renderers.RenderFluxPlug;
@@ -47,6 +48,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityBasicLantern;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
@@ -190,7 +192,9 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer fluxController = new RenderHandlers.FluxController();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluxController.class, fluxController);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.fluxController), new ItemModelRender(fluxController, new TileEntityFluxController()));
-	
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalculatorScreen.class, new RenderCalculatorScreen());
+
 		//MinecraftForgeClient.registerItemRenderer(Calculator.itemFluxModule, new ItemFluxReceiver());
 
 	}

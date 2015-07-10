@@ -1,17 +1,9 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import ic2.api.energy.tile.IEnergySink;
-import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
-import sonar.calculator.mod.api.IFluxPlug;
 import sonar.calculator.mod.api.IFluxPoint;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
-import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
-import sonar.calculator.mod.utils.FluxRegistry;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityFluxPoint extends TileEntityFluxHandler implements IFluxPoint {
 
@@ -27,39 +19,21 @@ public class TileEntityFluxPoint extends TileEntityFluxHandler implements IFluxP
 		return this.priority;
 	}
 
-	public void writeToNBT(NBTTagCompound tag) {
-		super.writeToNBT(tag);
-		tag.setInteger("priority", priority);
-		tag.setInteger("maxTransfer", maxTransfer);
-	}
-
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
-		this.priority = tag.getInteger("priority");
-		this.maxTransfer = tag.getInteger("maxTransfer");
-	}
-
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.SPECIAL6:
-			this.priority = (Integer) data;
-			break;
-		case SyncType.SPECIAL7:
-			this.maxTransfer = (Integer) data;
-			break;
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.priority = nbt.getInteger("priority");
+			this.maxTransfer = nbt.getInteger("maxTransfer");
 		}
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.SPECIAL6:
-			return new SyncData(true, priority);
-		case SyncType.SPECIAL7:
-			return new SyncData(true, maxTransfer);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setInteger("priority", priority);
+			nbt.setInteger("maxTransfer", maxTransfer);
+
 		}
-		return super.getSyncData(id);
 	}
+
 }

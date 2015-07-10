@@ -1,29 +1,27 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.List;
 
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IPausable;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.utils.AtomicMultiplierBlacklist;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
 import sonar.core.utils.DischargeValues;
+import sonar.core.utils.helpers.FontHelper;
+import sonar.core.utils.helpers.NBTHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.EnergyStorage;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver implements ISidedInventory {
 
 	public int cookTime, active;
 	public int furnaceSpeed = 1000;
 	public static int requiredEnergy = 900000000;
-	
+
 	private static final int[] input = new int[] { 0 };
 	private static final int[] circuits = new int[] { 1, 2, 3, 4, 5, 6, 7 };
 	private static final int[] output = new int[] { 8 };
@@ -34,46 +32,43 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 	}
 
 	@Override
-	public void updateEntity() {		
+	public void updateEntity() {
 		super.updateEntity();
-		discharge(9);	
-		if(this.cookTime>0){
-			this.active=1;
+		discharge(9);
+		if (this.cookTime > 0) {
+			this.active = 1;
 			this.cookTime++;
 			int energy = requiredEnergy / furnaceSpeed;
 			this.storage.modifyEnergyStored(-energy);
-		}		
+		}
 		if (this.canCook()) {
 			if (!this.worldObj.isRemote) {
-			if(cookTime==0){
-			this.cookTime++;
-			}
+				if (cookTime == 0) {
+					this.cookTime++;
+				}
 			}
 			if (this.cookTime == furnaceSpeed) {
 
-			this.cookTime = 0;
-			this.cookItem();
-			this.active=0;
-			
-			int energy = requiredEnergy / furnaceSpeed;
-			this.storage.modifyEnergyStored(-energy);
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			}	
+				this.cookTime = 0;
+				this.cookItem();
+				this.active = 0;
+
+				int energy = requiredEnergy / furnaceSpeed;
+				this.storage.modifyEnergyStored(-energy);
+				this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			}
 
 		} else {
-			if(this.cookTime != 0 || this.active != 0 ){
+			if (this.cookTime != 0 || this.active != 0) {
 				this.cookTime = 0;
-				this.active=0;
+				this.active = 0;
 				this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 		}
-		
-		
-		
+
 		this.markDirty();
 
 	}
-
 
 	public boolean canCook() {
 		if (this.storage.getEnergyStored() == 0) {
@@ -124,7 +119,7 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 	}
 
 	private void cookItem() {
-		ItemStack itemstack = new ItemStack(slots[0].getItem(), 4,	slots[0].getItemDamage());
+		ItemStack itemstack = new ItemStack(slots[0].getItem(), 4, slots[0].getItemDamage());
 		if (this.slots[8] == null) {
 			this.slots[8] = itemstack;
 		} else if (this.slots[8].isItemEqual(itemstack)) {
@@ -141,18 +136,20 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 	}
 
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		this.cookTime = nbt.getShort("cookTime");
-		this.active = nbt.getShort("active");
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.cookTime = nbt.getShort("cookTime");
+			this.active = nbt.getShort("active");
+		}
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setShort("cookTime", (short) this.cookTime);
-		nbt.setShort("active", (short) this.active);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setShort("cookTime", (short) this.cookTime);
+			nbt.setShort("active", (short) this.active);
+		}
 	}
 
 	@Override
@@ -179,9 +176,7 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int slot) {
-		return slot == 0 ? output : slot == 1 ? input : slot == 2 ? circuits
-				: slot == 3 ? circuits : slot == 4 ? circuits
-						: slot == 5 ? circuits : input;
+		return slot == 0 ? output : slot == 1 ? input : slot == 2 ? circuits : slot == 3 ? circuits : slot == 4 ? circuits : slot == 5 ? circuits : input;
 	}
 
 	@Override
@@ -191,32 +186,23 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 		}
 		return false;
 	}
-	public boolean receiveClientEvent(int action, int param){
-		if(action==1){
-		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);}
+
+	public boolean receiveClientEvent(int action, int param) {
+		if (action == 1) {
+			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
 		return true;
 	}
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.COOK:
-			this.cookTime = (Integer)data;
-			break;
-		case SyncType.ACTIVE:
-			this.active = (Integer)data;
-			break;
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip){
+		super.getWailaInfo(currenttip);
+		if (cookTime > 0) {
+			String active = FontHelper.translate("locator.state") + ":" + FontHelper.translate("locator.active");
+			currenttip.add(active);
+		} else {
+			String idle = FontHelper.translate("locator.state") + ":" + FontHelper.translate("locator.idle");
+			currenttip.add(idle);
 		}
-	}
-
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.COOK:
-			return new SyncData(true, cookTime);
-		case SyncType.ACTIVE:
-			return new SyncData(true, active);
-		}
-		return super.getSyncData(id);
+		return currenttip;		
 	}
 }

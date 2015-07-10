@@ -1,28 +1,24 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import java.util.List;
 
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
-import sonar.core.utils.ChargingUtils;
-import sonar.core.utils.EnergyCharge;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.RenderHelper;
 import cofh.api.energy.EnergyStorage;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityCO2Generator extends TileEntityInventoryReceiver implements ISidedInventory{
+public class TileEntityCO2Generator extends TileEntityInventoryReceiver implements ISidedInventory {
 
 	public int burnTime;
 	public int maxBurnTime;
@@ -42,52 +38,51 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 	public void updateEntity() {
 
 		super.updateEntity();
-		if(RenderHelper.getHorizontal(getForward())!=null){
-		boolean flag1 = this.burnTime > 0;
-		boolean flag2 = false;
-		ForgeDirection hoz = RenderHelper.getHorizontal(getForward()).getOpposite();
-		TileEntity tile = this.worldObj.getTileEntity(xCoord+ (hoz.offsetX * 3), yCoord, zCoord+ (hoz.offsetZ*3));
-		
-		if (this.maxBurnTime == 0 && !this.worldObj.isRemote && this.slots[0] != null) {
-			if (TileEntityFurnace.isItemFuel(slots[0])&& this.storage.getEnergyStored() >= energyAmount) {			
-						if (tile != null&& tile instanceof TileEntityFlawlessGreenhouse) {
-							burn();
-							this.storage.modifyEnergyStored(-energyAmount);
-						}
+		if (RenderHelper.getHorizontal(getForward()) != null) {
+			boolean flag1 = this.burnTime > 0;
+			boolean flag2 = false;
+			ForgeDirection hoz = RenderHelper.getHorizontal(getForward()).getOpposite();
+			TileEntity tile = this.worldObj.getTileEntity(xCoord + (hoz.offsetX * 3), yCoord, zCoord + (hoz.offsetZ * 3));
+
+			if (this.maxBurnTime == 0 && !this.worldObj.isRemote && this.slots[0] != null) {
+				if (TileEntityFurnace.isItemFuel(slots[0]) && this.storage.getEnergyStored() >= energyAmount) {
+					if (tile != null && tile instanceof TileEntityFlawlessGreenhouse) {
+						burn();
+						this.storage.modifyEnergyStored(-energyAmount);
 					}
-				
-				
+				}
+
 			}
-		if(!this.controlled){
-			if (this.maxBurnTime != 0 && this.burnTime >= 0	&& this.burnTime < this.maxBurnTime) {				
-				flag2 = true;
-				burnTime++;
+			if (!this.controlled) {
+				if (this.maxBurnTime != 0 && this.burnTime >= 0 && this.burnTime < this.maxBurnTime) {
+					flag2 = true;
+					burnTime++;
 				}
 			}
-		
-		if(this.controlled){
-			if (tile != null && tile instanceof TileEntityFlawlessGreenhouse) {
-				TileEntityFlawlessGreenhouse greenhouse = (TileEntityFlawlessGreenhouse) tile;
-				int carbon = greenhouse.getCarbon();
-				if(control){
-					if (!(carbon == greenhouse.maxLevel)) {
-						if (this.maxBurnTime != 0 && this.burnTime >= 0	&& this.burnTime < this.maxBurnTime) {
+
+			if (this.controlled) {
+				if (tile != null && tile instanceof TileEntityFlawlessGreenhouse) {
+					TileEntityFlawlessGreenhouse greenhouse = (TileEntityFlawlessGreenhouse) tile;
+					int carbon = greenhouse.getCarbon();
+					if (control) {
+						if (!(carbon == greenhouse.maxLevel)) {
+							if (this.maxBurnTime != 0 && this.burnTime >= 0 && this.burnTime < this.maxBurnTime) {
 								flag2 = true;
 								burnTime++;
 								this.gasAdd = 800;
-							}						
-					}else{
-						this.control=false;
-					}
-					
-				}
-				if(!control){
-					if(carbon<=92000){
-						this.control=true;				
-					}else{
-						this.gasAdd=0;
+							}
+						} else {
+							this.control = false;
 						}
-					}				
+
+					}
+					if (!control) {
+						if (carbon <= 92000) {
+							this.control = true;
+						} else {
+							this.gasAdd = 0;
+						}
+					}
 				}
 			}
 			if (this.burnTime == this.maxBurnTime) {
@@ -95,13 +90,13 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 				this.burnTime = 0;
 				this.gasAdd = 0;
 				flag2 = true;
-				}			
+			}
 			if (flag2) {
 				this.markDirty();
 			}
 		}
-			discharge(1);
-			
+		discharge(1);
+
 	}
 
 	public void burn() {
@@ -117,34 +112,37 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 	}
 
 	public boolean isBurning() {
-		
+
 		if (this.maxBurnTime == 0) {
-			return false;}
-		
+			return false;
+		}
+
 		return true;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		this.burnTime = nbt.getInteger("burnTime");
-		this.maxBurnTime = nbt.getInteger("maxBurnTime");
-		this.controlled = nbt.getBoolean("controlled");
-		this.control = nbt.getBoolean("control");
-		this.gasAdd = nbt.getInteger("gasAdd");
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.burnTime = nbt.getInteger("burnTime");
+			this.maxBurnTime = nbt.getInteger("maxBurnTime");
+			this.controlled = nbt.getBoolean("controlled");
+			this.control = nbt.getBoolean("control");
+			this.gasAdd = nbt.getInteger("gasAdd");
+		}
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setInteger("burnTime", this.burnTime);
-		nbt.setInteger("maxBurnTime", this.maxBurnTime);
-		nbt.setBoolean("controlled", this.controlled);
-		nbt.setBoolean("control", this.control);
-		nbt.setInteger("gasAdd", this.gasAdd);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setInteger("burnTime", this.burnTime);
+			nbt.setInteger("maxBurnTime", this.maxBurnTime);
+			nbt.setBoolean("controlled", this.controlled);
+			nbt.setBoolean("control", this.control);
+			nbt.setInteger("gasAdd", this.gasAdd);
 
+		}
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return input;
@@ -171,32 +169,21 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 
 	public ForgeDirection getForward() {
 
-		return ForgeDirection.getOrientation(this.getBlockMetadata())
-				.getOpposite();
-
+		return ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
 	}
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.BURN:
-			this.burnTime = (Integer)data;
-			break;
-		case SyncType.SPECIAL1:
-			this.maxBurnTime = (Integer)data;
-			break;
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		if (burnTime > 0 && maxBurn != 0 && gasAdd == 0) {
+			String burn = FontHelper.translate("co2.control");
+			currenttip.add(burn);
 		}
-	}
-
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.BURN:
-			return new SyncData(true, burnTime);
-		case SyncType.SPECIAL1:
-			return new SyncData(true, maxBurnTime);
+		else if (burnTime > 0 && maxBurn != 0) {
+			String burn = FontHelper.translate("co2.burnt") + ": " + burnTime * 100 / maxBurn;
+			currenttip.add(burn);
+		} else {
+			String burn = FontHelper.translate("co2.burning");
+			currenttip.add(burn);
 		}
-		return super.getSyncData(id);
+		return currenttip;
 	}
-
 }

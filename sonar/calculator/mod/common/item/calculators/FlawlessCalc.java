@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.IResearchStore;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.entities.EntityGrenade;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
@@ -313,7 +313,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 	}
 
 	public int[] getResearch(ItemStack stack) {
-		int[] unblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+		int[] unblocked = new int[RecipeRegistry.getBlockedSize()];
 		if (stack != null && stack.getItem() == Calculator.itemFlawlessCalculator) {
 			if (!stack.hasTagCompound()) {
 				stack.setTagCompound(new NBTTagCompound());
@@ -322,7 +322,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 			if (unblocked != null && unblocked.length > 1) {
 				return unblocked;
 			} else {
-				return new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+				return new int[RecipeRegistry.getBlockedSize()];
 			}
 		} else {
 			return unblocked;

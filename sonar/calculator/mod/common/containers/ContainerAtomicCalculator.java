@@ -7,9 +7,8 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.recipes.crafting.AtomicCalculatorCraftingManager;
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
-import sonar.calculator.mod.integration.nei.AtomicCalculatorNEIRecipes;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
 
@@ -24,7 +23,7 @@ public class ContainerAtomicCalculator extends Container {
 		this.craftResult = new InventoryStoredResult(entity);
 
 		addSlotToContainer(new SlotCrafting(player, this.craftMatrix, this.craftResult, 0, 134, 35));
-		
+
 		for (int i = 0; i < 1; i++) {
 			for (int k = 0; k < 3; k++) {
 				addSlotToContainer(new Slot(this.craftMatrix, k + i * 2, 20 + k * 32, 35 + i * 18));
@@ -46,7 +45,7 @@ public class ContainerAtomicCalculator extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
-		this.craftResult.setInventorySlotContents(0, AtomicCalculatorCraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.entity.getWorldObj()));
+		this.craftResult.setInventorySlotContents(0, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(craftMatrix.getStackInSlot(0), craftMatrix.getStackInSlot(1), craftMatrix.getStackInSlot(2)));
 
 	}
 
@@ -71,16 +70,8 @@ public class ContainerAtomicCalculator extends Container {
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (slotID != 1 && slotID != 2 && slotID != 3) {
-				if (AtomicCalculatorNEIRecipes.smelting().getSmeltingInput(itemstack1) != null) {
-					if (!mergeItemStack(itemstack1, 1, 2, true)) {
-						return null;
-					}
-				} else if (AtomicCalculatorNEIRecipes.smelting().getSmeltingInput2(itemstack1) != null) {
-					if (!mergeItemStack(itemstack1, 2, 3, true)) {
-						return null;
-					}
-				} else if (AtomicCalculatorNEIRecipes.smelting().getSmeltingInput3(itemstack1) != null) {
-					if (!mergeItemStack(itemstack1, 3, 4, true)) {
+				if (RecipeRegistry.AtomicRecipes.instance().validInput(itemstack1)) {
+					if (!mergeItemStack(itemstack1, 1, 4, true)) {
 						return null;
 					}
 				}

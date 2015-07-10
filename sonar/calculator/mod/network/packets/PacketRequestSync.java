@@ -6,24 +6,23 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import sonar.core.utils.ISyncTile;
 import sonar.core.utils.helpers.NBTHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketTileSync implements IMessage {
+public class PacketRequestSync implements IMessage {
 
 	public int xCoord, yCoord, zCoord;
-	public NBTTagCompound tag;
 
-	public PacketTileSync() {
+	public PacketRequestSync() {
 	}
 
-	public PacketTileSync(int xCoord, int yCoord, int zCoord, NBTTagCompound tag) {
+	public PacketRequestSync(int xCoord, int yCoord, int zCoord) {
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
 		this.zCoord = zCoord;
-		this.tag = tag;
 	}
 
 	@Override
@@ -31,14 +30,7 @@ public class PacketTileSync implements IMessage {
 		this.xCoord = buf.readInt();
 		this.yCoord = buf.readInt();
 		this.zCoord = buf.readInt();
-		this.tag = ByteBufUtils.readTag(buf);
-		if (Minecraft.getMinecraft().thePlayer.worldObj != null) {
-			TileEntity tile = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(xCoord, yCoord, zCoord);
-			if (tile != null && tile instanceof ISyncTile) {
-				ISyncTile sync = (ISyncTile) tile;
-				sync.readData(this.tag, NBTHelper.SyncType.SYNC);
-			}
-		}
+
 	}
 
 	@Override
@@ -46,13 +38,21 @@ public class PacketTileSync implements IMessage {
 		buf.writeInt(xCoord);
 		buf.writeInt(yCoord);
 		buf.writeInt(zCoord);
-		ByteBufUtils.writeTag(buf, tag);
 	}
 
-	public static class Handler implements IMessageHandler<PacketTileSync, IMessage> {
+	public static class Handler implements IMessageHandler<PacketRequestSync, IMessage> {
 
 		@Override
-		public IMessage onMessage(PacketTileSync message, MessageContext ctx) {
+		public IMessage onMessage(PacketRequestSync message, MessageContext ctx) {
+			if (Minecraft.getMinecraft().thePlayer.worldObj != null) {
+				TileEntity tile = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(message.xCoord, message.yCoord, message.zCoord);
+				if (tile != null && tile instanceof ISyncTile) {
+					NBTTagCompound tag = new NBTTagCompound();
+					ISyncTile sync = (ISyncTile) tile;
+					sync.writeData(tag, SyncType.SYNC);
+					return new PacketTileSync(message.xCoord, message.yCoord, message.zCoord, tag);
+				}
+			}
 			return null;
 		}
 	}

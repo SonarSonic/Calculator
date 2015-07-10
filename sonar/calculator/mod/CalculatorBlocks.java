@@ -44,6 +44,7 @@ import sonar.calculator.mod.common.block.machines.ResearchChamber;
 import sonar.calculator.mod.common.block.machines.StorageChamber;
 import sonar.calculator.mod.common.block.machines.Transmitter;
 import sonar.calculator.mod.common.block.machines.WeatherStation;
+import sonar.calculator.mod.common.block.misc.CalculatorScreen;
 import sonar.calculator.mod.common.block.misc.RainSensor;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
 import sonar.calculator.mod.common.block.misc.CO2Generator;
@@ -80,6 +81,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityBasicLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
@@ -126,6 +128,9 @@ public class CalculatorBlocks extends Calculator {
 	dynamiccalculatorBlock = new DynamicCalculatorBlock().setBlockName("dynamiccalculatorBlock").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
 	GameRegistry.registerBlock(dynamiccalculatorBlock, CalcBlockItem.class, "dynamiccalculatorBlock");
 	GameRegistry.registerTileEntity(TileEntityCalculator.Dynamic.class, "dynamiccalculatorBlock");
+	calculatorScreen = new CalculatorScreen().setBlockName("calculatorScreen").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
+	GameRegistry.registerBlock(calculatorScreen, CalcBlockItem.class, "calculatorScreen");
+	GameRegistry.registerTileEntity(TileEntityCalculatorScreen.class, "calculatorScreen");
 	
 	//smelting
 	reinforcedFurnace = new SmeltingBlock(7).setBlockName("ReinforcedFurnace").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;

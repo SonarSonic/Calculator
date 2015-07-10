@@ -3,35 +3,23 @@ package sonar.calculator.mod.common.tileentity.machines;
 import java.util.Map;
 import java.util.Random;
 
-import cofh.api.energy.EnergyStorage;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.api.IStability;
-import sonar.calculator.mod.api.ISyncTile;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipe;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator.Dynamic;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.common.tileentity.TileEntityInventoryReceiver;
-import sonar.core.utils.IDropTile;
+import sonar.core.utils.ISyncTile;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 
-public class TileEntityResearchChamber extends TileEntityInventory implements ISyncTile, IDropTile {
+public class TileEntityResearchChamber extends TileEntityInventory implements ISyncTile {
 
 	public int ticks;
 	public int researchSpeed = 100;
@@ -42,8 +30,8 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 
 	public TileEntityResearchChamber() {
 		super.slots = new ItemStack[2];
-		this.unblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
-		this.lastUnblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+		this.unblocked = new int[RecipeRegistry.getBlockedSize()];
+		this.lastUnblocked = new int[RecipeRegistry.getBlockedSize()];
 	}
 
 	@Override
@@ -52,6 +40,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 		beginResearch();
 		this.markDirty();
 	}
+
 	public void beginResearch() {
 		if (slots[0] == null) {
 			ticks = 0;
@@ -59,8 +48,8 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 		}
 
 		if (slots[0] != null
-				&& (CalculatorRecipes.recipes().getID(slots[0]) != 0 && unblocked[CalculatorRecipes.recipes().getID(slots[0])]==0 || slots[0].getItem() == Calculator.circuitBoard && slots[0].getItem() instanceof IStability
-						&& ((IStability) slots[0].getItem()).getStability(slots[0]))) {
+				&& (CalculatorRecipes.recipes().getID(slots[0]) != 0 && unblocked[CalculatorRecipes.recipes().getID(slots[0])] == 0 || slots[0].getItem() == Calculator.circuitBoard
+						&& slots[0].getItem() instanceof IStability && ((IStability) slots[0].getItem()).getStability(slots[0]))) {
 			if (ticks == 0) {
 				ticks = 1;
 			}
@@ -69,9 +58,9 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 				if (ticks != researchSpeed) {
 					ticks++;
 				} else {
-					if(!this.worldObj.isRemote){
-					addResearch(slots[0]);
-					syncResearch();
+					if (!this.worldObj.isRemote) {
+						addResearch(slots[0]);
+						syncResearch();
 					}
 					ticks = -1;
 				}
@@ -94,7 +83,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 					syncResearch[u] = 1;
 				}
 			}
-		
+
 			((IResearchStore) slots[1].getItem()).setResearch(slots[1], syncResearch, storedRecipes, maxRecipes);
 			this.unblocked = syncResearch;
 		}
@@ -128,19 +117,19 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 					unblocked[lastResearch] = 1;
 				}
 			}
-			Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
+			Map<Integer, DEADCalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
 			maxRecipes = 0;
 			storedRecipes = 0;
-			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
+			for (Map.Entry<Integer, DEADCalculatorRecipe> recipe : recipes.entrySet()) {
 				maxRecipes++;
 				if (!recipe.getValue().hidden) {
-					if (CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)) {
+					if (CalculatorConfig.isEnabled(((DEADCalculatorRecipe) recipe.getValue()).output)) {
 						storedRecipes++;
 					}
 				} else if (unblocked != null && unblocked.length >= 1) {
 					if (recipe.getValue().hidden && unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().input)] != 0
 							&& unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().input2)] != 0 || unblocked[CalculatorRecipes.recipes().getID(recipe.getValue().output)] != 0) {
-						if (CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)) {
+						if (CalculatorConfig.isEnabled(((DEADCalculatorRecipe) recipe.getValue()).output)) {
 							storedRecipes++;
 						}
 					}
@@ -160,12 +149,13 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 			}
 		}
 	}
-	public void sendResearch(){
-		for(int X=-3; X<=3; X++){
-			for(int Y=-3; Y<=3; Y++){
-				for(int Z=-3; Z<=3; Z++){
-					TileEntity target = this.worldObj.getTileEntity(xCoord+X, yCoord+Y, zCoord+Z);
-					if(target!=null && target instanceof TileEntityCalculator.Dynamic){
+
+	public void sendResearch() {
+		for (int X = -3; X <= 3; X++) {
+			for (int Y = -3; Y <= 3; Y++) {
+				for (int Z = -3; Z <= 3; Z++) {
+					TileEntity target = this.worldObj.getTileEntity(xCoord + X, yCoord + Y, zCoord + Z);
+					if (target != null && target instanceof TileEntityCalculator.Dynamic) {
 						TileEntityCalculator.Dynamic dynamic = (Dynamic) target;
 						dynamic.setUnblocked(unblocked);
 					}
@@ -174,30 +164,34 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 		}
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		this.unblocked = nbt.getIntArray("Unblocked");
-		if (this.unblocked == null) {
-			this.unblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
-		}
-		this.lastUnblocked = nbt.getIntArray("LastUnblocked");
-		if (this.lastUnblocked == null) {
-			this.lastUnblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type != SyncType.SYNC) {
+			this.unblocked = nbt.getIntArray("Unblocked");
+			if (this.unblocked == null) {
+				this.unblocked = new int[RecipeRegistry.getBlockedSize()];
+			}
+			this.lastUnblocked = nbt.getIntArray("LastUnblocked");
+			if (this.lastUnblocked == null) {
+				this.lastUnblocked = new int[RecipeRegistry.getBlockedSize()];
+			}
 		}
 		this.lastResearch = nbt.getInteger("Research");
 		this.maxRecipes = nbt.getInteger("Max");
 		this.storedRecipes = nbt.getInteger("Stored");
+
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setIntArray("Unblocked", unblocked);
-		nbt.setIntArray("LastUnblocked", lastUnblocked);
-		nbt.setInteger("Research", lastResearch);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type != SyncType.SYNC) {
+			nbt.setIntArray("Unblocked", unblocked);
+			nbt.setIntArray("LastUnblocked", lastUnblocked);
+			nbt.setInteger("Research", lastResearch);
+		}
 		nbt.setInteger("Max", maxRecipes);
 		nbt.setInteger("Stored", storedRecipes);
+
 	}
 
 	public boolean receiveClientEvent(int action, int param) {
@@ -245,52 +239,5 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 	public int[] unblockedList() {
 		return unblocked;
 	}
-	@Override
-	public void onSync(Object data, int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			this.maxRecipes = (Integer)data;
-			break;
-		case SyncType.SPECIAL2:
-			this.storedRecipes = (Integer)data;
-			break;
-		}
-	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			return new SyncData(true, maxRecipes);
-		case SyncType.SPECIAL2:
-			return new SyncData(true, storedRecipes);
-		}
-		return new SyncData(false, 0);
-	}
-
-	@Override
-	public void readInfo(NBTTagCompound tag) {
-		this.unblocked = tag.getIntArray("Unblocked");
-		if (this.unblocked == null) {
-			this.unblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
-		}
-		this.lastUnblocked = tag.getIntArray("LastUnblocked");
-		if (this.lastUnblocked == null) {
-			this.lastUnblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
-		}
-		this.lastResearch = tag.getInteger("Research");
-		this.maxRecipes = tag.getInteger("Max");
-		this.storedRecipes = tag.getInteger("Stored");
-		
-	}
-
-	@Override
-	public void writeInfo(NBTTagCompound tag) {
-		tag.setIntArray("Unblocked", unblocked);
-		tag.setIntArray("LastUnblocked", lastUnblocked);
-		tag.setInteger("Research", lastResearch);
-		tag.setInteger("Max", maxRecipes);
-		tag.setInteger("Stored", storedRecipes);
-		
-	}
 }

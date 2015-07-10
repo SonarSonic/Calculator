@@ -4,15 +4,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
-import sonar.calculator.mod.common.recipes.crafting.AtomicCalculatorCraftingManager;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
-import sonar.calculator.mod.common.recipes.crafting.ScientificCalculatorRecipes;
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
 import sonar.core.common.item.InventoryItem;
@@ -74,9 +71,9 @@ public class ContainerPortableDynamic extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
-		this.calculatorResult.setInventorySlotContents(0, CalculatorRecipes.recipes().findMatchingRecipe(calculatorMatrix, research));
-		this.scientificResult.setInventorySlotContents(0, ScientificCalculatorRecipes.recipes().findMatchingRecipe(scientficMatrix));
-		this.atomicResult.setInventorySlotContents(0, AtomicCalculatorCraftingManager.getInstance().findMatchingRecipe(this.atomicMatrix, this.worldObj));
+		this.calculatorResult.setInventorySlotContents(0, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(calculatorMatrix.getStackInSlot(0),calculatorMatrix.getStackInSlot(1)));
+		this.scientificResult.setInventorySlotContents(0, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(scientficMatrix.getStackInSlot(0),scientficMatrix.getStackInSlot(1)));
+		this.atomicResult.setInventorySlotContents(0, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(atomicMatrix.getStackInSlot(0), atomicMatrix.getStackInSlot(1), atomicMatrix.getStackInSlot(2)));
 
 	}
 

@@ -10,8 +10,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 public class ContainerLantern extends ContainerSync {
 	private TileEntityGasLantern entity;
 
-	public ContainerLantern(InventoryPlayer inventory,
-			TileEntityGasLantern entity) {
+	public ContainerLantern(InventoryPlayer inventory, TileEntityGasLantern entity) {
 		super(entity);
 		this.entity = entity;
 
@@ -19,8 +18,7 @@ public class ContainerLantern extends ContainerSync {
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
@@ -30,29 +28,28 @@ public class ContainerLantern extends ContainerSync {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
 		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(p_82846_2_);
+		Slot slot = (Slot) this.inventorySlots.get(id);
 
 		if ((slot != null) && (slot.getHasStack())) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if ((p_82846_2_ != 0)) {
+			if ((id != 0)) {
 				if (TileEntityFurnace.getItemBurnTime(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 
 						return null;
 					}
 				}
-			}else if ((p_82846_2_ >= 1) && (p_82846_2_ < 28)) {
-					if (!mergeItemStack(itemstack1, 28, 37, false)) {
-						return null;
-					}
-				} else if ((p_82846_2_ >= 28) && (p_82846_2_ < 37)
-						&& (!mergeItemStack(itemstack1, 1, 28, false))) {
+			} else if ((id >= 1) && (id < 28)) {
+				if (!mergeItemStack(itemstack1, 28, 37, false)) {
 					return null;
-				
+				}
+			} else if ((id >= 28) && (id < 37) && (!mergeItemStack(itemstack1, 1, 28, false))) {
+				return null;
+
 			} else if (!mergeItemStack(itemstack1, 1, 37, false)) {
 				return null;
 			}
@@ -67,15 +64,13 @@ public class ContainerLantern extends ContainerSync {
 				return null;
 			}
 
-			slot.onPickupFromSlot(p_82846_1_, itemstack1);
+			slot.onPickupFromSlot(player, itemstack1);
 		}
 		return itemstack;
 	}
 
-	
-
-	  @Override
+	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		    return entity.isUseableByPlayer(player);
-		  }
+		return entity.isUseableByPlayer(player);
+	}
 }

@@ -1,20 +1,20 @@
 package sonar.calculator.mod.common.tileentity;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IPausable;
 import sonar.calculator.mod.api.IUpgradeCircuits;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
-import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
-import sonar.core.utils.helpers.RecipeHelper;
+import sonar.core.utils.helpers.FontHelper;
+import sonar.core.utils.helpers.NBTHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /** electric smelting tile entity */
 public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable {
@@ -122,52 +122,31 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		return true;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		this.cookTime = nbt.getShort("CookTime");
-		this.sUpgrade = nbt.getShort("sUpgrade");
-		this.eUpgrade = nbt.getShort("eUpgrade");
-		this.paused = nbt.getBoolean("pause");
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setShort("CookTime", (short) this.cookTime);
-		nbt.setShort("sUpgrade", (short) this.sUpgrade);
-		nbt.setShort("eUpgrade", (short) this.eUpgrade);
-		nbt.setBoolean("pause", this.paused);
-
-	}
-
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.COOK:
-			this.cookTime = (Integer) data;
-			break;
-		case SyncType.PAUSE:
-			this.paused = (Boolean) data;
-			break;
-		case SyncType.SPEEDUPGRADES:
-			this.currentSpeed = (Integer) data;
-			break;
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.cookTime = nbt.getShort("CookTime");
+			this.sUpgrade = nbt.getShort("sUpgrade");
+			this.eUpgrade = nbt.getShort("eUpgrade");
+			this.paused = nbt.getBoolean("pause");
+			if (type == SyncType.SYNC) {
+				this.currentSpeed = nbt.getInteger("speed");
+			}
 		}
+
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.COOK:
-			return new SyncData(true, cookTime);
-		case SyncType.PAUSE:
-			return new SyncData(true, paused);
-		case SyncType.SPEEDUPGRADES:
-			return new SyncData(true, this.currentSpeed());
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setShort("CookTime", (short) this.cookTime);
+			nbt.setShort("sUpgrade", (short) this.sUpgrade);
+			nbt.setShort("eUpgrade", (short) this.eUpgrade);
+			nbt.setBoolean("pause", this.paused);
+			if (type == SyncType.SYNC) {
+				nbt.setInteger("speed", this.currentSpeed());
+			}
 		}
-		return super.getSyncData(id);
 	}
 
 	// IPausable
@@ -254,6 +233,19 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	@Override
 	public void sendPacket(int dimension, int side, int value) {
 		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		if (sUpgrade != 0) {
+			String speed = FontHelper.translate("circuit.speed") + ": " + sUpgrade;
 
+			currenttip.add(speed);
+		}
+		if (eUpgrade != 0) {
+			String energy = FontHelper.translate("circuit.energy") + ": " + eUpgrade;
+			currenttip.add(energy);
+		}
+		return currenttip;
 	}
 }

@@ -115,10 +115,12 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
+import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.network.packets.PacketInventorySync;
 import sonar.calculator.mod.network.packets.PacketMachineButton;
+import sonar.calculator.mod.network.packets.PacketRequestSync;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
 import sonar.calculator.mod.network.packets.PacketTileSync;
@@ -139,6 +141,9 @@ public class CalculatorCommon implements IGuiHandler {
 		Calculator.network.registerMessage(PacketFluxPoint.Handler.class, PacketFluxPoint.class, 4, Side.SERVER);
 		Calculator.network.registerMessage(PacketFluxNetworkList.Handler.class, PacketFluxNetworkList.class, 5, Side.CLIENT);
 		Calculator.network.registerMessage(PacketInventorySync.Handler.class, PacketInventorySync.class, 6, Side.CLIENT);
+		Calculator.network.registerMessage(PacketCalculatorScreen.Handler.class, PacketCalculatorScreen.class, 7, Side.CLIENT);
+		Calculator.network.registerMessage(PacketRequestSync.Handler.class, PacketRequestSync.class, 8, Side.SERVER);
+
 	}
 
 	@Override

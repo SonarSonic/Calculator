@@ -3,7 +3,6 @@ package sonar.calculator.mod.common.block.misc;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,11 +12,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IWrenchable;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenerator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
@@ -26,9 +22,7 @@ import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarMaterials;
-import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class FluxPlug extends SonarMachineBlock {
 
@@ -62,8 +56,9 @@ public class FluxPlug extends SonarMachineBlock {
 				TileEntity target = world.getTileEntity(x, y, z);
 				if (target != null && target instanceof TileEntityFlux) {
 					TileEntityFlux plug = (TileEntityFlux) target;
-					plug.networkName=FluxRegistry.getNetwork(plug.networkID);
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL1, plug.networkName), (EntityPlayerMP) player);
+					NBTTagCompound tag = new NBTTagCompound();
+					plug.writeToNBT(tag);
+					Calculator.network.sendTo(new PacketTileSync(x, y, z, tag),(EntityPlayerMP) player);
 					Calculator.network.sendTo(new PacketFluxNetworkList(x, y, z, FluxRegistry.getAvailableNetworks(player.getGameProfile().getName(), null)), (EntityPlayerMP) player);
 					player.openGui(Calculator.instance, CalculatorGui.FluxPlug, world, x, y, z);
 

@@ -4,14 +4,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
-import sonar.calculator.mod.common.recipes.crafting.ScientificCalculatorRecipes;
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
 import sonar.core.common.item.InventoryItem;
@@ -50,9 +47,8 @@ public class ContainerScientificCalculator extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory inv) {
-		this.craftResult.setInventorySlotContents(0, ScientificCalculatorRecipes.recipes().findMatchingRecipe(this.craftMatrix));
+		this.craftResult.setInventorySlotContents(0, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(craftMatrix.getStackInSlot(0), craftMatrix.getStackInSlot(1)));
 	}
-
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
@@ -80,8 +76,7 @@ public class ContainerScientificCalculator extends Container {
 					if (!this.mergeItemStack(itemstack1, 1, INV_START, false)) {
 						return null;
 					}
-				}
-				else if (slotID >= INV_START && slotID < HOTBAR_START) {
+				} else if (slotID >= INV_START && slotID < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
 						return null;
 					}

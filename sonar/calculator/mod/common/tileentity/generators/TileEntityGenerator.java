@@ -1,26 +1,25 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
+import java.util.List;
+
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.core.common.tileentity.TileEntityInventorySender;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.EnergyStorage;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityGenerator extends TileEntityInventorySender implements ISidedInventory {
 
@@ -87,7 +86,7 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		TileEntity south = worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
 		TileEntity east = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
 		TileEntity west = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-		
+
 		if (direction == "down") {
 			if (SonarHelper.isEnergyHandlerFromSide(down, ForgeDirection.DOWN)) {
 				this.storage.extractEnergy(SonarHelper.pushEnergy(down, ForgeDirection.UP, maxTransfer, false), false);
@@ -176,32 +175,30 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		return StarchExtractorRecipes.discharge().value(stack);
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-
-		super.readFromNBT(nbt);
-
-		this.direction = nbt.getString("facing");
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
 		this.itemLevel = nbt.getInteger("ItemLevel");
-		this.burnTime = nbt.getInteger("Burn");
-		this.maxBurnTime = nbt.getInteger("MaxBurn");
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.burnTime = nbt.getInteger("Burn");
+			this.maxBurnTime = nbt.getInteger("MaxBurn");
 
+			if (type == SyncType.SAVE) {
+				this.direction = nbt.getString("facing");
+			}
+		}
 	}
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		nbt.setInteger("ItemLevel", itemLevel);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setInteger("Burn", this.burnTime);
+			nbt.setInteger("MaxBurn",this.maxBurnTime);
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-
-		super.writeToNBT(nbt);
-
-		if (this.direction == null) {
-			nbt.setString("facing", "none");
-		} else
-			nbt.setString("facing", this.direction);
-		nbt.setInteger("ItemLevel", this.itemLevel);
-		nbt.setInteger("MaxBurn", this.maxBurnTime);
-		nbt.setInteger("Burn", this.burnTime);
+			if (type == SyncType.SAVE) {
+				nbt.setString("facing", direction);
+			}
+		}
 	}
-
 	public void addItem(int add) {
 		itemLevel = itemLevel + add;
 	}
@@ -241,48 +238,7 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		return slots != 0 || slot != 1 || stack != null && stack.getItem() == Items.bucket;
 	}
 
-	@Override
-	public void readInfo(NBTTagCompound tag) {
-		super.readInfo(tag);
-		this.itemLevel = tag.getInteger("ItemLevel");
-	}
-
-	@Override
-	public void writeInfo(NBTTagCompound tag) {
-		super.writeInfo(tag);
-		tag.setInteger("ItemLevel", this.itemLevel);
-	}
-
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.SPECIAL1:
-			this.itemLevel =(Integer) data;
-			break;
-		case SyncType.SPECIAL2:
-			this.maxBurnTime = (Integer)data;
-			break;
-		case SyncType.BURN:
-			this.burnTime = (Integer)data;
-			break;
-
-		}
-	}
-
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			return new SyncData(true, itemLevel);
-		case SyncType.SPECIAL2:
-			return new SyncData(true, maxBurnTime);
-		case SyncType.BURN:
-			return new SyncData(true, burnTime);
-		}
-		return super.getSyncData(id);
-	}
-
+	
 	public static class StarchExtractor extends TileEntityGenerator {
 		public StarchExtractor() {
 			super.energyMultiplier = CalculatorConfig.starchRF;
@@ -290,6 +246,12 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 
 		public int itemValue(ItemStack stack) {
 			return StarchExtractorRecipes.discharge().value(stack);
+		}
+
+		@SideOnly(Side.CLIENT)
+		public List<String> getWailaInfo(List<String> currenttip) {
+			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel + "%");
+			return currenttip;
 		}
 	}
 
@@ -301,7 +263,11 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		public int itemValue(ItemStack stack) {
 			return RedstoneExtractorRecipes.discharge().value(stack);
 		}
-
+		@SideOnly(Side.CLIENT)
+		public List<String> getWailaInfo(List<String> currenttip) {
+			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel + "%");
+			return currenttip;
+		}
 	}
 
 	public static class GlowstoneExtractor extends TileEntityGenerator {
@@ -312,7 +278,11 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		public int itemValue(ItemStack stack) {
 			return GlowstoneExtractorRecipes.discharge().value(stack);
 		}
-
+		@SideOnly(Side.CLIENT)
+		public List<String> getWailaInfo(List<String> currenttip) {
+			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel + "%");
+			return currenttip;
+		}
 	}
 
 }

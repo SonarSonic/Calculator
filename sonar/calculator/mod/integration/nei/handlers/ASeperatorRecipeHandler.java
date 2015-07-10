@@ -31,9 +31,7 @@ public class ASeperatorRecipeHandler extends TemplateRecipeHandler {
 
 		@Override
 		public List<PositionedStack> getIngredients() {
-			return getCycledIngredients(
-					ASeperatorRecipeHandler.this.cycleticks / 48,
-					Arrays.asList(new PositionedStack[] { this.input }));
+			return getCycledIngredients(ASeperatorRecipeHandler.this.cycleticks / 48, Arrays.asList(new PositionedStack[] { this.input }));
 		}
 
 		@Override
@@ -49,11 +47,8 @@ public class ASeperatorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadTransferRects() {
-		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
-				new Rectangle(52, 20, 24, 10), "algorithm", new Object[0]));
-		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
-				new Rectangle(49 - 5, 63 - 11, 78, 10), "calculatordischarge",
-				new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(52, 20, 24, 10), "algorithm", new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(49 - 5, 63 - 11, 78, 10), "calculatordischarge", new Object[0]));
 
 	}
 
@@ -64,13 +59,12 @@ public class ASeperatorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return StatCollector
-				.translateToLocal("tile.AlgorithmSeperatorIdle.name");
+		return StatCollector.translateToLocal("tile.AlgorithmSeperatorIdle.name");
 	}
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		if ((outputId.equals("algorithm"))	&& (getClass() == ASeperatorRecipeHandler.class)) {
+		if ((outputId.equals("algorithm")) && (getClass() == ASeperatorRecipeHandler.class)) {
 			Map<Object[], Object[]> recipes = AlgorithmSeperatorRecipes.instance().getRecipes();
 			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], recipe.getValue()[1]));
@@ -85,15 +79,15 @@ public class ASeperatorRecipeHandler extends TemplateRecipeHandler {
 		Map<Object[], Object[]> recipes = AlgorithmSeperatorRecipes.instance().getRecipes();
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			int pos = AlgorithmSeperatorRecipes.instance().containsStack(result, recipe.getValue(), false);
-			if (pos!=-1) {
-			this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], recipe.getValue()[1]));				
+			if (pos != -1) {
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], recipe.getValue()[1]));
 			}
 		}
 	}
 
 	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
-		if ((inputId.equals("algorithm"))&& (getClass() == ASeperatorRecipeHandler.class)) {
+		if ((inputId.equals("algorithm")) && (getClass() == ASeperatorRecipeHandler.class)) {
 			loadCraftingRecipes("algorithm", new Object[0]);
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);
@@ -105,12 +99,12 @@ public class ASeperatorRecipeHandler extends TemplateRecipeHandler {
 		Map<Object[], Object[]> recipes = AlgorithmSeperatorRecipes.instance().getRecipes();
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			int pos = AlgorithmSeperatorRecipes.instance().containsStack(ingredient, recipe.getKey(), false);
-			if (pos!=-1) {
-			this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], recipe.getValue()[1]));				
+			if (pos != -1) {
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], recipe.getValue()[1]));
 			}
 		}
 	}
-	
+
 	@Override
 	public String getGuiTexture() {
 		return "Calculator:textures/gui/nei/seperator.png";

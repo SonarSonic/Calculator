@@ -8,14 +8,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.SyncType;
-import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketTileSync;
@@ -55,11 +52,9 @@ public class FluxController extends SonarMachineBlock {
 				TileEntity target = world.getTileEntity(x, y, z);
 				if (target != null && target instanceof TileEntityFluxController) {
 					TileEntityFluxController controller = (TileEntityFluxController) target;
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL1, FluxRegistry.getNetwork(controller.networkID)), (EntityPlayerMP) player);
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL5, controller.recieveMode), (EntityPlayerMP) player);
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL6, controller.sendMode), (EntityPlayerMP) player);
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL7, controller.transmitterMode), (EntityPlayerMP) player);
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, SyncType.SPECIAL8, controller.playerProtect), (EntityPlayerMP) player);
+					NBTTagCompound tag = new NBTTagCompound();
+					controller.writeToNBT(tag);
+					Calculator.network.sendTo(new PacketTileSync(x, y, z, tag),(EntityPlayerMP) player);
 					Calculator.network.sendTo(new PacketFluxNetworkList(x, y, z, FluxRegistry.getAvailableNetworks(player.getGameProfile().getName(), controller)), (EntityPlayerMP) player);
 					player.openGui(Calculator.instance, CalculatorGui.FluxController, world, x, y, z);
 				}

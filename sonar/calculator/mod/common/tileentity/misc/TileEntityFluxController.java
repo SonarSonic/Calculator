@@ -22,14 +22,15 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.FluxNetwork;
 import sonar.calculator.mod.api.IFluxPoint;
-import sonar.calculator.mod.api.ISyncTile;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
+import sonar.calculator.mod.client.gui.misc.GuiFlux;
 import sonar.calculator.mod.common.item.modules.LocatorModule;
 import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.utils.ISyncTile;
 import sonar.core.utils.SonarAPI;
+import sonar.core.utils.helpers.FontHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -108,69 +109,40 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 		}
 	}
 
-	public void writeToNBT(NBTTagCompound tag) {
-		super.writeToNBT(tag);
-		tag.setInteger("recieveMode", recieveMode);
-		tag.setInteger("sendMode", sendMode);
-		tag.setInteger("networkID", networkID);
-		tag.setInteger("DIMENSION", dimension);
-		tag.setString("playerName", playerName);
-		tag.setString("networkName", networkName);
-		tag.setInteger("transmitterMode", transmitterMode);
-		tag.setInteger("playerProtect", playerProtect);
-	}
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
 
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
-		this.recieveMode = tag.getInteger("recieveMode");
-		this.sendMode = tag.getInteger("sendMode");
-		this.networkID = tag.getInteger("networkID");
-		this.dimension = tag.getInteger("DIMENSION");
-		this.playerName = tag.getString("playerName");
-		this.networkName = tag.getString("networkName");
-		this.transmitterMode = tag.getInteger("transmitterMode");
-		this.playerProtect = tag.getInteger("playerProtect");
-	}
-
-	public void onSync(Object data, int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			this.networkName = (String) data;
-			break;
-		case SyncType.SPECIAL2:
-			this.networkID = (Integer) data;
-			break;
-		case SyncType.SPECIAL5:
-			this.recieveMode = (Integer) data;
-			break;
-		case SyncType.SPECIAL6:
-			this.sendMode = (Integer) data;
-			break;
-		case SyncType.SPECIAL7:
-			this.transmitterMode = (Integer) data;
-			break;
-		case SyncType.SPECIAL8:
-			this.playerProtect = (Integer) data;
-			break;
+			this.recieveMode = nbt.getInteger("recieveMode");
+			this.sendMode = nbt.getInteger("sendMode");
+			this.networkID = nbt.getInteger("networkID");
+			this.networkName = nbt.getString("networkName");
+			this.transmitterMode = nbt.getInteger("transmitterMode");
+			this.playerProtect = nbt.getInteger("playerProtect");
+			if (type == SyncType.SAVE) {
+				this.dimension = nbt.getInteger("DIMENSION");
+				this.playerName = nbt.getString("playerName");
+			}
 		}
 	}
 
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			return new SyncData(true, networkName);
-		case SyncType.SPECIAL2:
-			return new SyncData(true, networkID);
-		case SyncType.SPECIAL5:
-			return new SyncData(true, recieveMode);
-		case SyncType.SPECIAL6:
-			return new SyncData(true, sendMode);
-		case SyncType.SPECIAL7:
-			return new SyncData(true, transmitterMode);
-		case SyncType.SPECIAL8:
-			return new SyncData(true, playerProtect);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+
+			nbt.setInteger("recieveMode", recieveMode);
+			nbt.setInteger("sendMode", sendMode);
+			nbt.setInteger("networkID", networkID);
+			nbt.setString("networkName", networkName);
+			nbt.setInteger("transmitterMode", transmitterMode);
+			nbt.setInteger("playerProtect", playerProtect);
+
+			if (type == SyncType.SAVE) {
+				nbt.setInteger("DIMENSION", dimension);
+				nbt.setString("playerName", playerName);
+			}
+
 		}
-		return new SyncData(false, 0);
 	}
 
 	public void onLoaded() {
@@ -343,5 +315,13 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 	public String masterName() {
 		return this.playerName;
 	}
-
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		if(networkName.equals("NETWORK")){
+			currenttip.add(FontHelper.translate("network.notConnected"));	
+		}else{
+			currenttip.add(networkName + ": " + GuiFlux.getNetworkType(this.playerProtect));
+		}
+		return currenttip;
+	}
 }

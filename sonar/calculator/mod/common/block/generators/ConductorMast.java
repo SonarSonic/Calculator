@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,23 +17,20 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.utils.IDropTile;
 import sonar.core.utils.ISpecialTooltip;
+import sonar.core.utils.ISyncTile;
 import sonar.core.utils.SonarMaterials;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -139,9 +135,9 @@ public class ConductorMast extends BlockContainer implements IWrench, ISpecialTo
 
 	public final ItemStack getSpecialDrop(World world, int x, int y, int z) {
 
-		if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof IDropTile) {
+		if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof ISyncTile) {
 			ItemStack itemStack = new ItemStack(this, 1);
-			processDrop(world, x, y, z, (IDropTile) world.getTileEntity(x, y, z), itemStack);
+			processDrop(world, x, y, z, (ISyncTile) world.getTileEntity(x, y, z), itemStack);
 			return itemStack;
 		} else {
 			ItemStack itemStack = new ItemStack(this, 1);
@@ -151,11 +147,11 @@ public class ConductorMast extends BlockContainer implements IWrench, ISpecialTo
 
 	}
 
-	protected final void processDrop(World world, int x, int y, int z, IDropTile te, ItemStack drop) {
+	public void processDrop(World world, int x, int y, int z, ISyncTile te, ItemStack drop) {
 		if (te != null) {
-			IDropTile handler = (IDropTile) te;
+			ISyncTile handler = (ISyncTile) te;
 			NBTTagCompound tag = new NBTTagCompound();
-			handler.writeInfo(tag);
+			handler.writeData(tag, SyncType.DROP);
 			drop.setTagCompound(tag);
 		}
 	}
@@ -210,11 +206,9 @@ public class ConductorMast extends BlockContainer implements IWrench, ISpecialTo
 		}
 		if (itemstack.hasTagCompound()) {
 			TileEntity entity = world.getTileEntity(x, y, z);
-			if (entity != null) {
-				if (entity instanceof IDropTile) {
-					IDropTile handler = (IDropTile) entity;
-					handler.readInfo(itemstack.getTagCompound());
-				}
+			if (entity != null && entity instanceof ISyncTile) {
+				ISyncTile handler = (ISyncTile) entity;
+				handler.readData(itemstack.getTagCompound(), SyncType.DROP);
 			}
 		}
 	}

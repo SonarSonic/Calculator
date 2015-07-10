@@ -15,7 +15,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.api.IWrench;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
@@ -62,7 +62,7 @@ public class ResearchChamber extends SonarMachineBlock implements IWrench {
 		if (player != null && world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityResearchChamber) {
 			TileEntityResearchChamber entity = (TileEntityResearchChamber) world.getTileEntity(x, y, z);
 			if (entity.slots[0] == null && player.getHeldItem() != null) {
-				if ((CalculatorRecipes.recipes().getID(player.getHeldItem()) != 0 || player.getHeldItem().getItem() == Calculator.circuitBoard && player.getHeldItem().getItem() instanceof IStability
+				if ((RecipeRegistry.CalculatorRecipes.instance().validInput(player.getHeldItem()) || player.getHeldItem().getItem() == Calculator.circuitBoard && player.getHeldItem().getItem() instanceof IStability
 						&& ((IStability) player.getHeldItem().getItem()).getStability(player.getHeldItem()))) {
 					ItemStack stack = new ItemStack(player.getHeldItem().getItem(), 1, player.getHeldItem().getItemDamage());
 					stack.setTagCompound(player.getHeldItem().getTagCompound());
@@ -76,9 +76,9 @@ public class ResearchChamber extends SonarMachineBlock implements IWrench {
 					int[] unblocked = entity.unblockedList();
 					if (entity.isBlocked(entity.lastResearch) && entity.lastResearch != 0) {
 						entity.unblockItem(entity.lastResearch);
-						if (CalculatorRecipes.recipes().discovery(entity.unblockedList(), entity.lastResearch)) {
-							FontHelper.sendMessage(FontHelper.translate("research.recipeNew"), entity.getWorldObj(), player);
-						}
+						//if (CalculatorRecipes.recipes().discovery(entity.unblockedList(), entity.lastResearch)) {
+						//	FontHelper.sendMessage(FontHelper.translate("research.recipeNew"), entity.getWorldObj(), player);
+						//}
 					}
 
 				}

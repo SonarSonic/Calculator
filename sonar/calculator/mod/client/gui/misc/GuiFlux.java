@@ -138,7 +138,7 @@ public abstract class GuiFlux extends GuiSonar {
 
 	}
 
-	public String getNetworkType(int networkType) {
+	public static String getNetworkType(int networkType) {
 		switch (networkType) {
 		case 0:
 			return FontHelper.translate("network.restricted");

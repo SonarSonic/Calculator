@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.init.Blocks;
@@ -11,12 +13,16 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
+import sonar.calculator.mod.integration.planting.IPlanter;
+import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.RenderHelper;
 import cofh.api.energy.EnergyStorage;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 
@@ -82,15 +88,21 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 	}
 
 	@Override
-	public boolean plant(IPlantable block, int slot) {
+	public boolean plant(ItemStack stack, int slot) {
+
+		IPlanter planter = PlanterRegistry.getPlanter(stack);
+		Block crop = planter.getCropFromStack(stack);
+		int meta = planter.getMetaFromStack(stack);
+		if (crop == null) {
+			return false;
+		}
 
 		for (int Z = -1; Z <= 1; Z++) {
 			for (int X = -1; X <= 1; X++) {
-				if (canPlant(this.worldObj, xCoord + (getForward().offsetX * 2) + X, yCoord, zCoord + (getForward().offsetZ * 2) + Z, slot, block)) {
+				if (canPlant(this.worldObj, xCoord + (getForward().offsetX * 2) + X, yCoord, zCoord + (getForward().offsetZ * 2) + Z, slot, ((IPlantable) stack.getItem()))) {
 					this.worldObj.setBlock(xCoord + (getForward().offsetX * 2) + X, yCoord, zCoord + (getForward().offsetZ * 2) + Z, Blocks.air, 0, 1 | 2);
-					Block target = block.getPlant(null, 0, 0, 0);
-					int meta = block.getPlantMetadata(null, 0, 0, 0);
-					this.worldObj.setBlock(xCoord + (getForward().offsetX * 2) + X, yCoord, zCoord + (getForward().offsetZ * 2) + Z, target, meta, 1 | 2);
+
+					this.worldObj.setBlock(xCoord + (getForward().offsetX * 2) + X, yCoord, zCoord + (getForward().offsetZ * 2) + Z, crop, meta, 1 | 2);
 
 					this.slots[slot].stackSize--;
 					if (this.slots[slot].stackSize <= 0) {
@@ -130,7 +142,8 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 			levelTicks++;
 		}
 		if (this.levelTicks == 20) {
-			InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, 0, 0, new PlantableFilter());
+			InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, 0, 0,
+					new PlantableFilter());
 			this.levelTicks = 0;
 			gasLevels();
 		}
@@ -544,18 +557,24 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 		for (int i = -1; i <= 5; i++) {
 			for (int s = 2; s <= 4; s++) {
 
-				if (getStairs(w.getBlock(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i)))) {
+				if (getStairs(w.getBlock(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs")))
+						+ (fZ * i)))) {
 					if (!check) {
-						setStairs(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("r"), 2);
+						setStairs(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i),
+								type("r"), 2);
 					}
-					return new FailedCoords(false, x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
+					return new FailedCoords(false, x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z
+							+ (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 
 				}
-				if (getStairs(w.getBlock(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i)))) {
+				if (getStairs(w.getBlock(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs")))
+						+ (fZ * i)))) {
 					if (!check) {
-						setStairs(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("l"), 2);
+						setStairs(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s,
+								z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("l"), 2);
 					}
-					return new FailedCoords(false, x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
+					return new FailedCoords(false, x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z
+							+ (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 				}
 				if (getPlanks(w.getBlock(x + (fX * i), y + 4, zCoord + +(fZ * i)))) {
 					if (!check) {
@@ -845,8 +864,23 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 		return FontHelper.translate("locator.unknown");
 	}
 
-	/*
-	 * isMulti Types -1 = Being Built 0 = Not Complete 1 = Complete (Checks haven't been run) 2 = Complete
-	 */
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		switch (isMulti) {
+		case -1:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.building"));
+			break;
+		case 0:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.incomplete"));
+			break;
+		case 1:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.complete"));
+			break;
+		case 2:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.complete"));
+			break;
+		}
+		return super.getWailaInfo(currenttip);
+	}
 
 }

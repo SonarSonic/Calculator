@@ -3,22 +3,19 @@ package sonar.calculator.mod.common.tileentity.misc;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
-import cofh.api.energy.EnergyStorage;
-import sonar.calculator.mod.api.IResearchStore;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.utils.IDropTile;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityCalculator extends TileEntityInventory {
 	
-	public static class Dynamic extends TileEntityCalculator implements IDropTile {
+	public static class Dynamic extends TileEntityCalculator{
 		public int[] unblocked;
 		
 		public Dynamic(){
 		super.slots = new ItemStack[10];
-		this.unblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+		this.unblocked = new int[RecipeRegistry.getBlockedSize()];
 		}
 		public void setUnblocked(int[] unblocked){
 			this.unblocked=unblocked;
@@ -27,34 +24,25 @@ public class TileEntityCalculator extends TileEntityInventory {
 		public int[] getUnblocked(){
 			return unblocked;
 		}
-		@Override
-		public void readFromNBT(NBTTagCompound nbt) {
-			super.readFromNBT(nbt);
-			this.unblocked = nbt.getIntArray("Unblocked");
-			if (this.unblocked == null) {
-				this.unblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+
+		public void readData(NBTTagCompound nbt, SyncType type) {
+			super.readData(nbt, type);
+			if (type == SyncType.SAVE || type == SyncType.DROP) {
+
+				this.unblocked = nbt.getIntArray("Unblocked");
+				if (this.unblocked == null) {
+					this.unblocked = new int[RecipeRegistry.getBlockedSize()];
+				}
 			}
 		}
 
-		@Override
-		public void writeToNBT(NBTTagCompound nbt) {
-			super.writeToNBT(nbt);
-			nbt.setIntArray("Unblocked", unblocked);
-		}
-
-		@Override
-		public void readInfo(NBTTagCompound tag) {
-			this.unblocked = tag.getIntArray("Unblocked");
-			if (this.unblocked == null) {
-				this.unblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+		public void writeData(NBTTagCompound nbt, SyncType type) {
+			super.writeData(nbt, type);
+			if (type == SyncType.SAVE || type == SyncType.DROP) {
+				nbt.setIntArray("Unblocked", unblocked);
 			}
-			
 		}
-
-		@Override
-		public void writeInfo(NBTTagCompound tag) {
-			tag.setIntArray("Unblocked", unblocked);			
-		}
+	
 		public void getResearch(){
 			for(int X=-3; X<=3; X++){
 				for(int Y=-3; Y<=3; Y++){

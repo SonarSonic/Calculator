@@ -1,34 +1,26 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import java.util.Random;
+import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.IPausable;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.core.common.tileentity.TileEntityInventorySender;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.SonarHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -264,16 +256,14 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	public String ownerUsername() {
 		ItemStack stack = this.getStackInSlot(1);
-
 		if (stack == null) {
 			return "None";
 		}
-
+		
 		if (stack.hasTagCompound()) {
 			if (stack.isItemEqual(new ItemStack(Calculator.itemLocatorModule))) {
 				return stack.getTagCompound().getString("Player");
 			}
-
 		}
 
 		return "None";
@@ -295,28 +285,27 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		return false;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
 
-		super.readFromNBT(nbt);
-		this.stability = nbt.getInteger("stability");
-		this.active = nbt.getByte("active");
-		this.luckTicks = nbt.getInteger("ticks");
-		this.size = nbt.getInteger("size");
-
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.stability = nbt.getInteger("stability");
+			this.active = nbt.getByte("active");
+			this.luckTicks = nbt.getInteger("ticks");
+			this.size = nbt.getInteger("size");
+		}
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-
-		super.writeToNBT(nbt);
-		nbt.setInteger("stability", this.stability);
-		nbt.setByte("active", this.active);
-		nbt.setInteger("ticks", this.luckTicks);
-		nbt.setInteger("size", this.size);
-
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setInteger("stability", this.stability);
+			nbt.setByte("active", this.active);
+			nbt.setInteger("ticks", this.luckTicks);
+			nbt.setInteger("size", this.size);
+		}
 	}
-
+	
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
 		if (from == ForgeDirection.DOWN) {
@@ -353,32 +342,12 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		return true;
 	}
 
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.ACTIVE:
-			this.active = (Byte) data;
-			break;
-		case SyncType.SPECIAL1:
-			this.stability =(Integer) data;
-			break;
-		case SyncType.SPECIAL2:
-			this.size =(Integer) data;
-			break;
-		}
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip){
+		currenttip.add(FontHelper.translate("locator.active") + ": " + (active == 0 ?FontHelper.translate("locator.false") : FontHelper.translate("locator.true")) );
+		String user = ownerUsername();
+		currenttip.add(FontHelper.translate("locator.owner") + ": " + (user != "None" ? user : FontHelper.translate("locator.none")));
+		return currenttip;		
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.ACTIVE:
-			return new SyncData(true, active);
-		case SyncType.SPECIAL1:
-			return new SyncData(true, stability);
-		case SyncType.SPECIAL2:
-			return new SyncData(true, size);
-		}
-		return super.getSyncData(id);
-	}
 }

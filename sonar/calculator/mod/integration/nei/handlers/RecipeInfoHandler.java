@@ -2,15 +2,9 @@ package sonar.calculator.mod.integration.nei.handlers;
 
 
 import java.awt.Rectangle;
-import java.util.Map;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
-import sonar.calculator.mod.common.item.calculators.CalculatorItem;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipe;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class RecipeInfoHandler extends CalculatorRecipeHandler {

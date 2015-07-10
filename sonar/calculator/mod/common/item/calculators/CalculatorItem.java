@@ -1,21 +1,15 @@
 package sonar.calculator.mod.common.item.calculators;
 
 import java.util.List;
-import java.util.Map;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.IResearchStore;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipe;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
-import sonar.calculator.mod.integration.nei.handlers.CalculatorRecipeHandler.SmeltingPair;
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.IItemInventory;
@@ -34,7 +28,6 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
-		
 		return onCalculatorRightClick(itemstack, world, player, CalculatorGui.Calculator);
 
 	}
@@ -68,7 +61,7 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 	}
 
 	public int[] getResearch(ItemStack stack) {
-		int[] unblocked = new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+		int[] unblocked = new int[RecipeRegistry.getBlockedSize()];
 		if (stack != null && stack.getItem() == Calculator.itemCalculator) {
 			if (!stack.hasTagCompound()) {
 				stack.setTagCompound(new NBTTagCompound());
@@ -77,7 +70,7 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 			if (unblocked != null && unblocked.length > 1) {
 				return unblocked;
 			} else {
-				return new int[CalculatorRecipes.recipes().getIDList().size() + 1];
+				return new int[RecipeRegistry.getBlockedSize()];
 			}
 		} else {
 			return unblocked;

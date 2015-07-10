@@ -1,29 +1,18 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.StatCollector;
-import cofh.api.energy.EnergyStorage;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.IStability;
-import sonar.calculator.mod.api.ISyncTile;
-import sonar.calculator.mod.api.SyncData;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
-import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
-import sonar.core.utils.IDropTile;
+import sonar.core.utils.ISyncTile;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
 /** needs clean up */
-public class TileEntityStorageChamber extends TileEntitySidedInventory implements IDropTile, ISidedInventory {
+public class TileEntityStorageChamber extends TileEntitySidedInventory implements ISyncTile, ISidedInventory {
 
 	public static int maxSize = 1000;
 	public int[] stored;
@@ -315,41 +304,35 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 		return 1;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		stored = nbt.getIntArray("Stored");
-		this.savedStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("saved"));
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setIntArray("Stored", stored);
-		NBTTagCompound stack = new NBTTagCompound();
-		if (savedStack != null) {
-			savedStack.writeToNBT(stack);
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		if (type == SyncType.SAVE || type == SyncType.DROP) {
+			stored = nbt.getIntArray("Stored");
+			if(this.stored.length != 14 || stored == null){
+				stored= new int[14];
+			}
+			this.savedStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("saved"));
 		}
-		nbt.setTag("saved", stack);
 
 	}
 
-	@Override
-	public void readInfo(NBTTagCompound tag) {
-		this.stored = tag.getIntArray("stored");
-		this.savedStack = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("saved"));
-	}
-
-	@Override
-	public void writeInfo(NBTTagCompound tag) {
-		tag.setIntArray("stored", stored);
-		if (getSavedStack() != null) {
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		if (type == SyncType.SAVE) {
+			nbt.setIntArray("Stored", stored);
 			NBTTagCompound stack = new NBTTagCompound();
-			this.getSavedStack().writeToNBT(stack);
-			tag.setTag("saved", stack);
-			tag.setInteger("type", TileEntityStorageChamber.getCircuitValue(TileEntityStorageChamber.getCircuitType(this.getSavedStack())));
-		}
+			if (savedStack != null) {
+				savedStack.writeToNBT(stack);
+			}
+			nbt.setTag("saved", stack);
+		} else if (type == SyncType.DROP) {
+			nbt.setIntArray("Stored", stored);
+			if (getSavedStack() != null) {
+				NBTTagCompound stack = new NBTTagCompound();
+				this.getSavedStack().writeToNBT(stack);
+				nbt.setTag("saved", stack);
+				nbt.setInteger("type", TileEntityStorageChamber.getCircuitValue(TileEntityStorageChamber.getCircuitType(this.getSavedStack())));
+			}
 
+		}
 	}
 
 	private enum CircuitType {

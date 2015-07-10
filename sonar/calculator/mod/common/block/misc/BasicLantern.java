@@ -62,7 +62,13 @@ public class BasicLantern extends BlockContainer implements IWrench {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z,
 			EntityLivingBase entityplayer, ItemStack itemstack) {
-
+		if(world.isRemote){
+			System.out.print("client" +world.getBiomeGenForCoordsBody(x, z).getFloatTemperature(x, y, z));
+			}else{
+				System.out.print("server" +world.getBiomeGenForCoordsBody(x, z).getFloatTemperature(x, y, z));
+			}
+			
+		
 		Block north = world.getBlock(x + (ForgeDirection.NORTH.offsetX), y, z
 				+ (ForgeDirection.NORTH.offsetZ));
 		Block south = world.getBlock(x + (ForgeDirection.SOUTH.offsetX), y, z
