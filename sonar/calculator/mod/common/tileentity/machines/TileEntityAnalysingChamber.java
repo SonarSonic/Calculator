@@ -13,9 +13,7 @@ import sonar.calculator.mod.api.IUpgradeCircuits;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.core.common.tileentity.TileEntitySidedInventorySender;
-import sonar.core.utils.ISonarSides;
 import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.EnergyStorage;
@@ -24,7 +22,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender implements ISidedInventory, ISonarSides, IUpgradeCircuits {
+public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender implements ISidedInventory, IUpgradeCircuits {
 
 	public int stable, vUpgrade, analysed;
 	public int maxTransfer = 2000;
@@ -52,9 +50,7 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 		if (canAnalyse()) {
 			analyse(0);
 		}
-
 		charge(1);
-
 		addEnergy();
 		stable = stable(0);
 
@@ -196,10 +192,6 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 
 	}
 
-	@Override
-	public boolean canBeConfigured() {
-		return true;
-	}
 
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
@@ -295,7 +287,7 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
 		if (vUpgrade != 0) {
-			String voidString = FontHelper.translate("circuit.void") + ": " + FontHelper.translate("circuit.installed");
+			currenttip.add(FontHelper.translate("circuit.void") + ": " + FontHelper.translate("circuit.installed"));
 		}
 		return currenttip;
 	}

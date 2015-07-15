@@ -2,13 +2,17 @@ package sonar.calculator.mod.common.tileentity;
 
 import java.util.List;
 
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IPausable;
 import sonar.calculator.mod.api.IUpgradeCircuits;
+import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
+import sonar.core.utils.IMachineButtons;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
@@ -17,10 +21,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /** electric smelting tile entity */
-public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable {
+public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable, IMachineButtons {
 	public int cookTime;
 	public int sUpgrade;
 	public int eUpgrade;
+	public float renderTicks;
 	public double energyBuffer;
 	public boolean paused;
 	public int currentSpeed;
@@ -28,12 +33,17 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	public void updateEntity() {
 		super.updateEntity();
+		if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+			this.paused = true;
+			return;
+		} else {
+			this.paused = false;
+		}
 		int flag = 0;
 
 		if (!paused) {
 			if (this.cookTime > 0) {
 				this.cookTime++;
-
 				if (!this.worldObj.isRemote) {
 					energyBuffer += energyUsage();
 					int energyUsage = (int) Math.round(energyBuffer);
@@ -46,6 +56,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 				}
 			}
 			if (this.canProcess()) {
+				this.renderTicks();
 				if (!this.worldObj.isRemote) {
 					if (cookTime == 0) {
 						this.cookTime++;
@@ -71,6 +82,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 					}
 				}
 			} else {
+				renderTicks = 0;
 				if (cookTime != 0) {
 					this.cookTime = 0;
 					this.energyBuffer = 0;
@@ -89,13 +101,32 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		this.markDirty();
 	}
 
+	public void renderTicks() {
+		if (this instanceof TileEntityMachines.PrecisionChamber || this instanceof TileEntityMachines.ExtractionChamber) {
+			this.renderTicks += (float) Math.max(1, sUpgrade) / 50;
+		} else {
+			this.renderTicks += (float) Math.max(1, sUpgrade * 8) / 1000;
+		}
+		if (this.renderTicks >= 2) {
+			this.renderTicks = 0;
+		}
+	}
+
+	public float getRenderPosition() {
+		return renderTicks < 1 ? renderTicks : 1 - (renderTicks - 1);
+
+	}
+
 	public abstract boolean canProcess();
 
 	public abstract void finishProcess();
 
 	public int currentSpeed() {
 		int i = 16 - sUpgrade;
-		return ((4 + ((i * i) * 2 + i)));
+		if (sUpgrade == 0) {
+			return 1000;
+		}
+		return ((8 + ((i * i) * 2 + i)));
 	}
 
 	private int roundNumber(double i) {
@@ -234,7 +265,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public void sendPacket(int dimension, int side, int value) {
 		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
 		if (sUpgrade != 0) {
@@ -247,5 +278,22 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 			currenttip.add(energy);
 		}
 		return currenttip;
+	}
+
+	public void buttonPress(int buttonID) {
+		switch (buttonID) {
+		case 0:
+			for (int i = 0; i < 3; i++) {
+				if (getUpgrades(i) != 0 && UpgradeCircuit.getItem(i) != null) {
+					ForgeDirection dir = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+					EntityItem upgrade = new EntityItem(worldObj, xCoord + dir.offsetX, yCoord + 0.5, zCoord + dir.offsetZ, new ItemStack(UpgradeCircuit.getItem(i), getUpgrades(i)));
+					incrementUpgrades(i, -getUpgrades(i));
+					worldObj.spawnEntityInWorld(upgrade);
+				}
+			}
+			break;
+		case 1:
+			onPause();
+		}
 	}
 }

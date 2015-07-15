@@ -4,12 +4,13 @@ import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
+import sonar.core.utils.IMachineButtons;
 import sonar.core.utils.ISyncTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 
-public class TileEntityWeatherController extends TileEntityInventoryReceiver implements IEnergyHandler, IEnergySink, ISyncTile {
+public class TileEntityWeatherController extends TileEntityInventoryReceiver implements IEnergyHandler, IEnergySink, ISyncTile, IMachineButtons {
 
 	public int type, data, buffer, coolDown;
 
@@ -113,6 +114,19 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 			nbt.setInteger("data", data);
 			nbt.setInteger("buffer", buffer);
 
+		}
+	}
+
+	@Override
+	public void buttonPress(int buttonID) {
+		if (buttonID == 0) {
+			if (data == 1) {
+				data = 0;
+			} else {
+				data = 1;
+			}
+		} else {
+			setType(buttonID-1);
 		}
 	}
 	

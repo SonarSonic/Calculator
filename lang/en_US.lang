@@ -498,3 +498,6 @@ weather.rain=Rain
 weather.thunder=Thunder
 state.on=On
 state.off=Off
+tile.StableGlass.name=Stable Glass
+tile.ClearStableGlass.name=Clear Stable Glass
+tile.MagneticFlux.name=Magnetic Flux

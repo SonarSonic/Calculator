@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.containers;
 
+import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -21,10 +23,10 @@ public class ContainerCalculator extends Container {
 
 	public InventoryStoredCrafting craftMatrix;
 	public InventoryStoredResult craftResult;
-	public int[] research;
+	public Map<Integer, Integer> research;
 	public World worldObj;
 	
-	public ContainerCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem, int[] research) {
+	public ContainerCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem, Map<Integer, Integer> research) {
 		this.worldObj = player.getEntityWorld();
 		this.inventory = inventoryItem;
 		craftMatrix = new InventoryStoredCrafting(this, 2, 1, this.inventory);

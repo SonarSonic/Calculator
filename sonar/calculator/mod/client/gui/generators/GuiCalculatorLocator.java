@@ -36,7 +36,7 @@ public class GuiCalculatorLocator extends GuiContainer {
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 
-		if (this.entity.multiblockstring()) {
+		if (this.entity.size!=0) {
 			FontHelper.text(FontHelper.translate("locator.multiblock") + ": " + FontHelper.translate("locator.true"), 25, 21, 0);
 
 			if (this.entity.stability ==0 || this.entity.size==0) {
@@ -50,13 +50,13 @@ public class GuiCalculatorLocator extends GuiContainer {
 
 		}
 		if (this.entity.active == 1) {
-			FontHelper.text(FontHelper.translate("locator.active")+": " + FontHelper.formatOutput(this.entity.currentGenerated()), 25, 10, 0);
+			FontHelper.text(FontHelper.translate("locator.active")+": " + FontHelper.formatOutput(this.entity.currentOutput()), 25, 10, 0);
 		} else {
 			FontHelper.text(FontHelper.translate("locator.active")+": " + FontHelper.translate("locator.false"), 25, 10, 2);
 		}
 
-		if (this.entity.ownerUsername() != "None") {
-			FontHelper.text(FontHelper.translate("locator.owner") + ": " + this.entity.ownerUsername(), 25, 32, 0);
+		if (!this.entity.owner.equals("None")) {
+			FontHelper.text(FontHelper.translate("locator.owner") + ": " + this.entity.owner, 25, 32, 0);
 		} else {
 			FontHelper.text(FontHelper.translate("locator.owner") + ": " + FontHelper.translate("locator.none"), 25, 32, 2);
 		}

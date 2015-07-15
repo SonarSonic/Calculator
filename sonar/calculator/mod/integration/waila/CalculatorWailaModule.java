@@ -29,10 +29,7 @@ public class CalculatorWailaModule {
 
 		@Override
 		public final NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
-			if (te instanceof TileEntitySonar) {
-				((TileEntitySonar) world.getTileEntity(x, y, z)).writeData(tag, SyncType.SYNC);
-			}
-
+		
 			return tag;
 		}
 
@@ -43,7 +40,6 @@ public class CalculatorWailaModule {
 
 			if (accessor.getTileEntity() instanceof TileEntitySonar) {
 				TileEntitySonar tile = (TileEntitySonar) handler;
-				tile.readData(accessor.getNBTData(), SyncType.SYNC);
 				tile.getWailaInfo(currenttip);
 			}
 			return currenttip;

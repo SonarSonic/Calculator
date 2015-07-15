@@ -85,7 +85,8 @@ public class CalculatorOreDict extends Calculator {
 		//blocks
 		OreDictionary.registerOre("calculatorReinforcedBlock", reinforcedstoneBlock);	
 		OreDictionary.registerOre("calculatorReinforcedBlock", reinforceddirtBlock);	
-		OreDictionary.registerOre("blockGlass", flawlessGlass);	
+		OreDictionary.registerOre("blockGlass", stableglassBlock);	
+		OreDictionary.registerOre("blockGlass", clearstableglassBlock);	
 		OreDictionary.registerOre("reinforcedStone",reinforcedstoneBlock);
 		OreDictionary.registerOre("strongStone",reinforcedstoneBlock);
 		OreDictionary.registerOre("hardStone",reinforcedstoneBlock);

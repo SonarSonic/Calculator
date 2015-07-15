@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
+import ic2.api.energy.tile.IEnergySink;
+
 import java.util.List;
 
 import net.minecraft.init.Items;
@@ -13,22 +15,24 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
+import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.core.common.tileentity.TileEntityInventorySender;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityGenerator extends TileEntityInventorySender implements ISidedInventory {
 
+	protected TileEntity[] handlers = new TileEntity[6];
 	public int itemLevel, burnTime;
 	public int maxBurnTime;
 	public int levelMax = 5000;
 	public int requiredLevel = 400;
 	public int energyMultiplier;
-	public String direction;
 
 	private static final int[] slotsTop = new int[] { 0 };
 	private static final int[] slotsBottom = new int[] { 2, 1 };
@@ -44,14 +48,15 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 	public void updateEntity() {
 		super.updateEntity();
 		if (!this.worldObj.isRemote) {
-			item();
-			energy();
-			addEnergy();
+			processItemLevel();
+			generateEnergy();
+			int maxTransfer = Math.min(this.maxTransfer, this.storage.getEnergyStored());
+			this.storage.extractEnergy(maxTransfer - this.pushEnergy(maxTransfer, false), false);
 		}
 		this.markDirty();
 	}
 
-	public void energy() {
+	public void generateEnergy() {
 		ItemStack stack = this.getStackInSlot(0);
 		if (!(stack == null)) {
 			if (burnTime == 0 && TileEntityFurnace.isItemFuel(stack)) {
@@ -79,96 +84,53 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 
 	}
 
-	private void addEnergy() {
-
-		TileEntity down = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-		TileEntity north = worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-		TileEntity south = worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-		TileEntity east = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-		TileEntity west = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-
-		if (direction == "down") {
-			if (SonarHelper.isEnergyHandlerFromSide(down, ForgeDirection.DOWN)) {
-				this.storage.extractEnergy(SonarHelper.pushEnergy(down, ForgeDirection.UP, maxTransfer, false), false);
-			}
-		} else if (direction == "west") {
-			if (SonarHelper.isEnergyHandlerFromSide(west, ForgeDirection.WEST)) {
-				this.storage.extractEnergy(SonarHelper.pushEnergy(west, ForgeDirection.EAST, this.storage.extractEnergy(maxTransfer, true), false), false);
-			}
-		} else if (direction == "east") {
-			if (SonarHelper.isEnergyHandlerFromSide(east, ForgeDirection.EAST)) {
-				this.storage.extractEnergy(SonarHelper.pushEnergy(east, ForgeDirection.WEST, this.storage.extractEnergy(maxTransfer, true), false), false);
-			}
-		} else if (direction == "north") {
-			if (SonarHelper.isEnergyHandlerFromSide(north, ForgeDirection.NORTH)) {
-				this.storage.extractEnergy(SonarHelper.pushEnergy(north, ForgeDirection.SOUTH, this.storage.extractEnergy(maxTransfer, true), false), false);
-			}
-		} else if (direction == "south") {
-			if (SonarHelper.isEnergyHandlerFromSide(south, ForgeDirection.SOUTH)) {
-				this.storage.extractEnergy(SonarHelper.pushEnergy(south, ForgeDirection.NORTH, this.storage.extractEnergy(maxTransfer, true), false), false);
-			}
-		}
-
-	}
-
-	private boolean canAddEnergy() {
-		if (storage.getEnergyStored() == 0) {
-			return false;
-		}
-		if (direction == "none") {
-			return false;
-		}
-		return true;
-	}
-
-	public void updateHandlers() {
-		String d = getHandlers();
-		if (d == null) {
-			direction = "none";
-		} else
-			direction = d;
-
-	}
-
-	public String getHandlers() {
-		TileEntity down = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-		TileEntity up = worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
-		TileEntity north = worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-		TileEntity south = worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-		TileEntity east = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-		TileEntity west = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-
-		if (down != null && SonarHelper.isEnergyHandlerFromSide(down, ForgeDirection.DOWN)) {
-			return "down";
-		} else if (up != null && SonarHelper.isEnergyHandlerFromSide(up, ForgeDirection.UP)) {
-			return "up";
-		} else if (west != null && SonarHelper.isEnergyHandlerFromSide(west, ForgeDirection.WEST)) {
-			return "west";
-		} else if (east != null && SonarHelper.isEnergyHandlerFromSide(east, ForgeDirection.EAST)) {
-			return "east";
-		} else if (north != null && SonarHelper.isEnergyHandlerFromSide(north, ForgeDirection.NORTH)) {
-			return "north";
-		} else if (south != null && SonarHelper.isEnergyHandlerFromSide(south, ForgeDirection.SOUTH)) {
-			return "south";
-		}
-
-		return "none";
-	}
-
-	public void item() {
-
+	public void processItemLevel() {
 		ItemStack stack = this.slots[1];
-		if (!(stack == null)) {
-			if (itemValue(stack) > 0) {
-				if (!(itemLevel + itemValue(stack) > levelMax)) {
-					addItem(itemValue(stack));
-					this.slots[1].stackSize--;
-					if (this.slots[1].stackSize <= 0) {
-						this.slots[1] = null;
+		if (stack == null || !(itemValue(stack) > 0)) {
+			return;
+		}
+		if (!(itemLevel + itemValue(stack) > levelMax)) {
+			addItem(itemValue(stack));
+			this.slots[1].stackSize--;
+			if (this.slots[1].stackSize <= 0) {
+				this.slots[1] = null;
+			}
+		}
+
+	}
+
+	public int pushEnergy(int recieve, boolean simulate) {
+		for (int i = 0; i < 6; i++) {
+			if (this.handlers[i] != null) {
+				if (handlers[i] instanceof IEnergyReceiver) {
+					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve, simulate);
+				} else if (handlers[i] instanceof IEnergySink) {
+					if (simulate) {
+						recieve -= ((IEnergySink) this.handlers[i]).getDemandedEnergy() * 4;
+					} else {
+						recieve -= (recieve - (((IEnergySink) this.handlers[i]).injectEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve / 4, 128) * 4));
 					}
 				}
 			}
 		}
+		return recieve;
+	}
+
+	public void updateAdjacentHandlers() {
+		for (int i = 0; i < 6; i++) {
+			TileEntity te = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.getOrientation(i));
+			if (!(te instanceof TileEntityFlux)) {
+				if (SonarHelper.isEnergyHandlerFromSide(te, ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)])) {
+					this.handlers[i] = te;
+				} else
+					this.handlers[i] = null;
+			}
+		}
+	}
+
+	public void onLoaded() {
+		super.onLoaded();
+		this.updateAdjacentHandlers();
 	}
 
 	public int itemValue(ItemStack stack) {
@@ -181,24 +143,18 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
 			this.burnTime = nbt.getInteger("Burn");
 			this.maxBurnTime = nbt.getInteger("MaxBurn");
-
-			if (type == SyncType.SAVE) {
-				this.direction = nbt.getString("facing");
-			}
 		}
 	}
+
 	public void writeData(NBTTagCompound nbt, SyncType type) {
-		super.readData(nbt, type);
+		super.writeData(nbt, type);
 		nbt.setInteger("ItemLevel", itemLevel);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
 			nbt.setInteger("Burn", this.burnTime);
-			nbt.setInteger("MaxBurn",this.maxBurnTime);
-
-			if (type == SyncType.SAVE) {
-				nbt.setString("facing", direction);
-			}
+			nbt.setInteger("MaxBurn", this.maxBurnTime);
 		}
 	}
+
 	public void addItem(int add) {
 		itemLevel = itemLevel + add;
 	}
@@ -238,7 +194,6 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		return slots != 0 || slot != 1 || stack != null && stack.getItem() == Items.bucket;
 	}
 
-	
 	public static class StarchExtractor extends TileEntityGenerator {
 		public StarchExtractor() {
 			super.energyMultiplier = CalculatorConfig.starchRF;
@@ -263,6 +218,7 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		public int itemValue(ItemStack stack) {
 			return RedstoneExtractorRecipes.discharge().value(stack);
 		}
+
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
 			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel + "%");
@@ -278,6 +234,7 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		public int itemValue(ItemStack stack) {
 			return GlowstoneExtractorRecipes.discharge().value(stack);
 		}
+
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
 			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel + "%");

@@ -14,10 +14,19 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 /** needs clean up */
 public class TileEntityStorageChamber extends TileEntitySidedInventory implements ISyncTile, ISidedInventory {
 
-	public static int maxSize = 1000;
+	public static int maxSize = 5000;
 	public int[] stored;
 	public ItemStack savedStack;
+	public int renderTicks;
 
+	public void updateEntity() {
+		super.updateEntity();
+		if(renderTicks!=1300){
+			renderTicks++;
+		}else{
+			renderTicks=0;
+		}
+	}
 	public TileEntityStorageChamber() {
 
 		this.stored = new int[14];

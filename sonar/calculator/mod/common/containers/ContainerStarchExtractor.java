@@ -12,12 +12,11 @@ import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 
 public class ContainerStarchExtractor extends ContainerSync {
-	
+
 	private TileEntityGenerator.StarchExtractor entity;
 
-	public ContainerStarchExtractor(InventoryPlayer inventory,
-			TileEntityGenerator.StarchExtractor entity) {
-		 super(entity);
+	public ContainerStarchExtractor(InventoryPlayer inventory, TileEntityGenerator.StarchExtractor entity) {
+		super(entity);
 		this.entity = entity;
 
 		addSlotToContainer(new Slot(entity, 0, 8, 38));
@@ -25,8 +24,7 @@ public class ContainerStarchExtractor extends ContainerSync {
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
@@ -57,8 +55,7 @@ public class ContainerStarchExtractor extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 29, 38, false)) {
 						return null;
 					}
-				} else if ((p_82846_2_ >= 29) && (p_82846_2_ < 38)
-						&& (!mergeItemStack(itemstack1, 2, 29, false))) {
+				} else if ((p_82846_2_ >= 29) && (p_82846_2_ < 38) && (!mergeItemStack(itemstack1, 2, 29, false))) {
 					return null;
 				}
 			} else if (!mergeItemStack(itemstack1, 2, 38, false)) {

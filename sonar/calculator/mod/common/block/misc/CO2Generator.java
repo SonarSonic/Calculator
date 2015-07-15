@@ -12,7 +12,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
@@ -21,7 +20,7 @@ import sonar.core.utils.SonarMaterials;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class CO2Generator extends SonarMachineBlock implements IWrench {
+public class CO2Generator extends SonarMachineBlock {
 	private static boolean keepInventory;
 
 	private Random rand = new Random();

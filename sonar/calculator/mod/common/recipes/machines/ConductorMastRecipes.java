@@ -29,9 +29,9 @@ public class ConductorMastRecipes
   }
   private ConductorMastRecipes()
   {
-    addItem(Calculator.flawlessfirediamond, new ItemStack(Calculator.electricdiamond), 1000);
+    addItem(Calculator.flawlessfirediamond, new ItemStack(Calculator.electricdiamond), 10000);
     addItem(Calculator.itemCalculator, new ItemStack(Calculator.itemScientificCalculator), 2000);
-    addBlock(Calculator.flawless_fire_block, new ItemStack(Calculator.electric_diamond_block), 9000);
+    addBlock(Calculator.flawless_fire_block, new ItemStack(Calculator.electric_diamond_block), 90000);
     
   }
   public void addBlock(Block input, ItemStack output, int power)

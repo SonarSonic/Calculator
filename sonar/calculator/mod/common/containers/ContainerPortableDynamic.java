@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.containers;
 
+import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -28,12 +30,12 @@ public class ContainerPortableDynamic extends Container {
 	public InventoryStoredCrafting atomicMatrix;
 	public InventoryStoredResult atomicResult;
 	public World worldObj;
-	public int[] research;
+	public Map<Integer, Integer> research;
 
-	public ContainerPortableDynamic(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem, int[] research) {
+	public ContainerPortableDynamic(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem, Map<Integer, Integer> map) {
 		this.inventory = inventoryItem;
 		this.worldObj = player.getEntityWorld();
-		this.research = research;
+		this.research = map;
 
 		this.calculatorMatrix = new InventoryStoredCrafting(this, 2, 1, inventory);
 		this.calculatorResult = new InventoryStoredResult(inventory);

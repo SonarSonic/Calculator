@@ -34,7 +34,6 @@ public class GuiGasLantern extends GuiContainer {
 			String burn = FontHelper.translate("co2.burnt") + ": " + this.entity.burnTime * 100 / this.entity.maxBurnTime;
 			FontHelper.textCentre(burn, xSize, 60, 0);
 		} else {
-			System.out.print(entity.burnTime);
 			String burn = FontHelper.translate("co2.burning");
 			FontHelper.textCentre(burn, xSize, 60, 0);
 		}

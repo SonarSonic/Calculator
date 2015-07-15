@@ -60,6 +60,7 @@ public class CalculatorGui {
 	public static final int FluxController = 45;
 	public static final int NetworkSelect = 46;
 	public static final int WeatherController = 47;
+	public static final int MagneticFlux = 48;
 
 	
 	

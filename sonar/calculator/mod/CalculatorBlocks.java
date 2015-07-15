@@ -45,6 +45,7 @@ import sonar.calculator.mod.common.block.machines.StorageChamber;
 import sonar.calculator.mod.common.block.machines.Transmitter;
 import sonar.calculator.mod.common.block.machines.WeatherStation;
 import sonar.calculator.mod.common.block.misc.CalculatorScreen;
+import sonar.calculator.mod.common.block.misc.MagneticFlux;
 import sonar.calculator.mod.common.block.misc.RainSensor;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
 import sonar.calculator.mod.common.block.misc.CO2Generator;
@@ -86,6 +87,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -105,10 +107,14 @@ public class CalculatorBlocks extends Calculator {
 	GameRegistry.registerBlock(reinforceddirtBrick, CalcBlockItem.class, "reinforceddirtBrick");
 	stablestoneBlock = new ConnectedBlock.Stable().setBlockName("stablestoneBlock").setCreativeTab(Calculator).setHardness(2.0F);
 	GameRegistry.registerBlock(stablestoneBlock, CalcBlockItem.class, "stablestoneBlock");
+	stableglassBlock = new ConnectedBlock(Material.glass,"stablestone_glass",3).setBlockName("StableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);;
+	GameRegistry.registerBlock(stableglassBlock, CalcBlockItem.class, "StableGlass");
+	clearstableglassBlock = new ConnectedBlock(Material.glass,"stablestone_clear",4).setBlockName("ClearStableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);;
+	GameRegistry.registerBlock(clearstableglassBlock, CalcBlockItem.class, "ClearStableGlass");
+	flawlessGlass = new ConnectedBlock(Material.glass,"flawlessglass",1).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);;
+	GameRegistry.registerBlock(flawlessGlass, CalcBlockItem.class, "FlawlessGlass");
 	purifiedobsidianBlock = new ConnectedBlock(Material.rock, "purifiedobsidian",2).setBlockName("purifiedobsidianBlock").setCreativeTab(Calculator);
 	GameRegistry.registerBlock(purifiedobsidianBlock, CalcBlockItem.class, "purifiedobsidianBlock");
-	flawlessGlass = new ConnectedBlock(Material.glass,"flawlessglass",1).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(2.0F);;
-	GameRegistry.registerBlock(flawlessGlass, CalcBlockItem.class, "FlawlessGlass");
 	
 	//calculators
 	powerCube = new PowerCube().setBlockName("PCubeIdle").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
@@ -128,9 +134,6 @@ public class CalculatorBlocks extends Calculator {
 	dynamiccalculatorBlock = new DynamicCalculatorBlock().setBlockName("dynamiccalculatorBlock").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
 	GameRegistry.registerBlock(dynamiccalculatorBlock, CalcBlockItem.class, "dynamiccalculatorBlock");
 	GameRegistry.registerTileEntity(TileEntityCalculator.Dynamic.class, "dynamiccalculatorBlock");
-	calculatorScreen = new CalculatorScreen().setBlockName("calculatorScreen").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
-	GameRegistry.registerBlock(calculatorScreen, CalcBlockItem.class, "calculatorScreen");
-	GameRegistry.registerTileEntity(TileEntityCalculatorScreen.class, "calculatorScreen");
 	
 	//smelting
 	reinforcedFurnace = new SmeltingBlock(7).setBlockName("ReinforcedFurnace").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
@@ -142,6 +145,15 @@ public class CalculatorBlocks extends Calculator {
 	algorithmSeperator = new SmeltingBlock(5).setBlockName("AlgorithmSeperatorIdle").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
 	GameRegistry.registerBlock(algorithmSeperator,CalcBlockItem.class, "AlgorithmSeperatorIdle");
 	GameRegistry.registerTileEntity(TileEntityMachines.AlgorithmSeperator.class, "AlgorithmSeperatorIdle");
+	hungerprocessor = new HungerProcessor().setBlockName("HungerProcessor").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
+	GameRegistry.registerBlock(hungerprocessor,CalcBlockItem.class, "HungerProcessor");
+	GameRegistry.registerTileEntity(TileEntityHungerProcessor.class, "HungerProcessor");
+	healthprocessor = new HealthProcessor().setBlockName("HealthProcessor").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
+	GameRegistry.registerBlock(healthprocessor,CalcBlockItem.class, "HealthProcessor");
+	GameRegistry.registerTileEntity(TileEntityHealthProcessor.class, "HealthProcessor");
+	atomicMultiplier = new AtomicMultiplier().setBlockName("AtomicMultiplier").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(6.5F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);;
+	GameRegistry.registerBlock(atomicMultiplier,CalcBlockItem.class, "AtomicMultiplier");
+	GameRegistry.registerTileEntity(TileEntityAtomicMultiplier.class, "AtomicMultiplier");
 	extractionChamber = new SmeltingBlock(0).setBlockName("ExtractionChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
 	GameRegistry.registerBlock(extractionChamber,CalcBlockItem.class, "ExtractionChamber");
 	GameRegistry.registerTileEntity(TileEntityMachines.ExtractionChamber.class, "ExtractionChamber");
@@ -151,12 +163,15 @@ public class CalculatorBlocks extends Calculator {
 	reassemblyChamber = new SmeltingBlock(2).setBlockName("ReassemblyChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
 	GameRegistry.registerBlock(reassemblyChamber,CalcBlockItem.class, "ReassemblyChamber");
 	GameRegistry.registerTileEntity(TileEntityMachines.ReassemblyChamber.class, "ReassemblyChamber");
-	processingChamber = new SmeltingBlock(3).setBlockName("ProcessingChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
-	GameRegistry.registerBlock(processingChamber,CalcBlockItem.class, "ProcessingChamber");
-	GameRegistry.registerTileEntity(TileEntityMachines.ProcessingChamber.class, "ProcessingChamber");
 	precisionChamber = new SmeltingBlock(6).setBlockName("PrecisionChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
 	GameRegistry.registerBlock(precisionChamber,CalcBlockItem.class, "PrecisionChamber");
 	GameRegistry.registerTileEntity(TileEntityMachines.PrecisionChamber.class, "PrecisionChamber");
+	processingChamber = new SmeltingBlock(3).setBlockName("ProcessingChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
+	GameRegistry.registerBlock(processingChamber,CalcBlockItem.class, "ProcessingChamber");
+	GameRegistry.registerTileEntity(TileEntityMachines.ProcessingChamber.class, "ProcessingChamber");
+	analysingChamber = new AnalysingChamber().setBlockName("AnalysingChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
+	GameRegistry.registerBlock(analysingChamber,CalcBlockItem.class, "AnalysingChamber");
+	GameRegistry.registerTileEntity(TileEntityAnalysingChamber.class, "AnalysingChamber");
 	storageChamber = new StorageChamber().setBlockName("StorageChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 	GameRegistry.registerBlock(storageChamber, CalcBlockItem.class, "StorageChamber");
 	GameRegistry.registerTileEntity(TileEntityStorageChamber.class, "StorageChamber");
@@ -168,9 +183,6 @@ public class CalculatorBlocks extends Calculator {
 	//GameRegistry.registerTileEntity(TileEntityManipulationChamber.class, "ManipulationChamber");
 	
 	//machines
-	analysingChamber = new AnalysingChamber().setBlockName("AnalysingChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
-	GameRegistry.registerBlock(analysingChamber,CalcBlockItem.class, "AnalysingChamber");
-	GameRegistry.registerTileEntity(TileEntityAnalysingChamber.class, "AnalysingChamber");
 	basicGreenhouse = new BasicGreenhouse().setBlockName("BasicGreenhouse").setCreativeTab(Calculator).setHardness(1.0F).setResistance(24.0F);
 	GameRegistry.registerBlock(basicGreenhouse,CalcBlockItem.class, "BasicGreenhouse");
 	GameRegistry.registerTileEntity(TileEntityBasicGreenhouse.class, "BasicGreenhouse");
@@ -180,12 +192,6 @@ public class CalculatorBlocks extends Calculator {
 	flawlessGreenhouse = new FlawlessGreenhouse().setBlockName("FlawlessGreenhouse").setCreativeTab(Calculator).setHardness(1.0F).setResistance(24.0F);
 	GameRegistry.registerBlock(flawlessGreenhouse,CalcBlockItem.class, "FlawlessGreenhouse");
 	GameRegistry.registerTileEntity(TileEntityFlawlessGreenhouse.class, "FlawlessGreenhouse");
-	hungerprocessor = new HungerProcessor().setBlockName("HungerProcessor").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
-	GameRegistry.registerBlock(hungerprocessor,CalcBlockItem.class, "HungerProcessor");
-	GameRegistry.registerTileEntity(TileEntityHungerProcessor.class, "HungerProcessor");
-	healthprocessor = new HealthProcessor().setBlockName("HealthProcessor").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
-	GameRegistry.registerBlock(healthprocessor,CalcBlockItem.class, "HealthProcessor");
-	GameRegistry.registerTileEntity(TileEntityHealthProcessor.class, "HealthProcessor");
 	carbondioxideGenerator= new CO2Generator().setBlockName("CO2Generator").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);;
 	GameRegistry.registerBlock(carbondioxideGenerator,CalcBlockItem.class, "CO2Generator");
 	GameRegistry.registerTileEntity(TileEntityCO2Generator.class, "CO2Generator");
@@ -199,10 +205,12 @@ public class CalculatorBlocks extends Calculator {
 	fluxController= new FluxController().setBlockName("FluxController").setCreativeTab(Calculator).setResistance(20.0F).setBlockTextureName(modid + ":" + "stablestone").setHardness(1.5F).setLightLevel(0.9375F).setLightOpacity(100);
 	GameRegistry.registerBlock(fluxController,CalcBlockItem.class, "FluxController");
 	GameRegistry.registerTileEntity(TileEntityFluxController.class, "FluxController");
-	
-	atomicMultiplier = new AtomicMultiplier().setBlockName("AtomicMultiplier").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(6.5F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);;
-	GameRegistry.registerBlock(atomicMultiplier,CalcBlockItem.class, "AtomicMultiplier");
-	GameRegistry.registerTileEntity(TileEntityAtomicMultiplier.class, "AtomicMultiplier");
+	calculatorlocator = new CalculatorLocator().setBlockName("CalculatorLocator").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "calculatorplug").setResistance(20.0F);
+	GameRegistry.registerBlock(calculatorlocator,CalcBlockItem.class, "CalculatorLocator");
+	GameRegistry.registerTileEntity(TileEntityCalculatorLocator.class, "CalculatorLocator");
+	calculatorplug = new CalculatorPlug().setBlockName("CalculatorPlug").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "calculatorplug").setResistance(20.0F);;
+	GameRegistry.registerBlock(calculatorplug, CalcBlockItem.class, "CalculatorPlug");
+	GameRegistry.registerTileEntity(TileEntityCalculatorPlug.class, "CalculatorPlug");
 	
 	//energy
 	//flawlessCapacitor = new FlawlessCapacitor().setBlockName("FlawlessCapacitor").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(6.5F).setBlockTextureName(modid + ":" + "electric_diamond_block");
@@ -225,12 +233,7 @@ public class CalculatorBlocks extends Calculator {
 	GameRegistry.registerTileEntity(TileEntityTransmitter.class, "Transmitter");
 	transmitterBlock = new InvisibleBlock(2).setBlockName("TransmitterBlock").setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);;
 	GameRegistry.registerBlock(transmitterBlock, CalcBlockItem.class, "TransmitterBlock");
-	calculatorlocator = new CalculatorLocator().setBlockName("CalculatorLocator").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "calculatorplug").setResistance(20.0F);;
-	GameRegistry.registerBlock(calculatorlocator,CalcBlockItem.class, "CalculatorLocator");
-	GameRegistry.registerTileEntity(TileEntityCalculatorLocator.class, "CalculatorLocator");
-	calculatorplug = new CalculatorPlug().setBlockName("CalculatorPlug").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "calculatorplug").setResistance(20.0F);;
-	GameRegistry.registerBlock(calculatorplug, CalcBlockItem.class, "CalculatorPlug");
-	GameRegistry.registerTileEntity(TileEntityCalculatorPlug.class, "CalculatorPlug");
+	
 	starchextractor = new StarchExtractor().setBlockName("starchextractor").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "starchextractor").setResistance(20.0F);;
 	GameRegistry.registerBlock(starchextractor,CalcBlockItem.class, "starchextractor");
 	GameRegistry.registerTileEntity(TileEntityGenerator.StarchExtractor.class, "starchextractor");
@@ -245,7 +248,10 @@ public class CalculatorBlocks extends Calculator {
 	GameRegistry.registerTileEntity(TileEntityCrankedGenerator.class, "CrankedGenerator");
 	crank = new CrankHandle().setBlockName("Crank").setCreativeTab(Calculator).setHardness(20.0F);
 	GameRegistry.registerBlock(crank, CalcBlockItem.class, "Crank");
-	GameRegistry.registerTileEntity(TileEntityCrankHandle.class, "Crank");
+	GameRegistry.registerTileEntity(TileEntityCrankHandle.class, "Crank");	
+	magneticFlux = new MagneticFlux().setBlockName("MagneticFlux").setCreativeTab(Calculator).setHardness(1.0F).setBlockTextureName(modid + ":" + "calculatorlocator").setResistance(20.0F);
+	GameRegistry.registerBlock(magneticFlux, CalcBlockItem.class, "MagneticFlux");
+	GameRegistry.registerTileEntity(TileEntityMagneticFlux.class, "MagneticFlux");	
 	weatherController = new WeatherController().setBlockName("WeatherController").setCreativeTab(Calculator).setHardness(1.0F);
 	GameRegistry.registerBlock(weatherController, CalcBlockItem.class, "WeatherController");
 	GameRegistry.registerTileEntity(TileEntityWeatherController.class, "WeatherController");
@@ -349,7 +355,10 @@ public class CalculatorBlocks extends Calculator {
 	GameRegistry.registerBlock(end_diamond_block, CalcBlockItem.class, "EndBlock").setResistance(20.0F);
 	
 
-	
+
+	calculatorScreen = new CalculatorScreen().setBlockName("calculatorScreen").setHardness(1.0F).setResistance(20.0F);;
+	GameRegistry.registerBlock(calculatorScreen, CalcBlockItem.class, "calculatorScreen");
+	GameRegistry.registerTileEntity(TileEntityCalculatorScreen.class, "calculatorScreen");
 	}
 	
 	

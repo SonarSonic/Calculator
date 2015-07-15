@@ -27,26 +27,25 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	public byte active;
-	public int stability;
 	public int energyGenerated = CalculatorConfig.locatorRF;
-	public int luckTicks;
-	public int size;
+	public int size, sizeTicks, luckTicks, stability;
+	public String owner = "None";
 
 	public TileEntityCalculatorLocator() {
 		super.storage = new EnergyStorage(25000000, 25000000);
 		super.slots = new ItemStack[2];
-		super.maxTransfer = 64000;
+		super.maxTransfer = 100000;
 	}
 
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		if (canStart()) {
-			start();
+
+		if (canGenerate()) {
+			beginGeneration();
 			if (active != 1) {
 				this.active = 1;
 				this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-
 			}
 		} else {
 			if (active != 0) {
@@ -54,13 +53,21 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 				this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 		}
-
+		if (!this.worldObj.isRemote) {
+			if (!(this.sizeTicks >= 25)) {
+				sizeTicks++;
+			} else {
+				this.sizeTicks=0;
+				this.createStructure();
+				this.getStability();
+			}
+		}
 		this.charge(0);
 		this.addEnergy();
 		this.markDirty();
 	}
 
-	public int currentGenerated() {
+	public int currentOutput() {
 		if (size != 0 && (((int) (2 * size + 1) * (2 * size + 1)) - 1) != 0) {
 			int stable = (int) (stability * 100) / ((int) (2 * size + 1) * (2 * size + 1));
 			return 5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size;
@@ -71,6 +78,9 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	public void getStability() {
 		int currentStable = 0;
+		if (size == 0) {
+			this.stability = 0;
+		}
 		for (int Z = -(size); Z <= (size); Z++) {
 			for (int X = -(size); X <= (size); X++) {
 				TileEntity target = this.worldObj.getTileEntity(xCoord + X, yCoord, zCoord + Z);
@@ -83,24 +93,22 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		this.stability = currentStable;
 	}
 
-	public boolean canStart() {
-		if (this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) {
-			if (multiblock(this.worldObj, xCoord, yCoord, this.zCoord) != 0) {
-				getStability();
-				if (isLocated()) {
-					if (this.stability >= 7) {
-						this.active = 1;
-						return true;
-					} else {
-						ItemStack stack = this.getStackInSlot(1);
-						String owner = stack.getTagCompound().getString("Player");
-						EntityPlayer player = this.worldObj.getPlayerEntityByName(owner);
-
-						if (!(player == null)) {
-							this.active = 1;
-							return true;
-						}
-					}
+	public boolean canGenerate() {
+		if (!(this.storage.getEnergyStored() < this.storage.getMaxEnergyStored())) {
+			return false;
+		}
+		if (size == 0) {
+			return false;
+		}
+		if (isLocated()) {
+			if (this.stability >= 7) {
+				this.active = 1;
+				return true;
+			} else {
+				EntityPlayer player = this.worldObj.getPlayerEntityByName(owner);
+				if (!(player == null)) {
+					this.active = 1;
+					return true;
 				}
 			}
 		}
@@ -108,8 +116,8 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		return false;
 	}
 
-	public void start() {
-		storage.modifyEnergyStored(currentGenerated());
+	public void beginGeneration() {
+		storage.modifyEnergyStored(currentOutput());
 		if (!this.worldObj.isRemote) {
 			if (this.luckTicks >= 0 && this.luckTicks != 50) {
 				this.luckTicks++;
@@ -127,7 +135,6 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	private void timeStart() {
 		this.worldObj.setWorldTime(worldObj.getWorldTime() + 100);
-
 	}
 
 	private void addEnergy() {
@@ -146,8 +153,6 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	}
 
 	private void effectStart() {
-		ItemStack stack = this.getStackInSlot(1);
-		String owner = stack.getTagCompound().getString("Player");
 		EntityPlayer player = this.worldObj.getPlayerEntityByName(owner);
 		if (player != null) {
 			double x = player.posX;
@@ -224,7 +229,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 					case 16:
 						if (luck == 16) {
 							int luck2 = 1 + (int) (Math.random() * ((5) - 1) + 5);
-							if (luck2 == 16) { 
+							if (luck2 == 16) {
 								worldObj.createExplosion(player, x, y, z, 80F, true);
 								player.setHealth(player.getHealth() - 40);
 							}
@@ -238,7 +243,6 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	protected boolean isLocated() {
 		ItemStack stack = this.getStackInSlot(1);
-
 		if (stack == null) {
 			return false;
 		}
@@ -254,37 +258,28 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	}
 
-	public String ownerUsername() {
+	public void createOwner() {
 		ItemStack stack = this.getStackInSlot(1);
 		if (stack == null) {
-			return "None";
+			this.owner = "None";
+			return;
 		}
-		
+
 		if (stack.hasTagCompound()) {
 			if (stack.isItemEqual(new ItemStack(Calculator.itemLocatorModule))) {
-				return stack.getTagCompound().getString("Player");
+				this.owner = stack.getTagCompound().getString("Player");
 			}
 		}
 
-		return "None";
 	}
 
-	public int multiblock(World world, int x, int y, int z) {
+	public void createStructure() {
 		int size = CalculatorLocator.multiBlockStructure(getWorldObj(), xCoord, yCoord, zCoord);
 		if (size != this.size) {
 			this.size = size;
 			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
-		return this.size;
 	}
-
-	public boolean multiblockstring() {
-		if (size != 0) {
-			return true;
-		}
-		return false;
-	}
-
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
@@ -293,6 +288,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 			this.active = nbt.getByte("active");
 			this.luckTicks = nbt.getInteger("ticks");
 			this.size = nbt.getInteger("size");
+			this.owner = nbt.getString("owner");
 		}
 	}
 
@@ -303,9 +299,10 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 			nbt.setByte("active", this.active);
 			nbt.setInteger("ticks", this.luckTicks);
 			nbt.setInteger("size", this.size);
+			nbt.setString("owner", this.owner);
 		}
 	}
-	
+
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
 		if (from == ForgeDirection.DOWN) {
@@ -335,19 +332,18 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		return 256;
 	}
 
-	public boolean receiveClientEvent(int action, int param) {
-		if (action == 1) {
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		}
-		return true;
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		currenttip.add(FontHelper.translate("locator.active") + ": " + (active == 0 ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
+
+		currenttip.add(FontHelper.translate("locator.owner") + ": " + (owner != "None" ? owner : FontHelper.translate("locator.none")));
+		return currenttip;
 	}
 
-	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip){
-		currenttip.add(FontHelper.translate("locator.active") + ": " + (active == 0 ?FontHelper.translate("locator.false") : FontHelper.translate("locator.true")) );
-		String user = ownerUsername();
-		currenttip.add(FontHelper.translate("locator.owner") + ": " + (user != "None" ? user : FontHelper.translate("locator.none")));
-		return currenttip;		
+	public void onLoaded() {
+		super.onLoaded();
+		createOwner();
+		createStructure();
 	}
 
 }

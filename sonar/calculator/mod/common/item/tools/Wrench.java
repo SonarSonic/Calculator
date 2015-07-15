@@ -2,15 +2,14 @@ package sonar.calculator.mod.common.item.tools;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.api.IWrenchable;
 import sonar.calculator.mod.common.item.CalcItem;
-import sonar.core.utils.ISonarSides;
 import sonar.core.utils.helpers.SonarHelper;
+import cofh.api.block.IDismantleable;
+import cofh.api.tileentity.IReconfigurableSides;
 
 public class Wrench extends CalcItem {
 
@@ -19,19 +18,18 @@ public class Wrench extends CalcItem {
 		if (!player.canPlayerEdit(x, y, z, side, stack)) {
 			return false;
 		}
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
 		Block block = world.getBlock(x, y, z);
 		if (!player.isSneaking()) {
 			if (block instanceof IWrenchable) {
-				((IWrenchable) block).onWrench(world, x, y, z, side);			
-			} else if (te != null && te instanceof ISonarSides)
-				if (((ISonarSides) te).canBeConfigured()) {
-					((ISonarSides) te).increaseSide(side, player.dimension);
-				}
+				((IWrenchable) block).onWrench(world, x, y, z, side);
+			} else if (te != null && te instanceof IReconfigurableSides)
+				((IReconfigurableSides) te).incrSide(side);
+
 		} else {
-			if (block instanceof IWrench) {
-				SonarHelper.dropTile(te, player, block, world, x, y, z);
+			if (block instanceof IDismantleable && ((IDismantleable) block).canDismantle(player, world, x, y, z)) {
+				SonarHelper.dropTile(player, block, world, x, y, z);
 			}
 
 		}

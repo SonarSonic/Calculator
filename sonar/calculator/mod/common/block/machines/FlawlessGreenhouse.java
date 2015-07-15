@@ -13,7 +13,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
@@ -24,7 +23,7 @@ import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class FlawlessGreenhouse extends SonarMachineBlock implements IWrench {
+public class FlawlessGreenhouse extends SonarMachineBlock {
 	private static boolean keepInventory;
 
 	private Random rand = new Random();
@@ -36,22 +35,18 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IWrench {
 	public FlawlessGreenhouse() {
 		super(SonarMaterials.machine);
 	}
+
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z,
-			EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof TileEntityFlawlessGreenhouse) {
-			TileEntityFlawlessGreenhouse house = (TileEntityFlawlessGreenhouse) world
-					.getTileEntity(x, y, z);
-			if (player.isSneaking()) {			
+			TileEntityFlawlessGreenhouse house = (TileEntityFlawlessGreenhouse) world.getTileEntity(x, y, z);
+			if (player.isSneaking()) {
 				if (!house.isBeingBuilt() && house.isIncomplete()) {
 					FailedCoords coords = house.isComplete();
 					if (!coords.getBoolean()) {
-						FontHelper.sendMessage("X: " + coords.getX() + " Y: "
-										+ coords.getY() + " Z: "
-										+ coords.getZ()
-										+ " - " + FontHelper.translate("greenhouse.equal") + " "
-										+ coords.getBlock(), world, player);
+						FontHelper.sendMessage("X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(),
+								world, player);
 					}
 				} else if (house.isCompleted()) {
 					FontHelper.sendMessage(FontHelper.translate("greenhouse.complete"), world, player);
@@ -60,17 +55,16 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IWrench {
 
 			} else {
 				if (player != null) {
-				if (!world.isRemote) {
-					player.openGui(Calculator.instance,
-							CalculatorGui.FlawlessGreenhouse, world, x, y, z);
-				}}
+					if (!world.isRemote) {
+						player.openGui(Calculator.instance, CalculatorGui.FlawlessGreenhouse, world, x, y, z);
+					}
+				}
 			}
 		}
 		return true;
 
 	}
 
-	
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
 		return new TileEntityFlawlessGreenhouse();
@@ -84,10 +78,8 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IWrench {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister
-				.registerIcon("Calculator:greenhouse_side");
-		this.iconFront = iconRegister
-				.registerIcon("Calculator:flawless_greenhouse_front");
+		this.blockIcon = iconRegister.registerIcon("Calculator:greenhouse_side");
+		this.iconFront = iconRegister.registerIcon("Calculator:flawless_greenhouse_front");
 		this.iconTop = iconRegister.registerIcon("Calculator:greenhouse_side");
 
 	}
@@ -97,7 +89,7 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IWrench {
 	public IIcon getIcon(IBlockAccess w, int x, int y, int z, int s) {
 		Block stone = w.getBlock(x, y + 1, z);
 		if (stone != null) {
-			if (stone==Calculator.stablestoneBlock) {
+			if (stone == Calculator.stablestoneBlock) {
 				return stone.getIcon(w, x, y, z, s);
 			}
 		}
@@ -108,24 +100,22 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IWrench {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.iconFront : side == 0 ? this.iconTop
-				: side == 1 ? this.iconTop
-						: (metadata == 0) && (side == 3) ? this.iconFront
-								: this.blockIcon;
+		return side == metadata ? this.iconFront : side == 0 ? this.iconTop : side == 1 ? this.iconTop : (metadata == 0) && (side == 3) ? this.iconFront : this.blockIcon;
 	}
+
 	@Override
 	public boolean dropStandard(World world, int x, int y, int z) {
 		return false;
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player,
-			List list) {
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-		
+
 	}
+
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		
+
 	}
 }

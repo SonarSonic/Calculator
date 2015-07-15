@@ -11,7 +11,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
@@ -20,7 +19,7 @@ import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class HealthProcessor extends SonarMachineBlock implements IWrench {
+public class HealthProcessor extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
 	@SideOnly(Side.CLIENT)

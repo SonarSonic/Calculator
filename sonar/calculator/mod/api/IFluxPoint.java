@@ -8,7 +8,11 @@ public interface IFluxPoint extends IFlux{
 	/**priority order - higher numbers receive energy first*/
 	public int priority();	
 
-	
+	/**
+	 * @param recieve the maximum which could be sent
+	 * @param simulate should energy insertion by simulated
+	 * @return
+	 */
 	public int pushEnergy(int recieve, boolean simulate);		
 	
 }

@@ -10,9 +10,12 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.core.utils.helpers.FontHelper;
 
+@SideOnly(Side.CLIENT)
 public class GuiInfoCalculator
   extends GuiContainer
 {

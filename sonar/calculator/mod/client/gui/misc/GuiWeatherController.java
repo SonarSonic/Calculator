@@ -51,7 +51,7 @@ public class GuiWeatherController extends GuiContainer {
 				type = entity.type + 1;
 			}
 			entity.type = type;
-			Calculator.network.sendToServer(new PacketMachineButton(10 + type, entity.xCoord, entity.yCoord, entity.zCoord));
+			Calculator.network.sendToServer(new PacketMachineButton(1 + type, entity.xCoord, entity.yCoord, entity.zCoord));
 			break;
 		case 2:
 			if (entity.data == 1) {
@@ -59,7 +59,7 @@ public class GuiWeatherController extends GuiContainer {
 			} else {
 				entity.data = 1;
 			}
-			Calculator.network.sendToServer(new PacketMachineButton(3 + 10, entity.xCoord, entity.yCoord, entity.zCoord));
+			Calculator.network.sendToServer(new PacketMachineButton(0, entity.xCoord, entity.yCoord, entity.zCoord));
 			break;
 		}
 		this.buttonList.clear();

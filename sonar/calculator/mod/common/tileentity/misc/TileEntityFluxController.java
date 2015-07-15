@@ -27,6 +27,7 @@ import sonar.calculator.mod.common.item.modules.LocatorModule;
 import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.utils.IMachineButtons;
 import sonar.core.utils.ISyncTile;
 import sonar.core.utils.SonarAPI;
 import sonar.core.utils.helpers.FontHelper;
@@ -35,7 +36,7 @@ import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityFluxController extends TileEntityInventory implements IFluxPoint, ISyncTile {
+public class TileEntityFluxController extends TileEntityInventory implements IFluxPoint, ISyncTile, IMachineButtons {
 
 	private Ticket currentTicket;
 
@@ -315,13 +316,44 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 	public String masterName() {
 		return this.playerName;
 	}
+
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
-		if(networkName.equals("NETWORK")){
-			currenttip.add(FontHelper.translate("network.notConnected"));	
-		}else{
+		if (networkName.equals("NETWORK")) {
+			currenttip.add(FontHelper.translate("network.notConnected"));
+		} else {
 			currenttip.add(networkName + ": " + GuiFlux.getNetworkType(this.playerProtect));
 		}
 		return currenttip;
+	}
+
+	@Override
+	public void buttonPress(int buttonID) {
+		switch (buttonID) {
+		case 3:
+			if (recieveMode < 4)
+				recieveMode++;
+			else
+				recieveMode = 0;
+			break;
+		case 4:
+			if (sendMode < 2)
+				sendMode++;
+			else
+				sendMode = 0;
+			break;
+		case 5:
+			if (transmitterMode == 0)
+				transmitterMode = 1;
+			else
+				transmitterMode = 0;
+			break;
+		case 6:
+			if (playerProtect < 2)
+				playerProtect++;
+			else
+				playerProtect = 0;
+		}
+
 	}
 }

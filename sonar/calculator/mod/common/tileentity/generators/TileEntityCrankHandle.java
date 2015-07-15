@@ -14,22 +14,20 @@ public class TileEntityCrankHandle extends TileEntity {
 	public void updateEntity() {
 		super.updateEntity();
 		if (this.cranked) {
-			this.worldObj.markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
+			
 			if (this.angle == 36) {
 				this.angle = 0;
 				this.cranked = false;
 			}
 			active();
 		}
-		this.markDirty();
 	}
 
 	public void active() {
 
 		if (this.cranked) {
-			this.angle += 1;
+			this.angle += 2;
 		}
-		this.markDirty();
 	}
 
 	@Override

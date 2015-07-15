@@ -46,6 +46,7 @@ import sonar.calculator.mod.client.gui.misc.GuiFluxController;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPlug;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPoint;
 import sonar.calculator.mod.client.gui.misc.GuiGasLantern;
+import sonar.calculator.mod.client.gui.misc.GuiMagneticFlux;
 import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
 import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
 import sonar.calculator.mod.client.gui.modules.GuiSmeltingModule;
@@ -74,6 +75,7 @@ import sonar.calculator.mod.common.containers.ContainerHealthProcessor;
 import sonar.calculator.mod.common.containers.ContainerHungerProcessor;
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.calculator.mod.common.containers.ContainerLantern;
+import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.calculator.mod.common.containers.ContainerPortableDynamic;
 import sonar.calculator.mod.common.containers.ContainerPowerCube;
 import sonar.calculator.mod.common.containers.ContainerRedstoneExtractor;
@@ -115,6 +117,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
@@ -300,6 +303,10 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.WeatherController:
 				if ((entity instanceof TileEntityWeatherController)) {
 					return new ContainerWeatherController(player.inventory, (TileEntityWeatherController) entity);
+				}
+			case CalculatorGui.MagneticFlux:
+				if ((entity instanceof TileEntityMagneticFlux)) {
+					return new ContainerMagneticFlux(player.inventory, (TileEntityMagneticFlux) entity);
 				}
 				break;
 			}
@@ -522,6 +529,10 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.WeatherController:
 				if ((entity instanceof TileEntityWeatherController)) {
 					return new GuiWeatherController(player.inventory, (TileEntityWeatherController) entity);
+				}
+			case CalculatorGui.MagneticFlux:
+				if ((entity instanceof TileEntityMagneticFlux)) {
+					return new GuiMagneticFlux(player.inventory, (TileEntityMagneticFlux) entity);
 				}
 			}
 

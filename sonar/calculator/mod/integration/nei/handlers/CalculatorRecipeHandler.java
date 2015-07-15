@@ -63,7 +63,7 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 		if ((outputId.equals("calculator"))
 				&& (getClass() == CalculatorRecipeHandler.class && Minecraft.getMinecraft().thePlayer.getHeldItem() != null && Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() instanceof IResearchStore)) {
 			IResearchStore calc = (IResearchStore) Minecraft.getMinecraft().thePlayer.getHeldItem().getItem();
-			int[] unblocked = calc.getResearch(Minecraft.getMinecraft().thePlayer.getHeldItem());
+			Map<Integer, Integer> unblocked = calc.getResearch(Minecraft.getMinecraft().thePlayer.getHeldItem());
 			Map<Object[], Object[]> recipes = RecipeRegistry.CalculatorRecipes.instance().getRecipes();
 			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0]));
@@ -78,7 +78,6 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		IInventory inv = Minecraft.getMinecraft().thePlayer.inventory;
-		int[] unblocked = findResearch(inv);
 		Map<Object[], Object[]> recipes = RecipeRegistry.CalculatorRecipes.instance().getRecipes();
 
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
@@ -90,7 +89,6 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		IInventory inv = Minecraft.getMinecraft().thePlayer.inventory;
-		int[] unblocked = findResearch(inv);
 		Map<Object[], Object[]> recipes = RecipeRegistry.CalculatorRecipes.instance().getRecipes();
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			if (RecipeRegistry.CalculatorRecipes.instance().containsStack(ingredient, recipe.getKey(), false) != -1)
@@ -99,7 +97,7 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
-	public static int[] findResearch(IInventory inv) {
+	public static Map<Integer, Integer> findResearch(IInventory inv) {
 		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack target = inv.getStackInSlot(i);
 			if (target != null && target.getItem() instanceof IResearchStore) {

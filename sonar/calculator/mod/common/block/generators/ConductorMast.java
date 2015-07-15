@@ -20,7 +20,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
@@ -28,13 +27,15 @@ import sonar.core.utils.ISpecialTooltip;
 import sonar.core.utils.ISyncTile;
 import sonar.core.utils.SonarMaterials;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.SonarHelper;
+import cofh.api.block.IDismantleable;
 
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ConductorMast extends BlockContainer implements IWrench, ISpecialTooltip {
+public class ConductorMast extends BlockContainer implements ISpecialTooltip, IDismantleable {
 
 	private Random rand = new Random();
 
@@ -254,11 +255,6 @@ public class ConductorMast extends BlockContainer implements IWrench, ISpecialTo
 	}
 
 	@Override
-	public boolean canWrench() {
-		return true;
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.blockIcon = iconRegister.registerIcon("Calculator:stablestone");
@@ -280,5 +276,17 @@ public class ConductorMast extends BlockContainer implements IWrench, ISpecialTo
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 
+	}
+
+	@Override
+	public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops) {
+
+		SonarHelper.dropTile(player, world.getBlock(x, y, z), world, x, y, z);
+		return null;
+	}
+
+	@Override
+	public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z) {
+		return true;
 	}
 }

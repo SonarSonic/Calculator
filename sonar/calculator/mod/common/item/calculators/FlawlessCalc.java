@@ -1,6 +1,9 @@
 package sonar.calculator.mod.common.item.calculators;
 
+import gnu.trove.map.hash.THashMap;
+
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityEnderPearl;
@@ -13,6 +16,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry.CalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.entities.EntityGrenade;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
@@ -312,32 +316,27 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 
 	}
 
-	public int[] getResearch(ItemStack stack) {
-		int[] unblocked = new int[RecipeRegistry.getBlockedSize()];
-		if (stack != null && stack.getItem() == Calculator.itemFlawlessCalculator) {
+	public Map<Integer, Integer> getResearch(ItemStack stack) {
+		Map<Integer, Integer> unblocked = new THashMap<Integer, Integer>();
+		if (stack != null && stack.getItem() instanceof IResearchStore) {
 			if (!stack.hasTagCompound()) {
 				stack.setTagCompound(new NBTTagCompound());
 			}
-			unblocked = stack.stackTagCompound.getIntArray("Unblocked");
-			if (unblocked != null && unblocked.length > 1) {
-				return unblocked;
-			} else {
-				return new int[RecipeRegistry.getBlockedSize()];
-			}
-		} else {
-			return unblocked;
+			unblocked = CalculatorRecipes.instance().readFromNBT(stack.stackTagCompound, "unblocked");
 		}
+		return unblocked;
 	}
 
-	public void setResearch(ItemStack stack, int[] unblocked, int stored, int max) {
-		if (stack != null && stack.getItem() == Calculator.itemFlawlessCalculator) {
+	public void setResearch(ItemStack stack, Map<Integer, Integer> unblocked, int stored, int max) {
+		if (stack != null && stack.getItem() == Calculator.itemCalculator) {
 			if (!stack.hasTagCompound()) {
 				stack.setTagCompound(new NBTTagCompound());
 			}
-			stack.stackTagCompound.setIntArray("Unblocked", unblocked);
+			CalculatorRecipes.instance().writeToNBT(stack.stackTagCompound, unblocked, "unblocked");
 			stack.stackTagCompound.setInteger("Max", max);
 			stack.stackTagCompound.setInteger("Stored", stored);
 
 		}
 	}
+
 }

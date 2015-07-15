@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.tileentity.misc;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
+import cofh.api.tileentity.IEnergyInfo;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -24,7 +25,20 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 			if (target == null) {
 				return;
 			} else {
-				if (target instanceof IEnergyReceiver) {
+				if (target instanceof IEnergyInfo) {
+					IEnergyInfo energy = (IEnergyInfo) target;
+					int max = energy.getInfoMaxEnergyStored();
+					int current = energy.getInfoEnergyStored();
+
+					if (max != this.lastMax) {
+						this.sendMax(max);
+					}
+					if (current != this.lastEnergy) {
+						this.sendEnergy(current);
+						this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+					}
+				}
+				else if (target instanceof IEnergyReceiver) {
 					IEnergyReceiver energy = (IEnergyReceiver) target;
 					int max = energy.getMaxEnergyStored(ForgeDirection.UNKNOWN);
 					int current = energy.getEnergyStored(ForgeDirection.UNKNOWN);

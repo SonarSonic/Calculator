@@ -12,6 +12,7 @@ import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.utils.FluxRegistry;
+import sonar.core.utils.IMachineButtons;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -56,71 +57,10 @@ public class PacketMachineButton implements IMessage {
 			if (te == null) {
 				return null;
 			}
-			if (message.id == 0) {
-				if (te != null && te instanceof IUpgradeCircuits) {
-					IUpgradeCircuits circuits = (IUpgradeCircuits) te;
-					for (int i = 0; i < 3; i++) {
-						if (circuits.getUpgrades(i) != 0 && UpgradeCircuit.getItem(i) != null) {
-							ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(message.xCoord, message.yCoord, message.zCoord));
-							EntityItem upgrade = new EntityItem(world, te.xCoord + dir.offsetX, te.yCoord + 0.5, te.zCoord + dir.offsetZ, new ItemStack(UpgradeCircuit.getItem(i),
-									circuits.getUpgrades(i)));
-							circuits.incrementUpgrades(i, -circuits.getUpgrades(i));
-							world.spawnEntityInWorld(upgrade);
-						}
-					}
-				}
-			} else if (message.id == 2) {
-				if (te instanceof IPausable) {
-					IPausable pause = (IPausable) te;
-					pause.onPause();
-				}
-			} else if (message.id == 3) {
-				if (te instanceof TileEntityFluxController) {
-					TileEntityFluxController controller = (TileEntityFluxController) te;
-					if (controller.recieveMode < 4)
-						controller.recieveMode++;
-					else
-						controller.recieveMode = 0;
-				}
-			} else if (message.id == 4) {
-				if (te instanceof TileEntityFluxController) {
-					TileEntityFluxController controller = (TileEntityFluxController) te;
-					if (controller.sendMode < 2)
-						controller.sendMode++;
-					else
-						controller.sendMode = 0;
-				}
-			} else if (message.id == 5) {
-				if (te instanceof TileEntityFluxController) {
-					TileEntityFluxController controller = (TileEntityFluxController) te;
-					if (controller.transmitterMode == 0) {
-						controller.transmitterMode = 1;
-					} else {
-						controller.transmitterMode = 0;
-					}
-				}
-			} else if (message.id == 6) {
-				if (te instanceof TileEntityFluxController) {
-					TileEntityFluxController controller = (TileEntityFluxController) te;
-					if (controller.playerProtect < 2)
-						controller.playerProtect++;
-					else
-						controller.playerProtect = 0;
-				}
+			if (te instanceof IMachineButtons) {
+				((IMachineButtons) te).buttonPress(message.id);
 			}
-			if (te instanceof TileEntityWeatherController) {
-				TileEntityWeatherController controller = (TileEntityWeatherController) te;
-				if (message.id == 13) {
-					if (controller.data == 1) {
-						controller.data = 0;
-					} else {
-						controller.data = 1;
-					}
-				} else {
-					controller.setType(message.id - 10);
-				}
-			}
-
+		
 			return null;
 		}
 

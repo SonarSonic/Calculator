@@ -3,25 +3,21 @@ package sonar.calculator.mod.common.block.generators;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarMaterials;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 
-public class RedstoneExtractor extends SonarMachineBlock implements IWrench {
+public class RedstoneExtractor extends SonarMachineBlock{
 	private Random rand = new Random();
 	private static boolean keepInventory;
 
@@ -59,7 +55,7 @@ public class RedstoneExtractor extends SonarMachineBlock implements IWrench {
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 		TileEntityGenerator.RedstoneExtractor generator = (TileEntityGenerator.RedstoneExtractor) world.getTileEntity(x, y, z);
-		generator.updateHandlers();
+		generator.updateAdjacentHandlers();
 	}
 
 	@Override
@@ -67,19 +63,11 @@ public class RedstoneExtractor extends SonarMachineBlock implements IWrench {
 		TileEntity tileentity = world.getTileEntity(x, y, z);
 		if (tileentity != null && tileentity instanceof TileEntityGenerator.RedstoneExtractor) {
 			TileEntityGenerator.RedstoneExtractor generator = (TileEntityGenerator.RedstoneExtractor) world.getTileEntity(x, y, z);
-			generator.updateHandlers();
+			generator.updateAdjacentHandlers();
 		}
 
 	}
 
-	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if (tileentity != null && tileentity instanceof TileEntityGenerator.RedstoneExtractor) {
-			TileEntityGenerator.RedstoneExtractor generator = (TileEntityGenerator.RedstoneExtractor) world.getTileEntity(x, y, z);
-			generator.updateHandlers();
-		}
-	}
 
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {

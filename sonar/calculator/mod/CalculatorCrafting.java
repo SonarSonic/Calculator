@@ -1,5 +1,6 @@
 package sonar.calculator.mod;
 
+import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -171,8 +172,12 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(tanzaniteFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', tanzanitePlanks, 'S', Items.stick });
 		addShaped(new ItemStack(pearFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', pearPlanks, 'S', Items.stick });
 		addShaped(new ItemStack(diamondFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', diamondPlanks, 'S', Items.stick });
-		
 
+		addShapeless(new ItemStack(stableglassBlock, 1), new Object[] { clearstableglassBlock });
+		addShapeless(new ItemStack(clearstableglassBlock, 1), new Object[] { stableglassBlock });
+		addShaped(new ItemStack(magneticFlux, 1), new Object[] { " D ", "RFR", "SSS", 'S', stablestoneBlock, 'R', redstone_ingot, 'F', fluxPoint, 'D', flawlessfirediamond });
+
+		
 	}
 
 	public static void addShaped(ItemStack result, Object... input) {

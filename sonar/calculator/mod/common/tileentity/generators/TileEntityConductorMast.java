@@ -155,10 +155,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 			return false;
 		}
 
-		if (slots[1] != null) {
-			return false;
-		}
-
+	
 		if (cookTime >= furnaceSpeed) {
 			return true;
 		}
@@ -166,6 +163,13 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 		ItemStack itemstack = recipe(slots[0]);
 		if (itemstack == null) {
 			return false;
+		}
+		if (slots[1] != null) {
+			if (!slots[1].isItemEqual(itemstack)) {
+				return false;
+			} else if (slots[1].stackSize + itemstack.stackSize > slots[1].getMaxStackSize()) {
+				return false;
+			}
 		}
 
 		int itemEnergy = recipeEnergy(slots[0]);

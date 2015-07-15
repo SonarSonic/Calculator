@@ -62,6 +62,9 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 			}
 		}
 		ItemStack[] output = getOutput(true, this.slots[0]);
+		if(output==null || output.length!=this.outputSize()){
+			return false;
+		}
 		for (int o = 0; o < outputSize(); o++) {
 			if (output[o] == null) {
 				return false;

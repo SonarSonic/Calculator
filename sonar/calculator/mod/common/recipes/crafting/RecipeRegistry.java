@@ -3,14 +3,19 @@ package sonar.calculator.mod.common.recipes.crafting;
 import gnu.trove.map.hash.THashMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.RecipeHelper;
@@ -40,6 +45,7 @@ public class RecipeRegistry {
 	}
 
 	private static void addStandardRecipes() {
+
 		registerCalculatorRecipe(Calculator.baby_grenade, Calculator.grenadecasing, Blocks.tnt, false);
 		registerCalculatorRecipe(Calculator.reinforcedstoneBlock, "cobblestone", "plankWood", false);
 
@@ -163,7 +169,9 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(new ItemStack(Items.minecart, 1), "ingotIron", "ingotIron", true);
 		registerCalculatorRecipe(new ItemStack(Blocks.end_portal_frame, 3), Blocks.enchanting_table, Items.ender_eye, true);
 		registerCalculatorRecipe(Items.brewing_stand, Items.blaze_powder, Blocks.furnace, true);
+
 		registerCalculatorRecipe(Blocks.fence, "stickWood", "stickWood", true);
+
 		registerCalculatorRecipe(Items.bed, "treeLeaves", new ItemStack(Blocks.planks, 1), true);
 
 		// log recipes
@@ -518,7 +526,7 @@ public class RecipeRegistry {
 
 		registerFlawlessRecipe(Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_rod);
 		registerFlawlessRecipe(Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.ghast_tear);
-
+		registerFlawlessRecipe(Blocks.glass,Blocks.glass,Blocks.glass,Blocks.glass, new ItemStack(Calculator.stableglassBlock, 4));
 	}
 
 	/**
@@ -609,34 +617,140 @@ public class RecipeRegistry {
 	public static class CalculatorRecipes extends RecipeHelper {
 
 		private static final CalculatorRecipes recipes = new CalculatorRecipes();
+		public int currentRecipe =0;
 
-		public static final RecipeHelper instance() {
+		public static final CalculatorRecipes instance() {
 			return recipes;
 		}
-		
 		public CalculatorRecipes() {
 			super(2, 1, true);
 		}
 
 		@Override
 		public void addRecipes() {
-			for (int i = 0; i < RecipeRegistry.unblocked.size(); i++) {
-				this.addRecipe(RecipeRegistry.unblocked.get(i));
-			}
+			//for (int i = 0; i < RecipeRegistry.unblocked.size(); i++) {
+			//	this.addRecipe(RecipeRegistry.unblocked.get(i));
+			//}
 			for (int i = 0; i < RecipeRegistry.blocked.size(); i++) {
+				currentRecipe = i;
 				this.addRecipe(RecipeRegistry.blocked.get(i));
 			}
 
+		}
+		@Override
+		public void addRecipe(Object[] input, Object[] output) {			
+			super.addRecipe(input, output);
+			//recipeIDs.put(getRecipes().size()-1, currentRecipe);
+		}
+		
+		public void writeToNBT(NBTTagCompound nbt, Map<Integer, Integer> unblocked, String tag) {
+			NBTTagList list = new NBTTagList();
+
+			for (Entry<Integer, Integer> recipes : unblocked.entrySet()) {
+				if (recipes.getValue() != 0) {
+					NBTTagCompound compound = new NBTTagCompound();
+					compound.setInteger("ID", recipes.getKey());
+					compound.setInteger("TYPE", recipes.getValue());
+					list.appendTag(compound);
+				}
+			}
+			nbt.setTag(tag, list);
+		}
+
+		public Map<Integer, Integer> readFromNBT(NBTTagCompound nbt, String tag) {
+			NBTTagList list = nbt.getTagList(tag, 10);
+			Map<Integer, Integer> recipes = new THashMap<Integer, Integer>();
+			for (int i = 0; i < list.tagCount(); i++) {
+				NBTTagCompound compound = list.getCompoundTagAt(i);
+				recipes.put(compound.getInteger("ID"), compound.getInteger("TYPE"));
+			}
+			return recipes;
+		}
+
+		public void unblockStack(Map<Integer, Integer> unblocked, ItemStack stack) {
+			if(unblocked==null){
+				unblocked= new THashMap<Integer, Integer>();
+			}
+			List<Integer> inputs = getInputIDs(stack);
+			List<Integer> outputs = getOutputIDs(stack);
+			if (inputs != null) {
+				for (int i = 0; i < inputs.size(); i++) {
+					if (unblocked.get(i) ==null || unblocked.get(i) instanceof Integer && unblocked.get(i) == 0) {
+						unblocked.put(i, 1);
+					} else if (unblocked.get(i) == 1) {
+						unblocked.replace(i, 2);
+					}
+				}
+			}
+			if (outputs != null) {
+				for (int i = 0; i < outputs.size(); i++) {
+					int current = unblocked.get(i);
+					if (current != 2) {
+						unblocked.replace(i, 2);
+					}
+				}
+			}
+		}
+
+		public List<Integer> getInputIDs(ItemStack input) {
+			if (input == null) {
+				return null;
+			}
+			Iterator iterator = this.recipeList.entrySet().iterator();
+			int pos = 0;
+			List<Integer> positions = new ArrayList();
+
+			Map.Entry entry;
+			do {
+				if (!iterator.hasNext()) {
+					return positions;
+				}
+
+				entry = (Map.Entry) iterator.next();
+				pos++;
+				if (!(containsStack(input, (Object[]) entry.getKey(), false) == -1)) {
+					positions.add(pos);
+				}
+
+			} while (iterator.hasNext());
+
+			return positions;
+		}
+
+		public List<Integer> getOutputIDs(ItemStack output) {
+			if (output == null) {
+				return null;
+			}
+			Iterator iterator = this.recipeList.entrySet().iterator();
+			int pos = 0;
+			List<Integer> positions = new ArrayList();
+
+			Map.Entry entry;
+			do {
+				if (!iterator.hasNext()) {
+					return positions;
+				}
+
+				entry = (Map.Entry) iterator.next();
+				pos++;
+				if (!(containsStack(output, (Object[]) entry.getKey(), false) == -1)) {
+					positions.add(pos);
+				}
+
+			} while (iterator.hasNext());
+
+			return positions;
 		}
 	}
 
 	public static class ScientificRecipes extends RecipeHelper {
 
-
 		private static final ScientificRecipes recipes = new ScientificRecipes();
+
 		public static final RecipeHelper instance() {
 			return recipes;
 		}
+
 		public ScientificRecipes() {
 			super(2, 1, true);
 		}
@@ -654,11 +768,10 @@ public class RecipeRegistry {
 
 		private static final AtomicRecipes recipes = new AtomicRecipes();
 
-
 		public static final RecipeHelper instance() {
 			return recipes;
 		}
-		
+
 		public AtomicRecipes() {
 			super(3, 1, true);
 		}
@@ -674,12 +787,12 @@ public class RecipeRegistry {
 
 	public static class FlawlessRecipes extends RecipeHelper {
 
-		private static final FlawlessRecipes recipes = new FlawlessRecipes();		
+		private static final FlawlessRecipes recipes = new FlawlessRecipes();
 
 		public static final RecipeHelper instance() {
 			return recipes;
 		}
-		
+
 		public FlawlessRecipes() {
 			super(4, 1, true);
 		}

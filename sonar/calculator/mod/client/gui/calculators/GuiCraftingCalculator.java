@@ -10,12 +10,15 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.containers.ContainerCraftingCalculator;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.item.calculators.CraftingCalc.CraftingInventory;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.helpers.FontHelper;
 
+@SideOnly(Side.CLIENT)
 public class GuiCraftingCalculator extends GuiContainer {
 	
 	

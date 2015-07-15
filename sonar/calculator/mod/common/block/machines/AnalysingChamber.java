@@ -39,17 +39,13 @@ public class AnalysingChamber extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.front = iconRegister
-				.registerIcon("Calculator:analysis_front_slot1");
+		this.front = iconRegister.registerIcon("Calculator:analysis_front_slot1");
 
-		this.front2 = iconRegister
-				.registerIcon("Calculator:analysis_front_slot2");
+		this.front2 = iconRegister.registerIcon("Calculator:analysis_front_slot2");
 
-		this.slot1 = iconRegister
-				.registerIcon("Calculator:analysis_side_slot1");
+		this.slot1 = iconRegister.registerIcon("Calculator:analysis_side_slot1");
 
-		this.slot2 = iconRegister
-				.registerIcon("Calculator:analysis_side_slot2");
+		this.slot2 = iconRegister.registerIcon("Calculator:analysis_side_slot2");
 	}
 
 	@Override
@@ -57,16 +53,13 @@ public class AnalysingChamber extends SonarMachineBlock {
 	public IIcon getIcon(IBlockAccess access, int x, int y, int z, int side) {
 		TileEntity entity = access.getTileEntity(x, y, z);
 		if (entity instanceof TileEntityAnalysingChamber) {
-			TileEntityAnalysingChamber t = (TileEntityAnalysingChamber) access
-					.getTileEntity(x, y, z);
+			TileEntityAnalysingChamber t = (TileEntityAnalysingChamber) access.getTileEntity(x, y, z);
 			int metadata = access.getBlockMetadata(x, y, z);
 			if (side != metadata) {
-				return t.getBlockTexture(side, metadata) ? this.slot1
-						: this.slot2;
+				return t.getBlockTexture(side, metadata) ? this.slot1 : this.slot2;
 			}
 			if (side == metadata) {
-				return t.getBlockTexture(side, metadata) ? this.front
-						: this.front2;
+				return t.getBlockTexture(side, metadata) ? this.front : this.front2;
 			}
 		}
 
@@ -76,26 +69,19 @@ public class AnalysingChamber extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.slot2 : side == 0 ? this.slot1
-				: side == 1 ? this.slot1
-						: (metadata == 0) && (side == 3) ? this.front
-								: this.slot1;
+		return side == metadata ? this.slot2 : side == 0 ? this.slot1 : side == 1 ? this.slot1 : (metadata == 0) && (side == 3) ? this.front : this.slot1;
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z,
-			EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (player != null) {
-			if (player.getHeldItem() != null
-					&& player.getHeldItem().getItem() instanceof UpgradeCircuit) {
+			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof UpgradeCircuit) {
 				return false;
-			} else if (player.getHeldItem() != null
-					&& player.getHeldItem().getItem() == Calculator.wrench) {
+			} else if (player.getHeldItem() != null && player.getHeldItem().getItem() == Calculator.wrench) {
 				return false;
 			} else {
 				if (!world.isRemote) {
-					player.openGui(Calculator.instance,
-							CalculatorGui.AnalysingChamber, world, x, y, z);
+					player.openGui(Calculator.instance, CalculatorGui.AnalysingChamber, world, x, y, z);
 
 				}
 				return true;
@@ -116,15 +102,28 @@ public class AnalysingChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player,
-			List list) {
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 
 	}
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		
+
 	}
 
+	@Override
+	public int getRenderType() {
+		return -1;
+	}
+
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
 }

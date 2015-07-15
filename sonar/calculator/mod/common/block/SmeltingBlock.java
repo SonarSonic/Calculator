@@ -36,38 +36,25 @@ public class SmeltingBlock extends SonarMachineBlock {
 		super(SonarMaterials.machine);
 		this.type = num;
 	}
+	//@Override
+	//public int getRenderType() {
+	//	return type != 4 && type !=5 && type != 7 ? -1 : super.getRenderType();
+	//}
 
+	@Override
+	public boolean isOpaqueCube() {
+		return type != 4 && type !=5 && type != 7 ? false : true;
+	}
+
+	//@Override
+	///public boolean renderAsNormalBlock() {
+	//	return type != 4 && type !=5 && type != 7 ? false : true;
+	//}
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 
 		switch (type) {
-		case 0:
-			this.front = iconRegister.registerIcon("Calculator:extraction_front1_still");
-			this.front2 = iconRegister.registerIcon("Calculator:extraction_front2_still");
-			this.frontActive = iconRegister.registerIcon("Calculator:extraction_front1");
-			this.frontActive2 = iconRegister.registerIcon("Calculator:extraction_front2");
-			break;
-		case 1:
-			this.front = iconRegister.registerIcon("Calculator:restoration_front1_still");
-			this.front2 = iconRegister.registerIcon("Calculator:restoration_front2_still");
-			this.frontActive = iconRegister.registerIcon("Calculator:restoration_front1");
-			this.frontActive2 = iconRegister.registerIcon("Calculator:restoration_front2");
-			break;
-		case 2:
-			this.front = iconRegister.registerIcon("Calculator:reassembly_front1_still");
-			this.front2 = iconRegister.registerIcon("Calculator:reassembly_front2_still");
-			this.frontActive = iconRegister.registerIcon("Calculator:reassembly_front1");
-			this.frontActive2 = iconRegister.registerIcon("Calculator:reassembly_front2");
-			break;
-		case 3:
-			this.front = iconRegister.registerIcon("Calculator:processing_front1_still");
-			this.front2 = iconRegister.registerIcon("Calculator:processing_front2_still");
-			this.frontActive = iconRegister.registerIcon("Calculator:processing_front1");
-			this.frontActive2 = iconRegister.registerIcon("Calculator:processing_front2");
-			this.slot1 = iconRegister.registerIcon("Calculator:analysis_side_slot1");
-			this.slot2 = iconRegister.registerIcon("Calculator:analysis_side_slot2");
-			break;
 		case 4:
 			this.front = iconRegister.registerIcon("Calculator:stoneseperator_still_front1");
 			this.front2 = iconRegister.registerIcon("Calculator:stoneseperator_still_front2");
@@ -84,26 +71,28 @@ public class SmeltingBlock extends SonarMachineBlock {
 			this.slot1 = iconRegister.registerIcon("Calculator:algorithmseperator_slot1");
 			this.slot2 = iconRegister.registerIcon("Calculator:algorithmseperator_slot2");
 			break;
-		case 6:
-			this.front = iconRegister.registerIcon("Calculator:precision_front_slot1");
-			this.front2 = iconRegister.registerIcon("Calculator:precision_front_slot2");
-			this.frontActive = iconRegister.registerIcon("Calculator:precision_front1_animate");
-			this.frontActive2 = iconRegister.registerIcon("Calculator:precision_front2_animate");
-			this.slot1 = iconRegister.registerIcon("Calculator:analysis_side_slot1");
-			this.slot2 = iconRegister.registerIcon("Calculator:analysis_side_slot2");
-			break;
 		case 7:
 			this.front = iconRegister.registerIcon("Calculator:reinforced_furnace");
 			this.front2 = iconRegister.registerIcon("Calculator:reinforced_furnace2");
+			
 			this.frontActive = iconRegister.registerIcon("Calculator:reinforced_furnace_active");
 			this.frontActive2 = iconRegister.registerIcon("Calculator:reinforced_furnace2_active");
 			this.slot1 = iconRegister.registerIcon("Calculator:stoneseperator_slot2");
 			this.slot2 = iconRegister.registerIcon("Calculator:stoneseperator_slot1");
 			break;
 		}
-		if (type < 3) {
-			this.slot1 = iconRegister.registerIcon("Calculator:machine_side_slot1");
-			this.slot2 = iconRegister.registerIcon("Calculator:machine_side_slot2");
+		if (type < 4 || type ==6) {
+			this.front = iconRegister.registerIcon("Calculator:overlays/machine_input");
+			this.front2 = iconRegister.registerIcon("Calculator:overlays/machine_output");		
+			this.frontActive = iconRegister.registerIcon("Calculator:overlays/machine_input");
+			this.frontActive2 = iconRegister.registerIcon("Calculator:overlays/machine_output");			
+			this.slot1 = iconRegister.registerIcon("Calculator:overlays/machine_input");
+			this.slot2 = iconRegister.registerIcon("Calculator:overlays/machine_output");
+			if(type==6 || type ==3){
+				this.blockIcon = iconRegister.registerIcon("Calculator:analysis_side_slot1");
+			}else{
+				this.blockIcon = iconRegister.registerIcon("Calculator:overlays/machine_side");
+			}
 		}
 	}
 
@@ -141,7 +130,7 @@ public class SmeltingBlock extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.slot2 : side == 0 ? this.slot1 : side == 1 ? this.slot1 : (metadata == 0) && (side == 3) ? this.front : this.slot1;
+		return type < 4 || type ==6 ?  this.blockIcon : side == metadata ? this.slot2 : side == 0 ? this.slot1 : side == 1 ? this.slot1 : (metadata == 0) && (side == 3) ? this.front : this.slot1;
 	}
 
 	@Override
@@ -171,7 +160,7 @@ public class SmeltingBlock extends SonarMachineBlock {
 		float y1 = y + random.nextFloat();
 		float z1 = z + 0.5F;
 
-		float f = 0.52F;
+		float f = 0.1F;
 		float f1 = random.nextFloat() * 0.6F - 0.3F;
 
 		if (direction == 4) {
@@ -282,5 +271,6 @@ public class SmeltingBlock extends SonarMachineBlock {
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 
 	}
+
 
 }

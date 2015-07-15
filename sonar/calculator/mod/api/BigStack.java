@@ -55,7 +55,6 @@ public class BigStack {
 		ItemStack remove = stack.copy();
 		int size = Math.min(currentStackSize, Math.min(stack.getMaxStackSize(), derc));
 		remove.stackSize = size;
-		System.out.print(currentStackSize);
 		this.currentStackSize -= size;
 		if (this.currentStackSize <= 0) {
 			this.stack = null;

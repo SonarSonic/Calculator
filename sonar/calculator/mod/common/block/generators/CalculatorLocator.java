@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.ILocatorBlock;
-import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
@@ -18,7 +17,7 @@ import sonar.core.utils.SonarMaterials;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class CalculatorLocator extends SonarMachineBlock implements IWrench {
+public class CalculatorLocator extends SonarMachineBlock {
 
 	public CalculatorLocator() {
 		super(SonarMaterials.machine, false);

@@ -45,7 +45,7 @@ public class GuiStarchExtractor extends GuiContainer {
 		drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 63, 0, 186, k, 10);
 		int k2 = this.entity.itemLevel * 138 / 5000;
 		drawTexturedModalRect(this.guiLeft + 30, this.guiTop + 17, 0, 166, k2, 10);
-
+		
 		if (this.entity.maxBurnTime > 0) {
 			int k3 = this.entity.burnTime * 138 / this.entity.maxBurnTime;
 			drawTexturedModalRect(this.guiLeft + 30, this.guiTop + 41, 0, 176, k3, 10);

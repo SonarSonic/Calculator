@@ -29,6 +29,7 @@ public class StarchExtractorRecipes
   private StarchExtractorRecipes()
   {
     addItem(Items.apple, 2000);
+    addItem(Items.potato, 1000);
     addItem(Items.carrot, 1000);
     addItem(Items.wheat, 800);
     addItem(Items.wheat_seeds, 600);

@@ -1,11 +1,9 @@
 package sonar.calculator.mod.network.packets;
 
+import cofh.api.tileentity.IReconfigurableSides;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
-import sonar.core.utils.ISonarSides;
-import sonar.core.utils.ISyncTile;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -34,8 +32,8 @@ public class PacketSonarSides implements IMessage {
 		
 		
 		TileEntity tile = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(xCoord, yCoord, zCoord);
-		if(tile !=null && tile instanceof ISonarSides){
-			ISonarSides sides = (ISonarSides) tile;
+		if(tile !=null && tile instanceof IReconfigurableSides){
+			IReconfigurableSides sides = (IReconfigurableSides) tile;
 			sides.setSide(buf.readInt(), buf.readInt());
 			
 		}
