@@ -5,13 +5,13 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import sonar.calculator.mod.common.recipes.machines.AlgorithmSeperatorRecipes;
+import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.ProcessingChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.StoneSeperatorRecipes;
+import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.core.utils.helpers.RecipeHelper;
 
 public class TileEntityMachines {
@@ -92,7 +92,7 @@ public class TileEntityMachines {
 
 		@Override
 		public RecipeHelper recipeHelper() {
-			return AlgorithmSeperatorRecipes.instance();
+			return AlgorithmSeparatorRecipes.instance();
 		}
 
 		@Override
@@ -169,7 +169,7 @@ public class TileEntityMachines {
 
 		@Override
 		public RecipeHelper recipeHelper() {
-			return StoneSeperatorRecipes.instance();
+			return StoneSeparatorRecipes.instance();
 		}
 
 		@Override

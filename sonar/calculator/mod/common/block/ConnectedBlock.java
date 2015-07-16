@@ -1,14 +1,18 @@
 package sonar.calculator.mod.common.block;
 
+import cofh.api.item.IToolHammer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.ILocatorBlock;
+import sonar.calculator.mod.api.IStableBlock;
+import sonar.calculator.mod.api.IStableGlass;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -396,11 +400,33 @@ public class ConnectedBlock extends Block {
 
 	}
 
-	public static class Stable extends ConnectedBlock implements ILocatorBlock {
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if (target == 3 || target == 4) {
+			if (player != null) {
+				ItemStack target = player.getHeldItem();
+				if (target != null && (target.getItem() == Calculator.wrench || target.getItem() instanceof IToolHammer)) {
+					if (this.target == 3) {
+						world.setBlock(x, y, z, Calculator.clearstableglassBlock);
+					} else {
+						world.setBlock(x, y, z, Calculator.stableglassBlock);
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public static class Stable extends ConnectedBlock implements IStableBlock {
 
 		public Stable() {
 			super(Material.rock, "stablestone", 0);
 		}
+	}
 
+	public static class StableGlass extends ConnectedBlock implements IStableGlass {
+
+		public StableGlass(String string, int type) {
+			super(Material.glass, string, type);
+		}
 	}
 }

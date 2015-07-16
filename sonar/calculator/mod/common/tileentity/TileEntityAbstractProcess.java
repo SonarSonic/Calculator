@@ -6,10 +6,10 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
-import sonar.calculator.mod.common.recipes.machines.AlgorithmSeperatorRecipes;
+import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.StoneSeperatorRecipes;
+import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.core.utils.helpers.RecipeHelper;
 import cofh.api.energy.EnergyStorage;
 

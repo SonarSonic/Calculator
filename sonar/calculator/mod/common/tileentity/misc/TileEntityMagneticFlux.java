@@ -26,6 +26,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.utils.IMachineButtons;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.SonarHelper;
@@ -37,12 +38,15 @@ import com.typesafe.config.Config;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityMagneticFlux extends TileEntityInventory implements IEntitySelector, ISidedInventory, IMachineButtons {
 
 	public boolean whitelisted, exact;
 	public Random rand = new Random();
 	public float rotate = 0;
+	public boolean disabled;
 
 	public TileEntityMagneticFlux() {
 		super.slots = new ItemStack[8];
@@ -56,8 +60,10 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 	public void updateEntity() {
 		super.updateEntity();
 		if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+			disabled = true;
 			return;
 		}
+		disabled = false;
 		if (this.worldObj.isRemote) {
 			if (!(rotate >= 1)) {
 				rotate += (float) 1 / 100;
@@ -208,4 +214,16 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		if (!disabled) {
+			String active = FontHelper.translate("locator.state") + " : " + FontHelper.translate("state.on");
+			currenttip.add(active);
+		} else {
+			String idle = FontHelper.translate("locator.state") + " : " + FontHelper.translate("state.off");
+			currenttip.add(idle);
+		}
+		
+		return currenttip;
+	}
 }

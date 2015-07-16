@@ -107,9 +107,9 @@ public class CalculatorBlocks extends Calculator {
 	GameRegistry.registerBlock(reinforceddirtBrick, CalcBlockItem.class, "reinforceddirtBrick");
 	stablestoneBlock = new ConnectedBlock.Stable().setBlockName("stablestoneBlock").setCreativeTab(Calculator).setHardness(2.0F);
 	GameRegistry.registerBlock(stablestoneBlock, CalcBlockItem.class, "stablestoneBlock");
-	stableglassBlock = new ConnectedBlock(Material.glass,"stablestone_glass",3).setBlockName("StableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);;
+	stableglassBlock = new ConnectedBlock.StableGlass("stablestone_glass",3).setBlockName("StableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);;
 	GameRegistry.registerBlock(stableglassBlock, CalcBlockItem.class, "StableGlass");
-	clearstableglassBlock = new ConnectedBlock(Material.glass,"stablestone_clear",4).setBlockName("ClearStableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);;
+	clearstableglassBlock = new ConnectedBlock.StableGlass("stablestone_clear",4).setBlockName("ClearStableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);;
 	GameRegistry.registerBlock(clearstableglassBlock, CalcBlockItem.class, "ClearStableGlass");
 	flawlessGlass = new ConnectedBlock(Material.glass,"flawlessglass",1).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);;
 	GameRegistry.registerBlock(flawlessGlass, CalcBlockItem.class, "FlawlessGlass");

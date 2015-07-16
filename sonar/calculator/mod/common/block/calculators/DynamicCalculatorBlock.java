@@ -20,18 +20,19 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator.Dynamic;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.utils.FailedCoords;
 import sonar.core.utils.SonarMaterials;
+import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class DynamicCalculatorBlock extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
+	private IIcon iconFront, iconTop;
 
 	public DynamicCalculatorBlock() {
 		super(SonarMaterials.machine, true);
@@ -63,22 +64,37 @@ public class DynamicCalculatorBlock extends SonarMachineBlock {
 
 	@Override
 	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		player.openGui(Calculator.instance, CalculatorGui.DynamicCalculator, world, x, y, z);
+		if (player != null) {
+			TileEntity target = world.getTileEntity(x, y, z);
+			if (target != null && target instanceof TileEntityCalculator.Dynamic) {
+				TileEntityCalculator.Dynamic calc = (Dynamic) target;
+				FailedCoords coords = calc.checkStructure();
+				if (coords.getBoolean()) {
+					player.openGui(Calculator.instance, CalculatorGui.DynamicCalculator, world, x, y, z);
+				} else {
+					if (!world.isRemote) {
+						FontHelper.sendMessage("No Multi-block", world, player);
+						FontHelper.sendMessage("X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(),
+								world, player);
+					}
+				}
+			}
+		}
+
 		return true;
 
 	}
 
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+	@SideOnly(Side.CLIENT)
+	public String localBlockName(String string) {
+		if (string.equals("stable")) {
+			return FontHelper.translate("tile.StableStone.name");
+		}
+		if (string.equals("glass")) {
+			return FontHelper.translate("tile.StableGlass.name");
+		} else {
+			return FontHelper.translate("tile.Air.name");
+		}
 	}
 
 	@Override

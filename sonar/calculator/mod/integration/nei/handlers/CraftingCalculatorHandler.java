@@ -8,38 +8,29 @@ import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.recipe.ShapelessRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class CraftingCalculatorHandler
-  extends ShapelessRecipeHandler
-{
-  @Override
-public void loadTransferRects()
-  {
-  this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(85, 25, 22, 14), "crafting", new Object[0]));
-  }
-  @Override
-  public Class<? extends GuiContainer> getGuiClass()
-  {
-    return GuiCraftingCalculator.class;
-  }
-  
+public class CraftingCalculatorHandler extends ShapelessRecipeHandler {
+	@Override
+	public void loadTransferRects() {
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(85, 25, 22, 14), "crafting", new Object[0]));
+	}
 
-  @Override
-public String getGuiTexture()
-  {
-    return "Calculator:textures/gui/craftingcalculator.png";
-  }
-  
+	@Override
+	public Class<? extends GuiContainer> getGuiClass() {
+		return GuiCraftingCalculator.class;
+	}
 
+	@Override
+	public String getGuiTexture() {
+		return "Calculator:textures/gui/craftingcalculator.png";
+	}
 
-  @Override
-public String getOverlayIdentifier()
-  {
-    return "craftingcalc";
-  }
-  
-  @Override
-public String getRecipeName()
-  {
-    return FontHelper.translate("item.CraftingCalculator.name");
-  }
+	@Override
+	public String getOverlayIdentifier() {
+		return "craftingcalc";
+	}
+
+	@Override
+	public String getRecipeName() {
+		return FontHelper.translate("item.CraftingCalculator.name");
+	}
 }

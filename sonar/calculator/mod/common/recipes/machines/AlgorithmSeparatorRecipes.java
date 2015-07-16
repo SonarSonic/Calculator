@@ -6,11 +6,11 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.RecipeHelper;
 
-public class AlgorithmSeperatorRecipes extends RecipeHelper {
+public class AlgorithmSeparatorRecipes extends RecipeHelper {
 
-	private static final AlgorithmSeperatorRecipes recipes = new AlgorithmSeperatorRecipes();
+	private static final AlgorithmSeparatorRecipes recipes = new AlgorithmSeparatorRecipes();
 
-	public AlgorithmSeperatorRecipes(){
+	public AlgorithmSeparatorRecipes(){
 		super(1,2, false);
 	}
 	public static final RecipeHelper instance() {

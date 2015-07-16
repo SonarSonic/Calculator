@@ -228,6 +228,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			this.pointCount = nbt.getInteger("pointCount");
 			this.currentInput = nbt.getInteger("currentInput");
 			this.currentOutput = nbt.getInteger("currentOutput");
+			this.transfer = nbt.getInteger("transfer");
 		}
 	}
 

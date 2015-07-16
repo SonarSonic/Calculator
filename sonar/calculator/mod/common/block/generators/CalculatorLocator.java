@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.ILocatorBlock;
+import sonar.calculator.mod.api.IStableBlock;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
@@ -77,7 +77,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 		for (int X = -size; X <= size; X++) {
 			for (int Z = -size; Z <= size; Z++) {
 				if (!(X == 0 && Z == 0)) {
-					if (!(world.getBlock(x + X, y - 1, z + Z) instanceof ILocatorBlock)) {
+					if (!(world.getBlock(x + X, y - 1, z + Z) instanceof IStableBlock)) {
 						return false;
 					}
 				}
@@ -86,13 +86,13 @@ public class CalculatorLocator extends SonarMachineBlock {
 
 		for (int XZ = -(size); XZ <= (size); XZ++) {
 			for (int Y = -1; Y <= 0; Y++) {
-				if (!(world.getBlock(x + XZ, y + Y, z + size+1) instanceof ILocatorBlock)) {
+				if (!(world.getBlock(x + XZ, y + Y, z + size+1) instanceof IStableBlock)) {
 					return false;
-				} else if (!(world.getBlock(x + XZ, y + Y, z - (size+1)) instanceof ILocatorBlock)) {
+				} else if (!(world.getBlock(x + XZ, y + Y, z - (size+1)) instanceof IStableBlock)) {
 					return false;
-				} else if (!(world.getBlock(x + (size+1), y + Y, z + XZ) instanceof ILocatorBlock)) {
+				} else if (!(world.getBlock(x + (size+1), y + Y, z + XZ) instanceof IStableBlock)) {
 					return false;
-				} else if (!(world.getBlock(x - (size+1), y + Y, z + XZ) instanceof ILocatorBlock)) {
+				} else if (!(world.getBlock(x - (size+1), y + Y, z + XZ) instanceof IStableBlock)) {
 					return false;
 				}
 			}

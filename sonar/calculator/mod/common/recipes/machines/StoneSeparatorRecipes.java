@@ -14,11 +14,11 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.core.utils.helpers.RecipeHelper;
 
-public class StoneSeperatorRecipes extends RecipeHelper {
+public class StoneSeparatorRecipes extends RecipeHelper {
 
-	private static final StoneSeperatorRecipes recipes = new StoneSeperatorRecipes();
+	private static final StoneSeparatorRecipes recipes = new StoneSeparatorRecipes();
 
-	public StoneSeperatorRecipes(){
+	public StoneSeparatorRecipes(){
 		super(1,2,false);
 	}
 	public static final RecipeHelper instance() {

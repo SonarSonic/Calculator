@@ -120,7 +120,7 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(calculatorplug, 1), new Object[] { " B ", "CAC", "DDD", 'A', stablestoneBlock, 'B', itemEnergyModule, 'C', advanced_assembly, 'D', redstone_ingot });
 
 		// smelting
-		addShapedOre(new ShapedOreRecipe(new ItemStack(stoneSeperator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', powerCube, 'A', "calculatorReinforcedBlock", 'C', redstone_ingot }));
+		addShapedOre(new ShapedOreRecipe(new ItemStack(stoneSeperator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', powerCube, 'A', "calculatorReinforcedBlock", 'C', reinforcediron_ingot }));
 		addShaped(new ItemStack(algorithmSeperator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', advancedPowerCube, 'A', reinforced_iron_block, 'C', flawlessdiamond });
 		addShapedOre(new ShapedOreRecipe(new ItemStack(extractionChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', "calculatorReinforcedBlock", 'B', weakeneddiamond, 'C', powerCube }));
 		addShaped(new ItemStack(restorationChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', redstone_ingot, 'B', weakeneddiamond, 'C', extractionChamber });

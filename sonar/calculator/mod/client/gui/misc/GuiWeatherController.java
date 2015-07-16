@@ -27,7 +27,7 @@ public class GuiWeatherController extends GuiContainer {
 		this.buttonList.add(new GuiButton(2, guiLeft + (xSize/2-(40/2))+35, guiTop + 18, 40, 20, entity.type==0 ?(entity.data==0?"Day":"Night") :(entity.data==0?"Off":"On") ));
 	}
 
-	public String getTypeIdentifier(int type) {
+	public static String getTypeIdentifier(int type) {
 		switch (type) {
 		case 0:
 			return "Time";

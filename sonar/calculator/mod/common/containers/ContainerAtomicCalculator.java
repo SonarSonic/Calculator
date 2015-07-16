@@ -71,7 +71,7 @@ public class ContainerAtomicCalculator extends Container {
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (slotID != 1 && slotID != 2 && slotID != 3) {
 				if (RecipeRegistry.AtomicRecipes.instance().validInput(itemstack1)) {
-					if (!mergeItemStack(itemstack1, 1, 4, true)) {
+					if (!mergeItemStack(itemstack1, 1, 4, false)) {
 						return null;
 					}
 				}
