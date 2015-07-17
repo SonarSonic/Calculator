@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -19,13 +20,14 @@ import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse {
+public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implements ISidedInventory {
 
-	public int plants, lanterns, levelTicks, checkTicks, growTicks, growTick, isMulti;
+	public int plants, lanterns, levelTicks, checkTicks, growTicks, growTick;
 
 	public int stackStairs = 183;
 	public int stackLog = 31;
@@ -52,6 +54,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse {
 			checkTile();
 		}
 		if (this.isCompleted()) {
+			this.setCompleted();
 			if (!this.worldObj.isRemote) {
 				extraTicks();
 			}
@@ -86,12 +89,12 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse {
 
 	@Override
 	public boolean plant(ItemStack stack, int slot) {
-		IPlanter planter = PlanterRegistry.getPlanter(stack);		
+		IPlanter planter = PlanterRegistry.getPlanter(stack);
 		Block crop = planter.getCropFromStack(stack);
 		int meta = planter.getMetaFromStack(stack);
-		if(crop==null){
+		if (crop == null) {
 			return false;
-		}		
+		}
 		for (int Z = -3; Z <= 3; Z++) {
 			for (int X = -3; X <= 3; X++) {
 				if (canPlant(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, slot, ((IPlantable) stack.getItem()))) {
@@ -331,7 +334,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse {
 
 	}
 
-	/** Checjs Green House Structure **/
+	/** Checks Green House Structure **/
 	public FailedCoords isComplete() {
 		if (RenderHelper.getHorizontal(getForward()) != null) {
 			int hX = RenderHelper.getHorizontal(getForward()).offsetX;
@@ -413,34 +416,6 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse {
 
 			}
 		}
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		this.planting = nbt.getInteger("planting");
-		this.plants = nbt.getInteger("Plants");
-		this.lanterns = nbt.getInteger("lanterns");
-		this.levelTicks = nbt.getInteger("Level");
-		this.plantTicks = nbt.getInteger("Plant");
-		this.checkTicks = nbt.getInteger("Check");
-		this.growTicks = nbt.getInteger("Grow");
-		this.growTick = nbt.getInteger("GrowTick");
-
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-
-		super.writeToNBT(nbt);
-		nbt.setInteger("planting", this.planting);
-		nbt.setInteger("Plants", this.plants);
-		nbt.setInteger("lanterns", this.lanterns);
-		nbt.setInteger("Level", this.levelTicks);
-		nbt.setInteger("Check", this.checkTicks);
-		nbt.setInteger("Plant", this.plantTicks);
-		nbt.setInteger("Grow", this.growTicks);
-		nbt.setInteger("GrowTick", this.growTick);
 	}
 
 	public void setLog(int x, int y, int z) {
@@ -1080,7 +1055,8 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse {
 
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
-		switch (isMulti) {
+
+		switch (this.isMulti) {
 		case -1:
 			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.building"));
 			break;
@@ -1094,6 +1070,22 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse {
 			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.complete"));
 			break;
 		}
+
 		return super.getWailaInfo(currenttip);
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[]{8,9,10,11,12,13,14,15,16};
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack item, int side) {
+		return item !=null && item.getItem() instanceof IPlantable;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack item, int side) {
+		return false;
 	}
 }

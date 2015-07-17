@@ -20,24 +20,13 @@ public class MagneticFlux extends SonarMachineBlock {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
 	}
 
-	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
-	}
-
+	
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityMagneticFlux();
-	}
-
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
 	}
 
 	@Override
@@ -47,22 +36,7 @@ public class MagneticFlux extends SonarMachineBlock {
 				player.openGui(Calculator.instance, CalculatorGui.MagneticFlux, world, x, y, z);
 			}
 		}
-
 		return true;
 	}
-
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
+	
 }

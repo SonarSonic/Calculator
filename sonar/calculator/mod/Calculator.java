@@ -10,12 +10,12 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import sonar.calculator.mod.common.entities.CalculatorThrow;
+import sonar.calculator.mod.common.entities.EntityBabyGrenade;
+import sonar.calculator.mod.common.entities.EntityGrenade;
+import sonar.calculator.mod.common.entities.EntitySmallStone;
+import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
-import sonar.calculator.mod.common.tileentity.entities.CalculatorThrow;
-import sonar.calculator.mod.common.tileentity.entities.EntityBabyGrenade;
-import sonar.calculator.mod.common.tileentity.entities.EntityGrenade;
-import sonar.calculator.mod.common.tileentity.entities.EntitySmallStone;
-import sonar.calculator.mod.common.tileentity.entities.EntitySoil;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
 import sonar.calculator.mod.network.CalculatorCommon;

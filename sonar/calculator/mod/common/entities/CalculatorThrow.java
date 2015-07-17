@@ -1,4 +1,4 @@
-package sonar.calculator.mod.common.tileentity.entities;
+package sonar.calculator.mod.common.entities;
 
 import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IPosition;

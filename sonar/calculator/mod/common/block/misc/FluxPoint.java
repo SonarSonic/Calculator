@@ -32,20 +32,6 @@ public class FluxPoint extends SonarMachineBlock {
 		this.setBlockBounds(0.375F, 0.375F, 0.375F, 0.625F, 0.625F, 0.625F);
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
 
 	@Override
 	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
@@ -93,7 +79,12 @@ public class FluxPoint extends SonarMachineBlock {
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 		list.add("Receives Energy");
+	}	
+	
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
+	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemstack) {
 		super.onBlockPlacedBy(world, x, y, z, player, itemstack);

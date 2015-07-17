@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityHealthProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile {
 
-	public int storedpoints, speed = 1;
+	public int storedpoints, speed = 4;
 
 	public TileEntityHealthProcessor() {
 		super.input = new int[] { 0 };

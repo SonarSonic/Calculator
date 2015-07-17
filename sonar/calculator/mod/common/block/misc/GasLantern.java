@@ -24,12 +24,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.network.CalculatorGui;
+import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarMaterials;
 import sonar.core.utils.helpers.SonarHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class GasLantern extends BlockContainer implements IDismantleable {
+public class GasLantern extends SonarMachineBlock implements IDismantleable {
 
 	private static boolean keepInventory;
 	private Random rand = new Random();
@@ -44,23 +45,11 @@ public class GasLantern extends BlockContainer implements IDismantleable {
 		this.isActive = active;
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
-
 	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (player != null) {
 			if (!world.isRemote) {
 				player.openGui(Calculator.instance, CalculatorGui.Lantern, world, x, y, z);

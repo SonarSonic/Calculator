@@ -1,4 +1,4 @@
-package sonar.calculator.mod.common.tileentity.entities;
+package sonar.calculator.mod.common.entities;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

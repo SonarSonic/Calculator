@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -24,7 +25,7 @@ import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
+public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements ISidedInventory {
 
 	public int plants, lanterns, levelTicks, checkTicks, growTicks, growTick;
 
@@ -883,4 +884,18 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 		return super.getWailaInfo(currenttip);
 	}
 
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[]{5,6,7,8,9,10,11,12,13};
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack item, int side) {
+		return item !=null && item.getItem() instanceof IPlantable;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack item, int side) {
+		return false;
+	}
 }

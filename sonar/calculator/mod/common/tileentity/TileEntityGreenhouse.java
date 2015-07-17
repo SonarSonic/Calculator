@@ -173,7 +173,8 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 			ArrayList<ItemStack> array = world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 			if (!world.isRemote) {
 				if (array != null) {
-					if (this.type == 3) {
+
+					if (!this.worldObj.isRemote && this.type == 3) {
 						this.plantsHarvested++;
 					}
 					for (ItemStack stack : array) {
@@ -406,10 +407,6 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 			return true;
 		}
 		return false;
-	}
-
-	public int isMulti() {
-		return isMulti;
 	}
 
 	public boolean isCompleted() {

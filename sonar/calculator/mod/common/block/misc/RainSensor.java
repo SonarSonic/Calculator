@@ -35,14 +35,6 @@ public class RainSensor extends BlockContainer {
 		return world.getBlockMetadata(x, y, z);
 	}
 
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
 	public boolean canProvidePower() {
 		return true;
 	}
@@ -54,13 +46,22 @@ public class RainSensor extends BlockContainer {
 
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
-		this.icons[0] = register.registerIcon(Calculator.modid + ":rain_sensor_top");	
-		this.icons[1] = register.registerIcon(Calculator.modid + ":rain_sensor_top_on");	
-		this.icons[2] = register.registerIcon(Calculator.modid + ":rain_sensor_bottom");	
+		this.icons[0] = register.registerIcon(Calculator.modid + ":rain_sensor_top");
+		this.icons[1] = register.registerIcon(Calculator.modid + ":rain_sensor_top_on");
+		this.icons[2] = register.registerIcon(Calculator.modid + ":rain_sensor_bottom");
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityRainSensor();
 	}
+
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
 }

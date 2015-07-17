@@ -33,20 +33,6 @@ public class FluxPlug extends SonarMachineBlock {
 		this.setBlockBounds(0.25F, 0.25F, 0.25F, 0.75F, 0.75F, 0.75F);
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
 
 	@Override
 	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
@@ -65,7 +51,6 @@ public class FluxPlug extends SonarMachineBlock {
 				}
 			}
 		}
-
 		return true;
 	}
 
@@ -96,16 +81,14 @@ public class FluxPlug extends SonarMachineBlock {
 	public TileEntity createNewTileEntity(World var1, int var2) {
 		return new TileEntityFluxPlug();
 	}
-
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
+	
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
 
 	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
 	}
 
 	@Override

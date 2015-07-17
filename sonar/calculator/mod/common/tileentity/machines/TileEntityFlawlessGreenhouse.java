@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
+import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.PlantableFilter;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.integration.planting.IPlanter;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
@@ -54,11 +55,11 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		if (this.isCompleted()) {
 			if (!this.worldObj.isRemote) {
 				extraTicks();
-
-				plant();
-				grow();
-				harvestCrops();
 			}
+			plant();
+			grow();
+			harvestCrops();
+
 		}
 		discharge(0);
 
@@ -79,7 +80,8 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			for (int i = 0; i <= this.houseSize; i++) {
 				if (this.storage.getEnergyStored() >= requiredGrowEnergy) {
 					if (growCrop(3, this.houseSize)) {
-						plantsGrown++;
+						if (!this.worldObj.isRemote)
+							plantsGrown++;
 						this.storage.modifyEnergyStored(-requiredGrowEnergy);
 					}
 				}
@@ -460,12 +462,12 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack item, int side) {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack item, int side) {
-		return false;
+		return item != null && item.getItem() instanceof IPlantable;
 	}
 
 	@SideOnly(Side.CLIENT)
