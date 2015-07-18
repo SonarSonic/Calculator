@@ -15,7 +15,7 @@ import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
-import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
 import sonar.calculator.mod.network.CalculatorCommon;

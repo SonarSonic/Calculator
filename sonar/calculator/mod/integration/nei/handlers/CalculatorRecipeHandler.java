@@ -13,13 +13,15 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.client.gui.calculators.GuiCalculator;
 import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
-import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.integration.nei.handlers.ScientificRecipeHandler.SmeltingPair;
 import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class CalculatorRecipeHandler extends TemplateRecipeHandler {
+	
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {
 		PositionedStack input;
 		PositionedStack input2;
@@ -60,16 +62,12 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		if ((outputId.equals("calculator"))
-				&& (getClass() == CalculatorRecipeHandler.class && Minecraft.getMinecraft().thePlayer.getHeldItem() != null && Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() instanceof IResearchStore)) {
-			IResearchStore calc = (IResearchStore) Minecraft.getMinecraft().thePlayer.getHeldItem().getItem();
-			Map<Integer, Integer> unblocked = calc.getResearch(Minecraft.getMinecraft().thePlayer.getHeldItem());
+		if ((outputId.equals("calculator")) && (getClass() == CalculatorRecipeHandler.class)) {
 			Map<Object[], Object[]> recipes = RecipeRegistry.CalculatorRecipes.instance().getRecipes();
-			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0]));
-			}
-		} else if ((outputId.equals("dynacalculator")) && Minecraft.getMinecraft().thePlayer.openContainer instanceof ContainerDynamicCalculator) {
-
+			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet())
+				if (CalculatorConfig.isEnabled((ItemStack) recipe.getValue()[0])) {
+					this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0]));
+				}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
 		}
@@ -77,34 +75,36 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		IInventory inv = Minecraft.getMinecraft().thePlayer.inventory;
+		if (!CalculatorConfig.isEnabled(result)) {
+			return;
+		}
 		Map<Object[], Object[]> recipes = RecipeRegistry.CalculatorRecipes.instance().getRecipes();
-
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-			if (RecipeRegistry.CalculatorRecipes.instance().containsStack(result, recipe.getValue(), false) != -1)
+			if (NEIServerUtils.areStacksSameType((ItemStack) recipe.getValue()[0], result)) {
 				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0]));
+
+			}
+		}
+	}
+
+	@Override
+	public void loadUsageRecipes(String inputId, Object... ingredients) {
+		if ((inputId.equals("calculator")) && (getClass() == CalculatorRecipeHandler.class)) {
+			loadCraftingRecipes("calculator", new Object[0]);
+		} else {
+			super.loadUsageRecipes(inputId, ingredients);
 		}
 	}
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		IInventory inv = Minecraft.getMinecraft().thePlayer.inventory;
 		Map<Object[], Object[]> recipes = RecipeRegistry.CalculatorRecipes.instance().getRecipes();
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			if (RecipeRegistry.CalculatorRecipes.instance().containsStack(ingredient, recipe.getKey(), false) != -1)
 				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0]));
 
 		}
-	}
 
-	public static Map<Integer, Integer> findResearch(IInventory inv) {
-		for (int i = 0; i < inv.getSizeInventory(); i++) {
-			ItemStack target = inv.getStackInSlot(i);
-			if (target != null && target.getItem() instanceof IResearchStore) {
-				return ((IResearchStore) target.getItem()).getResearch(target);
-			}
-		}
-		return null;
 	}
 
 	@Override

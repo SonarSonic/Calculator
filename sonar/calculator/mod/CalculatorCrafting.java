@@ -1,6 +1,6 @@
 package sonar.calculator.mod;
 
-import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

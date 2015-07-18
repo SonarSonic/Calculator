@@ -9,7 +9,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.calculators.GuiFlawlessCalculator;
-import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.integration.nei.handlers.AtomicRecipeHandler.SmeltingPair;
 import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.NEIServerUtils;

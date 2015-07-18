@@ -50,15 +50,15 @@ public class ContainerStorageModule extends Container {
 		return inventory.isUseableByPlayer(player);
 	}
 
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
 		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(par2);
+		Slot slot = (Slot) this.inventorySlots.get(id);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (par2 < INV_START) {
+			if (id < INV_START) {
 				if (!this.mergeItemStack(itemstack1, INV_START, HOTBAR_END + 1, true)) {
 					return null;
 				}
@@ -66,17 +66,17 @@ public class ContainerStorageModule extends Container {
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 				
-				if (par2 >= INV_START) {
+				if (id >= INV_START) {
 					if (!this.mergeItemStack(itemstack1, 0, INV_START, false)) {
 						return null;
 					}
 				}
-				else if (par2 >= INV_START && par2 < HOTBAR_START) {
+				else if (id >= INV_START && id < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
 						return null;
 					}
 				}
-				else if (par2 >= HOTBAR_START && par2 < HOTBAR_END + 1) {
+				else if (id >= HOTBAR_START && id < HOTBAR_END + 1) {
 					if (!this.mergeItemStack(itemstack1, INV_START, INV_END + 1, false)) {
 						return null;
 					}
@@ -93,7 +93,7 @@ public class ContainerStorageModule extends Container {
 				return null;
 			}
 
-			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+			slot.onPickupFromSlot(player, itemstack1);
 		}
 
 		return itemstack;

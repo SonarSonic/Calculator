@@ -29,7 +29,7 @@ public class CalculatorWailaModule {
 
 		@Override
 		public final NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
-		
+
 			return tag;
 		}
 

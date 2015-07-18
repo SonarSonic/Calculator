@@ -17,35 +17,34 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarMaterials;
 import sonar.core.utils.helpers.FontHelper;
 
-public class GlowstoneExtractor extends SonarMachineBlock {
-	private Random rand = new Random();
-	private static boolean keepInventory;
+public class ExtractorBlock extends SonarMachineBlock {
+	public int type;
 
-	public GlowstoneExtractor() {
+	public ExtractorBlock(int type) {
 		super(SonarMaterials.machine, false);
+		this.type = type;
 		this.setBlockBounds(0.0625F, 0.0625F, 0.0625F, 1 - 0.0625F, 1 - 0.0625F, 1 - 0.0625F);
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
 
 	@Override
 	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (player != null) {
 			if (!world.isRemote) {
-				player.openGui(Calculator.instance, CalculatorGui.GlowstoneExtractor, world, x, y, z);
+				switch (type) {
+				case 0:
+					player.openGui(Calculator.instance, CalculatorGui.StarchExtractor, world, x, y, z);
+					break;
+				case 1:
+					player.openGui(Calculator.instance, CalculatorGui.RedstoneExtractor, world, x, y, z);
+					break;
+				case 2:
+					player.openGui(Calculator.instance, CalculatorGui.GlowstoneExtractor, world, x, y, z);
+					break;
+				}
 			}
 		}
 		return true;
@@ -54,28 +53,31 @@ public class GlowstoneExtractor extends SonarMachineBlock {
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
-		TileEntityGenerator.GlowstoneExtractor generator = (TileEntityGenerator.GlowstoneExtractor) world.getTileEntity(x, y, z);
+		TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(x, y, z);
 		generator.updateAdjacentHandlers();
 	}
 
 	@Override
 	public void onNeighborChange(IBlockAccess world, int x, int y, int z, int tileX, int tileY, int tileZ) {
 		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if (tileentity != null && tileentity instanceof TileEntityGenerator.GlowstoneExtractor) {
-			TileEntityGenerator.GlowstoneExtractor generator = (TileEntityGenerator.GlowstoneExtractor) world.getTileEntity(x, y, z);
+		if (tileentity != null && tileentity instanceof TileEntityGenerator) {
+			TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(x, y, z);
 			generator.updateAdjacentHandlers();
 		}
 
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
-		return new TileEntityGenerator.GlowstoneExtractor();
-	}
-
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
+	public TileEntity createNewTileEntity(World world, int var) {
+		switch (type) {
+		case 0:
+			return new TileEntityGenerator.StarchExtractor();
+		case 1:
+			return new TileEntityGenerator.RedstoneExtractor();
+		case 2:
+			return new TileEntityGenerator.GlowstoneExtractor();
+		}
+		return new TileEntityGenerator.StarchExtractor();
 	}
 
 	@Override
@@ -87,7 +89,17 @@ public class GlowstoneExtractor extends SonarMachineBlock {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.glowstoneRF + " RF/t");
 
+		switch (type) {
+		case 0:
+			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.starchRF + " RF/t");
+			break;
+		case 1:
+			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.redstoneRF + " RF/t");
+			break;
+		case 2:
+			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.glowstoneRF + " RF/t");
+			break;
+		}
 	}
 }

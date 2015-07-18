@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
-import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
@@ -22,26 +22,13 @@ import sonar.core.utils.helpers.FontHelper;
 
 public class ResearchChamber extends SonarMachineBlock{
 
-	private Random rand = new Random();
-
 	public ResearchChamber() {
 		super(SonarMaterials.machine);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - (0.0625F * 8), 1.0F);
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
 
 	@Override
@@ -93,11 +80,6 @@ public class ResearchChamber extends SonarMachineBlock{
 	}
 
 	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		int max = stack.stackTagCompound.getInteger("Max");
 		int stored = stack.stackTagCompound.getInteger("Stored");
@@ -106,7 +88,4 @@ public class ResearchChamber extends SonarMachineBlock{
 		}
 	}
 
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-	}
 }

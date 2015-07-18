@@ -1,6 +1,5 @@
-package sonar.calculator.mod.api;
+package sonar.calculator.mod.utils;
 
-import sonar.calculator.mod.utils.FluxRegistry;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 

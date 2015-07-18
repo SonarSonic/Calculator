@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
-import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.integration.nei.handlers.CalculatorRecipeHandler.SmeltingPair;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;

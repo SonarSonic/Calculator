@@ -1,4 +1,4 @@
-package sonar.calculator.mod.common.recipes.crafting;
+package sonar.calculator.mod.common.recipes;
 
 import gnu.trove.map.hash.THashMap;
 
@@ -599,7 +599,7 @@ public class RecipeRegistry {
 	 * @param objects
 	 */
 	private static void rearrangeCalculatorRecipe(Object... objects) {
-		if (objects[3] == null || !((Boolean) objects[3])) {
+		if (objects[3] == null || ((Boolean) objects[3])) {
 			Object[] recipe = new Object[3];
 			recipe[0] = objects[1];
 			recipe[1] = objects[2];
@@ -628,19 +628,14 @@ public class RecipeRegistry {
 
 		@Override
 		public void addRecipes() {
-			//for (int i = 0; i < RecipeRegistry.unblocked.size(); i++) {
-			//	this.addRecipe(RecipeRegistry.unblocked.get(i));
-			//}
+			for (int i = 0; i < RecipeRegistry.unblocked.size(); i++) {
+				this.addRecipe(RecipeRegistry.unblocked.get(i));
+			}
 			for (int i = 0; i < RecipeRegistry.blocked.size(); i++) {
 				currentRecipe = i;
 				this.addRecipe(RecipeRegistry.blocked.get(i));
 			}
 
-		}
-		@Override
-		public void addRecipe(Object[] input, Object[] output) {			
-			super.addRecipe(input, output);
-			//recipeIDs.put(getRecipes().size()-1, currentRecipe);
 		}
 		
 		public void writeToNBT(NBTTagCompound nbt, Map<Integer, Integer> unblocked, String tag) {

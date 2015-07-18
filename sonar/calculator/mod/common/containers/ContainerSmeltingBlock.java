@@ -66,11 +66,7 @@ public class ContainerSmeltingBlock extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if ((id >= 3) && (id < 30)) {
+				}  else if ((id >= 3) && (id < 30)) {
 					if (!mergeItemStack(itemstack1, 30, 39, false)) {
 						return null;
 					}

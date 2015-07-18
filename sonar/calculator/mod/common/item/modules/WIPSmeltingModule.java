@@ -37,27 +37,29 @@ import sonar.core.utils.helpers.FontHelper;
 
 public class WIPSmeltingModule extends SonarCalculator implements IItemInventory {
 
-	public int syncCook,syncEnergy;
-	public int requiredEnergy=1000;
-	public int speed=1000;
-	
+	public int syncCook, syncEnergy;
+	public int requiredEnergy = 1000;
+	public int speed = 1000;
+
 	public WIPSmeltingModule() {
 		capacity = CalculatorConfig.cubeEnergy;
 		maxReceive = CalculatorConfig.cubeEnergy;
 		maxExtract = CalculatorConfig.cubeEnergy;
 		maxTransfer = CalculatorConfig.cubeEnergy;
 	}
-	
+
 	public static class SmeltingInventory extends InventoryItem {
 
 		public SmeltingInventory(ItemStack stack) {
 			super(stack, 3, "Items");
 		}
 	}
+
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world,	EntityPlayer player) {
-		return onCalculatorRightClick(itemstack, world, player,CalculatorGui.SmeltingModule);
+	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
+		return onCalculatorRightClick(itemstack, world, player, CalculatorGui.SmeltingModule);
 	}
+
 	public static int getIntegerTag(ItemStack stack, String tag) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
@@ -68,71 +70,74 @@ public class WIPSmeltingModule extends SonarCalculator implements IItemInventory
 		return stack.stackTagCompound.getInteger(tag);
 
 	}
-	
-	
-	public int cookTime(ItemStack stack){
-		return getIntegerTag(stack,"cookTime");
+
+	public int cookTime(ItemStack stack) {
+		return getIntegerTag(stack, "cookTime");
 	}
-	public static void setCookTime(ItemStack stack, int burn){
-			setIntegerTag(stack,"cookTime", burn);
+
+	public static void setCookTime(ItemStack stack, int burn) {
+		setIntegerTag(stack, "cookTime", burn);
 	}
-	public static int itemBurnTime(ItemStack stack){
-		return getIntegerTag(stack,"cookTime");
+
+	public static int itemBurnTime(ItemStack stack) {
+		return getIntegerTag(stack, "cookTime");
 	}
-	public static void setItemBurnTime(ItemStack stack, int burn){
-			setIntegerTag(stack,"cookTime", burn);
+
+	public static void setItemBurnTime(ItemStack stack, int burn) {
+		setIntegerTag(stack, "cookTime", burn);
 	}
+
 	public static void setIntegerTag(ItemStack stack, String tag, int value) {
-			if (!stack.hasTagCompound())
-				stack.setTagCompound(new NBTTagCompound());
-			NBTTagCompound nbtData = stack.stackTagCompound;
-			if (nbtData == null) {
-				stack.stackTagCompound.setInteger(tag, 0);
-			}
-			nbtData.setInteger(tag, value);
-		
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		NBTTagCompound nbtData = stack.stackTagCompound;
+		if (nbtData == null) {
+			stack.stackTagCompound.setInteger(tag, 0);
+		}
+		nbtData.setInteger(tag, value);
+
 	}
+
 	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int par,
-			boolean bool) {
+	public void onUpdate(ItemStack stack, World world, Entity entity, int par, boolean bool) {
 
 		int energy = this.requiredEnergy / this.speed;
 		int currentCook = cookTime(stack);
-	
+
 		if (currentCook > 0) {
-			currentCook++;			
+			currentCook++;
 			this.extractEnergy(stack, energy, false);
 		}
-			if (this.canCook(stack)) {
-				if (currentCook == 0) {
-					currentCook++;
-					this.extractEnergy(stack, energy, false);					
-				}
-				
-				if (currentCook == this.speed) {
-					currentCook = 0;
-					cookItem(stack);
-				}
-				
-			} else {
-				if (currentCook != 0) {
-					currentCook = 0;		
-					
-				}
+		if (this.canCook(stack)) {
+			if (currentCook == 0) {
+				currentCook++;
+				this.extractEnergy(stack, energy, false);
 			}
-		if(currentCook!=this.cookTime(stack)){
+
+			if (currentCook == this.speed) {
+				currentCook = 0;
+				cookItem(stack);
+			}
+
+		} else {
+			if (currentCook != 0) {
+				currentCook = 0;
+
+			}
+		}
+		if (currentCook != this.cookTime(stack)) {
 			this.setCookTime(stack, currentCook);
-		}	
+		}
 	}
 
 	public void cookItem(ItemStack stack) {
-		//a instance of inventory not always updated
+		// a instance of inventory not always updated
 		InventoryItem inv = this.getInventory(stack);
 		ItemStack itemstack = recipe(inv.getStackInSlot(0));
 		if (itemstack != null) {
 			if (inv.getStackInSlot(2) == null) {
 				inv.setInventorySlotContents(2, itemstack.copy());
-			} else if (inv.getStackInSlot(2).isItemEqual(itemstack)) {		
+			} else if (inv.getStackInSlot(2).isItemEqual(itemstack)) {
 				this.getInventory(stack).decrStackSize(2, itemstack.stackSize);
 			}
 
@@ -141,7 +146,7 @@ public class WIPSmeltingModule extends SonarCalculator implements IItemInventory
 	}
 
 	public boolean canCook(ItemStack stack) {
-		int currentCook = cookTime(stack);		
+		int currentCook = cookTime(stack);
 		InventoryItem inv = this.getInventory(stack);
 		if (inv.getStackInSlot(0) == null) {
 			return false;
@@ -162,8 +167,7 @@ public class WIPSmeltingModule extends SonarCalculator implements IItemInventory
 			if (!inv.getStackInSlot(2).isItemEqual(itemstack)) {
 				return false;
 			} else {
-				if (inv.getStackInSlot(2).stackSize + itemstack.stackSize > inv.getStackInSlot(2)
-						.getMaxStackSize()) {
+				if (inv.getStackInSlot(2).stackSize + itemstack.stackSize > inv.getStackInSlot(2).getMaxStackSize()) {
 					return false;
 				}
 			}
@@ -177,6 +181,7 @@ public class WIPSmeltingModule extends SonarCalculator implements IItemInventory
 	public ItemStack recipe(ItemStack stack) {
 		return FurnaceRecipes.smelting().getSmeltingResult(stack);
 	}
+
 	@Override
 	public InventoryItem getInventory(ItemStack stack) {
 		return new SmeltingInventory(stack);
@@ -184,14 +189,13 @@ public class WIPSmeltingModule extends SonarCalculator implements IItemInventory
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list,
-			boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
-		if(stack.hasTagCompound()){
-		int storedItems = getInventory(stack).getItemsStored(stack);
-		if (storedItems != 0) {
-			list.add("Stored Stacks: " + storedItems);
-		}
+		if (stack.hasTagCompound()) {
+			int storedItems = getInventory(stack).getItemsStored(stack);
+			if (storedItems != 0) {
+				list.add("Stored Stacks: " + storedItems);
+			}
 		}
 	}
 }

@@ -18,10 +18,8 @@ public class ConductorMastRecipes
   
   private Map smeltingList = new HashMap();
   private Map powerList = new HashMap();
-  
-  private static final String __OBFID = "CL_00000085";
-  
-  
+ 
+
 
   public static ConductorMastRecipes smelting()
   {
@@ -67,7 +65,7 @@ public class ConductorMastRecipes
       
       entry = (Map.Entry)iterator.next();
     }
-    while (!func_151397_a(stack, (ItemStack)entry.getKey()));
+    while (!equalStack(stack, (ItemStack)entry.getKey()));
     
 	if(CalculatorConfig.isEnabled((ItemStack) entry.getValue())){
 		return (ItemStack) entry.getValue();
@@ -89,13 +87,13 @@ public class ConductorMastRecipes
       
       entry = (Map.Entry)iterator.next();
     }
-    while (!func_151397_a(stack, (ItemStack)entry.getKey()));
+    while (!equalStack(stack, (ItemStack)entry.getKey()));
     
     
     return (Integer) entry.getValue();
   }
   
-  private boolean func_151397_a(ItemStack stack1, ItemStack stack2) {
+  private boolean equalStack(ItemStack stack1, ItemStack stack2) {
     return (stack2.getItem() == stack1.getItem()) && ((stack2.getItemDamage() == 32767) || (stack2.getItemDamage() == stack2.getItemDamage()));
   }
   

@@ -87,6 +87,8 @@ public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 			if (pos == 0) {
 				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict
 						.circuitList(1) : CalculatorOreDict.circuitList(2)));
+				
+				
 			} else if (result.getItem() == Calculator.circuitDamaged || result.getItem() == Calculator.circuitDirty) {
 				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict
 						.circuitList(1) : CalculatorOreDict.circuitList(2)));

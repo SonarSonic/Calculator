@@ -50,6 +50,9 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
+		if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+			return;
+		}
 		if (!this.isBeingBuilt()) {
 			checkTile();
 		}
@@ -59,7 +62,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 				extraTicks();
 			}
 			plant();
-			grow();
+			growTicks();
 			harvestCrops();
 
 		} else if (this.isBeingBuilt()) {
@@ -82,7 +85,6 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 				if (target instanceof IGrowable) {
 					harvest(worldObj, x + X, y, z + Z, (IGrowable) target);
 				}
-
 			}
 		}
 	}
@@ -126,9 +128,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 					}
 				}
 			}
-
 		}
-
 		return coords;
 	}
 
@@ -169,35 +169,34 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 
 	}
 
-	public void grow() {
+	public void growTicks() {
 		if (this.growTicks == 0) {
-			this.growTick = GreenhouseHelper.getGrowTicks(this.getOxygen(), 2);
+			this.growTick = GreenhouseHelper.getGrowTicks(this.getOxygen(), 1);
 			this.growTicks++;
-		} else if (this.growTick != 0) {
-			if (this.growTicks >= 0 && this.growTicks != growTick) {
-				growTicks++;
-			}
-		} else if (this.growTicks == growTick) {
+			return;
+		}
+		if (growTick != 0 && this.growTicks >= growTick) {
 			if (this.storage.getEnergyStored() >= requiredGrowEnergy) {
-				if (growCrop(2, 0)) {
-					this.storage.modifyEnergyStored(requiredGrowEnergy);
+				if (growCrop(1, 0)) {
+					this.storage.modifyEnergyStored(-requiredGrowEnergy);
 				}
 				this.growTicks = 0;
 			}
+		} else {
+			growTicks++;
 		}
-
 	}
 
 	/** adds gas, depends on day and night **/
 	public void gasLevels() {
 		boolean day = this.worldObj.isDaytime();
 		if (day) {
-			int add = (this.plants / 5 * 8) - (this.lanterns * 20);
+			int add = (this.plants / 5 * 8) - (this.lanterns * 50);
 			this.addGas(-add);
 		}
 		if (!day) {
 
-			int add = (this.plants / 5 * 2) + (this.lanterns * 20);
+			int add = (this.plants / 5 * 2) + (this.lanterns * 50);
 			this.addGas(add);
 		}
 
@@ -1076,12 +1075,12 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return new int[]{8,9,10,11,12,13,14,15,16};
+		return new int[] { 8, 9, 10, 11, 12, 13, 14, 15, 16 };
 	}
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack item, int side) {
-		return item !=null && item.getItem() instanceof IPlantable;
+		return item != null && item.getItem() instanceof IPlantable;
 	}
 
 	@Override

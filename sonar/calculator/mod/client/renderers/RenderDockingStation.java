@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -18,112 +19,38 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.models.ModelCalculator;
 import sonar.calculator.mod.client.models.ModelDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
+import sonar.core.utils.helpers.RenderHelper;
 
+public class RenderDockingStation extends TileEntitySpecialRenderer {
+	private static final String texture = "Calculator:textures/model/dockingstation.png";
+	private ModelDockingStation model;
 
-public class RenderDockingStation
-  extends TileEntitySpecialRenderer
-{
-  private static final ResourceLocation texture = new ResourceLocation("Calculator:textures/model/dockingstation.png");
-  private ModelDockingStation model;
-  private ModelCalculator calc;
-  
-  public RenderDockingStation() {
-    this.model = new ModelDockingStation();
-    this.calc = new ModelCalculator();
-  }
-  
+	public RenderDockingStation() {
+		this.model = new ModelDockingStation();
+	}
 
-  @Override
-public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f)
-  {
-    int i;
-    
-    if (tileentity.getWorldObj() == null)
-    {
-      i = 0;
-    } else {
-      Block block = tileentity.getBlockType();
-      i = tileentity.getBlockMetadata();
-      if ((block != null) && (i == 0))
-      {
-    	   i = tileentity.getBlockMetadata();
-      }
-    }
-   
-    GL11.glPushMatrix();
-    GL11.glTranslatef((float)x + 0.5F, (float)y + 1.5F, (float)z + 0.5F);
-    Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-    GL11.glPushMatrix();
-    GL11.glRotatef(180.0F, 180.0F, 0.0F, 1.0F);
-    int j = 0;
-    if (i == 3) {
-        j = 0;
-      }
-      if (i == 2) {
-        j = 180;
-      }
-      if (i == 4) {
-        j = 90;
-      }
-      if (i == 5) {
-        j = 270;
-      }
-    GL11.glRotatef(j, 0.0F, 1.0F, 0.0F);
-    
-    this.model.render((Entity)null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-    
-    if(tileentity.getWorldObj()!=null && tileentity instanceof TileEntityDockingStation){
-    TileEntityDockingStation station = (TileEntityDockingStation) tileentity;
-    if(station.type!=0){
-    Tessellator tessellator = Tessellator.instance;
-    switch(station.type){
-    case 1:    	ItemStack bcalc = new ItemStack(Calculator.itemCalculator);    
-				Minecraft.getMinecraft().renderEngine.bindTexture(Minecraft.getMinecraft().renderEngine.getResourceLocation(bcalc.getItemSpriteNumber()));
-				IIcon bIcon = bcalc.getIconIndex();
-				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-				GL11.glTranslatef(0.5F, 1.05F, -0.35F);
-				GL11.glRotatef(45F, -45.0F, 0.0F, 0.0F);
-				GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-				ItemRenderer.renderItemIn2D(tessellator, bIcon.getMaxU(), bIcon.getMinV(), bIcon.getMinU(), bIcon.getMaxV(), bIcon.getIconWidth(), bIcon.getIconHeight(), 0.0625F); 
-				break;
-				
-    case 2:    	ItemStack sCalc = new ItemStack(Calculator.itemScientificCalculator);    
-				Minecraft.getMinecraft().renderEngine.bindTexture(Minecraft.getMinecraft().renderEngine.getResourceLocation(sCalc.getItemSpriteNumber()));
-				IIcon sIcon = sCalc.getIconIndex();
-				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-				GL11.glTranslatef(0.5F, 1.05F, -0.35F);
-				GL11.glRotatef(45F, -45.0F, 0.0F, 0.0F);
-				GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-				ItemRenderer.renderItemIn2D(tessellator, sIcon.getMaxU(), sIcon.getMinV(), sIcon.getMinU(), sIcon.getMaxV(), sIcon.getIconWidth(), sIcon.getIconHeight(), 0.0625F); 
-				break;
-				
-    case 3:    	ItemStack aCalc = new ItemStack(Calculator.atomiccalculatorBlock);    
-				Minecraft.getMinecraft().renderEngine.bindTexture(Minecraft.getMinecraft().renderEngine.getResourceLocation(aCalc.getItemSpriteNumber()));
-				IIcon aIcon = aCalc.getIconIndex();
-				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-				GL11.glTranslatef(0.5F, 1.05F, -0.35F);
-				GL11.glRotatef(45F, -45.0F, 0.0F, 0.0F);
-				GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-				ItemRenderer.renderItemIn2D(tessellator, aIcon.getMaxU(), aIcon.getMinV(), aIcon.getMinU(), aIcon.getMaxV(), aIcon.getIconWidth(), aIcon.getIconHeight(), 0.0625F); 
-				break;
-				
-    case 4:    	ItemStack fCalc = new ItemStack(Calculator.itemFlawlessCalculator);    
-				Minecraft.getMinecraft().renderEngine.bindTexture(Minecraft.getMinecraft().renderEngine.getResourceLocation(fCalc.getItemSpriteNumber()));
-				IIcon fIcon = fCalc.getIconIndex();
-				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-				GL11.glTranslatef(0.5F, 1.05F, -0.35F);
-				GL11.glRotatef(45F, -45.0F, 0.0F, 0.0F);
-				GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-				ItemRenderer.renderItemIn2D(tessellator, fIcon.getMaxU(), fIcon.getMinV(), fIcon.getMinU(), fIcon.getMaxV(), fIcon.getIconWidth(), fIcon.getIconHeight(), 0.0625F); 
-				break;	
-	
-    }
-}
-    }
-    GL11.glPopMatrix();
-    GL11.glPopMatrix();
-    
-  }
+	@Override
+	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
 
+		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(tileentity), texture);
+		model.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+
+		if (tileentity.getWorldObj() != null && tileentity instanceof TileEntityDockingStation) {
+			TileEntityDockingStation station = (TileEntityDockingStation) tileentity;
+			if (station.calcStack != null) {
+				GL11.glTranslated(0, 0.86, -0.20);
+				if (station.calcStack.getItem() instanceof ItemBlock) {
+					GL11.glRotated(45, 1, 0, 0);
+					GL11.glTranslated(0, -0.05, 0.12);
+					GL11.glScaled(1, 0.2, 1);
+				} else {
+					GL11.glRotated(90 + 45, 1, 0, 0);
+				}
+				RenderHelper.renderItem(tileentity.getWorldObj(), station.calcStack);
+			}
+
+		}
+		RenderHelper.finishRender();
+	}
 
 }

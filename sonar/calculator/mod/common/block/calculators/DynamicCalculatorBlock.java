@@ -68,16 +68,12 @@ public class DynamicCalculatorBlock extends SonarMachineBlock {
 			TileEntity target = world.getTileEntity(x, y, z);
 			if (target != null && target instanceof TileEntityCalculator.Dynamic) {
 				TileEntityCalculator.Dynamic calc = (Dynamic) target;
-				FailedCoords coords = calc.checkStructure();
-				if (coords.getBoolean()) {
-					player.openGui(Calculator.instance, CalculatorGui.DynamicCalculator, world, x, y, z);
-				} else {
-					if (!world.isRemote) {
-						FontHelper.sendMessage("No Multi-block", world, player);
-						FontHelper.sendMessage("X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(),
-								world, player);
-					}
-				}
+				player.openGui(Calculator.instance, CalculatorGui.DynamicCalculator, world, x, y, z);
+				/*
+				 * FailedCoords coords = calc.checkStructure(); if (coords.getBoolean()) { player.openGui(Calculator.instance, CalculatorGui.DynamicCalculator, world, x, y, z); } else { if
+				 * (!world.isRemote) { FontHelper.sendMessage("No Multi-block", world, player); FontHelper.sendMessage("X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - " +
+				 * FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(), world, player); } }
+				 */
 			}
 		}
 

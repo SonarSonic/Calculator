@@ -26,7 +26,6 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 		super.input = new int[] { 0 };
 		super.output = new int[] { 1 };
 		super.slots = new ItemStack[2];
-
 	}
 
 	@Override
@@ -34,7 +33,6 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 		super.updateEntity();
 		loot(slots[0]);
 		charge(slots[1]);
-
 		this.markDirty();
 	}
 
@@ -71,7 +69,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	private void loot(ItemStack stack) {
 		if (!(stack == null)) {
 			if (isLoot(stack)) {
-				int add = HealthProcessorRecipes.instance().getHealthValue(stack);
+				int add = (Integer) HealthProcessorRecipes.instance().getOutput(stack);
 				storedpoints = storedpoints + add;
 				this.slots[0].stackSize--;
 				if (this.slots[0].stackSize <= 0) {
@@ -97,7 +95,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	}
 
 	private boolean isLoot(ItemStack stack) {
-		if (HealthProcessorRecipes.instance().getHealthValue(stack) > 0) {
+		if ((Integer) HealthProcessorRecipes.instance().getOutput(stack) > 0) {
 			return true;
 		}
 		return false;

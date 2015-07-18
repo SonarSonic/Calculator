@@ -91,7 +91,7 @@ public class SmeltingBlock extends SonarMachineBlock {
 			if(type==6 || type ==3){
 				this.blockIcon = iconRegister.registerIcon("Calculator:analysis_side_slot1");
 			}else{
-				this.blockIcon = iconRegister.registerIcon("Calculator:overlays/machine_side");
+				this.blockIcon = iconRegister.registerIcon("Calculator:machine_side");
 			}
 		}
 	}

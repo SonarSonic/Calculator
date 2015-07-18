@@ -22,11 +22,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class CrankedGenerator extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-	private static boolean keepInventory;
-	private Random rand = new Random();
+	private IIcon iconFront, iconTop;
 
 	public CrankedGenerator() {
 		super(SonarMaterials.machine);
@@ -56,7 +52,6 @@ public class CrankedGenerator extends SonarMachineBlock {
 
 	}
 
-
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
@@ -82,11 +77,6 @@ public class CrankedGenerator extends SonarMachineBlock {
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityCrankedGenerator();
-	}
-
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
 	}
 
 	@Override

@@ -17,25 +17,13 @@ import sonar.core.utils.SonarMaterials;
 
 public class WeatherStation extends SonarMachineBlock {
 
-	private Random rand = new Random();
 
 	public WeatherStation() {
 		super(SonarMaterials.machine);
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
 
 	@Override
@@ -54,18 +42,9 @@ public class WeatherStation extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 
-	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 	}
 
 	@Override
@@ -96,18 +75,9 @@ public class WeatherStation extends SonarMachineBlock {
 
 	private void setBlocks(World world, int x, int y, int z) {
 		world.setBlock(x, y + 1, z, Calculator.weatherStationBlock);
-		/*
-		 * world.setBlock(x, y + 1, z+1, Calculator.weatherStationBlock); world.setBlock(x, y + 1, z-1, Calculator.weatherStationBlock); world.setBlock(x+1, y + 1, z, Calculator.weatherStationBlock);
-		 * world.setBlock(x-1, y + 1, z, Calculator.weatherStationBlock); world.setBlock(x+1, y + 1, z+1, Calculator.weatherStationBlock); world.setBlock(x+1, y + 1, z-1,
-		 * Calculator.weatherStationBlock); world.setBlock(x-1, y + 1, z-1, Calculator.weatherStationBlock); world.setBlock(x-1, y + 1, z+1, Calculator.weatherStationBlock);
-		 */
 	}
 
 	private void removeBlocks(World world, int x, int y, int z) {
 		world.setBlockToAir(x, y + 1, z);
-		/*
-		 * world.setBlockToAir(x, y + 1, z+1); world.setBlockToAir(x, y + 1, z-1); world.setBlockToAir(x+1, y + 1, z); world.setBlockToAir(x-1, y + 1, z); world.setBlockToAir(x+1, y + 1, z+1);
-		 * world.setBlockToAir(x+1, y + 1, z-1); world.setBlockToAir(x-1, y + 1, z-1); world.setBlockToAir(x-1, y + 1, z+1);
-		 */
 	}
 }

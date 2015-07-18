@@ -24,26 +24,21 @@ public class InfoCalc extends CalcItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list,
-			boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
 		list.add(FontHelper.translate("info.nei"));
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world,
-			EntityPlayer player) {
-
-		player.openGui(Calculator.instance, CalculatorGui.InfoCalculator,	world, (int) player.posX, (int) player.posY, (int) player.posZ);
-
+	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
+		player.openGui(Calculator.instance, CalculatorGui.InfoCalculator, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 		return itemstack;
 	}
-
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconregister) {
 		this.itemIcon = iconregister.registerIcon("Calculator:infocalculator");
 	}
-	
+
 }

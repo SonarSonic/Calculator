@@ -22,8 +22,8 @@ public class GuiDynamicCalculator
 {
   private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/dynamiccalculator.png");
   
-  public GuiDynamicCalculator(EntityPlayer player, TileEntityCalculator.Dynamic dynamic, Map<Integer, Integer> map) { 
-	  super(new ContainerDynamicCalculator(player, dynamic, map));
+  public GuiDynamicCalculator(EntityPlayer player, TileEntityCalculator.Dynamic dynamic) { 
+	  super(new ContainerDynamicCalculator(player, dynamic));
     
     this.xSize = 176;
     this.ySize = 166;

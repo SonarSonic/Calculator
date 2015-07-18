@@ -14,8 +14,7 @@ import cofh.api.energy.IEnergyContainerItem;
 public class ContainerPowerCube extends ContainerSync {
 	private TileEntityPowerCube entity;
 
-	public ContainerPowerCube(InventoryPlayer inventory,
-			TileEntityPowerCube entity) {
+	public ContainerPowerCube(InventoryPlayer inventory, TileEntityPowerCube entity) {
 		super(entity);
 		this.entity = entity;
 
@@ -24,8 +23,7 @@ public class ContainerPowerCube extends ContainerSync {
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
@@ -44,41 +42,38 @@ public class ContainerPowerCube extends ContainerSync {
 			itemstack = itemstack1.copy();
 
 			if ((p_82846_2_ != 1) && (p_82846_2_ != 0)) {
-				
-				if (itemstack1.getItem() instanceof IEnergyContainerItem){
-						if (!mergeItemStack(itemstack1, 0, 2, false)) {
-							return null;
-						}					
-				}
-				else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem){
+
+				if (itemstack1.getItem() instanceof IEnergyContainerItem) {
+					if (!mergeItemStack(itemstack1, 0, 2, false)) {
+						return null;
+					}
+				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
 					ISpecialElectricItem container = (ISpecialElectricItem) itemstack1.getItem();
-						if (!mergeItemStack(itemstack1, 0, 2, false)) {
-							return null;
-						}	
-					}				
-				else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem){
-						if (!mergeItemStack(itemstack1, 0, 2, false)) {
-							return null;
-						}
-					
+					if (!mergeItemStack(itemstack1, 0, 2, false)) {
+						return null;
+					}
+				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
+					if (!mergeItemStack(itemstack1, 0, 2, false)) {
+						return null;
+					}
+
 				} else if (DischargeValues.discharge().value(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				}	else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
+				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				}else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
+				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				}  else if ((p_82846_2_ >= 3) && (p_82846_2_ < 30)) {
+				} else if ((p_82846_2_ >= 3) && (p_82846_2_ < 30)) {
 					if (!mergeItemStack(itemstack1, 29, 38, false)) {
 						return null;
 					}
-				} else if ((p_82846_2_ >= 29) && (p_82846_2_ < 38)
-						&& (!mergeItemStack(itemstack1, 2, 29, false))) {
+				} else if ((p_82846_2_ >= 29) && (p_82846_2_ < 38) && (!mergeItemStack(itemstack1, 2, 29, false))) {
 					return null;
 				}
 			} else if (!mergeItemStack(itemstack1, 2, 38, false)) {
@@ -101,9 +96,9 @@ public class ContainerPowerCube extends ContainerSync {
 		return itemstack;
 	}
 
-	  @Override
+	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		    return entity.isUseableByPlayer(player);
-		  }
+		return entity.isUseableByPlayer(player);
+	}
 
 }

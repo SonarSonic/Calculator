@@ -24,17 +24,17 @@ public class GuiWeatherController extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		this.buttonList.add(new GuiButton(1, guiLeft + (xSize/2-(60/2))-25, guiTop + 18, 60, 20, getTypeIdentifier(entity.type)));
-		this.buttonList.add(new GuiButton(2, guiLeft + (xSize/2-(40/2))+35, guiTop + 18, 40, 20, entity.type==0 ?(entity.data==0?"Day":"Night") :(entity.data==0?"Off":"On") ));
+		this.buttonList.add(new GuiButton(2, guiLeft + (xSize/2-(40/2))+35, guiTop + 18, 40, 20, entity.type==0 ?(entity.data==0?FontHelper.translate("weather.day"):FontHelper.translate("weather.night")) :(entity.data==0?FontHelper.translate("state.off"):FontHelper.translate("state.on")) ));
 	}
 
 	public static String getTypeIdentifier(int type) {
 		switch (type) {
 		case 0:
-			return "Time";
+			return FontHelper.translate("weather.time");
 		case 1:
-			return "Rain";
+			return FontHelper.translate("weather.rain");
 		case 2:
-			return "Thunder";
+			return FontHelper.translate("weather.thunder");
 		}
 		return null;
 

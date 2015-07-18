@@ -24,14 +24,14 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		if(this.worldObj.isRemote){
+		if (this.worldObj.isRemote) {
 			return;
 		}
 		int flag = stable;
 		if (testStable()) {
 			fill(0);
 		}
-		if(flag!=this.stable){
+		if (flag != this.stable) {
 			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			this.markDirty();
 		}
@@ -54,7 +54,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 		boolean stability = item.getStability(slots[slot]);
 		if (stability) {
 			if (this.stable != 2) {
-				this.stable = 2;				
+				this.stable = 2;
 			}
 		}
 
@@ -64,6 +64,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 			stable = 0;
 		}
 	}
+
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
@@ -85,7 +86,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 		}
 		return 0;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
 		currenttip.add(GuiCalculatorPlug.getString(stable));

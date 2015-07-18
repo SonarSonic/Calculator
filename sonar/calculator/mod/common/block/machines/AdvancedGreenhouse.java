@@ -26,11 +26,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class AdvancedGreenhouse extends SonarMachineBlock {
-	private Random rand = new Random();
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
+	private IIcon iconFront,iconTop;
 
 	public AdvancedGreenhouse() {
 		super(SonarMaterials.machine);
@@ -148,18 +145,8 @@ public class AdvancedGreenhouse extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 		CalculatorHelper.addGasToolTip(stack, player, list);
-	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
 	}
 }

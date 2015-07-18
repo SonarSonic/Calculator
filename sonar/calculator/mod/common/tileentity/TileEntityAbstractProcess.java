@@ -10,6 +10,7 @@ import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.core.utils.helpers.RecipeHelper;
 import cofh.api.energy.EnergyStorage;
 
@@ -50,26 +51,23 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 	}
 
 	public boolean canProcess() {
-
-		for (int i = 0; i < inputSize(); i++) {
-			if (slots[i] == null) {
-				return false;
-			}
+		if (slots[0] == null) {
+			return false;
 		}
+
 		if (cookTime == 0) {
 			if (this.storage.getEnergyStored() < this.requiredEnergy()) {
 				return false;
 			}
 		}
-		ItemStack[] output = getOutput(true, this.slots[0]);
-		if(output==null || output.length!=this.outputSize()){
+		ItemStack[] output = getOutput(true, inputStacks());
+		if (output == null || output.length != this.outputSize()) {
 			return false;
 		}
 		for (int o = 0; o < outputSize(); o++) {
 			if (output[o] == null) {
 				return false;
 			} else {
-
 				if (slots[o + inputSize() + 1] != null) {
 					if (!slots[o + inputSize() + 1].isItemEqual(output[o])) {
 						return false;
@@ -96,7 +94,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 
 	public int getMaxOutputSize() {
 		int size = 1;
-		ItemStack[] output = getOutput(true, this.slots[0]);
+		ItemStack[] output = getOutput(true, inputStacks());
 		for (int o = 0; o < outputSize(); o++) {
 			if (slots[o + inputSize() + 1] != null && output[o] != null) {
 				size = Math.max((this.getInventoryStackLimit() - this.slots[o + inputSize() + 1].stackSize) / output[o].stackSize, size);
@@ -109,7 +107,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 	}
 
 	public void finishProcess() {
-		ItemStack[] output = getOutput(false, this.slots[0]);
+		ItemStack[] output = getOutput(false, inputStacks());
 		for (int o = 0; o < outputSize(); o++) {
 			if (output[o] != null) {
 				if (this.slots[o + inputSize() + 1] == null) {
@@ -136,14 +134,24 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 		}
 	}
 
+	public ItemStack[] inputStacks() {
+		ItemStack[] input = new ItemStack[this.inputSize()];
+		for (int i = 0; i < this.inputSize(); i++) {
+			input[i] = slots[i];
+		}
+		return input;
+	}
+
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (slot == 0) {
+		if (slot < this.inputSize()) {
 			if (recipeHelper() != null) {
 				if (recipeHelper().validInput(stack))
 					return true;
 			} else {
-				if (getOutput(true, stack) != null) {
+				ItemStack[] inputs = inputStacks();
+				inputs[slot] = stack;
+				if (getOutput(true, inputs) != null) {
 					return true;
 				}
 			}

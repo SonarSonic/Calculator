@@ -107,24 +107,6 @@ public class BasicLantern extends BlockContainer implements IDismantleable {
 		this.onBlockPlacedBy(world, x, y, z, null, null);
 	}
 
-	public ForgeDirection getHorizontal(int no) {
-		ForgeDirection dir = ForgeDirection.getOrientation(no);
-		if (dir == ForgeDirection.NORTH) {
-			return ForgeDirection.EAST;
-		}
-		if (dir == ForgeDirection.EAST) {
-			return ForgeDirection.SOUTH;
-		}
-		if (dir == ForgeDirection.SOUTH) {
-			return ForgeDirection.WEST;
-		}
-		if (dir == ForgeDirection.WEST) {
-			return ForgeDirection.NORTH;
-		}
-		return null;
-
-	}
-
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		int metadata = world.getBlockMetadata(x, y, z);
@@ -165,7 +147,6 @@ public class BasicLantern extends BlockContainer implements IDismantleable {
 
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
-
 		return new TileEntityBasicLantern();
 	}
 
@@ -176,7 +157,6 @@ public class BasicLantern extends BlockContainer implements IDismantleable {
 
 	@Override
 	public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops) {
-		
 		SonarHelper.dropTile(player, world.getBlock(x, y, z), world, x, y, z);
 		return null;
 	}

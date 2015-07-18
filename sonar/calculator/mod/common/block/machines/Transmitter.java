@@ -18,51 +18,27 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class Transmitter extends SonarMachineBlock {
 
-	private Random rand = new Random();
-
 	public Transmitter() {
 		super(SonarMaterials.machine);
 		this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 1.0F, 0.7F);
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean hasSpecialRenderer() {
 		return true;
 	}
 
+	@Override
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitx, float hity, float hitz) {
+		return false;
+	}
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
 		return new TileEntityTransmitter();
 	}
 
 	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
-	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 	}
 
 	@Override
@@ -108,4 +84,5 @@ public class Transmitter extends SonarMachineBlock {
 	private void removeBlocks(World world, int x, int y, int z) {
 		world.setBlockToAir(x, y + 1, z);
 	}
+
 }

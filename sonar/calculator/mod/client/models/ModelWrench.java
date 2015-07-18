@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 
 public class ModelWrench extends ModelBase
 {
-  //fields
     ModelRenderer Base;
     ModelRenderer Handle1;
     ModelRenderer Wrench1;

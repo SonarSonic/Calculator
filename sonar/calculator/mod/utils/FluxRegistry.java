@@ -10,7 +10,6 @@ import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import sonar.calculator.mod.api.FluxNetwork;
 import sonar.calculator.mod.api.IFlux;
 import sonar.calculator.mod.api.IFluxPlug;
 import sonar.calculator.mod.api.IFluxPoint;

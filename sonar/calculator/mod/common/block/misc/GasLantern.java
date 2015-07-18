@@ -170,28 +170,9 @@ public class GasLantern extends SonarMachineBlock implements IDismantleable {
 		this.onBlockPlacedBy(world, x, y, z, null, null);
 	}
 
-	public ForgeDirection getHorizontal(int no) {
-		ForgeDirection dir = ForgeDirection.getOrientation(no);
-		if (dir == ForgeDirection.NORTH) {
-			return ForgeDirection.EAST;
-		}
-		if (dir == ForgeDirection.EAST) {
-			return ForgeDirection.SOUTH;
-		}
-		if (dir == ForgeDirection.SOUTH) {
-			return ForgeDirection.WEST;
-		}
-		if (dir == ForgeDirection.WEST) {
-			return ForgeDirection.NORTH;
-		}
-		return null;
-
-	}
-
 	/**
 	 * is the block grass, dirt or farmland
 	 */
-
 	public static void updateLatternBlockState(boolean bool, World world, int x, int y, int z) {
 		int l = world.getBlockMetadata(x, y, z);
 		TileEntity tileentity = world.getTileEntity(x, y, z);

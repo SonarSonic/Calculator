@@ -24,19 +24,8 @@ public class CalculatorLocator extends SonarMachineBlock {
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
 
 	@Override
@@ -116,18 +105,9 @@ public class CalculatorLocator extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 
 	}
 
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
-	}
 }

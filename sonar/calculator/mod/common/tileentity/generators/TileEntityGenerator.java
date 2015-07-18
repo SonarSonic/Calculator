@@ -25,7 +25,7 @@ import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityGenerator extends TileEntityInventorySender implements ISidedInventory {
+public abstract class TileEntityGenerator extends TileEntityInventorySender implements ISidedInventory {
 
 	protected TileEntity[] handlers = new TileEntity[6];
 	public int itemLevel, burnTime;
@@ -86,11 +86,11 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 
 	public void processItemLevel() {
 		ItemStack stack = this.slots[1];
-		if (stack == null || !(itemValue(stack) > 0)) {
+		if (stack == null || !(getItemValue(stack) > 0)) {
 			return;
 		}
-		if (!(itemLevel + itemValue(stack) > levelMax)) {
-			addItem(itemValue(stack));
+		if (!(itemLevel + getItemValue(stack) > levelMax)) {
+			addItem(getItemValue(stack));
 			this.slots[1].stackSize--;
 			if (this.slots[1].stackSize <= 0) {
 				this.slots[1] = null;
@@ -133,9 +133,7 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 		this.updateAdjacentHandlers();
 	}
 
-	public int itemValue(ItemStack stack) {
-		return StarchExtractorRecipes.discharge().value(stack);
-	}
+	public abstract int getItemValue(ItemStack stack);
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
@@ -171,7 +169,7 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 			}
 		}
 		if (slot == 1) {
-			if (itemValue(stack) > 0) {
+			if (getItemValue(stack) > 0) {
 				return true;
 			}
 		}
@@ -199,14 +197,15 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 			super.energyMultiplier = CalculatorConfig.starchRF;
 		}
 
-		public int itemValue(ItemStack stack) {
-			return StarchExtractorRecipes.discharge().value(stack);
-		}
-
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel + "%");
+			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel*100/5000 + "%");
 			return currenttip;
+		}
+
+		@Override
+		public int getItemValue(ItemStack stack) {
+			return (Integer) StarchExtractorRecipes.instance().getOutput(stack);
 		}
 	}
 
@@ -215,13 +214,13 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 			super.energyMultiplier = CalculatorConfig.redstoneRF;
 		}
 
-		public int itemValue(ItemStack stack) {
-			return RedstoneExtractorRecipes.discharge().value(stack);
+		public int getItemValue(ItemStack stack) {
+			return (Integer) RedstoneExtractorRecipes.instance().getOutput(stack);
 		}
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel + "%");
+			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel*100/5000 + "%");
 			return currenttip;
 		}
 	}
@@ -231,13 +230,13 @@ public class TileEntityGenerator extends TileEntityInventorySender implements IS
 			super.energyMultiplier = CalculatorConfig.glowstoneRF;
 		}
 
-		public int itemValue(ItemStack stack) {
-			return GlowstoneExtractorRecipes.discharge().value(stack);
+		public int getItemValue(ItemStack stack) {
+			return (Integer) GlowstoneExtractorRecipes.instance().getOutput(stack);
 		}
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel + "%");
+			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel*100/5000 + "%");
 			return currenttip;
 		}
 	}

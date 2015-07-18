@@ -22,11 +22,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class PowerCube extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-	private static boolean keepInventory;
-	private Random rand = new Random();
+	private IIcon iconFront,iconTop;
 
 	public PowerCube() {
 		super(SonarMaterials.machine);
@@ -47,11 +43,6 @@ public class PowerCube extends SonarMachineBlock {
 	}
 
 	@Override
-	public Item getItemDropped(int i, Random random, int j) {
-		return Item.getItemFromBlock(Calculator.powerCube);
-	}
-
-	@Override
 	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (player != null) {
 			if (!world.isRemote) {
@@ -68,18 +59,8 @@ public class PowerCube extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
-	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 
 	}
 }

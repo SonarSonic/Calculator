@@ -21,18 +21,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class HungerProcessor extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	private IIcon front;
-	@SideOnly(Side.CLIENT)
-	private IIcon front2;
-	@SideOnly(Side.CLIENT)
-	private IIcon slot1;
-	@SideOnly(Side.CLIENT)
-	private IIcon slot2;
-	private static boolean keepInventory;
-	private Random rand = new Random();
-
+	private IIcon iconFront, front,front2,slot1,slot2;
+	
 	public HungerProcessor() {
 		super(SonarMaterials.machine);
 	}
@@ -41,11 +31,8 @@ public class HungerProcessor extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.front = iconRegister.registerIcon("Calculator:hungerprocessor_front2");
-
 		this.front2 = iconRegister.registerIcon("Calculator:hungerprocessor_front1");
-
 		this.slot1 = iconRegister.registerIcon("Calculator:hungerprocessor_slot2");
-
 		this.slot2 = iconRegister.registerIcon("Calculator:hungerprocessor_slot1");
 	}
 
@@ -90,11 +77,6 @@ public class HungerProcessor extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 
 		int hunger = stack.getTagCompound().getInteger("Food");
@@ -103,8 +85,4 @@ public class HungerProcessor extends SonarMachineBlock {
 		}
 	}
 
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
-	}
 }

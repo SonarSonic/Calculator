@@ -24,13 +24,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class FlawlessGreenhouse extends SonarMachineBlock {
-	private static boolean keepInventory;
-
-	private Random rand = new Random();
+	
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
+	private IIcon iconFront,iconTop;
 
 	public FlawlessGreenhouse() {
 		super(SonarMaterials.machine);
@@ -71,11 +67,6 @@ public class FlawlessGreenhouse extends SonarMachineBlock {
 	}
 
 	@Override
-	public Item getItem(World world, int x, int y, int z) {
-		return Item.getItemFromBlock(Calculator.flawlessGreenhouse);
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.blockIcon = iconRegister.registerIcon("Calculator:greenhouse_side");
@@ -104,18 +95,9 @@ public class FlawlessGreenhouse extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 
 	}
 
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
-	}
 }

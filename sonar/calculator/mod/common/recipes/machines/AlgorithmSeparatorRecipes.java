@@ -21,8 +21,6 @@ public class AlgorithmSeparatorRecipes extends RecipeHelper {
 		addRecipe("blockLapis", Calculator.large_tanzanite, Calculator.shard_tanzanite);
 	    addRecipe("gemLapis", Calculator.small_tanzanite, Calculator.shard_tanzanite);
 	    addRecipe("gemDiamond",new ItemStack(Calculator.weakeneddiamond, 4), new ItemStack(Items.dye, 2, 4));
-	    addRecipe("oreGold", new ItemStack(Calculator.enrichedgold_ingot, 4), new ItemStack(Calculator.small_stone, 2));
-	    addRecipe("oreIron", new ItemStack(Calculator.reinforcediron_ingot, 4), new ItemStack(Calculator.small_stone, 2));
 	    addRecipe("dustRedstone", new ItemStack(Calculator.redstone_ingot, 2), new ItemStack(Calculator.small_stone, 2));
 	    addRecipe(Calculator.tanzaniteLeaf,new ItemStack(Blocks.leaves,1), new ItemStack(Calculator.shard_tanzanite,2));
 	    addRecipe(Calculator.tanzaniteLog, new ItemStack(Blocks.log,1), Calculator.small_tanzanite);

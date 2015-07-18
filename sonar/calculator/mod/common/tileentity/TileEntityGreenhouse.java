@@ -603,7 +603,6 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SYNC || type == SyncType.SAVE) {
-			nbt.setInteger("Multi", this.isMulti);
 			nbt.setInteger("wasBuilt", this.wasBuilt);
 			nbt.setInteger("Carbon", this.carbonLevels);
 		}

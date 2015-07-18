@@ -9,7 +9,7 @@ import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
-import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
 import sonar.core.common.item.InventoryItem;
@@ -24,7 +24,7 @@ public class ContainerFlawlessCalculator extends Container {
 
 	public ContainerFlawlessCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
-		this.worldObj=player.getEntityWorld();
+		this.worldObj = player.getEntityWorld();
 		craftMatrix = new InventoryStoredCrafting(this, 4, 1, this.inventory);
 		craftResult = new InventoryStoredResult(this.inventory);
 
@@ -47,8 +47,8 @@ public class ContainerFlawlessCalculator extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory inv) {
-		this.craftResult.setInventorySlotContents(0, RecipeRegistry.FlawlessRecipes.instance().getCraftingResult(craftMatrix.getStackInSlot(0),craftMatrix.getStackInSlot(1),craftMatrix.getStackInSlot(2),craftMatrix.getStackInSlot(3)));
-		
+		this.craftResult.setInventorySlotContents(0, RecipeRegistry.FlawlessRecipes.instance().getCraftingResult(craftMatrix.getStackInSlot(0), craftMatrix.getStackInSlot(1), craftMatrix.getStackInSlot(2), craftMatrix.getStackInSlot(3)));
+
 	}
 
 	@Override

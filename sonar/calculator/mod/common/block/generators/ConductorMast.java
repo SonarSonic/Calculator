@@ -43,19 +43,8 @@ public class ConductorMast extends BlockContainer implements ISpecialTooltip, ID
 		super(SonarMaterials.machine);
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
 
 	@Override

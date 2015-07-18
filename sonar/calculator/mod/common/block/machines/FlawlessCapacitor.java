@@ -15,25 +15,14 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarMaterials;
 import sonar.core.utils.helpers.FontHelper;
 
-public class FlawlessCapacitor extends SonarMachineBlock{
+public class FlawlessCapacitor extends SonarMachineBlock {
 
 	public FlawlessCapacitor() {
 		super(SonarMaterials.machine);
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
 
 	public IIcon getIcon(int side, int metadata) {
@@ -67,17 +56,8 @@ public class FlawlessCapacitor extends SonarMachineBlock{
 	}
 
 	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 
-	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 	}
 }

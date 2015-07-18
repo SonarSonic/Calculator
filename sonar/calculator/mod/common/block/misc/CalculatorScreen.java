@@ -23,7 +23,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarMaterials;
 
-/*basically a fabrication of the BlockSign code*/
+/**basically a fabrication of the BlockSign code*/
 public class CalculatorScreen extends BlockContainer {
 
 	public CalculatorScreen() {

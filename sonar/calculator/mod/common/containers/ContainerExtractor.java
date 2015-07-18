@@ -2,20 +2,17 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
+import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 
-public class ContainerStarchExtractor extends ContainerSync {
+public class ContainerExtractor extends ContainerSync {
 
-	private TileEntityGenerator.StarchExtractor entity;
+	private TileEntityGenerator entity;
 
-	public ContainerStarchExtractor(InventoryPlayer inventory, TileEntityGenerator.StarchExtractor entity) {
+	public ContainerExtractor(InventoryPlayer inventory, TileEntityGenerator entity) {
 		super(entity);
 		this.entity = entity;
 
@@ -34,28 +31,28 @@ public class ContainerStarchExtractor extends ContainerSync {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
 		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(p_82846_2_);
+		Slot slot = (Slot) this.inventorySlots.get(id);
 
 		if ((slot != null) && (slot.getHasStack())) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if ((p_82846_2_ != 1) && (p_82846_2_ != 0)) {
+			if ((id != 1) && (id != 0)) {
 				if (TileEntityFurnace.isItemFuel(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}
-				} else if (StarchExtractorRecipes.discharge().value(itemstack1) > 0) {
+				} else if (entity.getItemValue(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				} else if ((p_82846_2_ >= 3) && (p_82846_2_ < 30)) {
+				} else if ((id >= 3) && (id < 30)) {
 					if (!mergeItemStack(itemstack1, 29, 38, false)) {
 						return null;
 					}
-				} else if ((p_82846_2_ >= 29) && (p_82846_2_ < 38) && (!mergeItemStack(itemstack1, 2, 29, false))) {
+				} else if ((id >= 29) && (id < 38) && (!mergeItemStack(itemstack1, 2, 29, false))) {
 					return null;
 				}
 			} else if (!mergeItemStack(itemstack1, 2, 38, false)) {
@@ -72,7 +69,7 @@ public class ContainerStarchExtractor extends ContainerSync {
 				return null;
 			}
 
-			slot.onPickupFromSlot(p_82846_1_, itemstack1);
+			slot.onPickupFromSlot(player, itemstack1);
 		}
 
 		return itemstack;
@@ -83,17 +80,4 @@ public class ContainerStarchExtractor extends ContainerSync {
 		return entity.isUseableByPlayer(player);
 	}
 
-	public int dischargeValue(Item item) {
-		if (item == Items.redstone)
-			return 1000;
-		if (item == Items.coal)
-			return 1000;
-		if (item == Calculator.enriched_coal)
-			return 3000;
-		if (item == Calculator.firecoal)
-			return 10000;
-		if (item == Calculator.purified_coal)
-			return 10000;
-		return 0;
-	}
 }

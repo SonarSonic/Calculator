@@ -1,4 +1,4 @@
-package sonar.calculator.mod.api;
+package sonar.calculator.mod.utils;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

@@ -23,9 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class AdvancedPowerCube extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
 	private IIcon front1, front2, side1, side2;
-	private static boolean keepInventory;
-	private Random rand = new Random();
-
+	
 	public AdvancedPowerCube() {
 		super(SonarMaterials.machine);
 	}
@@ -99,18 +97,7 @@ public class AdvancedPowerCube extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
-	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
 	}
 }

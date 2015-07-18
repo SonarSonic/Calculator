@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
-import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
 
 public class PlayerResearch implements IExtendedEntityProperties
 {

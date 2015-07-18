@@ -21,18 +21,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class HealthProcessor extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	private IIcon front;
-	@SideOnly(Side.CLIENT)
-	private IIcon front2;
-	@SideOnly(Side.CLIENT)
-	private IIcon slot1;
-	@SideOnly(Side.CLIENT)
-	private IIcon slot2;
-	private static boolean keepInventory;
-	private Random rand = new Random();
-
+	private IIcon iconFront, front,front2,slot1,slot2;
+	
 	public HealthProcessor() {
 		super(SonarMaterials.machine);
 	}
@@ -41,11 +31,8 @@ public class HealthProcessor extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.front = iconRegister.registerIcon("Calculator:healthprocessor_front2");
-
 		this.front2 = iconRegister.registerIcon("Calculator:healthprocessor_front1");
-
 		this.slot1 = iconRegister.registerIcon("Calculator:healthprocessor_slot2");
-
 		this.slot2 = iconRegister.registerIcon("Calculator:healthprocessor_slot1");
 	}
 
@@ -79,18 +66,12 @@ public class HealthProcessor extends SonarMachineBlock {
 				player.openGui(Calculator.instance, CalculatorGui.HealthProcessor, world, x, y, z);
 			}
 		}
-
 		return true;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityHealthProcessor();
-	}
-
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
 	}
 
 	@Override
@@ -101,8 +82,4 @@ public class HealthProcessor extends SonarMachineBlock {
 		}
 	}
 
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
-	}
 }

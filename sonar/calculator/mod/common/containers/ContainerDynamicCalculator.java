@@ -8,7 +8,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.recipes.crafting.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
@@ -25,12 +25,10 @@ public class ContainerDynamicCalculator extends Container {
 	public InventoryStoredResult atomicResult;
 	public EntityPlayer player;
 	public TileEntityCalculator.Dynamic entity;
-	public Map<Integer, Integer> research;
 
-	public ContainerDynamicCalculator(EntityPlayer player, TileEntityCalculator.Dynamic entity, Map<Integer, Integer> map) {
+	public ContainerDynamicCalculator(EntityPlayer player, TileEntityCalculator.Dynamic entity) {
 		this.entity = entity;
-		this.player = player;
-		this.research = map;		
+		this.player = player;	
 
 		this.calculatorMatrix = new InventoryStoredCrafting(this, 2, 1, entity);
 		this.calculatorResult = new InventoryStoredResult(entity);

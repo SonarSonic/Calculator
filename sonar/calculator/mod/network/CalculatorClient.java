@@ -25,6 +25,7 @@ import sonar.calculator.mod.client.renderers.RenderCalculatorPlug;
 import sonar.calculator.mod.client.renderers.RenderCalculatorScreen;
 import sonar.calculator.mod.client.renderers.RenderChamber;
 import sonar.calculator.mod.client.renderers.RenderCrank;
+import sonar.calculator.mod.client.renderers.RenderDockingStation;
 import sonar.calculator.mod.client.renderers.RenderFlawlessCapacitor;
 import sonar.calculator.mod.client.renderers.RenderFluxPlug;
 import sonar.calculator.mod.client.renderers.RenderFluxPoint;
@@ -48,6 +49,7 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessCapacitor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
@@ -231,6 +233,10 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer magnetic = new RenderMagneticFlux();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMagneticFlux.class, magnetic);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.magneticFlux), new ItemModelRender(magnetic, new TileEntityMagneticFlux()));
+
+		TileEntitySpecialRenderer docking = new RenderDockingStation();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDockingStation.class, docking);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.dockingStation), new ItemModelRender(docking, new TileEntityDockingStation()));
 		
 	}
 }

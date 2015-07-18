@@ -35,7 +35,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class StorageChamber extends SonarMachineBlock {
 
 	@SideOnly(Side.CLIENT)
-	private IIcon slot1, slot2;
+	private IIcon slot1, slot2, empty;
 
 	public StorageChamber() {
 		super(SonarMaterials.machine);
@@ -46,7 +46,8 @@ public class StorageChamber extends SonarMachineBlock {
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.slot1 = iconRegister.registerIcon("Calculator:overlays/machine_input_storage_top");
 		this.slot2 = iconRegister.registerIcon("Calculator:overlays/machine_output_storage_top");
-
+		this.empty = iconRegister.registerIcon("Calculator:overlays/clear");
+		this.blockIcon = iconRegister.registerIcon("Calculator:analysis_side_slot1");
 	}
 
 	@Override
@@ -62,14 +63,14 @@ public class StorageChamber extends SonarMachineBlock {
 				}
 			}
 		}
-		return this.slot1;
+		return empty;
 
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return this.slot1;
+		return this.blockIcon;
 	}
 
 	@Override
@@ -87,11 +88,6 @@ public class StorageChamber extends SonarMachineBlock {
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityStorageChamber();
-	}
-
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
 	}
 
 	@Override
@@ -145,8 +141,4 @@ public class StorageChamber extends SonarMachineBlock {
 		return true;
 	}
 
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
-	}
 }

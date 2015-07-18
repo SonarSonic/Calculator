@@ -22,15 +22,14 @@ public class Wrench extends CalcItem {
 		TileEntity te = world.getTileEntity(x, y, z);
 		Block block = world.getBlock(x, y, z);
 		if (!player.isSneaking()) {
-			if (block instanceof IWrenchable) {
+			if (block instanceof IWrenchable)
 				((IWrenchable) block).onWrench(world, x, y, z, side);
-			} else if (te != null && te instanceof IReconfigurableSides)
+			else if (te != null && te instanceof IReconfigurableSides)
 				((IReconfigurableSides) te).incrSide(side);
 
 		} else {
-			if (block instanceof IDismantleable && ((IDismantleable) block).canDismantle(player, world, x, y, z)) {
+			if (block instanceof IDismantleable && ((IDismantleable) block).canDismantle(player, world, x, y, z))
 				SonarHelper.dropTile(player, block, world, x, y, z);
-			}
 
 		}
 

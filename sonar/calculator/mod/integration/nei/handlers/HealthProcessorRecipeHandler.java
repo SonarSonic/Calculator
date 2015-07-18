@@ -47,16 +47,9 @@ public class HealthProcessorRecipeHandler extends TemplateRecipeHandler {
 	}
 
 	@Override
-	public void loadCraftingRecipes(ItemStack result) {
-		if (HealthProcessorRecipes.instance().getHealthValue(result) != 0) {
-			this.arecipes.add(new ChancePair(result, HealthProcessorRecipes.instance().getHealthValue(result)));
-		}
-	}
-
-	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("healthvalue")) && (getClass() == HealthProcessorRecipeHandler.class)) {
-			Map<ItemStack, Integer> recipes = HealthProcessorRecipes.instance().getHealthList();
+			Map<ItemStack, Integer> recipes = HealthProcessorRecipes.instance().getRecipes();
 			for (Map.Entry<ItemStack, Integer> recipe : recipes.entrySet())
 				this.arecipes.add(new ChancePair(recipe.getKey(), recipe.getValue()));
 			this.transferRects.clear();
@@ -67,8 +60,9 @@ public class HealthProcessorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		if (HealthProcessorRecipes.instance().getHealthValue(ingredient) != 0) {
-			this.arecipes.add(new ChancePair(ingredient, HealthProcessorRecipes.instance().getHealthValue(ingredient)));
+		int healthValue = (Integer) HealthProcessorRecipes.instance().getOutput(ingredient);
+		if (healthValue != 0) {
+			this.arecipes.add(new ChancePair(ingredient, healthValue));
 		}
 	}
 

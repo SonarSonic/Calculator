@@ -1,10 +1,8 @@
 package sonar.calculator.mod.api;
 
 
-/**only used for deciding if a block can be used as part of a Calculator Locator's Structure*/
-public interface IStableBlock {
-
-	
+/**used to check if the block is Stable Stone or Equivalent*/
+public interface IStableBlock {	
 	
 }
 

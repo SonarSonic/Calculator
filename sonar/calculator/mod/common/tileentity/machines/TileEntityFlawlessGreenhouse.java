@@ -49,6 +49,9 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	public void updateEntity() {
 
 		super.updateEntity();
+		if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+			return;
+		}
 		if (!this.isBeingBuilt()) {
 			checkTile();
 		}

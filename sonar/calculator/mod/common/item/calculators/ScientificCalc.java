@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ScientificCalc extends SonarCalculator implements IItemInventory {
-	
+
 	public ScientificCalc() {
 		capacity = CalculatorConfig.scientificEnergy;
 		maxReceive = CalculatorConfig.scientificEnergy;
@@ -25,8 +25,8 @@ public class ScientificCalc extends SonarCalculator implements IItemInventory {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world,	EntityPlayer player) {
-		return onCalculatorRightClick(itemstack, world, player,CalculatorGui.ScientificCalculator);
+	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
+		return onCalculatorRightClick(itemstack, world, player, CalculatorGui.ScientificCalculator);
 	}
 
 	@Override
@@ -39,13 +39,14 @@ public class ScientificCalc extends SonarCalculator implements IItemInventory {
 	public InventoryItem getInventory(ItemStack stack) {
 		return new CalculatorInventory(stack);
 	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list,
-			boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
 		int storedItems = getInventory(stack).getItemsStored(stack);
-		if(storedItems!=0){
-			list.add(FontHelper.translate("calc.storedstacks")+": " + storedItems);}
+		if (storedItems != 0) {
+			list.add(FontHelper.translate("calc.storedstacks") + ": " + storedItems);
+		}
 	}
 }
