@@ -119,9 +119,9 @@ public class CalculatorClient extends CalculatorCommon {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.scarecrow), new ItemScarecrow(scarecrow, new TileEntityScarecrow()));
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.scarecrowBlock), new ItemScarecrow(scarecrow, new TileEntityScarecrow()));
 
-		TileEntitySpecialRenderer research = new RenderResearchChamber();
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityResearchChamber.class, research);
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.researchChamber), new ItemResearchChamber(research, new TileEntityResearchChamber()));
+		//TileEntitySpecialRenderer research = new RenderResearchChamber();
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityResearchChamber.class, research);
+		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.researchChamber), new ItemResearchChamber(research, new TileEntityResearchChamber()));
 
 		TileEntitySpecialRenderer weather = new RenderWeatherStation();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWeatherStation.class, weather);

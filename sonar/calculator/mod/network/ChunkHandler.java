@@ -20,7 +20,6 @@ public class ChunkHandler implements LoadingCallback {
 				Ticket ticket = tickets.get(i);
 				if(ticket.getModData().getInteger("ID")==1){					
 					if(!readFluxController(ticket,world)){
-						//ForgeChunkManager.forceChunk(ticket, getChunk(ticket));
 						ForgeChunkManager.releaseTicket(ticket);
 					}					
 				}

@@ -87,5 +87,8 @@ public class ResearchChamber extends SonarMachineBlock{
 			list.add(FontHelper.translate("research.recipe") + ": " + stored + "/" + max);
 		}
 	}
-
+	@Override
+	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+		list.add("Currently disabled - Research System will be changed soon");
+	}
 }

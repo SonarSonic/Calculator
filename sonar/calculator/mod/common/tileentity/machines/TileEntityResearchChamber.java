@@ -39,8 +39,8 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		beginResearch();
-		this.markDirty();
+		//beginResearch();
+		//this.markDirty();
 	}
 
 	public void beginResearch() {

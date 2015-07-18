@@ -104,7 +104,7 @@ public class InfoList
 	  addRecipe("Items",new ItemStack(Calculator.fiddledewFruit), "The best fruit ever-Cures 8 hearts--Only grows in-Flawless Greenhouse");
 	  addRecipe("Items",new ItemStack(Calculator.prunaeSeeds), "Grows coal dust--Only grows in-Advanced Greenhouse");
 	  addRecipe("Machines",new ItemStack(Calculator.reinforcedFurnace), "A better furnace--Runs off RF/EU");
-	  addRecipe("Machines",new ItemStack(Calculator.researchChamber), "For researching new recipes--Doesn't require energy--Some blocks/items and Stable - Circuits-can be researched");
+	 // addRecipe("Machines",new ItemStack(Calculator.researchChamber), "For researching new recipes--Doesn't require energy--Some blocks/items and Stable - Circuits-can be researched");
 	  addRecipe("Blocks",new ItemStack(Calculator.flawlessGlass), "V. Expensive Glass--Used in Flawless Greenhouses");
 	  addRecipe("Machines",new ItemStack(Calculator.transmitter), "Can alter the Ionosphere-Increases power and frequency- of Lightning Strikes--See Conductor Mast");
 	  addRecipe("Machines",new ItemStack(Calculator.weatherStation), "Focuses Lightning Power-Increasing Lightning Energy--See Conductor Mast");

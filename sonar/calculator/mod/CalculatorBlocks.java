@@ -123,9 +123,6 @@ public class CalculatorBlocks extends Calculator {
 		advancedPowerCube = new AdvancedPowerCube().setBlockName("AdvancedPCubeIdle").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(advancedPowerCube, CalcBlockItem.class, "AdvancedPCubeIdle");
 		GameRegistry.registerTileEntity(TileEntityAdvancedPowerCube.class, "AdvancedPCubeIdle");
-		dockingStation = new DockingStation().setBlockName("DockingStation").setCreativeTab(Calculator).setHardness(1.5F);
-		GameRegistry.registerBlock(dockingStation, CalcBlockItem.class, "DockingStation").setBlockTextureName(modid + ":" + "reinforcedstone");
-		GameRegistry.registerTileEntity(TileEntityDockingStation.class, "DockingStation");
 
 		atomiccalculatorBlock = new AtomicCalculatorBlock().setBlockName("atomiccalculatorBlock").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(atomiccalculatorBlock, CalcBlockItem.class, "atomiccalculatorBlock");
@@ -150,6 +147,9 @@ public class CalculatorBlocks extends Calculator {
 		healthprocessor = new HealthProcessor().setBlockName("HealthProcessor").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(healthprocessor, CalcBlockItem.class, "HealthProcessor");
 		GameRegistry.registerTileEntity(TileEntityHealthProcessor.class, "HealthProcessor");
+		dockingStation = new DockingStation().setBlockName("DockingStation").setCreativeTab(Calculator).setHardness(1.5F);
+		GameRegistry.registerBlock(dockingStation, CalcBlockItem.class, "DockingStation").setBlockTextureName(modid + ":" + "reinforcedstone");
+		GameRegistry.registerTileEntity(TileEntityDockingStation.class, "DockingStation");
 		atomicMultiplier = new AtomicMultiplier().setBlockName("AtomicMultiplier").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(6.5F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);
 		GameRegistry.registerBlock(atomicMultiplier, CalcBlockItem.class, "AtomicMultiplier");
 		GameRegistry.registerTileEntity(TileEntityAtomicMultiplier.class, "AtomicMultiplier");
@@ -174,7 +174,7 @@ public class CalculatorBlocks extends Calculator {
 		storageChamber = new StorageChamber().setBlockName("StorageChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(storageChamber, CalcBlockItem.class, "StorageChamber");
 		GameRegistry.registerTileEntity(TileEntityStorageChamber.class, "StorageChamber");
-		researchChamber = new ResearchChamber().setBlockName("ResearchChamber").setCreativeTab(Calculator).setHardness(1.0F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);
+		researchChamber = new ResearchChamber().setBlockName("ResearchChamber").setHardness(1.0F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);
 		GameRegistry.registerBlock(researchChamber, CalcBlockItem.class, "ResearchChamber");
 		GameRegistry.registerTileEntity(TileEntityResearchChamber.class, "ResearchChamber");
 		// manipulationChamber = new ManipulationChamber().setBlockName("ManipulationChamber").setCreativeTab(Calculator).setHardness(1.5F);

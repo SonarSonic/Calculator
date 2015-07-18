@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.block.misc;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,7 +24,7 @@ public class MagneticFlux extends SonarMachineBlock {
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
-	
+
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityMagneticFlux();
@@ -38,5 +39,20 @@ public class MagneticFlux extends SonarMachineBlock {
 		}
 		return true;
 	}
-	
+
+	@Override
+	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+		super.canPlaceBlockAt(world, x, y, z);
+		for (int Y = Math.max(y - 4, 0); Y < Math.min(256, y + 4); Y++) {
+			for (int X = x - 4; X <= x + 4; X++) {
+				for (int Z = z - 4; Z <= z + 4; Z++) {
+					if (world.getBlock(X, Y, Z) == Calculator.magneticFlux) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
 }

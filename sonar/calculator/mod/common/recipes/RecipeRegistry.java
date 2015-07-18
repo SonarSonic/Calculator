@@ -61,7 +61,7 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(Calculator.gas_lantern_off, Calculator.basic_lantern, Calculator.basic_lantern, false);
 		registerCalculatorRecipe(Calculator.prunaeSeeds, Calculator.enriched_coal, Items.wheat_seeds, false);
 		registerCalculatorRecipe(Calculator.enriched_coal, Calculator.coal_dust, Calculator.coal_dust, false);
-		registerCalculatorRecipe(Calculator.researchChamber, Calculator.reinforced_iron_block, Calculator.powerCube, false);
+		//registerCalculatorRecipe(Calculator.researchChamber, Calculator.reinforced_iron_block, Calculator.powerCube, false);
 
 		// calculator recipes
 		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBlock, 8), "cobblestone", Items.clay_ball, true);
@@ -631,10 +631,12 @@ public class RecipeRegistry {
 			for (int i = 0; i < RecipeRegistry.unblocked.size(); i++) {
 				this.addRecipe(RecipeRegistry.unblocked.get(i));
 			}
+			/*
 			for (int i = 0; i < RecipeRegistry.blocked.size(); i++) {
 				currentRecipe = i;
 				this.addRecipe(RecipeRegistry.blocked.get(i));
 			}
+			*/
 
 		}
 		

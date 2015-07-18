@@ -163,7 +163,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 		if (!this.worldObj.isRemote) {
 			EntityItem entity = (EntityItem) this.worldObj.getEntityByID(item.getEntityId());
 			if (entity == null) {
-				return item.getEntityItem();
+				return null;
 			}
 			ItemStack itemstack = entity.getEntityItem();
 			int i = itemstack.stackSize;

@@ -20,7 +20,7 @@ import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerDockingStation extends ContainerSync {
 
-	private TileEntityDockingStation entity;
+	public TileEntityDockingStation entity;
 
 	private int INV_START, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
