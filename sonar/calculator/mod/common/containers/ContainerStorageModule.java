@@ -2,17 +2,22 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.core.client.gui.ContainerCraftInventory;
+import sonar.calculator.mod.common.item.calculators.CalculatorItem;
+import sonar.calculator.mod.common.item.modules.StorageModule;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.SlotLimiter;
 
-public class ContainerStorageModule extends ContainerCraftInventory
-{
-	public ContainerStorageModule(EntityPlayer player,InventoryPlayer inv, InventoryItem calc) {
-		super(player,inv,calc);
+public class ContainerStorageModule extends Container {
+	private final InventoryItem inventory;
+
+	private static final int INV_START = StorageModule.StorageInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
+
+	public ContainerStorageModule(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
+		this.inventory = inventoryItem;
         int i = 36;
         int j;
         int k;
@@ -29,54 +34,76 @@ public class ContainerStorageModule extends ContainerCraftInventory
         {
             for (k = 0; k < 9; ++k)
             {
-                this.addSlotToContainer(new SlotLimiter(inv, k + j * 9 + 9, 8 + k * 18, 104 + j * 18 + i, Calculator.itemStorageModule));
+                this.addSlotToContainer(new SlotLimiter(inventoryPlayer, k + j * 9 + 9, 8 + k * 18, 104 + j * 18 + i, Calculator.itemStorageModule));
             }
         }
 
         for (j = 0; j < 9; ++j)
         {
-            this.addSlotToContainer(new SlotLimiter(inv, j, 8 + j * 18, 162 + i, Calculator.itemStorageModule));
+            this.addSlotToContainer(new SlotLimiter(inventoryPlayer, j, 8 + j * 18, 162 + i, Calculator.itemStorageModule));
         }
-    }
+	}
 
-    public boolean canInteractWith(EntityPlayer player)
-    {
-        return true;
-    }
+	@Override
+	public boolean canInteractWith(EntityPlayer player) {
 
-    public ItemStack transferStackInSlot(EntityPlayer player, int slotID)
-    {
-        ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(slotID);
+		return inventory.isUseableByPlayer(player);
+	}
 
-        if (slot != null && slot.getHasStack())
-        {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
+	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
+		ItemStack itemstack = null;
+		Slot slot = (Slot) this.inventorySlots.get(id);
 
-            if (slotID < 54)
-            {
-                if (!this.mergeItemStack(itemstack1, 54, this.inventorySlots.size(), true))
-                {
-                    return null;
-                }
-            }
-            else if (!this.mergeItemStack(itemstack1, 0, 54, false))
-            {
-                return null;
-            }
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
 
-            if (itemstack1.stackSize == 0)
-            {
-                slot.putStack((ItemStack)null);
-            }
-            else
-            {
-                slot.onSlotChanged();
-            }
-        }
+			if (id < INV_START) {
+				if (!this.mergeItemStack(itemstack1, INV_START, HOTBAR_END + 1, true)) {
+					return null;
+				}
 
-        return itemstack;
-    }
+				slot.onSlotChange(itemstack1, itemstack);
+			} else {
+				
+				if (id >= INV_START) {
+					if (!this.mergeItemStack(itemstack1, 0, INV_START, false)) {
+						return null;
+					}
+				}
+				else if (id >= INV_START && id < HOTBAR_START) {
+					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
+						return null;
+					}
+				}
+				else if (id >= HOTBAR_START && id < HOTBAR_END + 1) {
+					if (!this.mergeItemStack(itemstack1, INV_START, INV_END + 1, false)) {
+						return null;
+					}
+				}
+			}
 
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
+
+			if (itemstack1.stackSize == itemstack.stackSize) {
+				return null;
+			}
+
+			slot.onPickupFromSlot(player, itemstack1);
+		}
+
+		return itemstack;
+	}
+
+	@Override
+	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player) {
+		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItem()) {
+			return null;
+		}
+		return super.slotClick(slot, button, flag, player);
+	}
 }

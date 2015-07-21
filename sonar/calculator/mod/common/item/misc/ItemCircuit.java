@@ -163,8 +163,8 @@ public class ItemCircuit extends CalcItem implements IStability {
 			return type == null ? C1 : type;
 		}
 
-		public static CircuitType getTypeFromStack(ItemStack p_150978_0_) {
-			return (p_150978_0_.getItem() instanceof ItemCircuit) ? getTypeFromDamage(p_150978_0_.getItemDamage()) : C1;
+		public static CircuitType getTypeFromStack(ItemStack stack) {
+			return (stack.getItem() instanceof ItemCircuit) ? getTypeFromDamage(stack.getItemDamage()) : C1;
 		}
 
 		static {

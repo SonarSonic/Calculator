@@ -11,16 +11,12 @@ import sonar.calculator.mod.client.gui.calculators.GuiInfoCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiPortableDynamic;
 import sonar.calculator.mod.client.gui.calculators.GuiScientificCalculator;
 import sonar.calculator.mod.client.gui.generators.GuiConductorMast;
-import sonar.calculator.mod.client.gui.generators.GuiGlowstoneExtractor;
-import sonar.calculator.mod.client.gui.generators.GuiRedstoneExtractor;
-import sonar.calculator.mod.client.gui.generators.GuiStarchExtractor;
+import sonar.calculator.mod.client.gui.generators.GuiExtractor;
 import sonar.calculator.mod.client.gui.machines.GuiAdvancedPowerCube;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
 import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
 import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
-import sonar.calculator.mod.integration.nei.handlers.ASeperatorRecipeHandler;
-import sonar.calculator.mod.integration.nei.handlers.AdvancedPowerCubeRecipeHandler;
 import sonar.calculator.mod.integration.nei.handlers.AtomicRecipeHandler;
 import sonar.calculator.mod.integration.nei.handlers.CalculatorDischargeHandler;
 import sonar.calculator.mod.integration.nei.handlers.CalculatorRecipeHandler;
@@ -28,29 +24,21 @@ import sonar.calculator.mod.integration.nei.handlers.CircuitBoardHandler;
 import sonar.calculator.mod.integration.nei.handlers.CircuitExtractionRecipeHandler;
 import sonar.calculator.mod.integration.nei.handlers.ConductorRecipeHandler;
 import sonar.calculator.mod.integration.nei.handlers.CraftingCalculatorHandler;
+import sonar.calculator.mod.integration.nei.handlers.DualOutputHandlers;
 import sonar.calculator.mod.integration.nei.handlers.DynamicRecipeHandler;
 import sonar.calculator.mod.integration.nei.handlers.ExtractionRecipeHandler;
+import sonar.calculator.mod.integration.nei.handlers.ExtractorHandlers;
 import sonar.calculator.mod.integration.nei.handlers.FlawlessRecipeHandler;
-import sonar.calculator.mod.integration.nei.handlers.GlowstoneExtractorHandler;
 import sonar.calculator.mod.integration.nei.handlers.HealthProcessorRecipeHandler;
 import sonar.calculator.mod.integration.nei.handlers.InfoUsageHandler;
 import sonar.calculator.mod.integration.nei.handlers.PortableDynamicRecipeHandler;
-import sonar.calculator.mod.integration.nei.handlers.PowerCubeRecipeHandler;
-import sonar.calculator.mod.integration.nei.handlers.PrecisionRecipeHandler;
-import sonar.calculator.mod.integration.nei.handlers.ProcessingRecipeHandler;
-import sonar.calculator.mod.integration.nei.handlers.ReassemblyRecipeHandler;
+import sonar.calculator.mod.integration.nei.handlers.PowerCubeHandler;
+import sonar.calculator.mod.integration.nei.handlers.ProcessingHandlers;
 import sonar.calculator.mod.integration.nei.handlers.RecipeInfoHandler;
-import sonar.calculator.mod.integration.nei.handlers.RedstoneExtractorHandler;
-import sonar.calculator.mod.integration.nei.handlers.ReinforcedFurnaceRecipeHandler;
-import sonar.calculator.mod.integration.nei.handlers.RestorationRecipeHandler;
-import sonar.calculator.mod.integration.nei.handlers.SSeperatorRecipeHandler;
 import sonar.calculator.mod.integration.nei.handlers.ScientificRecipeHandler;
-import sonar.calculator.mod.integration.nei.handlers.StarchExtractorHandler;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import codechicken.nei.api.ItemFilter.ItemFilterProvider;
 import codechicken.nei.recipe.DefaultOverlayHandler;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class NEICalculatorConfig
   implements IConfigureNEI
@@ -60,16 +48,16 @@ public class NEICalculatorConfig
   	{
 	API.registerUsageHandler(new CalculatorDischargeHandler());
 	API.registerRecipeHandler(new CalculatorDischargeHandler());
-    API.registerRecipeHandler(new ReassemblyRecipeHandler());
-    API.registerUsageHandler(new ReassemblyRecipeHandler());
-    API.registerRecipeHandler(new RestorationRecipeHandler());
-    API.registerUsageHandler(new RestorationRecipeHandler());
+    API.registerRecipeHandler(new ProcessingHandlers.ReassemblyChamber());
+    API.registerUsageHandler(new ProcessingHandlers.ReassemblyChamber());
+    API.registerRecipeHandler(new ProcessingHandlers.RestorationChamber());
+    API.registerUsageHandler(new ProcessingHandlers.RestorationChamber());
     API.registerRecipeHandler(new ExtractionRecipeHandler());
     API.registerUsageHandler(new ExtractionRecipeHandler());
-    API.registerRecipeHandler(new ASeperatorRecipeHandler());
-    API.registerUsageHandler(new ASeperatorRecipeHandler());
-    API.registerRecipeHandler(new SSeperatorRecipeHandler());
-    API.registerUsageHandler(new SSeperatorRecipeHandler());
+    API.registerRecipeHandler(new DualOutputHandlers.Algorithm());
+    API.registerUsageHandler(new DualOutputHandlers.Algorithm());
+    API.registerRecipeHandler(new DualOutputHandlers.Stone());
+    API.registerUsageHandler(new DualOutputHandlers.Stone());
     API.registerRecipeHandler(new CalculatorRecipeHandler());
     API.registerUsageHandler(new CalculatorRecipeHandler());
     API.registerRecipeHandler(new ScientificRecipeHandler());
@@ -81,21 +69,21 @@ public class NEICalculatorConfig
     API.registerUsageHandler(new DynamicRecipeHandler());
     API.registerUsageHandler(new PortableDynamicRecipeHandler());
     API.registerUsageHandler(new CraftingCalculatorHandler());
-    API.registerRecipeHandler(new StarchExtractorHandler());
-    API.registerUsageHandler(new StarchExtractorHandler());
-    API.registerRecipeHandler(new RedstoneExtractorHandler());
-    API.registerUsageHandler(new RedstoneExtractorHandler());
-    API.registerRecipeHandler(new GlowstoneExtractorHandler());
-    API.registerUsageHandler(new GlowstoneExtractorHandler());    
+    API.registerRecipeHandler(new ExtractorHandlers.Starch());
+    API.registerUsageHandler(new ExtractorHandlers.Starch());
+    API.registerRecipeHandler(new ExtractorHandlers.Redstone());
+    API.registerUsageHandler(new ExtractorHandlers.Redstone());
+    API.registerRecipeHandler(new ExtractorHandlers.Glowstone());
+    API.registerUsageHandler(new ExtractorHandlers.Glowstone());    
     API.registerRecipeHandler(new ConductorRecipeHandler());
     API.registerUsageHandler(new ConductorRecipeHandler());
-    API.registerRecipeHandler(new ProcessingRecipeHandler());
-    API.registerUsageHandler(new ProcessingRecipeHandler());
-    API.registerUsageHandler(new PowerCubeRecipeHandler());
-    API.registerUsageHandler(new AdvancedPowerCubeRecipeHandler());
-    API.registerUsageHandler(new ReinforcedFurnaceRecipeHandler());
-    API.registerRecipeHandler(new PrecisionRecipeHandler());
-    API.registerUsageHandler(new PrecisionRecipeHandler());
+    API.registerRecipeHandler(new ProcessingHandlers.ProcessingChamber());
+    API.registerUsageHandler(new ProcessingHandlers.ProcessingChamber());
+    API.registerUsageHandler(new PowerCubeHandler());
+    API.registerUsageHandler(new PowerCubeHandler.Advanced());
+    API.registerUsageHandler(new ProcessingHandlers.ReinforcedFurnace());
+    API.registerRecipeHandler(new DualOutputHandlers.Precision());
+    API.registerUsageHandler(new DualOutputHandlers.Precision());
     API.registerUsageHandler(new CircuitBoardHandler());
     API.registerRecipeHandler(new CircuitExtractionRecipeHandler());
     API.registerUsageHandler(new CircuitExtractionRecipeHandler());
@@ -122,9 +110,9 @@ public class NEICalculatorConfig
     API.registerGuiOverlay(GuiPortableDynamic.class, "portable_dynamic");     
     API.registerGuiOverlay(GuiFlawlessCalculator.class, "flawless");
     
-    API.registerGuiOverlay(GuiStarchExtractor.class, "starch");
-    API.registerGuiOverlay(GuiGlowstoneExtractor.class, "glowstone");
-    API.registerGuiOverlay(GuiRedstoneExtractor.class, "redstone");
+    API.registerGuiOverlay(GuiExtractor.Starch.class, "starch");
+    API.registerGuiOverlay(GuiExtractor.Glowstone.class, "glowstone");
+    API.registerGuiOverlay(GuiExtractor.Redstone.class, "redstone");
     API.registerGuiOverlay(GuiConductorMast.class, "conductor");
 
     API.registerGuiOverlay(GuiInfoCalculator.class, "info");
@@ -144,6 +132,7 @@ public class NEICalculatorConfig
     API.hideItem(new ItemStack(Calculator.scarecrowBlock));
     API.hideItem(new ItemStack(Calculator.gas_lantern_on));
     API.hideItem(new ItemStack(Calculator.weatherStationBlock));
+    API.hideItem(new ItemStack(Calculator.calculatorScreen));
   }
   
   @Override

@@ -1,6 +1,7 @@
 
 package sonar.calculator.mod.client.models;
 
+import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -51,49 +52,49 @@ public class ModelDockingStation extends ModelBase
       setRotation(Support1, -0.7853982F, 0F, 0F);
       Support_2 = new ModelRenderer(this, 0, 24);
       Support_2.addBox(0F, 0F, 0F, 4, 1, 1);
-      Support_2.setRotationPoint(-2F, 12.9F, -3.5F);
+      Support_2.setRotationPoint(-2F, 13F, -3.5F);
       Support_2.setTextureSize(128, 64);
       Support_2.mirror = true;
       setRotation(Support_2, 0.7853982F, 0F, 0F);
       Con2 = new ModelRenderer(this, 0, 52);
       Con2.addBox(0F, 0F, 0F, 1, 6, 6);
-      Con2.setRotationPoint(-8F, 14F, -3F);
+      Con2.setRotationPoint(-8F, 13F, -3F);
       Con2.setTextureSize(128, 64);
       Con2.mirror = true;
       setRotation(Con2, 0F, 0F, 0F);
       Con3 = new ModelRenderer(this, 0, 52);
       Con3.addBox(0F, 0F, 0F, 1, 6, 6);
-      Con3.setRotationPoint(-3F, 14F, -7F);
+      Con3.setRotationPoint(-3F, 13F, -7F);
       Con3.setTextureSize(128, 64);
       Con3.mirror = true;
       setRotation(Con3, 0F, 1.570796F, 0F);
       Con4 = new ModelRenderer(this, 0, 52);
       Con4.addBox(0F, 0F, 0F, 1, 6, 6);
-      Con4.setRotationPoint(-3F, 14F, 8F);
+      Con4.setRotationPoint(-3F, 13F, 8F);
       Con4.setTextureSize(128, 64);
       Con4.mirror = true;
       setRotation(Con4, 0F, 1.570796F, 0F);
       Con5 = new ModelRenderer(this, 0, 0);
       Con5.addBox(0F, 0F, 0F, 2, 2, 14);
-      Con5.setRotationPoint(-1F, 16F, -7F);
+      Con5.setRotationPoint(-1F, 15.001F, -7F);
       Con5.setTextureSize(128, 64);
       Con5.mirror = true;
       setRotation(Con5, 0F, 0F, 0F);
       Con6 = new ModelRenderer(this, 0, 0);
       Con6.addBox(0F, 0F, 0F, 2, 2, 14);
-      Con6.setRotationPoint(-7F, 16F, 1F);
+      Con6.setRotationPoint(-7F, 15.001F, 1F);
       Con6.setTextureSize(128, 64);
       Con6.mirror = true;
       setRotation(Con6, 0F, 1.570796F, 0F);
       Stem1 = new ModelRenderer(this, 0, 0);
       Stem1.addBox(0F, 0F, 0F, 2, 4, 2);
-      Stem1.setRotationPoint(-1F, 18F, -5F);
+      Stem1.setRotationPoint(-1F, 18F, -4F);
       Stem1.setTextureSize(128, 64);
       Stem1.mirror = true;
       setRotation(Stem1, 0F, 0F, 0F);
       Stem2 = new ModelRenderer(this, 0, 0);
       Stem2.addBox(0F, 0F, 0F, 2, 4, 2);
-      Stem2.setRotationPoint(-1F, 18F, 3F);
+      Stem2.setRotationPoint(-1F, 18F, 2F);
       Stem2.setTextureSize(128, 64);
       Stem2.mirror = true;
       setRotation(Stem2, 0F, 0F, 0F);
@@ -129,12 +130,12 @@ public class ModelDockingStation extends ModelBase
       setRotation(Centre2, 0F, 0F, 0F);
       Con1 = new ModelRenderer(this, 0, 52);
       Con1.addBox(0F, 0F, 0F, 1, 6, 6);
-      Con1.setRotationPoint(7F, 14F, -3F);
+      Con1.setRotationPoint(7F, 13F, -3F);
       Con1.setTextureSize(128, 64);
       Con1.mirror = true;
       setRotation(Con1, 0F, 0F, 0F);
   }
-  
+
   public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
   {
     super.render(entity, f, f1, f2, f3, f4, f5);

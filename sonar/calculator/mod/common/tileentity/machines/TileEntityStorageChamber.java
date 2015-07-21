@@ -1,44 +1,43 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.StatCollector;
-import cofh.api.energy.EnergyStorage;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.IBigInventory;
 import sonar.calculator.mod.api.IStability;
-import sonar.calculator.mod.api.ISyncTile;
-import sonar.calculator.mod.api.SyncData;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
-import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
-import sonar.core.utils.IDropTile;
+import sonar.core.utils.ISyncTile;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class TileEntityStorageChamber extends TileEntitySidedInventory implements IDropTile, ISidedInventory, IBigInventory {
+/** needs clean up */
+public class TileEntityStorageChamber extends TileEntitySidedInventory implements ISyncTile, ISidedInventory {
 
-	public static int maxSize = 1000;
+	public static int maxSize = 5000;
 	public int[] stored;
-	public boolean update;
+	public ItemStack savedStack;
+	public int renderTicks;
 
+	public void updateEntity() {
+		super.updateEntity();
+		if(renderTicks!=1300){
+			renderTicks++;
+		}else{
+			renderTicks=0;
+		}
+	}
 	public TileEntityStorageChamber() {
+
 		this.stored = new int[14];
-		super.slots = new ItemStack[15];
-		super.input = new int[] { 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213 };
-		super.output = new int[] { 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113 };
+		super.slots = new ItemStack[14];
+		super.input = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+		super.output = new int[] { 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27 };
 	}
 
 	@Override
 	public int getSizeInventory() {
-		return this.slots.length;
+		return stored.length * 2;
 	}
 
 	@Override
@@ -46,32 +45,66 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 		return 1;
 	}
 
-	@Override
-	public ItemStack getStackInSlot(int var1) {
-		if (var1 >= 200) {
+	public boolean isInputSlot(int slot) {
+		return slot < stored.length;
+	}
+
+	public boolean isOutputSlot(int slot) {
+		return slot >= stored.length;
+	}
+
+	/**
+	 * has the functionality for any stack size;
+	 * 
+	 * @param slot
+	 * @return
+	 */
+	public ItemStack getInputStack(int slot) {
+		if (this.getSavedStack() == null || this.stored[slot] == 0) {
 			return null;
 		}
-		if (var1 >= 100) {
-			return this.getSlotStack(var1 - 100);
+		int stackSize = 0;
+		int current = (int) Math.floor((this.stored[slot] / savedStack.getMaxStackSize()));
+		if (current == this.maxSize) {
+			stackSize = savedStack.getMaxStackSize();
+		} else {
+			stackSize = this.stored[slot] - (current * savedStack.getMaxStackSize());
 		}
-		return this.slots[var1];
+		if (stackSize == 0) {
+			return null;
+		}
+		ItemStack outputStack = savedStack.copy();
+		outputStack.setItemDamage(slot);
+		outputStack.stackSize = stackSize;
+		if (stackSize == savedStack.getMaxStackSize()) {
+			return null;
+		}
+		return outputStack;
+
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int var1) {
+		int slot = var1 - stored.length;
+		if (isInputSlot(var1)) {
+			return this.getInputStack(var1);
+		} else if (this.isOutputSlot(var1)) {
+			return this.getFullStack(slot);
+		}
+		return null;
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int var2) {
-		if (slot >= 100) {
-			if (this.stored[slot - 100] != 0) {
-				ItemStack display = this.getSlotStack(slot - 100);
-				this.stored[slot - 100]--;
-				if (this.stored[slot - 100] == 0) {
-					this.slots[slot - 100] = null;
-					this.resetSavedStack(slot - 100);
-				}
-				return display;
+		if (this.isOutputSlot(slot)) {
+			ItemStack output = this.getSlotStack(slot - stored.length, var2);
+			this.stored[slot - stored.length] -= var2;
+			if (this.stored[slot - stored.length] == 0) {
+				this.slots[slot - stored.length] = null;
+				this.resetSavedStack(slot - stored.length);
 			}
-			return null;
-		}
-		if (this.slots[slot] != null) {
+			return output;
+		} else if (this.slots[slot] != null) {
 
 			if (this.slots[slot].stackSize <= var2) {
 				ItemStack itemstack = this.slots[slot];
@@ -92,22 +125,27 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		if (i >= 200) {
+		if (itemstack == null) {
+			return;
+		}
+		if (this.isInputSlot(i)) {
 			this.stored[itemstack.getItemDamage()] += 1;
 			if (getSavedStack() == null) {
 				setSavedStack(itemstack);
 			}
-		} else if (i >= 100) {
-			if (stored[i - 100] == 1) {
-				resetSavedStack(i - 100);
+		} else if (this.isOutputSlot(i)) {
+			if (stored[i - stored.length] == 1) {
+				resetSavedStack(i - stored.length);
 			}
-			this.stored[i - 100] -= 1;
-		} else {
-			this.slots[i] = itemstack;
+			this.stored[i - stored.length] -= 1;
+		}
 
-			if ((itemstack != null) && (itemstack.stackSize > getInventoryStackLimit())) {
-				itemstack.stackSize = getInventoryStackLimit();
-			}
+	}
+
+	public void setDisplayContents(int i, ItemStack itemstack) {
+		this.slots[i] = itemstack;
+		if ((itemstack != null) && (itemstack.stackSize > getInventoryStackLimit())) {
+			itemstack.stackSize = getInventoryStackLimit();
 		}
 	}
 
@@ -131,11 +169,17 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		return isItemValidForSlot(slot, stack);
+
+		return this.isInputSlot(slot) && isItemValidForSlot(slot, stack);
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+		return this.isOutputSlot(slot) && !this.isInputSlot(slot);
 	}
 
 	public boolean isItemValid(int slot, ItemStack stack) {
-		if (stack != null) {
+		if (stack != null && this.isInputSlot(slot)) {
 			if (stack.getItemDamage() != slot) {
 				return false;
 			}
@@ -161,9 +205,9 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 		return null;
 	}
 
-	public ItemStack getSlotStack(int slot) {
+	public ItemStack getSlotStack(int slot, int size) {
 		if (stored[slot] != 0 && getSavedStack() != null) {
-			ItemStack slotStack = new ItemStack(getSavedStack().getItem(), 1, slot);
+			ItemStack slotStack = new ItemStack(getSavedStack().getItem(), size, slot);
 			slotStack.setTagCompound(getSavedStack().getTagCompound());
 			return slotStack;
 		}
@@ -186,11 +230,11 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 	}
 
 	public ItemStack getSavedStack() {
-		return slots[14];
+		return savedStack;
 	}
 
 	public void setSavedStack(ItemStack stack) {
-		slots[14] = stack;
+		savedStack = stack;
 		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
@@ -269,37 +313,35 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 		return 1;
 	}
 
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		this.update = nbt.getBoolean("update");
-		stored = nbt.getIntArray("Stored");
-		if (stored == null) {
-			stored = new int[14];
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		if (type == SyncType.SAVE || type == SyncType.DROP) {
+			stored = nbt.getIntArray("Stored");
+			if(this.stored.length != 14 || stored == null){
+				stored= new int[14];
+			}
+			this.savedStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("saved"));
 		}
+
 	}
 
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setBoolean("update", update);
-		nbt.setIntArray("Stored", stored);
-	}
-
-	@Override
-	public void readInfo(NBTTagCompound tag) {
-		this.stored = tag.getIntArray("stored");
-		this.setSavedStack(ItemStack.loadItemStackFromNBT(tag.getCompoundTag("saved")));
-	}
-
-	@Override
-	public void writeInfo(NBTTagCompound tag) {
-		tag.setIntArray("stored", stored);
-		if (getSavedStack() != null) {
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		if (type == SyncType.SAVE) {
+			nbt.setIntArray("Stored", stored);
 			NBTTagCompound stack = new NBTTagCompound();
-			this.getSavedStack().writeToNBT(stack);
-			tag.setTag("saved", stack);
-			tag.setInteger("type", TileEntityStorageChamber.getCircuitValue(TileEntityStorageChamber.getCircuitType(this.getSavedStack())));
-		}
+			if (savedStack != null) {
+				savedStack.writeToNBT(stack);
+			}
+			nbt.setTag("saved", stack);
+		} else if (type == SyncType.DROP) {
+			nbt.setIntArray("Stored", stored);
+			if (getSavedStack() != null) {
+				NBTTagCompound stack = new NBTTagCompound();
+				this.getSavedStack().writeToNBT(stack);
+				nbt.setTag("saved", stack);
+				nbt.setInteger("type", TileEntityStorageChamber.getCircuitValue(TileEntityStorageChamber.getCircuitType(this.getSavedStack())));
+			}
 
+		}
 	}
 
 	private enum CircuitType {

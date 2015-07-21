@@ -1,8 +1,6 @@
 package sonar.calculator.mod.api;
 
-/**Used by Health/Hunger Modules*/
+/** Used by Health/Hunger Modules */
 public enum ProcessType {
-	ADD,
-	REMOVE,
-	SIMULATE;
+	ADD, REMOVE, SIMULATE;
 }

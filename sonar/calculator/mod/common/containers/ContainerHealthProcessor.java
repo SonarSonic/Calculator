@@ -38,7 +38,7 @@ public class ContainerHealthProcessor extends ContainerSync {
 			itemstack = itemstack1.copy();
 
 			if ((p_82846_2_ != 1) && (p_82846_2_ != 0)) {
-				if (HealthProcessorRecipes.instance().getHealthValue(itemstack1) > 0) {
+				if ((Integer)HealthProcessorRecipes.instance().getOutput(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}

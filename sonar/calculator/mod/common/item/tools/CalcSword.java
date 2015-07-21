@@ -21,26 +21,25 @@ public class CalcSword extends ItemSword {
 	}
 
 	@Override
-	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player,
-			Entity entity) {
+	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+		super.onLeftClickEntity(stack, player, entity);
 		if (type == CalculatorItems.FireDiamond) {
 			entity.setFire(4);
 		}
-		super.onLeftClickEntity(stack, player, entity);
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list,	boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
 		if (!CalculatorConfig.isEnabled(stack)) {
 			list.add(FontHelper.translate("calc.ban"));
 		}
 	}
+
 	@Override
-    public boolean isItemTool(ItemStack stack)
-    {
-        return true;
-    }
+	public boolean isItemTool(ItemStack stack) {
+		return true;
+	}
 }

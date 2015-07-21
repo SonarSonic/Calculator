@@ -1,9 +1,13 @@
 package sonar.calculator.mod.common.block.misc;
 
+import java.util.ArrayList;
+
+import cofh.api.block.IDismantleable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -11,12 +15,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
+import sonar.core.utils.helpers.SonarHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class Scarecrow extends BlockContainer implements IWrench {
+public class Scarecrow extends BlockContainer implements IDismantleable {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon icon;
@@ -40,8 +44,6 @@ public class Scarecrow extends BlockContainer implements IWrench {
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-
-
 
 	private void setDefaultDirection(World world, int x, int y, int z) {
 		if (!world.isRemote) {
@@ -73,10 +75,8 @@ public class Scarecrow extends BlockContainer implements IWrench {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z,
-			EntityLivingBase entityplayer, ItemStack itemstack) {
-		int l = MathHelper
-				.floor_double(entityplayer.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityplayer, ItemStack itemstack) {
+		int l = MathHelper.floor_double(entityplayer.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
 
 		if (l == 0) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
@@ -96,8 +96,8 @@ public class Scarecrow extends BlockContainer implements IWrench {
 	}
 
 	private void setBlocks(World world, int x, int y, int z, int i) {
-		world.setBlock(x, y + 1, z, Calculator.scarecrowBlock,i,2);
-		world.setBlock(x, y + 2, z, Calculator.scarecrowBlock,i,2);
+		world.setBlock(x, y + 1, z, Calculator.scarecrowBlock, i, 2);
+		world.setBlock(x, y + 2, z, Calculator.scarecrowBlock, i, 2);
 
 	}
 
@@ -109,8 +109,7 @@ public class Scarecrow extends BlockContainer implements IWrench {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block oldblock,
-			int oldMetadata) {
+	public void breakBlock(World world, int x, int y, int z, Block oldblock, int oldMetadata) {
 		super.breakBlock(world, x, y, z, oldblock, oldMetadata);
 		world.setBlockToAir(x, y + 1, z);
 		world.setBlockToAir(x, y + 2, z);
@@ -128,7 +127,14 @@ public class Scarecrow extends BlockContainer implements IWrench {
 	}
 
 	@Override
-	public boolean canWrench() {
+	public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops) {
+		
+		SonarHelper.dropTile(player, world.getBlock(x, y, z), world, x, y, z);
+		return null;
+	}
+
+	@Override
+	public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z) {
 		return true;
 	}
 

@@ -6,17 +6,18 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
-import sonar.calculator.mod.common.recipes.machines.AlgorithmSeperatorRecipes;
+import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.StoneSeperatorRecipes;
+import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.core.utils.helpers.RecipeHelper;
 import cofh.api.energy.EnergyStorage;
 
 public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 
-    public Random rand = new Random();
-    
+	public Random rand = new Random();
+
 	public TileEntityAbstractProcess() {
 		int[] inputs = new int[inputSize()];
 		int[] outputs = new int[outputSize()];
@@ -50,30 +51,30 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 	}
 
 	public boolean canProcess() {
-
-		for (int i = 0; i < inputSize(); i++) {
-			if (slots[i] == null) {
-				return false;
-			}
+		if (slots[0] == null) {
+			return false;
 		}
+
 		if (cookTime == 0) {
 			if (this.storage.getEnergyStored() < this.requiredEnergy()) {
 				return false;
 			}
 		}
-		ItemStack[] output = getOutput(true,this.slots[0]);
+		ItemStack[] output = getOutput(true, inputStacks());
+		if (output == null || output.length != this.outputSize()) {
+			return false;
+		}
 		for (int o = 0; o < outputSize(); o++) {
 			if (output[o] == null) {
 				return false;
-			}else{
-				
-			if (slots[o + inputSize() + 1] != null) {
-				if (!slots[o + inputSize() + 1].isItemEqual(output[o])) {
-					return false;
-				} else if (slots[o + inputSize() + 1].stackSize + output[o].stackSize > slots[o + inputSize() + 1].getMaxStackSize()) {
-					return false;
+			} else {
+				if (slots[o + inputSize() + 1] != null) {
+					if (!slots[o + inputSize() + 1].isItemEqual(output[o])) {
+						return false;
+					} else if (slots[o + inputSize() + 1].stackSize + output[o].stackSize > slots[o + inputSize() + 1].getMaxStackSize()) {
+						return false;
+					}
 				}
-			}
 			}
 		}
 		return true;
@@ -84,7 +85,6 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 		for (int i = 0; i < inputSize(); i++) {
 			if (slots[i] != null) {
 				size = Math.max(size, slots[i].stackSize);
-				System.out.print(size);
 			} else {
 				size = 0;
 			}
@@ -94,7 +94,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 
 	public int getMaxOutputSize() {
 		int size = 1;
-		ItemStack[] output = getOutput(true, this.slots[0]);
+		ItemStack[] output = getOutput(true, inputStacks());
 		for (int o = 0; o < outputSize(); o++) {
 			if (slots[o + inputSize() + 1] != null && output[o] != null) {
 				size = Math.max((this.getInventoryStackLimit() - this.slots[o + inputSize() + 1].stackSize) / output[o].stackSize, size);
@@ -107,14 +107,12 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 	}
 
 	public void finishProcess() {
-		ItemStack[] output = getOutput(false, this.slots[0]);
-			for (int o = 0; o < outputSize(); o++) {
-				if (output[o] == null) {
-					return;
-				}
+		ItemStack[] output = getOutput(false, inputStacks());
+		for (int o = 0; o < outputSize(); o++) {
+			if (output[o] != null) {
 				if (this.slots[o + inputSize() + 1] == null) {
 					ItemStack outputStack = output[o].copy();
-					if(output[o].getItem() == Calculator.circuitBoard){
+					if (output[o].getItem() == Calculator.circuitBoard) {
 						ItemCircuit.setData(outputStack);
 					}
 					this.slots[o + inputSize() + 1] = outputStack;
@@ -122,28 +120,38 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 					this.slots[o + inputSize() + 1].stackSize += output[o].stackSize;
 
 				}
+			}
+		}
+		for (int i = 0; i < inputSize(); i++) {
+			if (recipeHelper() != null) {
+				this.slots[i].stackSize -= recipeHelper().getInputSize(i, output);
+			} else {
+				this.slots[i].stackSize -= 1;
+			}
+			if (this.slots[i].stackSize <= 0) {
+				this.slots[i] = null;
+			}
+		}
+	}
 
-			}
-			for (int i = 0; i < inputSize(); i++) {
-				if (recipeHelper() != null)
-					this.slots[i].stackSize -= recipeHelper().getInputSize(i, output);
-				else {
-					this.slots[i].stackSize -= 1;
-				}
-				if (this.slots[i].stackSize <= 0) {
-					this.slots[i] = null;
-				}
-			}
+	public ItemStack[] inputStacks() {
+		ItemStack[] input = new ItemStack[this.inputSize()];
+		for (int i = 0; i < this.inputSize(); i++) {
+			input[i] = slots[i];
+		}
+		return input;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (slot == 0) {
+		if (slot < this.inputSize()) {
 			if (recipeHelper() != null) {
 				if (recipeHelper().validInput(stack))
 					return true;
 			} else {
-				if (getOutput(true, stack) != null) {
+				ItemStack[] inputs = inputStacks();
+				inputs[slot] = stack;
+				if (getOutput(true, inputs) != null) {
 					return true;
 				}
 			}

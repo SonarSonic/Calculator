@@ -105,7 +105,7 @@ public class ContainerStorageChamber extends Container {
 			itemstack = itemstack1.copy();
 
 			if (slotID < 14) {
-				if (!this.mergeItemStack(entity.getSlotStack(slotID), 14, this.inventorySlots.size(), true)) {
+				if (!this.mergeItemStack(entity.getSlotStack(slotID, 1), 14, this.inventorySlots.size(), true)) {
 					return null;
 				}
 				if (!entity.getWorldObj().isRemote) {

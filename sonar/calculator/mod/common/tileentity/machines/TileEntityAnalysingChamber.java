@@ -1,33 +1,28 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.List;
+
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.api.IUpgradeCircuits;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
-import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.core.common.tileentity.TileEntitySidedInventorySender;
-import sonar.core.utils.ChargingUtils;
-import sonar.core.utils.EnergyCharge;
-import sonar.core.utils.ISonarSides;
+import sonar.core.utils.helpers.FontHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender implements ISidedInventory, ISonarSides, IUpgradeCircuits {
+public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender implements ISidedInventory, IUpgradeCircuits {
 
 	public int stable, vUpgrade, analysed;
 	public int maxTransfer = 2000;
@@ -55,9 +50,7 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 		if (canAnalyse()) {
 			analyse(0);
 		}
-
 		charge(1);
-
 		addEnergy();
 		stable = stable(0);
 
@@ -175,18 +168,12 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		this.stable = nbt.getShort("Stable");
-		this.vUpgrade = nbt.getShort("vUpgrade");
-		this.analysed = nbt.getShort("analysed");
 
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("Stable", (short) this.stable);
-		nbt.setShort("vUpgrade", (short) this.vUpgrade);
-		nbt.setShort("analysed", (short) this.analysed);
 
 	}
 
@@ -205,10 +192,6 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 
 	}
 
-	@Override
-	public boolean canBeConfigured() {
-		return true;
-	}
 
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
@@ -280,30 +263,38 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 		}
 	}
 
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.SPECIAL1:
-			this.stable = (Integer) data;
-			break;
-
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.stable = nbt.getShort("Stable");
+			this.vUpgrade = nbt.getShort("vUpgrade");
+			if (type == SyncType.SAVE)
+				this.analysed = nbt.getShort("analysed");
 		}
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			return new SyncData(true, stable);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setShort("Stable", (short) this.stable);
+			nbt.setShort("vUpgrade", (short) this.vUpgrade);
+			if (type == SyncType.SAVE)
+				nbt.setShort("analysed", (short) this.analysed);
 		}
-		return super.getSyncData(id);
+
+	}
+
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		if (vUpgrade != 0) {
+			currenttip.add(FontHelper.translate("circuit.void") + ": " + FontHelper.translate("circuit.installed"));
+		}
+		return currenttip;
 	}
 
 	@Override
 	public void sendPacket(int dimension, int side, int value) {
 		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
-
 	}
 
 }

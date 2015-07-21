@@ -24,8 +24,7 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 	public int lastOxygen;
 	public int lastEnergy;
 
-	public ContainerAdvancedGreenhouse(InventoryPlayer inventory,
-			TileEntityAdvancedGreenhouse entity) {
+	public ContainerAdvancedGreenhouse(InventoryPlayer inventory, TileEntityAdvancedGreenhouse entity) {
 		super(entity);
 		this.entity = entity;
 
@@ -37,14 +36,14 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 		addSlotToContainer(new Slot(entity, 5, 30 - 4, 51 + 3));
 		addSlotToContainer(new Slot(entity, 6, 48 - 4, 51 + 3));
 		addSlotToContainer(new Slot(entity, 7, 80, 61));
-			for (int j = 0; j < 9; j++) {
-			addSlotToContainer(new Slot(entity, 8+j, 8 + j * 18, 88));
-			}
 		
+		for (int j = 0; j < 9; j++) {
+			addSlotToContainer(new Slot(entity, 8 + j, 8 + j * 18, 88));
+		}
+
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 110 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 110 + i * 18));
 			}
 		}
 
@@ -67,18 +66,15 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}
-				} else if ((checkStairs(Block.getBlockFromItem(itemstack1
-						.getItem())))) {
+				} else if ((checkStairs(Block.getBlockFromItem(itemstack1.getItem())))) {
 					if (!mergeItemStack(itemstack1, 1, 4, false)) {
 						return null;
 					}
-				} else if ((checkGlass(Block.getBlockFromItem(itemstack1
-						.getItem())))) {
+				} else if ((checkGlass(Block.getBlockFromItem(itemstack1.getItem())))) {
 					if (!mergeItemStack(itemstack1, 4, 6, false)) {
 						return null;
 					}
-				} else if ((checkPlanks(Block.getBlockFromItem(itemstack1
-						.getItem())))) {
+				} else if ((checkPlanks(Block.getBlockFromItem(itemstack1.getItem())))) {
 					if (!mergeItemStack(itemstack1, 6, 7, false)) {
 						return null;
 					}
@@ -86,8 +82,7 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 7, 8, false)) {
 						return null;
 					}
-				} 
-				else if (itemstack1.getItem() instanceof IEnergyContainerItem) {
+				} else if (itemstack1.getItem() instanceof IEnergyContainerItem) {
 					if (!mergeItemStack(itemstack1, 7, 8, false)) {
 						return null;
 					}
@@ -99,7 +94,7 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 7, 8, false)) {
 						return null;
 					}
-				}else if (itemstack1.getItem() instanceof IPlantable) {
+				} else if (itemstack1.getItem() instanceof IPlantable) {
 					if (!mergeItemStack(itemstack1, 8, 17, false)) {
 						return null;
 					}
@@ -109,8 +104,7 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 				if (!mergeItemStack(itemstack1, 43, 53, false)) {
 					return null;
 				}
-			} else if ((slotID >= 43) && (slotID < 53)
-					&& (!mergeItemStack(itemstack1, 17, 43, false))) {
+			} else if ((slotID >= 43) && (slotID < 53) && (!mergeItemStack(itemstack1, 17, 43, false))) {
 				return null;
 
 			} else if (!mergeItemStack(itemstack1, 17, 53, false)) {
@@ -136,14 +130,12 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 	public boolean checkLog(Block block) {
 
 		for (int i = 0; i < OreDictionary.getOres("logWood").size(); i++) {
-			if (OreDictionary.getOres("logWood").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("logWood").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
 		for (int i = 0; i < OreDictionary.getOres("treeWood").size(); i++) {
-			if (OreDictionary.getOres("treeWood").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("treeWood").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
@@ -153,26 +145,22 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 	public boolean checkGlass(Block block) {
 
 		for (int i = 0; i < OreDictionary.getOres("blockGlass").size(); i++) {
-			if (OreDictionary.getOres("blockGlass").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("blockGlass").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
 		for (int i = 0; i < OreDictionary.getOres("blockGlassColorless").size(); i++) {
-			if (OreDictionary.getOres("blockGlassColorless").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("blockGlassColorless").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
 		for (int i = 0; i < OreDictionary.getOres("paneGlassColorless").size(); i++) {
-			if (OreDictionary.getOres("paneGlassColorless").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("paneGlassColorless").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
 		for (int i = 0; i < OreDictionary.getOres("paneGlass").size(); i++) {
-			if (OreDictionary.getOres("paneGlass").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("paneGlass").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
@@ -182,20 +170,17 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 	public boolean checkStairs(Block block) {
 
 		for (int i = 0; i < OreDictionary.getOres("stairWood").size(); i++) {
-			if (OreDictionary.getOres("stairWood").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("stairWood").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
 		for (int i = 0; i < OreDictionary.getOres("stairStone").size(); i++) {
-			if (OreDictionary.getOres("stairStone").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("stairStone").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
 		for (int i = 0; i < OreDictionary.getOres("stairs").size(); i++) {
-			if (OreDictionary.getOres("stairs").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("stairs").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
@@ -224,22 +209,20 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 	public boolean checkPlanks(Block block) {
 
 		for (int i = 0; i < OreDictionary.getOres("plankWood").size(); i++) {
-			if (OreDictionary.getOres("plankWood").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("plankWood").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
 		for (int i = 0; i < OreDictionary.getOres("planksWood").size(); i++) {
-			if (OreDictionary.getOres("planksWood").get(i).getItem() == Item
-					.getItemFromBlock(block)) {
+			if (OreDictionary.getOres("planksWood").get(i).getItem() == Item.getItemFromBlock(block)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	 @Override
+	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		    return entity.isUseableByPlayer(player);
-		  }
+		return entity.isUseableByPlayer(player);
+	}
 }

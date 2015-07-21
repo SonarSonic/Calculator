@@ -1,8 +1,11 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -11,14 +14,18 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
+import sonar.calculator.mod.integration.planting.IPlanter;
+import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.RenderHelper;
 import cofh.api.energy.EnergyStorage;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
+public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements ISidedInventory {
 
 	public int plants, lanterns, levelTicks, checkTicks, growTicks, growTick;
 
@@ -43,8 +50,10 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 
 	@Override
 	public void updateEntity() {
-
 		super.updateEntity();
+		if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+			return;
+		}
 		if (!this.isBeingBuilt()) {
 			checkTile();
 		}
@@ -53,7 +62,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 				extraTicks();
 			}
 			plant();
-			grow();
+			growTicks();
 			harvestCrops();
 		} else if (this.isBeingBuilt()) {
 			createMultiblock();
@@ -82,15 +91,20 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 	}
 
 	@Override
-	public boolean plant(IPlantable block, int slot) {
+	public boolean plant(ItemStack stack, int slot) {
+
+		IPlanter planter = PlanterRegistry.getPlanter(stack);
+		Block crop = planter.getCropFromStack(stack);
+		int meta = planter.getMetaFromStack(stack);
+		if (crop == null) {
+			return false;
+		}
 
 		for (int Z = -1; Z <= 1; Z++) {
 			for (int X = -1; X <= 1; X++) {
-				if (canPlant(this.worldObj, xCoord + (getForward().offsetX * 2) + X, yCoord, zCoord + (getForward().offsetZ * 2) + Z, slot, block)) {
+				if (canPlant(this.worldObj, xCoord + (getForward().offsetX * 2) + X, yCoord, zCoord + (getForward().offsetZ * 2) + Z, slot, ((IPlantable) stack.getItem()))) {
 					this.worldObj.setBlock(xCoord + (getForward().offsetX * 2) + X, yCoord, zCoord + (getForward().offsetZ * 2) + Z, Blocks.air, 0, 1 | 2);
-					Block target = block.getPlant(null, 0, 0, 0);
-					int meta = block.getPlantMetadata(null, 0, 0, 0);
-					this.worldObj.setBlock(xCoord + (getForward().offsetX * 2) + X, yCoord, zCoord + (getForward().offsetZ * 2) + Z, target, meta, 1 | 2);
+					this.worldObj.setBlock(xCoord + (getForward().offsetX * 2) + X, yCoord, zCoord + (getForward().offsetZ * 2) + Z, crop, meta, 1 | 2);
 
 					this.slots[slot].stackSize--;
 					if (this.slots[slot].stackSize <= 0) {
@@ -130,7 +144,8 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 			levelTicks++;
 		}
 		if (this.levelTicks == 20) {
-			InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, 0, 0, new PlantableFilter());
+			InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, 0, 0,
+					new PlantableFilter());
 			this.levelTicks = 0;
 			gasLevels();
 		}
@@ -157,35 +172,34 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 
 	}
 
-	public void grow() {
+	public void growTicks() {
 		if (this.growTicks == 0) {
 			this.growTick = GreenhouseHelper.getGrowTicks(this.getOxygen(), 1);
 			this.growTicks++;
-		} else if (this.growTick != 0) {
-			if (this.growTicks >= 0 && this.growTicks != growTick) {
-				growTicks++;
-			}
-		} else if (this.growTicks == growTick) {
+			return;
+		}
+		if (growTick != 0 && this.growTicks >= growTick) {
 			if (this.storage.getEnergyStored() >= requiredGrowEnergy) {
 				if (growCrop(1, 0)) {
 					this.storage.modifyEnergyStored(-requiredGrowEnergy);
 				}
 				this.growTicks = 0;
 			}
+		} else {
+			growTicks++;
 		}
-
 	}
 
 	/** adds gas, depends on day and night **/
 	public void gasLevels() {
 		boolean day = this.worldObj.isDaytime();
 		if (day) {
-			int add = (this.plants * 8) - (this.lanterns * 20);
+			int add = (this.plants * 8) - (this.lanterns * 50);
 			this.addGas(-add);
 		}
 		if (!day) {
 
-			int add = (this.plants * 2) + (this.lanterns * 20);
+			int add = (this.plants * 2) + (this.lanterns * 50);
 			this.addGas(add);
 		}
 
@@ -194,7 +208,6 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 	/** gets plants inside greenhouse and sets it to this.plants **/
 	private void getPlants() {
 		this.plants = 0;
-
 		for (int Z = -1; Z <= 1; Z++) {
 			for (int X = -1; X <= 1; X++) {
 				if (this.worldObj.getBlock(xCoord + X, yCoord, zCoord + Z) instanceof IGrowable) {
@@ -215,18 +228,15 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 			for (int X = -1; X <= 1; X++) {
 				for (int Y = 0; Y <= 3; Y++) {
 					if (this.worldObj.getBlock(x + X, y + Y, z + Z) == Calculator.gas_lantern_on) {
-
 						this.lanterns++;
-
 					}
 				}
 			}
 		}
 	}
 
-	/** id = Gas to add to. (Carbon=0) (Oxygen=1). add = amount to add **/
+	/** add = amount to add **/
 	public void addGas(int add) {
-
 		if (this.carbonLevels + add < this.maxLevel && this.carbonLevels + add >= 0) {
 			this.carbonLevels = this.carbonLevels + add;
 		} else {
@@ -544,18 +554,24 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 		for (int i = -1; i <= 5; i++) {
 			for (int s = 2; s <= 4; s++) {
 
-				if (getStairs(w.getBlock(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i)))) {
+				if (getStairs(w.getBlock(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs")))
+						+ (fZ * i)))) {
 					if (!check) {
-						setStairs(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("r"), 2);
+						setStairs(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i),
+								type("r"), 2);
 					}
-					return new FailedCoords(false, x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
+					return new FailedCoords(false, x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z
+							+ (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 
 				}
-				if (getStairs(w.getBlock(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i)))) {
+				if (getStairs(w.getBlock(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs")))
+						+ (fZ * i)))) {
 					if (!check) {
-						setStairs(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("l"), 2);
+						setStairs(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s,
+								z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("l"), 2);
 					}
-					return new FailedCoords(false, x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
+					return new FailedCoords(false, x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z
+							+ (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 				}
 				if (getPlanks(w.getBlock(x + (fX * i), y + 4, zCoord + +(fZ * i)))) {
 					if (!check) {
@@ -845,8 +861,37 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse {
 		return FontHelper.translate("locator.unknown");
 	}
 
-	/*
-	 * isMulti Types -1 = Being Built 0 = Not Complete 1 = Complete (Checks haven't been run) 2 = Complete
-	 */
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		switch (isMulti) {
+		case -1:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.building"));
+			break;
+		case 0:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.incomplete"));
+			break;
+		case 1:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.complete"));
+			break;
+		case 2:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.complete"));
+			break;
+		}
+		return super.getWailaInfo(currenttip);
+	}
 
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack item, int side) {
+		return item != null && item.getItem() instanceof IPlantable;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack item, int side) {
+		return false;
+	}
 }

@@ -10,7 +10,6 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.FluxNetwork;
 import sonar.calculator.mod.api.IFlux;
 import sonar.calculator.mod.client.gui.utils.CalculatorButtons;
 import sonar.calculator.mod.client.gui.utils.GuiSonar;
@@ -19,6 +18,7 @@ import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
+import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.utils.helpers.FontHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -138,7 +138,7 @@ public abstract class GuiFlux extends GuiSonar {
 
 	}
 
-	public String getNetworkType(int networkType) {
+	public static String getNetworkType(int networkType) {
 		switch (networkType) {
 		case 0:
 			return FontHelper.translate("network.restricted");

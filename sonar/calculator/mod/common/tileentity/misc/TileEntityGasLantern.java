@@ -1,18 +1,17 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.StatCollector;
-import sonar.calculator.mod.api.ISyncTile;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.block.misc.GasLantern;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.utils.ISyncTile;
+import sonar.core.utils.helpers.FontHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityGasLantern extends TileEntityInventory implements ISyncTile {
 
@@ -25,6 +24,9 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 
 	@Override
 	public void updateEntity() {
+		if (this.worldObj.isRemote) {
+			return;
+		}
 		boolean flag1 = this.burnTime > 0;
 		boolean flag2 = false;
 		if (this.burnTime > 0) {
@@ -83,41 +85,31 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 		return true;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		this.burnTime = nbt.getInteger("burnTime");
-		this.maxBurnTime = nbt.getInteger("maxBurnTime");
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setInteger("burnTime", this.burnTime);
-		nbt.setInteger("maxBurnTime", this.maxBurnTime);
-
-	}
-
-	@Override
-	public void onSync(Object data, int id) {
-		switch (id) {
-		case SyncType.BURN:
-			this.burnTime = (Integer)data;
-			break;
-		case SyncType.SPECIAL1:
-			this.maxBurnTime = (Integer)data;
-			break;
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.burnTime = nbt.getInteger("burnTime");
+			this.maxBurnTime = nbt.getInteger("maxBurnTime");
 		}
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.BURN:
-			return new SyncData(true, burnTime);
-		case SyncType.SPECIAL1:
-			return new SyncData(true, maxBurnTime);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setInteger("burnTime", this.burnTime);
+			nbt.setInteger("maxBurnTime", this.maxBurnTime);
+
 		}
-		return new SyncData(false, 0);
+	}
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		if (burnTime > 0 && maxBurnTime != 0) {
+			String burn = FontHelper.translate("co2.burnt") + ": " + burnTime * 100 / maxBurnTime;
+			currenttip.add(burn);
+		} else {
+			String burn = FontHelper.translate("co2.burning");
+			currenttip.add(burn);
+		}
+		return currenttip;
 	}
 }

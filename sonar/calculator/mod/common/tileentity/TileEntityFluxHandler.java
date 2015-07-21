@@ -4,7 +4,7 @@ import java.util.List;
 
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
-import sonar.calculator.mod.api.FluxNetwork;
+import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;

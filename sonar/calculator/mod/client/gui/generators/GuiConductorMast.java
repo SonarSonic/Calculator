@@ -1,20 +1,14 @@
 package sonar.calculator.mod.client.gui.generators;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
-import sonar.calculator.mod.network.packets.PacketConductorMast;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiConductorMast extends GuiContainer {
@@ -28,28 +22,13 @@ public class GuiConductorMast extends GuiContainer {
 		this.entity = entity;
 
 		this.xSize = 176;
-		this.ySize = 206;
+		this.ySize = 166;
 
-	}
-
-	public void initGui() {
-		super.initGui();
-		this.buttonList.add(new GuiButton(0, this.guiLeft + 20, this.guiTop + 60, 50, 20, FontHelper.translate("lightning.time")));
-		this.buttonList.add(new GuiButton(1, this.guiLeft + 108, this.guiTop + 60, 50, 20, FontHelper.translate("lightning.rain")));
-	}
-
-	protected void actionPerformed(GuiButton button) {
-		if (button != null) {
-			if (entity.getWorldObj().isRemote) {
-				Calculator.network.sendToServer(new PacketConductorMast(button.id, entity.xCoord, entity.yCoord, entity.zCoord));
-			}
-		}
 	}
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
-		FontHelper.textCentre(FontHelper.translate("energy.required") + " = 10 KRF", xSize, 86, 0);
 
 		String wait = FontHelper.translate("conductor.wait") + ": ";
 		if (!(this.entity.lightningSpeed < 600) && this.entity.lightingTicks < 500) {
@@ -97,7 +76,7 @@ public class GuiConductorMast extends GuiContainer {
 			this.fontRendererObj.drawString(power, this.xSize / 2 - this.fontRendererObj.getStringWidth(power) / 2, 46, 4210752);
 		}
 
-		FontHelper.textOffsetCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), 90, 106, 2);
+		FontHelper.textOffsetCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), 90, 66, 2);
 
 	}
 
@@ -112,7 +91,7 @@ public class GuiConductorMast extends GuiContainer {
 		drawTexturedModalRect(this.guiLeft + 79, this.guiTop + 26, 176, 0, c, 9);
 
 		int l = this.entity.storage.getEnergyStored() * 145 / this.entity.storage.getMaxEnergyStored();
-		drawTexturedModalRect(this.guiLeft + 22, this.guiTop + 99, 0, 206, l, 20);
+		drawTexturedModalRect(this.guiLeft + 22, this.guiTop + 59, 0, 166, l, 20);
 
 	}
 }

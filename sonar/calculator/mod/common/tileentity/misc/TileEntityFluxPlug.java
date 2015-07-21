@@ -7,12 +7,11 @@ import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.api.IFlux;
 import sonar.calculator.mod.api.IFluxPlug;
 import sonar.calculator.mod.api.IFluxPoint;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPlug {
 
@@ -44,7 +43,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		int[] currentList = inputList;
 		int currentTransfer = 0;
 
-		if (controller!=null && controller.transmitterMode == 1) {
+		if (controller != null && controller.transmitterMode == 1) {
 			TransferList push = sendEnergy(controller, currentList, controller.recieveMode, true);
 			currentList = push.inputList;
 			currentTransfer += push.energy;
@@ -55,13 +54,13 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 				TileEntity target = FluxHelper.getTile(points.get(i));
 				if (controller == null) {
 					if (target != null && target instanceof TileEntityFlux && ((TileEntityFlux) (target)).dimension() == this.dimension()) {
-						TransferList push = transferEnergy((IFluxPoint)target, currentList, 0, false);
+						TransferList push = transferEnergy((IFluxPoint) target, currentList, 0, false);
 						currentList = push.inputList;
 						currentTransfer += push.energy;
 					}
 				} else {
 					if (FluxHelper.checkPlayerName(target, networkID)) {
-						TransferList push = transferEnergy((IFluxPoint)target, currentList, controller.recieveMode, true);
+						TransferList push = transferEnergy((IFluxPoint) target, currentList, controller.recieveMode, true);
 						currentList = push.inputList;
 						currentTransfer += push.energy;
 					}
@@ -71,7 +70,8 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 
 		this.transfer = currentTransfer;
 	}
-	/**used when sending energy to players*/
+
+	/** used when sending energy to players */
 	public TransferList sendEnergy(IFluxPoint point, int[] inputList, int recieveMode, boolean allowDimensions) {
 		int maxOutput = Math.min(point.maxTransfer(), this.maxTransfer);
 		if (!(maxOutput > 0)) {
@@ -84,24 +84,26 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 
 		for (int i = 0; i < plugs.size(); i++) {
 			TileEntity target = FluxHelper.getTile(plugs.get(i));
-			if(target instanceof IFluxPlug){
-			int plugTransfer = 0;
-			int maxTransfer = Math.min(currentList[i], outputted);
-			
-			int output = Math.min(maxTransfer - point.pushEnergy(maxTransfer, true), maxTransfer - ((IFluxPlug)target).pullEnergy(maxTransfer, true));
-			plugTransfer += push(point, ((IFluxPlug)target), output);
+			if (target instanceof IFluxPlug) {
+				int plugTransfer = 0;
+				int maxTransfer = Math.min(currentList[i], outputted);
 
-			outputted -= plugTransfer;
-			currentList[i] -= plugTransfer;
-			currentTrans += plugTransfer;
+				int output = Math.min(maxTransfer - point.pushEnergy(maxTransfer, true), maxTransfer - ((IFluxPlug) target).pullEnergy(maxTransfer, true));
+				plugTransfer += push(point, ((IFluxPlug) target), output);
+
+				outputted -= plugTransfer;
+				currentList[i] -= plugTransfer;
+				currentTrans += plugTransfer;
 			}
 
 		}
 
 		return new TransferList(currentList, currentTrans);
 	}
-	/**	 
+
+	/**
 	 * sends energy from all available handlers to the given point
+	 * 
 	 * @param point recieving transfer
 	 * @param inputList list of maximum rf/t for plugs
 	 * @param recieveMode DISTRIBUTE = 1, SURGE = 2, HYPER_SURGE = 3, GOD_MODE = 4;
@@ -119,42 +121,42 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		List<IFluxPlug> plugs = FluxHelper.getPlugs(networkID);
 
 		for (int i = 0; i < plugs.size(); i++) {
-			int maxTransfer = Math.min(currentList[i], outputted);			
-			TileEntity target = FluxHelper.getTile(plugs.get(i));			
+			int maxTransfer = Math.min(currentList[i], outputted);
+			TileEntity target = FluxHelper.getTile(plugs.get(i));
 			int plugTransfer = 0;
-			if (target != null && (allowDimensions || target instanceof TileEntityFlux && ((IFluxPlug)target).dimension() == point.dimension()) && FluxHelper.checkPlayerName(target, networkID)) {
+			if (target != null && (allowDimensions || target instanceof TileEntityFlux && ((IFluxPlug) target).dimension() == point.dimension()) && FluxHelper.checkPlayerName(target, networkID)) {
 				switch (recieveMode) {
 				case SURGE:
-					if (currentList[i] > 0) {			
-						int limitedOutput = Math.min(currentList[i] - point.pushEnergy(currentList[i], true), currentList[i] - ((IFluxPlug)target).pullEnergy(currentList[i], true));
-						plugTransfer += push(point, ((IFluxPlug)target), limitedOutput);
+					if (currentList[i] > 0) {
+						int limitedOutput = Math.min(currentList[i] - point.pushEnergy(currentList[i], true), currentList[i] - ((IFluxPlug) target).pullEnergy(currentList[i], true));
+						plugTransfer += push(point, ((IFluxPlug) target), limitedOutput);
 					}
 					break;
 				case HYPER_SURGE:
-					int o = 0;			
-					int hyperSurge = Math.min(maxOutput - point.pushEnergy(maxOutput, true), maxOutput - ((IFluxPlug)target).pullEnergy(maxOutput, true));
+					int o = 0;
+					int hyperSurge = Math.min(maxOutput - point.pushEnergy(maxOutput, true), maxOutput - ((IFluxPlug) target).pullEnergy(maxOutput, true));
 					while (o != 4) {
-						plugTransfer += push(point, ((IFluxPlug)target), hyperSurge);
+						plugTransfer += push(point, ((IFluxPlug) target), hyperSurge);
 						o++;
 					}
 					break;
 				case GOD_MODE:
 					int t = 0;
-					int godMode = Math.min(maxOutput - point.pushEnergy(maxOutput, true), maxOutput - ((IFluxPlug)target).pullEnergy(maxOutput, true));					
+					int godMode = Math.min(maxOutput - point.pushEnergy(maxOutput, true), maxOutput - ((IFluxPlug) target).pullEnergy(maxOutput, true));
 					while (t != 10) {
-						plugTransfer += push(point, ((IFluxPlug)target), godMode);
+						plugTransfer += push(point, ((IFluxPlug) target), godMode);
 						t++;
 					}
 					break;
 				default:
 					if (recieveMode == DISTRIBUTE) { // Even Distribution
-						int transfer = this.maxTransfer - ((IFluxPlug)target).pullEnergy(this.maxTransfer, true);
+						int transfer = this.maxTransfer - ((IFluxPlug) target).pullEnergy(this.maxTransfer, true);
 						int percentage = Math.round((float) (maxOutput - point.pushEnergy(maxOutput, true)) / this.currentOutput);
 						int adjustedTransfer = (int) (transfer * percentage);
 						maxTransfer = Math.max(10, adjustedTransfer);
 					}
-					int output = Math.min(maxTransfer - point.pushEnergy(maxTransfer, true), maxTransfer - ((IFluxPlug)target).pullEnergy(maxTransfer, true));
-					plugTransfer += push(point, ((IFluxPlug)target), output);
+					int output = Math.min(maxTransfer - point.pushEnergy(maxTransfer, true), maxTransfer - ((IFluxPlug) target).pullEnergy(maxTransfer, true));
+					plugTransfer += push(point, ((IFluxPlug) target), output);
 
 				}
 				outputted -= plugTransfer;
@@ -177,7 +179,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			return false;
 		}
 		IFlux flux = FluxRegistry.getMaster(this.networkID);
-		return flux.networkID()== networkID && flux.dimension() == this.dimension() && flux.xCoord() == xCoord && flux.yCoord() == yCoord && flux.zCoord() == zCoord;
+		return flux.networkID() == networkID && flux.dimension() == this.dimension() && flux.xCoord() == xCoord && flux.yCoord() == yCoord && flux.zCoord() == zCoord;
 	}
 
 	@Override
@@ -213,74 +215,44 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		}
 	}
 
-	public void writeToNBT(NBTTagCompound tag) {
-		super.writeToNBT(tag);
-		tag.setInteger("transfer", transfer);
-		tag.setInteger("currentInput", currentInput);
-		tag.setInteger("currentOutput", currentOutput);
-	}
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE) {
 
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
-		this.transfer = tag.getInteger("transfer");
-		this.currentInput = tag.getInteger("currentInput");
-		this.currentOutput = tag.getInteger("currentOutput");
-	}
-
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.SPECIAL5:
-			this.plugCount = (Integer) data;
-			break;
-		case SyncType.SPECIAL6:
-			this.pointCount = (Integer) data;
-			break;
-		case SyncType.SPECIAL7:
-			this.currentInput = (Integer) data;
-			break;
-		case SyncType.SPECIAL8:
-			this.currentOutput = (Integer) data;
-			break;
-		case SyncType.TRANSFER:
-			this.transfer = (Integer) data;
-			break;
+			this.transfer = nbt.getInteger("transfer");
+			this.currentInput = nbt.getInteger("currentInput");
+			this.currentOutput = nbt.getInteger("currentOutput");
+		}
+		if (type == SyncType.SYNC) {
+			this.plugCount = nbt.getInteger("plugCount");
+			this.pointCount = nbt.getInteger("pointCount");
+			this.currentInput = nbt.getInteger("currentInput");
+			this.currentOutput = nbt.getInteger("currentOutput");
+			this.transfer = nbt.getInteger("transfer");
 		}
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		IFluxPlug plug = (IFluxPlug) FluxRegistry.getMaster(this.networkID);
-		TileEntity target = null;
-		if (plug != null) {
-			target = FluxHelper.getTile(plug);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE) {
+			nbt.setInteger("transfer", transfer);
+			nbt.setInteger("currentInput", currentInput);
+			nbt.setInteger("currentOutput", currentOutput);
 		}
-
-		switch (id) {
-		case SyncType.SPECIAL5:
-			return new SyncData(true, FluxRegistry.plugCount(this.networkID));
-			
-		case SyncType.SPECIAL6:
-			return new SyncData(true, FluxRegistry.pointCount(this.networkID));
-
-		case SyncType.SPECIAL7:
-			if (target != null && target instanceof TileEntityFluxPlug) {
-				return new SyncData(true, ((TileEntityFluxPlug) target).currentInput);
+		if (type == SyncType.SYNC) {
+			IFluxPlug plug = (IFluxPlug) FluxRegistry.getMaster(this.networkID);
+			TileEntity target = null;
+			if (plug != null) {
+				target = FluxHelper.getTile(plug);
 			}
-			break;
-		case SyncType.SPECIAL8:
+			nbt.setInteger("plugCount", FluxRegistry.plugCount(this.networkID));
+			nbt.setInteger("pointCount", FluxRegistry.pointCount(this.networkID));
 			if (target != null && target instanceof TileEntityFluxPlug) {
-				return new SyncData(true, ((TileEntityFluxPlug) target).currentOutput);
+				nbt.setInteger("currentInput", ((TileEntityFluxPlug) target).currentInput);
+				nbt.setInteger("currentOutput", ((TileEntityFluxPlug) target).currentOutput);
+				nbt.setInteger("transfer", ((TileEntityFluxPlug) target).transfer);
 			}
-			break;
-		case SyncType.TRANSFER:
-			if (target != null && target instanceof TileEntityFluxPlug) {
-				return new SyncData(true, ((TileEntityFluxPlug) target).transfer);
-			}
-			break;
 		}
-		return super.getSyncData(id);
 	}
 
 }

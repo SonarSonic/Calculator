@@ -7,8 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.item.CalcItem;
-import sonar.calculator.mod.common.tileentity.entities.EntitySmallStone;
 
 public class SmallStone extends CalcItem
 {

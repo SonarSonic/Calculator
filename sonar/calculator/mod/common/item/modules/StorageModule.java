@@ -17,25 +17,25 @@ import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInv
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryContainerItem;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.IItemInventory;
 import sonar.core.utils.helpers.FontHelper;
 
-public class StorageModule extends InventoryContainerItem implements
-		IItemInventory {
+public class StorageModule extends InventoryContainerItem implements IItemInventory {
 
 	public static class StorageInventory extends InventoryItem {
 
+		public static final int size = 54;
+
 		public StorageInventory(ItemStack stack) {
-			super(stack, 54);
+			super(stack, size, "Items");
 		}
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world,
-			EntityPlayer player) {
-		if(!world.isRemote){
-		player.openGui(Calculator.instance, CalculatorGui.StorageModule, world,
-				(int) player.posX, (int) player.posY, (int) player.posZ);
+	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
+		if (!world.isRemote) {
+			player.openGui(Calculator.instance, CalculatorGui.StorageModule, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 		}
 		return itemstack;
 	}
@@ -47,15 +47,16 @@ public class StorageModule extends InventoryContainerItem implements
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list,
-			boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
-		if(!CalculatorConfig.isEnabled(stack)){
+		if (!CalculatorConfig.isEnabled(stack)) {
 			list.add(FontHelper.translate("calc.ban"));
 		}
-		if(stack.hasTagCompound()){
-		int storedItems = getInventory(stack).getItemsStored(stack);
-		if (storedItems != 0) {
-			list.add(FontHelper.translate("calc.storedstacks")+": " + storedItems);}}
+		if (stack.hasTagCompound()) {
+			int storedItems = getInventory(stack).getItemsStored(stack);
+			if (storedItems != 0) {
+				list.add(FontHelper.translate("calc.storedstacks") + ": " + storedItems);
+			}
+		}
 	}
 }

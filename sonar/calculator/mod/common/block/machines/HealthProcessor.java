@@ -3,49 +3,26 @@ package sonar.calculator.mod.common.block.machines;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
 import sonar.calculator.mod.network.CalculatorGui;
-import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
-import sonar.core.utils.IDropTile;
 import sonar.core.utils.SonarMaterials;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class HealthProcessor extends SonarMachineBlock implements IWrench {
+public class HealthProcessor extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	private IIcon front;
-	@SideOnly(Side.CLIENT)
-	private IIcon front2;
-	@SideOnly(Side.CLIENT)
-	private IIcon slot1;
-	@SideOnly(Side.CLIENT)
-	private IIcon slot2;
-	private static boolean keepInventory;
-	private Random rand = new Random();
-
+	private IIcon iconFront, front,front2,slot1,slot2;
+	
 	public HealthProcessor() {
 		super(SonarMaterials.machine);
 	}
@@ -54,11 +31,8 @@ public class HealthProcessor extends SonarMachineBlock implements IWrench {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.front = iconRegister.registerIcon("Calculator:healthprocessor_front2");
-
 		this.front2 = iconRegister.registerIcon("Calculator:healthprocessor_front1");
-
 		this.slot1 = iconRegister.registerIcon("Calculator:healthprocessor_slot2");
-
 		this.slot2 = iconRegister.registerIcon("Calculator:healthprocessor_slot1");
 	}
 
@@ -92,18 +66,12 @@ public class HealthProcessor extends SonarMachineBlock implements IWrench {
 				player.openGui(Calculator.instance, CalculatorGui.HealthProcessor, world, x, y, z);
 			}
 		}
-
 		return true;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityHealthProcessor();
-	}
-
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
 	}
 
 	@Override
@@ -114,8 +82,4 @@ public class HealthProcessor extends SonarMachineBlock implements IWrench {
 		}
 	}
 
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
-	}
 }

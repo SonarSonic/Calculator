@@ -5,12 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.calculators.GuiScientificCalculator;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipe;
-import sonar.calculator.mod.common.recipes.crafting.ScientificCalculatorRecipes;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.integration.nei.handlers.CalculatorRecipeHandler.SmeltingPair;
 import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
@@ -22,9 +24,8 @@ public class ScientificRecipeHandler extends TemplateRecipeHandler {
 		PositionedStack input2;
 		PositionedStack output;
 
-		public SmeltingPair(ItemStack input, ItemStack input2, ItemStack output) {
+		public SmeltingPair(Object input, Object input2, Object output) {
 			super();
-			input.stackSize = 1;
 			this.input = new PositionedStack(input, 20, 24);
 			this.input2 = new PositionedStack(input2, 74, 24);
 			this.output = new PositionedStack(output, 129, 24);
@@ -32,9 +33,7 @@ public class ScientificRecipeHandler extends TemplateRecipeHandler {
 
 		@Override
 		public List<PositionedStack> getIngredients() {
-			return getCycledIngredients(
-					ScientificRecipeHandler.this.cycleticks / 48,
-					Arrays.asList(new PositionedStack[] { this.input }));
+			return getCycledIngredients(ScientificRecipeHandler.this.cycleticks / 48, Arrays.asList(new PositionedStack[] { this.input, this.input2 }));
 		}
 
 		@Override
@@ -42,16 +41,11 @@ public class ScientificRecipeHandler extends TemplateRecipeHandler {
 			return this.output;
 		}
 
-		@Override
-		public PositionedStack getOtherStack() {
-			return this.input2;
-		}
 	}
 
 	@Override
 	public void loadTransferRects() {
-		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(
-				new Rectangle(100, 25, 22, 14), "scientific", new Object[0]));
+		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(100, 25, 22, 14), "scientific", new Object[0]));
 	}
 
 	@Override
@@ -66,20 +60,12 @@ public class ScientificRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		if ((outputId.equals("scientific"))
-				&& (getClass() == ScientificRecipeHandler.class)) {
-			Map<Integer, CalculatorRecipe> recipes = ScientificCalculatorRecipes
-					.recipes().getStandardList();
-			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes
-					.entrySet()) {
-
-		    	if(CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)){
-				this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe
-						.getValue()).input, ((CalculatorRecipe) recipe
-						.getValue()).input2, ((CalculatorRecipe) recipe
-						.getValue()).output));
-		    	}
-			}
+		if ((outputId.equals("scientific")) && (getClass() == ScientificRecipeHandler.class)) {
+			Map<Object[], Object[]> recipes = RecipeRegistry.ScientificRecipes.instance().getRecipes();
+			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet())
+				if (CalculatorConfig.isEnabled((ItemStack) recipe.getValue()[0])) {
+					this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0]));
+				}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
 		}
@@ -87,23 +73,21 @@ public class ScientificRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Integer, CalculatorRecipe> recipes = ScientificCalculatorRecipes.recipes().getStandardList();
-		for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameTypeCrafting(((CalculatorRecipe) recipe.getValue()).output, result)) {
-		    	if(CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)){
-				this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe
-						.getValue()).input, ((CalculatorRecipe) recipe
-						.getValue()).input2, ((CalculatorRecipe) recipe
-						.getValue()).output));}
-			}
+		if (!CalculatorConfig.isEnabled(result)) {
+			return;
+		}
+		Map<Object[], Object[]> recipes = RecipeRegistry.ScientificRecipes.instance().getRecipes();
+		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
+			if (NEIServerUtils.areStacksSameType((ItemStack) recipe.getValue()[0], result)) {
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0]));
 
+			}
 		}
 	}
 
 	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
-		if ((inputId.equals("scientific"))
-				&& (getClass() == ScientificRecipeHandler.class)) {
+		if ((inputId.equals("scientific")) && (getClass() == ScientificRecipeHandler.class)) {
 			loadCraftingRecipes("scientific", new Object[0]);
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);
@@ -112,21 +96,11 @@ public class ScientificRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
+		Map<Object[], Object[]> recipes = RecipeRegistry.ScientificRecipes.instance().getRecipes();
+		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
+			if (RecipeRegistry.ScientificRecipes.instance().containsStack(ingredient, recipe.getKey(), false) != -1)
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0]));
 
-		Map<Integer, CalculatorRecipe> recipes = ScientificCalculatorRecipes.recipes()
-				.getStandardList();
-		for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameTypeCrafting(
-					((CalculatorRecipe) recipe.getValue()).input, ingredient)
-					|| NEIServerUtils.areStacksSameTypeCrafting(
-							((CalculatorRecipe) recipe.getValue()).input2,
-							ingredient)) {
-		    	if(CalculatorConfig.isEnabled(((CalculatorRecipe) recipe.getValue()).output)){
-				this.arecipes.add(new SmeltingPair(((CalculatorRecipe) recipe
-						.getValue()).input, ((CalculatorRecipe) recipe
-						.getValue()).input2, ((CalculatorRecipe) recipe
-						.getValue()).output));}
-			}
 		}
 
 	}

@@ -62,14 +62,6 @@ public class WeatherController extends SonarMachineBlock {
 		return 0;
 	}
 
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
 	public boolean canProvidePower() {
 		return false;
 	}
@@ -94,13 +86,11 @@ public class WeatherController extends SonarMachineBlock {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
 
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
+	public boolean renderAsNormalBlock() {
+		return false;
 	}
 
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
+	public boolean isOpaqueCube() {
 		return false;
 	}
 

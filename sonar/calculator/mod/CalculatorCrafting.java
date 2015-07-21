@@ -1,5 +1,6 @@
 package sonar.calculator.mod;
 
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -119,7 +120,7 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(calculatorplug, 1), new Object[] { " B ", "CAC", "DDD", 'A', stablestoneBlock, 'B', itemEnergyModule, 'C', advanced_assembly, 'D', redstone_ingot });
 
 		// smelting
-		addShapedOre(new ShapedOreRecipe(new ItemStack(stoneSeperator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', powerCube, 'A', "calculatorReinforcedBlock", 'C', redstone_ingot }));
+		addShapedOre(new ShapedOreRecipe(new ItemStack(stoneSeperator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', powerCube, 'A', "calculatorReinforcedBlock", 'C', reinforcediron_ingot }));
 		addShaped(new ItemStack(algorithmSeperator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', advancedPowerCube, 'A', reinforced_iron_block, 'C', flawlessdiamond });
 		addShapedOre(new ShapedOreRecipe(new ItemStack(extractionChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', "calculatorReinforcedBlock", 'B', weakeneddiamond, 'C', powerCube }));
 		addShaped(new ItemStack(restorationChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', redstone_ingot, 'B', weakeneddiamond, 'C', extractionChamber });
@@ -165,7 +166,18 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(tanzaniteStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', tanzanitePlanks });
 		addShaped(new ItemStack(pearStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', pearPlanks });
 		addShaped(new ItemStack(diamondStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', diamondPlanks });
+		
 
+		addShaped(new ItemStack(amethystFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', amethystPlanks, 'S', Items.stick });
+		addShaped(new ItemStack(tanzaniteFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', tanzanitePlanks, 'S', Items.stick });
+		addShaped(new ItemStack(pearFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', pearPlanks, 'S', Items.stick });
+		addShaped(new ItemStack(diamondFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', diamondPlanks, 'S', Items.stick });
+
+		addShapeless(new ItemStack(stableglassBlock, 1), new Object[] { clearstableglassBlock });
+		addShapeless(new ItemStack(clearstableglassBlock, 1), new Object[] { stableglassBlock });
+		addShaped(new ItemStack(magneticFlux, 1), new Object[] { " D ", "RFR", "SSS", 'S', stablestoneBlock, 'R', redstone_ingot, 'F', fluxPoint, 'D', flawlessfirediamond });
+
+		
 	}
 
 	public static void addShaped(ItemStack result, Object... input) {

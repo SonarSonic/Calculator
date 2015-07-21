@@ -35,7 +35,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class StorageChamber extends SonarMachineBlock {
 
 	@SideOnly(Side.CLIENT)
-	private IIcon front, front2, slot1, slot2;
+	private IIcon slot1, slot2, empty;
 
 	public StorageChamber() {
 		super(SonarMaterials.machine);
@@ -44,11 +44,10 @@ public class StorageChamber extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.front = iconRegister.registerIcon("Calculator:storage_front_slot1");
-		this.front2 = iconRegister.registerIcon("Calculator:storage_front_slot2");
-		this.slot1 = iconRegister.registerIcon("Calculator:analysis_side_slot1");
-		this.slot2 = iconRegister.registerIcon("Calculator:analysis_side_slot2");
-
+		this.slot1 = iconRegister.registerIcon("Calculator:overlays/machine_input_storage_top");
+		this.slot2 = iconRegister.registerIcon("Calculator:overlays/machine_output_storage_top");
+		this.empty = iconRegister.registerIcon("Calculator:overlays/clear");
+		this.blockIcon = iconRegister.registerIcon("Calculator:analysis_side_slot1");
 	}
 
 	@Override
@@ -62,19 +61,16 @@ public class StorageChamber extends SonarMachineBlock {
 				if (side != metadata) {
 					return t.getBlockTexture(side, metadata) ? this.slot1 : this.slot2;
 				}
-				if (side == metadata) {
-					return t.getBlockTexture(side, metadata) ? this.front : this.front2;
-				}
 			}
 		}
-		return this.slot1;
+		return empty;
 
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.slot2 : side == 0 ? this.slot1 : side == 1 ? this.slot1 : (metadata == 0) && (side == 3) ? this.front : this.slot1;
+		return this.blockIcon;
 	}
 
 	@Override
@@ -92,11 +88,6 @@ public class StorageChamber extends SonarMachineBlock {
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityStorageChamber();
-	}
-
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
 	}
 
 	@Override
@@ -136,7 +127,18 @@ public class StorageChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
+	public int getRenderType() {
+		return 0;
 	}
+
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return true;
+	}
+
 }

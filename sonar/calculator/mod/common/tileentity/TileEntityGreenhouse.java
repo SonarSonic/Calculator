@@ -1,7 +1,11 @@
 package sonar.calculator.mod.common.tileentity;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGlass;
 import net.minecraft.block.BlockLog;
@@ -20,8 +24,6 @@ import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.block.CalculatorCrops;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
@@ -29,6 +31,8 @@ import sonar.core.utils.SonarSeeds;
 import sonar.core.utils.SonarSeedsFood;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
+import sonar.core.utils.helpers.NBTHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RenderHelper;
 
 public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
@@ -69,7 +73,7 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		int inv = getInvPlants();
 		if (inv != -1 && this.planting == 0) {
 			this.planting = 1;
-			return plant((IPlantable) slots[inv].getItem(), inv);
+			return plant(slots[inv], inv);
 
 		}
 		return false;
@@ -159,7 +163,7 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		return GreenhouseHelper.applyBonemeal(worldObj, x + X + XX, y, z + Z + ZZ, false);
 	}
 
-	public boolean plant(IPlantable block, int slot) {
+	public boolean plant(ItemStack block, int slot) {
 		return false;
 
 	}
@@ -169,7 +173,8 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 			ArrayList<ItemStack> array = world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 			if (!world.isRemote) {
 				if (array != null) {
-					if (this.type == 3) {
+
+					if (!this.worldObj.isRemote && this.type == 3) {
 						this.plantsHarvested++;
 					}
 					for (ItemStack stack : array) {
@@ -404,10 +409,6 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		return false;
 	}
 
-	public int isMulti() {
-		return isMulti;
-	}
-
 	public boolean isCompleted() {
 		if (isMulti == 2) {
 			return true;
@@ -586,47 +587,44 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		}
 		return -1;
 	}
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SYNC || type == SyncType.SAVE) {
+			this.isMulti = nbt.getInteger("Multi");
+			this.wasBuilt = nbt.getInteger("wasBuilt");
+			this.carbonLevels = nbt.getInteger("Carbon");
+		}
 
-	@Override
-	public void readInfo(NBTTagCompound tag) {
-		super.readInfo(tag);
-		this.carbonLevels = tag.getInteger("Carbon");
-	}
-
-	@Override
-	public void writeInfo(NBTTagCompound tag) {
-		super.writeInfo(tag);
-		tag.setInteger("Carbon", this.getCarbon());
-		tag.setInteger("Oxygen", this.getOxygen());
-	}
-
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.SPECIAL1:
-			this.isMulti = (Integer)data;
-			break;
-		case SyncType.SPECIAL2:
-			this.wasBuilt = (Integer)data;
-			break;
-		case SyncType.SPECIAL3:
-			this.carbonLevels = (Integer)data;
-			break;
+		if (type == SyncType.DROP) {
+			this.carbonLevels = nbt.getInteger("Carbon");
 		}
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			return new SyncData(true, isMulti);
-		case SyncType.SPECIAL2:
-			return new SyncData(true, wasBuilt);
-		case SyncType.SPECIAL3:
-			return new SyncData(true, carbonLevels);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SYNC || type == SyncType.SAVE) {
+			nbt.setInteger("wasBuilt", this.wasBuilt);
+			nbt.setInteger("Carbon", this.carbonLevels);
 		}
-		return super.getSyncData(id);
+		if (type == SyncType.DROP) {
+			nbt.setInteger("Carbon", this.getCarbon());
+			nbt.setInteger("Oxygen", this.getOxygen());
+		}
 	}
 
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip){
+		DecimalFormat dec = new DecimalFormat("##.##");
+		int oxygen = getOxygen();
+		int carbon = getCarbon();
+		if (carbon != 0) {
+			String carbonString = FontHelper.translate("greenhouse.carbon") + ": " + dec.format(carbon * 100 / 100000) + "%";
+			currenttip.add(carbonString);
+		}
+		if (oxygen != 0) {
+			String oxygenString = FontHelper.translate("greenhouse.oxygen") + ": " + dec.format(oxygen * 100 / 100000) + "%";
+			currenttip.add(oxygenString);
+		}
+		return currenttip;		
+	}
 }

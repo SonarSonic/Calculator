@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IFlux;
+import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiCraftingCalculator;
@@ -23,9 +24,7 @@ import sonar.calculator.mod.client.gui.generators.GuiCalculatorLocator;
 import sonar.calculator.mod.client.gui.generators.GuiCalculatorPlug;
 import sonar.calculator.mod.client.gui.generators.GuiConductorMast;
 import sonar.calculator.mod.client.gui.generators.GuiCrankedGenerator;
-import sonar.calculator.mod.client.gui.generators.GuiGlowstoneExtractor;
-import sonar.calculator.mod.client.gui.generators.GuiRedstoneExtractor;
-import sonar.calculator.mod.client.gui.generators.GuiStarchExtractor;
+import sonar.calculator.mod.client.gui.generators.GuiExtractor;
 import sonar.calculator.mod.client.gui.machines.GuiAdvancedGreenhouse;
 import sonar.calculator.mod.client.gui.machines.GuiAdvancedPowerCube;
 import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
@@ -45,6 +44,7 @@ import sonar.calculator.mod.client.gui.misc.GuiFluxController;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPlug;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPoint;
 import sonar.calculator.mod.client.gui.misc.GuiGasLantern;
+import sonar.calculator.mod.client.gui.misc.GuiMagneticFlux;
 import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
 import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
 import sonar.calculator.mod.client.gui.modules.GuiSmeltingModule;
@@ -64,23 +64,22 @@ import sonar.calculator.mod.common.containers.ContainerCrankedGenerator;
 import sonar.calculator.mod.common.containers.ContainerDockingStation;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
+import sonar.calculator.mod.common.containers.ContainerExtractor;
 import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.containers.ContainerFluxController;
-import sonar.calculator.mod.common.containers.ContainerGlowstoneExtractor;
 import sonar.calculator.mod.common.containers.ContainerHealthProcessor;
 import sonar.calculator.mod.common.containers.ContainerHungerProcessor;
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.calculator.mod.common.containers.ContainerLantern;
+import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.calculator.mod.common.containers.ContainerPortableDynamic;
 import sonar.calculator.mod.common.containers.ContainerPowerCube;
-import sonar.calculator.mod.common.containers.ContainerRedstoneExtractor;
 import sonar.calculator.mod.common.containers.ContainerResearchChamber;
 import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.containers.ContainerSmeltingModule;
-import sonar.calculator.mod.common.containers.ContainerStarchExtractor;
 import sonar.calculator.mod.common.containers.ContainerStorageChamber;
 import sonar.calculator.mod.common.containers.ContainerStorageModule;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
@@ -114,11 +113,13 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
-import sonar.calculator.mod.network.packets.PacketConductorMast;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
+import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.network.packets.PacketInventorySync;
 import sonar.calculator.mod.network.packets.PacketMachineButton;
+import sonar.calculator.mod.network.packets.PacketRequestSync;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
 import sonar.calculator.mod.network.packets.PacketTileSync;
@@ -131,14 +132,16 @@ public class CalculatorCommon implements IGuiHandler {
 	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
 
 	public static void registerPackets() {
-		Calculator.network.registerMessage(PacketConductorMast.Handler.class, PacketConductorMast.class, 0, Side.SERVER);
-		Calculator.network.registerMessage(PacketMachineButton.Handler.class, PacketMachineButton.class, 1, Side.SERVER);
-		Calculator.network.registerMessage(PacketTileSync.Handler.class, PacketTileSync.class, 2, Side.CLIENT);
-		Calculator.network.registerMessage(PacketSonarSides.Handler.class, PacketSonarSides.class, 3, Side.CLIENT);
-		Calculator.network.registerMessage(PacketStorageChamber.Handler.class, PacketStorageChamber.class, 4, Side.CLIENT);
-		Calculator.network.registerMessage(PacketFluxPoint.Handler.class, PacketFluxPoint.class, 5, Side.SERVER);
-		Calculator.network.registerMessage(PacketFluxNetworkList.Handler.class, PacketFluxNetworkList.class, 6, Side.CLIENT);
-		Calculator.network.registerMessage(PacketInventorySync.Handler.class, PacketInventorySync.class, 7, Side.CLIENT);
+		Calculator.network.registerMessage(PacketMachineButton.Handler.class, PacketMachineButton.class, 0, Side.SERVER);
+		Calculator.network.registerMessage(PacketTileSync.Handler.class, PacketTileSync.class, 1, Side.CLIENT);
+		Calculator.network.registerMessage(PacketSonarSides.Handler.class, PacketSonarSides.class, 2, Side.CLIENT);
+		Calculator.network.registerMessage(PacketStorageChamber.Handler.class, PacketStorageChamber.class, 3, Side.CLIENT);
+		Calculator.network.registerMessage(PacketFluxPoint.Handler.class, PacketFluxPoint.class, 4, Side.SERVER);
+		Calculator.network.registerMessage(PacketFluxNetworkList.Handler.class, PacketFluxNetworkList.class, 5, Side.CLIENT);
+		Calculator.network.registerMessage(PacketInventorySync.Handler.class, PacketInventorySync.class, 6, Side.CLIENT);
+		Calculator.network.registerMessage(PacketCalculatorScreen.Handler.class, PacketCalculatorScreen.class, 7, Side.CLIENT);
+		Calculator.network.registerMessage(PacketRequestSync.Handler.class, PacketRequestSync.class, 8, Side.SERVER);
+
 	}
 
 	@Override
@@ -177,7 +180,7 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 			case CalculatorGui.StarchExtractor:
 				if ((entity instanceof TileEntityGenerator.StarchExtractor)) {
-					return new ContainerStarchExtractor(player.inventory, (TileEntityGenerator.StarchExtractor) entity);
+					return new ContainerExtractor(player.inventory, (TileEntityGenerator.StarchExtractor) entity);
 				}
 			case CalculatorGui.CrankedGenerator:
 				if ((entity instanceof TileEntityCrankedGenerator)) {
@@ -209,11 +212,11 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 			case CalculatorGui.GlowstoneExtractor:
 				if ((entity instanceof TileEntityGenerator.GlowstoneExtractor)) {
-					return new ContainerGlowstoneExtractor(player.inventory, (TileEntityGenerator.GlowstoneExtractor) entity);
+					return new ContainerExtractor(player.inventory, (TileEntityGenerator.GlowstoneExtractor) entity);
 				}
 			case CalculatorGui.RedstoneExtractor:
 				if ((entity instanceof TileEntityGenerator.RedstoneExtractor)) {
-					return new ContainerRedstoneExtractor(player.inventory, (TileEntityGenerator.RedstoneExtractor) entity);
+					return new ContainerExtractor(player.inventory, (TileEntityGenerator.RedstoneExtractor) entity);
 				}
 			case CalculatorGui.AtomicMultiplier:
 				if ((entity instanceof TileEntityAtomicMultiplier)) {
@@ -296,37 +299,48 @@ public class CalculatorCommon implements IGuiHandler {
 				if ((entity instanceof TileEntityWeatherController)) {
 					return new ContainerWeatherController(player.inventory, (TileEntityWeatherController) entity);
 				}
+			case CalculatorGui.MagneticFlux:
+				if ((entity instanceof TileEntityMagneticFlux)) {
+					return new ContainerMagneticFlux(player.inventory, (TileEntityMagneticFlux) entity);
+				}
 				break;
 			}
 		}
 
 		else {
+			equipped = player.getHeldItem();
+			if (equipped == null) {
+				return null;
+			}
+
 			switch (ID) {
 			case CalculatorGui.Calculator:
-				return new ContainerCalculator(player, player.inventory);
+				return new ContainerCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped), ((IResearchStore) equipped.getItem()).getResearch(equipped));
+
 			case CalculatorGui.ScientificCalculator:
-				return new ContainerScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(player.getHeldItem()));
+				return new ContainerScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped));
 
 			case CalculatorGui.CraftingCalculator:
-				return new ContainerCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(player.getHeldItem()));
+				return new ContainerCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(equipped));
 
 			case CalculatorGui.FlawlessCalculator:
-				return new ContainerFlawlessCalculator(player, player.inventory, new FlawlessCalc.FlawlessInventory(player.getHeldItem()));
+				return new ContainerFlawlessCalculator(player, player.inventory, new FlawlessCalc.FlawlessInventory(equipped));
 
 			case CalculatorGui.InfoCalculator:
 				return new ContainerInfoCalculator(player, player.inventory, world, x, y, z);
 
 			case CalculatorGui.PortableDynamic:
-				return new ContainerPortableDynamic(player, player.inventory);
+				return new ContainerPortableDynamic(player, player.inventory, new FlawlessCalc.DynamicInventory(equipped), ((IResearchStore) equipped.getItem()).getResearch(equipped));
 
 			case CalculatorGui.PortableCrafting:
-				return new ContainerCraftingCalculator(player, player.inventory, new FlawlessCalc.CraftingInventory(player.getHeldItem()));
+				return new ContainerCraftingCalculator(player, player.inventory, new FlawlessCalc.CraftingInventory(equipped));
 
 			case CalculatorGui.StorageModule:
-				return new ContainerStorageModule(player, player.inventory, new StorageModule.StorageInventory(player.getHeldItem()));
+				return new ContainerStorageModule(player, player.inventory, new StorageModule.StorageInventory(equipped));
 
 			case CalculatorGui.SmeltingModule:
-				return new ContainerSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(player.getHeldItem()), player.getHeldItem());
+
+				return new ContainerSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(equipped), equipped);
 
 			case CalculatorGui.RecipeInfo:
 				return new ContainerInfoCalculator(player, player.inventory, world, x, y, z);
@@ -378,7 +392,7 @@ public class CalculatorCommon implements IGuiHandler {
 
 			case CalculatorGui.StarchExtractor:
 				if ((entity instanceof TileEntityGenerator.StarchExtractor)) {
-					return new GuiStarchExtractor(player.inventory, (TileEntityGenerator.StarchExtractor) entity);
+					return new GuiExtractor.Starch(player.inventory, (TileEntityGenerator.StarchExtractor) entity);
 				}
 
 			case CalculatorGui.CrankedGenerator:
@@ -418,12 +432,12 @@ public class CalculatorCommon implements IGuiHandler {
 
 			case CalculatorGui.GlowstoneExtractor:
 				if ((entity instanceof TileEntityGenerator.GlowstoneExtractor)) {
-					return new GuiGlowstoneExtractor(player.inventory, (TileEntityGenerator.GlowstoneExtractor) entity);
+					return new GuiExtractor.Glowstone(player.inventory, (TileEntityGenerator.GlowstoneExtractor) entity);
 				}
 
 			case CalculatorGui.RedstoneExtractor:
 				if ((entity instanceof TileEntityGenerator.RedstoneExtractor)) {
-					return new GuiRedstoneExtractor(player.inventory, (TileEntityGenerator.RedstoneExtractor) entity);
+					return new GuiExtractor.Redstone(player.inventory, (TileEntityGenerator.RedstoneExtractor) entity);
 				}
 
 			case CalculatorGui.AtomicMultiplier:
@@ -511,25 +525,33 @@ public class CalculatorCommon implements IGuiHandler {
 				if ((entity instanceof TileEntityWeatherController)) {
 					return new GuiWeatherController(player.inventory, (TileEntityWeatherController) entity);
 				}
+			case CalculatorGui.MagneticFlux:
+				if ((entity instanceof TileEntityMagneticFlux)) {
+					return new GuiMagneticFlux(player.inventory, (TileEntityMagneticFlux) entity);
+				}
 			}
-			
 
 		} else {
+			equipped = player.getCurrentEquippedItem();
+			if (equipped == null) {
+				return null;
+			}
+
 			switch (ID) {
 			case CalculatorGui.Calculator:
-				return new GuiCalculator(player, player.inventory);
+				return new GuiCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped), ((IResearchStore) equipped.getItem()).getResearch(equipped));
 
 			case CalculatorGui.ScientificCalculator:
-				return new GuiScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(player.getHeldItem()));
+				return new GuiScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped));
 
 			case CalculatorGui.CraftingCalculator:
-				return new GuiCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(player.getHeldItem()));
+				return new GuiCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(equipped));
 
 			case CalculatorGui.FlawlessCalculator:
 				Item item = player.getHeldItem().getItem();
 				if (item != null && item instanceof IItemInventory) {
 					IItemInventory target = (IItemInventory) item;
-					return new GuiFlawlessCalculator(player, player.inventory, target.getInventory(player.getHeldItem()));
+					return new GuiFlawlessCalculator(player, player.inventory, target.getInventory(equipped));
 				}
 				break;
 
@@ -537,16 +559,16 @@ public class CalculatorCommon implements IGuiHandler {
 				return new GuiInfoCalculator(player, player.inventory, world, x, y, z);
 
 			case CalculatorGui.PortableDynamic:
-				return new GuiPortableDynamic(player, player.inventory);
+				return new GuiPortableDynamic(player, player.inventory, new FlawlessCalc.DynamicInventory(equipped), ((IResearchStore) equipped.getItem()).getResearch(equipped));
 
 			case CalculatorGui.PortableCrafting:
-				return new GuiCraftingCalculator(player, player.inventory, new FlawlessCalc.CraftingInventory(player.getHeldItem()));
+				return new GuiCraftingCalculator(player, player.inventory, new CraftingCalc.CraftingInventory(equipped));
 
 			case CalculatorGui.StorageModule:
-				return new GuiStorageModule(player, player.inventory, new StorageModule.StorageInventory(player.getHeldItem()));
+				return new GuiStorageModule(player, player.inventory, new StorageModule.StorageInventory(equipped));
 
 			case CalculatorGui.SmeltingModule:
-				return new GuiSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(player.getHeldItem()), player.getHeldItem());
+				return new GuiSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(equipped), equipped);
 
 			case CalculatorGui.RecipeInfo:
 				return new GuiRecipeInfo(player, player.inventory, world, x, y, z);

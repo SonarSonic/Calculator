@@ -14,6 +14,7 @@ import sonar.calculator.mod.common.item.calculators.CraftingCalc;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
 import sonar.calculator.mod.common.item.calculators.InfoCalc;
 import sonar.calculator.mod.common.item.calculators.ScientificCalc;
+import sonar.calculator.mod.common.item.misc.CalculatorScreen;
 import sonar.calculator.mod.common.item.misc.EndDiamond;
 import sonar.calculator.mod.common.item.misc.Grenade;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
@@ -104,7 +105,7 @@ public class CalculatorItems extends Calculator {
 		GameRegistry.registerItem(voidUpgrade, "VoidUpgrade");
 
 		// calculator parts
-		calculator_screen = new Item().setUnlocalizedName("CalculatorScreen").setCreativeTab(Calculator).setTextureName(modid + ":" + "calculator_screen");
+		calculator_screen = new CalculatorScreen().setUnlocalizedName("CalculatorScreen").setCreativeTab(Calculator).setTextureName(modid + ":" + "calculator_screen");
 		GameRegistry.registerItem(calculator_screen, "CalculatorScreen");
 		calculator_assembly = new Item().setUnlocalizedName("CalculatorAssembly").setCreativeTab(Calculator).setTextureName(modid + ":" + "calculator_assembly");
 		GameRegistry.registerItem(calculator_assembly, "CalculatorAssembly");

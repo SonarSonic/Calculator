@@ -8,7 +8,6 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.renderers.ItemAxe;
 import sonar.calculator.mod.client.renderers.ItemCalculatorPlug;
 import sonar.calculator.mod.client.renderers.ItemConductorMask;
-import sonar.calculator.mod.client.renderers.ItemFluxReceiver;
 import sonar.calculator.mod.client.renderers.ItemHoe;
 import sonar.calculator.mod.client.renderers.ItemLantern;
 import sonar.calculator.mod.client.renderers.ItemPickaxe;
@@ -23,34 +22,46 @@ import sonar.calculator.mod.client.renderers.ItemWeatherStation;
 import sonar.calculator.mod.client.renderers.ItemWrench;
 import sonar.calculator.mod.client.renderers.RenderCalculatorLocator;
 import sonar.calculator.mod.client.renderers.RenderCalculatorPlug;
+import sonar.calculator.mod.client.renderers.RenderCalculatorScreen;
+import sonar.calculator.mod.client.renderers.RenderChamber;
 import sonar.calculator.mod.client.renderers.RenderCrank;
+import sonar.calculator.mod.client.renderers.RenderDockingStation;
 import sonar.calculator.mod.client.renderers.RenderFlawlessCapacitor;
 import sonar.calculator.mod.client.renderers.RenderFluxPlug;
 import sonar.calculator.mod.client.renderers.RenderFluxPoint;
 import sonar.calculator.mod.client.renderers.RenderHandlers;
 import sonar.calculator.mod.client.renderers.RenderLantern;
+import sonar.calculator.mod.client.renderers.RenderMagneticFlux;
 import sonar.calculator.mod.client.renderers.RenderResearchChamber;
+import sonar.calculator.mod.client.renderers.RenderAnalysingChamber;
+import sonar.calculator.mod.client.renderers.RenderStorageChamber;
 import sonar.calculator.mod.client.renderers.RenderTransmitter;
 import sonar.calculator.mod.client.renderers.RenderWeatherStation;
-import sonar.calculator.mod.common.tileentity.entities.EntityBabyGrenade;
-import sonar.calculator.mod.common.tileentity.entities.EntityGrenade;
-import sonar.calculator.mod.common.tileentity.entities.EntitySmallStone;
-import sonar.calculator.mod.common.tileentity.entities.EntitySoil;
+import sonar.calculator.mod.common.entities.EntityBabyGrenade;
+import sonar.calculator.mod.common.entities.EntityGrenade;
+import sonar.calculator.mod.common.entities.EntitySmallStone;
+import sonar.calculator.mod.common.entities.EntitySoil;
+import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessCapacitor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityBasicLantern;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import sonar.core.utils.ItemModelRender;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -190,8 +201,42 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer fluxController = new RenderHandlers.FluxController();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluxController.class, fluxController);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.fluxController), new ItemModelRender(fluxController, new TileEntityFluxController()));
-	
-		//MinecraftForgeClient.registerItemRenderer(Calculator.itemFluxModule, new ItemFluxReceiver());
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalculatorScreen.class, new RenderCalculatorScreen());
 
+		TileEntitySpecialRenderer processing = new RenderChamber.Processing();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ProcessingChamber.class, processing);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.processingChamber), new ItemModelRender(processing, new TileEntityMachines.ProcessingChamber()));
+		
+		TileEntitySpecialRenderer extraction = new RenderChamber.Extraction();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ExtractionChamber.class, extraction);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.extractionChamber), new ItemModelRender(extraction, new TileEntityMachines.ExtractionChamber()));
+		
+		TileEntitySpecialRenderer precision = new RenderChamber.Precision();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.PrecisionChamber.class, precision);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.precisionChamber), new ItemModelRender(precision, new TileEntityMachines.PrecisionChamber()));
+				
+		TileEntitySpecialRenderer removal = new RenderChamber.Removal();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ReassemblyChamber.class, removal);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.reassemblyChamber), new ItemModelRender(removal, new TileEntityMachines.ReassemblyChamber()));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.RestorationChamber.class, removal);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.restorationChamber), new ItemModelRender(removal, new TileEntityMachines.RestorationChamber()));
+
+		TileEntitySpecialRenderer analysing = new RenderAnalysingChamber();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAnalysingChamber.class, analysing);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.analysingChamber), new ItemModelRender(analysing, new TileEntityAnalysingChamber()));
+		
+		TileEntitySpecialRenderer storage = new RenderStorageChamber();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStorageChamber.class, storage);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.storageChamber), new ItemModelRender(storage, new TileEntityStorageChamber()));
+		
+		TileEntitySpecialRenderer magnetic = new RenderMagneticFlux();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMagneticFlux.class, magnetic);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.magneticFlux), new ItemModelRender(magnetic, new TileEntityMagneticFlux()));
+
+		TileEntitySpecialRenderer docking = new RenderDockingStation();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDockingStation.class, docking);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.dockingStation), new ItemModelRender(docking, new TileEntityDockingStation()));
+		
 	}
 }

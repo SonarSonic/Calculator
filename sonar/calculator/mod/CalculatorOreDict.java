@@ -42,7 +42,8 @@ public class CalculatorOreDict extends Calculator {
 		OreDictionary.registerOre("dustEnrichedGold", enrichedgold);
 		OreDictionary.registerOre("gemDiamondFake", weakeneddiamond);
 		OreDictionary.registerOre("ingotFoolsGold", enrichedgold_ingot);
-		OreDictionary.registerOre("dustFoolsGold", enrichedgold_ingot);
+		OreDictionary.registerOre("ingotRedstone", redstone_ingot);
+		OreDictionary.registerOre("dustFoolsGold", enrichedgold);
 		OreDictionary.registerOre("gemAmethyst", small_amethyst);
 		OreDictionary.registerOre("gemTanzanite", small_tanzanite);
 		OreDictionary.registerOre("slimeball", rotten_pear);
@@ -84,7 +85,8 @@ public class CalculatorOreDict extends Calculator {
 		//blocks
 		OreDictionary.registerOre("calculatorReinforcedBlock", reinforcedstoneBlock);	
 		OreDictionary.registerOre("calculatorReinforcedBlock", reinforceddirtBlock);	
-		OreDictionary.registerOre("blockGlass", flawlessGlass);	
+		OreDictionary.registerOre("blockGlass", stableglassBlock);	
+		OreDictionary.registerOre("blockGlass", clearstableglassBlock);	
 		OreDictionary.registerOre("reinforcedStone",reinforcedstoneBlock);
 		OreDictionary.registerOre("strongStone",reinforcedstoneBlock);
 		OreDictionary.registerOre("hardStone",reinforcedstoneBlock);

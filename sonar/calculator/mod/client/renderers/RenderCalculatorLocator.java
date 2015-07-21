@@ -16,10 +16,11 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.models.ModelCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
+import sonar.core.utils.helpers.RenderHelper;
 
 public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
-	private static final ResourceLocation onTexture = new ResourceLocation("Calculator:textures/model/calculatorlocatoron.png");
-	private static final ResourceLocation offTexture = new ResourceLocation("Calculator:textures/model/calculatorlocatoroff.png");
+	private static final String onTexture = "Calculator:textures/model/calculatorlocatoron.png";
+	private static final String offTexture = "Calculator:textures/model/calculatorlocatoroff.png";
 	private static final ResourceLocation beam = new ResourceLocation("Calculator:textures/blocks/locator_beam.png");
 
 	private ModelCalculatorLocator model;
@@ -29,54 +30,24 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
-		int i;
+	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float f) {
 
-		if (tileentity.getWorldObj() == null) {
-			i = 0;
-		} else {
-			Block block = tileentity.getBlockType();
-			i = tileentity.getBlockMetadata();
-			if ((block != null) && (i == 0)) {
-				i = tileentity.getBlockMetadata();
-			}
-		}
-		GL11.glPushMatrix();
-		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-
-		if (tileentity.getWorldObj() != null && tileentity instanceof TileEntityCalculatorLocator) {
-			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) tileentity;
+		if (entity.getWorldObj() != null && entity instanceof TileEntityCalculatorLocator) {
+			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) entity;
 			if (tile.active == 1) {
-				Minecraft.getMinecraft().renderEngine.bindTexture(onTexture);
+				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, onTexture);	
+			}else{
+				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, offTexture);	
 			}
-			if (tile.active != 1) {
-				Minecraft.getMinecraft().renderEngine.bindTexture(offTexture);
-			}
-		} else {
-			Minecraft.getMinecraft().renderEngine.bindTexture(onTexture);
+			
+		}else{
+			RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, onTexture);	
 		}
+		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		RenderHelper.finishRender();
 
-		GL11.glPushMatrix();
-		GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-		int j = 0;
-		if (i == 3) {
-			j = 270;
-		}
-		if (i == 2) {
-			j = 180;
-		}
-		if (i == 1) {
-			j = 90;
-		}
-		if (i == 0) {
-			j = 360;
-		}
-		GL11.glRotatef(j, 0.0F, 1.0F, 0.0F);
-		this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-		GL11.glPopMatrix();
-		GL11.glPopMatrix();
-		if (CalculatorConfig.beamEffect && tileentity.getWorldObj() != null && tileentity instanceof TileEntityCalculatorLocator) {
-			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) tileentity;
+		if (CalculatorConfig.beamEffect && entity.getWorldObj() != null && entity instanceof TileEntityCalculatorLocator) {
+			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) entity;
 			if (tile.active == 1) {
 
 				int height = tile.beamHeight();
@@ -90,7 +61,7 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 				GL11.glDepthMask(true);
 				OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 				GL11.glTranslated(0.0, 0.70, 0.0);
-				float f2 = (float) tileentity.getWorldObj().getTotalWorldTime() + 20;
+				float f2 = (float) entity.getWorldObj().getTotalWorldTime() + 20;
 				float f3 = -f2 * 0.2F - (float) MathHelper.floor_float(-f2 * 0.1F);
 				byte b0 = 1;
 				double d3 = (double) f2 * 0.025D * (1.0D - (double) (b0 & 1) * 2.5D);
@@ -136,8 +107,8 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 				GL11.glDepthMask(false);
 				tessellator.startDrawingQuads();
 				tessellator.setColorRGBA(255, 255, 255, 32);
-				double offset = 0.2D - (tile.size - 1) / 4;
-				double d6 = 0.8D + (tile.size - 1) / 4;
+				double offset = 0.2D - 1 / 4;
+				double d6 = 0.8D + 1 / 4;
 				double d18 = (double) (height);
 				double d20 = 0.0D;
 				double d22 = 1.0D;

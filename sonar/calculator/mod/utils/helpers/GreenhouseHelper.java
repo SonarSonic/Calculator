@@ -53,15 +53,15 @@ public class GreenhouseHelper {
 	public static int getGrowTicks(int oxygen, int type) {
 		if (type == 1) {
 			if (oxygen >= 90000) {
-				return 600;
-			} else if (oxygen >= 50000) {
-				return 500;
-			} else if (oxygen >= 30000) {
 				return 400;
+			} else if (oxygen >= 50000) {
+				return 300;
+			} else if (oxygen >= 30000) {
+				return 200;
 			} else if (oxygen >= 10000) {
-				return 250;
-			} else {
 				return 150;
+			} else {
+				return 80;
 			}
 		}
 		if (type == 2) {
@@ -82,13 +82,13 @@ public class GreenhouseHelper {
 			if (oxygen >= 90000) {
 				return 200;
 			} else if (oxygen >= 50000) {
-				return 150;
-			} else if (oxygen >= 30000) {
 				return 100;
-			} else if (oxygen >= 10000) {
+			} else if (oxygen >= 30000) {
 				return 50;
-			} else {
+			} else if (oxygen >= 10000) {
 				return 25;
+			} else {
+				return 15;
 			}
 		}
 		return 1000;

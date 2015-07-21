@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.api.IResearchStore;
-import sonar.calculator.mod.common.recipes.crafting.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.utils.SlotResearch;
 import sonar.calculator.mod.utils.SlotSync;
@@ -45,7 +45,7 @@ public class ContainerResearchChamber extends ContainerSync {
 						return null;
 					}
 				}
-				else if (CalculatorRecipes.recipes().getID(itemstack1) != 0 && this.inventoryItemStacks.get(0) == null) {
+				else if (RecipeRegistry.CalculatorRecipes.instance().validInput(itemstack1) && this.inventoryItemStacks.get(0) == null) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}

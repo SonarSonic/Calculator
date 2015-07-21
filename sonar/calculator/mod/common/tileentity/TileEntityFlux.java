@@ -12,16 +12,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
-import sonar.calculator.mod.api.FluxNetwork;
 import sonar.calculator.mod.api.IFlux;
-import sonar.calculator.mod.api.ISyncTile;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
+import sonar.calculator.mod.client.gui.misc.GuiFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
+import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
 import sonar.core.common.tileentity.TileEntitySonar;
+import sonar.core.utils.ISyncTile;
 import sonar.core.utils.SonarAPI;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -69,12 +70,14 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 			networkName = name;
 		}
 	}
+
 	public void rename(String name) {
 		if (!name.isEmpty() && !name.equals("NETWORK")) {
 			FluxRegistry.renameNetwork(playerName, networkName, name);
 			networkName = name;
 		}
 	}
+
 	public void addToFrequency() {
 		if (!this.worldObj.isRemote) {
 			FluxRegistry.addFlux(this);
@@ -87,62 +90,39 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 		}
 	}
 
-	// save methods
-	@Override
-	public void onSync(Object data, int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			this.networkName = (String) data;
-			break;
-		case SyncType.SPECIAL2:
-			this.networkID = (Integer) data;
-			break;
-		case SyncType.PLAYER:
-			this.masterName = (String) data;
-			break;
-		case SyncType.STATE:
-			this.networkState = (Integer) data;
-			break;
-		case SyncType.PLAYERSTATE:
-			this.playerState = (Integer) data;
-			break;
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE) {
+			this.networkID = nbt.getInteger("networkID");
+			this.dimension = nbt.getInteger("DIMENSION");
+			this.playerName = nbt.getString("playerName");
+			this.networkName = nbt.getString("networkName");
+		} else if (type == SyncType.SYNC) {
+			this.masterName = nbt.getString("masterName");
+			this.networkID = nbt.getInteger("networkID");
+			this.networkState = nbt.getInteger("networkState");
+			this.playerState = nbt.getInteger("playerState");
+			this.networkName = nbt.getString("networkName");
 		}
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-
-		switch (id) {
-		case SyncType.SPECIAL1:
-			return new SyncData(true, networkName);
-		case SyncType.SPECIAL2:
-			return new SyncData(true, networkID);
-		case SyncType.PLAYER:
-			return new SyncData(true, this.getMasterName());
-		case SyncType.STATE:
-			return new SyncData(true, this.networkState);
-		case SyncType.PLAYERSTATE:
-			return new SyncData(true, this.playerState);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE) {
+			nbt.setInteger("networkID", networkID);
+			nbt.setInteger("DIMENSION", dimension);
+			nbt.setString("playerName", playerName);
+			nbt.setString("networkName", networkName);
+		} else if (type == SyncType.SYNC) {
+			nbt.setString("masterName", getMasterName());
+			nbt.setInteger("networkID", networkID);
+			nbt.setInteger("networkState", networkState);
+			nbt.setInteger("playerState", playerState);
+			nbt.setString("networkName", networkName);
 		}
-		return new SyncData(false, 0);
-	}
-
-	public void writeToNBT(NBTTagCompound tag) {
-		super.writeToNBT(tag);
-		tag.setInteger("networkID", networkID);
-		tag.setInteger("DIMENSION", dimension);
-		tag.setString("playerName", playerName);
-		tag.setString("networkName", networkName);
 
 	}
 
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
-		this.networkID = tag.getInteger("networkID");
-		this.dimension = tag.getInteger("DIMENSION");
-		this.playerName = tag.getString("playerName");
-		this.networkName = tag.getString("networkName");
-	}
 
 	public boolean hasEnergyHandler(ForgeDirection from) {
 		TileEntity handler = SonarHelper.getAdjacentTileEntity(this, from);
@@ -285,5 +265,13 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 	public String masterName() {
 		return this.playerName;
 	}
-
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		if(networkName.equals("NETWORK")){
+			currenttip.add(FontHelper.translate("network.notConnected"));	
+		}else{
+			currenttip.add(networkName + ": " + GuiFlux.getNetworkType(networkState));
+		}
+		return currenttip;
+	}
 }

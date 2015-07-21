@@ -3,35 +3,26 @@ package sonar.calculator.mod.common.block.generators;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.IWrench;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenerator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.SonarMaterials;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class CrankedGenerator extends SonarMachineBlock implements IWrench {
+public class CrankedGenerator extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-	private static boolean keepInventory;
-	private Random rand = new Random();
+	private IIcon iconFront, iconTop;
 
 	public CrankedGenerator() {
 		super(SonarMaterials.machine);
@@ -56,18 +47,9 @@ public class CrankedGenerator extends SonarMachineBlock implements IWrench {
 		TileEntity tileentity = world.getTileEntity(x, y, z);
 		if (tileentity != null && tileentity instanceof TileEntityCrankedGenerator) {
 			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(x, y, z);
-			generator.updateHandlers();
+			generator.updateAdjacentHandlers();
 		}
 
-	}
-
-	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if (tileentity != null && tileentity instanceof TileEntityCrankedGenerator) {
-			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(x, y, z);
-			generator.updateHandlers();
-		}
 	}
 
 	@Override
@@ -77,7 +59,7 @@ public class CrankedGenerator extends SonarMachineBlock implements IWrench {
 		TileEntity te = world.getTileEntity(x, y, z);
 		if (te != null && te instanceof TileEntityCrankedGenerator) {
 			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(x, y, z);
-			generator.updateHandlers();
+			generator.updateAdjacentHandlers();
 		}
 
 	}
@@ -95,11 +77,6 @@ public class CrankedGenerator extends SonarMachineBlock implements IWrench {
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityCrankedGenerator();
-	}
-
-	@Override
-	public boolean dropStandard(World world, int x, int y, int z) {
-		return false;
 	}
 
 	@Override

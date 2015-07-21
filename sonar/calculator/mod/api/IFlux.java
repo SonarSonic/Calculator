@@ -4,28 +4,22 @@ import java.util.List;
 
 import net.minecraft.tileentity.TileEntity;
 
+/**extended by IFluxPoint & IFluxPlug you must use them if you wish to send and receive energy from the network*/
 public interface IFlux {
 
-	/**
-	 * @return Tile Entity X Coordinate
-	 */
+	/** @return Tile Entity X Coordinate */
 	public int xCoord();
 
-	/**
-	 * @return Tile Entity Y Coordinate
-	 */
+
+	/** @return Tile Entity Y Coordinate */
 	public int yCoord();
 
-	/**
-	 * @return Tile Entity Z Coordinate
-	 */
+	/** @return Tile Entity Z Coordinate */
 	public int zCoord();
 
-	/**
-	 * @return Tile Entity Network
-	 */
+
+	/** @return Tile Entity X Coordinate */
 	public int networkID();
-	
 
 	/**
 	 * @return owners name

@@ -2,29 +2,24 @@ package sonar.calculator.mod.client.gui.utils;
 
 import java.util.Iterator;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.inventory.Container;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons.SonarButton;
-import sonar.calculator.mod.network.packets.PacketConductorMast;
 import sonar.calculator.mod.network.packets.PacketMachineButton;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiBeacon;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.inventory.Container;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 public abstract class GuiSonar extends GuiContainer {
 
-	public static int circuit = 0, confirm = 1, pause = 2;
 	public int x, y, z;
 
 	public GuiSonar(Container container, TileEntity entity) {
@@ -72,10 +67,12 @@ public abstract class GuiSonar extends GuiContainer {
 	public class PauseButton extends CalculatorButtons.ImageButton {
 
 		boolean paused;
+		public int id;
 
-		public PauseButton(int x, int y, boolean paused) {
-			super(pause, x, y, new ResourceLocation("Calculator:textures/gui/buttons/buttons.png"), paused ? 51 : 34, 0, 16, 16);
+		public PauseButton(int id, int x, int y, boolean paused) {
+			super(id, x, y, new ResourceLocation("Calculator:textures/gui/buttons/buttons.png"), paused ? 51 : 34, 0, 16, 16);
 			this.paused = paused;
+			this.id=id;
 		}
 
 		public void func_146111_b(int x, int y) {
@@ -88,7 +85,7 @@ public abstract class GuiSonar extends GuiContainer {
 
 		@Override
 		public void onClicked() {
-			Calculator.network.sendToServer(new PacketMachineButton(pause, x, y, z));
+			Calculator.network.sendToServer(new PacketMachineButton(id, x, y, z));
 			buttonList.clear();
 			initGui(!paused);
 			updateScreen();
@@ -97,9 +94,10 @@ public abstract class GuiSonar extends GuiContainer {
 
 	@SideOnly(Side.CLIENT)
 	public class CircuitButton extends CalculatorButtons.ImageButton {
-
-		public CircuitButton(int x, int y) {
-			super(circuit, x, y, new ResourceLocation("Calculator:textures/gui/buttons/buttons.png"), 0, 0, 16, 16);
+		public int id;
+		public CircuitButton(int id, int x, int y) {
+			super(id, x, y, new ResourceLocation("Calculator:textures/gui/buttons/buttons.png"), 0, 0, 16, 16);
+			this.id=id;
 		}
 
 		public void func_146111_b(int x, int y) {
@@ -108,7 +106,7 @@ public abstract class GuiSonar extends GuiContainer {
 
 		@Override
 		public void onClicked() {
-			Calculator.network.sendToServer(new PacketMachineButton(circuit, x, y, z));
+			Calculator.network.sendToServer(new PacketMachineButton(id, x, y, z));
 		}
 	}
 

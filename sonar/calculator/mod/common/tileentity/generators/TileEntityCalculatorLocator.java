@@ -1,60 +1,51 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import java.util.Random;
+import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.IPausable;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.core.common.tileentity.TileEntityInventorySender;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.SonarHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	public byte active;
-	public int stability;
 	public int energyGenerated = CalculatorConfig.locatorRF;
-	public int luckTicks;
-	public int size;
+	public int size, sizeTicks, luckTicks, stability;
+	public String owner = "None";
 
 	public TileEntityCalculatorLocator() {
 		super.storage = new EnergyStorage(25000000, 25000000);
 		super.slots = new ItemStack[2];
-		super.maxTransfer = 64000;
+		super.maxTransfer = 100000;
 	}
 
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		if (canStart()) {
-			start();
+
+		if (canGenerate()) {
+			beginGeneration();
 			if (active != 1) {
 				this.active = 1;
 				this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-
 			}
 		} else {
 			if (active != 0) {
@@ -62,13 +53,21 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 				this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 		}
-
+		if (!this.worldObj.isRemote) {
+			if (!(this.sizeTicks >= 25)) {
+				sizeTicks++;
+			} else {
+				this.sizeTicks=0;
+				this.createStructure();
+				this.getStability();
+			}
+		}
 		this.charge(0);
 		this.addEnergy();
 		this.markDirty();
 	}
 
-	public int currentGenerated() {
+	public int currentOutput() {
 		if (size != 0 && (((int) (2 * size + 1) * (2 * size + 1)) - 1) != 0) {
 			int stable = (int) (stability * 100) / ((int) (2 * size + 1) * (2 * size + 1));
 			return 5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size;
@@ -79,6 +78,9 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	public void getStability() {
 		int currentStable = 0;
+		if (size == 0) {
+			this.stability = 0;
+		}
 		for (int Z = -(size); Z <= (size); Z++) {
 			for (int X = -(size); X <= (size); X++) {
 				TileEntity target = this.worldObj.getTileEntity(xCoord + X, yCoord, zCoord + Z);
@@ -91,24 +93,22 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		this.stability = currentStable;
 	}
 
-	public boolean canStart() {
-		if (this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) {
-			if (multiblock(this.worldObj, xCoord, yCoord, this.zCoord) != 0) {
-				getStability();
-				if (isLocated()) {
-					if (this.stability >= 7) {
-						this.active = 1;
-						return true;
-					} else {
-						ItemStack stack = this.getStackInSlot(1);
-						String owner = stack.getTagCompound().getString("Player");
-						EntityPlayer player = this.worldObj.getPlayerEntityByName(owner);
-
-						if (!(player == null)) {
-							this.active = 1;
-							return true;
-						}
-					}
+	public boolean canGenerate() {
+		if (!(this.storage.getEnergyStored() < this.storage.getMaxEnergyStored())) {
+			return false;
+		}
+		if (size == 0) {
+			return false;
+		}
+		if (isLocated()) {
+			if (this.stability >= 7) {
+				this.active = 1;
+				return true;
+			} else {
+				EntityPlayer player = this.worldObj.getPlayerEntityByName(owner);
+				if (!(player == null)) {
+					this.active = 1;
+					return true;
 				}
 			}
 		}
@@ -116,8 +116,8 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		return false;
 	}
 
-	public void start() {
-		storage.modifyEnergyStored(currentGenerated());
+	public void beginGeneration() {
+		storage.modifyEnergyStored(currentOutput());
 		if (!this.worldObj.isRemote) {
 			if (this.luckTicks >= 0 && this.luckTicks != 50) {
 				this.luckTicks++;
@@ -135,7 +135,6 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	private void timeStart() {
 		this.worldObj.setWorldTime(worldObj.getWorldTime() + 100);
-
 	}
 
 	private void addEnergy() {
@@ -154,8 +153,6 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	}
 
 	private void effectStart() {
-		ItemStack stack = this.getStackInSlot(1);
-		String owner = stack.getTagCompound().getString("Player");
 		EntityPlayer player = this.worldObj.getPlayerEntityByName(owner);
 		if (player != null) {
 			double x = player.posX;
@@ -246,7 +243,6 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	protected boolean isLocated() {
 		ItemStack stack = this.getStackInSlot(1);
-
 		if (stack == null) {
 			return false;
 		}
@@ -262,59 +258,49 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	}
 
-	public String ownerUsername() {
+	public void createOwner() {
 		ItemStack stack = this.getStackInSlot(1);
-
 		if (stack == null) {
-			return "None";
+			this.owner = "None";
+			return;
 		}
 
 		if (stack.hasTagCompound()) {
 			if (stack.isItemEqual(new ItemStack(Calculator.itemLocatorModule))) {
-				return stack.getTagCompound().getString("Player");
+				this.owner = stack.getTagCompound().getString("Player");
 			}
-
 		}
 
-		return "None";
 	}
 
-	public int multiblock(World world, int x, int y, int z) {
+	public void createStructure() {
 		int size = CalculatorLocator.multiBlockStructure(getWorldObj(), xCoord, yCoord, zCoord);
 		if (size != this.size) {
 			this.size = size;
 			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
-		return this.size;
 	}
 
-	public boolean multiblockstring() {
-		if (size != 0) {
-			return true;
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.stability = nbt.getInteger("stability");
+			this.active = nbt.getByte("active");
+			this.luckTicks = nbt.getInteger("ticks");
+			this.size = nbt.getInteger("size");
+			this.owner = nbt.getString("owner");
 		}
-		return false;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-
-		super.readFromNBT(nbt);
-		this.stability = nbt.getInteger("stability");
-		this.active = nbt.getByte("active");
-		this.luckTicks = nbt.getInteger("ticks");
-		this.size = nbt.getInteger("size");
-
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-
-		super.writeToNBT(nbt);
-		nbt.setInteger("stability", this.stability);
-		nbt.setByte("active", this.active);
-		nbt.setInteger("ticks", this.luckTicks);
-		nbt.setInteger("size", this.size);
-
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setInteger("stability", this.stability);
+			nbt.setByte("active", this.active);
+			nbt.setInteger("ticks", this.luckTicks);
+			nbt.setInteger("size", this.size);
+			nbt.setString("owner", this.owner);
+		}
 	}
 
 	@Override
@@ -346,39 +332,18 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		return 256;
 	}
 
-	public boolean receiveClientEvent(int action, int param) {
-		if (action == 1) {
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		}
-		return true;
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		currenttip.add(FontHelper.translate("locator.active") + ": " + (active == 0 ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
+
+		currenttip.add(FontHelper.translate("locator.owner") + ": " + (owner != "None" ? owner : FontHelper.translate("locator.none")));
+		return currenttip;
 	}
 
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.ACTIVE:
-			this.active = (Byte) data;
-			break;
-		case SyncType.SPECIAL1:
-			this.stability =(Integer) data;
-			break;
-		case SyncType.SPECIAL2:
-			this.size =(Integer) data;
-			break;
-		}
+	public void onLoaded() {
+		super.onLoaded();
+		createOwner();
+		createStructure();
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.ACTIVE:
-			return new SyncData(true, active);
-		case SyncType.SPECIAL1:
-			return new SyncData(true, stability);
-		case SyncType.SPECIAL2:
-			return new SyncData(true, size);
-		}
-		return super.getSyncData(id);
-	}
 }

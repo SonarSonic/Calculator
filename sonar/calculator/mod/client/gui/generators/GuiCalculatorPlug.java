@@ -31,19 +31,18 @@ public class GuiCalculatorPlug extends GuiContainer {
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 
 		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
-		FontHelper.textCentre(getString(), xSize, 60, 0);
+		FontHelper.textCentre(getString(entity.stable), xSize, 60, 0);
 	}
 
-	private String getString() {
-		if (this.entity.stable == 0) {
+	public static String getString(int stable) {
+		switch (stable) {
+		case 0:
 			return FontHelper.translate("circuit.stable") + ": " + FontHelper.translate("circuit.noStability");
-		}
-		if (this.entity.stable == 1)
+		case 1:
 			return FontHelper.translate("circuit.stable") + ": " + FontHelper.translate("locator.false");
-		if (this.entity.stable == 2) {
+		case 2:
 			return FontHelper.translate("circuit.stable") + ": " + FontHelper.translate("locator.true");
 		}
-
 		return FontHelper.translate("circuit.stable") + ": " + FontHelper.translate("locator.unknown");
 	}
 

@@ -1,30 +1,20 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
+import java.util.List;
+
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
-import sonar.calculator.mod.api.ISyncTile;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
-import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
-import sonar.core.utils.ChargingUtils;
-import sonar.core.utils.EnergyCharge;
-import sonar.core.utils.IDropTile;
-import sonar.core.utils.SonarAPI;
+import sonar.core.utils.IMachineButtons;
+import sonar.core.utils.ISyncTile;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
-import cpw.mods.fml.common.Optional.Method;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityWeatherController extends TileEntityInventoryReceiver implements IEnergyHandler, IDropTile, IEnergySink, ISyncTile {
+public class TileEntityWeatherController extends TileEntityInventoryReceiver implements IEnergyHandler, IEnergySink, ISyncTile, IMachineButtons {
 
 	public int type, data, buffer, coolDown;
 
@@ -113,53 +103,34 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 		this.type = type;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		this.type = nbt.getInteger("type");
-		this.data = nbt.getInteger("data");
-		this.buffer = nbt.getInteger("buffer");
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.type = nbt.getInteger("type");
+			this.data = nbt.getInteger("data");
+			this.buffer = nbt.getInteger("buffer");		}
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setInteger("type", type);
-		nbt.setInteger("data", data);
-		nbt.setInteger("buffer", buffer);
-	}
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setInteger("type", this.type);
+			nbt.setInteger("data", data);
+			nbt.setInteger("buffer", buffer);
 
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.STATE:
-			this.type = (Integer) data;
-			break;
-		case SyncType.ACTIVE:
-			this.data = (Integer) data;
-			break;
-		case SyncType.SPECIAL1:
-			this.buffer = (Integer) data;
-			break;
-		case SyncType.SPECIAL2:
-			this.coolDown = (Integer) data;
-			break;
 		}
 	}
 
 	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.STATE:
-			return new SyncData(true, type);
-		case SyncType.ACTIVE:
-			return new SyncData(true, data);
-		case SyncType.SPECIAL1:
-			return new SyncData(true, buffer);
-		case SyncType.SPECIAL2:
-			return new SyncData(true, coolDown);
+	public void buttonPress(int buttonID) {
+		if (buttonID == 0) {
+			if (data == 1) {
+				data = 0;
+			} else {
+				data = 1;
+			}
+		} else {
+			setType(buttonID-1);
 		}
-		return super.getSyncData(id);
 	}
 }

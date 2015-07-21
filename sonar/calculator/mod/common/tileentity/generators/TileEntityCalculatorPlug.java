@@ -1,23 +1,21 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.StatCollector;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
-import sonar.calculator.mod.api.ISyncTile;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
+import sonar.calculator.mod.client.gui.generators.GuiCalculatorPlug;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.utils.ISyncTile;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityCalculatorPlug extends TileEntityInventory implements ISyncTile {
 
 	private String localizedName;
-	public byte stable;
+	public int stable;
 
 	public TileEntityCalculatorPlug() {
 		super.slots = new ItemStack[1];
@@ -26,11 +24,17 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
+		if (this.worldObj.isRemote) {
+			return;
+		}
+		int flag = stable;
 		if (testStable()) {
 			fill(0);
 		}
-
-		this.markDirty();
+		if (flag != this.stable) {
+			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			this.markDirty();
+		}
 
 	}
 
@@ -51,7 +55,6 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 		if (stability) {
 			if (this.stable != 2) {
 				this.stable = 2;
-				this.worldObj.markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
 			}
 		}
 
@@ -62,34 +65,20 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 		}
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-
-		super.readFromNBT(nbt);
-		this.stable = nbt.getByte("Stable");
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-
-		super.writeToNBT(nbt);
-		nbt.setByte("Stable", this.stable);
-
-		NBTTagList list = new NBTTagList();
-
-		for (int i = 0; i < this.slots.length; i++) {
-			if (this.slots[i] != null) {
-				NBTTagCompound compound = new NBTTagCompound();
-				compound.setByte("Slot", (byte) i);
-				this.slots[i].writeToNBT(compound);
-				list.appendTag(compound);
-			}
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.stable = nbt.getInteger("Stable");
 		}
-
-		nbt.setTag("Items", list);
-
 	}
 
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setInteger("Stable", this.stable);
+
+		}
+	}
 
 	public byte getS() {
 		if (stable == 2) {
@@ -98,21 +87,10 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 		return 0;
 	}
 
-	@Override
-	public void onSync(Object data, int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			this.stable = (Byte) data;
-			break;
-		}
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		currenttip.add(GuiCalculatorPlug.getString(stable));
+		return currenttip;
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			return new SyncData(true, stable);
-		}
-		return new SyncData(false, 0);
-	}
 }

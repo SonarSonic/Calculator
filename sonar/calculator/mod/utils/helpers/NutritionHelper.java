@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.FontHelper;
 
-/***/
 public class NutritionHelper {
 
 	public static ItemStack chargeHunger(ItemStack stack, World world, EntityPlayer player, String tag) {

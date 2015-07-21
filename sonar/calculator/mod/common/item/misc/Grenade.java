@@ -6,9 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.common.entities.EntityBabyGrenade;
+import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.item.CalcItem;
-import sonar.calculator.mod.common.tileentity.entities.EntityBabyGrenade;
-import sonar.calculator.mod.common.tileentity.entities.EntityGrenade;
 import sonar.core.utils.helpers.FontHelper;
 
 public class Grenade extends CalcItem

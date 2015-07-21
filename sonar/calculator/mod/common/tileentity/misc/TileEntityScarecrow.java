@@ -15,22 +15,24 @@ public class TileEntityScarecrow extends TileEntity {
 
 	@Override
 	public void updateEntity() {
-		super.updateEntity();	
+		super.updateEntity();
+		if (this.worldObj.isRemote) {
+			return;
+		}
 		grow();
 
 	}
 
 	public void grow() {
-		if (!this.worldObj.isRemote) {
-			if (this.growTicks >= 0 && this.growTicks != speed) {
-				growTicks++;
-			}
-			if (this.growTicks == speed) {
-				growCrop();
-				this.growTicks = 0;
-
-			}
+		if (this.growTicks >= 0 && this.growTicks != speed) {
+			growTicks++;
 		}
+		if (this.growTicks == speed) {
+			growCrop();
+			this.growTicks = 0;
+
+		}
+
 	}
 
 	public boolean growCrop() {

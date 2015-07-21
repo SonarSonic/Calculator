@@ -9,17 +9,21 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
+import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInventory;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.helpers.FontHelper;
 
+@SideOnly(Side.CLIENT)
 public class GuiScientificCalculator extends GuiContainer
 {
   private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/scientificcalculator.png");
 
-  public GuiScientificCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem inventory) { 
-	  super(new ContainerScientificCalculator(player, inv, inventory));
+  public GuiScientificCalculator(EntityPlayer player, InventoryPlayer inv, CalculatorInventory calculatorInventory) { 
+	  super(new ContainerScientificCalculator(player, inv, calculatorInventory));
     
     this.xSize = 176;
     this.ySize = 166;

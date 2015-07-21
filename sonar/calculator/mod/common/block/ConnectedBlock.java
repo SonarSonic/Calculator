@@ -1,18 +1,22 @@
 package sonar.calculator.mod.common.block;
 
+import cofh.api.item.IToolHammer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.ILocatorBlock;
+import sonar.calculator.mod.api.IStableBlock;
+import sonar.calculator.mod.api.IStableGlass;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ConnectedBlock extends Block{
+public class ConnectedBlock extends Block {
 
 	public String type;
 	public int target;
@@ -35,16 +39,18 @@ public class ConnectedBlock extends Block{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
-		if (this.target == 1) {
+
+		if (this.target == 1 || target == 3 || target == 4) {
 			Block i1 = world.getBlock(x, y, z);
 			return i1 == this ? false : super.shouldSideBeRendered(world, x, y, z, side);
 		}
+
 		return true;
 	}
 
 	@Override
 	public boolean isOpaqueCube() {
-		if (target == 1) {
+		if (target == 1 || target == 3 || target == 4) {
 			return false;
 		}
 		return true;
@@ -52,7 +58,7 @@ public class ConnectedBlock extends Block{
 
 	@Override
 	public boolean renderAsNormalBlock() {
-		if (target == 1) {
+		if (target == 1 || target == 3 || target == 4) {
 			return false;
 		}
 		return true;
@@ -60,7 +66,7 @@ public class ConnectedBlock extends Block{
 
 	@Override
 	public int getRenderBlockPass() {
-		if (target == 1) {
+		if (target == 1 || target == 3 || target == 4) {
 			return 1;
 		}
 		return 0;
@@ -255,9 +261,8 @@ public class ConnectedBlock extends Block{
 			ForgeDirection hoz = getHorizontal(dir);
 			Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
 			if (target != null) {
-				if (type(target)) {
-					return true;
-				}
+				return type(target);
+
 			}
 		}
 		return false;
@@ -268,9 +273,8 @@ public class ConnectedBlock extends Block{
 		ForgeDirection hoz = ForgeDirection.NORTH;
 		Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
 		if (target != null) {
-			if (type(target)) {
-				return true;
-			}
+			return type(target);
+
 		}
 		return false;
 	}
@@ -280,9 +284,8 @@ public class ConnectedBlock extends Block{
 		ForgeDirection hoz = ForgeDirection.NORTH.getOpposite();
 		Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
 		if (target != null) {
-			if (type(target)) {
-				return true;
-			}
+			return type(target);
+
 		}
 		return false;
 	}
@@ -291,9 +294,7 @@ public class ConnectedBlock extends Block{
 		ForgeDirection hoz = ForgeDirection.EAST;
 		if (world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ)) != null) {
 			Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
-			if (type(target)) {
-				return true;
-			}
+			return type(target);
 
 		}
 		return false;
@@ -303,29 +304,39 @@ public class ConnectedBlock extends Block{
 		ForgeDirection hoz = ForgeDirection.EAST.getOpposite();
 		Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
 		if (target != null) {
-			if (type(target)) {
-				return true;
-			}
+			return type(target);
 
 		}
 		return false;
 	}
 
 	public boolean type(Block block) {
-		if (this.target == 0 && block == Calculator.stablestoneBlock) {
-			return true;
-		}
-		if (this.target == 0 && block == Calculator.flawlessGreenhouse) {
-			return true;
-		}
-		if (this.target == 0 && block == Calculator.carbondioxideGenerator) {
-			return true;
-		}
-		if (this.target == 1 && block == Calculator.flawlessGlass) {
-			return true;
-		}
-		if (this.target == 2 && block == Calculator.purifiedobsidianBlock) {
-			return true;
+		switch (target) {
+		case 0:
+			if (block == Calculator.stablestoneBlock || block == Calculator.flawlessGreenhouse || block == Calculator.carbondioxideGenerator) {
+				return true;
+			}
+			break;
+		case 1:
+			if (block == Calculator.flawlessGlass) {
+				return true;
+			}
+			break;
+		case 2:
+			if (block == Calculator.purifiedobsidianBlock) {
+				return true;
+			}
+			break;
+		case 3:
+			if (block == Calculator.stableglassBlock) {
+				return true;
+			}
+			break;
+		case 4:
+			if (block == Calculator.clearstableglassBlock) {
+				return true;
+			}
+			break;
 		}
 
 		return false;
@@ -389,11 +400,33 @@ public class ConnectedBlock extends Block{
 
 	}
 
-	public static class Stable extends ConnectedBlock implements ILocatorBlock{
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if (target == 3 || target == 4) {
+			if (player != null) {
+				ItemStack target = player.getHeldItem();
+				if (target != null && (target.getItem() == Calculator.wrench || target.getItem() instanceof IToolHammer)) {
+					if (this.target == 3) {
+						world.setBlock(x, y, z, Calculator.clearstableglassBlock);
+					} else {
+						world.setBlock(x, y, z, Calculator.stableglassBlock);
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public static class Stable extends ConnectedBlock implements IStableBlock {
 
 		public Stable() {
-			super(Material.rock,"stablestone",0);
+			super(Material.rock, "stablestone", 0);
 		}
+	}
 
+	public static class StableGlass extends ConnectedBlock implements IStableGlass {
+
+		public StableGlass(String string, int type) {
+			super(Material.glass, string, type);
+		}
 	}
 }

@@ -1,41 +1,38 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.player.EntityPlayer;
+import java.util.List;
+
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IHealthStore;
-import sonar.calculator.mod.api.IHungerStore;
-import sonar.calculator.mod.api.ISyncTile;
 import sonar.calculator.mod.api.ProcessType;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
-import sonar.core.utils.IDropTile;
+import sonar.core.utils.ISyncTile;
+import sonar.core.utils.helpers.FontHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityHealthProcessor extends TileEntitySidedInventory
-		implements ISidedInventory, IDropTile, ISyncTile {
+public class TileEntityHealthProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile {
 
-	public int storedpoints, speed = 1;
+	public int storedpoints, speed = 4;
 
 	public TileEntityHealthProcessor() {
 		super.input = new int[] { 0 };
 		super.output = new int[] { 1 };
 		super.slots = new ItemStack[2];
-
 	}
 
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-			loot(slots[0]);
-			charge(slots[1]);
-		
+		loot(slots[0]);
+		charge(slots[1]);
 		this.markDirty();
 	}
 
@@ -51,8 +48,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory
 							module.transferHealth(speed, stack, ProcessType.ADD);
 							storedpoints = storedpoints - speed;
 						} else if (max != -1) {
-							module.transferHealth(max - health, stack,
-									ProcessType.ADD);
+							module.transferHealth(max - health, stack, ProcessType.ADD);
 							storedpoints = storedpoints - (max - health);
 						}
 					} else if (storedpoints <= speed) {
@@ -60,8 +56,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory
 							module.transferHealth(speed, stack, ProcessType.ADD);
 							storedpoints = 0;
 						} else if (max != -1) {
-							module.transferHealth(max - health, stack,
-									ProcessType.ADD);
+							module.transferHealth(max - health, stack, ProcessType.ADD);
 							storedpoints = storedpoints - max - health;
 						}
 					}
@@ -74,8 +69,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory
 	private void loot(ItemStack stack) {
 		if (!(stack == null)) {
 			if (isLoot(stack)) {
-				int add = HealthProcessorRecipes.instance().getHealthValue(
-						stack);
+				int add = (Integer) HealthProcessorRecipes.instance().getOutput(stack);
 				storedpoints = storedpoints + add;
 				this.slots[0].stackSize--;
 				if (this.slots[0].stackSize <= 0) {
@@ -101,22 +95,20 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory
 	}
 
 	private boolean isLoot(ItemStack stack) {
-		if (HealthProcessorRecipes.instance().getHealthValue(stack) > 0) {
+		if ((Integer) HealthProcessorRecipes.instance().getOutput(stack) > 0) {
 			return true;
 		}
 		return false;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
 		this.storedpoints = nbt.getInteger("Food");
 
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
 		nbt.setInteger("Food", this.storedpoints);
 
 	}
@@ -140,37 +132,13 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory
 	}
 
 	@Override
-	public void readInfo(NBTTagCompound tag) {
-		this.storedpoints = tag.getInteger("Food");
-	}
-
-	@Override
-	public void writeInfo(NBTTagCompound tag) {
-		tag.setInteger("Food", this.storedpoints);
-
-	}
-
-	@Override
-	public void onSync(Object data, int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			this.storedpoints = (Integer)data;
-			break;
-		}
-	}
-
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.SPECIAL1:
-			return new SyncData(true, storedpoints);
-		}
-		return new SyncData(false, 0);
-	}
-
-	@Override
 	public void sendPacket(int dimension, int side, int value) {
 		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
-		
+	}
+
+	@SideOnly(Side.CLIENT)
+	public List<String> getWailaInfo(List<String> currenttip) {
+		currenttip.add(FontHelper.translate("points.health") + ": " + storedpoints);
+		return currenttip;
 	}
 }

@@ -1,30 +1,28 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import java.util.Random;
+import ic2.api.energy.tile.IEnergySink;
+
+import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.SyncData;
-import sonar.calculator.mod.api.SyncType;
+import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.core.common.tileentity.TileEntitySender;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
 
 public class TileEntityCrankedGenerator extends TileEntitySender {
 
-	public int maxTransfer = 16;
+	protected TileEntity[] handlers = new TileEntity[6];
 	public boolean cranked;
 	public int ticks;
 	public int ticksforpower = 2;
-	public String direction;
 
 	public TileEntityCrankedGenerator() {
 		super.storage = new EnergyStorage(1000, 1000);
@@ -35,14 +33,11 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 	public void updateEntity() {
 
 		super.updateEntity();
-		if (canAddEnergy()) {
-			addEnergy();
-		}
 		if (cranked()) {
 			TileEntityCrankHandle crank = (TileEntityCrankHandle) this.worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
 			if (crank.angle > 0) {
 				if (ticks == 0) {
-					this.storage.modifyEnergyStored(1);
+					this.storage.modifyEnergyStored(2);
 				}
 				ticks++;
 				if (ticks == ticksforpower) {
@@ -50,6 +45,8 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 				}
 			}
 		}
+		int maxTransfer = Math.min(this.maxTransfer, this.storage.getEnergyStored());
+		this.storage.extractEnergy(maxTransfer - this.pushEnergy(maxTransfer, false), false);
 	}
 
 	public boolean cranked() {
@@ -60,119 +57,58 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 		return false;
 	}
 
-	private void addEnergy() {
-
-		TileEntity down = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-		TileEntity north = worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-		TileEntity south = worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-		TileEntity east = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-		TileEntity west = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-		if (direction == "down") {
-			if (SonarHelper.isEnergyHandlerFromSide(down, ForgeDirection.DOWN)) {
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(down, ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false));
-
-			}
-		} else if (direction == "west") {
-			if (SonarHelper.isEnergyHandlerFromSide(west, ForgeDirection.WEST)) {
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(west, ForgeDirection.EAST, this.storage.extractEnergy(maxTransfer, true), false));
-			}
-		} else if (direction == "east") {
-			if (SonarHelper.isEnergyHandlerFromSide(east, ForgeDirection.EAST)) {
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(east, ForgeDirection.WEST, this.storage.extractEnergy(maxTransfer, true), false));
-			}
-		} else if (direction == "north") {
-			if (SonarHelper.isEnergyHandlerFromSide(north, ForgeDirection.NORTH)) {
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(north, ForgeDirection.SOUTH, this.storage.extractEnergy(maxTransfer, true), false));
-			}
-		} else if (direction == "south") {
-			if (SonarHelper.isEnergyHandlerFromSide(south, ForgeDirection.SOUTH)) {
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(south, ForgeDirection.NORTH, this.storage.extractEnergy(maxTransfer, true), false));
+	public int pushEnergy(int recieve, boolean simulate) {
+		for (int i = 0; i < 6; i++) {
+			if (this.handlers[i] != null) {
+				if (handlers[i] instanceof IEnergyReceiver) {
+					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve, simulate);
+				} else if (handlers[i] instanceof IEnergySink) {
+					if (simulate) {
+						recieve -= ((IEnergySink) this.handlers[i]).getDemandedEnergy() * 4;
+					} else {
+						recieve -= (recieve - (((IEnergySink) this.handlers[i]).injectEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve / 4, 128) * 4));
+					}
+				}
 			}
 		}
-
+		return recieve;
 	}
 
-	private boolean canAddEnergy() {
-		if (storage.getEnergyStored() == 0) {
-			return false;
-		}
-		if (direction == "none") {
-			return false;
-		}
-		return true;
-	}
-
-	public void updateHandlers() {
-		String d = getHandlers().toString();
-		if (d == null) {
-			direction = "none";
-		} else
-			direction = d;
-	}
-
-	public String getHandlers() {
-		TileEntity down = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-		TileEntity north = worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-		TileEntity south = worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-		TileEntity east = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-		TileEntity west = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-
-		if (SonarHelper.isEnergyHandlerFromSide(down, ForgeDirection.DOWN)) {
-			return "down";
-		}
-
-		else if (SonarHelper.isEnergyHandlerFromSide(west, ForgeDirection.WEST)) {
-			return "west";
-		}
-
-		else if (SonarHelper.isEnergyHandlerFromSide(east, ForgeDirection.EAST)) {
-			return "east";
-		}
-
-		else if (SonarHelper.isEnergyHandlerFromSide(north, ForgeDirection.NORTH)) {
-			return "north";
-		}
-
-		else if (SonarHelper.isEnergyHandlerFromSide(south, ForgeDirection.SOUTH)) {
-			return "south";
-		}
-		return "none";
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-
-		super.readFromNBT(nbt);
-		direction = nbt.getString("facing");
-
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-
-		super.writeToNBT(nbt);
-		if (direction == null) {
-			nbt.setString("facing", "none");
-		} else
-			nbt.setString("facing", direction);
-	}
-
-	@Override
-	public void onSync(Object data, int id) {
-		super.onSync(data, id);
-		switch (id) {
-		case SyncType.ACTIVE:
-			this.cranked = (Boolean)data;
-			break;
+	public void updateAdjacentHandlers() {
+		for (int i = 0; i < 6; i++) {
+			TileEntity te = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.getOrientation(i));
+			if (!(te instanceof TileEntityFlux)) {
+				if (SonarHelper.isEnergyHandlerFromSide(te, ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)])) {
+					this.handlers[i] = te;
+				} else
+					this.handlers[i] = null;
+			}
 		}
 	}
 
-	@Override
-	public SyncData getSyncData(int id) {
-		switch (id) {
-		case SyncType.ACTIVE:
-			return new SyncData(true, cranked);
+	public void onLoaded() {
+		super.onLoaded();
+		this.updateAdjacentHandlers();
+	}
+
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.cranked = nbt.getBoolean("cranked");
+			this.ticks = nbt.getInteger("ticks");
 		}
-		return super.getSyncData(id);
+	}
+
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setBoolean("cranked", cranked());
+			nbt.setInteger("ticks", ticks);
+		}
+	}
+
+	public List<String> getWailaInfo(List<String> tooltip) {
+		tooltip.add(FontHelper.translate("crank.cranked") + ": " + (this.cranked ? FontHelper.translate("locator.true") : FontHelper.translate("locator.false")));
+		return tooltip;
 	}
 }

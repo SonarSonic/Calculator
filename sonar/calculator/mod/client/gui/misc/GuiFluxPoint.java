@@ -12,10 +12,10 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.FluxNetwork;
 import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
+import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiFluxPoint extends GuiFlux {

@@ -21,9 +21,7 @@ public class CalculatorButtons {
 
 		}
 
-		public void onClicked(){
-			
-		}
+		public void onClicked() {}
 
 	}
 
@@ -34,7 +32,6 @@ public class CalculatorButtons {
 		private final int textureY;
 		private final int sizeX, sizeY;
 		private boolean bool;
-		private static final String __OBFID = "CL_00000743";
 
 		protected ImageButton(int id, int x, int y, ResourceLocation texture, int textureX, int textureY, int sizeX, int sizeY) {
 			super(id, x, y, sizeX, sizeY, "");
@@ -70,5 +67,5 @@ public class CalculatorButtons {
 		}
 
 	}
-	
+
 }

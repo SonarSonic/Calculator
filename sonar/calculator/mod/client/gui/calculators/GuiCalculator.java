@@ -1,26 +1,29 @@
 package sonar.calculator.mod.client.gui.calculators;
 
+import java.util.Map;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.containers.ContainerCalculator;
-import sonar.calculator.mod.common.item.calculators.CalculatorItem;
+import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInventory;
 import sonar.core.utils.helpers.FontHelper;
 
+@SideOnly(Side.CLIENT)
 public class GuiCalculator
   extends GuiContainer
 {
   private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/calculator.png");
   
-  public GuiCalculator(EntityPlayer player, InventoryPlayer inv) { 
-	  super(new ContainerCalculator(player, inv));
+  public GuiCalculator(EntityPlayer player, InventoryPlayer inv, CalculatorInventory calculatorInventory, Map<Integer, Integer> map) { 
+	  super(new ContainerCalculator(player, inv, calculatorInventory, map));
 
     this.xSize = 176;
     this.ySize = 166;

@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
+import sonar.calculator.mod.common.entities.EntitySmallStone;
+import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.calculator.mod.common.item.CalcItem;
-import sonar.calculator.mod.common.tileentity.entities.EntitySmallStone;
-import sonar.calculator.mod.common.tileentity.entities.EntitySoil;
 
 public class Soil extends CalcItem implements IStability {
 

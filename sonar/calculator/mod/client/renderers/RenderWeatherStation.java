@@ -48,11 +48,12 @@ public void renderTileEntityAt(TileEntity tileentity, double x, double y, double
     }
    
     GL11.glPushMatrix();
-    GL11.glTranslatef((float)x + 0.5F, (float)y + 1.5F, (float)z + 0.5F);
+    GL11.glTranslatef((float)x + 0.5F, (float)y + 1.5F, (float)z + 0.5F);    
     Minecraft.getMinecraft().renderEngine.bindTexture(baseTex);
     GL11.glPushMatrix();
     GL11.glRotatef(180.0F, 180.0F, 0.0F, 1.0F);
-    
+
+	GL11.glRotated(-0.625, 0, 1, 0);
     if(tileentity.getWorldObj()!=null && tileentity instanceof TileEntityWeatherStation){
     	TileEntityWeatherStation station = (TileEntityWeatherStation) tileentity;
     	if(station.angle==1000){
