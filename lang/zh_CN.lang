@@ -1,4 +1,4 @@
-﻿//calculators
+//calculators
 item.Calculator.name=计算器
 item.CraftingCalculator.name=合成计算器
 item.ScientificCalculator.name=科学计算器
@@ -20,7 +20,7 @@ item.EnergyUpgrade.name=能量升级
 item.SpeedUpgrade.name=速度升级
 item.VoidUpgrade.name=虚空升级
 
-
+//blocks
 tile.reinforcedstoneBlock.name=强化石头
 tile.reinforceddirtBlock.name=强化泥土
 tile.stablestoneBlock.name=稳定石块
@@ -406,6 +406,7 @@ calc.stableStone=无稳定石块
 calc.noPosition=未定位
 calc.dimension=维度错误
 calc.grenade=再次右击投掷手榴弹！
+calc.ban=服务器已禁用
 flawless.mode1=完美合成
 flawless.mode2=动态合成
 flawless.mode3=普通合成
@@ -490,3 +491,15 @@ tile.AmethystFence.name=紫晶木栅栏
 tile.TanzaniteFence.name=坦桑木栅栏
 tile.PearFence.name=梨木栅栏
 tile.DiamondFence.name=钻石木栅栏
+weather.time=时间
+weather.day=白天
+weather.night=夜晚
+weather.rain=下雨
+weather.thunder=雷暴
+state.on=开
+state.off=关
+tile.StableGlass.name=稳定玻璃
+tile.ClearStableGlass.name=清澈稳定玻璃
+tile.MagneticFlux.name=磁流接点
+tile.DockingStation.name=扩展坞
+docking.noCalculator=未安装计算器
