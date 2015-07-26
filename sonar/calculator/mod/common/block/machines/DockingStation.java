@@ -3,16 +3,23 @@ package sonar.calculator.mod.common.block.machines;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.IUpgradeCircuits;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.utils.SonarAPI;
 import sonar.core.utils.SonarMaterials;
 import sonar.core.utils.helpers.FontHelper;
 
@@ -78,4 +85,38 @@ public class DockingStation extends SonarMachineBlock {
 		return true;
 	}
 
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block oldblock, int oldMetadata) {
+
+		TileEntityDockingStation entity = (TileEntityDockingStation) world.getTileEntity(x, y, z);
+
+		ItemStack itemstack = entity.calcStack;
+
+		if (itemstack != null) {
+			float f = this.rand.nextFloat() * 0.8F + 0.1F;
+			float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
+			float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
+
+			while (itemstack.stackSize > 0) {
+				int j = this.rand.nextInt(21) + 10;
+
+				if (j > itemstack.stackSize) {
+					j = itemstack.stackSize;
+				}
+
+				itemstack.stackSize -= j;
+
+				EntityItem item = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j, itemstack.getItemDamage()));
+
+				if (itemstack.hasTagCompound()) {
+					item.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+				}
+
+				world.spawnEntityInWorld(item);
+			}
+		}
+
+		super.breakBlock(world, x, y, z, oldblock, oldMetadata);
+
+	}
 }

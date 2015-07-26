@@ -18,8 +18,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityHungerProcessor extends TileEntitySidedInventory
-		implements ISidedInventory, ISyncTile {
+public class TileEntityHungerProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile {
 
 	public int storedpoints, speed = 4;
 
@@ -32,9 +31,10 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
+		if (!this.worldObj.isRemote)
 			food(slots[0]);
-			charge(slots[1]);
-		
+		charge(slots[1]);
+
 		this.markDirty();
 	}
 
@@ -50,8 +50,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory
 							module.transferHunger(speed, stack, ProcessType.ADD);
 							storedpoints = storedpoints - speed;
 						} else if (max != -1) {
-							module.transferHunger(max - hunger, stack,
-									ProcessType.ADD);
+							module.transferHunger(max - hunger, stack, ProcessType.ADD);
 							storedpoints = storedpoints - (max - hunger);
 						}
 					} else if (storedpoints <= speed) {
@@ -59,8 +58,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory
 							module.transferHunger(speed, stack, ProcessType.ADD);
 							storedpoints = 0;
 						} else if (max != -1) {
-							module.transferHunger(max - hunger, stack,
-									ProcessType.ADD);
+							module.transferHunger(max - hunger, stack, ProcessType.ADD);
 							storedpoints = storedpoints - max - hunger;
 						}
 					}
@@ -133,10 +131,10 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory
 		currenttip.add(FontHelper.translate("points.hunger") + ": " + storedpoints);
 		return currenttip;
 	}
-	
+
 	@Override
 	public void sendPacket(int dimension, int side, int value) {
 		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
-		
+
 	}
 }

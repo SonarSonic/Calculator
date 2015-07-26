@@ -75,7 +75,7 @@ public class ContainerPortableDynamic extends Container {
 	public void onCraftMatrixChanged(IInventory iiventory) {
 		this.calculatorResult.setInventorySlotContents(0, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(calculatorMatrix.getStackInSlot(0),calculatorMatrix.getStackInSlot(1)));
 		this.scientificResult.setInventorySlotContents(0, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(scientficMatrix.getStackInSlot(0),scientficMatrix.getStackInSlot(1)));
-		this.atomicResult.setInventorySlotContents(0, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(atomicMatrix.getStackInSlot(0), atomicMatrix.getStackInSlot(1), atomicMatrix.getStackInSlot(2)));
+		this.atomicResult.setInventorySlotContents(0, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(atomicMatrix.getStackInSlot(0), atomicMatrix.getStackInSlot(1), atomicMatrix.getStackInSlot(2)));
 
 	}
 

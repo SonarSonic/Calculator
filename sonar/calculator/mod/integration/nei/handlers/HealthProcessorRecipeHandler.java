@@ -1,6 +1,8 @@
 package sonar.calculator.mod.integration.nei.handlers;
 
 import java.awt.Rectangle;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,19 +16,23 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class HealthProcessorRecipeHandler extends TemplateRecipeHandler {
 	public class ChancePair extends TemplateRecipeHandler.CachedRecipe {
-		PositionedStack result;
+		PositionedStack input;
 		public int value;
 
-		public ChancePair(ItemStack result, int chance) {
+		public ChancePair(Object result, int chance) {
 			super();
-			result.stackSize = 1;
-			this.result = new PositionedStack(result, 80 - 5, 34 - 11);
+			this.input = new PositionedStack(result, 80 - 5, 34 - 11);
 			this.value = chance;
 		}
 
 		@Override
+		public List<PositionedStack> getIngredients() {
+			return getCycledIngredients(HealthProcessorRecipeHandler.this.cycleticks / 48, Arrays.asList(new PositionedStack[] { this.input }));
+		}
+
+		@Override
 		public PositionedStack getResult() {
-			return this.result;
+			return null;
 		}
 	}
 

@@ -31,7 +31,9 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		loot(slots[0]);
+		if (!this.worldObj.isRemote)
+			loot(slots[0]);
+
 		charge(slots[1]);
 		this.markDirty();
 	}

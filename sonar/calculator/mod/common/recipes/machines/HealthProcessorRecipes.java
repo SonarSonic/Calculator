@@ -7,7 +7,7 @@ import sonar.core.utils.helpers.ValueHelper;
 
 public class HealthProcessorRecipes extends ValueHelper {
 
-	private static final RedstoneExtractorRecipes recipes = new RedstoneExtractorRecipes();
+	private static final HealthProcessorRecipes recipes = new HealthProcessorRecipes();
 
 	public static final ValueHelper instance() {
 		return recipes;

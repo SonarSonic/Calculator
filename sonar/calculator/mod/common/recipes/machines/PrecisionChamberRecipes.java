@@ -19,7 +19,7 @@ public class PrecisionChamberRecipes extends RecipeHelper {
 	@Override
 	public void addRecipes() {
 		addRecipe("cobblestone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 0));
-		addRecipe("dirt", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDirty, 1, 0));		
+		addRecipe(Blocks.dirt, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDirty, 1, 0));		
 		addRecipe("stone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 0));
 		addRecipe("sand", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 1));
 		addRecipe(Blocks.stonebrick, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 2));

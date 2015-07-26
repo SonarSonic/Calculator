@@ -130,6 +130,7 @@ public class NEICalculatorConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(Calculator.weatherStationBlock));
 		API.hideItem(new ItemStack(Calculator.calculatorScreen));
 		API.hideItem(new ItemStack(Calculator.researchChamber));
+		API.hideItem(new ItemStack(Calculator.transmitterBlock));
 	}
 
 	@Override

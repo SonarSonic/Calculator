@@ -50,7 +50,7 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(Calculator.reinforcedstoneBlock, "cobblestone", "plankWood", false);
 
 		registerCalculatorRecipe(Calculator.wrench, Calculator.reinforced_sword, Calculator.reinforced_pickaxe, false);
-		registerCalculatorRecipe(Calculator.reinforceddirtBlock, "dirt", "plankWood", false);
+		registerCalculatorRecipe(Calculator.reinforceddirtBlock, Blocks.dirt, "plankWood", false);
 		registerCalculatorRecipe(new ItemStack(Calculator.enrichedgold, 4), "ingotGold", "dustRedstone", false);
 		registerCalculatorRecipe(Calculator.reinforcediron_ingot, "ingotIron", Calculator.reinforcedstoneBlock, false);
 		registerCalculatorRecipe(Calculator.enriched_coal, Items.coal, "dustRedstone", false);
@@ -75,8 +75,8 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(Calculator.powerCube, Blocks.furnace, Calculator.reinforcedstoneBlock, true);
 		registerCalculatorRecipe(Calculator.stoneSeperator, Blocks.furnace, Blocks.furnace, true);
 
-		registerCalculatorRecipe(new ItemStack(Calculator.reinforceddirtBlock, 1), "dirt", "plankWood", true);
-		registerCalculatorRecipe(new ItemStack(Calculator.reinforceddirtBlock, 4), "dirt", "logWood", true);
+		registerCalculatorRecipe(new ItemStack(Calculator.reinforceddirtBlock, 1), Blocks.dirt, "plankWood", true);
+		registerCalculatorRecipe(new ItemStack(Calculator.reinforceddirtBlock, 4), Blocks.dirt, "logWood", true);
 		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBlock, 1), "cobblestone", "plankWood", true);
 		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBlock, 4), "cobblestone", "logWood", true);
 		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBlock, 6), "stone", "logWood", true);
@@ -86,7 +86,7 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1), Calculator.soil, true);
 		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1), Blocks.gravel, "sand", true);
 		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1), "sand", "sand", true);
-		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1, 2), new ItemStack(Blocks.grass, 1), "dirt", true);
+		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1, 2), new ItemStack(Blocks.grass, 1), Blocks.dirt, true);
 		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1, 2), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.red_mushroom_block, 1, 5), true);
 		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1, 2), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.brown_mushroom_block, 1, 5), true);
 		registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 4), "stone", "treeSapling", true);
@@ -102,21 +102,21 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(Blocks.sand, Blocks.gravel, new ItemStack(Blocks.grass, 1), true);
 		registerCalculatorRecipe(new ItemStack(Blocks.sand, 1), "cobblestone", Blocks.gravel, true);
 		registerCalculatorRecipe(new ItemStack(Blocks.sand, 2), "stone", Blocks.gravel, true);
-		registerCalculatorRecipe(Blocks.sand, Blocks.gravel, "dirt", true);
+		registerCalculatorRecipe(Blocks.sand, Blocks.gravel, Blocks.dirt, true);
 		registerCalculatorRecipe(new ItemStack(Blocks.sandstone, 1, 2), "stone", Blocks.sandstone, true);
 		registerCalculatorRecipe(new ItemStack(Blocks.sandstone, 1, 1), "cobblestone", Blocks.sandstone, true);
-		registerCalculatorRecipe(new ItemStack(Blocks.grass, 2), Items.wheat_seeds, "dirt", true);
-		registerCalculatorRecipe(new ItemStack(Blocks.grass, 2), Items.pumpkin_seeds, "dirt", true);
-		registerCalculatorRecipe(new ItemStack(Blocks.grass, 4), Calculator.broccoliSeeds, "dirt", true);
+		registerCalculatorRecipe(new ItemStack(Blocks.grass, 2), Items.wheat_seeds, Blocks.dirt, true);
+		registerCalculatorRecipe(new ItemStack(Blocks.grass, 2), Items.pumpkin_seeds, Blocks.dirt, true);
+		registerCalculatorRecipe(new ItemStack(Blocks.grass, 4), Calculator.broccoliSeeds, Blocks.dirt, true);
 		registerCalculatorRecipe(new ItemStack(Blocks.gravel, 3), "stone", new ItemStack(Blocks.grass, 1), true);
 		registerCalculatorRecipe(Blocks.gravel, Blocks.sand, new ItemStack(Blocks.grass, 1), true);
-		registerCalculatorRecipe(Blocks.gravel, "cobblestone", "dirt", true);
-		registerCalculatorRecipe(Blocks.gravel, "stone", "dirt", true);
-		registerCalculatorRecipe(Blocks.gravel, Blocks.sand, "dirt", true);
+		registerCalculatorRecipe(Blocks.gravel, "cobblestone", Blocks.dirt, true);
+		registerCalculatorRecipe(Blocks.gravel, "stone", Blocks.dirt, true);
+		registerCalculatorRecipe(Blocks.gravel, Blocks.sand, Blocks.dirt, true);
 		registerCalculatorRecipe(new ItemStack(Blocks.gravel, 2), "stone", Blocks.sand, true);
 		registerCalculatorRecipe(new ItemStack(Blocks.gravel, 1), "cobblestone", Blocks.sand, true);
 		registerCalculatorRecipe(Blocks.gravel, new ItemStack(Blocks.grass, 1), "cobblestone", true);
-		registerCalculatorRecipe(new ItemStack(Blocks.gravel, 2), "dirt", "dirt", true);
+		registerCalculatorRecipe(new ItemStack(Blocks.gravel, 2), Blocks.dirt, Blocks.dirt, true);
 		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 0), Blocks.vine, new ItemStack(Blocks.leaves, 1, 0), true);
 		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 1), Blocks.vine, new ItemStack(Blocks.leaves, 1, 1), true);
 		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 2), Blocks.vine, new ItemStack(Blocks.leaves, 1, 2), true);
@@ -306,12 +306,12 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2, 1), new ItemStack(Blocks.leaves, 1), true);
 
 		// special log recipes
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.sapling, 1, 0), "dirt", true);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 1), new ItemStack(Blocks.sapling, 1, 1), "dirt", true);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.sapling, 1, 2), "dirt", true);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 3), new ItemStack(Blocks.sapling, 1, 3), "dirt", true);
-		registerCalculatorRecipe(new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.sapling, 1, 4), "dirt", true);
-		registerCalculatorRecipe(new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.sapling, 1, 5), "dirt", true);
+		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.sapling, 1, 0), Blocks.dirt, true);
+		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 1), new ItemStack(Blocks.sapling, 1, 1), Blocks.dirt, true);
+		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.sapling, 1, 2), Blocks.dirt, true);
+		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 3), new ItemStack(Blocks.sapling, 1, 3), Blocks.dirt, true);
+		registerCalculatorRecipe(new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.sapling, 1, 4), Blocks.dirt, true);
+		registerCalculatorRecipe(new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.sapling, 1, 5), Blocks.dirt, true);
 		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.sapling, 1), new ItemStack(Blocks.grass, 1), true);
 		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 1), new ItemStack(Blocks.sapling, 1, 1), new ItemStack(Blocks.grass, 1), true);
 		registerCalculatorRecipe(new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.grass, 1), true);
@@ -341,9 +341,9 @@ public class RecipeRegistry {
 
 		// new
 		registerCalculatorRecipe(new ItemStack(Calculator.itemCalculator, 1), "ingotIron", "dustRedstone", true);
-		registerCalculatorRecipe(Blocks.grass, "dirt", new ItemStack(Blocks.tallgrass, 1, 1), true);
-		registerCalculatorRecipe(Blocks.gravel, "dirt", Calculator.small_stone, true);
-		registerCalculatorRecipe(Blocks.grass, "dirt", Calculator.soil, true);
+		registerCalculatorRecipe(Blocks.grass, Blocks.dirt, new ItemStack(Blocks.tallgrass, 1, 1), true);
+		registerCalculatorRecipe(Blocks.gravel, Blocks.dirt, Calculator.small_stone, true);
+		registerCalculatorRecipe(Blocks.grass, Blocks.dirt, Calculator.soil, true);
 		registerCalculatorRecipe(Blocks.dirt, Blocks.sand, Calculator.soil, true);
 		registerCalculatorRecipe(new ItemStack(Calculator.enrichedgold_ingot, 2), Calculator.reinforcediron_ingot, new ItemStack(Items.dye, 1, 11), true);
 		registerCalculatorRecipe(new ItemStack(Calculator.weakeneddiamond, 6), "gemEmerald", new ItemStack(Items.dye, 1, 4), true);
@@ -504,7 +504,7 @@ public class RecipeRegistry {
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Blocks.chest, Calculator.reinforcediron_ingot, Calculator.itemStorageModule);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.electricdiamond, Calculator.reinforcediron_ingot, Calculator.transmitter);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.flawlessfirediamond, Calculator.reinforcediron_ingot, new ItemStack(Calculator.weatherStation, 4));
-
+		registerAtomicRecipe(Calculator.electricdiamond, Calculator.rainSensor, Calculator.electricdiamond, Calculator.weatherController);
 	}
 
 	private static void addFlawlessRecipes() {

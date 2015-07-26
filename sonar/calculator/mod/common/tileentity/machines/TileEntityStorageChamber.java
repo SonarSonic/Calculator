@@ -15,18 +15,19 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 public class TileEntityStorageChamber extends TileEntitySidedInventory implements ISyncTile, ISidedInventory {
 
 	public static int maxSize = 5000;
-	public int[] stored;
+	public int[] stored = new int[14];
 	public ItemStack savedStack;
 	public int renderTicks;
 
 	public void updateEntity() {
 		super.updateEntity();
-		if(renderTicks!=1300){
+		if (renderTicks != 1300) {
 			renderTicks++;
-		}else{
-			renderTicks=0;
+		} else {
+			renderTicks = 0;
 		}
 	}
+
 	public TileEntityStorageChamber() {
 
 		this.stored = new int[14];
@@ -89,7 +90,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 		if (isInputSlot(var1)) {
 			return this.getInputStack(var1);
 		} else if (this.isOutputSlot(var1)) {
-			return this.getFullStack(slot);
+			return this.getSlotStack(slot, 1);
 		}
 		return null;
 	}
@@ -97,8 +98,9 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 	@Override
 	public ItemStack decrStackSize(int slot, int var2) {
 		if (this.isOutputSlot(slot)) {
-			ItemStack output = this.getSlotStack(slot - stored.length, var2);
-			this.stored[slot - stored.length] -= var2;
+			int derc = Math.min(var2, this.stored[slot - stored.length]);
+			ItemStack output = this.getSlotStack(slot - stored.length, derc);
+			this.stored[slot - stored.length] -= derc;
 			if (this.stored[slot - stored.length] == 0) {
 				this.slots[slot - stored.length] = null;
 				this.resetSavedStack(slot - stored.length);
@@ -125,10 +127,10 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		if (itemstack == null) {
-			return;
-		}
 		if (this.isInputSlot(i)) {
+			if (itemstack == null) {
+				return;
+			}
 			this.stored[itemstack.getItemDamage()] += 1;
 			if (getSavedStack() == null) {
 				setSavedStack(itemstack);
@@ -138,6 +140,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 				resetSavedStack(i - stored.length);
 			}
 			this.stored[i - stored.length] -= 1;
+
 		}
 
 	}
@@ -216,7 +219,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 
 	public void resetSavedStack(int removed) {
 		boolean found = false;
-		for (int i = 0; i < slots.length - 1; i++) {
+		for (int i = 0; i < stored.length; i++) {
 			if (i != removed) {
 				if (stored[i] != 0) {
 					found = true;
@@ -316,8 +319,8 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		if (type == SyncType.SAVE || type == SyncType.DROP) {
 			stored = nbt.getIntArray("Stored");
-			if(this.stored.length != 14 || stored == null){
-				stored= new int[14];
+			if (this.stored.length != 14 || stored == null) {
+				stored = new int[14];
 			}
 			this.savedStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("saved"));
 		}
