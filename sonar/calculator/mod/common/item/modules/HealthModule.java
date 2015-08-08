@@ -49,11 +49,11 @@ public class HealthModule extends CalcItem implements IHealthStore {
 	public void transferHealth(int transfer, ItemStack stack, ProcessType process) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger("points", 0);
+			stack.getTagCompound().setInteger("points", 0);
 		}
-		int points = stack.stackTagCompound.getInteger("points");
+		int points = stack.getTagCompound().getInteger("points");
 		if (process == ProcessType.REMOVE) {
 			nbtData.setInteger("points", points - transfer);
 		} else if (process == ProcessType.ADD) {
@@ -76,9 +76,9 @@ public class HealthModule extends CalcItem implements IHealthStore {
 		if (!(health < 0) && health <= this.getMaxHealthPoints(stack)) {
 			if (!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
-			NBTTagCompound nbtData = stack.stackTagCompound;
+			NBTTagCompound nbtData = stack.getTagCompound();
 			if (nbtData == null) {
-				stack.stackTagCompound.setInteger("points", 0);
+				stack.getTagCompound().setInteger("points", 0);
 			}
 			nbtData.setInteger("points", health);
 		}

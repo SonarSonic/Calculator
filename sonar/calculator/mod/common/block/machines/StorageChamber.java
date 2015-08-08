@@ -115,7 +115,7 @@ public class StorageChamber extends SonarMachineBlock {
 			break;
 		}
 
-		int[] stored = stack.stackTagCompound.getIntArray("stored");
+		int[] stored = stack.getTagCompound().getIntArray("stored");
 		int total = 0;
 		for (int i = 0; i < stored.length; i++) {
 			total += stored[i];

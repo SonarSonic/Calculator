@@ -16,11 +16,11 @@ public class NutritionHelper {
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger(tag, 0);
+			stack.getTagCompound().setInteger(tag, 0);
 		}
-		int points = stack.stackTagCompound.getInteger(tag);
+		int points = stack.getTagCompound().getInteger(tag);
 		if (player.isSneaking()) {
 			int hunger = player.getFoodStats().getFoodLevel();
 
@@ -35,7 +35,7 @@ public class NutritionHelper {
 				player.getFoodStats().addStats(points, 2.0F);
 			}
 		} else if (!world.isRemote) {
-			FontHelper.sendMessage(FontHelper.translate("points.hunger") + ": " + stack.stackTagCompound.getInteger(tag), world, player);
+			FontHelper.sendMessage(FontHelper.translate("points.hunger") + ": " + stack.getTagCompound().getInteger(tag), world, player);
 		}
 		return stack;
 	}
@@ -44,12 +44,12 @@ public class NutritionHelper {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger(tag, 0);
+			stack.getTagCompound().setInteger(tag, 0);
 		}
 		if (player.isSneaking()) {
-			int points = stack.stackTagCompound.getInteger(tag);
+			int points = stack.getTagCompound().getInteger(tag);
 			if (points != 0) {
 				int current = (int) player.getHealth();
 				int max = (int) player.getMaxHealth();
@@ -65,7 +65,7 @@ public class NutritionHelper {
 				}
 			}
 		} else {
-			FontHelper.sendMessage(FontHelper.translate("points.health") + ": " + stack.stackTagCompound.getInteger(tag), world, player);
+			FontHelper.sendMessage(FontHelper.translate("points.health") + ": " + stack.getTagCompound().getInteger(tag), world, player);
 		}
 		return stack;
 	}
@@ -73,11 +73,11 @@ public class NutritionHelper {
 	public static boolean useHunger(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par, String tag) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger(tag, 0);
+			stack.getTagCompound().setInteger(tag, 0);
 		}
-		int points = stack.stackTagCompound.getInteger(tag);
+		int points = stack.getTagCompound().getInteger(tag);
 
 		if (!player.canPlayerEdit(x, y, z, par, stack)) {
 			return false;
@@ -105,12 +105,12 @@ public class NutritionHelper {
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger(tag, 0);
+			stack.getTagCompound().setInteger(tag, 0);
 		}
 
-		int points = stack.stackTagCompound.getInteger(tag);
+		int points = stack.getTagCompound().getInteger(tag);
 		{
 			if (!player.canPlayerEdit(x, y, z, par, stack)) {
 				return false;
@@ -137,11 +137,11 @@ public class NutritionHelper {
 	public static int getIntegerTag(ItemStack stack, String tag) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger(tag, 0);
+			stack.getTagCompound().setInteger(tag, 0);
 		}
-		return stack.stackTagCompound.getInteger(tag);
+		return stack.getTagCompound().getInteger(tag);
 
 	}
 
@@ -149,11 +149,11 @@ public class NutritionHelper {
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger(tag, 0);
+			stack.getTagCompound().setInteger(tag, 0);
 		}
-		return stack.stackTagCompound.getInteger(tag);
+		return stack.getTagCompound().getInteger(tag);
 
 	}
 

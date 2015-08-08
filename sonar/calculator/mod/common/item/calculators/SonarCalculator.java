@@ -44,9 +44,6 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 	}
 
 	public ItemStack onCalculatorRightClick(ItemStack itemstack, World world, EntityPlayer player, int ID) {
-		//if (!world.isRemote && player instanceof EntityPlayerMP) {
-		//	Calculator.network.sendTo(new PacketInventorySync(player.inventory), (EntityPlayerMP) player);
-		//}
 		if (player.capabilities.isCreativeMode) {
 			player.openGui(Calculator.instance, ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 		} else if (getEnergyStored(itemstack) > 1) {
@@ -72,30 +69,30 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 
 	@Override
 	public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
-		if (container.stackTagCompound == null) {
+		if (container.getTagCompound() == null) {
 			container.stackTagCompound = new NBTTagCompound();
 		}
-		int energy = container.stackTagCompound.getInteger("Energy");
+		int energy = container.getTagCompound().getInteger("Energy");
 		int energyReceived = Math.min(this.capacity - energy, Math.min(this.maxReceive, maxReceive));
 
 		if (!simulate) {
 			energy += energyReceived;
-			container.stackTagCompound.setInteger("Energy", energy);
+			container.getTagCompound().setInteger("Energy", energy);
 		}
 		return energyReceived;
 	}
 
 	@Override
 	public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
-		if ((container.stackTagCompound == null) || (!container.stackTagCompound.hasKey("Energy"))) {
+		if ((container.getTagCompound() == null) || (!container.getTagCompound().hasKey("Energy"))) {
 			return 0;
 		}
-		int energy = container.stackTagCompound.getInteger("Energy");
+		int energy = container.getTagCompound().getInteger("Energy");
 		int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
 
 		if (!simulate) {
 			energy -= energyExtracted;
-			container.stackTagCompound.setInteger("Energy", energy);
+			container.getTagCompound().setInteger("Energy", energy);
 		}
 		return energyExtracted;
 	}
@@ -105,7 +102,7 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 		if ((!container.hasTagCompound())) {
 			return 0;
 		}
-		return container.stackTagCompound.getInteger("Energy");
+		return container.getTagCompound().getInteger("Energy");
 	}
 
 	@Override

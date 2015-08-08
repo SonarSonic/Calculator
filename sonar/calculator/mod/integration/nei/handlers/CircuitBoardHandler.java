@@ -70,21 +70,21 @@ public class CircuitBoardHandler extends TemplateRecipeHandler {
 	}
 
 	public boolean checkEnergy(ItemStack stack) {
-		return TileEntityAnalysingChamber.itemEnergy(stack.stackTagCompound.getInteger("Energy")) > 0;
+		return TileEntityAnalysingChamber.itemEnergy(stack.getTagCompound().getInteger("Energy")) > 0;
 	}
 
 	public boolean checkItem(ItemStack stack) {
-		if (AnalysingChamberRecipes.instance().getResult(1, stack.stackTagCompound.getInteger("Item1")) != null) {
+		if (AnalysingChamberRecipes.instance().getResult(1, stack.getTagCompound().getInteger("Item1")) != null) {
 			return true;
-		} else if (AnalysingChamberRecipes.instance().getResult(1, stack.stackTagCompound.getInteger("Item2")) != null) {
+		} else if (AnalysingChamberRecipes.instance().getResult(1, stack.getTagCompound().getInteger("Item2")) != null) {
 			return true;
-		} else if (AnalysingChamberRecipes.instance().getResult(2, stack.stackTagCompound.getInteger("Item3")) != null) {
+		} else if (AnalysingChamberRecipes.instance().getResult(2, stack.getTagCompound().getInteger("Item3")) != null) {
 			return true;
-		} else if (AnalysingChamberRecipes.instance().getResult(3, stack.stackTagCompound.getInteger("Item4")) != null) {
+		} else if (AnalysingChamberRecipes.instance().getResult(3, stack.getTagCompound().getInteger("Item4")) != null) {
 			return true;
-		} else if (AnalysingChamberRecipes.instance().getResult(4, stack.stackTagCompound.getInteger("Item5")) != null) {
+		} else if (AnalysingChamberRecipes.instance().getResult(4, stack.getTagCompound().getInteger("Item5")) != null) {
 			return true;
-		} else if (AnalysingChamberRecipes.instance().getResult(5, stack.stackTagCompound.getInteger("Item6")) != null) {
+		} else if (AnalysingChamberRecipes.instance().getResult(5, stack.getTagCompound().getInteger("Item6")) != null) {
 			return true;
 		}
 
@@ -92,7 +92,7 @@ public class CircuitBoardHandler extends TemplateRecipeHandler {
 	}
 
 	public boolean checkStable(ItemStack stack) {
-		return stack.stackTagCompound.getInteger("Stable") == 1;
+		return stack.getTagCompound().getInteger("Stable") == 1;
 	}
 
 	@Override

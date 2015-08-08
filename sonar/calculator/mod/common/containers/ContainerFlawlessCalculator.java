@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.containers;
 
+import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -8,32 +9,29 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import sonar.calculator.mod.api.ICalculatorCrafter;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.utils.SlotPortableCrafting;
+import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
 import sonar.core.common.item.InventoryItem;
 
-public class ContainerFlawlessCalculator extends Container {
+public class ContainerFlawlessCalculator extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
 
-	public InventoryStoredCrafting craftMatrix;
-	public InventoryStoredResult craftResult;
-	public World worldObj;
 	private static final int INV_START = FlawlessCalc.FlawlessInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
 	public ContainerFlawlessCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
-		this.worldObj = player.getEntityWorld();
-		craftMatrix = new InventoryStoredCrafting(this, 4, 1, this.inventory);
-		craftResult = new InventoryStoredResult(this.inventory);
 
-		addSlotToContainer(new SlotCrafting(player, this.craftMatrix, this.craftResult, 0, 145, 35));
 
 		for (int k = 0; k < 4; k++) {
-			addSlotToContainer(new Slot(this.craftMatrix, k, 17 + k * 32, 35));
+			addSlotToContainer(new SlotPortableCrafting(this, inventory, k, 17 + k * 32, 35));
 		}
 
+		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{0,1,2,3}, 4, 145, 35));
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
 				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
@@ -47,8 +45,15 @@ public class ContainerFlawlessCalculator extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory inv) {
-		this.craftResult.setInventorySlotContents(0, RecipeRegistry.FlawlessRecipes.instance().getCraftingResult(craftMatrix.getStackInSlot(0), craftMatrix.getStackInSlot(1), craftMatrix.getStackInSlot(2), craftMatrix.getStackInSlot(3)));
+		this.inventory.setInventorySlotContents(4, RecipeRegistry.FlawlessRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3)));
+	}
 
+	public void removeEnergy(){
+		
+	}
+	
+	public int maxCraft(){
+		return 64;
 	}
 
 	@Override
@@ -74,7 +79,7 @@ public class ContainerFlawlessCalculator extends Container {
 			} else {
 
 				if (par2 >= INV_START) {
-					if (!this.mergeItemStack(itemstack1, 1, INV_START, false)) {
+					if (!this.mergeItemStack(itemstack1, 0, INV_START-1, false)) {
 						return null;
 					}
 				} else if (par2 >= INV_START && par2 < HOTBAR_START) {

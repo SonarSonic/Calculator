@@ -10,55 +10,39 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import sonar.calculator.mod.api.ICalculatorCrafter;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.utils.SlotPortableCrafting;
+import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
 import sonar.core.common.item.InventoryItem;
 
 
-/**loads of work needed here*/
-public class ContainerPortableDynamic extends Container {
+public class ContainerPortableDynamic extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
 
 	private static final int INV_START = FlawlessCalc.DynamicInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
-	public InventoryStoredCrafting calculatorMatrix;
-	public InventoryStoredResult calculatorResult;
-	public InventoryStoredCrafting scientficMatrix;
-	public InventoryStoredResult scientificResult;
-	public InventoryStoredCrafting atomicMatrix;
-	public InventoryStoredResult atomicResult;
-	public World worldObj;
 	public Map<Integer, Integer> research;
 
 	public ContainerPortableDynamic(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem, Map<Integer, Integer> map) {
 		this.inventory = inventoryItem;
-		this.worldObj = player.getEntityWorld();
 		this.research = map;
 
-		this.calculatorMatrix = new InventoryStoredCrafting(this, 2, 1, inventory);
-		this.calculatorResult = new InventoryStoredResult(inventory);
-		this.scientficMatrix = new InventoryStoredCrafting(this, 2, 1, inventory, 3);
-		this.scientificResult = new InventoryStoredResult(inventory, 3);
-		this.atomicMatrix = new InventoryStoredCrafting(this, 3, 1, inventory ,6);
-		this.atomicResult = new InventoryStoredResult(inventory, 6);
-		
-		
-		addSlotToContainer(new SlotCrafting(player, this.calculatorMatrix, this.calculatorResult, 0, 134, 9));
-		addSlotToContainer(new Slot(this.calculatorMatrix, 0, 25 + 0 * 54, 9));
-		addSlotToContainer(new Slot(this.calculatorMatrix, 1, 25 + 1 * 54, 9));
-		
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 9));		
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 9));		
+		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{0,1}, 2, 134, 9));
+				
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 3, 25, 35));		
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 4, 79, 35));		
+		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{3,4}, 5, 134, 35));
 
-		addSlotToContainer(new SlotCrafting(player, this.scientficMatrix, this.scientificResult, 0, 134, 35));
-		addSlotToContainer(new Slot(this.scientficMatrix, 0, 25 + 0 * 54, 35));
-		addSlotToContainer(new Slot(this.scientficMatrix, 1, 25 + 1 * 54, 35));
-		
-
-		addSlotToContainer(new SlotCrafting(player, this.atomicMatrix, this.atomicResult, 0, 134, 61));
-		addSlotToContainer(new Slot(this.atomicMatrix, 0, 20 + 0 * 32, 61));
-		addSlotToContainer(new Slot(this.atomicMatrix, 1, 20 + 1 * 32, 61));
-		addSlotToContainer(new Slot(this.atomicMatrix, 2, 20 + 2 * 32, 61));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 6, 20 + 0 * 32, 61));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 7, 20 + 1 * 32, 61));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 8, 20 + 2 * 32, 61));
+		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{6,7,8}, 9, 134, 61));
 		
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
@@ -73,12 +57,19 @@ public class ContainerPortableDynamic extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
-		this.calculatorResult.setInventorySlotContents(0, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(calculatorMatrix.getStackInSlot(0),calculatorMatrix.getStackInSlot(1)));
-		this.scientificResult.setInventorySlotContents(0, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(scientficMatrix.getStackInSlot(0),scientficMatrix.getStackInSlot(1)));
-		this.atomicResult.setInventorySlotContents(0, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(atomicMatrix.getStackInSlot(0), atomicMatrix.getStackInSlot(1), atomicMatrix.getStackInSlot(2)));
-
+		inventory.setInventorySlotContents(2, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(inventory.getStackInSlot(0),inventory.getStackInSlot(1)));
+		inventory.setInventorySlotContents(5, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(inventory.getStackInSlot(3),inventory.getStackInSlot(4)));
+		inventory.setInventorySlotContents(9, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(inventory.getStackInSlot(6),inventory.getStackInSlot(7),inventory.getStackInSlot(8)));
 	}
-
+	
+	public void removeEnergy(){
+		
+	}
+	
+	public int maxCraft(){
+		return 64;
+	}
+	
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 
@@ -102,15 +93,15 @@ public class ContainerPortableDynamic extends Container {
 			} else {
 				int current =this.getCurrentUsage();
 				if(par2 >= INV_START && (current==0 || current ==1)){
-					if (!this.mergeItemStack(itemstack1, 1, 3, false)) {
+					if (!this.mergeItemStack(itemstack1, 0, 2, false)) {
 						return null;
 					}
 				}else if(par2 >= INV_START && current ==2){
-					if (!this.mergeItemStack(itemstack1, 4, 6, false)) {
+					if (!this.mergeItemStack(itemstack1, 3, 5, false)) {
 						return null;
 					}
 				}else if(par2 >= INV_START && current ==3){
-					if (!this.mergeItemStack(itemstack1, 7, 10, false)) {
+					if (!this.mergeItemStack(itemstack1, 6, 9, false)) {
 						return null;
 					}
 				}
@@ -143,11 +134,11 @@ public class ContainerPortableDynamic extends Container {
 	}
 
 	public int getCurrentUsage() {
-		if (((Slot)this.inventorySlots.get(1)).getHasStack() || ((Slot)this.inventorySlots.get(2)).getHasStack()) {
+		if (((Slot)this.inventorySlots.get(0)).getHasStack() || ((Slot)this.inventorySlots.get(1)).getHasStack()) {
 			return 1;
-		} else if (((Slot)this.inventorySlots.get(4)).getHasStack() || ((Slot)this.inventorySlots.get(5)).getHasStack()) {
+		} else if (((Slot)this.inventorySlots.get(3)).getHasStack() || ((Slot)this.inventorySlots.get(4)).getHasStack()) {
 			return 2;
-		} else if (((Slot)this.inventorySlots.get(7)).getHasStack() || ((Slot)this.inventorySlots.get(8)).getHasStack() || ((Slot)this.inventorySlots.get(9)).getHasStack()) {
+		} else if (((Slot)this.inventorySlots.get(6)).getHasStack() || ((Slot)this.inventorySlots.get(7)).getHasStack() || ((Slot)this.inventorySlots.get(8)).getHasStack()) {
 			return 3;
 		}
 		return 0;

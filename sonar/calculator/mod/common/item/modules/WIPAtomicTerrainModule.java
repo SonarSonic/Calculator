@@ -66,7 +66,7 @@ public class WIPAtomicTerrainModule extends BaseTerrainModule {
 							world.setBlock(x, y, z,
 									block.getBlockFromItem(target.getItem()));
 							int energy = this.getEnergyStored(stack);
-							stack.stackTagCompound.setInteger("Energy",
+							stack.getTagCompound().setInteger("Energy",
 									energy - 1);
 						}
 					}
@@ -87,21 +87,21 @@ public class WIPAtomicTerrainModule extends BaseTerrainModule {
 		ItemStack blockStack = new ItemStack(block, 1);
 		NBTTagCompound tag = new NBTTagCompound();
 		blockStack.writeToNBT(tag);
-		stack.stackTagCompound.setTag("" + i, tag);
+		stack.getTagCompound().setTag("" + i, tag);
 	}
 	public void incrementMode(ItemStack stack){
 		int current = this.getCurrentMode(stack);
 		if(current+1!=2){
-			stack.stackTagCompound.setInteger("Mode", current+1);		
+			stack.getTagCompound().setInteger("Mode", current+1);		
 		}else{
-			stack.stackTagCompound.setInteger("Mode", 0);
+			stack.getTagCompound().setInteger("Mode", 0);
 		}		
 	}
 	public Block getBlock(ItemStack stack, int i) {
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
-		NBTTagCompound tag = (NBTTagCompound) stack.stackTagCompound.getTag(""
+		NBTTagCompound tag = (NBTTagCompound) stack.getTagCompound().getTag(""
 				+ i);
 		if (tag != null) {
 			ItemStack blockStack = ItemStack.loadItemStackFromNBT(tag);

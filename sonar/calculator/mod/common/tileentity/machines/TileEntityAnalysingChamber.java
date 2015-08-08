@@ -59,15 +59,17 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 
 	private void addEnergy() {
 		TileEntity entity = this.worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN)) {
+		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN)) {		
+			if(entity instanceof IEnergyHandler){	
 			this.storage.modifyEnergyStored(-((IEnergyHandler) entity).receiveEnergy(ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false));
+			}
 		}
 	}
 
 	private void analyse(int slot) {
 		if (slots[slot].hasTagCompound()) {
 			NBTTagCompound tag = slots[slot].getTagCompound();
-			int storedEnergy = itemEnergy(slots[slot].stackTagCompound.getInteger("Energy"));
+			int storedEnergy = itemEnergy(slots[slot].getTagCompound().getInteger("Energy"));
 			this.storage.receiveEnergy(storedEnergy, false);
 
 			if (vUpgrade == 0) {

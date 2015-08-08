@@ -20,7 +20,7 @@ public class CalculatorAPI {
 	 */
 	public static void registerCalculatorRecipe(Object... objects) {
 		try {
-			Class recipeClass = Class.forName("sonar.calculator.mod.common.recipese.RecipeRegistry");
+			Class recipeClass = Class.forName("sonar.calculator.mod.common.recipes.RecipeRegistry");
 			Method method = recipeClass.getMethod("registerCalculatorRecipe", Object[].class);
 			method.invoke(null, objects);
 		} catch (Exception exception) {
@@ -36,7 +36,7 @@ public class CalculatorAPI {
 	 */
 	public static void registerScientificRecipe(Object... objects) {
 		try {
-			Class recipeClass = Class.forName("sonar.calculator.mod.common.recipese.RecipeRegistry");
+			Class recipeClass = Class.forName("sonar.calculator.mod.common.recipes.RecipeRegistry");
 			Method method = recipeClass.getMethod("registerScientificRecipe", Object[].class);
 			method.invoke(null, objects);
 		} catch (Exception exception) {
@@ -53,7 +53,7 @@ public class CalculatorAPI {
 	 */
 	public static void registerAtomicRecipe(Object... objects) {
 		try {
-			Class recipeClass = Class.forName("sonar.calculator.mod.common.recipese.RecipeRegistry");
+			Class recipeClass = Class.forName("sonar.calculator.mod.common.recipes.RecipeRegistry");
 			Method method = recipeClass.getMethod("registerAtomicRecipe", Object[].class);
 			method.invoke(null, objects);
 		} catch (Exception exception) {
@@ -71,7 +71,7 @@ public class CalculatorAPI {
 	 */
 	public static void registerFlawlessRecipe(Object... objects) {
 		try {
-			Class recipeClass = Class.forName("sonar.calculator.mod.common.recipese.RecipeRegistry");
+			Class recipeClass = Class.forName("sonar.calculator.mod.common.recipes.RecipeRegistry");
 			Method method = recipeClass.getMethod("registerFlawlessRecipe", Object[].class);
 			method.invoke(null, objects);
 		} catch (Exception exception) {

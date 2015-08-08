@@ -24,9 +24,6 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements ISy
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		if (this.worldObj.isRemote) {
-			return;
-		}
 		int flag = stable;
 		if (testStable()) {
 			fill(0);

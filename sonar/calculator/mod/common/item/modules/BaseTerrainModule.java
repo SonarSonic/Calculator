@@ -48,7 +48,7 @@ public class BaseTerrainModule extends SonarCalculator {
 				if (canReplace(stack, world, x, y, z)) {
 					world.setBlock(x, y, z, getCurrentBlock(stack));
 					int energy = this.getEnergyStored(stack);
-					stack.stackTagCompound.setInteger("Energy", energy - 1);
+					stack.getTagCompound().setInteger("Energy", energy - 1);
 				}
 			}
 		}
@@ -70,19 +70,19 @@ public class BaseTerrainModule extends SonarCalculator {
 	public int getCurrentMode(ItemStack stack) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger("Mode", 0);
+			stack.getTagCompound().setInteger("Mode", 0);
 		}
-		return stack.stackTagCompound.getInteger("Mode");
+		return stack.getTagCompound().getInteger("Mode");
 	}
 
 	public void incrementMode(ItemStack stack) {
 		int current = this.getCurrentMode(stack);
 		if (current + 1 != replacable.length) {
-			stack.stackTagCompound.setInteger("Mode", current + 1);
+			stack.getTagCompound().setInteger("Mode", current + 1);
 		} else {
-			stack.stackTagCompound.setInteger("Mode", 0);
+			stack.getTagCompound().setInteger("Mode", 0);
 		}
 	}
 

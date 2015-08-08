@@ -63,11 +63,11 @@ public class WIPSmeltingModule extends SonarCalculator implements IItemInventory
 	public static int getIntegerTag(ItemStack stack, String tag) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger(tag, 0);
+			stack.getTagCompound().setInteger(tag, 0);
 		}
-		return stack.stackTagCompound.getInteger(tag);
+		return stack.getTagCompound().getInteger(tag);
 
 	}
 
@@ -90,9 +90,9 @@ public class WIPSmeltingModule extends SonarCalculator implements IItemInventory
 	public static void setIntegerTag(ItemStack stack, String tag, int value) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger(tag, 0);
+			stack.getTagCompound().setInteger(tag, 0);
 		}
 		nbtData.setInteger(tag, value);
 

@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.containers;
 
+import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -9,25 +10,26 @@ import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.world.World;
+import sonar.calculator.mod.api.ICalculatorCrafter;
 import sonar.calculator.mod.common.item.calculators.CraftingCalc;
 import sonar.core.client.gui.InventoryStoredCrafting;
 import sonar.core.client.gui.InventoryStoredResult;
 import sonar.core.common.item.InventoryItem;
 
-public class ContainerCraftingCalculator extends Container {
+public class ContainerCraftingCalculator extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
 
 	private static final int INV_START = CraftingCalc.CraftingInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
 	public InventoryStoredCrafting craftMatrix;
 	public InventoryStoredResult craftResult;
-	public World worldObj;
+	public EntityPlayer player;
 
 	public ContainerCraftingCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
 		craftMatrix = new InventoryStoredCrafting(this, 3, 3, inventory);
 		craftResult = new InventoryStoredResult(inventory);
-		this.worldObj = player.getEntityWorld();
+		this.player = player;
 		
 		addSlotToContainer(new SlotCrafting(player, this.craftMatrix, this.craftResult, 0, 124, 35));
 
@@ -52,13 +54,30 @@ public class ContainerCraftingCalculator extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory inv) {
-		this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, worldObj));
+		this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, player.worldObj));
 	}
 
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-
-		return inventory.isUseableByPlayer(player);
+	public void removeEnergy(){
+		if(player.capabilities.isCreativeMode){
+			return;
+		}
+		if(player.getHeldItem() !=null && player.getHeldItem().getItem() instanceof IEnergyContainerItem){
+			IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItem().getItem();
+			energy.extractEnergy(player.getHeldItem(), 1, false);			
+			int stored = energy.getEnergyStored(player.getHeldItem())-1;
+		}
+	}
+	
+	public int maxCraft(){
+		if(player.capabilities.isCreativeMode){
+			return 64;
+		}
+		if(player.getHeldItem() !=null && player.getHeldItem().getItem() instanceof IEnergyContainerItem){
+			IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItem().getItem();
+			int max = energy.getEnergyStored(player.getHeldItem());
+			return max;
+		}
+		return 0;
 	}
 
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
@@ -117,4 +136,10 @@ public class ContainerCraftingCalculator extends Container {
 		}
 		return super.slotClick(slot, button, flag, player);
 	}
+
+	@Override
+	public boolean canInteractWith(EntityPlayer player) {
+		return inventory.isUseableByPlayer(player);
+	}
+
 }

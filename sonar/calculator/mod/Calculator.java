@@ -3,13 +3,16 @@ package sonar.calculator.mod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import sonar.calculator.mod.api.CalculatorAPI;
 import sonar.calculator.mod.common.entities.CalculatorThrow;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
@@ -43,7 +46,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "1.7.8";
+	public static final String version = "1.7.9";
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -60,7 +63,6 @@ public class Calculator {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ChunkHandler());
 
 		network = NetworkRegistry.INSTANCE.newSimpleChannel(modid);
@@ -136,8 +138,8 @@ public class Calculator {
 		BlockDispenser.dispenseBehaviorRegistry.putObject(grenade, new CalculatorThrow(1));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(small_stone, new CalculatorThrow(2));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(soil, new CalculatorThrow(3));
-		logger.info(RecipeRegistry.getUnblockedSize() + " Hidden Calculator Recipes were loaded");
-		logger.info(RecipeRegistry.getBlockedSize() + " Standard Calculator Recipes were loaded");
+		logger.info(RecipeRegistry.getUnblockedSize() + " Standard Calculator Recipes were loaded");
+		logger.info(RecipeRegistry.getBlockedSize() + " Hidden Calculator Recipes were loaded");
 		logger.info(RecipeRegistry.getScientificSize() + " Scientific Recipes were loaded");
 		logger.info(RecipeRegistry.getAtomicSize() + " Atomic Recipes were loaded");
 		logger.info(RecipeRegistry.getFlawlessSize() + " Flawless Recipes were loaded");

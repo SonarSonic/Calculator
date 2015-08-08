@@ -48,11 +48,11 @@ public class HungerModule extends CalcItem implements IHungerStore {
 	public void transferHunger(int transfer, ItemStack stack, ProcessType process) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger("points", 0);
+			stack.getTagCompound().setInteger("points", 0);
 		}
-		int points = stack.stackTagCompound.getInteger("points");
+		int points = stack.getTagCompound().getInteger("points");
 		if (process == ProcessType.REMOVE) {
 			nbtData.setInteger("points", points - transfer);
 		} else if (process == ProcessType.ADD) {
@@ -75,9 +75,9 @@ public class HungerModule extends CalcItem implements IHungerStore {
 		if (!(health < 0) && health <= this.getMaxHungerPoints(stack)) {
 			if (!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
-			NBTTagCompound nbtData = stack.stackTagCompound;
+			NBTTagCompound nbtData = stack.getTagCompound();
 			if (nbtData == null) {
-				stack.stackTagCompound.setInteger("points", 0);
+				stack.getTagCompound().setInteger("points", 0);
 			}
 			nbtData.setInteger("points", health);
 		}

@@ -57,8 +57,8 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 			list.add(FontHelper.translate("calc.storedstacks") + ": " + storedItems);
 		}
 		if (stack.hasTagCompound()) {
-			int max = stack.stackTagCompound.getInteger("Max");
-			int stored = stack.stackTagCompound.getInteger("Stored");
+			int max = stack.getTagCompound().getInteger("Max");
+			int stored = stack.getTagCompound().getInteger("Stored");
 			if (max != 0) {
 				list.add(FontHelper.translate("research.recipe") + ": " + stored + "/" + max);
 			}
@@ -71,7 +71,7 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 			if (!stack.hasTagCompound()) {
 				stack.setTagCompound(new NBTTagCompound());
 			}
-			unblocked = CalculatorRecipes.instance().readFromNBT(stack.stackTagCompound, "unblocked");
+			unblocked = CalculatorRecipes.instance().readFromNBT(stack.getTagCompound(), "unblocked");
 		}
 		return unblocked;
 	}
@@ -81,9 +81,9 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 			if (!stack.hasTagCompound()) {
 				stack.setTagCompound(new NBTTagCompound());
 			}
-			CalculatorRecipes.instance().writeToNBT(stack.stackTagCompound, unblocked, "unblocked");
-			stack.stackTagCompound.setInteger("Max", max);
-			stack.stackTagCompound.setInteger("Stored", stored);
+			CalculatorRecipes.instance().writeToNBT(stack.getTagCompound(), unblocked, "unblocked");
+			stack.getTagCompound().setInteger("Max", max);
+			stack.getTagCompound().setInteger("Stored", stored);
 
 		}
 	}

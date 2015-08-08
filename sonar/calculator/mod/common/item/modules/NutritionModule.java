@@ -35,19 +35,19 @@ public class NutritionModule extends CalcItem implements IHealthStore, IHungerSt
 				if (!stack.hasTagCompound()) {
 					stack.setTagCompound(new NBTTagCompound());
 				}
-				NBTTagCompound nbtData = stack.stackTagCompound;
+				NBTTagCompound nbtData = stack.getTagCompound();
 				if (nbtData == null) {
-					stack.stackTagCompound.setInteger("health", 0);
-					stack.stackTagCompound.setInteger("hunger", 0);
-					stack.stackTagCompound.setInteger("ticks", 0);
+					stack.getTagCompound().setInteger("health", 0);
+					stack.getTagCompound().setInteger("hunger", 0);
+					stack.getTagCompound().setInteger("ticks", 0);
 				}
 
-				int ticks = stack.stackTagCompound.getInteger("ticks");
+				int ticks = stack.getTagCompound().getInteger("ticks");
 				if (ticks < 10) {
-					stack.stackTagCompound.setInteger("ticks", ticks + 1);
+					stack.getTagCompound().setInteger("ticks", ticks + 1);
 				} else {
-					stack.stackTagCompound.setInteger("ticks", 0);
-					int points = stack.stackTagCompound.getInteger("hunger");
+					stack.getTagCompound().setInteger("ticks", 0);
+					int points = stack.getTagCompound().getInteger("hunger");
 					int hunger = player.getFoodStats().getFoodLevel();
 					int maxpoints = 20 - hunger;
 					int usedpoints = Math.min(maxpoints, 2);
@@ -67,9 +67,9 @@ public class NutritionModule extends CalcItem implements IHealthStore, IHungerSt
 	}
 
 	public ItemStack secondItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 
-		int points = stack.stackTagCompound.getInteger("health");
+		int points = stack.getTagCompound().getInteger("health");
 		if (points != 0) {
 			int current = (int) player.getHealth();
 			int max = (int) player.getMaxHealth();
@@ -110,12 +110,12 @@ public class NutritionModule extends CalcItem implements IHealthStore, IHungerSt
 	public void transferHunger(int transfer, ItemStack stack, ProcessType process) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger("hunger", 0);
+			stack.getTagCompound().setInteger("hunger", 0);
 		}
 
-		int points = stack.stackTagCompound.getInteger("hunger");
+		int points = stack.getTagCompound().getInteger("hunger");
 		if (process == ProcessType.REMOVE) {
 			nbtData.setInteger("hunger", points - transfer);
 		} else if (process == ProcessType.ADD) {
@@ -138,9 +138,9 @@ public class NutritionModule extends CalcItem implements IHealthStore, IHungerSt
 		if (!(health < 0) && health <= this.getMaxHungerPoints(stack)) {
 			if (!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
-			NBTTagCompound nbtData = stack.stackTagCompound;
+			NBTTagCompound nbtData = stack.getTagCompound();
 			if (nbtData == null) {
-				stack.stackTagCompound.setInteger("hunger", 0);
+				stack.getTagCompound().setInteger("hunger", 0);
 			}
 			nbtData.setInteger("hunger", health);
 		}
@@ -150,11 +150,11 @@ public class NutritionModule extends CalcItem implements IHealthStore, IHungerSt
 	public void transferHealth(int transfer, ItemStack stack, ProcessType process) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
-			stack.stackTagCompound.setInteger("health", 0);
+			stack.getTagCompound().setInteger("health", 0);
 		}
-		int points = stack.stackTagCompound.getInteger("health");
+		int points = stack.getTagCompound().getInteger("health");
 		if (process == ProcessType.REMOVE) {
 			nbtData.setInteger("health", points - transfer);
 		} else if (process == ProcessType.ADD) {
@@ -177,9 +177,9 @@ public class NutritionModule extends CalcItem implements IHealthStore, IHungerSt
 		if (!(health < 0) && health <= this.getMaxHealthPoints(stack)) {
 			if (!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
-			NBTTagCompound nbtData = stack.stackTagCompound;
+			NBTTagCompound nbtData = stack.getTagCompound();
 			if (nbtData == null) {
-				stack.stackTagCompound.setInteger("health", 0);
+				stack.getTagCompound().setInteger("health", 0);
 			}
 			nbtData.setInteger("health", health);
 		}

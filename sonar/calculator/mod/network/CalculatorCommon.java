@@ -305,9 +305,7 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 				break;
 			}
-		}
-
-		else {
+		}else {
 			equipped = player.getHeldItem();
 			if (equipped == null) {
 				return null;

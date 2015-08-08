@@ -81,8 +81,8 @@ public class ResearchChamber extends SonarMachineBlock{
 
 	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		int max = stack.stackTagCompound.getInteger("Max");
-		int stored = stack.stackTagCompound.getInteger("Stored");
+		int max = stack.getTagCompound().getInteger("Max");
+		int stored = stack.getTagCompound().getInteger("Stored");
 		if (max != 0) {
 			list.add(FontHelper.translate("research.recipe") + ": " + stored + "/" + max);
 		}

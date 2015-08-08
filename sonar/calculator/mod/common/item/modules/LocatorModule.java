@@ -21,7 +21,7 @@ public class LocatorModule extends CalcItem {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
 			nbtData = new NBTTagCompound();
 			nbtData.setString("Player", "None");
@@ -31,7 +31,7 @@ public class LocatorModule extends CalcItem {
 		if (name != null) {
 			if (world.getPlayerEntityByName(name) != null) {
 
-				stack.stackTagCompound.setString("Player", name);
+				stack.getTagCompound().setString("Player", name);
 
 				FontHelper.sendMessage(FontHelper.translate("locator.owner") + ": " + player.getGameProfile().getName(), world, player);
 
@@ -47,9 +47,9 @@ public class LocatorModule extends CalcItem {
 
 		super.addInformation(stack, player, list, par4);
 		if (stack.hasTagCompound()) {
-			NBTTagCompound nbtData = stack.stackTagCompound;
-			if (stack.stackTagCompound.getString("Player") != "None") {
-				list.add(FontHelper.translate("locator.owner") + ": " + stack.stackTagCompound.getString("Player"));
+			NBTTagCompound nbtData = stack.getTagCompound();
+			if (stack.getTagCompound().getString("Player") != "None") {
+				list.add(FontHelper.translate("locator.owner") + ": " + stack.getTagCompound().getString("Player"));
 			} else {
 				list.add(FontHelper.translate("locator.owner") + ": " + FontHelper.translate("locator.none"));
 			}

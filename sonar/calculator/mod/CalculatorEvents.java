@@ -6,6 +6,7 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import sonar.calculator.mod.api.ICalculatorCrafter;
 import sonar.calculator.mod.common.block.CalculatorSaplings;
 import sonar.calculator.mod.common.containers.ContainerCalculator;
 import sonar.calculator.mod.common.containers.ContainerCraftingCalculator;
@@ -34,7 +35,7 @@ public class CalculatorEvents {
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		if (event.entity instanceof EntityPlayer && !event.entity.worldObj.isRemote) {
-			//sync data packet
+			// sync data packet
 		}
 	}
 
@@ -42,63 +43,19 @@ public class CalculatorEvents {
 	public void CalculatorCraftingCraft(ItemCraftedEvent event) {
 		EntityPlayer player = event.player;
 		if (player != null) {
-			if (!player.capabilities.isCreativeMode) {
-				ItemStack item = player.getHeldItem();
+			ItemStack item = player.getHeldItem();
 
-				if ((item != null) && (item.getItem().equals(Calculator.itemCraftingCalculator)) && ((player.openContainer instanceof ContainerCraftingCalculator))) {
-					int energy = item.stackTagCompound.getInteger("Energy");
+			if ((item != null) && (item.getItem().equals(Calculator.itemCraftingCalculator)) && ((player.openContainer instanceof ICalculatorCrafter))) {
+					((ICalculatorCrafter)player.openContainer).removeEnergy();
 
-					if (energy > 0) {
-						item.stackTagCompound.setInteger("Energy", energy - 1);
-					}
-
-				}
+				
 			}
 		}
 	}
-
-	@SubscribeEvent
-	public void CalculatorCraft(ItemCraftedEvent event) {
-		EntityPlayer player = event.player;
-		if (player != null) {
-			if (!player.capabilities.isCreativeMode) {
-				ItemStack item = player.getHeldItem();
-
-				if ((item != null) && (item.getItem().equals(Calculator.itemCalculator)) && ((player.openContainer instanceof ContainerCalculator))) {
-					int energy = item.stackTagCompound.getInteger("Energy");
-
-					if (energy > 0) {
-						item.stackTagCompound.setInteger("Energy", energy - 1);
-					}
-
-				}
-			}
-		}
-	}
-
-	@SubscribeEvent
-	public void ScientificCalculatorCraft(ItemCraftedEvent event) {
-		EntityPlayer player = event.player;
-		if (player != null) {
-			if (!player.capabilities.isCreativeMode) {
-				ItemStack item = player.getHeldItem();
-
-				if ((item != null) && (item.getItem().equals(Calculator.itemScientificCalculator)) && ((player.openContainer instanceof ContainerScientificCalculator))) {
-					int energy = item.stackTagCompound.getInteger("Energy");
-
-					if (energy > 0) {
-						item.stackTagCompound.setInteger("Energy", energy - 1);
-					}
-
-				}
-			}
-		}
-	}
-
 	@SubscribeEvent
 	public void Amethyst(BonemealEvent event) {
 		if (event.block != null) {
-			if (event.block == Calculator.AmethystSapling) {
+			if (event.block == Calculator.AmethystSapling) {				
 				if (!event.world.isRemote) {
 					((CalculatorSaplings) Calculator.AmethystSapling).growTree(event.world, event.x, event.y, event.z, event.world.rand);
 					event.setResult(Result.ALLOW);

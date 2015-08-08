@@ -27,8 +27,8 @@ public class ItemCircuit extends CalcItem implements IStability {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
-		if (stack.stackTagCompound != null) {
-			int stable = stack.stackTagCompound.getInteger("Stable");
+		if (stack.getTagCompound() != null) {
+			int stable = stack.getTagCompound().getInteger("Stable");
 			if (stable == 1) {
 				list.add(FontHelper.translate("circuit.stable"));
 			}
@@ -36,7 +36,7 @@ public class ItemCircuit extends CalcItem implements IStability {
 	}
 
 	public static void setData(ItemStack stack) {
-		NBTTagCompound nbtData = stack.stackTagCompound;
+		NBTTagCompound nbtData = stack.getTagCompound();
 		if (stack != null) {
 			if (nbtData == null) {
 				int energy = 1 + (int) (Math.random() * 100.0D);
@@ -63,8 +63,8 @@ public class ItemCircuit extends CalcItem implements IStability {
 	}
 
 	public void onUpdate(ItemStack stack, World world, Entity entity, int par, boolean bool) {
-		if (stack.stackTagCompound == null && !stack.hasTagCompound()) {
-			NBTTagCompound nbtData = stack.stackTagCompound;
+		if (stack.getTagCompound() == null && !stack.hasTagCompound()) {
+			NBTTagCompound nbtData = stack.getTagCompound();
 			if (stack != null) {
 				if (nbtData == null) {
 					int energy = 1 + (int) (Math.random() * 100.0D);
@@ -183,15 +183,15 @@ public class ItemCircuit extends CalcItem implements IStability {
 	@Override
 	public boolean getStability(ItemStack stack) {
 		if (stack.hasTagCompound()) {
-			return stack.stackTagCompound.getInteger("Stable") == 1;
+			return stack.getTagCompound().getInteger("Stable") == 1;
 		} else {
 			this.setData(stack);
-			return stack.stackTagCompound.getInteger("Stable") == 1;
+			return stack.getTagCompound().getInteger("Stable") == 1;
 		}
 	}
 
 	@Override
 	public void onFalse(ItemStack stack) {
-		stack.stackTagCompound.setInteger("Stable", 0);
+		stack.getTagCompound().setInteger("Stable", 0);
 	}
 }
