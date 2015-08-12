@@ -29,6 +29,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 
 	public static class FlawlessInventory extends InventoryItem {
 		public static final int size = 5;
+
 		public FlawlessInventory(ItemStack stack) {
 			super(stack, size, "FlawlessInv");
 		}
@@ -36,6 +37,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 
 	public static class DynamicInventory extends InventoryItem {
 		public static final int size = 10;
+
 		public DynamicInventory(ItemStack stack) {
 			super(stack, size, "DynamicInv");
 		}
@@ -43,6 +45,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 
 	public static class CraftingInventory extends InventoryItem {
 		public static final int size = 10;
+
 		public CraftingInventory(ItemStack stack) {
 			super(stack, size, "CraftingInv");
 		}
@@ -124,15 +127,19 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 		} else {
 			switch (mode) {
 			case FlawlessCraft:
-				player.openGui(Calculator.instance, CalculatorGui.FlawlessCalculator, world, (int) player.posX, (int) player.posY, (int) player.posZ);
-
+				if (!world.isRemote) {
+					player.openGui(Calculator.instance, CalculatorGui.FlawlessCalculator, world, -1000, -1000, -1000);
+				}
 				break;
 			case DynamicCraft:
-				player.openGui(Calculator.instance, CalculatorGui.PortableDynamic, world, (int) player.posX, (int) player.posY, (int) player.posZ);
-
+				if (!world.isRemote) {
+					player.openGui(Calculator.instance, CalculatorGui.PortableDynamic, world, -1000, -1000, -1000);
+				}
 				break;
 			case Crafting:
-				player.openGui(Calculator.instance, CalculatorGui.PortableCrafting, world, (int) player.posX, (int) player.posY, (int) player.posZ);
+				if (!world.isRemote) {
+					player.openGui(Calculator.instance, CalculatorGui.PortableCrafting, world, -1000, -1000, -1000);
+				}
 				break;
 
 			case Grenade:
@@ -195,9 +202,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 							FontHelper.translate("calc.position")));
 						}
 
-					} else if ((world.getBlock(x, y, z) == Calculator.stablestoneBlock)
-							&& (stack.getTagCompound().getBoolean("Tele"))
-							&& (world.getBlock((int) stack.getTagCompound().getDouble("TeleX"), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) stack.getTagCompound().getDouble("TeleZ")) != Calculator.stablestoneBlock)) {
+					} else if ((world.getBlock(x, y, z) == Calculator.stablestoneBlock) && (stack.getTagCompound().getBoolean("Tele")) && (world.getBlock((int) stack.getTagCompound().getDouble("TeleX"), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) stack.getTagCompound().getDouble("TeleZ")) != Calculator.stablestoneBlock)) {
 						stack.getTagCompound().setDouble("TeleX", x);
 						stack.getTagCompound().setDouble("TeleY", y + 1);
 						stack.getTagCompound().setDouble("TeleZ", z);
@@ -223,8 +228,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 
 				}
 
-				if ((world.getBlock((int) stack.getTagCompound().getDouble("TeleX"), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) stack.getTagCompound().getDouble("TeleZ")) != Calculator.stablestoneBlock)
-						&& (!world.isRemote)) {
+				if ((world.getBlock((int) stack.getTagCompound().getDouble("TeleX"), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) stack.getTagCompound().getDouble("TeleZ")) != Calculator.stablestoneBlock) && (!world.isRemote)) {
 					player.addChatComponentMessage(new ChatComponentText(
 
 					FontHelper.translate("calc.stableStone")));

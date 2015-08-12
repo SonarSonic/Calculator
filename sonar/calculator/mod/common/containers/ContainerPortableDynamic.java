@@ -15,13 +15,14 @@ import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
-import sonar.core.client.gui.InventoryStoredCrafting;
-import sonar.core.client.gui.InventoryStoredResult;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.inventory.InventoryStoredCrafting;
+import sonar.core.inventory.InventoryStoredResult;
 
 
 public class ContainerPortableDynamic extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
+	private boolean isRemote;
 
 	private static final int INV_START = FlawlessCalc.DynamicInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
@@ -30,19 +31,20 @@ public class ContainerPortableDynamic extends Container implements ICalculatorCr
 	public ContainerPortableDynamic(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem, Map<Integer, Integer> map) {
 		this.inventory = inventoryItem;
 		this.research = map;
+		isRemote = player.getEntityWorld().isRemote;
 
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 9));		
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 9));		
-		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{0,1}, 2, 134, 9));
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 9,isRemote));		
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 9,isRemote));		
+		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{0,1}, 2, 134, 9,isRemote));
 				
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 3, 25, 35));		
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 4, 79, 35));		
-		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{3,4}, 5, 134, 35));
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 3, 25, 35,isRemote));		
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 4, 79, 35,isRemote));		
+		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{3,4}, 5, 134, 35,isRemote));
 
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 6, 20 + 0 * 32, 61));
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 7, 20 + 1 * 32, 61));
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 8, 20 + 2 * 32, 61));
-		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{6,7,8}, 9, 134, 61));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 6, 20 + 0 * 32, 61,isRemote));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 7, 20 + 1 * 32, 61,isRemote));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 8, 20 + 2 * 32, 61,isRemote));
+		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{6,7,8}, 9, 134, 61,isRemote));
 		
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
@@ -53,21 +55,18 @@ public class ContainerPortableDynamic extends Container implements ICalculatorCr
 		for (int i = 0; i < 9; ++i) {
 			this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
 		}
+		onItemCrafted();
 	}
 
 	@Override
-	public void onCraftMatrixChanged(IInventory iiventory) {
-		inventory.setInventorySlotContents(2, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(inventory.getStackInSlot(0),inventory.getStackInSlot(1)));
-		inventory.setInventorySlotContents(5, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(inventory.getStackInSlot(3),inventory.getStackInSlot(4)));
-		inventory.setInventorySlotContents(9, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(inventory.getStackInSlot(6),inventory.getStackInSlot(7),inventory.getStackInSlot(8)));
+	public void onItemCrafted() {
+		inventory.setInventorySlotContents(2, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(inventory.getStackInSlot(0),inventory.getStackInSlot(1)), isRemote);
+		inventory.setInventorySlotContents(5, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(inventory.getStackInSlot(3),inventory.getStackInSlot(4)), isRemote);
+		inventory.setInventorySlotContents(9, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(inventory.getStackInSlot(6),inventory.getStackInSlot(7),inventory.getStackInSlot(8)), isRemote);
 	}
 	
 	public void removeEnergy(){
 		
-	}
-	
-	public int maxCraft(){
-		return 64;
 	}
 	
 	@Override

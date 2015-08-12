@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
+import sonar.core.inventory.ContainerSync;
 
 public class ContainerHealthProcessor extends ContainerSync {
 	private TileEntityHealthProcessor entity;

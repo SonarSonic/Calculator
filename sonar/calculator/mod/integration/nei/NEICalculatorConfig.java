@@ -19,6 +19,7 @@ import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
 import sonar.calculator.mod.integration.nei.handlers.AtomicRecipeHandler;
 import sonar.calculator.mod.integration.nei.handlers.CalculatorDischargeHandler;
+import sonar.calculator.mod.integration.nei.handlers.CalculatorOverlay;
 import sonar.calculator.mod.integration.nei.handlers.CalculatorRecipeHandler;
 import sonar.calculator.mod.integration.nei.handlers.CircuitBoardHandler;
 import sonar.calculator.mod.integration.nei.handlers.CircuitExtractionRecipeHandler;
@@ -118,6 +119,10 @@ public class NEICalculatorConfig implements IConfigureNEI {
 		API.registerGuiOverlay(GuiAdvancedPowerCube.class, "advancedpowercube");
 		API.registerGuiOverlay(GuiDualOutputSmelting.PrecisionChamber.class, "precision");
 		API.registerGuiOverlayHandler(GuiCraftingCalculator.class, new DefaultOverlayHandler(), "crafting");
+
+		API.registerGuiOverlayHandler(GuiCalculator.class, new CalculatorOverlay(), "calculator");
+		API.registerGuiOverlayHandler(GuiScientificCalculator.class, new CalculatorOverlay(), "scientific");
+		API.registerGuiOverlayHandler(GuiFlawlessCalculator.class, new CalculatorOverlay(), "flawless");
 
 		API.hideItem(new ItemStack(Calculator.cropBroccoliPlant));
 		API.hideItem(new ItemStack(Calculator.cropPrunaePlant));

@@ -8,16 +8,19 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.item.modules.StorageModule;
+import sonar.calculator.mod.utils.SlotPortable;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.SlotLimiter;
 
 public class ContainerStorageModule extends Container {
 	private final InventoryItem inventory;
+	private boolean isRemote;
 
 	private static final int INV_START = StorageModule.StorageInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
 	public ContainerStorageModule(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
+		isRemote = player.getEntityWorld().isRemote;
         int i = 36;
         int j;
         int k;
@@ -26,7 +29,7 @@ public class ContainerStorageModule extends Container {
         {
             for (k = 0; k < 9; ++k)
             {
-                this.addSlotToContainer(new SlotLimiter(inventory, k + j * 9, 8 + k * 18, 18 + j * 18, Calculator.itemStorageModule));
+                this.addSlotToContainer(new SlotPortable(inventory, k + j * 9, 8 + k * 18, 18 + j * 18, isRemote));
             }
         }
 

@@ -51,7 +51,7 @@ public class FluxHelper {
 
 	public static TileEntityFluxController getController(int networkID) {
 		TileEntity target = getTile(FluxRegistry.getController(networkID));
-		
+
 		if (target != null && target instanceof TileEntityFluxController) {
 			return (TileEntityFluxController) target;
 		}
@@ -68,7 +68,7 @@ public class FluxHelper {
 		List<IFluxPoint> points = new ArrayList();
 		for (int i = 0; i < fluxList.size(); i++) {
 			IFluxPoint point = FluxHelper.getPoint(fluxList.get(i));
-			if (point != null && point.networkID()==networkID) {
+			if (point != null && point.networkID() == networkID) {
 				points.add(point);
 			}
 		}

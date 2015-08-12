@@ -13,6 +13,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.modules.StorageModule;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.utils.SlotSize;
+import sonar.core.inventory.ContainerSync;
 import sonar.core.utils.DischargeValues;
 import sonar.core.utils.SlotBlockedInventory;
 import sonar.core.utils.SonarAPI;

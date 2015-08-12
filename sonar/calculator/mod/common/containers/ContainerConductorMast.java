@@ -6,6 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.machines.ConductorMastRecipes;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
+import sonar.core.inventory.ContainerSync;
 import sonar.core.utils.SlotBlockedInventory;
 
 public class ContainerConductorMast extends ContainerSync {

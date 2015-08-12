@@ -9,8 +9,8 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IHealthStore;
 import sonar.calculator.mod.api.ProcessType;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
-import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
+import sonar.core.network.PacketSonarSides;
 import sonar.core.utils.ISyncTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
@@ -131,11 +131,6 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public void sendPacket(int dimension, int side, int value) {
-		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.network.packets.PacketMachineButton;
+import sonar.core.network.PacketMachineButton;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

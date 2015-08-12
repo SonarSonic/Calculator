@@ -6,6 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
+import sonar.core.inventory.ContainerSync;
 
 public class ContainerLantern extends ContainerSync {
 	private TileEntityGasLantern entity;

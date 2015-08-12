@@ -6,6 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
+import sonar.core.inventory.ContainerSync;
 
 public class ContainerCalculatorPlug extends ContainerSync {
 	private TileEntityCalculatorPlug entity;

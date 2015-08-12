@@ -66,6 +66,7 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 	}
 
 	public Map<Integer, Integer> getResearch(ItemStack stack) {
+		/*
 		Map<Integer, Integer> unblocked = new THashMap<Integer, Integer>();
 		if (stack != null && stack.getItem() instanceof IResearchStore) {
 			if (!stack.hasTagCompound()) {
@@ -73,10 +74,12 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 			}
 			unblocked = CalculatorRecipes.instance().readFromNBT(stack.getTagCompound(), "unblocked");
 		}
-		return unblocked;
+		*/
+		return null;
 	}
 
 	public void setResearch(ItemStack stack, Map<Integer, Integer> unblocked, int stored, int max) {
+		/*
 		if (stack != null && stack.getItem() == Calculator.itemCalculator) {
 			if (!stack.hasTagCompound()) {
 				stack.setTagCompound(new NBTTagCompound());
@@ -86,6 +89,7 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 			stack.getTagCompound().setInteger("Stored", stored);
 
 		}
+		*/
 	}
 
 }

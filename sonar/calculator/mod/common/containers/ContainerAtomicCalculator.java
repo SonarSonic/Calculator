@@ -9,8 +9,8 @@ import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
-import sonar.core.client.gui.InventoryStoredCrafting;
-import sonar.core.client.gui.InventoryStoredResult;
+import sonar.core.inventory.InventoryStoredCrafting;
+import sonar.core.inventory.InventoryStoredResult;
 
 public class ContainerAtomicCalculator extends Container {
 	public InventoryCrafting craftMatrix;

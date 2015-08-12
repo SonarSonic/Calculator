@@ -6,17 +6,13 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IPausable;
 import sonar.calculator.mod.api.IUpgradeCircuits;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
-import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
 import sonar.core.utils.IMachineButtons;
 import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -259,11 +255,6 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 			return false;
 		}
 		return true;
-	}
-
-	@Override
-	public void sendPacket(int dimension, int side, int value) {
-		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
 	}
 
 	@SideOnly(Side.CLIENT)

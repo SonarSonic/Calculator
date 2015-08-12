@@ -5,8 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
-import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
+import sonar.core.network.PacketSonarSides;
 import sonar.core.utils.ISyncTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -351,9 +351,4 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 		Analysed, Stable, Damaged, Dirty;
 	}
 
-	@Override
-	public void sendPacket(int dimension, int side, int value) {
-		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
-
-	}
 }

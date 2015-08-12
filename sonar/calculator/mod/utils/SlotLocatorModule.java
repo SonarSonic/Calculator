@@ -6,11 +6,11 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class SlotLocator extends Slot {
+public class SlotLocatorModule extends Slot {
 
 	public TileEntityCalculatorLocator locator;
 
-	public SlotLocator(TileEntityCalculatorLocator locator, int index, int x, int y) {
+	public SlotLocatorModule(TileEntityCalculatorLocator locator, int index, int x, int y) {
 		super(locator, index, x, y);
 		this.locator = locator;
 	}

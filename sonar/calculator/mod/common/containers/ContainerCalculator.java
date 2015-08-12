@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.containers;
 import java.util.Map;
 
 import cofh.api.energy.IEnergyContainerItem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -17,29 +18,29 @@ import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
-import sonar.core.client.gui.InventoryStoredCrafting;
-import sonar.core.client.gui.InventoryStoredResult;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.inventory.InventoryStoredCrafting;
+import sonar.core.inventory.InventoryStoredResult;
 import sonar.core.utils.SlotLimiter;
 
 public class ContainerCalculator extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
+	private boolean isRemote;
 
 	private static final int INV_START = CalculatorItem.CalculatorInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
 	public Map<Integer, Integer> research;
-	private EntityPlayer player;	
-	
+	private EntityPlayer player;
+
 	public ContainerCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem, Map<Integer, Integer> research) {
-		this.player=player;
+		this.player = player;
 		this.inventory = inventoryItem;
 		this.research = research;
+		isRemote = player.getEntityWorld().isRemote;
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, isRemote));
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, isRemote));
+		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1 }, 2, 134, 35, isRemote));
 
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35));		
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35));		
-		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{0,1}, 2, 134, 35));
-			
-		
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
 				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
@@ -50,37 +51,28 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
 		}
 
-		this.onCraftMatrixChanged(null);
+		this.onItemCrafted();
 	}
 
 	@Override
-	public void onCraftMatrixChanged(IInventory inv) {	
-		inventory.setInventorySlotContents(2, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(inventory.getStackInSlot(0),inventory.getStackInSlot(1)));
+	public void onItemCrafted() {
+		inventory.setInventorySlotContents(2, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1)), isRemote);
+
 	}
 
-	public void removeEnergy(){
-		if(player.capabilities.isCreativeMode){
-			return;
-		}
-		if(player.getHeldItem() !=null && player.getHeldItem().getItem() instanceof IEnergyContainerItem){
-			IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItem().getItem();
-			energy.extractEnergy(player.getHeldItem(), 1, false);			
-			int stored = energy.getEnergyStored(player.getHeldItem())-1;
+	public void removeEnergy() {
+		if (!this.isRemote) {
+			if (player.capabilities.isCreativeMode) {
+				return;
+			}
+			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IEnergyContainerItem) {
+				IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItem().getItem();
+				energy.extractEnergy(player.getHeldItem(), 1, false);
+				int stored = energy.getEnergyStored(player.getHeldItem()) - 1;
+			}
 		}
 	}
-	
-	public int maxCraft(){
-		if(player.capabilities.isCreativeMode){
-			return 64;
-		}
-		if(player.getHeldItem() !=null && player.getHeldItem().getItem() instanceof IEnergyContainerItem){
-			IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItem().getItem();
-			int max = energy.getEnergyStored(player.getHeldItem());
-			return max;
-		}
-		return 0;
-	}
-	
+
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return inventory.isUseableByPlayer(player);
@@ -89,7 +81,6 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
-
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
@@ -103,7 +94,7 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 			} else {
 
 				if (slotID >= INV_START) {
-					if (!this.mergeItemStack(itemstack1, 0, INV_START-1, false)) {
+					if (!this.mergeItemStack(itemstack1, 0, INV_START - 1, false)) {
 						return null;
 					}
 				} else if (slotID >= INV_START && slotID < HOTBAR_START) {
@@ -132,7 +123,7 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 
 		return itemstack;
 	}
-	
+
 	@Override
 	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player) {
 		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItem()) {

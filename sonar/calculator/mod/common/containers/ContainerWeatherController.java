@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
+import sonar.core.inventory.ContainerSync;
 import sonar.core.utils.DischargeValues;
 import sonar.core.utils.SonarAPI;
 

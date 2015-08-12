@@ -44,6 +44,71 @@ public class RecipeRegistry {
 		addFlawlessRecipes();
 	}
 
+	/**
+	 * 
+	 * @param objects four parameters, see below
+	 * @param output (ItemStack)
+	 * @param input1 (ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param input2 (ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param hidden Does the recipe require research? (Boolean)
+	 */
+	public static void registerCalculatorRecipe(Object... objects) {
+		if (objects.length != 4) {
+			Calculator.logger.warn("Calculator Recipes - Invalid Recipe Size!");
+			return;
+		}
+		rearrangeCalculatorRecipe(objects);
+	}
+
+	/**
+	 * @param objects three parameters, see below
+	 * @param input1 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param input2 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param output (Item, Block, ItemStack)
+	 */
+	public static void registerScientificRecipe(Object... objects) {
+		if (objects.length != 3) {
+			Calculator.logger.warn("Scientific Recipes - Invalid Recipe Size!");
+			return;
+		}
+		scientific.add(objects);
+
+	}
+
+	/**
+	 * @param objects four parameters, see below
+	 * @param input1 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param input2 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param input3 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param output (Item, Block, ItemStack)
+	 */
+	public static void registerAtomicRecipe(Object... objects) {
+		if (objects.length != 4) {
+			Calculator.logger.warn("Atomic Recipes - Invalid Recipe Size!");
+			return;
+		}
+		atomic.add(objects);
+
+	}
+
+	/**
+	 * @param objects five parameters, see below
+	 * @param input1 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param input2 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param input3 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param input4 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
+	 * @param output (Item, Block, ItemStack)
+	 */
+	public static void registerFlawlessRecipe(Object... objects) {
+		if (objects.length != 5) {
+			FMLLog.warning("Flawless Recipes - Invalid Recipe Size!");
+			return;
+		}
+		flawless.add(objects);
+
+	}
+
+	
 	private static void addStandardRecipes() {
 
 		registerCalculatorRecipe(Calculator.baby_grenade, Calculator.grenadecasing, Blocks.tnt, false);
@@ -527,70 +592,6 @@ public class RecipeRegistry {
 		registerFlawlessRecipe(Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_rod);
 		registerFlawlessRecipe(Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.ghast_tear);
 		registerFlawlessRecipe(Blocks.glass,Blocks.glass,Blocks.glass,Blocks.glass, new ItemStack(Calculator.stableglassBlock, 4));
-	}
-
-	/**
-	 * 
-	 * @param objects four parameters, see below
-	 * @param output (ItemStack)
-	 * @param input1 (ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input2 (ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param hidden Does the recipe require research? (Boolean)
-	 */
-	public static void registerCalculatorRecipe(Object... objects) {
-		if (objects.length != 4) {
-			Calculator.logger.warn("Calculator Recipes - Invalid Recipe Size!");
-			return;
-		}
-		rearrangeCalculatorRecipe(objects);
-	}
-
-	/**
-	 * @param objects three parameters, see below
-	 * @param input1 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input2 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param output (Item, Block, ItemStack)
-	 */
-	public static void registerScientificRecipe(Object... objects) {
-		if (objects.length != 3) {
-			Calculator.logger.warn("Scientific Recipes - Invalid Recipe Size!");
-			return;
-		}
-		scientific.add(objects);
-
-	}
-
-	/**
-	 * @param objects four parameters, see below
-	 * @param input1 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input2 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input3 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param output (Item, Block, ItemStack)
-	 */
-	public static void registerAtomicRecipe(Object... objects) {
-		if (objects.length != 4) {
-			Calculator.logger.warn("Atomic Recipes - Invalid Recipe Size!");
-			return;
-		}
-		atomic.add(objects);
-
-	}
-
-	/**
-	 * @param objects five parameters, see below
-	 * @param input1 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input2 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input3 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input4 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param output (Item, Block, ItemStack)
-	 */
-	public static void registerFlawlessRecipe(Object... objects) {
-		if (objects.length != 5) {
-			FMLLog.warning("Flawless Recipes - Invalid Recipe Size!");
-			return;
-		}
-		flawless.add(objects);
-
 	}
 
 	/**

@@ -10,11 +10,11 @@ import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
-import sonar.core.client.gui.InventoryStoredCrafting;
-import sonar.core.client.gui.InventoryStoredResult;
+import sonar.core.inventory.InventoryStoredCrafting;
+import sonar.core.inventory.InventoryStoredResult;
 
 public class ContainerDynamicCalculator extends Container {
-	
+
 	private static final int INV_START = 10, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
 	public InventoryStoredCrafting calculatorMatrix;
@@ -28,31 +28,28 @@ public class ContainerDynamicCalculator extends Container {
 
 	public ContainerDynamicCalculator(EntityPlayer player, TileEntityCalculator.Dynamic entity) {
 		this.entity = entity;
-		this.player = player;	
+		this.player = player;
 
 		this.calculatorMatrix = new InventoryStoredCrafting(this, 2, 1, entity);
 		this.calculatorResult = new InventoryStoredResult(entity);
 		this.scientficMatrix = new InventoryStoredCrafting(this, 2, 1, entity, 3);
 		this.scientificResult = new InventoryStoredResult(entity, 3);
-		this.atomicMatrix = new InventoryStoredCrafting(this, 3, 1, entity ,6);
+		this.atomicMatrix = new InventoryStoredCrafting(this, 3, 1, entity, 6);
 		this.atomicResult = new InventoryStoredResult(entity, 6);
-		
-		
+
 		addSlotToContainer(new SlotCrafting(player, this.calculatorMatrix, this.calculatorResult, 0, 134, 9));
 		addSlotToContainer(new Slot(this.calculatorMatrix, 0, 25 + 0 * 54, 9));
 		addSlotToContainer(new Slot(this.calculatorMatrix, 1, 25 + 1 * 54, 9));
-		
 
 		addSlotToContainer(new SlotCrafting(player, this.scientficMatrix, this.scientificResult, 0, 134, 35));
 		addSlotToContainer(new Slot(this.scientficMatrix, 0, 25 + 0 * 54, 35));
 		addSlotToContainer(new Slot(this.scientficMatrix, 1, 25 + 1 * 54, 35));
-		
 
 		addSlotToContainer(new SlotCrafting(player, this.atomicMatrix, this.atomicResult, 0, 134, 61));
 		addSlotToContainer(new Slot(this.atomicMatrix, 0, 20 + 0 * 32, 61));
 		addSlotToContainer(new Slot(this.atomicMatrix, 1, 20 + 1 * 32, 61));
 		addSlotToContainer(new Slot(this.atomicMatrix, 2, 20 + 2 * 32, 61));
-		
+
 		for (int i = 0; i < 3; i++) {
 			for (int k = 0; k < 9; k++) {
 				addSlotToContainer(new Slot(player.inventory, k + i * 9 + 9, 8 + k * 18, 84 + i * 18));
@@ -68,9 +65,8 @@ public class ContainerDynamicCalculator extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
-		this.calculatorResult.setInventorySlotContents(0, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(calculatorMatrix.getStackInSlot(0),calculatorMatrix.getStackInSlot(1)));
-		this.scientificResult.setInventorySlotContents(0, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(scientficMatrix.getStackInSlot(0),scientficMatrix.getStackInSlot(1)));
-		System.out.print("atomic");
+		this.calculatorResult.setInventorySlotContents(0, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(calculatorMatrix.getStackInSlot(0), calculatorMatrix.getStackInSlot(1)));
+		this.scientificResult.setInventorySlotContents(0, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(scientficMatrix.getStackInSlot(0), scientficMatrix.getStackInSlot(1)));
 		this.atomicResult.setInventorySlotContents(0, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(atomicMatrix.getStackInSlot(0), atomicMatrix.getStackInSlot(1), atomicMatrix.getStackInSlot(2)));
 
 	}
@@ -90,28 +86,28 @@ public class ContainerDynamicCalculator extends Container {
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
-				int current =this.getCurrentUsage();
-				if(par2 >= INV_START && (current==0 || current ==1)){
+				int current = this.getCurrentUsage();
+				if (par2 >= INV_START && (current == 0 || current == 1)) {
 					if (!this.mergeItemStack(itemstack1, 1, 3, false)) {
 						return null;
 					}
-				}else if(par2 >= INV_START && current ==2){
+				} else if (par2 >= INV_START && current == 2) {
 					if (!this.mergeItemStack(itemstack1, 4, 6, false)) {
 						return null;
 					}
-				}else if(par2 >= INV_START && current ==3){
+				} else if (par2 >= INV_START && current == 3) {
 					if (!this.mergeItemStack(itemstack1, 7, 10, false)) {
 						return null;
-						
+
 					}
 				}
-				
+
 				else if (par2 >= INV_START && par2 < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END, false)) {
 						return null;
 					}
-				} else if (par2 >= HOTBAR_START && par2 < HOTBAR_END ) {
-					if (!this.mergeItemStack(itemstack1, INV_START, INV_END , false)) {
+				} else if (par2 >= HOTBAR_START && par2 < HOTBAR_END) {
+					if (!this.mergeItemStack(itemstack1, INV_START, INV_END, false)) {
 						return null;
 					}
 				}
@@ -134,11 +130,11 @@ public class ContainerDynamicCalculator extends Container {
 	}
 
 	public int getCurrentUsage() {
-		if (((Slot)this.inventorySlots.get(1)).getHasStack() || ((Slot)this.inventorySlots.get(2)).getHasStack()) {
+		if (((Slot) this.inventorySlots.get(1)).getHasStack() || ((Slot) this.inventorySlots.get(2)).getHasStack()) {
 			return 1;
-		} else if (((Slot)this.inventorySlots.get(4)).getHasStack() || ((Slot)this.inventorySlots.get(5)).getHasStack()) {
+		} else if (((Slot) this.inventorySlots.get(4)).getHasStack() || ((Slot) this.inventorySlots.get(5)).getHasStack()) {
 			return 2;
-		} else if (((Slot)this.inventorySlots.get(7)).getHasStack() || ((Slot)this.inventorySlots.get(8)).getHasStack() || ((Slot)this.inventorySlots.get(9)).getHasStack()) {
+		} else if (((Slot) this.inventorySlots.get(7)).getHasStack() || ((Slot) this.inventorySlots.get(8)).getHasStack() || ((Slot) this.inventorySlots.get(9)).getHasStack()) {
 			return 3;
 		}
 		return 0;

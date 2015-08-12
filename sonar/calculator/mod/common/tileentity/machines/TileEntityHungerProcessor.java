@@ -9,8 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IHungerStore;
 import sonar.calculator.mod.api.ProcessType;
-import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
+import sonar.core.network.PacketSonarSides;
 import sonar.core.utils.ISyncTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
@@ -132,9 +132,4 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 		return currenttip;
 	}
 
-	@Override
-	public void sendPacket(int dimension, int side, int value) {
-		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
-
-	}
 }

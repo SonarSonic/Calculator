@@ -8,6 +8,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
+import sonar.core.inventory.ContainerSync;
 import sonar.core.utils.DischargeValues;
 import sonar.core.utils.SonarAPI;
 import cofh.api.energy.IEnergyContainerItem;

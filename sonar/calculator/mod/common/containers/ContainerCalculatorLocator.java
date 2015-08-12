@@ -8,7 +8,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
-import sonar.calculator.mod.utils.SlotLocator;
+import sonar.calculator.mod.utils.SlotLocatorModule;
+import sonar.core.inventory.ContainerSync;
 import sonar.core.utils.SonarAPI;
 import cofh.api.energy.IEnergyContainerItem;
 
@@ -20,7 +21,7 @@ public class ContainerCalculatorLocator extends ContainerSync {
 		this.entity = entity;
 
 		addSlotToContainer(new Slot(entity, 0, 28, 60));
-		addSlotToContainer(new SlotLocator(entity, 1, 132, 60));
+		addSlotToContainer(new SlotLocatorModule(entity, 1, 132, 60));
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

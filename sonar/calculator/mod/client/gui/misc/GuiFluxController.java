@@ -26,8 +26,8 @@ import sonar.calculator.mod.common.containers.ContainerFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
-import sonar.calculator.mod.network.packets.PacketMachineButton;
 import sonar.calculator.mod.utils.FluxNetwork;
+import sonar.core.network.PacketMachineButton;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiFluxController extends GuiFlux {

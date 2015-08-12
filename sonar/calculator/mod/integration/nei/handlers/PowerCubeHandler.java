@@ -37,7 +37,7 @@ public class PowerCubeHandler extends TemplateRecipeHandler {
 	}
 
 	public static class Advanced extends PowerCubeHandler {
-		
+
 		@Override
 		public String getOverlayIdentifier() {
 			return "advancedpowercube";

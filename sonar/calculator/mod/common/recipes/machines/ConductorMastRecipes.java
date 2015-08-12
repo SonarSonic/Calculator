@@ -49,8 +49,6 @@ public class ConductorMastRecipes
   }
   
 
-
-
   public ItemStack getSmeltingResult(ItemStack stack)
   {
     Iterator iterator = this.smeltingList.entrySet().iterator();

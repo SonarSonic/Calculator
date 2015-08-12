@@ -6,30 +6,23 @@ import ic2.api.item.ISpecialElectricItem;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.network.packets.PacketInventorySync;
 import sonar.core.common.item.InventoryContainerItem;
-import sonar.core.utils.IItemInventory;
 import sonar.core.utils.SonarAPI;
 import sonar.core.utils.SonarElectricManager;
 import sonar.core.utils.helpers.FontHelper;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Optional.Method;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "IC2", striprefs = true),
-		@Optional.Interface(iface = "ic2.api.item.IElectricItem", modid = "IC2", striprefs = true) })
+@Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "IC2", striprefs = true), @Optional.Interface(iface = "ic2.api.item.IElectricItem", modid = "IC2", striprefs = true) })
 public class SonarCalculator extends InventoryContainerItem implements IEnergyContainerItem, ISpecialElectricItem {
 
 	protected int capacity = CalculatorConfig.calculatorEnergy;
@@ -44,16 +37,21 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 	}
 
 	public ItemStack onCalculatorRightClick(ItemStack itemstack, World world, EntityPlayer player, int ID) {
-		if (player.capabilities.isCreativeMode) {
-			player.openGui(Calculator.instance, ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
-		} else if (getEnergyStored(itemstack) > 1) {
-			player.openGui(Calculator.instance, ID, world, (int) player.posX, (int) player.posY, (int) player.posZ);
+		if (!world.isRemote) {
+			if (player.capabilities.isCreativeMode) {
+				player.openGui(Calculator.instance, ID, world, 0, -1000, 0);
+				return itemstack;
+			} else if (getEnergyStored(itemstack) > 1) {
+				player.openGui(Calculator.instance, ID, world, 0, -1000, 0);
+				return itemstack;
 
-		} else if ((getEnergyStored(itemstack) < 1)) {
-			FontHelper.sendMessage(FontHelper.translate("energy.notEnough"), world, player);
+			} else if ((getEnergyStored(itemstack) < 1)) {
+				FontHelper.sendMessage(FontHelper.translate("energy.notEnough"), world, player);
+				return itemstack;
+			}
 		}
 		return itemstack;
-		
+
 	}
 
 	@Override

@@ -117,12 +117,12 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
-import sonar.calculator.mod.network.packets.PacketInventorySync;
-import sonar.calculator.mod.network.packets.PacketMachineButton;
-import sonar.calculator.mod.network.packets.PacketRequestSync;
-import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
-import sonar.calculator.mod.network.packets.PacketTileSync;
+import sonar.core.network.PacketInventorySync;
+import sonar.core.network.PacketMachineButton;
+import sonar.core.network.PacketRequestSync;
+import sonar.core.network.PacketSonarSides;
+import sonar.core.network.PacketTileSync;
 import sonar.core.utils.IItemInventory;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -145,9 +145,8 @@ public class CalculatorCommon implements IGuiHandler {
 	}
 
 	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {		
 		TileEntity entity = world.getTileEntity(x, y, z);
-
 		ItemStack equipped;
 
 		if (entity != null) {
@@ -303,9 +302,10 @@ public class CalculatorCommon implements IGuiHandler {
 				if ((entity instanceof TileEntityMagneticFlux)) {
 					return new ContainerMagneticFlux(player.inventory, (TileEntityMagneticFlux) entity);
 				}
+			default:
 				break;
 			}
-		}else {
+		} else {
 			equipped = player.getHeldItem();
 			if (equipped == null) {
 				return null;
@@ -343,6 +343,8 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.RecipeInfo:
 				return new ContainerInfoCalculator(player, player.inventory, world, x, y, z);
 
+			default:
+				break;
 			}
 
 		}
@@ -527,14 +529,16 @@ public class CalculatorCommon implements IGuiHandler {
 				if ((entity instanceof TileEntityMagneticFlux)) {
 					return new GuiMagneticFlux(player.inventory, (TileEntityMagneticFlux) entity);
 				}
+
+			default:
+				break;
 			}
 
 		} else {
-			equipped = player.getCurrentEquippedItem();
+			equipped = player.getHeldItem();
 			if (equipped == null) {
 				return null;
 			}
-
 			switch (ID) {
 			case CalculatorGui.Calculator:
 				return new GuiCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped), ((IResearchStore) equipped.getItem()).getResearch(equipped));
@@ -571,6 +575,8 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.RecipeInfo:
 				return new GuiRecipeInfo(player, player.inventory, world, x, y, z);
 
+			default:
+				break;
 			}
 
 		}

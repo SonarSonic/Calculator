@@ -11,8 +11,8 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.api.IUpgradeCircuits;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
-import sonar.calculator.mod.network.packets.PacketSonarSides;
 import sonar.core.common.tileentity.TileEntitySidedInventorySender;
+import sonar.core.network.PacketSonarSides;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
@@ -292,11 +292,6 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 			currenttip.add(FontHelper.translate("circuit.void") + ": " + FontHelper.translate("circuit.installed"));
 		}
 		return currenttip;
-	}
-
-	@Override
-	public void sendPacket(int dimension, int side, int value) {
-		Calculator.network.sendToAllAround(new PacketSonarSides(xCoord, yCoord, zCoord, side, value), new TargetPoint(dimension, xCoord, yCoord, zCoord, 32));
 	}
 
 }

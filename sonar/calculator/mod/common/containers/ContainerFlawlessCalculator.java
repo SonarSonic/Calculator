@@ -14,24 +14,27 @@ import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
-import sonar.core.client.gui.InventoryStoredCrafting;
-import sonar.core.client.gui.InventoryStoredResult;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.inventory.InventoryStoredCrafting;
+import sonar.core.inventory.InventoryStoredResult;
 
 public class ContainerFlawlessCalculator extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
+	private boolean isRemote;
 
 	private static final int INV_START = FlawlessCalc.FlawlessInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
 	public ContainerFlawlessCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
 
+		isRemote = player.getEntityWorld().isRemote;
 
 		for (int k = 0; k < 4; k++) {
-			addSlotToContainer(new SlotPortableCrafting(this, inventory, k, 17 + k * 32, 35));
+			addSlotToContainer(new SlotPortableCrafting(this, inventory, k, 17 + k * 32, 35, isRemote));
 		}
-
-		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{0,1,2,3}, 4, 145, 35));
+		
+		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{0,1,2,3}, 4, 145, 35, isRemote));
+		
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
 				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
@@ -41,21 +44,18 @@ public class ContainerFlawlessCalculator extends Container implements ICalculato
 		for (int i = 0; i < 9; ++i) {
 			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
 		}
+		onItemCrafted();
 	}
 
 	@Override
-	public void onCraftMatrixChanged(IInventory inv) {
-		this.inventory.setInventorySlotContents(4, RecipeRegistry.FlawlessRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3)));
+	public void onItemCrafted() {
+		this.inventory.setInventorySlotContents(4, RecipeRegistry.FlawlessRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3)), isRemote);
 	}
 
 	public void removeEnergy(){
 		
 	}
 	
-	public int maxCraft(){
-		return 64;
-	}
-
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 

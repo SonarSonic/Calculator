@@ -5,6 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenerator;
+import sonar.core.inventory.ContainerSync;
 
 public class ContainerCrankedGenerator extends ContainerSync {
 	

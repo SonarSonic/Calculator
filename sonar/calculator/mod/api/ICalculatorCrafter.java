@@ -6,7 +6,5 @@ public interface ICalculatorCrafter {
 
 	public void removeEnergy();	
 
-	public int maxCraft();
-
-    public void onCraftMatrixChanged(IInventory inv);
+    public void onItemCrafted();
 }

@@ -7,6 +7,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
+import sonar.core.inventory.ContainerSync;
 
 public class ContainerHungerProcessor extends ContainerSync
 {

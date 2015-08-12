@@ -1,13 +1,13 @@
 package sonar.calculator.mod.utils.helpers;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import sonar.calculator.mod.Calculator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.IGrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import sonar.calculator.mod.Calculator;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /** helps with using bonemeal on crops, growth speed and replacing blocks */
 public class GreenhouseHelper {

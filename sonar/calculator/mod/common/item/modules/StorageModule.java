@@ -35,7 +35,7 @@ public class StorageModule extends InventoryContainerItem implements IItemInvent
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		if (!world.isRemote) {
-			player.openGui(Calculator.instance, CalculatorGui.StorageModule, world, (int) player.posX, (int) player.posY, (int) player.posZ);
+			player.openGui(Calculator.instance, CalculatorGui.StorageModule, world, -1000, -1000, -1000);
 		}
 		return itemstack;
 	}

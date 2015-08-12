@@ -17,7 +17,7 @@ import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.calculator.mod.common.containers.ContainerPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
-import sonar.calculator.mod.network.packets.PacketMachineButton;
+import sonar.core.network.PacketMachineButton;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiMagneticFlux extends GuiSonar {

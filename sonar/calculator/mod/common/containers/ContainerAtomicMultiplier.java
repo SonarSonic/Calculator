@@ -8,21 +8,30 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
-import sonar.calculator.mod.utils.SlotBanned;
+import sonar.core.inventory.ContainerSync;
 import sonar.core.utils.DischargeValues;
 import sonar.core.utils.SlotBlockedInventory;
 import sonar.core.utils.SonarAPI;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerAtomicMultiplier extends ContainerSync {
-	
+
 	private TileEntityAtomicMultiplier entity;
 
-	public ContainerAtomicMultiplier(InventoryPlayer inventory,	TileEntityAtomicMultiplier entity) {
+	public ContainerAtomicMultiplier(InventoryPlayer inventory, TileEntityAtomicMultiplier entity) {
 		super(entity);
 		this.entity = entity;
 
-		addSlotToContainer(new SlotBanned(entity, 0, 54, 16));
+		addSlotToContainer(new Slot(entity, 0, 54, 16) {
+			public boolean isItemValid(ItemStack stack) {
+				if (!TileEntityAtomicMultiplier.isAllowed(stack)) {
+					return false;
+				} else if (stack.getMaxStackSize() < 4) {
+					return false;
+				}
+				return true;
+			}
+		});
 		addSlotToContainer(new Slot(entity, 1, 26, 41));
 		addSlotToContainer(new Slot(entity, 2, 44, 41));
 		addSlotToContainer(new Slot(entity, 3, 62, 41));
@@ -35,8 +44,7 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
@@ -69,8 +77,7 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 9, 10, false)) {
 						return null;
 					}
-				}
-				else if (itemstack1.getItem() instanceof IEnergyContainerItem) {
+				} else if (itemstack1.getItem() instanceof IEnergyContainerItem) {
 					if (!mergeItemStack(itemstack1, 9, 10, false)) {
 						return null;
 					}
@@ -80,25 +87,23 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 						return null;
 					}
 				}
-			
-			 else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
-				if (!mergeItemStack(itemstack1, 9, 10, false)) {
+
+				else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
+					if (!mergeItemStack(itemstack1, 9, 10, false)) {
+						return null;
+					}
+				}
+			} else if (itemstack1.getMaxStackSize() >= 4) {
+				if (!mergeItemStack(itemstack1, 0, 1, false)) {
 					return null;
 				}
-			 }
-			}
-				else if (itemstack1.getMaxStackSize() >= 4) {
-					if (!mergeItemStack(itemstack1, 0, 1, false)) {
-						return null;
-					}
-				} else if ((slotID >= 10) && (slotID < 37)) {
-					if (!mergeItemStack(itemstack1, 37, 46, false)) {
-						return null;
-					}
-				} else if ((slotID >= 37) && (slotID < 46)
-						&& (!mergeItemStack(itemstack1, 10, 37, false))) {
+			} else if ((slotID >= 10) && (slotID < 37)) {
+				if (!mergeItemStack(itemstack1, 37, 46, false)) {
 					return null;
-				
+				}
+			} else if ((slotID >= 37) && (slotID < 46) && (!mergeItemStack(itemstack1, 10, 37, false))) {
+				return null;
+
 			} else if (!mergeItemStack(itemstack1, 10, 46, false)) {
 				return null;
 			}
