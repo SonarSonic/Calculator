@@ -14,13 +14,13 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IHealthStore;
 import sonar.calculator.mod.api.IHungerStore;
 import sonar.calculator.mod.api.ProcessType;
-import sonar.calculator.mod.common.item.CalcItem;
 import sonar.calculator.mod.utils.helpers.NutritionHelper;
+import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class NutritionModule extends CalcItem implements IHealthStore, IHungerStore {
+public class NutritionModule extends SonarItem implements IHealthStore, IHungerStore {
 
 	public NutritionModule() {
 		setCreativeTab(Calculator.Calculator);
@@ -51,14 +51,15 @@ public class NutritionModule extends CalcItem implements IHealthStore, IHungerSt
 					int hunger = player.getFoodStats().getFoodLevel();
 					int maxpoints = 20 - hunger;
 					int usedpoints = Math.min(maxpoints, 2);
-					if (points - usedpoints >= 1) {
-						points -= usedpoints;
-						nbtData.setInteger("hunger", points);
-						player.getFoodStats().addStats(hunger + usedpoints, 2.0F);
-					} else if (points - usedpoints < 1) {
-						nbtData.setInteger("hunger", 0);
-						player.getFoodStats().addStats(points, 2.0F);
-
+					if (!(hunger >= 20)) {
+						if (points - usedpoints > 0) {
+							points -= usedpoints;
+							nbtData.setInteger("hunger", points);
+							player.getFoodStats().addStats(hunger + usedpoints, 0.2F);
+						} else if (points - usedpoints <= 0) {
+							nbtData.setInteger("hunger", 0);
+							player.getFoodStats().addStats(points, 0.2F);
+						}
 					}
 					secondItemRightClick(stack, world, player);
 				}

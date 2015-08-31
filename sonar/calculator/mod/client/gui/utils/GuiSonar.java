@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.Calculator;
 import sonar.core.network.PacketMachineButton;
+import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -85,7 +86,7 @@ public abstract class GuiSonar extends GuiContainer {
 
 		@Override
 		public void onClicked() {
-			Calculator.network.sendToServer(new PacketMachineButton(id, x, y, z));
+			SonarPackets.network.sendToServer(new PacketMachineButton(id, x, y, z));
 			buttonList.clear();
 			initGui(!paused);
 			updateScreen();
@@ -106,7 +107,7 @@ public abstract class GuiSonar extends GuiContainer {
 
 		@Override
 		public void onClicked() {
-			Calculator.network.sendToServer(new PacketMachineButton(id, x, y, z));
+			SonarPackets.network.sendToServer(new PacketMachineButton(id, x, y, z));
 		}
 	}
 

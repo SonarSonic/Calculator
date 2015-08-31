@@ -10,9 +10,9 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
-import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.common.item.SonarItem;
 
-public class Soil extends CalcItem implements IStability {
+public class Soil extends SonarItem implements IStability {
 
 	public Soil() {
 		setUnlocalizedName("Soil").setCreativeTab(Calculator.Calculator).setTextureName("Calculator:soil");

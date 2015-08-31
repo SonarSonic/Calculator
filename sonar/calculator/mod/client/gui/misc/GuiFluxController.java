@@ -28,6 +28,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.network.PacketMachineButton;
+import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiFluxController extends GuiFlux {
@@ -117,7 +118,7 @@ public class GuiFluxController extends GuiFlux {
 
 		@Override
 		public void onClicked() {
-			Calculator.network.sendToServer(new PacketMachineButton(this.id, entity.xCoord, entity.yCoord, entity.zCoord));
+			SonarPackets.network.sendToServer(new PacketMachineButton(this.id, entity.xCoord, entity.yCoord, entity.zCoord));
 			buttonList.clear();
 			initGui();
 		}
@@ -127,6 +128,7 @@ public class GuiFluxController extends GuiFlux {
 		super.actionPerformed(button);
 		if (!network()) {
 			if (button != null && button instanceof CalculatorButtons.SonarButton) {
+
 				SonarButton sButton = (SonarButton) button;
 				sButton.onClicked();
 

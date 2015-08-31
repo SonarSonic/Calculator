@@ -24,6 +24,7 @@ import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
+import sonar.core.network.SonarPackets;
 import sonar.core.utils.SonarAPI;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -46,7 +47,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "1.8.1";
+	public static final String version = "1.8.3";
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -68,6 +69,7 @@ public class Calculator {
 		network = NetworkRegistry.INSTANCE.newSimpleChannel(modid);
 		logger.info("Registered Network");
 
+		SonarPackets.registerPackets();
 		CalculatorCommon.registerPackets();
 		logger.info("Registered Packets");
 

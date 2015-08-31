@@ -140,7 +140,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	private void addEnergy() {
 		TileEntity entity = this.worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
 		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN)) {
-			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, ForgeDirection.UP, maxTransfer, false), false);
+			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false), false);
 		}
 	}
 

@@ -8,10 +8,10 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
-import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 
-public class Grenade extends CalcItem
+public class Grenade extends SonarItem
 {
 	int type;
 	public Grenade(int par){

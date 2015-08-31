@@ -14,6 +14,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherControll
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.core.network.PacketMachineButton;
+import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiWeatherController extends GuiContainer {
@@ -51,7 +52,7 @@ public class GuiWeatherController extends GuiContainer {
 				type = entity.type + 1;
 			}
 			entity.type = type;
-			Calculator.network.sendToServer(new PacketMachineButton(1 + type, entity.xCoord, entity.yCoord, entity.zCoord));
+			SonarPackets.network.sendToServer(new PacketMachineButton(1 + type, entity.xCoord, entity.yCoord, entity.zCoord));
 			break;
 		case 2:
 			if (entity.data == 1) {
@@ -59,7 +60,7 @@ public class GuiWeatherController extends GuiContainer {
 			} else {
 				entity.data = 1;
 			}
-			Calculator.network.sendToServer(new PacketMachineButton(0, entity.xCoord, entity.yCoord, entity.zCoord));
+			SonarPackets.network.sendToServer(new PacketMachineButton(0, entity.xCoord, entity.yCoord, entity.zCoord));
 			break;
 		}
 		this.buttonList.clear();

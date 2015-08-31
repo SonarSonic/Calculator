@@ -6,12 +6,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.api.IWrenchable;
-import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.block.IDismantleable;
 import cofh.api.tileentity.IReconfigurableSides;
 
-public class Wrench extends CalcItem {
+public class Wrench extends SonarItem {
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float par8, float par9, float par10) {

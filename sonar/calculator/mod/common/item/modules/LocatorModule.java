@@ -8,12 +8,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class LocatorModule extends CalcItem {
+public class LocatorModule extends SonarItem {
 	public LocatorModule() {
 		setTextureName("Calculator:locator_module_on");
 		setMaxStackSize(1);

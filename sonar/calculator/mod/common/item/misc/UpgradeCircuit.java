@@ -10,11 +10,11 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IUpgradeCircuits;
-import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.common.item.SonarItem;
+import sonar.core.utils.IUpgradeCircuits;
 import sonar.core.utils.helpers.FontHelper;
 
-public class UpgradeCircuit extends CalcItem {
+public class UpgradeCircuit extends SonarItem {
 
 	int type;
 

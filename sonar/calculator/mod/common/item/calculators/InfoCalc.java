@@ -9,13 +9,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.CalcItem;
 import sonar.calculator.mod.network.CalculatorGui;
+import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class InfoCalc extends CalcItem {
+public class InfoCalc extends SonarItem {
 
 	public InfoCalc() {
 		setCreativeTab(Calculator.Calculator);

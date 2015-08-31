@@ -135,7 +135,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 
 		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN.getOpposite())) {
 
-			this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(entity, ForgeDirection.DOWN.getOpposite(), this.storage.extractEnergy(10000, true), false));
+			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false), false);
 		}
 	}
 

@@ -9,9 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.common.item.SonarItem;
 
-public class ObsidianKey extends CalcItem
+public class ObsidianKey extends SonarItem
 {
   private static Random rand = new Random();
   

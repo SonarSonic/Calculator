@@ -46,7 +46,6 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer {
 		GL11.glRotatef(-f3, 0.0F, 1.0F, 0.0F);
 		GL11.glTranslatef(0.0F, -0.3125F, -0.4375F);
 		this.modelSign.signStick.showModel = false;
-
 		this.bindTexture(tex);
 		GL11.glPushMatrix();
 		GL11.glScalef(f1, -f1, -f1);

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import sonar.calculator.mod.api.IStability;
-import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -22,7 +22,7 @@ import com.google.common.collect.Maps;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemCircuit extends CalcItem implements IStability {
+public class ItemCircuit extends SonarItem implements IStability {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {

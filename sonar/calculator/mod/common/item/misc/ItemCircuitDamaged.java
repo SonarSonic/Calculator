@@ -3,7 +3,7 @@ package sonar.calculator.mod.common.item.misc;
 import java.util.List;
 import java.util.Map;
 
-import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.common.item.SonarItem;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCircuitDamaged
-  extends CalcItem
+  extends SonarItem
 {
   
   @Override

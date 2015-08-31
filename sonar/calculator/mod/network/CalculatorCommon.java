@@ -132,16 +132,10 @@ public class CalculatorCommon implements IGuiHandler {
 	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
 
 	public static void registerPackets() {
-		Calculator.network.registerMessage(PacketMachineButton.Handler.class, PacketMachineButton.class, 0, Side.SERVER);
-		Calculator.network.registerMessage(PacketTileSync.Handler.class, PacketTileSync.class, 1, Side.CLIENT);
-		Calculator.network.registerMessage(PacketSonarSides.Handler.class, PacketSonarSides.class, 2, Side.CLIENT);
-		Calculator.network.registerMessage(PacketStorageChamber.Handler.class, PacketStorageChamber.class, 3, Side.CLIENT);
-		Calculator.network.registerMessage(PacketFluxPoint.Handler.class, PacketFluxPoint.class, 4, Side.SERVER);
-		Calculator.network.registerMessage(PacketFluxNetworkList.Handler.class, PacketFluxNetworkList.class, 5, Side.CLIENT);
-		Calculator.network.registerMessage(PacketInventorySync.Handler.class, PacketInventorySync.class, 6, Side.CLIENT);
-		Calculator.network.registerMessage(PacketCalculatorScreen.Handler.class, PacketCalculatorScreen.class, 7, Side.CLIENT);
-		Calculator.network.registerMessage(PacketRequestSync.Handler.class, PacketRequestSync.class, 8, Side.SERVER);
-
+		Calculator.network.registerMessage(PacketStorageChamber.Handler.class, PacketStorageChamber.class, 0, Side.CLIENT);
+		Calculator.network.registerMessage(PacketFluxPoint.Handler.class, PacketFluxPoint.class, 1, Side.SERVER);
+		Calculator.network.registerMessage(PacketFluxNetworkList.Handler.class, PacketFluxNetworkList.class, 2, Side.CLIENT);
+		Calculator.network.registerMessage(PacketCalculatorScreen.Handler.class, PacketCalculatorScreen.class, 3, Side.CLIENT);
 	}
 
 	@Override

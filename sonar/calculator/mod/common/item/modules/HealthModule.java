@@ -13,13 +13,13 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IHealthStore;
 import sonar.calculator.mod.api.ProcessType;
-import sonar.calculator.mod.common.item.CalcItem;
 import sonar.calculator.mod.utils.helpers.NutritionHelper;
+import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class HealthModule extends CalcItem implements IHealthStore {
+public class HealthModule extends SonarItem implements IHealthStore {
 
 	public HealthModule() {
 		this.setCreativeTab(Calculator.Calculator);

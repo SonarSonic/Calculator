@@ -353,6 +353,7 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 				playerProtect++;
 			else
 				playerProtect = 0;
+			break;
 		}
 
 	}

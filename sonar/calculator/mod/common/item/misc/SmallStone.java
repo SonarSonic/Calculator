@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
-import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.common.item.SonarItem;
 
-public class SmallStone extends CalcItem
+public class SmallStone extends SonarItem
 {
   public SmallStone()
   {

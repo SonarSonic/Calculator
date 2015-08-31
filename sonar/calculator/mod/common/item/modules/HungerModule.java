@@ -11,13 +11,13 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IHungerStore;
 import sonar.calculator.mod.api.ProcessType;
-import sonar.calculator.mod.common.item.CalcItem;
 import sonar.calculator.mod.utils.helpers.NutritionHelper;
+import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class HungerModule extends CalcItem implements IHungerStore {
+public class HungerModule extends SonarItem implements IHungerStore {
 
 	public HungerModule() {
 		this.setCreativeTab(Calculator.Calculator);

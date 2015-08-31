@@ -5,13 +5,17 @@ import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.tileentity.IEnergyInfo;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.utils.helpers.SonarHelper;
+import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityCalculatorScreen extends TileEntitySonar {
 
@@ -19,7 +23,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 	public int lastMax, lastEnergy;
 
 	public void updateEntity() {
-	
+
 		if (this.worldObj != null && !this.worldObj.isRemote) {
 			TileEntity target = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite());
 			if (target == null) {
@@ -37,8 +41,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 						this.sendEnergy(current);
 						this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 					}
-				}
-				else if (target instanceof IEnergyReceiver) {
+				} else if (target instanceof IEnergyReceiver) {
 					IEnergyReceiver energy = (IEnergyReceiver) target;
 					int max = energy.getMaxEnergyStored(ForgeDirection.UNKNOWN);
 					int current = energy.getEnergyStored(ForgeDirection.UNKNOWN);
@@ -50,7 +53,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 						this.sendEnergy(current);
 						this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 					}
-				}else if (target instanceof IEnergyHandler) {
+				} else if (target instanceof IEnergyHandler) {
 					IEnergyHandler energy = (IEnergyHandler) target;
 					int max = energy.getMaxEnergyStored(ForgeDirection.UNKNOWN);
 					int current = energy.getEnergyStored(ForgeDirection.UNKNOWN);
@@ -85,22 +88,33 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 			Calculator.network.sendToAllAround(new PacketCalculatorScreen(xCoord, yCoord, zCoord, 1, energy), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 64));
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		this.latestMax = nbt.getInteger("latestMax");
-		this.latestEnergy = nbt.getInteger("latestEnergy");
-		this.lastMax = nbt.getInteger("lastMax");
-		this.lastEnergy = nbt.getInteger("lastEnergy");
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			this.latestMax = nbt.getInteger("latestMax");
+			this.latestEnergy = nbt.getInteger("latestEnergy");
+			this.lastMax = nbt.getInteger("lastMax");
+			this.lastEnergy = nbt.getInteger("lastEnergy");
+		}
+
+	}
+
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			nbt.setInteger("latestMax", this.latestMax);
+			nbt.setInteger("latestEnergy", this.latestEnergy);
+			nbt.setInteger("lastMax", this.lastMax);
+			nbt.setInteger("lastEnergy", this.lastEnergy);
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setInteger("latestMax", this.latestMax);
-		nbt.setInteger("latestEnergy", this.latestEnergy);
-		nbt.setInteger("lastMax", this.lastMax);
-		nbt.setInteger("lastEnergy", this.lastEnergy);
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getRenderBoundingBox() {
+		return INFINITE_EXTENT_AABB;
 	}
-
 }

@@ -10,10 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.CalcItem;
+import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 
-public class Sickle extends CalcItem {
+public class Sickle extends SonarItem {
 
 	public Sickle() {
 		this.maxStackSize = 1;

@@ -13,6 +13,7 @@ import sonar.core.utils.helpers.FontHelper;
 public class NutritionHelper {
 
 	public static ItemStack chargeHunger(ItemStack stack, World world, EntityPlayer player, String tag) {
+		
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
@@ -25,14 +26,17 @@ public class NutritionHelper {
 			int hunger = player.getFoodStats().getFoodLevel();
 
 			int usedpoints = 20 - hunger;
-			if (points - usedpoints > 1) {
-				points -= usedpoints;
-				nbtData.setInteger(tag, points);
-				player.getFoodStats().addStats(20, 2.0F);
 
-			} else if (points - usedpoints < 1) {
-				nbtData.setInteger(tag, 0);
-				player.getFoodStats().addStats(points, 2.0F);
+			if (!(hunger >= 20)) {
+				if (points - usedpoints > 1) {
+					points -= usedpoints;
+					nbtData.setInteger(tag, points);
+					player.getFoodStats().addStats(20, 2.0F);
+
+				} else if (points - usedpoints < 1) {
+					nbtData.setInteger(tag, 0);
+					player.getFoodStats().addStats(points, 2.0F);
+				}
 			}
 		} else if (!world.isRemote) {
 			FontHelper.sendMessage(FontHelper.translate("points.hunger") + ": " + stack.getTagCompound().getInteger(tag), world, player);
