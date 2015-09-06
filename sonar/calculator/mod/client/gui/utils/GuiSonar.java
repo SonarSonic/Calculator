@@ -73,7 +73,7 @@ public abstract class GuiSonar extends GuiContainer {
 		public PauseButton(int id, int x, int y, boolean paused) {
 			super(id, x, y, new ResourceLocation("Calculator:textures/gui/buttons/buttons.png"), paused ? 51 : 34, 0, 16, 16);
 			this.paused = paused;
-			this.id=id;
+			this.id = id;
 		}
 
 		public void func_146111_b(int x, int y) {
@@ -86,7 +86,7 @@ public abstract class GuiSonar extends GuiContainer {
 
 		@Override
 		public void onClicked() {
-			SonarPackets.network.sendToServer(new PacketMachineButton(id, x, y, z));
+			SonarPackets.network.sendToServer(new PacketMachineButton(id, 0, x, y, z));
 			buttonList.clear();
 			initGui(!paused);
 			updateScreen();
@@ -96,9 +96,10 @@ public abstract class GuiSonar extends GuiContainer {
 	@SideOnly(Side.CLIENT)
 	public class CircuitButton extends CalculatorButtons.ImageButton {
 		public int id;
+
 		public CircuitButton(int id, int x, int y) {
 			super(id, x, y, new ResourceLocation("Calculator:textures/gui/buttons/buttons.png"), 0, 0, 16, 16);
-			this.id=id;
+			this.id = id;
 		}
 
 		public void func_146111_b(int x, int y) {
@@ -107,7 +108,7 @@ public abstract class GuiSonar extends GuiContainer {
 
 		@Override
 		public void onClicked() {
-			SonarPackets.network.sendToServer(new PacketMachineButton(id, x, y, z));
+			SonarPackets.network.sendToServer(new PacketMachineButton(id, 0, x, y, z));
 		}
 	}
 

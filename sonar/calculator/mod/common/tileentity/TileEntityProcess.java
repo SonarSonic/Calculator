@@ -271,7 +271,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		return currenttip;
 	}
 
-	public void buttonPress(int buttonID) {
+	public void buttonPress(int buttonID, int value) {
 		switch (buttonID) {
 		case 0:
 			for (int i = 0; i < 3; i++) {

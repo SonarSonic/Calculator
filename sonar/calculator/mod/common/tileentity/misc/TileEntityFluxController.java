@@ -328,7 +328,7 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 	}
 
 	@Override
-	public void buttonPress(int buttonID) {
+	public void buttonPress(int buttonID, int value) {
 		switch (buttonID) {
 		case 3:
 			if (recieveMode < 4)

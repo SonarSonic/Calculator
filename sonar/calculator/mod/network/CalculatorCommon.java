@@ -45,6 +45,7 @@ import sonar.calculator.mod.client.gui.misc.GuiFluxPlug;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPoint;
 import sonar.calculator.mod.client.gui.misc.GuiGasLantern;
 import sonar.calculator.mod.client.gui.misc.GuiMagneticFlux;
+import sonar.calculator.mod.client.gui.misc.GuiTeleporter;
 import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
 import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
 import sonar.calculator.mod.client.gui.modules.GuiSmeltingModule;
@@ -114,10 +115,14 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
+import sonar.calculator.mod.network.packets.PacketTeleportLinks;
+import sonar.calculator.mod.network.packets.PacketTextField;
+import sonar.core.inventory.ContainerEmpty;
 import sonar.core.network.PacketInventorySync;
 import sonar.core.network.PacketMachineButton;
 import sonar.core.network.PacketRequestSync;
@@ -136,6 +141,9 @@ public class CalculatorCommon implements IGuiHandler {
 		Calculator.network.registerMessage(PacketFluxPoint.Handler.class, PacketFluxPoint.class, 1, Side.SERVER);
 		Calculator.network.registerMessage(PacketFluxNetworkList.Handler.class, PacketFluxNetworkList.class, 2, Side.CLIENT);
 		Calculator.network.registerMessage(PacketCalculatorScreen.Handler.class, PacketCalculatorScreen.class, 3, Side.CLIENT);
+		Calculator.network.registerMessage(PacketTextField.Handler.class, PacketTextField.class, 4, Side.SERVER);
+		Calculator.network.registerMessage(PacketTeleportLinks.Handler.class, PacketTeleportLinks.class, 5, Side.CLIENT);
+		
 	}
 
 	@Override
@@ -295,6 +303,10 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.MagneticFlux:
 				if ((entity instanceof TileEntityMagneticFlux)) {
 					return new ContainerMagneticFlux(player.inventory, (TileEntityMagneticFlux) entity);
+				}
+			case CalculatorGui.Teleporter:
+				if ((entity instanceof TileEntityTeleporter)) {
+					return new ContainerEmpty(player.inventory, (TileEntityTeleporter) entity);
 				}
 			default:
 				break;
@@ -523,7 +535,10 @@ public class CalculatorCommon implements IGuiHandler {
 				if ((entity instanceof TileEntityMagneticFlux)) {
 					return new GuiMagneticFlux(player.inventory, (TileEntityMagneticFlux) entity);
 				}
-
+			case CalculatorGui.Teleporter:
+				if ((entity instanceof TileEntityTeleporter)) {
+					return new GuiTeleporter(player.inventory, (TileEntityTeleporter) entity);
+				}
 			default:
 				break;
 			}

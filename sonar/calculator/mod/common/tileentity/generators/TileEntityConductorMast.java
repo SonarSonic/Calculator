@@ -35,7 +35,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	public TileEntityConductorMast() {
 		super.storage = new EnergyStorage(5000000, 5000000);
 		super.slots = new ItemStack[2];
-		super.maxTransfer = 10000;
+		super.maxTransfer = 5000000;
 	}
 
 	public ItemStack recipe(ItemStack stack) {

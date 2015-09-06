@@ -48,8 +48,8 @@ public class GuiMagneticFlux extends GuiSonar {
 			return;
 		}
 		if (button instanceof GuiButton) {
-			entity.buttonPress(button.id);
-			SonarPackets.network.sendToServer(new PacketMachineButton(button.id, entity.xCoord, entity.yCoord, entity.zCoord));			
+			entity.buttonPress(button.id, 0);
+			SonarPackets.network.sendToServer(new PacketMachineButton(button.id, 0, entity.xCoord, entity.yCoord, entity.zCoord));			
 			this.reset();
 		}
 		

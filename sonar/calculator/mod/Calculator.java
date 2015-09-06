@@ -24,6 +24,7 @@ import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
+import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.network.SonarPackets;
 import sonar.core.utils.SonarAPI;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -150,6 +151,8 @@ public class Calculator {
 	@EventHandler
 	public void loadFluxNetwork(FMLServerStoppingEvent event) {
 		FluxRegistry.removeAll();
+		TeleporterRegistry.removeAll();
+		RecipeRegistry.clearRecipes();
 	}
 
 	public static Item itemCalculator;
@@ -218,6 +221,7 @@ public class Calculator {
 	public static Block researchChamber;
 	public static Block calculatorScreen;
 	public static Block magneticFlux;
+	public static Block teleporter;
 
 	// calculator parts
 	public static Item calculator_screen;

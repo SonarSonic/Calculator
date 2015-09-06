@@ -39,6 +39,7 @@ import sonar.calculator.mod.common.block.machines.HungerProcessor;
 import sonar.calculator.mod.common.block.machines.PowerCube;
 import sonar.calculator.mod.common.block.machines.ResearchChamber;
 import sonar.calculator.mod.common.block.machines.StorageChamber;
+import sonar.calculator.mod.common.block.machines.Teleporter;
 import sonar.calculator.mod.common.block.machines.Transmitter;
 import sonar.calculator.mod.common.block.machines.WeatherStation;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
@@ -88,6 +89,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.common.block.SonarBlockTip;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -194,6 +196,7 @@ public class CalculatorBlocks extends Calculator {
 		carbondioxideGenerator = new CO2Generator().setBlockName("CO2Generator").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(carbondioxideGenerator, SonarBlockTip.class, "CO2Generator");
 		GameRegistry.registerTileEntity(TileEntityCO2Generator.class, "CO2Generator");
+		
 		fluxPlug = new FluxPlug().setBlockName("FluxPlug").setCreativeTab(Calculator).setHardness(0.2F).setResistance(20.0F).setBlockTextureName(modid + ":" + "stablestone");
 		GameRegistry.registerBlock(fluxPlug, SonarBlockTip.class, "FluxPlug");
 		GameRegistry.registerTileEntity(TileEntityFluxPlug.class, "FluxPlug");
@@ -203,6 +206,9 @@ public class CalculatorBlocks extends Calculator {
 		fluxController = new FluxController().setBlockName("FluxController").setCreativeTab(Calculator).setResistance(20.0F).setBlockTextureName(modid + ":" + "stablestone").setHardness(1.5F).setLightLevel(0.9375F).setLightOpacity(100);
 		GameRegistry.registerBlock(fluxController, SonarBlockTip.class, "FluxController");
 		GameRegistry.registerTileEntity(TileEntityFluxController.class, "FluxController");
+		teleporter = new Teleporter().setBlockName("CalculatorTeleporter").setCreativeTab(Calculator).setHardness(1.0F).setLightLevel(0.625F).setBlockTextureName(modid + ":" + "stablestone");
+		GameRegistry.registerBlock(teleporter, SonarBlockTip.class, "CalculatorTeleporter");
+		GameRegistry.registerTileEntity(TileEntityTeleporter.class, "CalculatorTeleporter");
 		calculatorlocator = new CalculatorLocator().setBlockName("CalculatorLocator").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "calculatorplug").setResistance(20.0F);
 		GameRegistry.registerBlock(calculatorlocator, SonarBlockTip.class, "CalculatorLocator");
 		GameRegistry.registerTileEntity(TileEntityCalculatorLocator.class, "CalculatorLocator");
@@ -334,7 +340,6 @@ public class CalculatorBlocks extends Calculator {
 
 		// decoration blocks
 		amethyst_block = new AmethystBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
-		;
 		GameRegistry.registerBlock(amethyst_block, SonarBlockTip.class, "AmethystBlock");
 		tanzanite_block = new TanzaniteBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
 		GameRegistry.registerBlock(tanzanite_block, SonarBlockTip.class, "TanzaniteBlock");

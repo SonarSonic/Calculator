@@ -52,7 +52,7 @@ public class GuiWeatherController extends GuiContainer {
 				type = entity.type + 1;
 			}
 			entity.type = type;
-			SonarPackets.network.sendToServer(new PacketMachineButton(1 + type, entity.xCoord, entity.yCoord, entity.zCoord));
+			SonarPackets.network.sendToServer(new PacketMachineButton(1 + type, 0, entity.xCoord, entity.yCoord, entity.zCoord));
 			break;
 		case 2:
 			if (entity.data == 1) {
@@ -60,7 +60,7 @@ public class GuiWeatherController extends GuiContainer {
 			} else {
 				entity.data = 1;
 			}
-			SonarPackets.network.sendToServer(new PacketMachineButton(0, entity.xCoord, entity.yCoord, entity.zCoord));
+			SonarPackets.network.sendToServer(new PacketMachineButton(0, 0, entity.xCoord, entity.yCoord, entity.zCoord));
 			break;
 		}
 		this.buttonList.clear();

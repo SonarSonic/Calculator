@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
+import sonar.core.inventory.ContainerEmpty;
 import sonar.core.inventory.ContainerSync;
 
 public class ContainerFlux extends ContainerSync {
@@ -55,42 +56,6 @@ public class ContainerFlux extends ContainerSync {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return true;
-	}
-
-	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(id);
-
-		if (slot != null && slot.getHasStack()) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
-
-			if (id < 27) {
-				if (!this.mergeItemStack(itemstack1, 27, 36, false)) {
-					return null;
-				}
-			} else if (id >= 27 && id < 36) {
-				if (!this.mergeItemStack(itemstack1, 0, 27, false)) {
-					return null;
-				}
-			} else if (!this.mergeItemStack(itemstack1, 0, 36, false)) {
-				return null;
-			}
-
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
-				slot.onSlotChanged();
-			}
-
-			if (itemstack1.stackSize == itemstack.stackSize) {
-				return null;
-			}
-
-			slot.onPickupFromSlot(player, itemstack1);
-		}
-
-		return itemstack;
 	}
 
 }

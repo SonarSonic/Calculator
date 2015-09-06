@@ -118,7 +118,7 @@ public class GuiFluxController extends GuiFlux {
 
 		@Override
 		public void onClicked() {
-			SonarPackets.network.sendToServer(new PacketMachineButton(this.id, entity.xCoord, entity.yCoord, entity.zCoord));
+			SonarPackets.network.sendToServer(new PacketMachineButton(this.id, 0, entity.xCoord, entity.yCoord, entity.zCoord));
 			buttonList.clear();
 			initGui();
 		}

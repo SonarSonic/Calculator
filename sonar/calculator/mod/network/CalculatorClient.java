@@ -63,6 +63,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.utils.ItemModelRender;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -119,9 +120,11 @@ public class CalculatorClient extends CalculatorCommon {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.scarecrow), new ItemScarecrow(scarecrow, new TileEntityScarecrow()));
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.scarecrowBlock), new ItemScarecrow(scarecrow, new TileEntityScarecrow()));
 
-		//TileEntitySpecialRenderer research = new RenderResearchChamber();
-		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityResearchChamber.class, research);
-		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.researchChamber), new ItemResearchChamber(research, new TileEntityResearchChamber()));
+		// TileEntitySpecialRenderer research = new RenderResearchChamber();
+		// ClientRegistry.bindTileEntitySpecialRenderer(TileEntityResearchChamber.class,
+		// research);
+		// MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.researchChamber),
+		// new ItemResearchChamber(research, new TileEntityResearchChamber()));
 
 		TileEntitySpecialRenderer weather = new RenderWeatherStation();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWeatherStation.class, weather);
@@ -193,29 +196,29 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer fluxPlug = new RenderFluxPlug();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluxPlug.class, fluxPlug);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.fluxPlug), new ItemModelRender(fluxPlug, new TileEntityFluxPlug()));
-		
+
 		TileEntitySpecialRenderer fluxPoint = new RenderFluxPoint();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluxPoint.class, fluxPoint);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.fluxPoint), new ItemModelRender(fluxPoint, new TileEntityFluxPoint()));
-		
+
 		TileEntitySpecialRenderer fluxController = new RenderHandlers.FluxController();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluxController.class, fluxController);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.fluxController), new ItemModelRender(fluxController, new TileEntityFluxController()));
-		
+
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalculatorScreen.class, new RenderCalculatorScreen());
 
 		TileEntitySpecialRenderer processing = new RenderChamber.Processing();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ProcessingChamber.class, processing);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.processingChamber), new ItemModelRender(processing, new TileEntityMachines.ProcessingChamber()));
-		
+
 		TileEntitySpecialRenderer extraction = new RenderChamber.Extraction();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ExtractionChamber.class, extraction);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.extractionChamber), new ItemModelRender(extraction, new TileEntityMachines.ExtractionChamber()));
-		
+
 		TileEntitySpecialRenderer precision = new RenderChamber.Precision();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.PrecisionChamber.class, precision);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.precisionChamber), new ItemModelRender(precision, new TileEntityMachines.PrecisionChamber()));
-				
+
 		TileEntitySpecialRenderer removal = new RenderChamber.Removal();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ReassemblyChamber.class, removal);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.reassemblyChamber), new ItemModelRender(removal, new TileEntityMachines.ReassemblyChamber()));
@@ -225,11 +228,11 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer analysing = new RenderAnalysingChamber();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAnalysingChamber.class, analysing);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.analysingChamber), new ItemModelRender(analysing, new TileEntityAnalysingChamber()));
-		
+
 		TileEntitySpecialRenderer storage = new RenderStorageChamber();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStorageChamber.class, storage);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.storageChamber), new ItemModelRender(storage, new TileEntityStorageChamber()));
-		
+
 		TileEntitySpecialRenderer magnetic = new RenderMagneticFlux();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMagneticFlux.class, magnetic);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.magneticFlux), new ItemModelRender(magnetic, new TileEntityMagneticFlux()));
@@ -237,6 +240,11 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer docking = new RenderDockingStation();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDockingStation.class, docking);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.dockingStation), new ItemModelRender(docking, new TileEntityDockingStation()));
-		
+
+
+		TileEntitySpecialRenderer teleporter = new RenderHandlers.Teleporter();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTeleporter.class, teleporter);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.teleporter), new ItemModelRender(teleporter, new TileEntityTeleporter()));
+
 	}
 }

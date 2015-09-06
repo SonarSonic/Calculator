@@ -203,7 +203,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 	}
 
 	@Override
-	public void buttonPress(int buttonID) {
+	public void buttonPress(int buttonID, int value) {
 		switch (buttonID) {
 		case 0:
 			this.whitelisted = !whitelisted;

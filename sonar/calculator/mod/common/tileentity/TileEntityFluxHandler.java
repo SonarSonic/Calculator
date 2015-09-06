@@ -17,6 +17,7 @@ public class TileEntityFluxHandler extends TileEntityFlux {
 			if (this.handlers[i] != null) {
 				if (handlers[i] instanceof IEnergyProvider) {
 					export -= ((IEnergyProvider) this.handlers[i]).extractEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], export, simulate);
+	
 				} else if (handlers[i] instanceof IEnergySource) {
 					if (simulate) {
 						export -= ((IEnergySource) this.handlers[i]).getOfferedEnergy() * 4;

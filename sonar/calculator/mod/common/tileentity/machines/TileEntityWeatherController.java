@@ -122,7 +122,7 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 	}
 
 	@Override
-	public void buttonPress(int buttonID) {
+	public void buttonPress(int buttonID, int value) {
 		if (buttonID == 0) {
 			if (data == 1) {
 				data = 0;
