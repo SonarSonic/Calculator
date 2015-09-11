@@ -503,3 +503,4 @@ tile.ClearStableGlass.name=清澈稳定玻璃
 tile.MagneticFlux.name=磁流接点
 tile.DockingStation.name=扩展坞
 docking.noCalculator=未安装计算器
+tile.CalculatorTeleporter.name=传送器
