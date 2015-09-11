@@ -23,6 +23,7 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.ITeleport;
 import sonar.calculator.mod.api.ITextField;
 import sonar.calculator.mod.api.TeleportLink;
@@ -31,6 +32,7 @@ import sonar.calculator.mod.utils.CalculatorTeleporter;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
+import sonar.calculator.mod.utils.helpers.TeleporterHelper;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.network.PacketSonarSides;
 import sonar.core.network.PacketTileSync;
@@ -48,7 +50,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	public String name = "LINK NAME";
 	public String destinationName = "DESTINATION";
 	public String password = "";
-	public boolean coolDown;
+	public boolean coolDown, passwordMatch;
 
 	public int linkID;
 	public String linkPassword = "";
@@ -65,40 +67,49 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			if (this.teleporterID == 0) {
 				return;
 			}
-			List<ITeleport> links = TeleporterRegistry.getTeleporters();
-			if (links != null && links.size() != 1) {
-				for (ITeleport teleport : links) {
-
-					TileEntityTeleporter tile = TeleporterRegistry.getTile(teleport);
-					if (tile == null) {
-						TeleporterRegistry.removeTeleporter(teleport);
-						return;
-					}
-					if (tile.teleporterID != 0 && tile.teleporterID == this.linkID) {
-						if ((tile.xCoord != this.xCoord || tile.yCoord != this.yCoord || tile.zCoord != this.zCoord) && tile.canTeleportPlayer()) {
-							if ((tile.password == null || tile.password == "") || this.linkPassword.equals(tile.password)) {
-								teleportPlayers(tile);
-								if (!destinationName.equals(tile.name)) {
-									destinationName = tile.name;
-									NBTTagCompound syncData = new NBTTagCompound();
-									writeData(syncData, NBTHelper.SyncType.SYNC);
-									SonarPackets.network.sendToAllAround(new PacketTileSync(tile.xCoord, tile.yCoord, tile.zCoord, syncData), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 32));
-
-								}
-							}
-						}
-					} else if (tile.teleporterID == 0) {
-						tile.resetFrequency();
-					}
-
-				}
-			}
+			startTeleportation();
 
 		} else {
 			List<EntityPlayer> players = this.getPlayerList();
 			if (players == null || players.size() == 0) {
 				coolDown = false;
 			}
+		}
+	}
+
+	public void startTeleportation() {
+		List<ITeleport> links = TeleporterRegistry.getTeleporters();
+		if (links != null && links.size() != 1) {
+			for (ITeleport teleport : links) {
+				TileEntityTeleporter tile = TeleporterRegistry.getTile(teleport);
+				if (tile == null) {
+					TeleporterRegistry.removeTeleporter(teleport);
+					return;
+				}
+				if (tile.teleporterID != 0 && tile.teleporterID == this.linkID) {
+					if (TeleporterHelper.canTeleport(tile, this) && canTeleportPlayer() && tile.canTeleportPlayer()) {
+						this.passwordMatch = true;
+						TeleporterHelper.travelToDimension(this.getPlayerList(), tile);
+						updateDimensionName(tile.name);
+					} else {
+						this.passwordMatch = false;
+					}
+				} else if (tile.teleporterID == 0) {
+					tile.resetFrequency();
+				}
+
+			}
+		} else {
+			this.passwordMatch = false;
+		}
+	}
+
+	public void updateDimensionName(String name) {
+		if (!destinationName.equals(name)) {
+			destinationName = name;
+			NBTTagCompound syncData = new NBTTagCompound();
+			writeData(syncData, NBTHelper.SyncType.SYNC);
+			SonarPackets.network.sendToAllAround(new PacketTileSync(xCoord, yCoord, zCoord, syncData), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 32));
 		}
 	}
 
@@ -110,44 +121,29 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 				flag = false;
 			}
 		}
+		ForgeDirection[] dirs = new ForgeDirection[] { ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.EAST, ForgeDirection.WEST };
+		int stable = 0;
+		for (int i = 0; i < dirs.length; i++) {
+			ForgeDirection dir = dirs[i];
+			int blocks = 0;
+			for (int j = 0; j < 3; j++) {
+				if (worldObj.getBlock(xCoord + dir.offsetX, yCoord - j, zCoord + dir.offsetZ) == Calculator.stablestoneBlock) {
+					blocks++;
+				}
+			}		
+			if(blocks==3){
+				blocks=0;
+				stable++;
+			}
+		}
 
-		return flag && yCoord - 2 > 0;
+		return stable>=3 && flag && yCoord - 2 > 0;
 	}
 
 	public List<EntityPlayer> getPlayerList() {
 		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord - 2, zCoord - 1, xCoord + 1, yCoord - 1, zCoord + 1);
 		List<EntityPlayer> players = this.worldObj.selectEntitiesWithinAABB(EntityPlayer.class, aabb, null);
 		return players;
-	}
-
-	public void teleportPlayers(TileEntityTeleporter tile) {
-		for (EntityPlayer entity : getPlayerList()) {
-			if (tile.dimension() != this.dimension()) {
-				travelToDimension(tile.dimension(), entity, tile);
-			} else {
-				((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5, SonarHelper.getAngleFromMeta(worldObj.getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord)), 0);
-			}
-			tile.coolDown = true;
-		}
-	}
-
-	public void travelToDimension(int dimension, EntityPlayer entity, TileEntityTeleporter tile) {
-		if (!this.worldObj.isRemote && !entity.isDead) {
-
-			int currentDimension = entity.worldObj.provider.dimensionId;
-			EntityPlayerMP entityPlayerMP = (EntityPlayerMP) entity;
-			WorldServer worldServer = MinecraftServer.getServer().worldServerForDimension(dimension);
-			MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(entityPlayerMP, dimension, new CalculatorTeleporter(worldServer, tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5));
-
-			if (currentDimension == 1) {
-				((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5, SonarHelper.getAngleFromMeta(worldServer.getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord)), 0);
-				worldServer.spawnEntityInWorld(entity);
-				worldServer.updateEntityWithOptionalForce(entity, false);
-			} else {
-				((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5, SonarHelper.getAngleFromMeta(worldServer.getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord)), 0);
-			}
-
-		}
 	}
 
 	public void resetFrequency() {
@@ -189,6 +185,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			this.linkPassword = nbt.getString("linkPassword");
 			this.password = nbt.getString("password");
 			this.coolDown = nbt.getBoolean("coolDown");
+			this.passwordMatch = nbt.getBoolean("passwordMatch");
 		}
 	}
 
@@ -199,10 +196,11 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			nbt.setInteger("freq", this.teleporterID);
 			nbt.setInteger("linkID", this.linkID);
 			nbt.setString("name", this.name);
-			nbt.setString("destinationName", this.destinationName);			
+			nbt.setString("destinationName", this.destinationName);
 			nbt.setString("linkPassword", this.linkPassword);
 			nbt.setString("password", this.password);
 			nbt.setBoolean("coolDown", this.coolDown);
+			nbt.setBoolean("passwordMatch", this.passwordMatch);
 		}
 	}
 

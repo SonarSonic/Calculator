@@ -177,7 +177,7 @@ public class CalculatorCrafting extends Calculator {
 		addShapeless(new ItemStack(clearstableglassBlock, 1), new Object[] { stableglassBlock });
 		addShaped(new ItemStack(magneticFlux, 1), new Object[] { " D ", "RFR", "SSS", 'S', stablestoneBlock, 'R', redstone_ingot, 'F', fluxPoint, 'D', flawlessfirediamond });
 		addShaped(new ItemStack(dockingStation, 1), new Object[] { " R ", "APA", "RRR", 'R', reinforcedstoneBlock, 'P', powerCube, 'A', calculator_assembly});
-		addShaped(new ItemStack(teleporter, 1), new Object[] { "SRS", "RFR", "SDS", 'R', reinforcedstoneBlock, 'S', stablestoneBlock, 'D', enddiamond, 'F', fluxPlug});
+		addShaped(new ItemStack(teleporter, 2), new Object[] { "SRS", "RFR", "SDS", 'R', reinforcedstoneBlock, 'S', stablestoneBlock, 'D', enddiamond, 'F', fluxPlug});
 
 		
 	}

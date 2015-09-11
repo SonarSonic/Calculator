@@ -503,3 +503,4 @@ tile.ClearStableGlass.name=Clear Stable Glass
 tile.MagneticFlux.name=Magnetic Flux
 tile.DockingStation.name=Docking Station
 docking.noCalculator=No Calculator is mounted
+tile.CalculatorTeleporter.name=Teleporter

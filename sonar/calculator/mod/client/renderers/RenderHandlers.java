@@ -76,8 +76,13 @@ public class RenderHandlers {
 
 		@Override
 		public void renderExtras(TileEntity entity, double x, double y, double z, float f) {
-			GL11.glPushMatrix();
 			if (entity.getWorldObj() != null && entity instanceof TileEntityTeleporter) {
+				TileEntityTeleporter tile = (TileEntityTeleporter) entity;
+
+				if (tile.destinationName.equals("DESTINATION") || tile.destinationName==null)
+					return;
+
+				GL11.glPushMatrix();
 				float height = -2.0F;
 				Tessellator tessellator = Tessellator.instance;
 				for (int i = 0; i < 2; i++) {
@@ -132,51 +137,47 @@ public class RenderHandlers {
 						GL11.glDepthMask(true);
 					}
 				}
+				GL11.glPopMatrix();
 
+				GL11.glPushMatrix();
+
+				float f1 = 0.65F;
+				float f3;
+
+				int j = RenderHelper.setMetaData(entity);
+				f3 = 0.0F;
+
+				if (j == 2) {
+					f3 = 180.0F;
+				}
+
+				if (j == 4) {
+					f3 = 90.0F;
+				}
+
+				if (j == 5) {
+					f3 = -90.0F;
+				}
+
+				GL11.glTranslatef((float) x + 0.5F, (float) y + 0.75F * f1, (float) z + 0.5F);
+				GL11.glRotatef(-f3, 0.0F, 1.0F, 0.0F);
+				GL11.glTranslatef(0.0F, -0.3125F, -0.4375F);
+				GL11.glPushMatrix();
+				GL11.glScalef(f1, -f1, -f1);
+				GL11.glPopMatrix();
+				f3 = 0.016666668F * f1;
+				GL11.glTranslatef(0.0F, -0.5F, 0.8F * f1);
+				GL11.glScalef(f3, -f3, f3);
+				GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
+				GL11.glDepthMask(false);
+
+				FontHelper.textCentre(tile.destinationName, 0, 0, 0);
+
+				GL11.glDepthMask(true);
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				GL11.glPopMatrix();
 			}
-			GL11.glPopMatrix();
 
-			if (entity.getWorldObj() != null && entity instanceof TileEntityTeleporter) {
-				TileEntityTeleporter tile = (TileEntityTeleporter) entity;
-			GL11.glPushMatrix();
-
-			float f1 = 0.65F;
-			float f3;
-
-			int j = RenderHelper.setMetaData(entity);
-			f3 = 0.0F;
-
-			if (j == 2) {
-				f3 = 180.0F;
-			}
-
-			if (j == 4) {
-				f3 = 90.0F;
-			}
-
-			if (j == 5) {
-				f3 = -90.0F;
-			}
-
-			GL11.glTranslatef((float) x + 0.5F, (float) y + 0.75F * f1, (float) z + 0.5F);
-			GL11.glRotatef(-f3, 0.0F, 1.0F, 0.0F);
-			GL11.glTranslatef(0.0F, -0.3125F, -0.4375F);
-			GL11.glPushMatrix();
-			GL11.glScalef(f1, -f1, -f1);
-			GL11.glPopMatrix();
-			f3 = 0.016666668F * f1;
-			GL11.glTranslatef(0.0F, -0.5F, 0.8F * f1);
-			GL11.glScalef(f3, -f3, f3);
-			GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
-			GL11.glDepthMask(false);
-
-				if (!tile.destinationName.equals("DESTINATION"))
-					FontHelper.textCentre(tile.destinationName, 0, 0, 0);
-			
-			GL11.glDepthMask(true);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GL11.glPopMatrix();
-			}
 		}
 
 	}

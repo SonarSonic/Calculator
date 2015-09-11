@@ -66,24 +66,29 @@ public class GuiTeleporter extends GuiSonar {
 					if (links.get(i).networkID == entity.linkID) {
 						FontHelper.text(links.get(i).networkName, 90, 7 + (12 * i) - (12 * start), Color.GREEN.getRGB());
 					} else {
-						FontHelper.text(links.get(i).networkName,90, 7 + (12 * i) - (12 * start), 2);
+						FontHelper.text(links.get(i).networkName, 90, 7 + (12 * i) - (12 * start), 2);
 					}
 				}
 			}
 		}
-		FontHelper.text("Teleporter", 14, 6, 0);
-		FontHelper.text("Password: ", 15, 32, 0);
+		FontHelper.text("Teleporter", 16, 6, 0);
+		GL11.glPushMatrix();
+		GL11.glScaled(0.75, 0.75, 0.75);
+		FontHelper.textOffsetCentre("X: " +entity.xCoord + " Y: " +entity.yCoord + " Z: " +entity.zCoord, 57, 26, 0);
+		FontHelper.textOffsetCentre("Dimension: " + entity.dimension(), 57, 35, 0);
+		GL11.glPopMatrix();
+		FontHelper.text("Password: ", 18, 56, 0);
 		FontHelper.text("Password: ", 97, 56, Color.GREEN.getRGB());
 	}
 
 	public void initGui() {
 		super.initGui();
 		Keyboard.enableRepeatEvents(true);
-		name = new GuiTextField(this.fontRendererObj, 8, 16, 70, 12);	
+		name = new GuiTextField(this.fontRendererObj, 8, 40, 70, 12);
 		name.setMaxStringLength(10);
 		name.setText(String.valueOf(entity.name));
 
-		password = new GuiTextField(this.fontRendererObj, 8, 42, 70, 12);
+		password = new GuiTextField(this.fontRendererObj, 8, 66, 70, 12);
 		password.setMaxStringLength(10);
 		password.setText(String.valueOf(entity.password));
 
@@ -91,18 +96,16 @@ public class GuiTeleporter extends GuiSonar {
 		destinationPassword.setMaxStringLength(10);
 		destinationPassword.setText(String.valueOf(entity.linkPassword));
 
-		
 		this.currentID = entity.linkID;
 		scrollerLeft = this.guiLeft + 163;
-		scrollerStart = this.guiTop + 32-26;
+		scrollerStart = this.guiTop + 32 - 26;
 		scrollerEnd = scrollerStart + 48;
 		scrollerWidth = 10;
 
-		this.buttonList.add(new GuiButton(1, guiLeft + 7, guiTop + 59, 72, 20, "Access: ON"));
-		this.buttonList.add(new NetworkButton(10, guiLeft + 86, guiTop + 19 + 12 -26));
-		this.buttonList.add(new NetworkButton(11, guiLeft + 86, guiTop + 19 + 24 -26));
-		this.buttonList.add(new NetworkButton(12, guiLeft + 86, guiTop + 19 + 36 -26));
-		this.buttonList.add(new NetworkButton(13, guiLeft + 86, guiTop + 19 + 48 -26));
+		this.buttonList.add(new NetworkButton(10, guiLeft + 86, guiTop + 19 + 12 - 26));
+		this.buttonList.add(new NetworkButton(11, guiLeft + 86, guiTop + 19 + 24 - 26));
+		this.buttonList.add(new NetworkButton(12, guiLeft + 86, guiTop + 19 + 36 - 26));
+		this.buttonList.add(new NetworkButton(13, guiLeft + 86, guiTop + 19 + 48 - 26));
 	}
 
 	public String passwordConversion(String string) {
@@ -304,9 +307,11 @@ public class GuiTeleporter extends GuiSonar {
 		super.drawGuiContainerBackgroundLayer(var1, var2, var3);
 		int pos = this.getLinkPosition();
 		for (int i = 0; i < 4; i++) {
-			drawTexturedModalRect(this.guiLeft + 86, this.guiTop + 19 + 12 -26 + (12 * i), 0, i == pos ? 178 : 166, 154, 12);
+			drawTexturedModalRect(this.guiLeft + 86, this.guiTop + 19 + 12 - 26 + (12 * i), 0, i == pos ? 178 : 166, 154, 12);
 		}
 		this.drawTexturedModalRect(scrollerLeft, scrollerStart + (int) ((float) (scrollerEnd - scrollerStart - 17) * this.currentScroll), 176, 0, 10, 15);
+		if (entity.passwordMatch)
+			this.drawTexturedModalRect(this.guiLeft + 162, this.guiTop + 65, 176, 15, 9, 14);
 	}
 
 	@SideOnly(Side.CLIENT)
