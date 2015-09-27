@@ -33,8 +33,8 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	public int plants, levelTicks, checkTicks, houseSize, growTicks, growTick;
 	public int plantsGrown;
 
-	public int requiredPlantEnergy = 20;
-	public int requiredGrowEnergy = 50;
+	public int requiredPlantEnergy = 60;
+	public int requiredGrowEnergy = 150;
 
 	public TileEntityFlawlessGreenhouse() {
 		super.storage = new EnergyStorage(500000, 500000);

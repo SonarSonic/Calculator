@@ -308,7 +308,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			}
 		}
 		*/
-		return receive[dir.flag];
+		return 0;
 	}
 
 	public int push(IFluxPoint point, IFluxPlug plug, int max, boolean simulate) {

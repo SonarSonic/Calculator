@@ -22,4 +22,8 @@ public class ExtractionChamberRecipes extends RecipeHelper {
 	    addRecipe("cobblestone", new ItemStack(Calculator.small_stone, 1), new ItemStack(Calculator.circuitDamaged));
 	}
 
+	@Override
+	public String getRecipeID() {
+		return "ExtractionChamber";
+	}
 }

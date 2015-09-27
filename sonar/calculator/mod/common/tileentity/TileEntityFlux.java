@@ -111,6 +111,9 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 		if (type == SyncType.SAVE) {
 			nbt.setInteger("networkID", networkID);
 			nbt.setInteger("DIMENSION", dimension);
+			if(playerName==null || playerName.isEmpty()){
+				playerName=" ";
+			}
 			nbt.setString("playerName", playerName);
 			nbt.setString("networkName", networkName);
 		} else if (type == SyncType.SYNC) {

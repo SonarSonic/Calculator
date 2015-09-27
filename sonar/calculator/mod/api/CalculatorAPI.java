@@ -1,6 +1,15 @@
 package sonar.calculator.mod.api;
 
+import gnu.trove.map.hash.THashMap;
+
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
 public class CalculatorAPI {
 
@@ -8,7 +17,58 @@ public class CalculatorAPI {
 
 	}
 
+	private static final List<UniqueIdentifier> multiplierBlacklist = new ArrayList();
+	private static final List<String> multiplierModBlacklist = new ArrayList();
+	private static final Map<String, List<Object[]>> recipes = new THashMap<String, List<Object[]>>();
 	public static final String VERSION = "1.7.10 - 1.0";
+
+	public static List<Object[]> getRecipes(String recipeID) {
+		List<Object[]> recipe = recipes.get(recipeID);
+		return recipe;
+	}
+	
+	/**
+	 * @param recipeID the id of the machine
+	 * @param obj inputs followed by outputs in any of the following formats 
+	 * @param [ItemStack, ItemStack[], OreDict String, OreStack]
+	 * 
+	 * <pre>
+	 * List of Compatible Recipe IDs
+	 * "AlgorithmSeparator"
+	 * "ExtractionChamber"
+	 * "PrecisionChamber"
+	 * "ProcessingChamber"
+	 * "ReassemblyChamber"
+	 * "RestorationChamber"
+	 * "StoneSeparator"
+	 * </pre>
+	 * 
+	 */
+	public static void addRecipe(String recipeID, Object... obj) {
+		if (recipes.get(recipeID) == null) {
+			recipes.put(recipeID, new ArrayList());
+		}
+		recipes.get(recipeID).add(obj);
+
+	}
+
+	public static List<UniqueIdentifier> getItemBlackList() {
+		return multiplierBlacklist;
+	}
+
+	public static List<String> getModBlackList() {
+		return multiplierModBlacklist;
+	}
+
+	/** adds a Item/Block to Atomic Multiplier blacklist */
+	public static void addItemStackToBlackList(ItemStack stack) {
+		multiplierBlacklist.add(GameRegistry.findUniqueIdentifierFor(stack.getItem()));
+	}
+
+	/** adds a mod to Atomic Multiplier blacklist */
+	public static void addModToBlackList(String string) {
+		multiplierModBlacklist.add(string);
+	}
 
 	/**
 	 * 

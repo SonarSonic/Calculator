@@ -27,4 +27,9 @@ public class AlgorithmSeparatorRecipes extends RecipeHelper {
 		
 	}
 
+	@Override
+	public String getRecipeID() {
+		return "AlgorithmSeparator";
+	}
+
 }

@@ -27,6 +27,7 @@ public class RecipeRegistry {
 	private static final List<Object[]> scientific = new ArrayList();
 	private static final List<Object[]> atomic = new ArrayList();
 	private static final List<Object[]> flawless = new ArrayList();
+	private static final Map<String, List<Object[]>> machines = new THashMap<String, List<Object[]>>();
 
 	public static void clearRecipes() {
 		blocked.clear();
@@ -34,6 +35,7 @@ public class RecipeRegistry {
 		scientific.clear();
 		atomic.clear();
 		flawless.clear();
+		machines.clear();
 	}
 
 	public static void registerRecipes() {
@@ -44,6 +46,7 @@ public class RecipeRegistry {
 		addFlawlessRecipes();
 	}
 
+	
 	/**
 	 * 
 	 * @param objects four parameters, see below
@@ -739,6 +742,10 @@ public class RecipeRegistry {
 
 			return positions;
 		}
+		@Override
+		public String getRecipeID() {
+			return "Calculator";
+		}
 	}
 
 	public static class ScientificRecipes extends RecipeHelper {
@@ -759,6 +766,11 @@ public class RecipeRegistry {
 				this.addRecipe(RecipeRegistry.scientific.get(i));
 			}
 
+		}
+
+		@Override
+		public String getRecipeID() {
+			return "Scientific";
 		}
 	}
 
@@ -781,6 +793,11 @@ public class RecipeRegistry {
 			}
 
 		}
+
+		@Override
+		public String getRecipeID() {
+			return "Atomic";
+		}
 	}
 
 	public static class FlawlessRecipes extends RecipeHelper {
@@ -801,6 +818,11 @@ public class RecipeRegistry {
 				this.addRecipe(RecipeRegistry.flawless.get(i));
 			}
 
+		}
+
+		@Override
+		public String getRecipeID() {
+			return "Flawless";
 		}
 	}
 

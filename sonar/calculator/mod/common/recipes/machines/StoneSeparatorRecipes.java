@@ -39,5 +39,9 @@ public class StoneSeparatorRecipes extends RecipeHelper {
 		addRecipe(Calculator.amethystLeaf, new ItemStack(Blocks.leaves,1,0), new ItemStack(Calculator.shard_amethyst,2));
 		addRecipe(Calculator.amethystLog, new ItemStack(Blocks.log,1,0), new ItemStack(Calculator.small_amethyst,1));
 	}
+	@Override
+	public String getRecipeID() {
+		return "StoneSeparator";
+	}
 
 }

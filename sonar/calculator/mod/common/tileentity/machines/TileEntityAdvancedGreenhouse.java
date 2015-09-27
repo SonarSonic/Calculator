@@ -2,6 +2,9 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.List;
 
+import com.InfinityRaider.AgriCraft.api.v1.APIv1;
+import com.InfinityRaider.AgriCraft.api.v1.SeedRequirementStatus;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.init.Blocks;
@@ -34,8 +37,8 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 	public int stackPlanks = 44;
 	public int stackGlass = 94;
 
-	public int requiredPlantEnergy = 20;
-	public int requiredGrowEnergy = 50;
+	public int requiredPlantEnergy = 60;
+	public int requiredGrowEnergy = 150;
 	public int requiredBuildEnergy = (stackStairs + stackLog + stackPlanks + stackGlass) * 100;
 
 	public TileEntityAdvancedGreenhouse() {
@@ -94,12 +97,22 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		IPlanter planter = PlanterRegistry.getPlanter(stack);
 		Block crop = planter.getCropFromStack(stack);
 		int meta = planter.getMetaFromStack(stack);
-		if (crop == null) {
+		if (crop == null || Calculator.getAgricraftAPI() != null && ((APIv1) Calculator.getAgricraftAPI()).getSeedStats(stack) != null) {
 			return false;
 		}
 		for (int Z = -3; Z <= 3; Z++) {
 			for (int X = -3; X <= 3; X++) {
-				if (canPlant(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, slot, ((IPlantable) stack.getItem()))) {
+				if (Calculator.getAgricraftAPI() != null) {
+
+					if (((APIv1) Calculator.getAgricraftAPI()).canPlaceCrops(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, stack)) {
+
+						((APIv1) Calculator.getAgricraftAPI()).placeCrops(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, slots[slot]);
+
+					} else if (((APIv1) Calculator.getAgricraftAPI()).canApplySeeds(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, stack) == SeedRequirementStatus.CAN_APPLY) {
+						((APIv1) Calculator.getAgricraftAPI()).applySeeds(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, slots[slot]);
+
+					}
+				} else if (canPlant(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, slot, ((IPlantable) stack.getItem()))) {
 
 					this.worldObj.setBlock(xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, Blocks.air, 0, 1 | 2);
 
@@ -142,8 +155,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		}
 		if (this.levelTicks == 20) {
 			this.levelTicks = 0;
-			InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, 0, 0,
-					new PlantableFilter());
+			InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, 0, 0, new PlantableFilter());
 			gasLevels();
 		}
 	}
@@ -256,8 +268,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 	public boolean hasRequiredStacks() {
 		if (slots[0] != null && slots[1] != null && slots[2] != null && slots[3] != null && slots[4] != null && slots[5] != null && slots[6] != null) {
 			if (slots[0].stackSize >= stackLog && checkLog(Block.getBlockFromItem(slots[0].getItem()))) {
-				if (slots[1].stackSize + slots[2].stackSize + slots[3].stackSize >= stackStairs && checkStairs(Block.getBlockFromItem(slots[1].getItem()))
-						&& checkStairs(Block.getBlockFromItem(slots[2].getItem())) && checkStairs(Block.getBlockFromItem(slots[3].getItem()))) {
+				if (slots[1].stackSize + slots[2].stackSize + slots[3].stackSize >= stackStairs && checkStairs(Block.getBlockFromItem(slots[1].getItem())) && checkStairs(Block.getBlockFromItem(slots[2].getItem())) && checkStairs(Block.getBlockFromItem(slots[3].getItem()))) {
 					if (slots[4].stackSize + slots[5].stackSize >= stackGlass && checkGlass(Block.getBlockFromItem(slots[4].getItem())) && checkGlass(Block.getBlockFromItem(slots[5].getItem()))) {
 						if (slots[6].stackSize >= stackPlanks && checkPlanks(Block.getBlockFromItem(slots[6].getItem()))) {
 							return true;
@@ -587,24 +598,18 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		for (int i = -1; i <= 9; i++) {
 			for (int s = 3; s <= 7; s++) {
 
-				if (getStairs(w.getBlock(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs")))
-						+ (fZ * i)))) {
+				if (getStairs(w.getBlock(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i)))) {
 					if (!check) {
-						setStairs(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i),
-								type("r"), 2);
+						setStairs(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("r"), 2);
 					}
-					return new FailedCoords(false, x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z
-							+ (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
+					return new FailedCoords(false, x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 
 				}
-				if (getStairs(w.getBlock(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs")))
-						+ (fZ * i)))) {
+				if (getStairs(w.getBlock(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i)))) {
 					if (!check) {
-						setStairs(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s,
-								z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("l"), 2);
+						setStairs(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("l"), 2);
 					}
-					return new FailedCoords(false, x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z
-							+ (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
+					return new FailedCoords(false, x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
 				}
 				if (getPlanks(w.getBlock(x + (fX * i), y + 7, zCoord + +(fZ * i)))) {
 					if (!check) {
@@ -1036,8 +1041,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 				return logs;
 			}
 			if (!(slots[1].stackSize + slots[2].stackSize + slots[3].stackSize >= stackStairs)) {
-				String stairs = FontHelper.translate("greenhouse.requires") + " " + (stackStairs - slots[1].stackSize - slots[2].stackSize - slots[3].stackSize) + " "
-						+ FontHelper.translate("greenhouse.moreStairs");
+				String stairs = FontHelper.translate("greenhouse.requires") + " " + (stackStairs - slots[1].stackSize - slots[2].stackSize - slots[3].stackSize) + " " + FontHelper.translate("greenhouse.moreStairs");
 				return stairs;
 			}
 			if (!(slots[4].stackSize + slots[5].stackSize >= stackGlass)) {

@@ -12,6 +12,10 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.InfinityRaider.AgriCraft.api.API;
+import com.InfinityRaider.AgriCraft.api.APIBase;
+import com.InfinityRaider.AgriCraft.api.v1.APIv1;
+
 import sonar.calculator.mod.api.CalculatorAPI;
 import sonar.calculator.mod.common.entities.CalculatorThrow;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
@@ -28,6 +32,7 @@ import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.network.SonarPackets;
 import sonar.core.utils.SonarAPI;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -124,15 +129,25 @@ public class Calculator {
 
 		calculatorProxy.registerRenderThings();
 		logger.info("Registered Renderers");
-
 		PlanterRegistry.registerPlanters();
-		;
 		logger.info("Registered Planters");
+		
+		CalculatorAPI.addRecipe("StoneSeparator", new ItemStack(Items.apple, 4), new ItemStack(Items.apple, 2), new ItemStack(Items.apple, 2));
 
 	}
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
+	}
+
+	public static Object getAgricraftAPI() {
+		if (Loader.isModLoaded("AgriCraft")) {
+			APIBase api = API.getAPI(1);
+			if (api.getStatus().isOK() && api.getVersion() == 1) {
+				return api;
+			}
+		}
+		return null;
 	}
 
 	@EventHandler

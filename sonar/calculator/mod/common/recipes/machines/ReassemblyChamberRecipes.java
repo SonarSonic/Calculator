@@ -38,4 +38,8 @@ public class ReassemblyChamberRecipes extends RecipeHelper {
 	  public void addCircuit(Item input, Item output, int par) {
 		    addRecipe(new ItemStack(input, 1, par), new ItemStack(output, 1, par));
 	}
+	@Override
+	public String getRecipeID() {
+		return "ReassemblyChamber";
+	}
 }

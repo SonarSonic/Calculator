@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.InfinityRaider.AgriCraft.api.v1.APIv1;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -24,6 +26,7 @@ import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.block.CalculatorCrops;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
@@ -49,6 +52,9 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		public boolean matches(ItemStack stack) {
 			if (stack != null && stack.getItem() instanceof IPlantable) {
 				return true;
+			}
+			if (Calculator.getAgricraftAPI() != null) {
+				return ((APIv1) Calculator.getAgricraftAPI()).getSeedStats(stack) != null;
 			}
 			return false;
 		}
@@ -169,35 +175,39 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 	}
 
 	public void harvest(World world, int x, int y, int z, IGrowable target) {
+		ArrayList<ItemStack> array = new ArrayList();
+		
 		if (!target.func_149851_a(world, x, y, z, world.isRemote)) {
-			ArrayList<ItemStack> array = world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-			if (!world.isRemote) {
-				if (array != null) {
+			array = world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+		} else if (Calculator.getAgricraftAPI() != null) {
+			((APIv1) Calculator.getAgricraftAPI()).harvest(world, x, y, z);
+		}
+		if (!world.isRemote) {
+			if (array != null) {
 
-					if (!this.worldObj.isRemote && this.type == 3) {
-						this.plantsHarvested++;
-					}
-					for (ItemStack stack : array) {
-						if (stack != null) {
-							ItemStack add = InventoryHelper.addItems(this, stack, 0, new PlantableFilter());
+				if (this.type == 3)
+					this.plantsHarvested++;
 
-							TileEntity tile = this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ));
-							if (add == null) {
+				for (ItemStack stack : array) {
+					if (stack != null) {
+						ItemStack add = InventoryHelper.addItems(this, stack, 0, new PlantableFilter());
+
+						TileEntity tile = this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ));
+						if (add == null) {
+							world.setBlockToAir(x, y, z);
+						} else if (tile != null) {
+							ItemStack harvest = InventoryHelper.addItems(tile, stack, 0, null);
+							if (harvest == null) {
 								world.setBlockToAir(x, y, z);
-							} else if (tile != null) {
-								ItemStack harvest = InventoryHelper.addItems(tile, stack, 0, null);
-								if (harvest == null) {
-									world.setBlockToAir(x, y, z);
-								} else {
-									EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), harvest);
-									world.spawnEntityInWorld(drop);
-									world.setBlockToAir(x, y, z);
-								}
 							} else {
-								EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), add);
+								EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), harvest);
 								world.spawnEntityInWorld(drop);
 								world.setBlockToAir(x, y, z);
 							}
+						} else {
+							EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), add);
+							world.spawnEntityInWorld(drop);
+							world.setBlockToAir(x, y, z);
 						}
 					}
 				}
@@ -240,6 +250,7 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 							}
 
 						}
+
 					} else {
 						if (type == EnumPlantType.Crop) {
 							if (target.canPlaceBlockAt(worldObj, x, y, z)) {
@@ -256,6 +267,7 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 
 							}
 						}
+
 					}
 				}
 			}
@@ -587,6 +599,7 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		}
 		return -1;
 	}
+
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SYNC || type == SyncType.SAVE) {
@@ -613,7 +626,7 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip){
+	public List<String> getWailaInfo(List<String> currenttip) {
 		DecimalFormat dec = new DecimalFormat("##.##");
 		int oxygen = getOxygen();
 		int carbon = getCarbon();
@@ -625,6 +638,6 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 			String oxygenString = FontHelper.translate("greenhouse.oxygen") + ": " + dec.format(oxygen * 100 / 100000) + "%";
 			currenttip.add(oxygenString);
 		}
-		return currenttip;		
+		return currenttip;
 	}
 }

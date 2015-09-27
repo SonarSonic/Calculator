@@ -34,8 +34,8 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 	public int stackPlanks = 30;
 	public int stackGlass = 14;
 
-	public int requiredPlantEnergy = 20;
-	public int requiredGrowEnergy = 50;
+	public int requiredPlantEnergy = 60;
+	public int requiredGrowEnergy = 150;
 	public int requiredBuildEnergy = (stackStairs + stackLog + stackPlanks + stackGlass) * 100;
 
 	public TileEntityBasicGreenhouse() {
