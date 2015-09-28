@@ -1,0 +1,16 @@
+[
+{
+  "modid": "Calculator",
+  "name": "Calculator Mod",
+  "description": "A Mod that does things with calculators, seriously it's cool and stuff",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://www.curse.com/mc-mods/minecraft/225104-calculator",
+  "updateUrl": "http://www.curse.com/mc-mods/minecraft/225104-calculator",
+  "authors": ["Ollie Lansdell (SonarSonic)"],
+  "credits": "",
+  "logoFile": "assets/calculator/textures/logo.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
