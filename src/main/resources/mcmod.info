@@ -1,16 +1,20 @@
 [
-{
-  "modid": "Calculator",
-  "name": "Calculator Mod",
-  "description": "A Mod that does things with calculators, seriously it's cool and stuff",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "http://www.curse.com/mc-mods/minecraft/225104-calculator",
-  "updateUrl": "http://www.curse.com/mc-mods/minecraft/225104-calculator",
-  "authors": ["Ollie Lansdell (SonarSonic)"],
-  "credits": "",
-  "logoFile": "assets/calculator/textures/logo.png",
+{"modid": "Calculator",
+  "name": "Calculator",
+  "description": "Whoever said Calculators were boring?! Awesome Calculators, crazy items, mind-blowing machines and hundreds of hidden recipes. 
+Change the way you craft, change the way you play, change the way you think.
+
+This mod is currently still in development and I am welcoming new ideas for additions to the mod.
+
+Thank you for trying the Calculator Mod",
+  "version": "1.8.4",
+  "mcversion": "1.7.10",
+
+  "updateUrl": "http://minecraft.curseforge.com/mc-mods/225104-calculator/files/latest",
+  "authors": ["SonarSonic"],
+  "credits": "Created by Oliver Lansdell (SonarSonic)",
+  "logoFile": "logo_calculator.png",
   "screenshots": [],
-  "dependencies": []
-}
+  "dependencies": ["IC2","IC2API","CoFHLib","CoFHCore","CoFHAPI","WailaAPI", "Agricraft"]
+,"useDependencyInformation": "true"}
 ]
