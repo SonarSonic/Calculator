@@ -1,0 +1,3 @@
+[submodule "src/main/api"]
+	path = src/main/api
+	url = https://github.com/SonarSonic/Sonar-Core

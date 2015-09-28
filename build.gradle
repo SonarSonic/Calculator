@@ -17,37 +17,87 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.8.4"
-group= "sonar.calculator.mod.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "Calculator-1.7.10"
+version = "${minecraft_version}-${mod_version}"
+group= "sonar.calculator.mod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "Calculator"
 
 minecraft {
-    version = "1.7.10-10.13.4.1492-1.7.10"
+    version = "${minecraft_version}-${forge_version}"
     runDir = "eclipse"
+
+    replace "@VERSION@", project.version
+    replaceIn "Calculator.java"
+}
+
+repositories {
+        maven { // The repo from which to get waila
+            name "Mobius Repo"
+            url "http://mobiusstrip.eu/maven"
+        }
+        maven { // the repo from which to get NEI and stuff 
+            name 'CB Repo'
+            url "http://chickenbones.net/maven/"
+        }
+        maven {
+            name = "ic2"
+            url = "http://maven.ic2.player.to/"
+        }
+        ivy {
+            name 'AgriCraft'
+            artifactPattern "http://addons-origin.cursecdn.com/files/${agricraft_cf}/[module]-[revision].[ext]"
+        }
+        ivy {
+            name "CoFHLib"
+            artifactPattern "http://addons-origin.cursecdn.com/files/${cofhlib_cf}/[module]-[revision].[ext]"
+        }
+        ivy {
+            name "CoFHCore"
+            artifactPattern "http://addons-origin.cursecdn.com/files/${cofhcore_cf}/[module]-[revision].[ext]"
+        }
 }
 
 dependencies {
-compile files('lib/Waila-1.5.10_1.7.10.jar')
-compile files('lib/NotEnoughItems-1.7.10-1.0.5.110-dev.jar')
+    compile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
+    compile "mcp.mobius.waila:Waila:${waila_version}_${minecraft_version}:dev"
+    compile "codechicken:CodeChickenLib:${minecraft_version}-${ccl_version}:dev"
+    compile "codechicken:CodeChickenCore:${minecraft_version}-${ccc_version}:dev"    
+    compile "codechicken:NotEnoughItems:${minecraft_version}-${nei_version}:dev"
+
+    compile group: 'AgriCraft', name: 'AgriCraft', version: "${minecraft_version}-${agricraft_version}-${minecraft_version}", ext: 'jar'
+
+    compile group: 'cofh', name: 'CoFHLib', version: "[${minecraft_version}]${cofhlib_version}-dev", ext: 'jar'
+    compile group: 'cofh', name: 'CoFHCore', version: "[${minecraft_version}]${cofhcore_version}-dev", ext: 'jar'
 
 }
 
-processResources
-{
-    // this will ensure that this task is redone when the versions change.
+sourceSets {
+    main {
+        java {
+            srcDirs += 'src/main/java/'
+            srcDirs += 'src/main/api/'
+        }
+
+        resources {
+            srcDir "src/main/resources/"
+            include "mcmod.info"
+            include "CoFH_at.cfg"
+        }
+    }
+}
+
+processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        include '**/*.info'
+        include '**/*.properties'
+
+        expand 'version': project.version, 'mcversion': project.minecraft.version
     }
-        
-    // copy everything else, thats not the mcmod.info
+
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+        exclude '**/*.info'
+        exclude '**/*.properties'
     }
 }
