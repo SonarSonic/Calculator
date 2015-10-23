@@ -5,6 +5,7 @@ import gnu.trove.map.hash.THashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.player.EntityPlayer;
@@ -71,10 +72,10 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 	}
 
 	public FlawlessCalc() {
-		capacity = CalculatorConfig.flawlessEnergy;
-		maxReceive = CalculatorConfig.flawlessEnergy;
-		maxExtract = CalculatorConfig.flawlessEnergy;
-		maxTransfer = CalculatorConfig.flawlessEnergy;
+		capacity = 1000000;
+		maxReceive = 1000000;
+		maxExtract = 1000000;
+		maxTransfer = 1000000;
 	}
 
 	private static final int FlawlessCraft = 0;
@@ -148,10 +149,10 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 					if (!world.isRemote && player.capabilities.isCreativeMode) {
 						explosion(stack, world, player);
 
-					} else if (getEnergyStored(stack) >= 1000) {
+					} else if (getEnergyStored(stack) >= 10000) {
 						explosion(stack, world, player);
-						this.extractEnergy(stack, 1000, false);
-					} else if ((getEnergyStored(stack) <= 1000) && (!world.isRemote)) {
+						this.extractEnergy(stack, 10000, false);
+					} else if ((getEnergyStored(stack) <= 10000) && (!world.isRemote)) {
 						player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("energy.notEnough")));
 					}
 				} else {
@@ -162,10 +163,10 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 				if (player.capabilities.isCreativeMode) {
 					ender(world, player);
 
-				} else if (getEnergyStored(stack) >= 1000) {
+				} else if (getEnergyStored(stack) >= 10000) {
 					ender(world, player);
-					this.extractEnergy(stack, 1000, false);
-				} else if ((getEnergyStored(stack) <= 1000) && (!world.isRemote)) {
+					this.extractEnergy(stack, 10000, false);
+				} else if ((getEnergyStored(stack) <= 10000) && (!world.isRemote)) {
 					player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("energy.notEnough")));
 				}
 
@@ -191,9 +192,9 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 			if (stack.hasTagCompound()) {
 				if (mode == FlawlessCalc.Teleport) {
 					if ((world.getBlock(x, y, z) == Calculator.stablestoneBlock) && (!stack.getTagCompound().getBoolean("Tele"))) {
-						stack.getTagCompound().setDouble("TeleX", x);
+						stack.getTagCompound().setDouble("TeleX", x - 0.5);
 						stack.getTagCompound().setDouble("TeleY", y + 1);
-						stack.getTagCompound().setDouble("TeleZ", z);
+						stack.getTagCompound().setDouble("TeleZ", z - 0.5);
 						stack.getTagCompound().setBoolean("Tele", true);
 						stack.getTagCompound().setInteger("Dimension", player.dimension);
 						if (!world.isRemote) {
@@ -203,9 +204,9 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 						}
 
 					} else if ((world.getBlock(x, y, z) == Calculator.stablestoneBlock) && (stack.getTagCompound().getBoolean("Tele")) && (world.getBlock((int) stack.getTagCompound().getDouble("TeleX"), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) stack.getTagCompound().getDouble("TeleZ")) != Calculator.stablestoneBlock)) {
-						stack.getTagCompound().setDouble("TeleX", x);
+						stack.getTagCompound().setDouble("TeleX", x + 0.5);
 						stack.getTagCompound().setDouble("TeleY", y + 1);
-						stack.getTagCompound().setDouble("TeleZ", z);
+						stack.getTagCompound().setDouble("TeleZ", z + 0.5);
 						stack.getTagCompound().setBoolean("Tele", true);
 						stack.getTagCompound().setInteger("Dimension", player.dimension);
 						if (!world.isRemote) {
@@ -223,26 +224,21 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 	public void teleport(EntityPlayer player, World world, ItemStack stack) {
 		if (player.dimension == stack.getTagCompound().getInteger("Dimension")) {
 			if (stack.getTagCompound().getBoolean("Tele")) {
-				if (world.getBlock((int) stack.getTagCompound().getDouble("TeleX"), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) stack.getTagCompound().getDouble("TeleZ")) == Calculator.stablestoneBlock) {
+				Block target = world.getBlock((int) (stack.getTagCompound().getDouble("TeleX") - 0.5), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) (stack.getTagCompound().getDouble("TeleZ") - 0.5));
+				if (target == Calculator.stablestoneBlock) {
 					player.setPositionAndUpdate(stack.getTagCompound().getDouble("TeleX"), stack.getTagCompound().getDouble("TeleY"), stack.getTagCompound().getDouble("TeleZ"));
 
+				} else {
+					player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("calc.stableStone")));
 				}
 
-				if ((world.getBlock((int) stack.getTagCompound().getDouble("TeleX"), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) stack.getTagCompound().getDouble("TeleZ")) != Calculator.stablestoneBlock) && (!world.isRemote)) {
-					player.addChatComponentMessage(new ChatComponentText(
-
-					FontHelper.translate("calc.stableStone")));
-				}
-
-			} else if ((!stack.getTagCompound().getBoolean("Tele")) && (!world.isRemote)) {
+			} else if (!world.isRemote) {
 				player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("calc.noPosition")));
 			}
 		}
 
-		if (player.dimension != stack.getTagCompound().getInteger("Dimension")) {
-			if (!world.isRemote) {
-				player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("calc.dimension")));
-			}
+		if (!world.isRemote && player.dimension != stack.getTagCompound().getInteger("Dimension")) {
+			player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("calc.dimension")));
 		}
 	}
 

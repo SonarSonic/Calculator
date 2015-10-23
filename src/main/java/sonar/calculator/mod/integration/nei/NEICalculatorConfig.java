@@ -127,8 +127,6 @@ public class NEICalculatorConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(Calculator.cropBroccoliPlant));
 		API.hideItem(new ItemStack(Calculator.cropPrunaePlant));
 		API.hideItem(new ItemStack(Calculator.cropFiddledewPlant));
-		API.hideItem(new ItemStack(Calculator.leaves));
-		API.hideItem(new ItemStack(Calculator.diamondleaves));
 		API.hideItem(new ItemStack(Calculator.conductormastBlock));
 		API.hideItem(new ItemStack(Calculator.scarecrowBlock));
 		API.hideItem(new ItemStack(Calculator.gas_lantern_on));

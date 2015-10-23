@@ -13,7 +13,7 @@ import sonar.core.utils.helpers.FontHelper;
 public class NutritionHelper {
 
 	public static ItemStack chargeHunger(ItemStack stack, World world, EntityPlayer player, String tag) {
-		
+
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
@@ -88,19 +88,15 @@ public class NutritionHelper {
 		}
 		Block block = world.getBlock(x, y, z);
 		if (block == Calculator.amethystLeaf) {
-			points += 1;
-			if (!world.isRemote) {
-				world.setBlock(x, y, z, Blocks.air);
-			}
+			int meta = world.getBlockMetadata(x, y, z);
+			if (meta > 2) {
+				points += 1;
+				if (!world.isRemote) {
+					world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+				}
 
-			nbtData.setInteger(tag, points);
-		} else if (block == Calculator.amethystLog) {
-			points += 2;
-			if (!world.isRemote) {
-				world.setBlock(x, y, z, Blocks.air);
+				nbtData.setInteger(tag, points);
 			}
-
-			nbtData.setInteger(tag, points);
 		}
 		return true;
 	}
@@ -122,17 +118,14 @@ public class NutritionHelper {
 
 			Block block = world.getBlock(x, y, z);
 			if (block == Calculator.tanzaniteLeaf) {
-				int points1 = ((points + 1));
-				if (!world.isRemote) {
-					world.setBlock(x, y, z, Blocks.air);
+				int meta = world.getBlockMetadata(x, y, z);
+				if (meta > 2) {
+					int points1 = ((points + 1));
+					if (!world.isRemote) {
+						world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+					}
+					nbtData.setInteger(tag, points1);
 				}
-				nbtData.setInteger(tag, points1);
-			} else if (block == Calculator.tanzaniteLog) {
-				int points2 = ((points + 2));
-				if (!world.isRemote) {
-					world.setBlock(x, y, z, Blocks.air);
-				}
-				nbtData.setInteger(tag, points2);
 			}
 		}
 		return true;

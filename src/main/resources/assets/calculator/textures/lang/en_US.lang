@@ -504,3 +504,5 @@ tile.MagneticFlux.name=Magnetic Flux
 tile.DockingStation.name=Docking Station
 docking.noCalculator=No Calculator is mounted
 tile.CalculatorTeleporter.name=Teleporter
+tile.StoneAssimilator.name=Stone Assimilator
+tile.AlgorithmAssimilator.name=Algorithm Assimilator

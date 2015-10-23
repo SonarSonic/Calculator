@@ -49,7 +49,7 @@ public class GuiAtomicMultiplier extends GuiContainer {
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
 		int changedEnergy = this.entity.storage.getEnergyStored() / 100000;
-		int newEnergy = changedEnergy * 126 / 9000;
+		int newEnergy = changedEnergy * 126 / 15000;
 		drawTexturedModalRect(this.guiLeft + 41, this.guiTop + 65, 0, 166, newEnergy, 10);
 
 		int c = this.entity.cookTime * 18 / this.entity.furnaceSpeed;

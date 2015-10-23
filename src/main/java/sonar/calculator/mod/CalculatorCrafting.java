@@ -110,7 +110,7 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(hungerprocessor, 1), new Object[] { "ABA", "BCB", "ABA", 'A', large_amethyst, 'B', redstone_ingot, 'C', advanced_assembly });
 		addShaped(new ItemStack(healthprocessor, 1), new Object[] { "ABA", "BCB", "ABA", 'A', large_tanzanite, 'B', flawlessdiamond, 'C', advanced_assembly });
 		addShaped(new ItemStack(analysingChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', reinforced_iron_block, 'B', weakeneddiamond, 'C', advanced_assembly });
-		addShaped(new ItemStack(atomicMultiplier, 1), new Object[] { "AEA", "DBD", "ACA", 'A', reinforced_iron_block, 'B', atomic_assembly, 'C', advancedPowerCube, 'D', purifiedobsidianBlock, 'E', redstone_ingot });
+		addShaped(new ItemStack(atomicMultiplier, 1), new Object[] { "EEE", "DBD", "ACA", 'A', fluxPlug, 'B', atomic_assembly, 'C', fluxController, 'D', teleporter, 'E', calculatorplug });
 		addShaped(new ItemStack(fluxController, 1), new Object[] { "ABA", "A A", "ACA", 'A', reinforcedstoneBlock, 'B', enddiamond, 'C', stablestoneBlock});
 
 		// generators
@@ -178,6 +178,9 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(magneticFlux, 1), new Object[] { " D ", "RFR", "SSS", 'S', stablestoneBlock, 'R', redstone_ingot, 'F', fluxPoint, 'D', flawlessfirediamond });
 		addShaped(new ItemStack(dockingStation, 1), new Object[] { " R ", "APA", "RRR", 'R', reinforcedstoneBlock, 'P', powerCube, 'A', calculator_assembly});
 		addShaped(new ItemStack(teleporter, 2), new Object[] { "SRS", "RFR", "SDS", 'R', reinforcedstoneBlock, 'S', stablestoneBlock, 'D', enddiamond, 'F', fluxPlug});
+		addShaped(new ItemStack(weatherController, 1), new Object[] { "   ", "DSD", "RRR", 'S', Items.nether_star, 'D', electricdiamond, 'R', rainSensor});
+		addShaped(new ItemStack(stoneAssimilator, 1), new Object[] { " S ", "IPI", " I ", 'P', stoneSeperator, 'I', reinforcedstoneBlock, 'S', sickle});
+		addShaped(new ItemStack(algorithmAssimilator, 1), new Object[] { " S ", "IPI", " I ", 'P', algorithmSeperator, 'I', reinforced_iron_block, 'S', sickle});
 
 		
 	}

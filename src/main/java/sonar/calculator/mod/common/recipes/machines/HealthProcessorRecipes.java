@@ -15,25 +15,25 @@ public class HealthProcessorRecipes extends ValueHelper {
 
 	@Override
 	public void addRecipes() {
-		addRecipe(Items.blaze_rod, 100);
-		addRecipe(Items.bone, 2);
-		addRecipe(Items.blaze_powder, 50);
-		addRecipe(Items.ender_pearl, 200);
-		addRecipe(Items.feather, 2);
-		addRecipe(Items.egg, 2);
-		addRecipe(new ItemStack(Items.dye, 1), 6);
-		addRecipe(Items.leather, 4);
-		addRecipe(Items.ghast_tear, 250);
-		addRecipe(Items.string, 2);
-		addRecipe(Items.gunpowder, 4);
-		addRecipe(Items.nether_star, 5000);
-		addRecipe(Items.rotten_flesh, 2);
-		addRecipe(Items.spider_eye, 4);
-		addRecipe(Items.slime_ball, 20);
-		addRecipe(Items.magma_cream, 50);
-		addRecipe(Items.fermented_spider_eye, 8);
-		addRecipe(Blocks.wool, 6);
-		addRecipe(Items.golden_apple, 250);
+		addRecipe(Items.blaze_rod, 50);
+		addRecipe(Items.bone, 1);
+		addRecipe(Items.blaze_powder, 25);
+		addRecipe(Items.ender_pearl, 50);
+		addRecipe(Items.feather, 1);
+		addRecipe(Items.egg, 1);
+		addRecipe(new ItemStack(Items.dye, 1), 3);
+		addRecipe(Items.leather, 2);
+		addRecipe(Items.ghast_tear, 150);
+		addRecipe(Items.string, 1);
+		addRecipe(Items.gunpowder, 2);
+		addRecipe(Items.nether_star, 500);
+		addRecipe(Items.rotten_flesh, 1);
+		addRecipe(Items.spider_eye, 2);
+		addRecipe(Items.slime_ball, 10);
+		addRecipe(Items.magma_cream, 25);
+		addRecipe(Items.fermented_spider_eye, 4);
+		addRecipe(Blocks.wool, 3);
+		addRecipe(Items.golden_apple, 150);
 	}
 
 }

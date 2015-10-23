@@ -69,12 +69,10 @@ public class CalculatorOreDict extends Calculator {
 		OreDictionary.registerOre("stairWood", diamondStairs);
 		
 		//leaves
-		OreDictionary.registerOre("treeLeaves", leaves);	
 		OreDictionary.registerOre("calculatorLeaves", amethystLeaf);	
 		OreDictionary.registerOre("calculatorLeaves", tanzaniteLeaf);
 		OreDictionary.registerOre("calculatorLeaves", pearLeaf);
 		OreDictionary.registerOre("calculatorLeaves", diamondLeaf);	
-		OreDictionary.registerOre("treeLeaves", diamondleaves);	
 		
 		//saplings
 		OreDictionary.registerOre("treeSapling", tanzaniteSapling);

@@ -116,6 +116,7 @@ public class RecipeRegistry {
 
 		registerCalculatorRecipe(Calculator.baby_grenade, Calculator.grenadecasing, Blocks.tnt, false);
 		registerCalculatorRecipe(Calculator.reinforcedstoneBlock, "cobblestone", "plankWood", false);
+		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBlock,4), "cobblestone", "logWood", false);
 
 		registerCalculatorRecipe(Calculator.wrench, Calculator.reinforced_sword, Calculator.reinforced_pickaxe, false);
 		registerCalculatorRecipe(Calculator.reinforceddirtBlock, Blocks.dirt, "plankWood", false);
@@ -555,6 +556,7 @@ public class RecipeRegistry {
 		registerAtomicRecipe("ingotIron", "dustRedstone", "ingotIron", Calculator.itemScientificCalculator);
 		registerAtomicRecipe("gemDiamond", Calculator.atomic_binder, "gemDiamond", Calculator.flawlessdiamond);
 		registerAtomicRecipe("gemDiamond", Items.blaze_rod, "gemDiamond", Calculator.flawlessfirediamond);
+		registerAtomicRecipe(Items.blaze_rod, Calculator.flawlessdiamond, Items.blaze_rod, Calculator.flawlessfirediamond);
 		registerAtomicRecipe(Blocks.end_stone, Calculator.electricdiamond, Blocks.obsidian, Calculator.enddiamond);
 		registerAtomicRecipe(Calculator.AmethystSapling, Blocks.end_stone, Calculator.tanzaniteSapling, Calculator.PearSapling);
 		registerAtomicRecipe(Calculator.itemScientificCalculator, Calculator.atomic_binder, "ingotRedstone", Calculator.itemAdvancedTerrainModule);
@@ -572,7 +574,8 @@ public class RecipeRegistry {
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Blocks.chest, Calculator.reinforcediron_ingot, Calculator.itemStorageModule);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.electricdiamond, Calculator.reinforcediron_ingot, Calculator.transmitter);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.flawlessfirediamond, Calculator.reinforcediron_ingot, new ItemStack(Calculator.weatherStation, 4));
-		registerAtomicRecipe(Calculator.electricdiamond, Calculator.rainSensor, Calculator.electricdiamond, Calculator.weatherController);
+		
+
 	}
 
 	private static void addFlawlessRecipes() {

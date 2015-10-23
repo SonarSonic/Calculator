@@ -10,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.client.models.ModelAssimilator;
 import sonar.calculator.mod.client.models.ModelAtomicMultiplier;
 import sonar.calculator.mod.client.models.ModelConductorMast;
 import sonar.calculator.mod.client.models.ModelFluxController;
@@ -253,6 +254,17 @@ public class RenderHandlers {
 
 			}
 			GL11.glPopMatrix();
+		}
+		
+	}
+	public static class AlgorithmAssimilator extends SonarTERender {
+		public AlgorithmAssimilator() {
+			super(new ModelAssimilator(), "Calculator:textures/model/algorithm_assimilator.png");
+		}
+	}
+	public static class StoneAssimilator extends SonarTERender {
+		public StoneAssimilator() {
+			super(new ModelAssimilator(), "Calculator:textures/model/stone_assimilator.png");
 		}
 	}
 }

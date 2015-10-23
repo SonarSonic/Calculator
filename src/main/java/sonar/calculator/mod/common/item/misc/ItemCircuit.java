@@ -39,14 +39,14 @@ public class ItemCircuit extends SonarItem implements IStability {
 		NBTTagCompound nbtData = stack.getTagCompound();
 		if (stack != null) {
 			if (nbtData == null) {
-				int energy = 1 + (int) (Math.random() * 100.0D);
-				int item1 = 1 + (int) (Math.random() * 25.0D);
-				int item2 = 1 + (int) (Math.random() * 50.0D);
-				int item3 = 1 + (int) (Math.random() * 500.0D);
-				int item4 = 1 + (int) (Math.random() * 1000.0D);
-				int item5 = 1 + (int) (Math.random() * 5000.0D);
-				int item6 = 1 + (int) (Math.random() * 10000.0D);
-				int stable = 1 + (int) (Math.random() * 4.0D);
+				int energy = 1 + (int) (Math.random() * 200.0D);
+				int item1 = 1 + (int) (Math.random() * 50.0D);
+				int item2 = 1 + (int) (Math.random() * 100.0D);
+				int item3 = 1 + (int) (Math.random() * 1000.0D);
+				int item4 = 1 + (int) (Math.random() * 2000.0D);
+				int item5 = 1 + (int) (Math.random() * 10000.0D);
+				int item6 = 1 + (int) (Math.random() * 20000.0D);
+				int stable = 1 + (int) (Math.random() * 6.0D);
 				nbtData = new NBTTagCompound();
 				nbtData.setInteger("Energy", energy);
 				nbtData.setInteger("Item1", item1);
@@ -64,30 +64,7 @@ public class ItemCircuit extends SonarItem implements IStability {
 
 	public void onUpdate(ItemStack stack, World world, Entity entity, int par, boolean bool) {
 		if (stack.getTagCompound() == null && !stack.hasTagCompound()) {
-			NBTTagCompound nbtData = stack.getTagCompound();
-			if (stack != null) {
-				if (nbtData == null) {
-					int energy = 1 + (int) (Math.random() * 100.0D);
-					int item1 = 1 + (int) (Math.random() * 25.0D);
-					int item2 = 1 + (int) (Math.random() * 50.0D);
-					int item3 = 1 + (int) (Math.random() * 500.0D);
-					int item4 = 1 + (int) (Math.random() * 1000.0D);
-					int item5 = 1 + (int) (Math.random() * 5000.0D);
-					int item6 = 1 + (int) (Math.random() * 10000.0D);
-					int stable = 1 + (int) (Math.random() * 4.0D);
-					nbtData = new NBTTagCompound();
-					nbtData.setInteger("Energy", energy);
-					nbtData.setInteger("Item1", item1);
-					nbtData.setInteger("Item2", item2);
-					nbtData.setInteger("Item3", item3);
-					nbtData.setInteger("Item4", item4);
-					nbtData.setInteger("Item5", item5);
-					nbtData.setInteger("Item6", item6);
-					nbtData.setInteger("Stable", stable);
-					stack.setTagCompound(nbtData);
-				}
-
-			}
+			setData(stack);
 		}
 	}
 

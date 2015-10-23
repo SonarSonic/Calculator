@@ -136,10 +136,10 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	public int requiredEnergy() {
 		if (eUpgrade + sUpgrade == 0) {
-			return 1000;
+			return 1000*5;
 		}
 		int i = 16 - (eUpgrade - sUpgrade);
-		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (eUpgrade - sUpgrade)));
+		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (eUpgrade - sUpgrade)))*5;
 	}
 
 	public boolean receiveClientEvent(int action, int param) {

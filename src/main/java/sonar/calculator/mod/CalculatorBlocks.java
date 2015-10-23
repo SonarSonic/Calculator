@@ -30,6 +30,7 @@ import sonar.calculator.mod.common.block.generators.InvisibleBlock;
 import sonar.calculator.mod.common.block.machines.AdvancedGreenhouse;
 import sonar.calculator.mod.common.block.machines.AdvancedPowerCube;
 import sonar.calculator.mod.common.block.machines.AnalysingChamber;
+import sonar.calculator.mod.common.block.machines.Assimilator;
 import sonar.calculator.mod.common.block.machines.AtomicMultiplier;
 import sonar.calculator.mod.common.block.machines.BasicGreenhouse;
 import sonar.calculator.mod.common.block.machines.DockingStation;
@@ -66,6 +67,7 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
@@ -262,6 +264,16 @@ public class CalculatorBlocks extends Calculator {
 		rainSensor = new RainSensor().setBlockName("RainSensor").setCreativeTab(Calculator).setHardness(1.0F);
 		GameRegistry.registerBlock(rainSensor, SonarBlockTip.class, "RainSensor");
 		GameRegistry.registerTileEntity(TileEntityRainSensor.class, "RainSensor");
+		
+
+		stoneAssimilator = new Assimilator(0).setBlockName("StoneAssimilator").setCreativeTab(Calculator).setHardness(1.0F).setBlockTextureName(modid + ":" + "reinforcedstone");
+		GameRegistry.registerBlock(stoneAssimilator, SonarBlockTip.class, "StoneAssimilator");
+		GameRegistry.registerTileEntity(TileEntityAssimilator.Stone.class, "StoneAssimilator");
+		
+		algorithmAssimilator = new Assimilator(1).setBlockName("AlgorithmAssimilator").setCreativeTab(Calculator).setHardness(1.0F).setBlockTextureName(modid + ":" + "flawless_block");
+		GameRegistry.registerBlock(algorithmAssimilator, SonarBlockTip.class, "AlgorithmAssimilator");
+		GameRegistry.registerTileEntity(TileEntityAssimilator.Algorithm.class, "AlgorithmAssimilator");
+		
 
 		// misc
 		gas_lantern_on = new GasLantern(true).setBlockName("LanternOn").setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100);
@@ -317,8 +329,6 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerBlock(pearFence, SonarBlockTip.class, "PearFence");
 		pearLeaf = new CalculatorLeaves(2).setBlockName("PearLeaf").setCreativeTab(Calculator);
 		GameRegistry.registerBlock(pearLeaf, SonarBlockTip.class, "PearLeaf");
-		leaves = new CalculatorLeaves(4).setBlockName("Leaves");
-		GameRegistry.registerBlock(leaves, SonarBlockTip.class, "Leaves");
 		PearSapling = new CalculatorSaplings(2).setBlockName("PearSapling").setCreativeTab(Calculator);
 		GameRegistry.registerBlock(PearSapling, SonarBlockTip.class, "PearSapling");
 
@@ -333,8 +343,6 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerBlock(diamondFence, SonarBlockTip.class, "DiamondFence");
 		diamondLeaf = new CalculatorLeaves(3).setBlockName("DiamondLeaf").setCreativeTab(Calculator);
 		GameRegistry.registerBlock(diamondLeaf, SonarBlockTip.class, "DiamondLeaf");
-		diamondleaves = new CalculatorLeaves(5).setBlockName("DiamondLeaves");
-		GameRegistry.registerBlock(diamondleaves, SonarBlockTip.class, "DiamondLeaves");
 		diamondSapling = new CalculatorSaplings(3).setBlockName("DiamondSapling").setCreativeTab(Calculator);
 		GameRegistry.registerBlock(diamondSapling, SonarBlockTip.class, "DiamondSapling");
 

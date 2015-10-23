@@ -39,6 +39,8 @@ import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
 import sonar.calculator.mod.client.gui.machines.GuiResearchChamber;
 import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.client.gui.machines.GuiStorageChamber;
+import sonar.calculator.mod.client.gui.misc.GuiAlgorithmAssimilator;
+import sonar.calculator.mod.client.gui.misc.GuiStoneAssimilator;
 import sonar.calculator.mod.client.gui.misc.GuiCO2Generator;
 import sonar.calculator.mod.client.gui.misc.GuiFluxController;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPlug;
@@ -51,7 +53,9 @@ import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
 import sonar.calculator.mod.client.gui.modules.GuiSmeltingModule;
 import sonar.calculator.mod.client.gui.modules.GuiStorageModule;
 import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
+import sonar.calculator.mod.common.containers.ContainerAlgorithmAssimilator;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
+import sonar.calculator.mod.common.containers.ContainerAssimilator;
 import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
 import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
@@ -98,6 +102,7 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
@@ -307,6 +312,14 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.Teleporter:
 				if ((entity instanceof TileEntityTeleporter)) {
 					return new ContainerEmpty(player.inventory, (TileEntityTeleporter) entity);
+				}
+			case CalculatorGui.sAssimilator:
+				if ((entity instanceof TileEntityAssimilator.Stone)) {
+					return new ContainerAssimilator(player.inventory, (TileEntityAssimilator) entity);
+				}
+			case CalculatorGui.aAssimilator:
+				if ((entity instanceof TileEntityAssimilator.Algorithm)) {
+					return new ContainerAlgorithmAssimilator(player.inventory, (TileEntityAssimilator) entity);
 				}
 			default:
 				break;
@@ -538,6 +551,14 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.Teleporter:
 				if ((entity instanceof TileEntityTeleporter)) {
 					return new GuiTeleporter(player.inventory, (TileEntityTeleporter) entity);
+				}
+			case CalculatorGui.sAssimilator:
+				if ((entity instanceof TileEntityAssimilator.Stone)) {
+					return new GuiStoneAssimilator(player.inventory, (TileEntityAssimilator) entity);
+				}
+			case CalculatorGui.aAssimilator:
+				if ((entity instanceof TileEntityAssimilator.Algorithm)) {
+					return new GuiAlgorithmAssimilator(player.inventory, (TileEntityAssimilator) entity);
 				}
 			default:
 				break;

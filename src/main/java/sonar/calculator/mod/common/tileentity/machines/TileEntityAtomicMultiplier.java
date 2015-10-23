@@ -20,14 +20,14 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 
 	public int cookTime, active;
 	public int furnaceSpeed = 1000;
-	public static int requiredEnergy = 900000000;
+	public static int requiredEnergy = 1500000000;
 
 	private static final int[] input = new int[] { 0 };
 	private static final int[] circuits = new int[] { 1, 2, 3, 4, 5, 6, 7 };
 	private static final int[] output = new int[] { 8 };
 
 	public TileEntityAtomicMultiplier() {
-		super.storage = new EnergyStorage(900000000, 900000000);
+		super.storage = new EnergyStorage(1500000000, 1500000000);
 		super.slots = new ItemStack[10];
 	}
 

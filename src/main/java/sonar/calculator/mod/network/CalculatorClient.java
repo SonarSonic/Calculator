@@ -48,6 +48,7 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessCapacitor;
@@ -241,10 +242,17 @@ public class CalculatorClient extends CalculatorCommon {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDockingStation.class, docking);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.dockingStation), new ItemModelRender(docking, new TileEntityDockingStation()));
 
-
 		TileEntitySpecialRenderer teleporter = new RenderHandlers.Teleporter();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTeleporter.class, teleporter);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.teleporter), new ItemModelRender(teleporter, new TileEntityTeleporter()));
+
+		TileEntitySpecialRenderer sAssimilator = new RenderHandlers.StoneAssimilator();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAssimilator.Stone.class, sAssimilator);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.stoneAssimilator), new ItemModelRender(sAssimilator, new TileEntityAssimilator.Stone()));
+
+		TileEntitySpecialRenderer aAssimilator = new RenderHandlers.AlgorithmAssimilator();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAssimilator.Algorithm.class, aAssimilator);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.algorithmAssimilator), new ItemModelRender(aAssimilator, new TileEntityAssimilator.Algorithm()));
 
 	}
 }

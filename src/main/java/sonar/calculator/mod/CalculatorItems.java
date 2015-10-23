@@ -121,7 +121,7 @@ public class CalculatorItems extends Calculator {
 		// tools
 		wrench = new Wrench().setUnlocalizedName("Wrench").setCreativeTab(Calculator).setMaxStackSize(1).setTextureName(modid + ":" + "wrench");
 		GameRegistry.registerItem(wrench, "Wrench");
-		sickle = new Sickle().setUnlocalizedName("Sickle").setCreativeTab(Calculator).setTextureName(modid + ":" + "sickle");
+		sickle = new Sickle().setUnlocalizedName("Sickle").setCreativeTab(Calculator).setTextureName(modid + ":" + "sickle").setMaxStackSize(1);
 		GameRegistry.registerItem(sickle, "Sickle");
 		ObsidianKey = new ObsidianKey().setUnlocalizedName("ObsidianKey").setCreativeTab(Calculator).setTextureName(modid + ":" + "codedkey");
 		GameRegistry.registerItem(ObsidianKey, "ObsidianKey");

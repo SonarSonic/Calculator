@@ -39,6 +39,7 @@ public class WeatherController extends SonarMachineBlock {
 			if (!world.isRemote) {
 				player.openGui(Calculator.instance, CalculatorGui.WeatherController, world, x, y, z);
 			}
+			return true;
 		}
 		return false;
 	}

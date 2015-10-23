@@ -3,12 +3,20 @@ package sonar.calculator.mod.common.block.decoration;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.event.terraingen.TerrainGen;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EndBlock extends Block {
+	Random rand = new Random();
+
 	public EndBlock() {
 		super(net.minecraft.block.material.Material.rock);
 		setBlockName("EndBlock");

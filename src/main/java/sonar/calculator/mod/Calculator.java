@@ -12,10 +12,6 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.InfinityRaider.AgriCraft.api.API;
-import com.InfinityRaider.AgriCraft.api.APIBase;
-import com.InfinityRaider.AgriCraft.api.v1.APIv1;
-
 import sonar.calculator.mod.api.CalculatorAPI;
 import sonar.calculator.mod.common.entities.CalculatorThrow;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
@@ -53,7 +49,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "1.8.4";
+	public static final String version = "1.8.5";
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -137,16 +133,6 @@ public class Calculator {
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
-	}
-
-	public static Object getAgricraftAPI() {
-		if (Loader.isModLoaded("AgriCraft")) {
-			APIBase api = API.getAPI(1);
-			if (api.getStatus().isOK() && api.getVersion() == 1) {
-				return api;
-			}
-		}
-		return null;
 	}
 
 	@EventHandler
@@ -236,6 +222,7 @@ public class Calculator {
 	public static Block calculatorScreen;
 	public static Block magneticFlux;
 	public static Block teleporter;
+	public static Block stoneAssimilator,algorithmAssimilator;
 
 	// calculator parts
 	public static Item calculator_screen;
@@ -334,7 +321,7 @@ public class Calculator {
 	public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock, reinforceddirtBrick, purifiedobsidianBlock, stablestoneBlock, stableglassBlock, clearstableglassBlock, flawlessGlass;
 
 	// trees
-	public static Block leaves, amethystLeaf, tanzaniteLeaf, pearLeaf, diamondLeaf, diamondleaves;
+	public static Block amethystLeaf, tanzaniteLeaf, pearLeaf, diamondLeaf;
 	public static Block amethystLog, tanzaniteLog, pearLog, diamondLog;
 	public static Block AmethystSapling, tanzaniteSapling, PearSapling, diamondSapling;
 	public static Block amethystPlanks, tanzanitePlanks, pearPlanks, diamondPlanks;

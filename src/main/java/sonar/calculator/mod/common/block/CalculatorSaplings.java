@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.block;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
@@ -33,6 +35,16 @@ public class CalculatorSaplings extends BlockFlower {
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		return blockIcon;
+	}
+
+	@Override
+	public boolean canPlaceBlockOn(Block block) {
+		return type==3 ? block == Calculator.end_diamond_block : super.canPlaceBlockOn(block);
+	}
+
+	@Override
+	public boolean canBlockStay(World world, int x, int y, int z) {
+		return type==3 ? canPlaceBlockOn(world.getBlock(x, y - 1, z)) : super.canBlockStay(world, x, y, z);
 	}
 
 	@Override
@@ -106,6 +118,8 @@ public class CalculatorSaplings extends BlockFlower {
 		world.setBlock(x, y, z, Blocks.air, 0, 4);
 		if (!((WorldGenerator) object).generate(world, rand, x + i1, y, z + j1)) {
 			world.setBlock(x, y, z, this, l, 4);
+		}else{
+			world.setBlock(x, y-1, z, Blocks.grass);
 		}
 	}
 

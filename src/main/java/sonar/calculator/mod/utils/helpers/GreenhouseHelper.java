@@ -1,6 +1,5 @@
 package sonar.calculator.mod.utils.helpers;
 
-import com.InfinityRaider.AgriCraft.api.v1.APIv1;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
@@ -22,7 +21,7 @@ public class GreenhouseHelper {
 	public static boolean applyBonemeal(World world, int x, int y, int z, boolean magic) {
 		Block block = world.getBlock(x, y, z);
 
-		if (block instanceof IGrowable || Calculator.getAgricraftAPI() !=null && ((APIv1) Calculator.getAgricraftAPI()).canGrow(world, x, y, z)) {
+		if (block instanceof IGrowable) {
 			IGrowable igrowable = (IGrowable) block;
 
 			if (igrowable.func_149851_a(world, x, y, z, world.isRemote)) {
@@ -43,8 +42,6 @@ public class GreenhouseHelper {
 				}
 
 				return true;
-			}else if (Calculator.getAgricraftAPI() !=null){
-				return ((APIv1) Calculator.getAgricraftAPI()).applyFertilizer(world, x, y, z, new ItemStack(Items.dye, 1, 15));
 			}
 		}
 

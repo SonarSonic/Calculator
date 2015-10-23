@@ -2,15 +2,11 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.List;
 
-import com.InfinityRaider.AgriCraft.api.v1.APIv1;
-import com.InfinityRaider.AgriCraft.api.v1.SeedRequirementStatus;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -23,7 +19,6 @@ import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.RenderHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -97,22 +92,12 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		IPlanter planter = PlanterRegistry.getPlanter(stack);
 		Block crop = planter.getCropFromStack(stack);
 		int meta = planter.getMetaFromStack(stack);
-		if (crop == null || Calculator.getAgricraftAPI() != null && ((APIv1) Calculator.getAgricraftAPI()).getSeedStats(stack) != null) {
+		if (crop == null) {
 			return false;
 		}
 		for (int Z = -3; Z <= 3; Z++) {
 			for (int X = -3; X <= 3; X++) {
-				if (Calculator.getAgricraftAPI() != null) {
-
-					if (((APIv1) Calculator.getAgricraftAPI()).canPlaceCrops(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, stack)) {
-
-						((APIv1) Calculator.getAgricraftAPI()).placeCrops(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, slots[slot]);
-
-					} else if (((APIv1) Calculator.getAgricraftAPI()).canApplySeeds(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, stack) == SeedRequirementStatus.CAN_APPLY) {
-						((APIv1) Calculator.getAgricraftAPI()).applySeeds(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, slots[slot]);
-
-					}
-				} else if (canPlant(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, slot, ((IPlantable) stack.getItem()))) {
+				if (canPlant(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, slot, ((IPlantable) stack.getItem()))) {
 
 					this.worldObj.setBlock(xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, Blocks.air, 0, 1 | 2);
 

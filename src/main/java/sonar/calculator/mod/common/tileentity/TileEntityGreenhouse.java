@@ -4,10 +4,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.InfinityRaider.AgriCraft.api.v1.APIv1;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGlass;
 import net.minecraft.block.BlockLog;
@@ -26,7 +22,6 @@ import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.block.CalculatorCrops;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
@@ -34,9 +29,10 @@ import sonar.core.utils.SonarSeeds;
 import sonar.core.utils.SonarSeedsFood;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
-import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RenderHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 
@@ -52,9 +48,6 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		public boolean matches(ItemStack stack) {
 			if (stack != null && stack.getItem() instanceof IPlantable) {
 				return true;
-			}
-			if (Calculator.getAgricraftAPI() != null) {
-				return ((APIv1) Calculator.getAgricraftAPI()).getSeedStats(stack) != null;
 			}
 			return false;
 		}
@@ -179,8 +172,6 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		
 		if (!target.func_149851_a(world, x, y, z, world.isRemote)) {
 			array = world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-		} else if (Calculator.getAgricraftAPI() != null) {
-			((APIv1) Calculator.getAgricraftAPI()).harvest(world, x, y, z);
 		}
 		if (!world.isRemote) {
 			if (array != null) {

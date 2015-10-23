@@ -22,11 +22,11 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 	public static final int RAIN = 1;
 	public static final int THUNDER = 2;
 
-	public int requiredPower = 10000;
+	public int requiredPower = 250000;
 
 	public TileEntityWeatherController() {
 		super.slots = new ItemStack[1];
-		super.storage = new EnergyStorage(100000, 10000);
+		super.storage = new EnergyStorage(1000000, 100000);
 	}
 
 	public void updateEntity() {

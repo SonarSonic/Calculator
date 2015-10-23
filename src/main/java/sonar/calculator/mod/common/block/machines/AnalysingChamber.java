@@ -109,7 +109,7 @@ public class AnalysingChamber extends SonarMachineBlock {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
+		list.add("Doesn't require power to opperate");
 	}
 
 	@Override
