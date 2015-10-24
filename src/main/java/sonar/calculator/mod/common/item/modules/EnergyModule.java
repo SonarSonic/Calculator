@@ -8,10 +8,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class EnergyModule extends SonarCalculator {
 	public EnergyModule() {
-		capacity = CalculatorConfig.moduleEnergy;
-		maxReceive = CalculatorConfig.moduleEnergy;
-		maxExtract = CalculatorConfig.moduleEnergy;
-		maxTransfer = CalculatorConfig.moduleEnergy;
+		capacity = CalculatorConfig.getInteger("Energy Module");
+		maxReceive = CalculatorConfig.getInteger("Energy Module");
+		maxExtract = CalculatorConfig.getInteger("Energy Module");
+		maxTransfer = CalculatorConfig.getInteger("Energy Module");
 	}
 
 	@Override

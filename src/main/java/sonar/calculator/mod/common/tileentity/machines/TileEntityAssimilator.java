@@ -29,11 +29,18 @@ import sonar.core.utils.helpers.NBTHelper.SyncType;
 public abstract class TileEntityAssimilator extends TileEntityInventory {
 	public boolean hasTree;
 	public Random rand = new Random();
+	public int tickRate = 30, tick;
 
 	public abstract boolean harvestBlock(BlockCoords block);
 
 	public void updateEntity() {
-		if (!this.worldObj.isRemote) {
+		if (this.worldObj.isRemote) {
+			return;
+		}
+		if (this.tick != tickRate) {
+			tick++;
+		} else {
+			tick=0;
 			this.hasTree = hasTree();
 			if (hasTree) {
 				List<BlockCoords> leaves = getLeaves();
@@ -92,7 +99,17 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		}
 		return leafList;
 	}
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE)
+			tick = nbt.getInteger("tick");
+	}
 
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE)
+			nbt.setInteger("tick", tick);
+	}
 	public static class Stone extends TileEntityAssimilator {
 
 		public Stone() {

@@ -46,7 +46,7 @@ public class GuiSmeltingModule extends GuiContainer{
         drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         
 
-        int k = this.module.syncEnergy * 78 / CalculatorConfig.cubeEnergy;
+        int k = this.module.syncEnergy * 78 / 50000;
         int j = 78 - k;
         drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
         

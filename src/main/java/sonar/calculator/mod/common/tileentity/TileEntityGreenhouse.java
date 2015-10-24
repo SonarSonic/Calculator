@@ -22,6 +22,7 @@ import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.block.CalculatorCrops;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
@@ -39,8 +40,12 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 	public int wasBuilt, isMulti, maxLevel, carbonLevels, plantTicks, planting, houseSize;
 	public int plantsHarvested, plantsGrown;
 	public int plantTick;
-	public int requiredPlantEnergy = 20;
 	public int type;
+	public final int growthRF = CalculatorConfig.getInteger("Growth Energy");
+	public final int plantRF = CalculatorConfig.getInteger("Plant Energy");
+	public final int buildRF = CalculatorConfig.getInteger("Build Energy");
+	public final int farmlandRF = CalculatorConfig.getInteger("Adding Farmland");
+	public final int waterRF = CalculatorConfig.getInteger("Adding Water");
 
 	public static class PlantableFilter implements InventoryHelper.IInventoryFilter {
 
@@ -58,10 +63,10 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 			this.plantTicks++;
 		}
 		if (this.plantTicks == this.plantTick) {
-			if (this.storage.getEnergyStored() >= requiredPlantEnergy) {
+			if (this.storage.getEnergyStored() >= plantRF) {
 				if (plantAction()) {
 					this.planting = 0;
-					this.storage.extractEnergy(requiredPlantEnergy, false);
+					this.storage.extractEnergy(plantRF, false);
 				}
 				this.plantTicks = 0;
 			}
@@ -169,7 +174,7 @@ public class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 
 	public void harvest(World world, int x, int y, int z, IGrowable target) {
 		ArrayList<ItemStack> array = new ArrayList();
-		
+
 		if (!target.func_149851_a(world, x, y, z, world.isRemote)) {
 			array = world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 		}

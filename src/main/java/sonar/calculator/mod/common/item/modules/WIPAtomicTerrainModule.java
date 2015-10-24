@@ -24,10 +24,10 @@ public class WIPAtomicTerrainModule extends BaseTerrainModule {
 
 	public WIPAtomicTerrainModule() {
 		super.replacable = new Block[2];
-		capacity = CalculatorConfig.advancedEnergy;
-		maxReceive = CalculatorConfig.advancedEnergy;
-		maxExtract = CalculatorConfig.advancedEnergy;
-		maxTransfer = CalculatorConfig.advancedEnergy;
+		capacity = CalculatorConfig.getInteger("Advanced Terrain Module");
+		maxReceive = CalculatorConfig.getInteger("Advanced Terrain Module");
+		maxExtract = CalculatorConfig.getInteger("Advanced Terrain Module");
+		maxTransfer = CalculatorConfig.getInteger("Advanced Terrain Module");
 
 	}
 

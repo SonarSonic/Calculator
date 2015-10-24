@@ -33,9 +33,6 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	public int plants, levelTicks, checkTicks, houseSize, growTicks, growTick;
 	public int plantsGrown;
 
-	public int requiredPlantEnergy = 60;
-	public int requiredGrowEnergy = 150;
-
 	public TileEntityFlawlessGreenhouse() {
 		super.storage = new EnergyStorage(500000, 500000);
 		super.slots = new ItemStack[10];
@@ -81,11 +78,11 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		}
 		if (this.growTicks == growTick) {
 			for (int i = 0; i <= this.houseSize; i++) {
-				if (this.storage.getEnergyStored() >= requiredGrowEnergy) {
+				if (this.storage.getEnergyStored() >= growthRF) {
 					if (growCrop(3, this.houseSize)) {
 						if (!this.worldObj.isRemote)
 							plantsGrown++;
-						this.storage.modifyEnergyStored(-requiredGrowEnergy);
+						this.storage.modifyEnergyStored(-growthRF);
 					}
 				}
 			}
@@ -160,8 +157,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		}
 		if (this.levelTicks == 20) {
 			this.levelTicks = 0;
-			InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, 0, 0,
-					new PlantableFilter());
+			InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, 0, 0, new PlantableFilter());
 			gasLevels();
 
 		}
@@ -296,15 +292,15 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		for (int i = 0; i <= this.houseSize; i++) {
 			for (int XZ = 0; XZ <= 3; XZ++) {
 				if (XZ != 1 && XZ != 2) {
-					if (this.storage.getEnergyStored() >= 1000) {
+					if (this.storage.getEnergyStored() >= waterRF) {
 						if (GreenhouseHelper.applyWater(worldObj, xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)))) {
-							this.storage.modifyEnergyStored(-1000);
+							this.storage.modifyEnergyStored(-waterRF);
 						}
 					}
 				} else {
-					if (this.storage.getEnergyStored() >= 50) {
+					if (this.storage.getEnergyStored() >= farmlandRF) {
 						if (GreenhouseHelper.applyFarmland(worldObj, xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)))) {
-							this.storage.modifyEnergyStored(-50);
+							this.storage.modifyEnergyStored(-farmlandRF);
 						}
 					}
 				}

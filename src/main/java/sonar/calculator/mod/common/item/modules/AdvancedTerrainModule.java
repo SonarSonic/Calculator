@@ -20,11 +20,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class AdvancedTerrainModule extends BaseTerrainModule {
 
 	public AdvancedTerrainModule() {
-		super.replacable = new Block[]{Blocks.grass, Blocks.dirt, Blocks.stone, Blocks.gravel, Blocks.sand, Blocks.cobblestone};
-		capacity = CalculatorConfig.advancedEnergy;
-		maxReceive = CalculatorConfig.advancedEnergy;
-		maxExtract = CalculatorConfig.advancedEnergy;
-		maxTransfer = CalculatorConfig.advancedEnergy;
+		super.replacable = new Block[] { Blocks.grass, Blocks.dirt, Blocks.stone, Blocks.gravel, Blocks.sand, Blocks.cobblestone };
+		capacity = CalculatorConfig.getInteger("Advanced Terrain Module");
+		maxReceive = CalculatorConfig.getInteger("Advanced Terrain Module");
+		maxExtract = CalculatorConfig.getInteger("Advanced Terrain Module");
+		maxTransfer = CalculatorConfig.getInteger("Advanced Terrain Module");
 
 	}
 

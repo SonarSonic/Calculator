@@ -194,7 +194,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 	public static class StarchExtractor extends TileEntityGenerator {
 		public StarchExtractor() {
-			super.energyMultiplier = CalculatorConfig.starchRF;
+			super.energyMultiplier = CalculatorConfig.getInteger("Starch Extractor");
 		}
 
 		@SideOnly(Side.CLIENT)
@@ -211,7 +211,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 	public static class RedstoneExtractor extends TileEntityGenerator {
 		public RedstoneExtractor() {
-			super.energyMultiplier = CalculatorConfig.redstoneRF;
+			super.energyMultiplier = CalculatorConfig.getInteger("Redstone Extractor");
 		}
 
 		public int getItemValue(ItemStack stack) {
@@ -227,7 +227,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 	public static class GlowstoneExtractor extends TileEntityGenerator {
 		public GlowstoneExtractor() {
-			super.energyMultiplier = CalculatorConfig.glowstoneRF;
+			super.energyMultiplier = CalculatorConfig.getInteger("Glowstone Extractor");
 		}
 
 		public int getItemValue(ItemStack stack) {

@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,10 +18,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
+import sonar.core.utils.ISpecialTooltip;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class CalculatorSaplings extends BlockFlower {
+public class CalculatorSaplings extends BlockFlower implements ISpecialTooltip {
 	int type;
 
 	public CalculatorSaplings(int type) {
@@ -133,5 +135,18 @@ public class CalculatorSaplings extends BlockFlower {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+		
+	}
+
+	@Override
+	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+		if(type==3){
+			list.add("Must be planted on an End Diamond Block");
+		}
+		
 	}
 }

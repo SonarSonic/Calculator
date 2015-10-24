@@ -27,7 +27,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	public byte active;
-	public int energyGenerated = CalculatorConfig.locatorRF;
 	public int size, sizeTicks, luckTicks, stability;
 	public String owner = "None";
 
@@ -40,24 +39,25 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-
-		if (canGenerate()) {
-			beginGeneration();
-			if (active != 1) {
-				this.active = 1;
-				this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-			}
-		} else {
-			if (active != 0) {
-				this.active = 0;
-				this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+		if (!worldObj.isRemote) {
+			if (canGenerate()) {
+				beginGeneration();
+				if (active != 1) {
+					this.active = 1;
+					this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+				}
+			} else {
+				if (active != 0) {
+					this.active = 0;
+					this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+				}
 			}
 		}
 		if (!this.worldObj.isRemote) {
 			if (!(this.sizeTicks >= 25)) {
 				sizeTicks++;
 			} else {
-				this.sizeTicks=0;
+				this.sizeTicks = 0;
 				this.createStructure();
 				this.getStability();
 			}
@@ -70,7 +70,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	public int currentOutput() {
 		if (size != 0 && (((int) (2 * size + 1) * (2 * size + 1)) - 1) != 0) {
 			int stable = (int) (stability * 100) / ((int) (2 * size + 1) * (2 * size + 1));
-			return (5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size)/5;
+			return (5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size) / 5;
 
 		}
 		return 0;

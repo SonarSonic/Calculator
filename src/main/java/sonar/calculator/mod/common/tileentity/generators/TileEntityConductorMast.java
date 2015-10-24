@@ -28,8 +28,9 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	public int furnaceSpeed = 50;
 	public int lightningSpeed, strikes;
 	public int random;
-	public int maxTransfer = CalculatorConfig.conductorRF;
 	public int lastStations;
+	public final int weatherStationRF = CalculatorConfig.getInteger("Weather Station");
+	public final int strikeRF = CalculatorConfig.getInteger("Conductor Mast");
 	public Random rand = new Random();
 
 	public TileEntityConductorMast() {
@@ -103,7 +104,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 
 		}
 		if (lightTicks > 0) {
-			int add = (((CalculatorConfig.conductorRF / 200) + (this.lastStations * (CalculatorConfig.weatherstationRF / 200))) * strikes)/5;
+			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes)/5;
 			if (lightTicks < 200) {
 				if (this.storage.getEnergyStored() + add <= this.storage.getMaxEnergyStored()) {
 					lightTicks++;

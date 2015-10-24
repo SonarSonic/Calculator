@@ -30,7 +30,7 @@ public class RenderHandlers {
 
 	public static class AtomicMultiplier extends SonarTERender {
 		public AtomicMultiplier() {
-			super(new ModelAtomicMultiplier(), "Calculator:textures/model/atomicmultiplier.png");
+			super(new ModelAtomicMultiplier(), "Calculator:textures/model/atomicmultiplierNEW.png");
 		}
 
 	}

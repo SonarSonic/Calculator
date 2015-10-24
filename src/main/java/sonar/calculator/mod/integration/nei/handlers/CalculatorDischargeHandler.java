@@ -93,16 +93,13 @@ public class CalculatorDischargeHandler extends TemplateRecipeHandler {
 
 	}
 	@Override
-	public void drawExtras(int recipe) {
-	    
+	public void drawExtras(int recipe) {	    
 		ItemStack stack = arecipes.get(recipe).getResult().item;
 		int info = DischargeValues.discharge().value(stack);
-		int take =  info * 78 / CalculatorConfig.cubeEnergy;
+		int take =  info * 78 / CalculatorConfig.getInteger("Standard Machine");
 	    drawProgressBar(49-5, 37-11, 176, 0, take, 10, 48, 0);
 	    CalculatorDischargeHandler.fontRenderer.drawString(FontHelper.formatStorage(info), 176 / 2 - CalculatorDischargeHandler.fontRenderer.getStringWidth(" " + info) / 2-5, 38-11, -1);
-	    
-	    
-	}
+ 	}
 
 	@Override
 	public int recipiesPerPage() {

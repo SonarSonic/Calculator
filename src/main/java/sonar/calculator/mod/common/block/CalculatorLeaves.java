@@ -36,11 +36,6 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block par5, int par6) {
-
-	}
-
-	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		// they don't disappear anymore
 		int blocks = 0;
@@ -54,7 +49,9 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 		if (blocks != 6) {
 			int randInt = 0;
 			if (leafType == 3) {
-				randInt = rand.nextInt(25);
+				randInt = rand.nextInt(20);
+			} else if (leafType<2) {
+				randInt = rand.nextInt(8);
 			}else{
 				randInt = rand.nextInt(10);
 			}
@@ -85,7 +82,7 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 
 	@Override
 	public int quantityDropped(Random par1Random) {
-		return par1Random.nextInt(20) == 0 ? 1 : 0;
+		return 1;
 	}
 
 	@Override

@@ -42,10 +42,10 @@ public class WIPSmeltingModule extends SonarCalculator implements IItemInventory
 	public int speed = 1000;
 
 	public WIPSmeltingModule() {
-		capacity = CalculatorConfig.cubeEnergy;
-		maxReceive = CalculatorConfig.cubeEnergy;
-		maxExtract = CalculatorConfig.cubeEnergy;
-		maxTransfer = CalculatorConfig.cubeEnergy;
+		capacity = CalculatorConfig.getInteger("Standard Machine");
+		maxReceive = CalculatorConfig.getInteger("Standard Machine");
+		maxExtract = CalculatorConfig.getInteger("Standard Machine");
+		maxTransfer = CalculatorConfig.getInteger("Standard Machine");
 	}
 
 	public static class SmeltingInventory extends InventoryItem {

@@ -59,7 +59,7 @@ public class InfoList {
 		addRecipe("Machines", new ItemStack(Calculator.hungerprocessor), "Converts food into points- -Add points to Hunger Stores");
 		addRecipe("Modules", new ItemStack(Calculator.itemAdvancedTerrainModule), "Instantly switches blocks-It can switch-Stone, Grass, Dirt-Gravel, Sand, Cobblestone");
 		addRecipe("Modules", new ItemStack(Calculator.itemTerrainModule), "Instantly switches blocks--It can switch-Stone, Grass, Dirt");
-		addRecipe("Modules", new ItemStack(Calculator.itemEnergyModule), "Can store up to " + CalculatorConfig.moduleEnergy + " RF" + "-or " + (CalculatorConfig.moduleEnergy / 4) + " EU");
+		addRecipe("Modules", new ItemStack(Calculator.itemEnergyModule), "Can store up to " + CalculatorConfig.getInteger("Energy Module") + " RF" + "-or " + (CalculatorConfig.getInteger("Energy Module") / 4) + " EU");
 		addRecipe("Modules", new ItemStack(Calculator.itemHealthModule), "Can store Health Points-To get Health Points-+See Health Processor-+Or right click Tanzanite Trees");
 		addRecipe("Modules", new ItemStack(Calculator.itemHungerModule), "Can store Hunger Points-To get Hunger Points-+See Hunger Processor-+Or right click Amethyst Trees");
 		addRecipe("Modules", new ItemStack(Calculator.itemLocatorModule), "Activates Calculator Locator--Right click stores username");
@@ -115,6 +115,8 @@ public class InfoList {
 		addRecipe("Machines", new ItemStack(Calculator.teleporter), "A simple teleporter -+Can be password protected");
 		addRecipe("Blocks", new ItemStack(Calculator.weatherStation), "Has the ability to-control the weather");
 		addRecipe("Items", new ItemStack(Calculator.calculator_screen), "Displays the RF stored-in machines when placed-on the side");
+		addRecipe("Machines", new ItemStack(Calculator.stoneAssimilator), "Harvests Calculator Trees-+Must be placed next to the Tree-+For Tanzanite and Amethyst-+Doesn't Require Energy");
+		addRecipe("Machines", new ItemStack(Calculator.algorithmAssimilator), "Harvests Calculator Trees-+Must be placed next to the Tree-+For Pear and Diamond-+Doesn't Require Energy");
 		
 	}
 

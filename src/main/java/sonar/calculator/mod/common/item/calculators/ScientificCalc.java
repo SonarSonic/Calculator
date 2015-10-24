@@ -17,11 +17,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ScientificCalc extends SonarCalculator implements IItemInventory {
 
+	public static int energyUsage = CalculatorConfig.getInteger("Scientific Calculator");
+	
 	public ScientificCalc() {
-		capacity = CalculatorConfig.scientificEnergy;
-		maxReceive = CalculatorConfig.scientificEnergy;
-		maxExtract = CalculatorConfig.scientificEnergy;
-		maxTransfer = CalculatorConfig.scientificEnergy;
+		capacity = energyUsage;
+		maxReceive = energyUsage;
+		maxExtract = energyUsage;
+		maxTransfer = energyUsage;
 	}
 
 	@Override

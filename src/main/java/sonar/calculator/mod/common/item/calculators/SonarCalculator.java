@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "IC2", striprefs = true), @Optional.Interface(iface = "ic2.api.item.IElectricItem", modid = "IC2", striprefs = true) })
 public class SonarCalculator extends InventoryContainerItem implements IEnergyContainerItem, ISpecialElectricItem {
 
-	protected int capacity = CalculatorConfig.calculatorEnergy;
+	protected int capacity = CalculatorConfig.getInteger("Calculator");
 	protected int maxReceive = 200;
 	protected int maxExtract = 200;
 	protected int maxTransfer = 200;

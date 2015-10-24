@@ -5,6 +5,7 @@ import java.util.List;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
 import sonar.core.utils.IMachineButtons;
 import sonar.core.utils.ISyncTile;
@@ -22,7 +23,7 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 	public static final int RAIN = 1;
 	public static final int THUNDER = 2;
 
-	public int requiredPower = 250000;
+	public int requiredPower = CalculatorConfig.getInteger("Weather Controller");
 
 	public TileEntityWeatherController() {
 		super.slots = new ItemStack[1];

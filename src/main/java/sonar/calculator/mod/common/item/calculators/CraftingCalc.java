@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class CraftingCalc extends SonarCalculator implements IItemInventory {
-
+	public static int energyUsage = CalculatorConfig.getInteger("Crafting Calculator");
 	public static class CraftingInventory extends InventoryItem {
 		public static final int size = 10;
 		public CraftingInventory(ItemStack stack) {
@@ -29,10 +29,10 @@ public class CraftingCalc extends SonarCalculator implements IItemInventory {
 	}
 
 	public CraftingCalc() {
-		capacity = CalculatorConfig.craftingEnergy;
-		maxReceive = CalculatorConfig.craftingEnergy;
-		maxExtract = CalculatorConfig.craftingEnergy;
-		maxTransfer = CalculatorConfig.craftingEnergy;
+		capacity = energyUsage;
+		maxReceive = energyUsage;
+		maxExtract = energyUsage;
+		maxTransfer = energyUsage;
 	}
 
 	@Override

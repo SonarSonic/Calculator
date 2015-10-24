@@ -34,9 +34,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 	public int stackPlanks = 30;
 	public int stackGlass = 14;
 
-	public int requiredPlantEnergy = 60;
-	public int requiredGrowEnergy = 150;
-	public int requiredBuildEnergy = (stackStairs + stackLog + stackPlanks + stackGlass) * 100;
+	public int requiredBuildEnergy = (stackStairs + stackLog + stackPlanks + stackGlass) * buildRF;
 
 	public TileEntityBasicGreenhouse() {
 
@@ -179,9 +177,9 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 			return;
 		}
 		if (growTick != 0 && this.growTicks >= growTick) {
-			if (this.storage.getEnergyStored() >= requiredGrowEnergy) {
+			if (this.storage.getEnergyStored() >= growthRF) {
 				if (growCrop(1, 0)) {
-					this.storage.modifyEnergyStored(-requiredGrowEnergy);
+					this.storage.modifyEnergyStored(-growthRF);
 				}
 				this.growTicks = 0;
 			}
@@ -379,15 +377,15 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 		for (int Z = -1; Z <= 1; Z++) {
 			for (int X = -1; X <= 1; X++) {
 				if (X == 0 && Z == 0) {
-					if (this.storage.getEnergyStored() >= 1000) {
+					if (this.storage.getEnergyStored() >= waterRF) {
 						if (GreenhouseHelper.applyWater(worldObj, x + X, y, z + Z)) {
-							this.storage.modifyEnergyStored(-1000);
+							this.storage.modifyEnergyStored(-waterRF);
 						}
 					}
 				} else {
-					if (this.storage.getEnergyStored() >= 50) {
+					if (this.storage.getEnergyStored() >= farmlandRF) {
 						if (GreenhouseHelper.applyFarmland(worldObj, x + X, y, z + Z)) {
-							this.storage.modifyEnergyStored(-50);
+							this.storage.modifyEnergyStored(-farmlandRF);
 						}
 					}
 				}
@@ -451,7 +449,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 					slots[0] = null;
 				}
 				this.worldObj.setBlock(x, y, z, log, damage, 2);
-				this.storage.modifyEnergyStored(-100);
+				this.storage.modifyEnergyStored(-buildRF);
 			}
 		}
 
@@ -477,7 +475,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 					slots[2] = null;
 				}
 				this.worldObj.setBlock(x, y, z, glass, damage, 2);
-				this.storage.modifyEnergyStored(-100);
+				this.storage.modifyEnergyStored(-buildRF);
 			}
 		}
 
@@ -503,7 +501,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 					slots[3] = null;
 				}
 				this.worldObj.setBlock(x, y, z, planks, damage, 2);
-				this.storage.modifyEnergyStored(-100);
+				this.storage.modifyEnergyStored(-buildRF);
 			}
 		}
 
@@ -528,7 +526,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 					slots[1] = null;
 				}
 				this.worldObj.setBlock(x, y, z, stairs, meta, flag);
-				this.storage.modifyEnergyStored(-100);
+				this.storage.modifyEnergyStored(-buildRF);
 			}
 		}
 
