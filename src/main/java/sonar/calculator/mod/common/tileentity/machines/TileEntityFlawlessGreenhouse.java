@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -16,9 +17,11 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.PlantableFilter;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
+import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
 import sonar.calculator.mod.integration.planting.IPlanter;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
@@ -91,7 +94,9 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	}
 
-	private void harvestCrops() {
+	public List<BlockCoords> getPlantArea() {
+		List<BlockCoords> coords = new ArrayList();
+
 		int hX = RenderHelper.getHorizontal(getForward()).offsetX;
 		int hZ = RenderHelper.getHorizontal(getForward()).offsetZ;
 
@@ -103,50 +108,13 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 		for (int i = 0; i <= this.houseSize; i++) {
 			for (int XZ = 1; XZ <= 2; XZ++) {
-				Block target = this.worldObj.getBlock(xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)));
-				if (target instanceof IGrowable) {
-					harvest(worldObj, xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)), (IGrowable) target);
-				}
+				coords.add(new BlockCoords(xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i))));
 
 			}
 		}
+		return coords;
 	}
 
-	@Override
-	public boolean plant(ItemStack stack, int slot) {
-		int hX = RenderHelper.getHorizontal(getForward()).offsetX;
-		int hZ = RenderHelper.getHorizontal(getForward()).offsetZ;
-
-		int hoX = RenderHelper.getHorizontal(getForward()).getOpposite().offsetX;
-		int hoZ = RenderHelper.getHorizontal(getForward()).getOpposite().offsetZ;
-
-		int fX = getForward().offsetX;
-		int fZ = getForward().offsetZ;
-
-		IPlanter planter = PlanterRegistry.getPlanter(stack);
-		Block crop = planter.getCropFromStack(stack);
-		int meta = planter.getMetaFromStack(stack);
-		if (crop == null) {
-			return false;
-		}
-		for (int i = 0; i <= this.houseSize; i++) {
-			for (int XZ = 1; XZ <= 2; XZ++) {
-				if (canPlant(this.worldObj, xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)), slot, ((IPlantable) stack.getItem()))) {
-					this.worldObj.setBlock(xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)), Blocks.air, 0, 1 | 2);
-					this.worldObj.setBlock(xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)), crop, meta, 1 | 2);
-
-					this.slots[slot].stackSize--;
-					if (this.slots[slot].stackSize <= 0) {
-						this.slots[slot] = null;
-					}
-					return true;
-				}
-			}
-
-		}
-		this.planting = 0;
-		return false;
-	}
 
 	public void extraTicks() {
 		if (levelTicks == 15) {
@@ -303,6 +271,8 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 							this.storage.modifyEnergyStored(-farmlandRF);
 						}
 					}
+
+					AgriCraftAPIWrapper.getInstance().removeWeeds(worldObj, xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)), false);
 				}
 
 			}

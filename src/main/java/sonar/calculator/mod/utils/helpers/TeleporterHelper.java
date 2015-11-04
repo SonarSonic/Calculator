@@ -35,6 +35,7 @@ public class TeleporterHelper {
 				((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5, SonarHelper.getAngleFromMeta(tile.getWorldObj().getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord)), 0);
 			}
 			tile.coolDown = true;
+			tile.coolDownTicks = 100;
 		}
 	}
 

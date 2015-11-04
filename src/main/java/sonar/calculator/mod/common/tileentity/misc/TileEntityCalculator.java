@@ -24,12 +24,12 @@ import sonar.core.utils.helpers.SonarHelper;
 public class TileEntityCalculator extends TileEntityInventory implements ISidedInventory {
 
 	public static class Dynamic extends TileEntityCalculator {
-		public Map<Integer, Integer> unblocked = new THashMap<Integer, Integer>();
+		//public Map<Integer, Integer> unblocked = new THashMap<Integer, Integer>();
 
 		public Dynamic() {
 			super.slots = new ItemStack[10];
 		}
-
+		/*
 		public void setUnblocked(Map<Integer, Integer> unblocked) {
 			this.unblocked = unblocked;
 			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -50,7 +50,7 @@ public class TileEntityCalculator extends TileEntityInventory implements ISidedI
 			CalculatorRecipes.instance().writeToNBT(nbt, unblocked, "unblocked");
 
 		}
-
+	
 		public void getResearch() {
 			for (int X = -3; X <= 3; X++) {
 				for (int Y = -3; Y <= 3; Y++) {
@@ -64,7 +64,7 @@ public class TileEntityCalculator extends TileEntityInventory implements ISidedI
 				}
 			}
 		}
-
+	*/
 		public FailedCoords checkStructure() {
 			ForgeDirection forward = SonarHelper.getForward(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
 
@@ -89,8 +89,8 @@ public class TileEntityCalculator extends TileEntityInventory implements ISidedI
 		}
 
 		public FailedCoords outsideLayer(int x, int y, int z) {
-			for (int X = -3; X < 4; X++) {
-				for (int Z = -3; Z < 4; Z++) {
+			for (int X = -3; X <= 3; X++) {
+				for (int Z = -3; Z <= 3; Z++) {
 					if (X == 3 || Z == 3 || X == -3 || Z == -3) {
 						if (!(this.worldObj.getBlock(x + X, y, z + Z) instanceof IStableBlock)) {
 							return new FailedCoords(false, x + X, y, z + Z, "stable");

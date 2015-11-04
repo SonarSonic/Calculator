@@ -49,7 +49,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "1.8.5";
+	public static final String version = "1.8.6";
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -223,6 +223,8 @@ public class Calculator {
 	public static Block magneticFlux;
 	public static Block teleporter;
 	public static Block stoneAssimilator,algorithmAssimilator;
+	public static Block flawlessFurnace;
+	public static Block eternalFire;
 
 	// calculator parts
 	public static Item calculator_screen;
@@ -318,7 +320,7 @@ public class Calculator {
 	public static Item soil, small_stone;
 
 	// common blocks
-	public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock, reinforceddirtBrick, purifiedobsidianBlock, stablestoneBlock, stableglassBlock, clearstableglassBlock, flawlessGlass;
+	public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock, reinforceddirtBrick, purifiedobsidianBlock, stablestoneBlock, stablestonerimmedBlock,stablestonerimmedblackBlock, stableglassBlock, clearstableglassBlock, flawlessGlass;
 
 	// trees
 	public static Block amethystLeaf, tanzaniteLeaf, pearLeaf, diamondLeaf;

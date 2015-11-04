@@ -244,7 +244,7 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 	}
 
 	public static class TransferList {
-		public int[] inputList;
+		public int[] inputList;		
 		public int energy;
 
 		public TransferList(int[] inputList, int input) {

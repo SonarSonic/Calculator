@@ -46,7 +46,6 @@ public class RecipeRegistry {
 		addFlawlessRecipes();
 	}
 
-	
 	/**
 	 * 
 	 * @param objects four parameters, see below
@@ -111,9 +110,7 @@ public class RecipeRegistry {
 
 	}
 
-	
 	private static void addStandardRecipes() {
-
 		registerCalculatorRecipe(Calculator.baby_grenade, Calculator.grenadecasing, Blocks.tnt, false);
 		registerCalculatorRecipe(Calculator.reinforcedstoneBlock, "cobblestone", "plankWood", false);
 		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBlock,4), "cobblestone", "logWood", false);
@@ -130,6 +127,12 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(Calculator.gas_lantern_off, Calculator.basic_lantern, Calculator.basic_lantern, false);
 		registerCalculatorRecipe(Calculator.prunaeSeeds, Calculator.enriched_coal, Items.wheat_seeds, false);
 		registerCalculatorRecipe(Calculator.enriched_coal, Calculator.coal_dust, Calculator.coal_dust, false);
+		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBrick, 2), Calculator.reinforcedstoneBlock, Calculator.reinforcedstoneBlock, false);
+		registerCalculatorRecipe(new ItemStack(Calculator.stableglassBlock, 2), "blockGlass", "blockGlass", false);
+		registerCalculatorRecipe(new ItemStack(Calculator.stablestoneBlock, 2), Calculator.reinforcedstoneBrick, Calculator.reinforcedstoneBrick, false);
+		registerCalculatorRecipe(new ItemStack(Calculator.reinforceddirtBrick, 2), Calculator.reinforceddirtBlock, Calculator.reinforceddirtBlock, false);
+		registerCalculatorRecipe(Calculator.rainSensor, Blocks.daylight_detector, Items.bucket, false);
+		
 		//registerCalculatorRecipe(Calculator.researchChamber, Calculator.reinforced_iron_block, Calculator.powerCube, false);
 
 		// calculator recipes
@@ -528,9 +531,6 @@ public class RecipeRegistry {
 			}
 		}
 
-		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBrick, 2), Calculator.reinforcedstoneBlock, Calculator.reinforcedstoneBlock, false);
-		registerCalculatorRecipe(new ItemStack(Calculator.reinforceddirtBrick, 2), Calculator.reinforceddirtBlock, Calculator.reinforceddirtBlock, false);
-		registerCalculatorRecipe(Calculator.rainSensor, Blocks.daylight_detector, Items.bucket, false);
 
 	}
 
@@ -574,7 +574,6 @@ public class RecipeRegistry {
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Blocks.chest, Calculator.reinforcediron_ingot, Calculator.itemStorageModule);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.electricdiamond, Calculator.reinforcediron_ingot, Calculator.transmitter);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.flawlessfirediamond, Calculator.reinforcediron_ingot, new ItemStack(Calculator.weatherStation, 4));
-		
 
 	}
 
@@ -585,19 +584,15 @@ public class RecipeRegistry {
 		registerFlawlessRecipe("ingotIron", "ingotIron", "ingotIron", "ingotIron", Items.ender_pearl);
 		registerFlawlessRecipe("logWood", "logWood", "logWood", "logWood", Blocks.obsidian);
 		registerFlawlessRecipe(Blocks.obsidian, Blocks.obsidian, Blocks.obsidian, Blocks.obsidian, Calculator.purifiedobsidianBlock);
-		registerFlawlessRecipe(Calculator.reinforcedstoneBlock, Calculator.reinforcedstoneBlock, Calculator.reinforcedstoneBlock, Calculator.reinforcedstoneBlock, new ItemStack(
-				Calculator.stablestoneBlock, 4));
 		registerFlawlessRecipe(Calculator.broccoli, Calculator.broccoli, Calculator.broccoli, Calculator.broccoli, Calculator.fiddledewFruit);
 
 		registerFlawlessRecipe(Calculator.itemEnergyModule, Calculator.itemCalculator, Calculator.itemCalculator, Calculator.itemEnergyModule, Calculator.itemLocatorModule);
 		registerFlawlessRecipe(Calculator.flawlessdiamond, "blockGlass", "blockGlass", Calculator.flawlessdiamond, new ItemStack(Calculator.flawlessGlass, 4));
 		registerFlawlessRecipe(Calculator.circuitBoard, Calculator.enriched_coal, Calculator.enriched_coal, Calculator.circuitBoard, new ItemStack(Calculator.controlled_Fuel, 4));
-		registerFlawlessRecipe(Calculator.gas_lantern_off, new ItemStack(Calculator.circuitBoard, 1, 8), new ItemStack(Calculator.circuitBoard, 1, 8), Calculator.gas_lantern_off,
-				Calculator.carbondioxideGenerator);
+		registerFlawlessRecipe(Calculator.gas_lantern_off, new ItemStack(Calculator.circuitBoard, 1, 8), new ItemStack(Calculator.circuitBoard, 1, 8), Calculator.gas_lantern_off, Calculator.carbondioxideGenerator);
 
 		registerFlawlessRecipe(Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_rod);
 		registerFlawlessRecipe(Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.ghast_tear);
-		registerFlawlessRecipe(Blocks.glass,Blocks.glass,Blocks.glass,Blocks.glass, new ItemStack(Calculator.stableglassBlock, 4));
 	}
 
 	/**
@@ -624,11 +619,12 @@ public class RecipeRegistry {
 	public static class CalculatorRecipes extends RecipeHelper {
 
 		private static final CalculatorRecipes recipes = new CalculatorRecipes();
-		public int currentRecipe =0;
+		public int currentRecipe = 0;
 
 		public static final CalculatorRecipes instance() {
 			return recipes;
 		}
+
 		public CalculatorRecipes() {
 			super(2, 1, true);
 		}
@@ -638,15 +634,10 @@ public class RecipeRegistry {
 			for (int i = 0; i < RecipeRegistry.unblocked.size(); i++) {
 				this.addRecipe(RecipeRegistry.unblocked.get(i));
 			}
-			/*
-			for (int i = 0; i < RecipeRegistry.blocked.size(); i++) {
-				currentRecipe = i;
-				this.addRecipe(RecipeRegistry.blocked.get(i));
-			}
-			*/
+			/*for (int i = 0; i < RecipeRegistry.blocked.size(); i++) { currentRecipe = i; this.addRecipe(RecipeRegistry.blocked.get(i)); } */
 
 		}
-		
+
 		public void writeToNBT(NBTTagCompound nbt, Map<Integer, Integer> unblocked, String tag) {
 			NBTTagList list = new NBTTagList();
 
@@ -672,14 +663,14 @@ public class RecipeRegistry {
 		}
 
 		public void unblockStack(Map<Integer, Integer> unblocked, ItemStack stack) {
-			if(unblocked==null){
-				unblocked= new THashMap<Integer, Integer>();
+			if (unblocked == null) {
+				unblocked = new THashMap<Integer, Integer>();
 			}
 			List<Integer> inputs = getInputIDs(stack);
 			List<Integer> outputs = getOutputIDs(stack);
 			if (inputs != null) {
 				for (int i = 0; i < inputs.size(); i++) {
-					if (unblocked.get(i) ==null || unblocked.get(i) instanceof Integer && unblocked.get(i) == 0) {
+					if (unblocked.get(i) == null || unblocked.get(i) instanceof Integer && unblocked.get(i) == 0) {
 						unblocked.put(i, 1);
 					} else if (unblocked.get(i) == 1) {
 						unblocked.replace(i, 2);
@@ -745,6 +736,7 @@ public class RecipeRegistry {
 
 			return positions;
 		}
+
 		@Override
 		public String getRecipeID() {
 			return "Calculator";

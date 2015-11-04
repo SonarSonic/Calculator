@@ -11,5 +11,8 @@ public interface IFluxPlug extends IFlux{
 	 * @param simulate
 	 * @return amount that was used up
 	 */
-	public int pullEnergy(int export, boolean simulate);
+	public int pullEnergy(int export, boolean simulate, boolean buffer);	
+
+	public int getBuffer(int export, boolean simulate);
 }
+

@@ -48,18 +48,21 @@ public class GuiFluxPlug extends GuiFlux {
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		super.drawGuiContainerForegroundLayer(par1, par2);
 		if (!this.network()) {
-			FontHelper.text(FontHelper.translate(entity.blockType.getLocalizedName()), 20, 8, 0);
+			//FontHelper.text(FontHelper.translate(entity.blockType.getLocalizedName()), 6, 4, 0);
 			FontHelper.text(FontHelper.translate("plug.sending"), 10, 40, 0);
 			FontHelper.text(FontHelper.translate("plug.receiving"), xSize / 2 + 8, 40, 0);
 			FontHelper.text(FontHelper.formatOutput(entity.currentInput), 10, 50, 2);
 			FontHelper.text(FontHelper.formatOutput(entity.currentOutput), xSize / 2 + 8, 50, 2);
 			FontHelper.text(FontHelper.translate("plug.plugs") + ": " + entity.plugCount, 10, 60, 2);
 			FontHelper.text(FontHelper.translate("plug.points") + ": " + entity.pointCount, xSize / 2 + 8, 60, 2);
-			FontHelper.textCentre(FontHelper.translate("plug.transfer") + ": " + FontHelper.formatOutput(entity.transfer), xSize, 26, 0);
+			
+			FontHelper.textCentre("Transfer : " + FontHelper.formatOutput(entity.transfer), xSize, 73, 0);
+			FontHelper.textCentre("Buffer: " +FontHelper.formatOutput((int) entity.bufferStorage), xSize, 26, 0);
+			
 			if(entity.networkName.equals("NETWORK")){
-				FontHelper.textCentre(FontHelper.translate("network.notConnected"), xSize, 73, 0);	
+				FontHelper.text(FontHelper.translate("network.notConnected"), 8, 9, 0);	
 			}else{
-				FontHelper.textCentre(entity.networkName + ": " + getNetworkType(entity.networkState), xSize, 73, 0);
+				FontHelper.text(entity.networkName + ": " + getNetworkType(entity.networkState), 8, 9, 0);
 			}
 		}
 	}

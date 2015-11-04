@@ -101,7 +101,7 @@ public class FluxHelper {
 		} else if (controller.sendMode == 2) {
 			Collections.sort(plugs, new Comparator<IFluxPlug>() {
 				public int compare(IFluxPlug o1, IFluxPlug o2) {
-					return o2.pullEnergy(TileEntityFluxPlug.maxTransfer, true) - o1.pullEnergy(TileEntityFluxPlug.maxTransfer, true);
+					return o2.pullEnergy(TileEntityFluxPlug.maxTransfer, true, true) - o1.pullEnergy(TileEntityFluxPlug.maxTransfer, true, true);
 				}
 			});
 			return plugs;
@@ -109,7 +109,7 @@ public class FluxHelper {
 		} else {
 			Collections.sort(plugs, new Comparator<IFluxPlug>() {
 				public int compare(IFluxPlug o1, IFluxPlug o2) {
-					return o1.pullEnergy(TileEntityFluxPlug.maxTransfer, true) - o2.pullEnergy(TileEntityFluxPlug.maxTransfer, true);
+					return o1.pullEnergy(TileEntityFluxPlug.maxTransfer, true, true) - o2.pullEnergy(TileEntityFluxPlug.maxTransfer, true, true);
 				}
 			});
 			return plugs;
@@ -145,12 +145,24 @@ public class FluxHelper {
 		int input = 0;
 		int[] inputList = new int[plugs.size()];
 		for (int i = 0; i < plugs.size(); i++) {
-			int transfer = plugs.get(i).pullEnergy(TileEntityFluxPlug.maxTransfer, true);
-			input += TileEntityFluxPlug.maxTransfer - transfer;
-			inputList[i] = TileEntityFluxPlug.maxTransfer - transfer;
+			input += TileEntityFluxPlug.maxTransfer - plugs.get(i).pullEnergy(TileEntityFluxPlug.maxTransfer, true, false);
+			inputList[i] = TileEntityFluxPlug.maxTransfer - plugs.get(i).pullEnergy(TileEntityFluxPlug.maxTransfer, true, true);
 
 		}
 		return new TransferList(inputList, input);
+	}
+	public static long getBuffer(int networkID) {
+		List<IFluxPlug> plugs = getPlugs(networkID);
+		if (plugs == null || plugs.size() == 0) {
+			return 0;
+		}
+		long buffer = 0;
+		int[] inputList = new int[plugs.size()];
+		for (int i = 0; i < plugs.size(); i++) {
+			buffer+= TileEntityFluxPlug.maxTransfer-plugs.get(i).getBuffer(TileEntityFluxPlug.maxTransfer, true);
+
+		}
+		return buffer;
 	}
 
 	public static boolean checkPlayerName(String player, int networkID) {

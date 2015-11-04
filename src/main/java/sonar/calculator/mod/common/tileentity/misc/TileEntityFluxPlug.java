@@ -4,6 +4,7 @@ import ic2.api.energy.tile.IEnergySource;
 
 import java.util.List;
 
+import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,12 +17,15 @@ import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
+import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.SonarHelper;
 
 public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPlug {
 
 	public int pointCount, plugCount, currentInput, currentOutput, transfer;
-	public int[] receive = new int[6];
+	public long bufferStorage;
+	public EnergyStorage buffer = new EnergyStorage(100000);
 
 	public static final int maxTransfer = 2000000000;
 
@@ -44,12 +48,14 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		this.beginTransfer(controller, points);
 	}
 
+	public int getBuffer(int export, boolean simulate) {
+		export -= buffer.extractEnergy(export, simulate);
+		return export;
+	}
 	@Override
-	public int pullEnergy(int export, boolean simulate) {
-		if (simulate) {
-			for (int i = 0; i < 6; i++) {
-				export -= receive[i];
-			}
+	public int pullEnergy(int export, boolean simulate, boolean buffer) {
+		if(buffer){
+			export -= this.buffer.extractEnergy(export, simulate);
 		}
 		for (int i = 0; i < 6; i++) {
 			if (this.handlers[i] != null) {
@@ -63,14 +69,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 						export -= remove * 4;
 						((IEnergySource) this.handlers[i]).drawEnergy(remove);
 					}
-				} else if (handlers[i] instanceof IEnergyReceiver) {
-					int stored = ((IEnergyReceiver) this.handlers[i]).getEnergyStored(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)]);
-					if (stored == 0) {
-						this.receive[i] = 0;
-					}
 				}
-			} else {
-				this.receive[i] = 0;
 			}
 
 		}
@@ -81,6 +80,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		TransferList transferList = FluxHelper.getMaxInput(networkID);
 		this.currentOutput = FluxHelper.getMaxOutput(networkID);
 		this.currentInput = transferList.energy;
+		this.bufferStorage = FluxHelper.getBuffer(networkID);
 		int[] inputList = transferList.inputList;
 		int[] currentList = inputList;
 		int currentTransfer = 0;
@@ -88,10 +88,9 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		if (controller != null && controller.transmitterMode == 1) {
 			TransferList push = sendEnergy(controller, currentList, controller.recieveMode, true);
 			currentList = push.inputList;
-			currentTransfer += push.energy;
+			currentTransfer += push.energy;			
 		}
-
-		if (points != null && points.size() > 0 && currentOutput != 0 && currentInput != 0) {
+		if (points != null && points.size() > 0 && currentOutput != 0  && (currentInput != 0 || bufferStorage!=0)) {
 			for (int i = 0; i < points.size(); i++) {
 				TileEntity target = FluxHelper.getTile(points.get(i));
 				if (controller == null) {
@@ -129,8 +128,8 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			if (target instanceof IFluxPlug) {
 				int plugTransfer = 0;
 				int maxTransfer = Math.min(currentList[i], outputted);
-
-				int output = Math.min(maxTransfer - point.pushEnergy(maxTransfer, true), maxTransfer - ((IFluxPlug) target).pullEnergy(maxTransfer, true));
+				
+				int output = Math.min(maxTransfer - point.pushEnergy(maxTransfer, true), maxTransfer - ((IFluxPlug) target).pullEnergy(maxTransfer, true, true));
 				plugTransfer += push(point, ((IFluxPlug) target), output, false);
 
 				outputted -= plugTransfer;
@@ -148,8 +147,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 	 * 
 	 * @param point recieving transfer
 	 * @param inputList list of maximum rf/t for plugs
-	 * @param recieveMode DISTRIBUTE = 1, SURGE = 2, HYPER_SURGE = 3, GOD_MODE =
-	 *            4;
+	 * @param recieveMode DISTRIBUTE = 1, SURGE = 2, HYPER_SURGE = 3, GOD_MODE = 4;
 	 * @param allowDimensions is a controller present
 	 * @return
 	 */
@@ -162,7 +160,6 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		int[] currentList = inputList;
 		int currentTrans = 0;
 		List<IFluxPlug> plugs = FluxHelper.getPlugs(networkID);
-
 		for (int i = 0; i < plugs.size(); i++) {
 			int maxTransfer = Math.min(currentList[i], outputted);
 			TileEntity target = FluxHelper.getTile(plugs.get(i));
@@ -171,13 +168,13 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 				switch (recieveMode) {
 				case SURGE:
 					if (currentList[i] > 0) {
-						int limitedOutput = Math.min(currentList[i] - point.pushEnergy(currentList[i], true), currentList[i] - ((IFluxPlug) target).pullEnergy(currentList[i], true));
+						int limitedOutput = Math.min(currentList[i] - point.pushEnergy(currentList[i], true), currentList[i] - ((IFluxPlug) target).pullEnergy(currentList[i], true, true));
 						plugTransfer += push(point, ((IFluxPlug) target), limitedOutput, false);
 					}
 					break;
 				case HYPER_SURGE:
 					int o = 0;
-					int hyperSurge = Math.min(maxOutput - point.pushEnergy(maxOutput, true), maxOutput - ((IFluxPlug) target).pullEnergy(maxOutput, true));
+					int hyperSurge = Math.min(maxOutput - point.pushEnergy(maxOutput, true), maxOutput - ((IFluxPlug) target).pullEnergy(maxOutput, true, true));
 					while (o != 4) {
 						plugTransfer += push(point, ((IFluxPlug) target), hyperSurge, false);
 						o++;
@@ -185,7 +182,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 					break;
 				case GOD_MODE:
 					int t = 0;
-					int godMode = Math.min(maxOutput - point.pushEnergy(maxOutput, true), maxOutput - ((IFluxPlug) target).pullEnergy(maxOutput, true));
+					int godMode = Math.min(maxOutput - point.pushEnergy(maxOutput, true), maxOutput - ((IFluxPlug) target).pullEnergy(maxOutput, true, true));
 					while (t != 10) {
 						plugTransfer += push(point, ((IFluxPlug) target), godMode, false);
 						t++;
@@ -193,12 +190,12 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 					break;
 				default:
 					if (recieveMode == DISTRIBUTE) { // Even Distribution
-						int transfer = this.maxTransfer - ((IFluxPlug) target).pullEnergy(this.maxTransfer, true);
+						int transfer = this.maxTransfer - ((IFluxPlug) target).pullEnergy(this.maxTransfer, true, true);
 						int percentage = Math.round((float) (maxOutput - point.pushEnergy(maxOutput, true)) / this.currentOutput);
 						int adjustedTransfer = (int) (transfer * percentage);
 						maxTransfer = Math.max(10, adjustedTransfer);
 					}
-					int output = Math.min(maxTransfer - point.pushEnergy(maxTransfer, true), maxTransfer - ((IFluxPlug) target).pullEnergy(maxTransfer, true));
+					int output = Math.min(maxTransfer - point.pushEnergy(maxTransfer, true), maxTransfer - ((IFluxPlug) target).pullEnergy(maxTransfer, true, true));
 					plugTransfer += push(point, ((IFluxPlug) target), output, false);
 
 				}
@@ -236,8 +233,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 	 * 
 	 * @param point recieving transfer
 	 * @param inputList list of maximum rf/t for plugs
-	 * @param recieveMode DISTRIBUTE = 1, SURGE = 2, HYPER_SURGE = 3, GOD_MODE =
-	 *            4;
+	 * @param recieveMode DISTRIBUTE = 1, SURGE = 2, HYPER_SURGE = 3, GOD_MODE = 4;
 	 * @param allowDimensions is a controller present
 	 * @return
 	 */
@@ -284,7 +280,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 				plugTransfer += push(point, this, output, simulate);
 
 			}
-			
+
 			outputted -= plugTransfer;
 
 		}
@@ -292,27 +288,39 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 	}
 
 	public int receiveEnergy(ForgeDirection dir, int maxTransfer, boolean simulate) {
-		/*
-		TileEntityFluxController controller = FluxHelper.getController(this.networkID);
-		List<IFluxPoint> points = FluxHelper.getPoints(networkID);
-		if (!FluxHelper.checkPlayerName(this, networkID)) {
-			return 0;
-		}
-		receive[dir.flag] = beginReceive(controller, points, maxTransfer, simulate);
-		IFlux flux = FluxRegistry.getMaster(this.networkID);
-		if (flux != null) {
-			TileEntity tile = FluxHelper.getTile(flux);
-			if (tile instanceof TileEntityFluxPlug) {
-				TileEntityFluxPlug master = (TileEntityFluxPlug) tile;
-				master.transfer += receive[dir.flag];
+		int export = maxTransfer;
+		TileEntity handler = SonarHelper.getAdjacentTileEntity(this, dir);
+		if (handler != null) {
+			if (handler instanceof IEnergyProvider) {
+				export -= ((IEnergyProvider) handler).extractEnergy(dir.getOpposite(), maxTransfer, true);
+				
+			} else if (handler instanceof IEnergySource) {
+				export -= ((IEnergySource) handler).getOfferedEnergy() * 4;
 			}
 		}
-		*/
+		if (maxTransfer == export) {
+			IFluxPlug plug = (IFluxPlug) FluxRegistry.getMaster(this.networkID);
+			TileEntity target = null;
+			if (plug != null) {
+				target = FluxHelper.getTile(plug);
+			}
+			if (target != null) {
+				if (!networkName.equals("NETWORK")) {
+					return buffer.receiveEnergy(Math.min(maxTransfer, ((TileEntityFluxPlug) target).currentOutput), simulate);
+				}
+			}
+		}
+
 		return 0;
 	}
 
+	/** Empties any excess in the buffer */
+	public int pushDrainage(TileEntityFluxPlug plug, TileEntityFluxPlug drain, int max, boolean simulate) {
+		return max - plug.buffer.receiveEnergy(max - drain.buffer.extractEnergy(max, simulate), simulate);
+	}
+
 	public int push(IFluxPoint point, IFluxPlug plug, int max, boolean simulate) {
-		return max - point.pushEnergy(max - plug.pullEnergy(max, simulate), simulate);
+		return max - point.pushEnergy(max - plug.pullEnergy(max, simulate, true), simulate);
 	}
 
 	@Override
@@ -343,12 +351,18 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			}
 			FluxRegistry.removeMaster(this);
 			List<IFlux> plugs = FluxRegistry.getPlugs(networkID);
+			boolean masterSet = false;
 			if (plugs != null && plugs.size() > 0) {
 				for (int i = 0; i < plugs.size(); i++) {
 					IFlux plug = plugs.get(i);
 					TileEntity target = FluxHelper.getTile(plug);
-					if (target != null && target instanceof IFluxPlug) {
-						FluxRegistry.addMaster((IFlux) target);
+					if (target != null && target instanceof TileEntityFluxPlug) {
+						TileEntityFluxPlug master = (TileEntityFluxPlug) target;
+						if (!masterSet) {
+							FluxRegistry.addMaster(master);
+							masterSet = true;
+						}
+						pushDrainage(master, this, maxTransfer, false);
 					}
 
 				}
@@ -364,17 +378,18 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			this.transfer = nbt.getInteger("transfer");
 			this.currentInput = nbt.getInteger("currentInput");
 			this.currentOutput = nbt.getInteger("currentOutput");
-			this.receive = nbt.getIntArray("receive");
-			if(receive==null || receive.length<6){
-				receive= new int[6];
-			}
+			NBTHelper.readEnergyStorage(buffer, nbt);
 		}
 		if (type == SyncType.SYNC) {
 			this.plugCount = nbt.getInteger("plugCount");
 			this.pointCount = nbt.getInteger("pointCount");
 			this.currentInput = nbt.getInteger("currentInput");
 			this.currentOutput = nbt.getInteger("currentOutput");
+			this.bufferStorage = nbt.getLong("bufferStorage");
 			this.transfer = nbt.getInteger("transfer");
+		}
+		if (type == SyncType.DROP) {
+			this.buffer.setEnergyStored(nbt.getInteger("energy"));
 		}
 	}
 
@@ -384,7 +399,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			nbt.setInteger("transfer", transfer);
 			nbt.setInteger("currentInput", currentInput);
 			nbt.setInteger("currentOutput", currentOutput);
-			nbt.setIntArray("receive", receive);
+			NBTHelper.writeEnergyStorage(buffer, nbt);
 		}
 		if (type == SyncType.SYNC) {
 			IFluxPlug plug = (IFluxPlug) FluxRegistry.getMaster(this.networkID);
@@ -398,7 +413,12 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 				nbt.setInteger("currentInput", ((TileEntityFluxPlug) target).currentInput);
 				nbt.setInteger("currentOutput", ((TileEntityFluxPlug) target).currentOutput);
 				nbt.setInteger("transfer", ((TileEntityFluxPlug) target).transfer);
+				nbt.setLong("bufferStorage", ((TileEntityFluxPlug) target).bufferStorage);
 			}
+		}
+		if (type == SyncType.DROP) {
+			nbt.setInteger("energy", this.buffer.getEnergyStored());
+
 		}
 	}
 

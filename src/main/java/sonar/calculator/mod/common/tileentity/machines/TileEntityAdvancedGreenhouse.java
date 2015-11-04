@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -13,9 +14,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
+import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
 import sonar.calculator.mod.integration.planting.IPlanter;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
@@ -34,7 +37,6 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 	public int stackGlass = 94;
 
 	public final int requiredBuildEnergy = (stackStairs + stackLog + stackPlanks + stackGlass) * CalculatorConfig.getInteger("Build Energy");
-	
 
 	public TileEntityAdvancedGreenhouse() {
 
@@ -71,7 +73,9 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		this.markDirty();
 	}
 
-	private void harvestCrops() {
+
+	public List<BlockCoords> getPlantArea(){
+		List<BlockCoords> coords = new ArrayList();
 		int fX = getForward().offsetX;
 		int fZ = getForward().offsetZ;
 		int x = xCoord + (4 * fX);
@@ -79,42 +83,12 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		int z = zCoord + (4 * fZ);
 		for (int Z = -3; Z <= 3; Z++) {
 			for (int X = -3; X <= 3; X++) {
-				Block target = this.worldObj.getBlock(x + X, y, z + Z);
-				if (target instanceof IGrowable) {
-					harvest(worldObj, x + X, y, z + Z, (IGrowable) target);
-				}
+				coords.add(new BlockCoords(x + X, y, z + Z));
 			}
 		}
+		return coords;
 	}
-
-	@Override
-	public boolean plant(ItemStack stack, int slot) {
-		IPlanter planter = PlanterRegistry.getPlanter(stack);
-		Block crop = planter.getCropFromStack(stack);
-		int meta = planter.getMetaFromStack(stack);
-		if (crop == null) {
-			return false;
-		}
-		for (int Z = -3; Z <= 3; Z++) {
-			for (int X = -3; X <= 3; X++) {
-				if (canPlant(this.worldObj, xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, slot, ((IPlantable) stack.getItem()))) {
-
-					this.worldObj.setBlock(xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, Blocks.air, 0, 1 | 2);
-
-					this.worldObj.setBlock(xCoord + (getForward().offsetX * 4) + X, yCoord, zCoord + (getForward().offsetZ * 4) + Z, crop, meta, 1 | 2);
-
-					this.slots[slot].stackSize--;
-					if (this.slots[slot].stackSize <= 0) {
-						this.slots[slot] = null;
-					}
-					return true;
-				}
-			}
-
-		}
-		this.planting = 0;
-		return false;
-	}
+	
 
 	public FailedCoords createBlock() {
 		FailedCoords coords = canMakeMultiblock();
@@ -407,6 +381,8 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 							this.storage.modifyEnergyStored(-farmlandRF);
 						}
 					}
+					AgriCraftAPIWrapper.getInstance().removeWeeds(worldObj, x + X, y, z + Z, false);
+
 				}
 
 			}

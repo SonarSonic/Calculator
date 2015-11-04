@@ -100,7 +100,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 					TileEntity target = this.worldObj.getTileEntity(xCoord + X, yCoord + Y, zCoord + Z);
 					if (target != null && target instanceof TileEntityCalculator.Dynamic) {
 						TileEntityCalculator.Dynamic dynamic = (Dynamic) target;
-						dynamic.setUnblocked(unblocked);
+						//dynamic.setUnblocked(unblocked);
 					}
 				}
 			}

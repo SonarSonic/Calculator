@@ -32,6 +32,7 @@ import sonar.calculator.mod.client.gui.machines.GuiAtomicMultiplier;
 import sonar.calculator.mod.client.gui.machines.GuiBasicGreenhouse;
 import sonar.calculator.mod.client.gui.machines.GuiDockingStation;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
+import sonar.calculator.mod.client.gui.machines.GuiFlawlessFurnace;
 import sonar.calculator.mod.client.gui.machines.GuiFlawlessGreenhouse;
 import sonar.calculator.mod.client.gui.machines.GuiHealthProcessor;
 import sonar.calculator.mod.client.gui.machines.GuiHungerProcessor;
@@ -71,6 +72,7 @@ import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
 import sonar.calculator.mod.common.containers.ContainerExtractor;
 import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
+import sonar.calculator.mod.common.containers.ContainerFlawlessFurnace;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.containers.ContainerFluxController;
@@ -106,6 +108,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessFurnace;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
@@ -320,6 +323,10 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.aAssimilator:
 				if ((entity instanceof TileEntityAssimilator.Algorithm)) {
 					return new ContainerAlgorithmAssimilator(player.inventory, (TileEntityAssimilator) entity);
+				}
+			case CalculatorGui.flawlessFurnace:
+				if ((entity instanceof TileEntityFlawlessFurnace)) {
+					return new ContainerFlawlessFurnace(player.inventory, (TileEntityFlawlessFurnace) entity);
 				}
 			default:
 				break;
@@ -559,6 +566,10 @@ public class CalculatorCommon implements IGuiHandler {
 			case CalculatorGui.aAssimilator:
 				if ((entity instanceof TileEntityAssimilator.Algorithm)) {
 					return new GuiAlgorithmAssimilator(player.inventory, (TileEntityAssimilator) entity);
+				}
+			case CalculatorGui.flawlessFurnace:
+				if ((entity instanceof TileEntityFlawlessFurnace)) {
+					return new GuiFlawlessFurnace(player.inventory, (TileEntityFlawlessFurnace) entity);
 				}
 			default:
 				break;

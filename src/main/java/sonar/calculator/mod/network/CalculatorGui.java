@@ -64,6 +64,7 @@ public class CalculatorGui {
 	public static final int Teleporter = 49;
 	public static final int sAssimilator = 50;
 	public static final int aAssimilator = 51;
+	public static final int flawlessFurnace = 52;
 
 	
 	

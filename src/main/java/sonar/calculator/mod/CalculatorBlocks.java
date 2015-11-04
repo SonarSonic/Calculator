@@ -2,12 +2,14 @@ package sonar.calculator.mod;
 
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemBlockWithMetadata;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.block.CalculatorPlanks;
 import sonar.calculator.mod.common.block.CalculatorSaplings;
 import sonar.calculator.mod.common.block.CalculatorStairs;
 import sonar.calculator.mod.common.block.ConnectedBlock;
+import sonar.calculator.mod.common.block.ItemMetaBlock;
 import sonar.calculator.mod.common.block.SmeltingBlock;
 import sonar.calculator.mod.common.block.calculators.AtomicCalculatorBlock;
 import sonar.calculator.mod.common.block.calculators.DynamicCalculatorBlock;
@@ -34,6 +36,9 @@ import sonar.calculator.mod.common.block.machines.Assimilator;
 import sonar.calculator.mod.common.block.machines.AtomicMultiplier;
 import sonar.calculator.mod.common.block.machines.BasicGreenhouse;
 import sonar.calculator.mod.common.block.machines.DockingStation;
+import sonar.calculator.mod.common.block.machines.EternalFire;
+import sonar.calculator.mod.common.block.machines.FlawlessCapacitor;
+import sonar.calculator.mod.common.block.machines.FlawlessFurnace;
 import sonar.calculator.mod.common.block.machines.FlawlessGreenhouse;
 import sonar.calculator.mod.common.block.machines.HealthProcessor;
 import sonar.calculator.mod.common.block.machines.HungerProcessor;
@@ -71,6 +76,8 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessCapacitor;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessFurnace;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
@@ -109,14 +116,18 @@ public class CalculatorBlocks extends Calculator {
 		reinforceddirtBrick = new ReinforcedDirtBlock().setBlockName("reinforceddirtBrick").setCreativeTab(Calculator).setBlockTextureName(modid + ":" + "reinforceddirtbrick");
 		GameRegistry.registerBlock(reinforceddirtBrick, SonarBlockTip.class, "reinforceddirtBrick");
 		stablestoneBlock = new ConnectedBlock.Stable().setBlockName("stablestoneBlock").setCreativeTab(Calculator).setHardness(2.0F);
-		GameRegistry.registerBlock(stablestoneBlock, SonarBlockTip.class, "stablestoneBlock");
+		GameRegistry.registerBlock(stablestoneBlock, ItemMetaBlock.class, "stablestoneBlock");
+		stablestonerimmedBlock = new ConnectedBlock.StableRimmed().setBlockName("stablestonerimmedBlock").setCreativeTab(Calculator).setHardness(2.0F);
+		GameRegistry.registerBlock(stablestonerimmedBlock, ItemMetaBlock.class, "stablestonerimmedBlock");
+		stablestonerimmedblackBlock = new ConnectedBlock.StableBlackRimmed().setBlockName("stablestonerimmedblackBlock").setCreativeTab(Calculator).setHardness(2.0F);
+		GameRegistry.registerBlock(stablestonerimmedblackBlock, ItemMetaBlock.class, "stablestonerimmedblackBlock");
 		stableglassBlock = new ConnectedBlock.StableGlass("stablestone_glass", 3).setBlockName("StableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);
 		GameRegistry.registerBlock(stableglassBlock, SonarBlockTip.class, "StableGlass");
 		clearstableglassBlock = new ConnectedBlock.StableGlass("stablestone_clear", 4).setBlockName("ClearStableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);
 		GameRegistry.registerBlock(clearstableglassBlock, SonarBlockTip.class, "ClearStableGlass");
-		flawlessGlass = new ConnectedBlock(Material.glass, "flawlessglass", 1).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);
+		flawlessGlass = new ConnectedBlock(Material.glass, "flawlessglass", 1, false).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);
 		GameRegistry.registerBlock(flawlessGlass, SonarBlockTip.class, "FlawlessGlass");
-		purifiedobsidianBlock = new ConnectedBlock(Material.rock, "purifiedobsidian", 2).setBlockName("purifiedobsidianBlock").setCreativeTab(Calculator);
+		purifiedobsidianBlock = new ConnectedBlock(Material.rock, "purifiedobsidian", 2, false).setBlockName("purifiedobsidianBlock").setCreativeTab(Calculator);
 		GameRegistry.registerBlock(purifiedobsidianBlock, SonarBlockTip.class, "purifiedobsidianBlock");
 
 		// calculators
@@ -139,6 +150,9 @@ public class CalculatorBlocks extends Calculator {
 		reinforcedFurnace = new SmeltingBlock(7).setBlockName("ReinforcedFurnace").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(reinforcedFurnace, SonarBlockTip.class, "ReinforcedFurnace");
 		GameRegistry.registerTileEntity(TileEntityMachines.ReinforcedFurnace.class, "ReinforcedFurnace");
+		//flawlessFurnace = new FlawlessFurnace().setBlockName("FlawlessFurnace").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
+		//GameRegistry.registerBlock(flawlessFurnace, SonarBlockTip.class, "FlawlessFurnace");
+		//GameRegistry.registerTileEntity(TileEntityFlawlessFurnace.class, "FlawlessFurnace");
 		stoneSeperator = new SmeltingBlock(4).setBlockName("StoneSeperatorIdle").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(stoneSeperator, SonarBlockTip.class, "StoneSeperatorIdle");
 		GameRegistry.registerTileEntity(TileEntityMachines.StoneSeperator.class, "StoneSeperatorIdle");
@@ -219,9 +233,9 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerTileEntity(TileEntityCalculatorPlug.class, "CalculatorPlug");
 
 		// energy
-		// flawlessCapacitor = new FlawlessCapacitor().setBlockName("FlawlessCapacitor").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(6.5F).setBlockTextureName(modid + ":" +
+		 //flawlessCapacitor = new FlawlessCapacitor().setBlockName("FlawlessCapacitor").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(6.5F).setBlockTextureName(modid + ":" +
 		// "electric_diamond_block");
-		// GameRegistry.registerBlock(flawlessCapacitor,CalcBlockItem.class, "FlawlessCapacitor");
+		// GameRegistry.registerBlock(flawlessCapacitor,SonarBlockTip.class, "FlawlessCapacitor");
 		// GameRegistry.registerTileEntity(TileEntityFlawlessCapacitor.class, "FlawlessCapacitor");
 
 		// generators
@@ -363,7 +377,7 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerBlock(flawless_fire_block, SonarBlockTip.class, "FlawlessFireBlock");
 		electric_diamond_block = new ElectricBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
 		GameRegistry.registerBlock(electric_diamond_block, SonarBlockTip.class, "ElectricBlock");
-		end_diamond_block = new EndBlock().setResistance(20.0F);
+		end_diamond_block = new EndBlock().setCreativeTab(Calculator).setResistance(20.0F);
 		GameRegistry.registerBlock(end_diamond_block, SonarBlockTip.class, "EndBlock");
 
 		calculatorScreen = new CalculatorScreen().setBlockName("calculatorScreen").setHardness(1.0F).setResistance(20.0F);

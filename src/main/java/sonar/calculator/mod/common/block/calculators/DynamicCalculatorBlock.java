@@ -55,11 +55,13 @@ public class DynamicCalculatorBlock extends SonarMachineBlock {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityplayer, ItemStack itemstack) {
 		super.onBlockPlacedBy(world, x, y, z, entityplayer, itemstack);
+		/*
 		TileEntity target = world.getTileEntity(x, y, z);
 		if (target != null && target instanceof TileEntityCalculator.Dynamic) {
 			TileEntityCalculator.Dynamic calc = (TileEntityCalculator.Dynamic) target;
 			calc.getResearch();
 		}
+		*/
 	}
 
 	@Override

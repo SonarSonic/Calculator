@@ -51,6 +51,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	public String destinationName = "DESTINATION";
 	public String password = "";
 	public boolean coolDown, passwordMatch;
+	public int coolDownTicks = 0;
 
 	public int linkID;
 	public String linkPassword = "";
@@ -63,16 +64,21 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 		if (this.worldObj.isRemote) {
 			return;
 		}
-		if (!coolDown) {
-			if (this.teleporterID == 0) {
-				return;
-			}
-			startTeleportation();
-
+		if (coolDownTicks != 0) {
+			System.out.print(" " +coolDownTicks);
+			coolDownTicks--;
 		} else {
-			List<EntityPlayer> players = this.getPlayerList();
-			if (players == null || players.size() == 0) {
-				coolDown = false;
+			if (!coolDown) {
+				if (this.teleporterID == 0) {
+					return;
+				}
+				startTeleportation();
+
+			} else {
+				List<EntityPlayer> players = this.getPlayerList();
+				if (players == null || players.size() == 0) {
+					coolDown = false;
+				}
 			}
 		}
 	}
@@ -130,14 +136,14 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 				if (worldObj.getBlock(xCoord + dir.offsetX, yCoord - j, zCoord + dir.offsetZ) == Calculator.stablestoneBlock) {
 					blocks++;
 				}
-			}		
-			if(blocks==3){
-				blocks=0;
+			}
+			if (blocks == 3) {
+				blocks = 0;
 				stable++;
 			}
 		}
 
-		return stable>=3 && flag && yCoord - 2 > 0;
+		return stable >= 3 && flag && yCoord - 2 > 0;
 	}
 
 	public List<EntityPlayer> getPlayerList() {
@@ -186,6 +192,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			this.password = nbt.getString("password");
 			this.coolDown = nbt.getBoolean("coolDown");
 			this.passwordMatch = nbt.getBoolean("passwordMatch");
+			this.coolDownTicks = nbt.getInteger("coolDownTicks");
 		}
 	}
 
@@ -201,6 +208,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			nbt.setString("password", this.password);
 			nbt.setBoolean("coolDown", this.coolDown);
 			nbt.setBoolean("passwordMatch", this.passwordMatch);
+			nbt.setInteger("coolDownTicks", this.coolDownTicks);
 		}
 	}
 
