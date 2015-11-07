@@ -1,6 +1,5 @@
 package sonar.calculator.mod.common.block;
 
-import java.awt.Color;
 import java.util.List;
 
 import cofh.api.item.IToolHammer;
@@ -27,9 +26,10 @@ public class ConnectedBlock extends Block {
 	public String type;
 	public int target;
 	public boolean hasColours = false;
+	
 	@SideOnly(Side.CLIENT)
-	private IIcon[] colours = new IIcon[256], normal = new IIcon[16];
-
+	private IIcon[] colours,normal;
+	
 	public ConnectedBlock(Material material, String name, int block, boolean hasColours) {
 		super(material);
 		this.target = block;
@@ -110,6 +110,9 @@ public class ConnectedBlock extends Block {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		if (hasColours()) {
+			if(colours==null){
+				colours= new IIcon[256];
+			}
 			String colourType = "";
 			for (int meta = 0; meta < 16; meta++) {
 				if (meta != 0) {
@@ -125,6 +128,9 @@ public class ConnectedBlock extends Block {
 				}
 			}
 		} else {
+			if(normal==null){
+				normal= new IIcon[16];
+			}
 			for (int i = 0; i < 16; i++) {
 				if (i == 0) {
 					this.normal[i] = iconRegister.registerIcon(Calculator.modid + ":connected/" + type);
@@ -295,6 +301,7 @@ public class ConnectedBlock extends Block {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		if (this.target == 1) {
 			return blockIcon;
@@ -465,11 +472,12 @@ public class ConnectedBlock extends Block {
 
 	}
 
+	@SideOnly(Side.CLIENT)
 	public IIcon getI(int num, int meta) {
 		if (this.hasColours()) {
-			return colours[num + meta * 16];
+			return this.colours[num + meta * 16];
 		}
-		return normal[num];
+		return this.normal[num];
 
 	}
 	@Override

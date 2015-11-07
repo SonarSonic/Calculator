@@ -104,7 +104,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 
 		}
 		if (lightTicks > 0) {
-			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes)/5;
+			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes);
 			if (lightTicks < 200) {
 				if (this.storage.getEnergyStored() + add <= this.storage.getMaxEnergyStored()) {
 					lightTicks++;
