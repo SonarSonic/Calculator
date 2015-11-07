@@ -2,7 +2,9 @@ package sonar.calculator.mod.integration.minetweaker;
 
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
+import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
+import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
 import net.minecraft.item.ItemStack;
@@ -23,42 +25,12 @@ import java.util.Map;
 public class CalculatorHandler {
 
 	@ZenMethod
-	public static void addRecipe(IItemStack input1, IItemStack input2, IItemStack output) {
+	public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output) {
 		MineTweakerAPI.apply(new AddRecipeAction(input1, input2, MineTweakerMC.getItemStack(output)));
 	}
 
 	@ZenMethod
-	public static void addRecipe(IOreDictEntry input1, IItemStack input2, IItemStack output) {
-		MineTweakerAPI.apply(new AddRecipeAction(input1, input2, MineTweakerMC.getItemStack(output)));
-	}
-
-	@ZenMethod
-	public static void addRecipe(IItemStack input1, IOreDictEntry input2, IItemStack output) {
-		MineTweakerAPI.apply(new AddRecipeAction(input1, input2, MineTweakerMC.getItemStack(output)));
-	}
-
-	@ZenMethod
-	public static void addRecipe(IOreDictEntry input1, IOreDictEntry input2, IItemStack output) {
-		MineTweakerAPI.apply(new AddRecipeAction(input1, input2, MineTweakerMC.getItemStack(output)));
-	}
-
-	@ZenMethod
-	public static void removeRecipe(IItemStack input1, IItemStack input2) {
-		MineTweakerAPI.apply(new RemoveRecipeAction(input1, input2));
-	}
-
-	@ZenMethod
-	public static void removeRecipe(IOreDictEntry input1, IItemStack input2) {
-		MineTweakerAPI.apply(new RemoveRecipeAction(input1, input2));
-	}
-
-	@ZenMethod
-	public static void removeRecipe(IItemStack input1, IOreDictEntry input2) {
-		MineTweakerAPI.apply(new RemoveRecipeAction(input1, input2));
-	}
-
-	@ZenMethod
-	public static void removeRecipe(IOreDictEntry input1, IOreDictEntry input2) {
+	public static void removeRecipe(IIngredient input1, IIngredient input2) {
 		MineTweakerAPI.apply(new RemoveRecipeAction(input1, input2));
 	}
 
@@ -78,6 +50,11 @@ public class CalculatorHandler {
 			if (input2 instanceof IOreDictEntry)
 				input2 = new RecipeHelper.OreStack(((IOreDictEntry) input2).getName(), 1);
 
+			if (input1 instanceof ILiquidStack || input2 instanceof ILiquidStack) {
+				MineTweakerAPI.logError("A liquid was passed intro a calculator recipe, calculators do not use liquids when crafting, aborting!");
+				input1 = input2 = output = null;
+			}
+
 			this.input1 = input1;
 			this.input2 = input2;
 			this.output = output;
@@ -85,6 +62,8 @@ public class CalculatorHandler {
 
 		@Override
 		public void apply() {
+			if (input1 == null || input2 == null ||output == null)
+				return;
 			RecipeRegistry.CalculatorRecipes.instance().addRecipe(input1, input2, output);
 		}
 
@@ -92,18 +71,19 @@ public class CalculatorHandler {
 
 		@Override
 		public void undo() {
-			//TODO: logging if no recipe was removed
+			if (input1 == null || input2 == null ||output == null)
+				return;
 			RecipeRegistry.CalculatorRecipes.instance().removeRecipe(input1, input2);
 		}
 
 		@Override
 		public String describe() {
-			return "Adding calculator recipe";
+			return String.format("Adding calculator recipe (%s + %s = %s)", input1, input2, output);
 		}
 
 		@Override
 		public String describeUndo() {
-			return "Removing calculator recipe";
+			return String.format("Reverting /%s/", describe());
 		}
 
 		@Override
@@ -135,6 +115,11 @@ public class CalculatorHandler {
 			if (input2 instanceof IOreDictEntry)
 				input2 = new RecipeHelper.OreStack(((IOreDictEntry) input2).getName(), 1);
 
+			if (input1 instanceof ILiquidStack || input2 instanceof ILiquidStack) {
+				MineTweakerAPI.logError("A liquid was passed intro a calculator recipe, calculators do not use liquids when crafting, aborting!");
+				input1 = input2 = output = null;
+			}
+
 			this.input1 = input1;
 			this.input2 = input2;
 
@@ -156,6 +141,8 @@ public class CalculatorHandler {
 
 		@Override
 		public void apply() {
+			if (input1 == null || input2 == null ||output == null)
+				return;
 			RecipeRegistry.CalculatorRecipes.instance().removeRecipe(input1, input2);
 		}
 
@@ -166,17 +153,19 @@ public class CalculatorHandler {
 
 		@Override
 		public void undo() {
+			if (input1 == null || input2 == null ||output == null)
+				return;
 			RecipeRegistry.CalculatorRecipes.instance().addRecipe(input1, input2, output);
 		}
 
 		@Override
 		public String describe() {
-			return null;
+			return String.format("Removing calculator recipe (%s + %s = %s)", input1, input2, output);
 		}
 
 		@Override
 		public String describeUndo() {
-			return null;
+			return String.format("Reverting /%s/", describe());
 		}
 
 		@Override
