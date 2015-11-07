@@ -23,7 +23,7 @@ import java.util.Map;
 public class CalculatorHandler {
 
 	@ZenMethod
-	public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output) {
+	public static void addRecipe(IIngredient input1, IIngredient input2, IItemStack output) {
 		MineTweakerAPI.apply(new AddRecipeAction(input1, input2, MineTweakerMC.getItemStack(output)));
 	}
 

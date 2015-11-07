@@ -841,9 +841,9 @@ public class RecipeRegistry {
 
 		@Override
 		public void addRecipes() {
-			addRecipe(new ItemStack(Calculator.electricdiamond), Calculator.flawlessfirediamond);
-			addRecipe(new ItemStack(Calculator.itemScientificCalculator), Calculator.itemCalculator);
-			addRecipe(new ItemStack(Calculator.electric_diamond_block), Calculator.flawless_fire_block);
+			addRecipe(Calculator.flawlessfirediamond, new ItemStack(Calculator.electricdiamond));
+			addRecipe(Calculator.itemCalculator, new ItemStack(Calculator.itemScientificCalculator));
+			addRecipe(Calculator.flawless_fire_block, new ItemStack(Calculator.electric_diamond_block));
 		}
 
 		public Map<ItemStack, ItemStack> getRecipeStacks() {

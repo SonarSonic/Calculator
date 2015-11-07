@@ -10,6 +10,8 @@ import minetweaker.api.oredict.IOreDictEntry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
+import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.core.utils.helpers.RecipeHelper;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -17,12 +19,12 @@ import stanhebben.zenscript.annotations.ZenMethod;
 /**
  * Created by AEnterprise
  */
-@ZenClass("mods.calculator.conductorMast")
-public class ConductorMastHandler {
+@ZenClass("mods.calculator.algorithmSeparator")
+public class AlgorithmSeparatorHandler {
 
 	@ZenMethod
-	public static void addRecipe(IIngredient input, int powercost, IItemStack output) {
-		MineTweakerAPI.apply(new AddRecipeAction(input, powercost, MineTweakerMC.getItemStack(output)));
+	public static void addRecipe(IIngredient input, IItemStack output1, IItemStack output2) {
+		MineTweakerAPI.apply(new AddRecipeAction(input, MineTweakerMC.getItemStack(output1), MineTweakerMC.getItemStack(output2)));
 	}
 
 	@ZenMethod
@@ -33,46 +35,44 @@ public class ConductorMastHandler {
 
 	private static class AddRecipeAction implements IUndoableAction {
 		private Object input;
-		private ItemStack output;
-		private int powercost;
+		private ItemStack output1, output2;
 
-		public AddRecipeAction(Object input, int powercost, ItemStack output) {
+		public AddRecipeAction(Object input, ItemStack output1, ItemStack output2) {
 			if (input instanceof IItemStack)
 				input = MineTweakerMC.getItemStack((IItemStack) input);
 			if (input instanceof IOreDictEntry)
 				input = new RecipeHelper.OreStack(((IOreDictEntry) input).getName(), 1);
 
+
 			if (input instanceof ILiquidStack) {
-				MineTweakerAPI.logError("A liquid was passed intro a conductor mast recipe, calculators do not use liquids when crafting, aborting!");
-				input = output = null;
+				MineTweakerAPI.logError("A liquid was passed intro a algorithm separator recipe, calculators do not use liquids when crafting, aborting!");
+				input = output1 = output2 = null;
 			}
 
 			this.input = input;
-			this.output = output;
-			this.powercost = powercost;
+			this.output1 = output1;
+			this.output2 = output2;
 		}
 
 		@Override
 		public void apply() {
-			if (input == null || output == null)
+			if (input == null || output1 == null ||output2 == null)
 				return;
-			RecipeRegistry.ConductorMastItemRecipes.instance().addRecipe(input, output);
-			RecipeRegistry.ConductorMastPowerRecipes.instance().addRecipe(input, powercost);
+			AlgorithmSeparatorRecipes.instance().addRecipe(input, output1, output2);
 		}
 
 
 
 		@Override
 		public void undo() {
-			if (input == null || output == null)
+			if (input == null || output1 == null ||output2 == null)
 				return;
-			RecipeRegistry.ConductorMastItemRecipes.instance().removeRecipe(input);
-			RecipeRegistry.ConductorMastItemRecipes.instance().removeRecipe(input);
+			AlgorithmSeparatorRecipes.instance().removeRecipe(input);
 		}
 
 		@Override
 		public String describe() {
-			return String.format("Adding conductor mast recipe (%s => %s  *powercost: %d RF)", input, output, powercost);
+			return String.format("Adding algorithm separator recipe (%s => %s & %s)", input, output1, output2);
 		}
 
 		@Override
@@ -95,8 +95,7 @@ public class ConductorMastHandler {
 
 	private static class RemoveRecipeAction implements IUndoableAction {
 		private Object input;
-		private int powercost;
-		private ItemStack output;
+		private ItemStack output1, output2;
 
 
 		public RemoveRecipeAction(Object input) {
@@ -105,9 +104,10 @@ public class ConductorMastHandler {
 			if (input instanceof IOreDictEntry)
 				input = new RecipeHelper.OreStack(((IOreDictEntry) input).getName(), 1);
 
+
 			if (input instanceof ILiquidStack) {
-				MineTweakerAPI.logError("A liquid was passed intro a calculator recipe, calculators do not use liquids when crafting, aborting!");
-				input = output = null;
+				MineTweakerAPI.logError("A liquid was passed intro a algorithm separator recipe, calculators do not use liquids when crafting, aborting!");
+				input = output1 = output2 = null;
 			}
 
 			this.input = input;
@@ -117,19 +117,18 @@ public class ConductorMastHandler {
 			if (input instanceof ItemStack)
 				dummyInput = (ItemStack) input;
 			if (input instanceof RecipeHelper.OreStack)
-				dummyInput = ((RecipeHelper.OreStack) input).getStacks().get(0);
+				dummyInput = OreDictionary.getOres(((RecipeHelper.OreStack) input).oreString).get(0);
 
-
-			output = RecipeRegistry.ConductorMastItemRecipes.instance().getCraftingResult(dummyInput);
-			powercost = RecipeRegistry.ConductorMastPowerRecipes.instance().getPowercost(dummyInput);
+			ItemStack[] stacks = AlgorithmSeparatorRecipes.instance().getOutput(dummyInput);
+			output1 = stacks[0];
+			output2 = stacks[1];
 		}
 
 		@Override
 		public void apply() {
-			if (input == null || output == null)
+			if (input == null || output1 == null ||output2 == null)
 				return;
-			RecipeRegistry.ConductorMastItemRecipes.instance().removeRecipe(input);
-			RecipeRegistry.ConductorMastPowerRecipes.instance().removeRecipe(input);
+			AlgorithmSeparatorRecipes.instance().removeRecipe(input);
 		}
 
 		@Override
@@ -139,15 +138,14 @@ public class ConductorMastHandler {
 
 		@Override
 		public void undo() {
-			if (input == null || output == null)
+			if (input == null || output1 == null ||output2 == null)
 				return;
-			RecipeRegistry.ConductorMastItemRecipes.instance().addRecipe(input, output);
-			RecipeRegistry.ConductorMastPowerRecipes.instance().addRecipe(input, powercost);
+			AlgorithmSeparatorRecipes.instance().addRecipe(input, output1, output2);
 		}
 
 		@Override
 		public String describe() {
-			return String.format("Removing conductor mast recipe (%s => %s  *powercost: %d RF)", input, output, powercost);
+			return String.format("Removing stone separator recipe (%s => %s & %s)", input, output1, output2);
 		}
 
 		@Override

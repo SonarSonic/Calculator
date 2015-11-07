@@ -17,24 +17,26 @@ import stanhebben.zenscript.annotations.ZenMethod;
 /**
  * Created by AEnterprise
  */
-@ZenClass("mods.calculator.atomic")
-public class AtomicHandler {
+
+@ZenClass("mods.calculator.flawless")
+public class FlawlessHandler {
 
 	@ZenMethod
-	public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient input3, IItemStack output) {
-		MineTweakerAPI.apply(new AddRecipeAction(input1, input2, input3, MineTweakerMC.getItemStack(output)));
+	public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient input3, IIngredient input4, IItemStack output) {
+		MineTweakerAPI.apply(new AddRecipeAction(input1, input2, input3, input4, MineTweakerMC.getItemStack(output)));
 	}
 
 	@ZenMethod
-	public static void removeRecipe(IIngredient input1, IIngredient input2, IIngredient input3) {
-		MineTweakerAPI.apply(new RemoveRecipeAction(input1, input2, input3));
+	public static void removeRecipe(IIngredient input1, IIngredient input2, IIngredient input3, IIngredient input4) {
+		MineTweakerAPI.apply(new RemoveRecipeAction(input1, input2, input3, input4));
 	}
+
 
 	private static class AddRecipeAction implements IUndoableAction {
-		private Object input1, input2, input3;
+		private Object input1, input2, input3, input4;
 		private ItemStack output;
 
-		public AddRecipeAction(Object input1, Object input2, Object input3, ItemStack output) {
+		public AddRecipeAction(Object input1, Object input2, Object input3, Object input4, ItemStack output) {
 			if (input1 instanceof IItemStack)
 				input1 = MineTweakerMC.getItemStack((IItemStack) input1);
 			if (input1 instanceof IOreDictEntry)
@@ -50,36 +52,42 @@ public class AtomicHandler {
 			if (input3 instanceof IOreDictEntry)
 				input3 = new RecipeHelper.OreStack(((IOreDictEntry) input3).getName(), 1);
 
-			if (input1 instanceof ILiquidStack || input2 instanceof ILiquidStack || input3 instanceof ILiquidStack) {
+			if (input4 instanceof IItemStack)
+				input4 = MineTweakerMC.getItemStack((IItemStack) input4);
+			if (input4 instanceof IOreDictEntry)
+				input4 = new RecipeHelper.OreStack(((IOreDictEntry) input4).getName(), 1);
+
+			if (input1 instanceof ILiquidStack || input2 instanceof ILiquidStack || input3 instanceof ILiquidStack || input4 instanceof ILiquidStack) {
 				MineTweakerAPI.logError("A liquid was passed intro a calculator recipe, calculators do not use liquids when crafting, aborting!");
-				input1 = input2 = output = null;
+				input1 = input2 = input3 = input4 = output = null;
 			}
 
 			this.input1 = input1;
 			this.input2 = input2;
 			this.input3 = input3;
+			this.input4 = input4;
 			this.output = output;
 		}
 
 		@Override
 		public void apply() {
-			if (input1 == null || input2 == null || input3 == null ||output == null)
+			if (input1 == null || input2 == null || input3 ==  null || input4 == null ||output == null)
 				return;
-			RecipeRegistry.AtomicRecipes.instance().addRecipe(input1, input2, input3, output);
+			RecipeRegistry.FlawlessRecipes.instance().addRecipe(input1, input2, input3, input4, output);
 		}
 
 
 
 		@Override
 		public void undo() {
-			if (input1 == null || input2 == null ||output == null)
+			if (input1 == null || input2 == null || input3 ==  null || input4 == null ||output == null)
 				return;
-			RecipeRegistry.AtomicRecipes.instance().removeRecipe(input1, input2, input3);
+			RecipeRegistry.FlawlessRecipes.instance().removeRecipe(input1, input2, input3, input4);
 		}
 
 		@Override
 		public String describe() {
-			return String.format("Adding atomic recipe (%s + %s + %s = %s)", input1, input2, input3, output);
+			return String.format("Adding calculator recipe (%s + %s ÷ %s + %s = %s)", input1, input2, input3, input4, output);
 		}
 
 		@Override
@@ -101,11 +109,11 @@ public class AtomicHandler {
 	}
 
 	private static class RemoveRecipeAction implements IUndoableAction {
-		private Object input1, input2, input3;
+		private Object input1, input2, input3, input4;
 		private ItemStack output;
 
 
-		public RemoveRecipeAction(Object input1, Object input2, Object input3) {
+		public RemoveRecipeAction(Object input1, Object input2, Object input3, Object input4) {
 			if (input1 instanceof IItemStack)
 				input1 = MineTweakerMC.getItemStack((IItemStack) input1);
 			if (input1 instanceof IOreDictEntry)
@@ -121,18 +129,25 @@ public class AtomicHandler {
 			if (input3 instanceof IOreDictEntry)
 				input3 = new RecipeHelper.OreStack(((IOreDictEntry) input3).getName(), 1);
 
-			if (input1 instanceof ILiquidStack || input2 instanceof ILiquidStack || input3 instanceof ILiquidStack) {
+			if (input4 instanceof IItemStack)
+				input4 = MineTweakerMC.getItemStack((IItemStack) input4);
+			if (input4 instanceof IOreDictEntry)
+				input4 = new RecipeHelper.OreStack(((IOreDictEntry) input4).getName(), 1);
+
+			if (input1 instanceof ILiquidStack || input2 instanceof ILiquidStack || input3 instanceof ILiquidStack || input4 instanceof ILiquidStack) {
 				MineTweakerAPI.logError("A liquid was passed intro a calculator recipe, calculators do not use liquids when crafting, aborting!");
-				input1 = input2 = input3 = output = null;
+				input1 = input2 = output = null;
 			}
 
 			this.input1 = input1;
 			this.input2 = input2;
 			this.input3 = input3;
+			this.input4 = input4;
 
 			ItemStack dummyInput1 = null;
 			ItemStack dummyInput2 = null;
 			ItemStack dummyInput3 = null;
+			ItemStack dummyInput4 = null;
 
 			if (input1 instanceof ItemStack)
 				dummyInput1 = (ItemStack) input1;
@@ -149,14 +164,19 @@ public class AtomicHandler {
 			if (input3 instanceof RecipeHelper.OreStack)
 				dummyInput3 = OreDictionary.getOres(((RecipeHelper.OreStack) input3).oreString).get(0);
 
-			output = RecipeRegistry.AtomicRecipes.instance().getCraftingResult(dummyInput1, dummyInput2, dummyInput3);
+			if (input4 instanceof ItemStack)
+				dummyInput4 = (ItemStack) input4;
+			if (input4 instanceof RecipeHelper.OreStack)
+				dummyInput4 = OreDictionary.getOres(((RecipeHelper.OreStack) input4).oreString).get(0);
+
+			output = RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(dummyInput1, dummyInput2, dummyInput3, dummyInput4);
 		}
 
 		@Override
 		public void apply() {
-			if (input1 == null || input2 == null || input3 == null ||output == null)
+			if (input1 == null || input2 == null || input3 ==  null || input4 == null ||output == null)
 				return;
-			RecipeRegistry.AtomicRecipes.instance().removeRecipe(input1, input2, input3);
+			RecipeRegistry.CalculatorRecipes.instance().removeRecipe(input1, input2, input3, input4);
 		}
 
 		@Override
@@ -166,14 +186,14 @@ public class AtomicHandler {
 
 		@Override
 		public void undo() {
-			if (input1 == null || input2 == null || input3 == null ||output == null)
+			if (input1 == null || input2 == null || input3 ==  null || input4 == null ||output == null)
 				return;
-			RecipeRegistry.AtomicRecipes.instance().addRecipe(input1, input2, input3, output);
+			RecipeRegistry.ScientificRecipes.instance().addRecipe(input1, input2, input3, input4, output);
 		}
 
 		@Override
 		public String describe() {
-			return String.format("Removing atomic recipe (%s + %s + %s = %s)", input1, input2, input3, output);
+			return String.format("Removing calculator recipe (%s + %s ÷ %s + %s = %s)", input1, input2, input3, input4, output);
 		}
 
 		@Override
@@ -186,4 +206,6 @@ public class AtomicHandler {
 			return null;
 		}
 	}
+
+
 }

@@ -21,7 +21,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 public class ScientificHandler {
 
 	@ZenMethod
-	public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output) {
+	public static void addRecipe(IIngredient input1, IIngredient input2, IItemStack output) {
 		MineTweakerAPI.apply(new AddRecipeAction(input1, input2, MineTweakerMC.getItemStack(output)));
 	}
 
