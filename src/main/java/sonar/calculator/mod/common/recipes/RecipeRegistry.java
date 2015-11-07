@@ -8,15 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.RecipeHelper;
 
@@ -46,13 +45,17 @@ public class RecipeRegistry {
 		addFlawlessRecipes();
 	}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> redid conductor mast crafting, fixed conductormast ignoring target data
 	/**
-	 * 
+	 *
 	 * @param objects four parameters, see below
 	 * @param output (ItemStack)
 	 * @param input1 (ItemStack, ItemStack[], OreDict String, OreStack)
 	 * @param input2 (ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param hidden Does the recipe require research? (Boolean)
+	 * @param hidden Does the recipeOutput require research? (Boolean)
 	 */
 	public static void registerCalculatorRecipe(Object... objects) {
 		if (objects.length != 4) {
@@ -110,6 +113,10 @@ public class RecipeRegistry {
 
 	}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> redid conductor mast crafting, fixed conductormast ignoring target data
 	private static void addStandardRecipes() {
 		registerCalculatorRecipe(Calculator.baby_grenade, Calculator.grenadecasing, Blocks.tnt, false);
 		registerCalculatorRecipe(Calculator.reinforcedstoneBlock, "cobblestone", "plankWood", false);
@@ -574,7 +581,6 @@ public class RecipeRegistry {
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Blocks.chest, Calculator.reinforcediron_ingot, Calculator.itemStorageModule);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.electricdiamond, Calculator.reinforcediron_ingot, Calculator.transmitter);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.flawlessfirediamond, Calculator.reinforcediron_ingot, new ItemStack(Calculator.weatherStation, 4));
-
 	}
 
 	private static void addFlawlessRecipes() {
@@ -597,7 +603,7 @@ public class RecipeRegistry {
 
 	/**
 	 * old versions put the output first this fixes that
-	 * 
+	 *
 	 * @param objects
 	 */
 	private static void rearrangeCalculatorRecipe(Object... objects) {
@@ -818,6 +824,73 @@ public class RecipeRegistry {
 		@Override
 		public String getRecipeID() {
 			return "Flawless";
+		}
+	}
+
+	public static class ConductorMastItemRecipes extends RecipeHelper {
+		private static final ConductorMastItemRecipes INSTANCE = new ConductorMastItemRecipes();
+
+		public static ConductorMastItemRecipes instance() {
+			return INSTANCE;
+		}
+
+
+		public ConductorMastItemRecipes() {
+			super(1, 1, true);
+		}
+
+		@Override
+		public void addRecipes() {
+			addRecipe(new ItemStack(Calculator.electricdiamond), Calculator.flawlessfirediamond);
+			addRecipe(new ItemStack(Calculator.itemScientificCalculator), Calculator.itemCalculator);
+			addRecipe(new ItemStack(Calculator.electric_diamond_block), Calculator.flawless_fire_block);
+		}
+
+		public Map<ItemStack, ItemStack> getRecipeStacks() {
+			Map<ItemStack, ItemStack> map = new HashMap<ItemStack, ItemStack>();
+			for (Map.Entry<Object[], Object[]> entry: recipeList.entrySet()) {
+				map.put((ItemStack) entry.getKey()[0], (ItemStack) entry.getValue()[0]);
+			}
+			return map;
+		}
+
+		@Override
+		public String getRecipeID() {
+			return "ConductorMastItem";
+		}
+	}
+
+	public static class ConductorMastPowerRecipes extends RecipeHelper {
+		private static final ConductorMastPowerRecipes INSTANCE = new ConductorMastPowerRecipes();
+
+		public static ConductorMastPowerRecipes instance() {
+			return INSTANCE;
+		}
+
+		ConductorMastPowerRecipes() {
+			super(1, 1, true);
+		}
+
+		@Override
+		public void addRecipes() {
+			addRecipe(new ItemStack(Calculator.electricdiamond), 10000);
+			addRecipe(new ItemStack(Calculator.itemScientificCalculator), 2000);
+			addRecipe(new ItemStack(Calculator.electric_diamond_block), 90000);
+		}
+
+		/**
+		 * custom method because the result is an int, not an itemstack
+		 */
+		public int getPowercost(ItemStack input) {
+			Object[] output = getOutputRaw(input);
+			if (output == null)
+				return 0;
+			return (Integer) output[0];
+		}
+
+		@Override
+		public String getRecipeID() {
+			return "ConductorMastPower";
 		}
 	}
 

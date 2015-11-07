@@ -14,13 +14,11 @@ import sonar.core.utils.helpers.RecipeHelper;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.Map;
-
 /**
  * Created by AEnterprise
  */
-@ZenClass("mods.calculator.basic")
-public class CalculatorHandler {
+@ZenClass("mods.calculator.scientific")
+public class ScientificHandler {
 
 	@ZenMethod
 	public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output) {
@@ -33,7 +31,7 @@ public class CalculatorHandler {
 	}
 
 
-	private static class AddRecipeAction implements IUndoableAction{
+	private static class AddRecipeAction implements IUndoableAction {
 		private Object input1, input2;
 		private ItemStack output;
 
@@ -49,7 +47,7 @@ public class CalculatorHandler {
 				input2 = new RecipeHelper.OreStack(((IOreDictEntry) input2).getName(), 1);
 
 			if (input1 instanceof ILiquidStack || input2 instanceof ILiquidStack) {
-				MineTweakerAPI.logError("A liquid was passed intro a calculator recipe, calculators do not use liquids when crafting, aborting!");
+				MineTweakerAPI.logError("A liquid was passed intro a scientific recipe, calculators do not use liquids when crafting, aborting!");
 				input1 = input2 = output = null;
 			}
 
@@ -62,7 +60,7 @@ public class CalculatorHandler {
 		public void apply() {
 			if (input1 == null || input2 == null ||output == null)
 				return;
-			RecipeRegistry.CalculatorRecipes.instance().addRecipe(input1, input2, output);
+			RecipeRegistry.ScientificRecipes.instance().addRecipe(input1, input2, output);
 		}
 
 
@@ -71,12 +69,12 @@ public class CalculatorHandler {
 		public void undo() {
 			if (input1 == null || input2 == null ||output == null)
 				return;
-			RecipeRegistry.CalculatorRecipes.instance().removeRecipe(input1, input2);
+			RecipeRegistry.ScientificRecipes.instance().removeRecipe(input1, input2);
 		}
 
 		@Override
 		public String describe() {
-			return String.format("Adding calculator recipe (%s + %s = %s)", input1, input2, output);
+			return String.format("Adding scientific recipe (%s ÷ %s = %s)", input1, input2, output);
 		}
 
 		@Override
@@ -114,7 +112,7 @@ public class CalculatorHandler {
 				input2 = new RecipeHelper.OreStack(((IOreDictEntry) input2).getName(), 1);
 
 			if (input1 instanceof ILiquidStack || input2 instanceof ILiquidStack) {
-				MineTweakerAPI.logError("A liquid was passed intro a calculator recipe, calculators do not use liquids when crafting, aborting!");
+				MineTweakerAPI.logError("A liquid was passed intro a scientific recipe, calculators do not use liquids when crafting, aborting!");
 				input1 = input2 = output = null;
 			}
 
@@ -134,14 +132,14 @@ public class CalculatorHandler {
 			if (input2 instanceof RecipeHelper.OreStack)
 				dummyInput2 = OreDictionary.getOres(((RecipeHelper.OreStack) input2).oreString).get(0);
 
-			output = RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(dummyInput1, dummyInput2);
+			output = RecipeRegistry.ScientificRecipes.instance().getCraftingResult(dummyInput1, dummyInput2);
 		}
 
 		@Override
 		public void apply() {
 			if (input1 == null || input2 == null ||output == null)
 				return;
-			RecipeRegistry.CalculatorRecipes.instance().removeRecipe(input1, input2);
+			RecipeRegistry.ScientificRecipes.instance().removeRecipe(input1, input2);
 		}
 
 		@Override
@@ -153,12 +151,12 @@ public class CalculatorHandler {
 		public void undo() {
 			if (input1 == null || input2 == null ||output == null)
 				return;
-			RecipeRegistry.CalculatorRecipes.instance().addRecipe(input1, input2, output);
+			RecipeRegistry.ScientificRecipes.instance().addRecipe(input1, input2, output);
 		}
 
 		@Override
 		public String describe() {
-			return String.format("Removing calculator recipe (%s + %s = %s)", input1, input2, output);
+			return String.format("Removing scientific recipe (%s ÷ %s = %s)", input1, input2, output);
 		}
 
 		@Override
@@ -171,4 +169,5 @@ public class CalculatorHandler {
 			return null;
 		}
 	}
+
 }

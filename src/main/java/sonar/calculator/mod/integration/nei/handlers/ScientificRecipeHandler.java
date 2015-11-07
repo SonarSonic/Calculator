@@ -29,9 +29,9 @@ public class ScientificRecipeHandler extends TemplateRecipeHandler {
 		public SmeltingPair(Object input, Object input2, Object output) {
 			super();
 			if (input instanceof RecipeHelper.OreStack)
-				input = OreDictionary.getOres(((RecipeHelper.OreStack) input).oreString);
+				input = ((RecipeHelper.OreStack) input).getStacks();
 			if (input2 instanceof RecipeHelper.OreStack)
-				input2 = OreDictionary.getOres(((RecipeHelper.OreStack) input2).oreString);
+				input2 = ((RecipeHelper.OreStack) input2).getStacks();
 
 			this.input = new PositionedStack(input, 20, 24);
 			this.input2 = new PositionedStack(input2, 74, 24);

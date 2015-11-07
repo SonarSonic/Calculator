@@ -26,7 +26,7 @@ public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 		public SmeltingPair(Object input, Object result, Object result2) {
 			super();
 			if (input instanceof RecipeHelper.OreStack)
-				input = OreDictionary.getOres(((RecipeHelper.OreStack) input).oreString);
+				input = ((RecipeHelper.OreStack) input).getStacks();
 
 			this.input = new PositionedStack(input, 34, 13);
 			this.result = new PositionedStack(result, 88, 13);
