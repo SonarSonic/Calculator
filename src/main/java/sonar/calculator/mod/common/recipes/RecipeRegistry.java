@@ -44,11 +44,6 @@ public class RecipeRegistry {
 		addAtomicRecipes();
 		addFlawlessRecipes();
 	}
-
-<<<<<<< HEAD
-=======
-
->>>>>>> redid conductor mast crafting, fixed conductormast ignoring target data
 	/**
 	 *
 	 * @param objects four parameters, see below
@@ -112,11 +107,6 @@ public class RecipeRegistry {
 		flawless.add(objects);
 
 	}
-
-<<<<<<< HEAD
-=======
-
->>>>>>> redid conductor mast crafting, fixed conductormast ignoring target data
 	private static void addStandardRecipes() {
 		registerCalculatorRecipe(Calculator.baby_grenade, Calculator.grenadecasing, Blocks.tnt, false);
 		registerCalculatorRecipe(Calculator.reinforcedstoneBlock, "cobblestone", "plankWood", false);
