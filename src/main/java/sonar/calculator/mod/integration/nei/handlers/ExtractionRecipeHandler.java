@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorOreDict;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
@@ -14,6 +15,7 @@ import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
 import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import sonar.core.utils.helpers.RecipeHelper;
 
 public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {
@@ -23,6 +25,9 @@ public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 
 		public SmeltingPair(Object input, Object result, Object result2) {
 			super();
+			if (input instanceof RecipeHelper.OreStack)
+				input = OreDictionary.getOres(((RecipeHelper.OreStack) input).oreString);
+
 			this.input = new PositionedStack(input, 34, 13);
 			this.result = new PositionedStack(result, 88, 13);
 			this.result2 = new PositionedStack(result2, 117, 13);

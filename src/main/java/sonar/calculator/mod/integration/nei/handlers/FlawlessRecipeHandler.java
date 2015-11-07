@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.calculators.GuiFlawlessCalculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
@@ -15,6 +16,7 @@ import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import sonar.core.utils.helpers.RecipeHelper;
 
 public class FlawlessRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {
@@ -26,6 +28,15 @@ public class FlawlessRecipeHandler extends TemplateRecipeHandler {
 
 		public SmeltingPair(Object input, Object input2, Object input3, Object input4, Object output) {
 			super();
+			if (input instanceof RecipeHelper.OreStack)
+				input = OreDictionary.getOres(((RecipeHelper.OreStack) input).oreString);
+			if (input2 instanceof RecipeHelper.OreStack)
+				input2 = OreDictionary.getOres(((RecipeHelper.OreStack) input2).oreString);
+			if (input3 instanceof RecipeHelper.OreStack)
+				input3 = OreDictionary.getOres(((RecipeHelper.OreStack) input3).oreString);
+			if (input4 instanceof RecipeHelper.OreStack)
+				input4 = OreDictionary.getOres(((RecipeHelper.OreStack) input4).oreString);
+
 			this.input = new PositionedStack(input, 12, 24);
 			this.input2 = new PositionedStack(input2, 44, 24);
 			this.input3 = new PositionedStack(input3, 76, 24);
