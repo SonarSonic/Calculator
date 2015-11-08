@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.calculators.GuiScientificCalculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
@@ -17,6 +18,7 @@ import sonar.core.utils.helpers.FontHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import sonar.core.utils.helpers.RecipeHelper;
 
 public class ScientificRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {
@@ -26,6 +28,11 @@ public class ScientificRecipeHandler extends TemplateRecipeHandler {
 
 		public SmeltingPair(Object input, Object input2, Object output) {
 			super();
+			if (input instanceof RecipeHelper.OreStack)
+				input = ((RecipeHelper.OreStack) input).getStacks();
+			if (input2 instanceof RecipeHelper.OreStack)
+				input2 = ((RecipeHelper.OreStack) input2).getStacks();
+
 			this.input = new PositionedStack(input, 20, 24);
 			this.input2 = new PositionedStack(input2, 74, 24);
 			this.output = new PositionedStack(output, 129, 24);

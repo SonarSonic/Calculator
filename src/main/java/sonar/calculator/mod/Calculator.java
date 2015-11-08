@@ -19,6 +19,7 @@ import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
 import sonar.calculator.mod.network.CalculatorCommon;
@@ -146,6 +147,10 @@ public class Calculator {
 		logger.info(RecipeRegistry.getScientificSize() + " Scientific Recipes were loaded");
 		logger.info(RecipeRegistry.getAtomicSize() + " Atomic Recipes were loaded");
 		logger.info(RecipeRegistry.getFlawlessSize() + " Flawless Recipes were loaded");
+
+		if (Loader.isModLoaded("MineTweaker3")) {
+			MinetweakerIntegration.integrate();
+		}
 	}
 
 	@EventHandler

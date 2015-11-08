@@ -87,6 +87,9 @@ public abstract class AbstractDualOutputHandler extends TemplateRecipeHandler {
 		PositionedStack result2;
 
 		public DualOutputRecipe(Object input, Object result, Object result2) {
+			if (input instanceof RecipeHelper.OreStack) {
+				input = ((RecipeHelper.OreStack) input).getStacks();
+			}
 			this.input = new PositionedStack(input, 34, 13);
 			this.result = new PositionedStack(result, 88, 13);
 			this.result2 = new PositionedStack(result2, 117, 13);

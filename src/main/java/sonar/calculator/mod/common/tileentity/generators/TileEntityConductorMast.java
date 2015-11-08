@@ -1,6 +1,5 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -11,16 +10,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.common.recipes.machines.ConductorMastRecipes;
+import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.core.common.tileentity.TileEntityInventorySender;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.EnergyStorage;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityConductorMast extends TileEntityInventorySender implements ISidedInventory {
 
@@ -39,16 +35,16 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 		super.maxTransfer = 5000000;
 	}
 
-	public ItemStack recipe(ItemStack stack) {
-		return ConductorMastRecipes.smelting().getSmeltingResult(stack);
+	public ItemStack recipeOutput(ItemStack stack) {
+		return RecipeRegistry.ConductorMastItemRecipes.instance().getCraftingResult(stack);
 	}
 
 	public int recipeEnergy(ItemStack stack) {
-		return ConductorMastRecipes.smelting().getPowerUsage(stack);
+		return RecipeRegistry.ConductorMastPowerRecipes.instance().getPowercost(stack);
 	}
 
 	public void onLoaded() {
-		this.setWeatherStationAngles(true, worldObj, xCoord, yCoord, zCoord);
+		setWeatherStationAngles(true, worldObj, xCoord, yCoord, zCoord);
 	}
 
 	@Override
@@ -74,7 +70,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 		}
 		if (!this.worldObj.isRemote) {
 			if (this.storage.getMaxEnergyStored() != this.storage.getEnergyStored() && this.storage.getEnergyStored() < storage.getMaxEnergyStored() && this.lightningSpeed == 0) {
-				this.random = 0 + (int) (Math.random() * +9);
+				this.random = (int) (Math.random() * +9);
 				this.lightningSpeed = rand.nextInt(1800 - 1500) + getNextTime();
 			}
 		}
@@ -161,7 +157,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 			return true;
 		}
 
-		ItemStack itemstack = recipe(slots[0]);
+		ItemStack itemstack = recipeOutput(slots[0]);
 		if (itemstack == null) {
 			return false;
 		}
@@ -186,12 +182,12 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 
 	private void cookItem() {
 
-		ItemStack itemstack = recipe(slots[0]);
+		ItemStack itemstack = recipeOutput(slots[0]);
 		int energy = recipeEnergy(slots[0]);
 		this.storage.modifyEnergyStored(-energy);
 
 		if (this.slots[1] == null) {
-			this.slots[1] = new ItemStack(itemstack.getItem(), 1);
+			this.slots[1] = itemstack.copy();
 
 		} else if (this.slots[1].isItemEqual(itemstack)) {
 			this.slots[1].stackSize++;
@@ -319,7 +315,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
 		if (slot == 0) {
-			if (stack != null && recipe(stack) != null) {
+			if (stack != null && recipeOutput(stack) != null) {
 				return true;
 			} else {
 				return false;

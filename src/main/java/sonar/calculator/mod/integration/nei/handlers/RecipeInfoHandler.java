@@ -35,25 +35,25 @@ public class RecipeInfoHandler extends CalculatorRecipeHandler {
 
 			int[] unblocked = CalculatorItem.getResearch(Minecraft.getMinecraft().thePlayer.getHeldItem());
 			Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
-			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
+			for (Map.Entry<Integer, CalculatorRecipe> recipeOutput : recipes.entrySet()) {
 				if (unblocked != null && unblocked.length >= 1) {
-					if (recipe.getValue().hidden
+					if (recipeOutput.getValue().hidden
 							&& unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input)] != 0
+									recipeOutput.getValue().input)] != 0
 							&& unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input2)] != 0
+									recipeOutput.getValue().input2)] != 0
 							|| unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().output)] != 0) {
+									recipeOutput.getValue().output)] != 0) {
 						this.arecipes.add(new SmeltingPair(
-								((CalculatorRecipe) recipe.getValue()).input,
-								((CalculatorRecipe) recipe.getValue()).input2,
-								((CalculatorRecipe) recipe.getValue()).output));
+								((CalculatorRecipe) recipeOutput.getValue()).input,
+								((CalculatorRecipe) recipeOutput.getValue()).input2,
+								((CalculatorRecipe) recipeOutput.getValue()).output));
 					}
-				 else if (!recipe.getValue().hidden) {
+				 else if (!recipeOutput.getValue().hidden) {
 					this.arecipes.add(new SmeltingPair(
-							((CalculatorRecipe) recipe.getValue()).input,
-							((CalculatorRecipe) recipe.getValue()).input2,
-							((CalculatorRecipe) recipe.getValue()).output));
+							((CalculatorRecipe) recipeOutput.getValue()).input,
+							((CalculatorRecipe) recipeOutput.getValue()).input2,
+							((CalculatorRecipe) recipeOutput.getValue()).output));
 				}
 				}
 			}
@@ -62,25 +62,25 @@ public class RecipeInfoHandler extends CalculatorRecipeHandler {
 		
 		else if ((outputId.equals("New-Recipes"))&& (getClass() == RecipeInfoHandler.class)) {
 			Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
-			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
+			for (Map.Entry<Integer, CalculatorRecipe> recipeOutput : recipes.entrySet()) {
 				if (newRecipes != null && newRecipes.length >= 1) {
-					if (recipe.getValue().hidden
+					if (recipeOutput.getValue().hidden
 							&& newRecipes[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input)] != 0
+									recipeOutput.getValue().input)] != 0
 							|| newRecipes[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input2)] != 0
+									recipeOutput.getValue().input2)] != 0
 							|| newRecipes[CalculatorRecipes.recipes().getID(
-									recipe.getValue().output)] != 0) {
+									recipeOutput.getValue().output)] != 0) {
 						if(unblocked[CalculatorRecipes.recipes().getID(
-											recipe.getValue().input)] != 0
+											recipeOutput.getValue().input)] != 0
 									&& unblocked[CalculatorRecipes.recipes().getID(
-											recipe.getValue().input2)] != 0
+											recipeOutput.getValue().input2)] != 0
 									|| unblocked[CalculatorRecipes.recipes().getID(
-											recipe.getValue().output)] != 0){
+											recipeOutput.getValue().output)] != 0){
 						this.arecipes.add(new SmeltingPair(
-								((CalculatorRecipe) recipe.getValue()).input,
-								((CalculatorRecipe) recipe.getValue()).input2,
-								((CalculatorRecipe) recipe.getValue()).output));
+								((CalculatorRecipe) recipeOutput.getValue()).input,
+								((CalculatorRecipe) recipeOutput.getValue()).input2,
+								((CalculatorRecipe) recipeOutput.getValue()).output));
 						this.transferRects.clear();
 					}
 					}
@@ -90,31 +90,31 @@ public class RecipeInfoHandler extends CalculatorRecipeHandler {
 		
 		else if ((outputId.equals("Standard-Recipes"))&& (getClass() == RecipeInfoHandler.class)) {
 			Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
-			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
-					if (!recipe.getValue().hidden) {
+			for (Map.Entry<Integer, CalculatorRecipe> recipeOutput : recipes.entrySet()) {
+					if (!recipeOutput.getValue().hidden) {
 						this.arecipes.add(new SmeltingPair(
-								((CalculatorRecipe) recipe.getValue()).input,
-								((CalculatorRecipe) recipe.getValue()).input2,
-								((CalculatorRecipe) recipe.getValue()).output));
+								((CalculatorRecipe) recipeOutput.getValue()).input,
+								((CalculatorRecipe) recipeOutput.getValue()).input2,
+								((CalculatorRecipe) recipeOutput.getValue()).output));
 						this.transferRects.clear();
 					}
 				
 			}		
 		}else if ((outputId.equals("Unlocked-Recipes"))&& (getClass() == RecipeInfoHandler.class)) {
 			Map<Integer, CalculatorRecipe> recipes = CalculatorRecipes.recipes().getStandardList();
-			for (Map.Entry<Integer, CalculatorRecipe> recipe : recipes.entrySet()) {
+			for (Map.Entry<Integer, CalculatorRecipe> recipeOutput : recipes.entrySet()) {
 				if (unblocked != null && unblocked.length >= 1) {
-					if (recipe.getValue().hidden
+					if (recipeOutput.getValue().hidden
 							&& (unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input)] != 0
+									recipeOutput.getValue().input)] != 0
 							&& unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().input2)] != 0
+									recipeOutput.getValue().input2)] != 0
 							|| unblocked[CalculatorRecipes.recipes().getID(
-									recipe.getValue().output)] != 0)) {
+									recipeOutput.getValue().output)] != 0)) {
 						this.arecipes.add(new SmeltingPair(
-								((CalculatorRecipe) recipe.getValue()).input,
-								((CalculatorRecipe) recipe.getValue()).input2,
-								((CalculatorRecipe) recipe.getValue()).output));
+								((CalculatorRecipe) recipeOutput.getValue()).input,
+								((CalculatorRecipe) recipeOutput.getValue()).input2,
+								((CalculatorRecipe) recipeOutput.getValue()).output));
 						this.transferRects.clear();
 					}
 				}				
