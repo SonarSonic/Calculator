@@ -17,7 +17,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
 public class CalculatorEvents {
-
+/*
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event) {
 		if (event.entity instanceof EntityPlayer && PlayerResearch.get((EntityPlayer) event.entity) == null)
@@ -38,7 +38,6 @@ public class CalculatorEvents {
 			// sync data packet
 		}
 	}
-
 	@SubscribeEvent
 	public void CalculatorCraftingCraft(ItemCraftedEvent event) {
 		EntityPlayer player = event.player;
@@ -47,11 +46,12 @@ public class CalculatorEvents {
 
 			if ((item != null) && (item.getItem().equals(Calculator.itemCraftingCalculator)) && ((player.openContainer instanceof ICalculatorCrafter))) {
 					((ICalculatorCrafter)player.openContainer).removeEnergy();
-
-				
+			
 			}
 		}
+		
 	}
+	*/
 	@SubscribeEvent
 	public void Amethyst(BonemealEvent event) {
 		if (event.block != null) {

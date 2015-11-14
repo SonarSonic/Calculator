@@ -80,8 +80,8 @@ public class FlawlessGreenhouse extends SonarMachineBlock {
 	public IIcon getIcon(IBlockAccess w, int x, int y, int z, int s) {
 		Block stone = w.getBlock(x, y + 1, z);
 		if (stone != null) {
-			if (stone == Calculator.stablestoneBlock) {
-				return stone.getIcon(w, x, y, z, s);
+			if (stone == Calculator.stablestoneBlock || stone == Calculator.stablestonerimmedBlock || stone == Calculator.stablestonerimmedblackBlock) {
+				return stone.getIcon(w, x, y+1, z, s);
 			}
 		}
 		return getIcon(s, w.getBlockMetadata(x, y, z));

@@ -17,7 +17,6 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.common.entities.EntityGrenade;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
@@ -25,6 +24,8 @@ import sonar.core.utils.IItemInventory;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+
 
 public class FlawlessCalc extends SonarCalculator implements IItemInventory, IResearchStore {
 

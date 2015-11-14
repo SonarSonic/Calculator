@@ -270,11 +270,10 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 
 		if (array != null) {
 
-			if (this.type == 3)
-				this.plantsHarvested++;
-
 			for (ItemStack stack : array) {
-				if (stack != null) {
+				if (stack != null) {					
+					if (this.type == 3)
+						this.plantsHarvested++;
 					ItemStack add = InventoryHelper.addItems(this, stack, 0, new PlantableFilter());
 
 					TileEntity tile = this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ));

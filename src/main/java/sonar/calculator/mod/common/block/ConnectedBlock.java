@@ -439,12 +439,12 @@ public class ConnectedBlock extends Block {
 			}
 			break;
 		case 5:
-			if (block == Calculator.stablestonerimmedBlock) {
+			if (block == Calculator.stablestonerimmedBlock || block == Calculator.flawlessGreenhouse || block == Calculator.carbondioxideGenerator) {
 				return true;
 			}
 			break;
 		case 6:
-			if (block == Calculator.stablestonerimmedblackBlock) {
+			if (block == Calculator.stablestonerimmedblackBlock || block == Calculator.flawlessGreenhouse || block == Calculator.carbondioxideGenerator) {
 				return true;
 			}
 			break;

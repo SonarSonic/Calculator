@@ -105,7 +105,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class CalculatorBlocks extends Calculator {
 
 	public static void registerBlocks() {
-
+		
 		// common blocks
 		reinforcedstoneBlock = new ReinforcedStoneBlock().setBlockName("reinforcedstoneBlock").setCreativeTab(Calculator).setBlockTextureName(modid + ":" + "reinforcedstone");
 		GameRegistry.registerBlock(reinforcedstoneBlock, SonarBlockTip.class, "reinforcedstoneBlock");

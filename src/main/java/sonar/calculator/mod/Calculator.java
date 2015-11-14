@@ -50,7 +50,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "1.8.7";
+	public static final String version = "1.8.8";
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -98,6 +98,17 @@ public class Calculator {
 		CalculatorItems.registerItems();
 		logger.info("Loaded Items");
 
+
+		EntityRegistry.registerModEntity(EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(EntitySoil.class, "Soil", 3, instance, 64, 10, true);
+		logger.info("Registered Entities");	
+		
+	}
+
+	@EventHandler
+	public void load(FMLInitializationEvent event) {
 		RecipeRegistry.registerRecipes();
 		logger.info("Registered Calculator Recipes");
 
@@ -109,13 +120,12 @@ public class Calculator {
 
 		CalculatorOreDict.registerOres();
 		logger.info("Registered OreDict");
-
-		EntityRegistry.registerModEntity(EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
-		EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
-		EntityRegistry.registerModEntity(EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
-		EntityRegistry.registerModEntity(EntitySoil.class, "Soil", 3, instance, 64, 10, true);
-		logger.info("Registered Entities");
-
+		
+		calculatorProxy.registerRenderThings();
+		logger.info("Registered Renderers");
+		PlanterRegistry.registerPlanters();
+		logger.info("Registered Planters");
+		
 		GameRegistry.registerFuelHandler(new CalculatorSmelting());
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CalculatorCommon());
 		logger.info("Registered Handlers");
@@ -123,17 +133,6 @@ public class Calculator {
 		MinecraftForge.EVENT_BUS.register(new CalculatorEvents());
 		FMLCommonHandler.instance().bus().register(new CalculatorEvents());
 		logger.info("Registered Events");
-
-		calculatorProxy.registerRenderThings();
-		logger.info("Registered Renderers");
-		PlanterRegistry.registerPlanters();
-		logger.info("Registered Planters");
-		
-		
-	}
-
-	@EventHandler
-	public void load(FMLInitializationEvent event) {
 	}
 
 	@EventHandler

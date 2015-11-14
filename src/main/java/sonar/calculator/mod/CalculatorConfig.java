@@ -27,6 +27,7 @@ public class CalculatorConfig extends Calculator {
 	public static boolean beamEffect;
 	public static boolean enableWaila;
 	public static boolean enableGrenades;
+	public static boolean enableToolModels;
 
 	public static Property atomicblackList;
 	public static Property blocksblackList;
@@ -97,6 +98,7 @@ public class CalculatorConfig extends Calculator {
 		beamEffect = config.getBoolean("Locator has a beam", "settings", true, "Calculator Locator");
 		enableWaila = config.getBoolean("enable Waila integration", "api", true, "Waila");
 		enableGrenades = config.getBoolean("allow grenades?", "settings", true, "Grenades");
+		enableToolModels = config.getBoolean("Enable Tool Models", "settings", true, "Tool Models");
 
 		config.save();
 
