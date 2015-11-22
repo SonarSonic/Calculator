@@ -120,7 +120,6 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 			} else {
 				if (slots[slot + ((o+1) * 9)] != null) {
 					if (!slots[slot + ((o+1) * 9)].isItemEqual(output[o])) {
-						System.out.print(slot + ((o+1) * 9));
 						
 						return false;
 					} else if (slots[slot + ((o+1) * 9)].stackSize + output[o].stackSize > slots[slot + ((o+1) * 9)].getMaxStackSize()) {

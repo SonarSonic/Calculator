@@ -316,7 +316,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 		return nbtData.getInteger("Mode");
 
 	}
-
+	
 	public Map<Integer, Integer> getResearch(ItemStack stack) {
 		Map<Integer, Integer> unblocked = new THashMap<Integer, Integer>();
 		if (stack != null && stack.getItem() instanceof IResearchStore) {

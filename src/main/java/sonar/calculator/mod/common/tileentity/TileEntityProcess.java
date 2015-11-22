@@ -251,7 +251,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		if (current == null) {
 			return true;
 		}
-		if (current.stackSize == current.getMaxStackSize()) {
+		else if (current.stackSize == current.getMaxStackSize()) {
 			return false;
 		}
 		return true;

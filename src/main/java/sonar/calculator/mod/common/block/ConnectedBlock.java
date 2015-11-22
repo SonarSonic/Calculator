@@ -16,20 +16,21 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.IConnectedBlock;
 import sonar.calculator.mod.api.IStableBlock;
 import sonar.calculator.mod.api.IStableGlass;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ConnectedBlock extends Block {
+public class ConnectedBlock extends Block implements IConnectedBlock {
 
 	public String type;
 	public int target;
 	public boolean hasColours = false;
-	
+
 	@SideOnly(Side.CLIENT)
-	private IIcon[] colours,normal;
-	
+	private IIcon[] colours, normal;
+
 	public ConnectedBlock(Material material, String name, int block, boolean hasColours) {
 		super(material);
 		this.target = block;
@@ -42,6 +43,7 @@ public class ConnectedBlock extends Block {
 
 		}
 	}
+
 	@Override
 	public int damageDropped(int meta) {
 		return meta;
@@ -110,8 +112,8 @@ public class ConnectedBlock extends Block {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		if (hasColours()) {
-			if(colours==null){
-				colours= new IIcon[256];
+			if (colours == null) {
+				colours = new IIcon[256];
 			}
 			String colourType = "";
 			for (int meta = 0; meta < 16; meta++) {
@@ -128,8 +130,8 @@ public class ConnectedBlock extends Block {
 				}
 			}
 		} else {
-			if(normal==null){
-				normal= new IIcon[16];
+			if (normal == null) {
+				normal = new IIcon[16];
 			}
 			for (int i = 0; i < 16; i++) {
 				if (i == 0) {
@@ -297,7 +299,19 @@ public class ConnectedBlock extends Block {
 			return this.getSideT(w, x, y, z, s, meta);
 		}
 		return getI(0, meta);
+	}
 
+	@SideOnly(Side.CLIENT)
+	public IIcon getSpecialIcon(IBlockAccess w, int x, int y, int z, int s) {
+		int meta = w.getBlockMetadata(x, y + 1, z);
+		if (s != 1 && s != 0) {
+			return this.getSide(w, x, y, z, s, meta);
+		} else if (s == 1) {
+			return this.getSideT(w, x, y, z, s, meta);
+		} else if (s == 0) {
+			return this.getSideT(w, x, y, z, s, meta);
+		}
+		return getI(0, meta);
 	}
 
 	@Override
@@ -309,38 +323,68 @@ public class ConnectedBlock extends Block {
 		return getI(0, meta);
 	}
 
-	public boolean up(IBlockAccess world, int x, int y, int z) {
+	public static boolean checkBlockInDirection(IBlockAccess world, int x, int y, int z, int side) {
+		ForgeDirection dir = ForgeDirection.getOrientation(side);
+		Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+		int blockMeta = world.getBlockMetadata(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+		int meta = world.getBlockMetadata(x, y, z);
+		if (block != null) {
+			if (type(world.getBlock(x, y, z), block, meta, blockMeta)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean up(IBlockAccess world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		Block target = world.getBlock(x, y + 1, z);
 		int blockMeta = world.getBlockMetadata(x, y + 1, z);
 		if (target != null) {
-			if (type(target) && blockMeta==meta) {
+			if (type(world.getBlock(x, y, z), target, meta, blockMeta)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean down(IBlockAccess world, int x, int y, int z) {
+	public static boolean down(IBlockAccess world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		Block target = world.getBlock(x, y - 1, z);
 		int blockMeta = world.getBlockMetadata(x, y - 1, z);
 		if (target != null) {
-			if (type(target) && blockMeta==meta) {
+			if (type(world.getBlock(x, y, z), target, meta, blockMeta)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean right(IBlockAccess world, int x, int y, int z, int dir) {
+	public static boolean right(IBlockAccess world, int x, int y, int z, int dir) {
 		int meta = world.getBlockMetadata(x, y, z);
 		if (dir != 0 && dir != 1) {
 			ForgeDirection hoz = getHorizontal(dir).getOpposite();
 			if (world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ)) != null) {
 				Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
 				int blockMeta = world.getBlockMetadata(x + (hoz.offsetX), y, z + (hoz.offsetZ));
-				if (type(target) && blockMeta==meta) {
+				if (target != null) {
+					if (type(world.getBlock(x, y, z), target, meta, blockMeta)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public static boolean left(IBlockAccess world, int x, int y, int z, int dir) {
+		int meta = world.getBlockMetadata(x, y, z);
+		if (dir != 0 && dir != 1) {
+			ForgeDirection hoz = getHorizontal(dir);
+			Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
+			int blockMeta = world.getBlockMetadata(x + (hoz.offsetX), y, z + (hoz.offsetZ));
+			if (target != null) {
+				if (type(world.getBlock(x, y, z), target, meta, blockMeta)) {
 					return true;
 				}
 			}
@@ -348,113 +392,108 @@ public class ConnectedBlock extends Block {
 		return false;
 	}
 
-	public boolean left(IBlockAccess world, int x, int y, int z, int dir) {
-		int meta = world.getBlockMetadata(x, y, z);
-		if (dir != 0 && dir != 1) {
-			ForgeDirection hoz = getHorizontal(dir);
-			Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
-			int blockMeta = world.getBlockMetadata(x + (hoz.offsetX), y, z + (hoz.offsetZ));
-			if (target != null && blockMeta==meta) {
-				return type(target);
-
-			}
-		}
-		return false;
-	}
-
-	public boolean upT(IBlockAccess world, int x, int y, int z) {
+	public static boolean upT(IBlockAccess world, int x, int y, int z) {
 
 		int meta = world.getBlockMetadata(x, y, z);
 		ForgeDirection hoz = ForgeDirection.NORTH;
 		Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
 		int blockMeta = world.getBlockMetadata(x + (hoz.offsetX), y, z + (hoz.offsetZ));
-		if (target != null && blockMeta==meta) {
-			return type(target);
-
+		if (target != null) {
+			if (type(world.getBlock(x, y, z), target, meta, blockMeta)) {
+				return true;
+			}
 		}
 		return false;
 	}
 
-	public boolean downT(IBlockAccess world, int x, int y, int z) {
+	public static boolean downT(IBlockAccess world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		ForgeDirection hoz = ForgeDirection.NORTH.getOpposite();
 		Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
 		int blockMeta = world.getBlockMetadata(x + (hoz.offsetX), y, z + (hoz.offsetZ));
-		if (target != null && blockMeta==meta) {
-			return type(target);
-
+		if (target != null) {
+			if (type(world.getBlock(x, y, z), target, meta, blockMeta)) {
+				return true;
+			}
 		}
 		return false;
 	}
 
-	public boolean rightT(IBlockAccess world, int x, int y, int z, int dir) {
+	public static boolean rightT(IBlockAccess world, int x, int y, int z, int dir) {
 		int meta = world.getBlockMetadata(x, y, z);
 		ForgeDirection hoz = ForgeDirection.EAST;
 		int blockMeta = world.getBlockMetadata(x + (hoz.offsetX), y, z + (hoz.offsetZ));
-		if (world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ)) != null && blockMeta==meta) {
-			Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
-			return type(target);
-
+		Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
+		if (target != null) {
+			if (type(world.getBlock(x, y, z), target, meta, blockMeta)) {
+				return true;
+			}
 		}
 		return false;
 	}
 
-	public boolean leftT(IBlockAccess world, int x, int y, int z, int dir) {
+	public static boolean leftT(IBlockAccess world, int x, int y, int z, int dir) {
 		int meta = world.getBlockMetadata(x, y, z);
 		ForgeDirection hoz = ForgeDirection.EAST.getOpposite();
 		Block target = world.getBlock(x + (hoz.offsetX), y, z + (hoz.offsetZ));
 		int blockMeta = world.getBlockMetadata(x + (hoz.offsetX), y, z + (hoz.offsetZ));
-		if (target != null && blockMeta==meta) {
-			return type(target);
-
+		if (target != null) {
+			if (type(world.getBlock(x, y, z), target, meta, blockMeta)) {
+				return true;
+			}
 		}
 		return false;
 	}
 
-	public boolean type(Block block) {
-		switch (target) {
-		case 0:
-			if (block == Calculator.stablestoneBlock || block == Calculator.flawlessGreenhouse || block == Calculator.carbondioxideGenerator) {
-				return true;
-			}
-			break;
-		case 1:
-			if (block == Calculator.flawlessGlass) {
-				return true;
-			}
-			break;
-		case 2:
-			if (block == Calculator.purifiedobsidianBlock) {
-				return true;
-			}
-			break;
-		case 3:
-			if (block == Calculator.stableglassBlock) {
-				return true;
-			}
-			break;
-		case 4:
-			if (block == Calculator.clearstableglassBlock) {
-				return true;
-			}
-			break;
-		case 5:
-			if (block == Calculator.stablestonerimmedBlock || block == Calculator.flawlessGreenhouse || block == Calculator.carbondioxideGenerator) {
-				return true;
-			}
-			break;
-		case 6:
-			if (block == Calculator.stablestonerimmedblackBlock || block == Calculator.flawlessGreenhouse || block == Calculator.carbondioxideGenerator) {
-				return true;
-			}
-			break;
-		}
+	public static boolean type(Block block1, Block block2, int m1, int m2) {
 
+		if (!(block1 instanceof ConnectedBlock) || !(block2 instanceof ConnectedBlock) || m1 == m2) {
+
+			if (block1 instanceof ConnectedBlock) {
+				ConnectedBlock c1 = (ConnectedBlock) block1;
+				if (block2 instanceof ConnectedBlock) {
+					if (c1.target == ((ConnectedBlock) block2).target)
+						return true;
+				}
+				if (block2 instanceof IConnectedBlock) {
+					int[] connections = ((IConnectedBlock) block2).getConnections();
+					for (int i = 0; i < connections.length; i++) {
+						if (connections[i] == c1.target)
+							return true;
+
+					}
+
+				}
+
+			} else if (block1 instanceof IConnectedBlock) {
+				IConnectedBlock c1 = (IConnectedBlock) block1;
+				int[] connections1 = ((IConnectedBlock) block1).getConnections();
+
+				if (block2 instanceof ConnectedBlock) {
+					for (int i = 0; i < connections1.length; i++) {
+						if (connections1[i] == ((ConnectedBlock) block2).target)
+							return true;
+					}
+				}
+				if (block2 instanceof IConnectedBlock) {
+					int[] connections2 = ((IConnectedBlock) block2).getConnections();
+					for (int i = 0; i < connections1.length; i++) {
+						for (int i2 = 0; i2 < connections2.length; i2++) {
+							if (connections1[i] == connections2[i2])
+								return true;
+						}
+
+					}
+
+				}
+
+			}
+		}
 		return false;
 
 	}
 
-	public ForgeDirection getHorizontal(int no) {
+	public static ForgeDirection getHorizontal(int no) {
 		ForgeDirection dir = ForgeDirection.getOrientation(no);
 		if (dir == ForgeDirection.NORTH) {
 			return ForgeDirection.EAST;
@@ -480,6 +519,7 @@ public class ConnectedBlock extends Block {
 		return this.normal[num];
 
 	}
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (target == 3 || target == 4) {
@@ -502,20 +542,28 @@ public class ConnectedBlock extends Block {
 			super(Material.rock, "stablestone", 0, true);
 		}
 	}
+
 	public static class StableRimmed extends ConnectedBlock implements IStableBlock {
 		public StableRimmed() {
 			super(Material.rock, "stablestonerimmed", 5, true);
 		}
 	}
+
 	public static class StableBlackRimmed extends ConnectedBlock implements IStableBlock {
 		public StableBlackRimmed() {
 			super(Material.rock, "stablestonerimmedblack", 6, true);
 		}
 	}
+
 	public static class StableGlass extends ConnectedBlock implements IStableGlass {
 
 		public StableGlass(String string, int type) {
 			super(Material.glass, string, type, false);
 		}
+	}
+
+	@Override
+	public int[] getConnections() {
+		return new int[] { target };
 	}
 }

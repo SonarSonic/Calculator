@@ -1,18 +1,18 @@
 package sonar.calculator.mod.common.block.machines;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.IConnectedBlock;
+import sonar.calculator.mod.common.block.ConnectedBlock;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
@@ -23,10 +23,12 @@ import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class FlawlessGreenhouse extends SonarMachineBlock {
+public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedBlock {
+
+	public int[] connections = new int[]{0,5,6};
 	
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront,iconTop;
+	private IIcon iconFront, iconTop;
 
 	public FlawlessGreenhouse() {
 		super(SonarMaterials.machine);
@@ -41,8 +43,7 @@ public class FlawlessGreenhouse extends SonarMachineBlock {
 				if (!house.isBeingBuilt() && house.isIncomplete()) {
 					FailedCoords coords = house.isComplete();
 					if (!coords.getBoolean()) {
-						FontHelper.sendMessage("X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(),
-								world, player);
+						FontHelper.sendMessage("X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(), world, player);
 					}
 				} else if (house.isCompleted()) {
 					FontHelper.sendMessage(FontHelper.translate("greenhouse.complete"), world, player);
@@ -78,11 +79,10 @@ public class FlawlessGreenhouse extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess w, int x, int y, int z, int s) {
-		Block stone = w.getBlock(x, y + 1, z);
-		if (stone != null) {
-			if (stone == Calculator.stablestoneBlock || stone == Calculator.stablestonerimmedBlock || stone == Calculator.stablestonerimmedblackBlock) {
-				return stone.getIcon(w, x, y+1, z, s);
-			}
+		Block block = w.getBlock(x, y + 1, z);
+		if (block != null && block instanceof ConnectedBlock) {
+			ConnectedBlock connect = (ConnectedBlock) block;
+			return connect.getSpecialIcon(w, x, y, z, s);
 		}
 		return getIcon(s, w.getBlockMetadata(x, y, z));
 
@@ -98,6 +98,11 @@ public class FlawlessGreenhouse extends SonarMachineBlock {
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 
+	}
+
+	@Override
+	public int[] getConnections() {
+		return connections;
 	}
 
 }

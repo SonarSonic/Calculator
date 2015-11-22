@@ -9,6 +9,7 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.renderers.ItemAxe;
 import sonar.calculator.mod.client.renderers.ItemCalculatorPlug;
 import sonar.calculator.mod.client.renderers.ItemConductorMask;
+import sonar.calculator.mod.client.renderers.ItemCrankHandle;
 import sonar.calculator.mod.client.renderers.ItemHoe;
 import sonar.calculator.mod.client.renderers.ItemLantern;
 import sonar.calculator.mod.client.renderers.ItemPickaxe;
@@ -92,6 +93,8 @@ public class CalculatorClient extends CalculatorCommon {
 
 		TileEntitySpecialRenderer crank = new RenderCrank();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrankHandle.class, crank);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.crank), new ItemCrankHandle(crank, new TileEntityCrankHandle()));
+
 
 		TileEntitySpecialRenderer glowstone = new RenderHandlers.GlowstoneExtractor();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGenerator.GlowstoneExtractor.class, glowstone);

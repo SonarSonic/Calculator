@@ -48,6 +48,7 @@ public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double
     Minecraft.getMinecraft().renderEngine.bindTexture(texture);
     GL11.glPushMatrix();
     GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+    GL11.glRotated(90, 0.0D, 1.0D, 0.0D);
     GL11.glRotated(tileentity.angle * 10, 0.0D, 1.0D, 0.0D);
     switch (i) {
     case 1: 

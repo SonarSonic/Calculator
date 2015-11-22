@@ -28,7 +28,7 @@ public class CrankHandle extends SonarMachineBlock {
 
 	public CrankHandle() {
 		super(SonarMaterials.machine);
-		setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 0.9F, 0.7F);
+		setBlockBounds((float)(0.0625*3), 0.0F, (float)(0.0625*3), (float)(1-(0.0625*3)), 0.625F, (float)(1-(0.0625*3)));
 	}
 
 	public boolean hasSpecialRenderer() {

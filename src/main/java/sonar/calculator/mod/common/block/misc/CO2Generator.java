@@ -12,6 +12,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.IConnectedBlock;
+import sonar.calculator.mod.common.block.ConnectedBlock;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
@@ -20,9 +22,9 @@ import sonar.core.utils.SonarMaterials;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class CO2Generator extends SonarMachineBlock {
-	private static boolean keepInventory;
-
+public class CO2Generator extends SonarMachineBlock implements IConnectedBlock {
+	public int[] connections = new int[]{0,5,6};
+	
 	private Random rand = new Random();
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront, iconTop;
@@ -43,11 +45,10 @@ public class CO2Generator extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess w, int x, int y, int z, int s) {
-		Block stone = w.getBlock(x, y + 1, z);
-		if (stone != null) {
-			if (stone == Calculator.stablestoneBlock || stone == Calculator.stablestonerimmedBlock || stone == Calculator.stablestonerimmedblackBlock) {
-				return stone.getIcon(w, x, y+1, z, s);
-			}
+		Block block = w.getBlock(x, y + 1, z);
+		if (block != null && block instanceof ConnectedBlock) {
+			ConnectedBlock connect = (ConnectedBlock) block;
+			return connect.getSpecialIcon(w, x, y, z, s);
 		}
 		return getIcon(s, w.getBlockMetadata(x, y, z));
 
@@ -89,6 +90,11 @@ public class CO2Generator extends SonarMachineBlock {
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 
+	}
+
+	@Override
+	public int[] getConnections() {
+		return connections;
 	}
 
 }

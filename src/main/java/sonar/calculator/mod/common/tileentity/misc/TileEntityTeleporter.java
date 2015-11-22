@@ -65,7 +65,6 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			return;
 		}
 		if (coolDownTicks != 0) {
-			System.out.print(" " +coolDownTicks);
 			coolDownTicks--;
 		} else {
 			if (!coolDown) {

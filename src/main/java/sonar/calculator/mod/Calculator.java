@@ -19,6 +19,17 @@ import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
+import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
+import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
+import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
+import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
+import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
+import sonar.calculator.mod.common.recipes.machines.ProcessingChamberRecipes;
+import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
+import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
+import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
+import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
@@ -50,7 +61,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "1.8.8";
+	public static final String version = "1.8.9";
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -92,12 +103,14 @@ public class Calculator {
 		} else {
 			logger.warn("'WAILA' - unavailable or disabled in config");
 		}
+
+		
 		CalculatorBlocks.registerBlocks();
 		logger.info("Loaded Blocks");
 
 		CalculatorItems.registerItems();
 		logger.info("Loaded Items");
-
+		
 
 		EntityRegistry.registerModEntity(EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
@@ -109,9 +122,11 @@ public class Calculator {
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
+
 		RecipeRegistry.registerRecipes();
 		logger.info("Registered Calculator Recipes");
 
+		
 		CalculatorCrafting.addRecipes();
 		logger.info("Added Crafting Recipes");
 
@@ -133,10 +148,12 @@ public class Calculator {
 		MinecraftForge.EVENT_BUS.register(new CalculatorEvents());
 		FMLCommonHandler.instance().bus().register(new CalculatorEvents());
 		logger.info("Registered Events");
+		
 	}
 
 	@EventHandler
 	public void postLoad(FMLPostInitializationEvent evt) {
+		
 		BlockDispenser.dispenseBehaviorRegistry.putObject(baby_grenade, new CalculatorThrow(0));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(grenade, new CalculatorThrow(1));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(small_stone, new CalculatorThrow(2));
@@ -146,10 +163,22 @@ public class Calculator {
 		logger.info(RecipeRegistry.getScientificSize() + " Scientific Recipes were loaded");
 		logger.info(RecipeRegistry.getAtomicSize() + " Atomic Recipes were loaded");
 		logger.info(RecipeRegistry.getFlawlessSize() + " Flawless Recipes were loaded");
+		logger.info(RecipeRegistry.ConductorMastItemRecipes.instance().getRecipes().size() + " Conductor Mast Recipes Recipes were loaded");		
+		logger.info(AlgorithmSeparatorRecipes.instance().getRecipes().size() + " Algorithm Seperator Recipes were loaded");		
+		logger.info(ExtractionChamberRecipes.instance().getRecipes().size() + " Extraction Chamber Recipes were loaded");
+		logger.info(GlowstoneExtractorRecipes.instance().getRecipes().size() + " Glowstone Extractor Recipes were loaded");
+		logger.info(HealthProcessorRecipes.instance().getRecipes().size() + " Health Processor Recipes were loaded");
+		logger.info(PrecisionChamberRecipes.instance().getRecipes().size() + " Precision Chamber Recipes were loaded");
+		logger.info(ProcessingChamberRecipes.instance().getRecipes().size() + " Processing Chamber Recipes were loaded");
+		logger.info(ReassemblyChamberRecipes.instance().getRecipes().size() + " Reassembly Chamber Recipes were loaded");
+		logger.info(RedstoneExtractorRecipes.instance().getRecipes().size() + " Redstone Extractor Recipes were loaded");
+		logger.info(StarchExtractorRecipes.instance().getRecipes().size() + " Starch Extractor Recipes were loaded");
+		logger.info(StoneSeparatorRecipes.instance().getRecipes().size() + " Stone Separator Recipes were loaded");
 
 		if (Loader.isModLoaded("MineTweaker3")) {
 			MinetweakerIntegration.integrate();
 		}
+		
 	}
 
 	@EventHandler

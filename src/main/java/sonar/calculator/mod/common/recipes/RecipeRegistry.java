@@ -38,7 +38,6 @@ public class RecipeRegistry {
 	}
 
 	public static void registerRecipes() {
-		clearRecipes();
 		addStandardRecipes();
 		addScientificRecipes();
 		addAtomicRecipes();
@@ -132,6 +131,7 @@ public class RecipeRegistry {
 		
 		//registerCalculatorRecipe(Calculator.researchChamber, Calculator.reinforced_iron_block, Calculator.powerCube, false);
 
+		/*
 		// calculator recipes
 		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBlock, 8), "cobblestone", Items.clay_ball, true);
 		registerCalculatorRecipe(new ItemStack(Calculator.reinforceddirtBlock, 2, 2), "stone", new ItemStack(Blocks.dirt, 1, 2), true);
@@ -527,13 +527,13 @@ public class RecipeRegistry {
 				registerCalculatorRecipe(new ItemStack(Blocks.double_plant, 2, i), new ItemStack(Blocks.double_plant, 1, 0), new ItemStack(Blocks.double_plant, 1, 0), true);
 			}
 		}
-
+	*/
 
 	}
 
 	private static void addScientificRecipes() {
-		registerScientificRecipe(Items.coal, Calculator.enrichedgold_ingot, Calculator.purified_coal);
-		registerScientificRecipe(Items.iron_ingot, "dustRedstone", Calculator.redstone_ingot);
+		registerScientificRecipe(Calculator.enriched_coal, Calculator.enrichedgold_ingot, Calculator.purified_coal);
+		registerScientificRecipe("ingotIron", "dustRedstone", Calculator.redstone_ingot);
 		registerScientificRecipe("gemDiamond", Calculator.reinforcediron_ingot, new ItemStack(Calculator.weakeneddiamond, 4));
 		registerScientificRecipe(Calculator.baby_grenade, Calculator.baby_grenade, Calculator.grenade);
 		registerScientificRecipe(Calculator.enriched_coal, Items.lava_bucket, Calculator.firecoal);
@@ -633,7 +633,7 @@ public class RecipeRegistry {
 			/*for (int i = 0; i < RecipeRegistry.blocked.size(); i++) { currentRecipe = i; this.addRecipe(RecipeRegistry.blocked.get(i)); } */
 
 		}
-
+		
 		public void writeToNBT(NBTTagCompound nbt, Map<Integer, Integer> unblocked, String tag) {
 			NBTTagList list = new NBTTagList();
 
