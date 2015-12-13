@@ -18,6 +18,7 @@ import sonar.calculator.mod.api.IHungerStore;
 import sonar.calculator.mod.api.ProcessType;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
+import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.PlantableFilter;
 import sonar.calculator.mod.integration.planting.TreeHarvestRecipes;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.common.tileentity.TileEntitySonar;
@@ -40,6 +41,8 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		if (this.tick != tickRate) {
 			tick++;
 		} else {
+		//	int blockmeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		//	InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetX), yCoord, zCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetZ)), this, 0, 0, null);
 			tick=0;
 			this.hasTree = hasTree();
 			if (hasTree) {

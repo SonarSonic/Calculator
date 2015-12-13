@@ -12,11 +12,11 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.client.gui.utils.GuiSonar;
 import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.calculator.mod.common.containers.ContainerPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
+import sonar.core.inventory.GuiSonar;
 import sonar.core.network.PacketMachineButton;
 import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;

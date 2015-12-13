@@ -48,6 +48,7 @@ public class GasLantern extends SonarMachineBlock implements IDismantleable {
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
+
 	@Override
 	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (player != null) {
@@ -122,8 +123,7 @@ public class GasLantern extends SonarMachineBlock implements IDismantleable {
 				world.func_147453_f(x, y, z, oldblock);
 			}
 		}
-
-		super.breakBlock(world, x, y, z, oldblock, oldMetadata);
+			world.removeTileEntity(x, y, z);		
 	}
 
 	@Override

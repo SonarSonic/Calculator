@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessFurnace;
+import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.utils.DischargeValues;
 import sonar.core.utils.SlotBlockedInventory;
@@ -18,7 +19,7 @@ import cofh.api.energy.IEnergyContainerItem;
 public class ContainerFlawlessFurnace extends ContainerSync {
 	private TileEntityFlawlessFurnace entity;
 
-	private static final int INV_START = 27, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
+	private static final int INV_START = 28, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
 	public ContainerFlawlessFurnace(InventoryPlayer inventory, TileEntityFlawlessFurnace entity) {
 		super(entity);
@@ -34,17 +35,17 @@ public class ContainerFlawlessFurnace extends ContainerSync {
 		}
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				addSlotToContainer(new Slot(entity, slotID, 38 + j * 56, 19 + i * 40));
+				addSlotToContainer(new SlotBlockedInventory(entity, slotID, 38 + j * 56, 19 + i * 40));
 				slotID++;
 			}
 		}
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				addSlotToContainer(new Slot(entity, slotID, 38 + j * 56, 39 + i * 40));
+				addSlotToContainer(new SlotBlockedInventory(entity, slotID, 38 + j * 56, 39 + i * 40));
 				slotID++;
 			}
 		}
-		addSlotToContainer(new Slot(entity, 27, 28, 136));
+		addSlotToContainer(new Slot(entity, slotID, 28, 139));
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
 				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 160 + i * 18));
@@ -72,11 +73,15 @@ public class ContainerFlawlessFurnace extends ContainerSync {
 			} else {
 
 				if (slotID >= INV_START) {
-					if (entity.getOutput(true, itemstack1)[0] != null) {
+					if (entity.recipeHelper().validInput(itemstack1)) {
 						if (!this.mergeItemStack(itemstack1, 0, INV_START - 18 + 1, false)) {
 							return null;
 						}
-					}
+					} else if (CalculatorHelper.canProvideEnergy(itemstack1)){
+						if (!mergeItemStack(itemstack1, 27, 28, false)) {
+							return null;
+						}
+					} 
 				} else if (slotID >= INV_START && slotID < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
 						return null;

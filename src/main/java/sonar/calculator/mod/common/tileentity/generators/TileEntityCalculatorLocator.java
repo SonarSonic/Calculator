@@ -70,7 +70,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	public int currentOutput() {
 		if (size != 0 && (((int) (2 * size + 1) * (2 * size + 1)) - 1) != 0) {
 			int stable = (int) (stability * 100) / ((int) (2 * size + 1) * (2 * size + 1));
-			return (5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size) / 5;
+			return (5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size) / 2;
 
 		}
 		return 0;

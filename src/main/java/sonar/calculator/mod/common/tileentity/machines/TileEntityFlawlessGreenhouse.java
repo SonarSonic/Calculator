@@ -47,11 +47,10 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	@Override
 	public void updateEntity() {
-
 		super.updateEntity();
-		if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-			return;
-		}
+		//if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+		//	return;
+		//}
 		if (!this.isBeingBuilt()) {
 			checkTile();
 		}
@@ -320,6 +319,12 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	public boolean stableStone(Block block) {
 		if (block == Calculator.stablestoneBlock) {
+			return false;
+		}
+		if (block == Calculator.stablestonerimmedBlock) {
+			return false;
+		}
+		if (block == Calculator.stablestonerimmedblackBlock) {
 			return false;
 		}
 		if (block == Calculator.flawlessGreenhouse) {

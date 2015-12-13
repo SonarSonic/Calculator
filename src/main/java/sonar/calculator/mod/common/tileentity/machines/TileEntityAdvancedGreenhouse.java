@@ -351,6 +351,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 
 		for (int Z = -3; Z <= 3; Z++) {
 			for (int X = -3; X <= 3; X++) {
+				AgriCraftAPIWrapper.getInstance().removeWeeds(worldObj, x + X, y, z + Z, false);
 				if (X == 3 && Z == 3) {
 					if (this.storage.getEnergyStored() >= waterRF) {
 						if (GreenhouseHelper.applyWater(worldObj, x + X, y, z + Z)) {
@@ -381,8 +382,6 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 							this.storage.modifyEnergyStored(-farmlandRF);
 						}
 					}
-					AgriCraftAPIWrapper.getInstance().removeWeeds(worldObj, x + X, y, z + Z, false);
-
 				}
 
 			}

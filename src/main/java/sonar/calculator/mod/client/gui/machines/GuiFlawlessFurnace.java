@@ -34,7 +34,7 @@ public class GuiFlawlessFurnace extends GuiContainer {
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
-		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 140, 2);
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 143, 2);
 
 	}
 
@@ -45,9 +45,6 @@ public class GuiFlawlessFurnace extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
-		// int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
-		// int j = 78 - k;
-		// drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 		int slotID = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -59,5 +56,7 @@ public class GuiFlawlessFurnace extends GuiContainer {
 				slotID++;
 			}
 		}
+		 int length = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
+		 drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 142, 176, 4, length, 10);
 	}
 }

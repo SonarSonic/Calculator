@@ -30,6 +30,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 	public boolean paused;
 	public final int speed = 100;
 	public int size = 9;
+	public int maxProcess;
 
 	public TileEntityFlawlessFurnace() {
 		this.slots = new ItemStack[28];
@@ -50,7 +51,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 				if (this.cookTime[i] > 0) {
 					this.cookTime[i]++;
 					if (!this.worldObj.isRemote) {
-						energyBuffer += energyUsage();
+						energyBuffer += (energyUsage()/speed) * 8;
 						int energyUsage = (int) Math.round(energyBuffer);
 						if (energyBuffer - energyUsage < 0) {
 							this.energyBuffer = 0;
@@ -64,7 +65,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 					if (!this.worldObj.isRemote) {
 						if (cookTime[i] == 0) {
 							this.cookTime[i]++;
-							energyBuffer += energyUsage();
+							energyBuffer += energyUsage()/speed;
 							int energyUsage = (int) Math.round(energyBuffer);
 							if (energyBuffer - energyUsage < 0) {
 								this.energyBuffer = 0;

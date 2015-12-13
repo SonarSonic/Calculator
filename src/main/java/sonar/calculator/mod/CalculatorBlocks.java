@@ -150,9 +150,9 @@ public class CalculatorBlocks extends Calculator {
 		reinforcedFurnace = new SmeltingBlock(7).setBlockName("ReinforcedFurnace").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(reinforcedFurnace, SonarBlockTip.class, "ReinforcedFurnace");
 		GameRegistry.registerTileEntity(TileEntityMachines.ReinforcedFurnace.class, "ReinforcedFurnace");
-		//flawlessFurnace = new FlawlessFurnace().setBlockName("FlawlessFurnace").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
-		//GameRegistry.registerBlock(flawlessFurnace, SonarBlockTip.class, "FlawlessFurnace");
-		//GameRegistry.registerTileEntity(TileEntityFlawlessFurnace.class, "FlawlessFurnace");
+		flawlessFurnace = new FlawlessFurnace().setBlockName("FlawlessFurnace").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
+		GameRegistry.registerBlock(flawlessFurnace, SonarBlockTip.class, "FlawlessFurnace");
+		GameRegistry.registerTileEntity(TileEntityFlawlessFurnace.class, "FlawlessFurnace");
 		stoneSeperator = new SmeltingBlock(4).setBlockName("StoneSeperatorIdle").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(stoneSeperator, SonarBlockTip.class, "StoneSeperatorIdle");
 		GameRegistry.registerTileEntity(TileEntityMachines.StoneSeperator.class, "StoneSeperatorIdle");

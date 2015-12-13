@@ -10,10 +10,10 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.utils.CalculatorButtons;
-import sonar.calculator.mod.client.gui.utils.GuiSonar;
 import sonar.calculator.mod.client.gui.utils.CalculatorButtons.SonarButton;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
+import sonar.core.inventory.GuiSonar;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiSmeltingBlock extends GuiSonar {

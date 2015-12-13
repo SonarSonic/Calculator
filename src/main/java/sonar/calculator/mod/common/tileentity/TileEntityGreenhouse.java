@@ -62,7 +62,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 	public abstract List<BlockCoords> getPlantArea();
 
 	public static boolean isSeed(ItemStack stack) {
-		return (!AgriCraftAPIWrapper.getInstance().isPlantingDisabled(stack) || stack != null && stack.getItem() instanceof IPlantable) || AgriCraftAPIWrapper.getInstance().isHandledByAgricraft(stack);
+		return stack != null && stack.getItem() instanceof IPlantable;
 	}
 
 	public static boolean canHarvest(World world, int x, int y, int z) {
@@ -88,7 +88,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		if (this.plantTicks >= 0 && this.plantTicks != this.plantTick) {
 			this.plantTicks++;
 		}
-		if (this.plantTicks == this.plantTick) {
+		if (this.plantTicks >= this.plantTick) {
 			if (this.storage.getEnergyStored() >= plantRF) {
 				if (plantAction()) {
 					this.planting = 0;
@@ -101,13 +101,14 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 
 	public boolean plantAction() {
 		List<Integer> plants = getInvPlants();
-
 		if (plants != null && !plants.isEmpty() && this.planting == 0) {
 			for (int i = 0; i < plants.size(); i++) {
 				this.planting = 1;
 				if (plant(slots[plants.get(i)], plants.get(i))) {
+					planting = 0;
 					return true;
 				}
+				planting = 0;
 			}
 
 		}
@@ -203,6 +204,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 	public final boolean plant(ItemStack stack, int slot) {
 		List<BlockCoords> coords = getPlantArea();
 		if (coords == null || coords.isEmpty()) {
+			
 			this.planting = 0;
 			return false;
 		}
@@ -223,12 +225,13 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 				}
 
 			}
-		} else if (!AgriCraftAPIWrapper.getInstance().isPlantingDisabled(stack)) {
+		}else{
 			IPlanter planter = PlanterRegistry.getPlanter(stack);
 
 			Block crop = planter.getCropFromStack(stack);
 			int meta = planter.getMetaFromStack(stack);
 			if (crop == null) {
+				this.planting = 0;
 				return false;
 			}
 			for (BlockCoords crops : coords) {
@@ -269,36 +272,21 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		}
 
 		if (array != null) {
-
 			for (ItemStack stack : array) {
-				if (stack != null) {					
+				if (stack != null) {				
+					TileEntity tile = this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ));
+					ItemStack harvest = InventoryHelper.addItems(tile, stack, 0, null);						
+					if (harvest != null) {							
+						EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), harvest);
+						world.spawnEntityInWorld(drop);							
+					}	
+					if (!removed)
+						world.setBlockToAir(x, y, z);					
 					if (this.type == 3)
 						this.plantsHarvested++;
-					ItemStack add = InventoryHelper.addItems(this, stack, 0, new PlantableFilter());
-
-					TileEntity tile = this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ));
-					if (add == null) {
-						if (!removed)
-							world.setBlockToAir(x, y, z);
-					} else if (tile != null) {
-						ItemStack harvest = InventoryHelper.addItems(tile, stack, 0, null);
-						if (harvest == null) {
-							if (!removed)
-								world.setBlockToAir(x, y, z);
-						} else {
-							EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), harvest);
-							world.spawnEntityInWorld(drop);
-							if (!removed)
-								world.setBlockToAir(x, y, z);
-						}
-					} else {
-						EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), add);
-						world.spawnEntityInWorld(drop);
-						if (!removed)
-							world.setBlockToAir(x, y, z);
-					}
 				}
 			}
+			
 		}
 
 	}

@@ -24,12 +24,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.utils.CalculatorButtons;
 import sonar.calculator.mod.client.gui.utils.CalculatorButtons.SonarButton;
-import sonar.calculator.mod.client.gui.utils.GuiSonar.CircuitButton;
 import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.utils.FluxNetwork;
+import sonar.core.inventory.GuiSonar.CircuitButton;
 import sonar.core.network.PacketMachineButton;
 import sonar.core.utils.helpers.FontHelper;
 

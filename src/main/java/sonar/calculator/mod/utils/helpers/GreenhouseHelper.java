@@ -107,10 +107,10 @@ public class GreenhouseHelper {
 	 * @return if it was changed
 	 */
 	public static boolean applyFarmland(World world, int x, int y, int z) {
-		if (world.getBlock(x, y - 1, z) == Blocks.dirt && world.getBlock(x, y, z) == Blocks.air) {
+		if (world.getBlock(x, y - 1, z) == Blocks.dirt) {
 			world.setBlock(x, y - 1, z, Blocks.farmland);
 			return true;
-		} else if (world.getBlock(x, y - 1, z) == Blocks.grass && world.getBlock(x, y, z) == Blocks.air) {
+		} else if (world.getBlock(x, y - 1, z) == Blocks.grass) {			
 			world.setBlock(x, y - 1, z, Blocks.farmland);
 			return true;
 		}
@@ -188,6 +188,12 @@ public class GreenhouseHelper {
 	 */
 	public static boolean stableStone(Block block) {
 		if (block == Calculator.stablestoneBlock) {
+			return false;
+		}
+		if (block == Calculator.stablestonerimmedBlock) {
+			return false;
+		}
+		if (block == Calculator.stablestonerimmedblackBlock) {
 			return false;
 		}
 		if (block == Calculator.flawlessGreenhouse) {

@@ -61,7 +61,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "1.8.9";
+	public static final String version = "1.9.0";
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -125,7 +125,6 @@ public class Calculator {
 
 		RecipeRegistry.registerRecipes();
 		logger.info("Registered Calculator Recipes");
-
 		
 		CalculatorCrafting.addRecipes();
 		logger.info("Added Crafting Recipes");
