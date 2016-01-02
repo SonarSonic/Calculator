@@ -1,11 +1,10 @@
 package sonar.calculator.mod.common.item.misc;
 
-import sonar.core.common.item.SonarItem;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import sonar.core.common.item.SonarItem;
 
 public class EndDiamond extends SonarItem
 {

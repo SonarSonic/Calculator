@@ -1,7 +1,6 @@
 package sonar.calculator.mod.integration.minetweaker;
 
 import minetweaker.MineTweakerAPI;
-import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 
 /**
  * Created by AEnterprise

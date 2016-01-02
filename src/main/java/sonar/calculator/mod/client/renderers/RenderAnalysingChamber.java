@@ -1,20 +1,17 @@
 package sonar.calculator.mod.client.renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import sonar.calculator.mod.client.models.ModelAnalysingChamber;
-import sonar.calculator.mod.common.tileentity.TileEntityProcess;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
-import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.RenderHelper;
 
 public class RenderAnalysingChamber extends TileEntitySpecialRenderer {

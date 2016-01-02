@@ -1,13 +1,11 @@
 package sonar.calculator.mod.client.gui.misc;
 
-import java.awt.Color;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
 

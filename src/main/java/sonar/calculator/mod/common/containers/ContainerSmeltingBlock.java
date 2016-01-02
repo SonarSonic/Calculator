@@ -1,16 +1,14 @@
 package sonar.calculator.mod.common.containers;
 
 import ic2.api.item.IElectricItem;
-import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
+import sonar.core.energy.DischargeValues;
+import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerSync;
-import sonar.core.utils.DischargeValues;
-import sonar.core.utils.SlotBlockedInventory;
-import sonar.core.utils.SonarAPI;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerSmeltingBlock extends ContainerSync {

@@ -1,12 +1,12 @@
 package sonar.calculator.mod.common.containers;
 
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
-import sonar.core.utils.SlotBlockedInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
+import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerAlgorithmAssimilator extends Container {
 	private TileEntityAssimilator entity;

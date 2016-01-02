@@ -2,11 +2,9 @@ package sonar.calculator.mod.integration.agricraft;
 
 import java.util.List;
 
-import com.InfinityRaider.AgriCraft.api.v1.SeedRequirementStatus;
-
-import cpw.mods.fml.common.Loader;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.Loader;
 
 public class AgriCraftAPI {
 	private static AgriCraftAPI INSTANCE;

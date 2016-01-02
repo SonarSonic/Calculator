@@ -6,15 +6,12 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IHungerStore;
 import sonar.calculator.mod.api.ProcessType;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
-import sonar.core.network.PacketSonarSides;
-import sonar.core.utils.ISyncTile;
+import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

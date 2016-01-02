@@ -1,13 +1,10 @@
 package sonar.calculator.mod.common.block.machines;
 
 import java.util.List;
-import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -18,9 +15,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
-import sonar.core.utils.IUpgradeCircuits;
-import sonar.core.utils.SonarAPI;
-import sonar.core.utils.SonarMaterials;
+import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.helpers.FontHelper;
 
 public class DockingStation extends SonarMachineBlock {

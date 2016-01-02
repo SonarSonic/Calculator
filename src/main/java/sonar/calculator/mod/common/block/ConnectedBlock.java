@@ -2,7 +2,6 @@ package sonar.calculator.mod.common.block;
 
 import java.util.List;
 
-import cofh.api.item.IToolHammer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -19,6 +18,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IConnectedBlock;
 import sonar.calculator.mod.api.IStableBlock;
 import sonar.calculator.mod.api.IStableGlass;
+import cofh.api.item.IToolHammer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

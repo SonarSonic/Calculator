@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.utils.SlotLocatorModule;
+import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerSync;
-import sonar.core.utils.SonarAPI;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerCalculatorLocator extends ContainerSync {

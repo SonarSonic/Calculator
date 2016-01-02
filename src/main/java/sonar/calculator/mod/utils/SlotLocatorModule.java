@@ -1,10 +1,9 @@
 package sonar.calculator.mod.utils;
 
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 
 public class SlotLocatorModule extends Slot {
 

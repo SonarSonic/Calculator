@@ -1,6 +1,5 @@
 package sonar.calculator.mod.client.renderers;
 
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
@@ -14,12 +13,9 @@ import sonar.calculator.mod.client.models.ModelAssimilator;
 import sonar.calculator.mod.client.models.ModelAtomicMultiplier;
 import sonar.calculator.mod.client.models.ModelConductorMast;
 import sonar.calculator.mod.client.models.ModelFluxController;
-import sonar.calculator.mod.client.models.ModelFluxPlug;
-import sonar.calculator.mod.client.models.ModelFluxPoint;
 import sonar.calculator.mod.client.models.ModelGenerator;
 import sonar.calculator.mod.client.models.ModelScarecrow;
 import sonar.calculator.mod.client.models.ModelTeleporter;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.renderers.SonarTERender;

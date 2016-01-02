@@ -1,17 +1,8 @@
 package sonar.calculator.mod.client.gui.misc;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.common.containers.ContainerAssimilator;
-import sonar.calculator.mod.common.containers.ContainerCalculatorPlug;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.core.inventory.GuiSonar;
 import sonar.core.utils.helpers.FontHelper;

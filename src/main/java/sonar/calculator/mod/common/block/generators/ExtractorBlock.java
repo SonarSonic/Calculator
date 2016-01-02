@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.block.generators;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,7 +13,7 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
-import sonar.core.utils.SonarMaterials;
+import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.helpers.FontHelper;
 
 public class ExtractorBlock extends SonarMachineBlock {

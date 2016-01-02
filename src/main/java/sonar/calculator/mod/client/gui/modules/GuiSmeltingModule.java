@@ -2,18 +2,14 @@ package sonar.calculator.mod.client.gui.modules;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.containers.ContainerSmeltingModule;
-import sonar.calculator.mod.common.item.modules.StorageModule;
 import sonar.calculator.mod.common.item.modules.WIPSmeltingModule;
 import sonar.core.utils.helpers.FontHelper;
 

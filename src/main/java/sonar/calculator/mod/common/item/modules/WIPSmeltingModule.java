@@ -1,39 +1,20 @@
 package sonar.calculator.mod.common.item.modules;
 
-import ic2.api.item.ElectricItem;
-import ic2.api.item.IElectricItem;
-import ic2.api.item.IElectricItemManager;
-import ic2.api.item.ISpecialElectricItem;
-
 import java.util.List;
 
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.common.containers.ContainerSmeltingModule;
 import sonar.calculator.mod.common.item.calculators.SonarCalculator;
-import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInventory;
-import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.utils.ChargingUtils;
-import sonar.core.utils.DischargeValues;
-import sonar.core.utils.EnergyCharge;
-import sonar.core.utils.IItemInventory;
-import sonar.core.utils.SonarAPI;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.inventory.IItemInventory;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class WIPSmeltingModule extends SonarCalculator implements IItemInventory {
 

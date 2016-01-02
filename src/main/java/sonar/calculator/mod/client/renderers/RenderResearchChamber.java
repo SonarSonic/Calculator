@@ -1,46 +1,28 @@
 package sonar.calculator.mod.client.renderers;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.client.models.ModelAtomicMultiplier;
 import sonar.calculator.mod.client.models.ModelResearchChamber;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.core.utils.helpers.RenderHelper;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RenderResearchChamber extends TileEntitySpecialRenderer {
 	private static final ResourceLocation texture = new ResourceLocation("Calculator:textures/model/researchchamber.png");

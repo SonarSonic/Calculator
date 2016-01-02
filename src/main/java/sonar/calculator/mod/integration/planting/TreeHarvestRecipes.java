@@ -1,15 +1,9 @@
 package sonar.calculator.mod.integration.planting;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.core.utils.helpers.RecipeHelper;
 
 public class TreeHarvestRecipes extends RecipeHelper {

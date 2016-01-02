@@ -2,12 +2,12 @@ package sonar.calculator.mod.integration.agricraft;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+
 import com.InfinityRaider.AgriCraft.api.API;
 import com.InfinityRaider.AgriCraft.api.APIBase;
 import com.InfinityRaider.AgriCraft.api.v1.APIv1;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
 public class AgriCraftAPIWrapper extends AgriCraftAPI {
     private APIv1 api;

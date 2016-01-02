@@ -4,11 +4,10 @@ import gnu.trove.map.hash.THashMap;
 
 import java.util.Map;
 
-import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.IPlantable;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class PlanterRegistry {
 

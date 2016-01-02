@@ -7,11 +7,9 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.core.inventory.ContainerSync;
-import sonar.core.utils.SlotAllowed;
+import sonar.core.inventory.slots.SlotAllowed;
 
 public class ContainerFluxController extends ContainerSync {
 

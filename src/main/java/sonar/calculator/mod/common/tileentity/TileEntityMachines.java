@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.tileentity;
 
-import java.util.Random;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;

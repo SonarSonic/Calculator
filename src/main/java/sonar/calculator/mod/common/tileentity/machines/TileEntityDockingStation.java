@@ -1,21 +1,16 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
-import sonar.core.common.tileentity.TileEntityInventoryReceiver;
-import sonar.core.utils.helpers.RecipeHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.RecipeHelper;
 import sonar.core.utils.helpers.RenderHelper;
-import cofh.api.energy.EnergyStorage;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess {
 

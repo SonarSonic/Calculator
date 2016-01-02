@@ -20,9 +20,8 @@ import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.PacketTileSync;
-import sonar.core.utils.SonarMaterials;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class FluxPlug extends SonarMachineBlock {
 

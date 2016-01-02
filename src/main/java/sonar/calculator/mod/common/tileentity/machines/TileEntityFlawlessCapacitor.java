@@ -3,10 +3,10 @@ package sonar.calculator.mod.common.tileentity.machines;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import cofh.api.energy.EnergyStorage;
 import sonar.core.common.tileentity.TileEntitySender;
-import sonar.core.utils.helpers.SonarHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.SonarHelper;
+import cofh.api.energy.EnergyStorage;
 
 /**WIP*/
 public class TileEntityFlawlessCapacitor extends TileEntitySender {

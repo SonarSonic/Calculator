@@ -2,47 +2,27 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import java.util.List;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.ITeleport;
-import sonar.calculator.mod.api.ITextField;
 import sonar.calculator.mod.api.TeleportLink;
-import sonar.calculator.mod.client.gui.misc.GuiFlux;
-import sonar.calculator.mod.utils.CalculatorTeleporter;
-import sonar.calculator.mod.utils.FluxNetwork;
-import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.calculator.mod.utils.helpers.TeleporterHelper;
 import sonar.core.common.tileentity.TileEntitySonar;
-import sonar.core.network.PacketSonarSides;
 import sonar.core.network.PacketTileSync;
 import sonar.core.network.SonarPackets;
+import sonar.core.network.utils.ITextField;
 import sonar.core.utils.IMachineButtons;
-import sonar.core.utils.SonarAPI;
-import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.SonarHelper;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IMachineButtons, ITextField {
 

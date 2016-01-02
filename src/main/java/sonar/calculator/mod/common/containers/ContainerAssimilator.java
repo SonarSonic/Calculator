@@ -6,8 +6,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.api.IHealthStore;
 import sonar.calculator.mod.api.IHungerStore;
-import sonar.calculator.mod.api.IStability;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.core.inventory.ContainerSync;
 

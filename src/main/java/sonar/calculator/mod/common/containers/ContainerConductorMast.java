@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.core.inventory.ContainerSync;
-import sonar.core.utils.SlotBlockedInventory;
+import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerConductorMast extends ContainerSync {
 	private TileEntityConductorMast entity;

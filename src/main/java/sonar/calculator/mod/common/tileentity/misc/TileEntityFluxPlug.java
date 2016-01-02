@@ -4,9 +4,6 @@ import ic2.api.energy.tile.IEnergySource;
 
 import java.util.List;
 
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -20,6 +17,8 @@ import sonar.calculator.mod.utils.helpers.FluxHelper;
 import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyProvider;
 
 public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPlug {
 

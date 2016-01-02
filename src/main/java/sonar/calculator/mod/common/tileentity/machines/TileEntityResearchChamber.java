@@ -3,24 +3,20 @@ package sonar.calculator.mod.common.tileentity.machines;
 import gnu.trove.map.hash.THashMap;
 
 import java.util.Map;
-import java.util.Random;
 import java.util.Map.Entry;
+import java.util.Random;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.api.IStability;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator.Dynamic;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.utils.ISyncTile;
+import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityResearchChamber extends TileEntityInventory implements ISyncTile {

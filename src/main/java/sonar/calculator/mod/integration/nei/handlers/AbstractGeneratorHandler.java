@@ -24,9 +24,9 @@ public abstract class AbstractGeneratorHandler extends TemplateRecipeHandler {
 	public static ArrayList<FuelPair> fuelList;
 
 	public abstract ValueHelper valuehelper();
-	
+
 	public abstract String getOverlayIdentifier();
-		
+
 	public abstract String getRecipeName();
 
 	public abstract String getGuiTexture();
@@ -71,7 +71,7 @@ public abstract class AbstractGeneratorHandler extends TemplateRecipeHandler {
 			findFuels();
 		return super.newInstance();
 	}
-	
+
 	@Override
 	public void drawExtras(int i) {
 		drawProgressBar(30 - 5, 17 - 11, 0, 166, 138, 10, 150, 0);

@@ -8,11 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
-import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.core.network.PacketMachineButton;
 import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;

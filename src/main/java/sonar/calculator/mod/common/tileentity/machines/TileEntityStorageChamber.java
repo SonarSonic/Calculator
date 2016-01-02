@@ -6,10 +6,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
-import sonar.core.network.PacketSonarSides;
-import sonar.core.utils.ISyncTile;
+import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
 /** needs clean up */
 public class TileEntityStorageChamber extends TileEntitySidedInventory implements ISyncTile, ISidedInventory {
@@ -236,6 +234,8 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 	}
 
 	public void setSavedStack(ItemStack stack) {
+		if (stack != null)
+			stack.stackSize = 1;
 		savedStack = stack;
 		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}

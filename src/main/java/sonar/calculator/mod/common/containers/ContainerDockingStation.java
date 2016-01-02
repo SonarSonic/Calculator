@@ -1,22 +1,16 @@
 package sonar.calculator.mod.common.containers;
 
 import ic2.api.item.IElectricItem;
-import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.modules.StorageModule;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
-import sonar.calculator.mod.utils.SlotSize;
+import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerSync;
-import sonar.core.utils.DischargeValues;
-import sonar.core.utils.SlotBlockedInventory;
-import sonar.core.utils.SonarAPI;
+import sonar.core.inventory.slots.SlotBlockedInventory;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerDockingStation extends ContainerSync {

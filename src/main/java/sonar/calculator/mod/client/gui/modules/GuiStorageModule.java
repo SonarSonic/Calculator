@@ -5,12 +5,10 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerStorageModule;
-import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.item.modules.StorageModule;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;

@@ -8,9 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -18,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.RecipeHelper;
+import cpw.mods.fml.common.FMLLog;
 
 public class RecipeRegistry {
 

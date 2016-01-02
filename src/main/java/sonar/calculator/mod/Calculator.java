@@ -3,16 +3,14 @@ package sonar.calculator.mod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import sonar.calculator.mod.api.CalculatorAPI;
+import appeng.api.AEApi;
 import sonar.calculator.mod.common.entities.CalculatorThrow;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
@@ -20,7 +18,6 @@ import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
-import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
@@ -30,6 +27,7 @@ import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
+import sonar.calculator.mod.integration.ae2.StorageChamberHandler;
 import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
@@ -37,8 +35,8 @@ import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
+import sonar.core.integration.SonarAPI;
 import sonar.core.network.SonarPackets;
-import sonar.core.utils.SonarAPI;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -104,20 +102,18 @@ public class Calculator {
 			logger.warn("'WAILA' - unavailable or disabled in config");
 		}
 
-		
 		CalculatorBlocks.registerBlocks();
 		logger.info("Loaded Blocks");
 
 		CalculatorItems.registerItems();
 		logger.info("Loaded Items");
-		
 
 		EntityRegistry.registerModEntity(EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntitySoil.class, "Soil", 3, instance, 64, 10, true);
-		logger.info("Registered Entities");	
-		
+		logger.info("Registered Entities");
+
 	}
 
 	@EventHandler
@@ -125,7 +121,7 @@ public class Calculator {
 
 		RecipeRegistry.registerRecipes();
 		logger.info("Registered Calculator Recipes");
-		
+
 		CalculatorCrafting.addRecipes();
 		logger.info("Added Crafting Recipes");
 
@@ -134,12 +130,12 @@ public class Calculator {
 
 		CalculatorOreDict.registerOres();
 		logger.info("Registered OreDict");
-		
+
 		calculatorProxy.registerRenderThings();
 		logger.info("Registered Renderers");
 		PlanterRegistry.registerPlanters();
 		logger.info("Registered Planters");
-		
+
 		GameRegistry.registerFuelHandler(new CalculatorSmelting());
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CalculatorCommon());
 		logger.info("Registered Handlers");
@@ -147,12 +143,12 @@ public class Calculator {
 		MinecraftForge.EVENT_BUS.register(new CalculatorEvents());
 		FMLCommonHandler.instance().bus().register(new CalculatorEvents());
 		logger.info("Registered Events");
-		
+
 	}
 
 	@EventHandler
 	public void postLoad(FMLPostInitializationEvent evt) {
-		
+
 		BlockDispenser.dispenseBehaviorRegistry.putObject(baby_grenade, new CalculatorThrow(0));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(grenade, new CalculatorThrow(1));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(small_stone, new CalculatorThrow(2));
@@ -162,8 +158,8 @@ public class Calculator {
 		logger.info(RecipeRegistry.getScientificSize() + " Scientific Recipes were loaded");
 		logger.info(RecipeRegistry.getAtomicSize() + " Atomic Recipes were loaded");
 		logger.info(RecipeRegistry.getFlawlessSize() + " Flawless Recipes were loaded");
-		logger.info(RecipeRegistry.ConductorMastItemRecipes.instance().getRecipes().size() + " Conductor Mast Recipes Recipes were loaded");		
-		logger.info(AlgorithmSeparatorRecipes.instance().getRecipes().size() + " Algorithm Seperator Recipes were loaded");		
+		logger.info(RecipeRegistry.ConductorMastItemRecipes.instance().getRecipes().size() + " Conductor Mast Recipes Recipes were loaded");
+		logger.info(AlgorithmSeparatorRecipes.instance().getRecipes().size() + " Algorithm Seperator Recipes were loaded");
 		logger.info(ExtractionChamberRecipes.instance().getRecipes().size() + " Extraction Chamber Recipes were loaded");
 		logger.info(GlowstoneExtractorRecipes.instance().getRecipes().size() + " Glowstone Extractor Recipes were loaded");
 		logger.info(HealthProcessorRecipes.instance().getRecipes().size() + " Health Processor Recipes were loaded");
@@ -177,7 +173,15 @@ public class Calculator {
 		if (Loader.isModLoaded("MineTweaker3")) {
 			MinetweakerIntegration.integrate();
 		}
-		
+
+		if (Loader.isModLoaded("appliedenergistics2")) {
+			if (StorageChamberHandler.ReflectionFactory.init()) {
+				AEApi.instance().registries().externalStorage().addExternalStorageInterface(new StorageChamberHandler());
+				logger.info("Registered AE2 Handler for Storage Chamber");
+			} else {
+				logger.error("Failed to register AE2 Storage Chamber Handler");
+			}
+		}
 	}
 
 	@EventHandler
@@ -254,7 +258,7 @@ public class Calculator {
 	public static Block calculatorScreen;
 	public static Block magneticFlux;
 	public static Block teleporter;
-	public static Block stoneAssimilator,algorithmAssimilator;
+	public static Block stoneAssimilator, algorithmAssimilator;
 	public static Block flawlessFurnace;
 	public static Block eternalFire;
 
@@ -352,7 +356,7 @@ public class Calculator {
 	public static Item soil, small_stone;
 
 	// common blocks
-	public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock, reinforceddirtBrick, purifiedobsidianBlock, stablestoneBlock, stablestonerimmedBlock,stablestonerimmedblackBlock, stableglassBlock, clearstableglassBlock, flawlessGlass;
+	public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock, reinforceddirtBrick, purifiedobsidianBlock, stablestoneBlock, stablestonerimmedBlock, stablestonerimmedblackBlock, stableglassBlock, clearstableglassBlock, flawlessGlass;
 
 	// trees
 	public static Block amethystLeaf, tanzaniteLeaf, pearLeaf, diamondLeaf;

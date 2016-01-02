@@ -2,7 +2,6 @@ package sonar.calculator.mod.utils;
 
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 
 public class SlotBigStorage extends Slot {

@@ -4,15 +4,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
-import sonar.core.inventory.GuiSonar;
-import sonar.core.inventory.GuiSonar.PauseButton;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiAtomicMultiplier extends GuiContainer {

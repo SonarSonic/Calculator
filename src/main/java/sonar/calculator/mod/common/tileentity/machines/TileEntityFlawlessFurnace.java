@@ -2,26 +2,19 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.List;
 
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
-import cofh.api.energy.EnergyStorage;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IPausable;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
-import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
-import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
 import sonar.core.utils.IMachineButtons;
-import sonar.core.utils.IUpgradeCircuits;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.RecipeHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.RecipeHelper;
+import cofh.api.energy.EnergyStorage;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver implements IPausable, IMachineButtons {
 	public int[] cookTime = new int[9];

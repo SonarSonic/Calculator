@@ -8,9 +8,9 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
+import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerSync;
-import sonar.core.utils.SlotBlockedInventory;
-import sonar.core.utils.SonarAPI;
+import sonar.core.inventory.slots.SlotBlockedInventory;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerAnalysingChamber extends ContainerSync {

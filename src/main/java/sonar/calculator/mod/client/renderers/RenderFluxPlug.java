@@ -1,17 +1,7 @@
 package sonar.calculator.mod.client.renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import akka.japi.Effect;
-import net.minecraft.block.BlockFence;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.models.ModelFluxPlug;
 import sonar.core.utils.helpers.RenderHelper;
 

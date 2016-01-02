@@ -12,9 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
+import sonar.core.energy.DischargeValues;
+import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerSync;
-import sonar.core.utils.DischargeValues;
-import sonar.core.utils.SonarAPI;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerAdvancedGreenhouse extends ContainerSync {

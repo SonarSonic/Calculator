@@ -1,17 +1,9 @@
 package sonar.calculator.mod.common.recipes.machines;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.core.utils.helpers.RecipeHelper;
 
 public class StoneSeparatorRecipes extends RecipeHelper {

@@ -20,7 +20,7 @@ import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.utils.IItemInventory;
+import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

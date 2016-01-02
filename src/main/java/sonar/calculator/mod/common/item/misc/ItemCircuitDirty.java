@@ -3,12 +3,12 @@ package sonar.calculator.mod.common.item.misc;
 import java.util.List;
 import java.util.Map;
 
-import sonar.core.common.item.SonarItem;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import sonar.core.common.item.SonarItem;
 
 import com.google.common.collect.Maps;
 

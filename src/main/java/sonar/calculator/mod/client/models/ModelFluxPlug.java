@@ -1,11 +1,11 @@
 package sonar.calculator.mod.client.models;
 
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 
 public class ModelFluxPlug extends ModelBase {
 	// fields

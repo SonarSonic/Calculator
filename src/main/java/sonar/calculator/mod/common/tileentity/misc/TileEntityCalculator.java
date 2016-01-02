@@ -1,24 +1,13 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import gnu.trove.map.hash.THashMap;
-
-import java.util.Map;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStableBlock;
 import sonar.calculator.mod.api.IStableGlass;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.utils.FailedCoords;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 
 public class TileEntityCalculator extends TileEntityInventory implements ISidedInventory {

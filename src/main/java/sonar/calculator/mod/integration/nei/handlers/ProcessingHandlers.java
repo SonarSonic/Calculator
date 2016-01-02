@@ -2,15 +2,15 @@ package sonar.calculator.mod.integration.nei.handlers;
 
 import java.awt.Rectangle;
 
-import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.common.recipes.machines.ProcessingChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
+import sonar.core.integration.nei.AbstractProcessorHandler;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.RecipeHelper;
+import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class ProcessingHandlers {
 

@@ -6,11 +6,6 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
-import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
-import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.core.utils.helpers.RecipeHelper;
 import cofh.api.energy.EnergyStorage;
 
@@ -112,6 +107,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 			if (output[o] != null) {
 				if (this.slots[o + inputSize() + 1] == null) {
 					ItemStack outputStack = output[o].copy();
+					
 					if (output[o].getItem() == Calculator.circuitBoard) {
 						ItemCircuit.setData(outputStack);
 					}

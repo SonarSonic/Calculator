@@ -1,14 +1,10 @@
 package sonar.calculator.mod.common.block.calculators;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -17,12 +13,8 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.network.CalculatorGui;
-import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMachineBlock;
-import sonar.core.utils.IUpgradeCircuits;
-import sonar.core.utils.SonarAPI;
-import sonar.core.utils.SonarMaterials;
-import cpw.mods.fml.common.registry.GameRegistry;
+import sonar.core.common.block.SonarMaterials;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

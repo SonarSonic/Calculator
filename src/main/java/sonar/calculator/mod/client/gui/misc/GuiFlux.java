@@ -3,33 +3,27 @@ package sonar.calculator.mod.client.gui.misc;
 import java.awt.Color;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IFlux;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons;
-import sonar.calculator.mod.common.containers.ContainerFlux;
-import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.inventory.GuiSonar;
+import sonar.core.inventory.SonarButtons;
 import sonar.core.utils.helpers.FontHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class GuiFlux extends GuiSonar {
 
@@ -350,7 +344,7 @@ public abstract class GuiFlux extends GuiSonar {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public class FluxButton extends CalculatorButtons.ImageButton {
+	public class FluxButton extends SonarButtons.ImageButton {
 		int id;
 
 		public FluxButton(int id, int x, int y) {
@@ -374,7 +368,7 @@ public abstract class GuiFlux extends GuiSonar {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public class NetworkButton extends CalculatorButtons.ImageButton {
+	public class NetworkButton extends SonarButtons.ImageButton {
 
 		public NetworkButton(int id, int x, int y) {
 			super(id, x, y, networkTex, 0, 190, 154, 11);

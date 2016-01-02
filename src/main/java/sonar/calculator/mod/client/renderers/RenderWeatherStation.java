@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.client.models.ModelConductorMast;
 import sonar.calculator.mod.client.models.ModelWeatherStationBase;
 import sonar.calculator.mod.client.models.ModelWeatherStationDish;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;

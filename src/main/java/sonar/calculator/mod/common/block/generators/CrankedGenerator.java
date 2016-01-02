@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.block.generators;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +14,7 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenera
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
-import sonar.core.utils.SonarMaterials;
+import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

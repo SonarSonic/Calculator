@@ -3,9 +3,6 @@ package sonar.calculator.mod.common.item.misc;
 import java.util.List;
 import java.util.Map;
 
-import sonar.calculator.mod.api.IStability;
-import sonar.core.common.item.SonarItem;
-import sonar.core.utils.helpers.FontHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -14,8 +11,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import sonar.calculator.mod.api.IStability;
+import sonar.core.common.item.SonarItem;
+import sonar.core.utils.helpers.FontHelper;
 
 import com.google.common.collect.Maps;
 
@@ -27,10 +26,25 @@ public class ItemCircuit extends SonarItem implements IStability {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
-		if (stack.getTagCompound() != null) {
+		if (stack.hasTagCompound()) {
 			int stable = stack.getTagCompound().getInteger("Stable");
 			if (stable == 1) {
 				list.add(FontHelper.translate("circuit.stable"));
+			} else {
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setInteger("Stable", 0);
+				tag.setInteger("Item1", 0);
+				tag.setInteger("Item2", 0);
+				tag.setInteger("Item3", 0);
+				tag.setInteger("Item4", 0);
+				tag.setInteger("Item5", 0);
+				tag.setInteger("Item6", 0);
+				tag.setInteger("Energy", 0);
+				ItemStack analysed = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
+				analysed.setTagCompound(tag);
+				if (ItemStack.areItemStackTagsEqual(analysed, stack)) {
+					list.add(FontHelper.translate("circuit.analysed"));
+				}
 			}
 		}
 	}

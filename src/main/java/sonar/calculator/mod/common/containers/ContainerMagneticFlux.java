@@ -1,14 +1,12 @@
 package sonar.calculator.mod.common.containers;
 
-import sonar.calculator.mod.common.item.modules.StorageModule;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
-import sonar.calculator.mod.utils.SlotList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
+import sonar.core.inventory.slots.SlotList;
 
 public class ContainerMagneticFlux extends Container {
 

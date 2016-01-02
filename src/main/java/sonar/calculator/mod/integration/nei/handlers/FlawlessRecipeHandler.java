@@ -7,16 +7,14 @@ import java.util.Map;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.calculators.GuiFlawlessCalculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.calculator.mod.integration.nei.handlers.AtomicRecipeHandler.SmeltingPair;
 import sonar.core.utils.helpers.FontHelper;
+import sonar.core.utils.helpers.RecipeHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import sonar.core.utils.helpers.RecipeHelper;
 
 public class FlawlessRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {

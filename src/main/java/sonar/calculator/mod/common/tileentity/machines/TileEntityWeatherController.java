@@ -1,19 +1,15 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import java.util.List;
-
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
+import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.IMachineButtons;
-import sonar.core.utils.ISyncTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityWeatherController extends TileEntityInventoryReceiver implements IEnergyHandler, IEnergySink, ISyncTile, IMachineButtons {
 

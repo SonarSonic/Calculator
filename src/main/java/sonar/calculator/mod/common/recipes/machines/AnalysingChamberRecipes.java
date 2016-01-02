@@ -4,14 +4,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.common.item.misc.ItemCircuit;
 
 public class AnalysingChamberRecipes {
 	private static final AnalysingChamberRecipes chanceRecipes = new AnalysingChamberRecipes();

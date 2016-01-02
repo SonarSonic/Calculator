@@ -1,19 +1,13 @@
 package sonar.calculator.mod.client.gui.machines;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
-import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons.SonarButton;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.core.inventory.GuiSonar;
+import sonar.core.inventory.SonarButtons;
+import sonar.core.inventory.SonarButtons.SonarButton;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiDualOutputSmelting extends GuiSonar {
@@ -48,7 +42,7 @@ public class GuiDualOutputSmelting extends GuiSonar {
 
 	protected void actionPerformed(GuiButton button) {
 		if (entity.getWorldObj().isRemote) {
-			if (button != null && button instanceof CalculatorButtons.SonarButton) {
+			if (button != null && button instanceof SonarButtons.SonarButton) {
 				SonarButton sButton = (SonarButton) button;
 				sButton.onClicked();
 			}

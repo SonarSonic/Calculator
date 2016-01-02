@@ -5,16 +5,14 @@ import ic2.api.item.IElectricItem;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
-import sonar.core.utils.DischargeValues;
-import sonar.core.utils.SonarAPI;
+import sonar.core.energy.DischargeValues;
+import sonar.core.integration.SonarAPI;
 import sonar.core.utils.helpers.FontHelper;
+import cofh.api.energy.IEnergyContainerItem;
 
 public class CalculatorHelper {
 

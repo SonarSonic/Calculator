@@ -6,11 +6,10 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.item.modules.StorageModule;
 import sonar.calculator.mod.utils.SlotPortable;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.utils.SlotLimiter;
+import sonar.core.inventory.slots.SlotLimiter;
 
 public class ContainerStorageModule extends Container {
 	private final InventoryItem inventory;

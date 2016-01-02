@@ -1,12 +1,9 @@
 package sonar.calculator.mod.common.containers;
 
-import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.api.ICalculatorCrafter;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
@@ -14,8 +11,7 @@ import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.inventory.InventoryStoredCrafting;
-import sonar.core.inventory.InventoryStoredResult;
+import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerScientificCalculator extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;

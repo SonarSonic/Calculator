@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.recipes.machines;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.RecipeHelper;

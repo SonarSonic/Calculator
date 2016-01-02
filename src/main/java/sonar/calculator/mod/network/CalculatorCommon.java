@@ -41,13 +41,13 @@ import sonar.calculator.mod.client.gui.machines.GuiResearchChamber;
 import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.client.gui.machines.GuiStorageChamber;
 import sonar.calculator.mod.client.gui.misc.GuiAlgorithmAssimilator;
-import sonar.calculator.mod.client.gui.misc.GuiStoneAssimilator;
 import sonar.calculator.mod.client.gui.misc.GuiCO2Generator;
 import sonar.calculator.mod.client.gui.misc.GuiFluxController;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPlug;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPoint;
 import sonar.calculator.mod.client.gui.misc.GuiGasLantern;
 import sonar.calculator.mod.client.gui.misc.GuiMagneticFlux;
+import sonar.calculator.mod.client.gui.misc.GuiStoneAssimilator;
 import sonar.calculator.mod.client.gui.misc.GuiTeleporter;
 import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
 import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
@@ -129,14 +129,8 @@ import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
 import sonar.calculator.mod.network.packets.PacketTeleportLinks;
-import sonar.calculator.mod.network.packets.PacketTextField;
 import sonar.core.inventory.ContainerEmpty;
-import sonar.core.network.PacketInventorySync;
-import sonar.core.network.PacketMachineButton;
-import sonar.core.network.PacketRequestSync;
-import sonar.core.network.PacketSonarSides;
-import sonar.core.network.PacketTileSync;
-import sonar.core.utils.IItemInventory;
+import sonar.core.inventory.IItemInventory;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.relauncher.Side;
 
@@ -149,8 +143,7 @@ public class CalculatorCommon implements IGuiHandler {
 		Calculator.network.registerMessage(PacketFluxPoint.Handler.class, PacketFluxPoint.class, 1, Side.SERVER);
 		Calculator.network.registerMessage(PacketFluxNetworkList.Handler.class, PacketFluxNetworkList.class, 2, Side.CLIENT);
 		Calculator.network.registerMessage(PacketCalculatorScreen.Handler.class, PacketCalculatorScreen.class, 3, Side.CLIENT);
-		Calculator.network.registerMessage(PacketTextField.Handler.class, PacketTextField.class, 4, Side.SERVER);
-		Calculator.network.registerMessage(PacketTeleportLinks.Handler.class, PacketTeleportLinks.class, 5, Side.CLIENT);
+		Calculator.network.registerMessage(PacketTeleportLinks.Handler.class, PacketTeleportLinks.class, 4, Side.CLIENT);
 		
 	}
 

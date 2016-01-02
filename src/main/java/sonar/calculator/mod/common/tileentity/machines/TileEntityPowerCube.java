@@ -1,12 +1,6 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
 import cofh.api.energy.EnergyStorage;

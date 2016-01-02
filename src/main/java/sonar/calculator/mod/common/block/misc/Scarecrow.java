@@ -2,12 +2,12 @@ package sonar.calculator.mod.common.block.misc;
 
 import java.util.ArrayList;
 
-import cofh.api.block.IDismantleable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import sonar.core.utils.helpers.SonarHelper;
+import cofh.api.block.IDismantleable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -102,6 +103,18 @@ public class Scarecrow extends BlockContainer implements IDismantleable {
 	}
 
 	@Override
+	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+		if (world.getBlock(x, y + 1, z) != Blocks.air) {
+			return false;
+		}
+		if (world.getBlock(x, y + 2, z) != Blocks.air) {
+			return false;
+		}
+		return true;
+
+	}
+
+	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 		setDefaultDirection(world, x, y, z);
@@ -128,7 +141,7 @@ public class Scarecrow extends BlockContainer implements IDismantleable {
 
 	@Override
 	public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops) {
-		
+
 		SonarHelper.dropTile(player, world.getBlock(x, y, z), world, x, y, z);
 		return null;
 	}

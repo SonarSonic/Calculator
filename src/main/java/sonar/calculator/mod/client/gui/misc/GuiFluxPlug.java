@@ -1,36 +1,13 @@
 package sonar.calculator.mod.client.gui.misc;
 
-import java.awt.Color;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons.SonarButton;
 import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
-import sonar.calculator.mod.network.CalculatorGui;
-import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.utils.FluxNetwork;
-import sonar.core.inventory.GuiSonar.CircuitButton;
-import sonar.core.network.PacketMachineButton;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiFluxPlug extends GuiFlux {

@@ -1,8 +1,5 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import sonar.calculator.mod.common.block.misc.RainSensor;
-import sonar.calculator.mod.common.block.misc.WeatherController;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityRainSensor extends TileEntity {

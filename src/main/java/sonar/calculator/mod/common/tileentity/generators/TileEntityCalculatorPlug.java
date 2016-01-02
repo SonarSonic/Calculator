@@ -2,15 +2,15 @@ package sonar.calculator.mod.common.tileentity.generators;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.client.gui.generators.GuiCalculatorPlug;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.utils.ISyncTile;
+import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityCalculatorPlug extends TileEntityInventory implements ISyncTile {
 

@@ -14,8 +14,6 @@ import sonar.core.utils.helpers.RecipeHelper;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.Map;
-
 /**
  * Created by AEnterprise
  */

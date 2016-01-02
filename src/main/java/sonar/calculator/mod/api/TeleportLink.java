@@ -1,7 +1,6 @@
 package sonar.calculator.mod.api;
 
 import io.netty.buffer.ByteBuf;
-import sonar.calculator.mod.utils.FluxNetwork;
 import cpw.mods.fml.common.network.ByteBufUtils;
 
 public class TeleportLink {

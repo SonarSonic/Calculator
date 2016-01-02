@@ -3,7 +3,6 @@ package sonar.calculator.mod.common.block.misc;
 import java.util.ArrayList;
 import java.util.Random;
 
-import cofh.api.block.IDismantleable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.SonarHelper;
+import cofh.api.block.IDismantleable;
 
 public class ScarecrowBlock extends Block implements IDismantleable {
 	private static boolean keepInventory;

@@ -11,10 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 import sonar.core.common.tileentity.TileEntitySonar;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 /** Integrations with WAILA - Registers all HUDs */
 public class CalculatorWailaModule {

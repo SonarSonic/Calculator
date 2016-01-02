@@ -3,13 +3,10 @@ package sonar.calculator.mod.common.item.tools;
 import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.integration.planting.TreeHarvestRecipes;
 import sonar.core.common.item.SonarItem;
-import sonar.core.network.PacketInventorySync;
-import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.SonarHelper;

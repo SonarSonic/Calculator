@@ -1,15 +1,11 @@
 package sonar.calculator.mod.common.item.misc;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.core.common.item.SonarItem;
-import sonar.core.utils.helpers.FontHelper;
 
 public class Grenade extends SonarItem
 {

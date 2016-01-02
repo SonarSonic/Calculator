@@ -1,21 +1,14 @@
 package sonar.calculator.mod.client.gui.machines;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.containers.ContainerStorageChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
-import sonar.calculator.mod.utils.SlotBigStorage;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiStorageChamber extends GuiContainer {

@@ -2,19 +2,13 @@ package sonar.calculator.mod.client.gui.generators;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.containers.ContainerCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
-import sonar.core.inventory.GuiSonar;
-import sonar.core.inventory.GuiSonar.CircuitButton;
-import sonar.core.inventory.GuiSonar.PauseButton;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiCalculatorLocator extends GuiContainer {

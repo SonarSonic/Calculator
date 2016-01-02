@@ -5,22 +5,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.IResearchStore;
 import sonar.calculator.mod.client.gui.calculators.GuiCalculator;
-import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.calculator.mod.integration.nei.handlers.ScientificRecipeHandler.SmeltingPair;
 import sonar.core.utils.helpers.FontHelper;
+import sonar.core.utils.helpers.RecipeHelper;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import sonar.core.utils.helpers.RecipeHelper;
 
 public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 	
@@ -70,6 +64,7 @@ public class CalculatorRecipeHandler extends TemplateRecipeHandler {
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("calculator")) && (getClass() == CalculatorRecipeHandler.class)) {
 			Map<Object[], Object[]> recipes = RecipeRegistry.CalculatorRecipes.instance().getRecipes();
+			System.out.print(RecipeRegistry.getUnblockedSize());
 			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet())
 				if (CalculatorConfig.isEnabled((ItemStack) recipe.getValue()[0])) {
 					this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0]));

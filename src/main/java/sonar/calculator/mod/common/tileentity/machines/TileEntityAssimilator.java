@@ -5,12 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IHealthStore;
@@ -18,14 +15,12 @@ import sonar.calculator.mod.api.IHungerStore;
 import sonar.calculator.mod.api.ProcessType;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
-import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.PlantableFilter;
 import sonar.calculator.mod.integration.planting.TreeHarvestRecipes;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.helpers.InventoryHelper;
-import sonar.core.utils.helpers.SonarHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
+import sonar.core.utils.helpers.SonarHelper;
 
 public abstract class TileEntityAssimilator extends TileEntityInventory {
 	public boolean hasTree;

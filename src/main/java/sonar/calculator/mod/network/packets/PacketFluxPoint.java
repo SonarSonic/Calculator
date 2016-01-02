@@ -1,32 +1,16 @@
 package sonar.calculator.mod.network.packets;
 
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IFlux;
-import sonar.calculator.mod.api.IPausable;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons;
-import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
-import sonar.calculator.mod.common.tileentity.TileEntityFlux;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
-import sonar.calculator.mod.network.CalculatorGui;
-import sonar.calculator.mod.utils.FluxRegistry;
-import sonar.core.inventory.GuiSonar;
-import sonar.core.utils.IUpgradeCircuits;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemStack;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import io.netty.buffer.ByteBuf;
+import sonar.calculator.mod.common.tileentity.TileEntityFlux;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
+import sonar.calculator.mod.utils.FluxRegistry;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class PacketFluxPoint implements IMessage {
 

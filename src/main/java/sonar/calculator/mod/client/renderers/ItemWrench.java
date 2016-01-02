@@ -1,19 +1,13 @@
 package sonar.calculator.mod.client.renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import sonar.calculator.mod.client.models.ModelAxe;
-import sonar.calculator.mod.client.models.ModelHoe;
-import sonar.calculator.mod.client.models.ModelShovel;
-import sonar.calculator.mod.client.models.ModelSword;
-import sonar.calculator.mod.client.models.ModelWrench;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+
+import org.lwjgl.opengl.GL11;
+
+import sonar.calculator.mod.client.models.ModelWrench;
 
 public class ItemWrench implements net.minecraftforge.client.IItemRenderer
 {

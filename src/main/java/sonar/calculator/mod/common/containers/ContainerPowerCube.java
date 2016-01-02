@@ -7,9 +7,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
+import sonar.core.energy.DischargeValues;
+import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerSync;
-import sonar.core.utils.DischargeValues;
-import sonar.core.utils.SonarAPI;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerPowerCube extends ContainerSync {

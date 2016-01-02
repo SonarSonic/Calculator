@@ -8,14 +8,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.api.IFlux;
 import sonar.calculator.mod.api.IFluxPlug;
 import sonar.calculator.mod.api.IFluxPoint;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
 
 public class FluxRegistry {

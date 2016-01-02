@@ -3,10 +3,8 @@ package sonar.calculator.mod.common.item.modules;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;

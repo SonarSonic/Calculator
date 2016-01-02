@@ -4,16 +4,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
-import sonar.core.inventory.GuiSonar;
-import sonar.core.inventory.GuiSonar.CircuitButton;
-import sonar.core.inventory.GuiSonar.PauseButton;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiAnalysingChamber extends GuiContainer {

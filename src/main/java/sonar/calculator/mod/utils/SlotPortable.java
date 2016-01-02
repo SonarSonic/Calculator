@@ -1,9 +1,8 @@
 package sonar.calculator.mod.utils;
 
-import sonar.core.common.item.InventoryItem;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.core.common.item.InventoryItem;
 
 public class SlotPortable extends Slot {
 	public boolean isRemote;

@@ -3,35 +3,26 @@ package sonar.calculator.mod.client.gui.misc;
 import java.awt.Color;
 import java.util.List;
 
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.TeleportLink;
-import sonar.calculator.mod.client.gui.misc.GuiFlux.NetworkButton;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons.SonarButton;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
-import sonar.calculator.mod.network.packets.PacketFluxPoint;
-import sonar.calculator.mod.network.packets.PacketTextField;
-import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.inventory.ContainerEmpty;
 import sonar.core.inventory.GuiSonar;
-import sonar.core.inventory.GuiSonar.CircuitButton;
-import sonar.core.inventory.GuiSonar.PauseButton;
+import sonar.core.inventory.SonarButtons;
 import sonar.core.network.PacketMachineButton;
+import sonar.core.network.PacketTextField;
 import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class GuiTeleporter extends GuiSonar {
 	public static ResourceLocation network = new ResourceLocation("Calculator:textures/gui/teleporter.png");
@@ -198,9 +189,9 @@ public class GuiTeleporter extends GuiSonar {
 				name.textboxKeyTyped(c, i);
 				final String text = name.getText();
 				if (text.isEmpty() || text == "" || text == null) {
-					Calculator.network.sendToServer(new PacketTextField("Unnamed", entity.xCoord, entity.yCoord, entity.zCoord, 1));
+					SonarPackets.network.sendToServer(new PacketTextField("Unnamed", entity.xCoord, entity.yCoord, entity.zCoord, 1));
 				} else {
-					Calculator.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 1));
+					SonarPackets.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 1));
 				}
 				if (text.isEmpty() || text == "" || text == null)
 					this.entity.name = "Unnamed";
@@ -216,9 +207,9 @@ public class GuiTeleporter extends GuiSonar {
 				password.textboxKeyTyped(c, i);
 				final String text = password.getText();
 				if (text.isEmpty() || text == "" || text == null) {
-					Calculator.network.sendToServer(new PacketTextField("", entity.xCoord, entity.yCoord, entity.zCoord, 2));
+					SonarPackets.network.sendToServer(new PacketTextField("", entity.xCoord, entity.yCoord, entity.zCoord, 2));
 				} else {
-					Calculator.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 2));
+					SonarPackets.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 2));
 				}
 				if (text.isEmpty() || text == "" || text == null)
 					this.entity.password = "";
@@ -234,9 +225,9 @@ public class GuiTeleporter extends GuiSonar {
 				destinationPassword.textboxKeyTyped(c, i);
 				final String text = destinationPassword.getText();
 				if (text.isEmpty() || text == "" || text == null) {
-					Calculator.network.sendToServer(new PacketTextField("", entity.xCoord, entity.yCoord, entity.zCoord, 3));
+					SonarPackets.network.sendToServer(new PacketTextField("", entity.xCoord, entity.yCoord, entity.zCoord, 3));
 				} else {
-					Calculator.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 3));
+					SonarPackets.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 3));
 				}
 				if (text.isEmpty() || text == "" || text == null)
 					this.entity.linkPassword = "";
@@ -315,7 +306,7 @@ public class GuiTeleporter extends GuiSonar {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public class NetworkButton extends CalculatorButtons.ImageButton {
+	public class NetworkButton extends SonarButtons.ImageButton {
 
 		public NetworkButton(int id, int x, int y) {
 			super(id, x, y, network, 0, 190, 72, 11);

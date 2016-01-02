@@ -2,34 +2,20 @@ package sonar.calculator.mod.client.gui.misc;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons;
-import sonar.calculator.mod.client.gui.utils.CalculatorButtons.SonarButton;
-import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.containers.ContainerFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
-import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.utils.FluxNetwork;
-import sonar.core.inventory.GuiSonar;
-import sonar.core.inventory.GuiSonar.CircuitButton;
+import sonar.core.inventory.SonarButtons;
+import sonar.core.inventory.SonarButtons.SonarButton;
 import sonar.core.network.PacketMachineButton;
 import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class GuiFluxController extends GuiFlux {
 
@@ -95,7 +81,7 @@ public class GuiFluxController extends GuiFlux {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public class ModeButton extends CalculatorButtons.SonarButton {
+	public class ModeButton extends SonarButtons.SonarButton {
 
 		public ModeButton(int id, int x, int y, int textureX, int textureY, String display) {
 			super(id, x, y, textureX, textureY, display);
@@ -127,7 +113,7 @@ public class GuiFluxController extends GuiFlux {
 	protected void actionPerformed(GuiButton button) {
 		super.actionPerformed(button);
 		if (!network()) {
-			if (button != null && button instanceof CalculatorButtons.SonarButton) {
+			if (button != null && button instanceof SonarButtons.SonarButton) {
 
 				SonarButton sButton = (SonarButton) button;
 				sButton.onClicked();

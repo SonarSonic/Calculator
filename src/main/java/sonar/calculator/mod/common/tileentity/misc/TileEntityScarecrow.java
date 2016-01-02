@@ -1,9 +1,6 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;

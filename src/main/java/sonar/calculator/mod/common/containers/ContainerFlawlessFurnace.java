@@ -1,20 +1,13 @@
 package sonar.calculator.mod.common.containers;
 
-import ic2.api.item.IElectricItem;
-import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.item.calculators.CalculatorItem;
-import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessFurnace;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.inventory.ContainerSync;
-import sonar.core.utils.DischargeValues;
-import sonar.core.utils.SlotBlockedInventory;
-import sonar.core.utils.SonarAPI;
-import cofh.api.energy.IEnergyContainerItem;
+import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerFlawlessFurnace extends ContainerSync {
 	private TileEntityFlawlessFurnace entity;
