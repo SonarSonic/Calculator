@@ -50,7 +50,7 @@ public class ContainerFlawlessGreenhouse extends ContainerSync {
 			itemstack = itemstack1.copy();
 
 			if (!(slotID <= 12)) {
-				 if (DischargeValues.discharge().value(itemstack1) > 0) {
+				 if (DischargeValues.getValueOf(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}

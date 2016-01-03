@@ -13,9 +13,9 @@ import sonar.calculator.mod.api.ITeleport;
 import sonar.calculator.mod.api.TeleportLink;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.calculator.mod.utils.helpers.TeleporterHelper;
+import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.network.PacketTileSync;
-import sonar.core.network.SonarPackets;
 import sonar.core.network.utils.ITextField;
 import sonar.core.utils.IMachineButtons;
 import sonar.core.utils.helpers.NBTHelper;
@@ -94,7 +94,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			destinationName = name;
 			NBTTagCompound syncData = new NBTTagCompound();
 			writeData(syncData, NBTHelper.SyncType.SYNC);
-			SonarPackets.network.sendToAllAround(new PacketTileSync(xCoord, yCoord, zCoord, syncData), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 32));
+			SonarCore.network.sendToAllAround(new PacketTileSync(xCoord, yCoord, zCoord, syncData), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 32));
 		}
 	}
 

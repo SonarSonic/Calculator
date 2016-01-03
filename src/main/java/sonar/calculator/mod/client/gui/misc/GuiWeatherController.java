@@ -10,8 +10,8 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
+import sonar.core.SonarCore;
 import sonar.core.network.PacketMachineButton;
-import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiWeatherController extends GuiContainer {
@@ -49,7 +49,7 @@ public class GuiWeatherController extends GuiContainer {
 				type = entity.type + 1;
 			}
 			entity.type = type;
-			SonarPackets.network.sendToServer(new PacketMachineButton(1 + type, 0, entity.xCoord, entity.yCoord, entity.zCoord));
+			SonarCore.network.sendToServer(new PacketMachineButton(1 + type, 0, entity.xCoord, entity.yCoord, entity.zCoord));
 			break;
 		case 2:
 			if (entity.data == 1) {
@@ -57,7 +57,7 @@ public class GuiWeatherController extends GuiContainer {
 			} else {
 				entity.data = 1;
 			}
-			SonarPackets.network.sendToServer(new PacketMachineButton(0, 0, entity.xCoord, entity.yCoord, entity.zCoord));
+			SonarCore.network.sendToServer(new PacketMachineButton(0, 0, entity.xCoord, entity.yCoord, entity.zCoord));
 			break;
 		}
 		this.buttonList.clear();

@@ -18,7 +18,6 @@ public class GreenhouseHelper {
 	 */
 	public static boolean applyBonemeal(World world, int x, int y, int z, boolean magic) {
 		Block block = world.getBlock(x, y, z);
-
 		if (block instanceof IGrowable) {
 			IGrowable igrowable = (IGrowable) block;
 

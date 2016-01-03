@@ -161,7 +161,7 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 			if (stack.getMaxStackSize() >= 4) {
 				return true;
 			}
-		} else if (slot == 9 && DischargeValues.discharge().value(stack) > 0) {
+		} else if (slot == 9 && DischargeValues.getValueOf(stack) > 0) {
 			return true;
 		}
 		return false;

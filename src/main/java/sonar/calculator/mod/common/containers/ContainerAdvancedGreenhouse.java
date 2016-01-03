@@ -79,7 +79,7 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 6, 7, false)) {
 						return null;
 					}
-				} else if (DischargeValues.discharge().value(itemstack1) > 0) {
+				} else if (DischargeValues.getValueOf(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 7, 8, false)) {
 						return null;
 					}

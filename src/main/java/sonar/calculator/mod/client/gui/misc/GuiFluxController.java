@@ -9,10 +9,10 @@ import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.utils.FluxNetwork;
+import sonar.core.SonarCore;
 import sonar.core.inventory.SonarButtons;
 import sonar.core.inventory.SonarButtons.SonarButton;
 import sonar.core.network.PacketMachineButton;
-import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -104,7 +104,7 @@ public class GuiFluxController extends GuiFlux {
 
 		@Override
 		public void onClicked() {
-			SonarPackets.network.sendToServer(new PacketMachineButton(this.id, 0, entity.xCoord, entity.yCoord, entity.zCoord));
+			SonarCore.network.sendToServer(new PacketMachineButton(this.id, 0, entity.xCoord, entity.yCoord, entity.zCoord));
 			buttonList.clear();
 			initGui();
 		}

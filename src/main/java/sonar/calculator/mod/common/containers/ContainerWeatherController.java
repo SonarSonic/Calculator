@@ -41,7 +41,7 @@ public class ContainerWeatherController extends ContainerSync {
 			itemstack = itemstack1.copy();
 
 			if ((id != 0)) {
-				if (DischargeValues.discharge().value(itemstack1) > 0) {
+				if (DischargeValues.getValueOf(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}

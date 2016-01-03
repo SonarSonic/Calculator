@@ -5,9 +5,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
+import sonar.core.SonarCore;
 import sonar.core.inventory.GuiSonar;
 import sonar.core.network.PacketMachineButton;
-import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiMagneticFlux extends GuiSonar {
@@ -38,7 +38,7 @@ public class GuiMagneticFlux extends GuiSonar {
 		}
 		if (button instanceof GuiButton) {
 			entity.buttonPress(button.id, 0);
-			SonarPackets.network.sendToServer(new PacketMachineButton(button.id, 0, entity.xCoord, entity.yCoord, entity.zCoord));			
+			SonarCore.network.sendToServer(new PacketMachineButton(button.id, 0, entity.xCoord, entity.yCoord, entity.zCoord));			
 			this.reset();
 		}
 		

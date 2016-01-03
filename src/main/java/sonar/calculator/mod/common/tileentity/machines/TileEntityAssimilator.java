@@ -19,6 +19,7 @@ import sonar.calculator.mod.integration.planting.TreeHarvestRecipes;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.helpers.InventoryHelper;
+import sonar.core.utils.helpers.ItemStackHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 
@@ -227,7 +228,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 				ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getX(), block.getY(), block.getZ(), randInt);
 				if (stacks != null) {
 					for (int i = 0; i < stacks.length; i++) {
-						InventoryHelper.addItems(this, SonarHelper.restoreItemStack(stacks[i], 1), 0, null);
+						InventoryHelper.addItems(this, ItemStackHelper.restoreItemStack(stacks[i], 1), 0, null);
 					}
 
 					return true;

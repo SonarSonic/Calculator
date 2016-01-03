@@ -189,6 +189,16 @@ public class CalculatorCrafting extends Calculator {
 			addShapeless(new ItemStack(stablestonerimmedblackBlock, 1, i), new Object[] { new ItemStack(stablestonerimmedBlock, 1, i) });
 			addShapeless(new ItemStack(stablestoneBlock, 1, i), new Object[] { new ItemStack(stablestonerimmedblackBlock, 1, i) });
 		}
+
+		addShaped(new ItemStack(reinforcedStoneStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', reinforcedstoneBlock });
+		addShaped(new ItemStack(reinforcedStoneBrickStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', reinforcedstoneBrick });
+		addShaped(new ItemStack(reinforcedDirtStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', reinforceddirtBlock });
+		addShaped(new ItemStack(reinforcedDirtBrickStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', reinforceddirtBrick });
+
+		addShapedOre(new ItemStack(reinforcedStoneFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforcedstoneBlock, 'S', "stickWood" });
+		addShapedOre(new ItemStack(reinforcedStoneBrickFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforcedstoneBrick, 'S', "stickWood" });
+		addShapedOre(new ItemStack(reinforcedDirtFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforceddirtBlock, 'S', "stickWood" });
+		addShapedOre(new ItemStack(reinforcedDirtBrickFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforceddirtBrick, 'S', "stickWood" });
 	}
 
 	public static void addShaped(ItemStack result, Object... input) {

@@ -14,12 +14,12 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.api.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
+import sonar.core.SonarCore;
 import sonar.core.inventory.ContainerEmpty;
 import sonar.core.inventory.GuiSonar;
 import sonar.core.inventory.SonarButtons;
 import sonar.core.network.PacketMachineButton;
 import sonar.core.network.PacketTextField;
-import sonar.core.network.SonarPackets;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -189,9 +189,9 @@ public class GuiTeleporter extends GuiSonar {
 				name.textboxKeyTyped(c, i);
 				final String text = name.getText();
 				if (text.isEmpty() || text == "" || text == null) {
-					SonarPackets.network.sendToServer(new PacketTextField("Unnamed", entity.xCoord, entity.yCoord, entity.zCoord, 1));
+					SonarCore.network.sendToServer(new PacketTextField("Unnamed", entity.xCoord, entity.yCoord, entity.zCoord, 1));
 				} else {
-					SonarPackets.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 1));
+					SonarCore.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 1));
 				}
 				if (text.isEmpty() || text == "" || text == null)
 					this.entity.name = "Unnamed";
@@ -207,9 +207,9 @@ public class GuiTeleporter extends GuiSonar {
 				password.textboxKeyTyped(c, i);
 				final String text = password.getText();
 				if (text.isEmpty() || text == "" || text == null) {
-					SonarPackets.network.sendToServer(new PacketTextField("", entity.xCoord, entity.yCoord, entity.zCoord, 2));
+					SonarCore.network.sendToServer(new PacketTextField("", entity.xCoord, entity.yCoord, entity.zCoord, 2));
 				} else {
-					SonarPackets.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 2));
+					SonarCore.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 2));
 				}
 				if (text.isEmpty() || text == "" || text == null)
 					this.entity.password = "";
@@ -225,9 +225,9 @@ public class GuiTeleporter extends GuiSonar {
 				destinationPassword.textboxKeyTyped(c, i);
 				final String text = destinationPassword.getText();
 				if (text.isEmpty() || text == "" || text == null) {
-					SonarPackets.network.sendToServer(new PacketTextField("", entity.xCoord, entity.yCoord, entity.zCoord, 3));
+					SonarCore.network.sendToServer(new PacketTextField("", entity.xCoord, entity.yCoord, entity.zCoord, 3));
 				} else {
-					SonarPackets.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 3));
+					SonarCore.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 3));
 				}
 				if (text.isEmpty() || text == "" || text == null)
 					this.entity.linkPassword = "";
@@ -255,7 +255,7 @@ public class GuiTeleporter extends GuiSonar {
 
 	protected void actionPerformed(GuiButton button) {
 		if (entity.getWorldObj().isRemote) {
-			SonarPackets.network.sendToServer(new PacketMachineButton(button.id, 0, entity.xCoord, entity.yCoord, entity.zCoord));
+			SonarCore.network.sendToServer(new PacketMachineButton(button.id, 0, entity.xCoord, entity.yCoord, entity.zCoord));
 			entity.buttonPress(button.id, 0);
 			this.reset();
 		}
@@ -264,7 +264,7 @@ public class GuiTeleporter extends GuiSonar {
 				int start = (int) (entity.links.size() * this.currentScroll);
 				int network = start + button.id - 10;
 				if (network < entity.links.size()) {
-					SonarPackets.network.sendToServer(new PacketMachineButton(1, entity.links.get(network).networkID, entity.xCoord, entity.yCoord, entity.zCoord));
+					SonarCore.network.sendToServer(new PacketMachineButton(1, entity.links.get(network).networkID, entity.xCoord, entity.yCoord, entity.zCoord));
 					entity.buttonPress(button.id, entity.links.get(network).networkID);
 
 				}

@@ -559,3 +559,15 @@ tile.stablestonerimmedblackBlock_14.name=Red Rimmed Black Stable Stone
 tile.stablestonerimmedblackBlock_15.name=Black Rimmed Black Stable Stone
 
 tile.FlawlessFurnace.name=Flawless Furnace
+
+tile.ReinforcedStoneStairs.name=Reinforced Stone Stairs
+tile.ReinforcedStoneFence.name=Reinforced Stone Fence
+
+tile.ReinforcedStoneBrickStairs.name=Reinforced Stone Brick Stairs
+tile.ReinforcedStoneBrickFence.name=Reinforced Stone Brick Fence
+
+tile.ReinforcedDirtStairs.name=Reinforced Dirt Stairs
+tile.ReinforcedDirtFence.name=Reinforced Dirt Fence
+
+tile.ReinforcedDirtBrickStairs.name=Reinforced Dirt Brick Stairs
+tile.ReinforcedDirtBrickFence.name=Reinforced Dirt Brick Fence

@@ -58,7 +58,7 @@ public class ContainerPowerCube extends ContainerSync {
 						return null;
 					}
 
-				} else if (DischargeValues.discharge().value(itemstack1) > 0) {
+				} else if (DischargeValues.getValueOf(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}

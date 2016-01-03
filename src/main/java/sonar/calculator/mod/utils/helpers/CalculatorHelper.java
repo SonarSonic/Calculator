@@ -34,7 +34,7 @@ public class CalculatorHelper {
 	}
 	
 	public static boolean canProvideEnergy(ItemStack stack){
-		if (DischargeValues.discharge().value(stack) > 0) {
+		if (DischargeValues.getValueOf(stack) > 0) {
 			return true;
 		} else if (stack.getItem() instanceof IEnergyContainerItem) {
 			return true;

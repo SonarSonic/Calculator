@@ -9,6 +9,7 @@ import sonar.calculator.mod.integration.planting.TreeHarvestRecipes;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
+import sonar.core.utils.helpers.ItemStackHelper;
 import sonar.core.utils.helpers.SonarHelper;
 
 public class Sickle extends SonarItem {
@@ -24,7 +25,7 @@ public class Sickle extends SonarItem {
 			ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(world, x, y, z, world.getBlockMetadata(x, y, z));
 			if (stacks != null) {
 				for (ItemStack harvest : stacks) {
-					player.inventory.addItemStackToInventory(SonarHelper.restoreItemStack(harvest, 1));
+					player.inventory.addItemStackToInventory(ItemStackHelper.restoreItemStack(harvest, 1));
 				}
 			}
 			return true;

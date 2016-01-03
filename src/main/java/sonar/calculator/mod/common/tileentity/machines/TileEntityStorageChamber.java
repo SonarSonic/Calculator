@@ -133,11 +133,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 				setSavedStack(itemstack);
 			}
 		} else if (this.isOutputSlot(i)) {
-			if (stored[i - stored.length] == 1) {
-				resetSavedStack(i - stored.length);
-			}
-			this.stored[i - stored.length] -= 1;
-
+			this.decreaseStored(i - stored.length, 1);
 		}
 
 	}
@@ -233,6 +229,30 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 		return savedStack;
 	}
 
+	public int[] getStored() {
+		return stored;
+	}
+
+	public void setStored(int slot, int set) {
+
+		stored[slot] = set;
+	}
+
+	public void increaseStored(int slot, int increase) {
+		if (!this.worldObj.isRemote) {
+			System.out.print(stored[slot]);
+			
+			stored[slot] += increase;
+		}
+	}
+
+	public void decreaseStored(int slot, int decrease) {
+		if (stored[slot] == 1) {
+			resetSavedStack(slot);
+		}
+		stored[slot] -= decrease;
+	}
+
 	public void setSavedStack(ItemStack stack) {
 		if (stack != null)
 			stack.stackSize = 1;
@@ -318,7 +338,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		if (type == SyncType.SAVE || type == SyncType.DROP) {
 			stored = nbt.getIntArray("Stored");
-			if (this.stored.length != 14 || stored == null) {
+			if (stored == null) {
 				stored = new int[14];
 			}
 			this.savedStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("saved"));

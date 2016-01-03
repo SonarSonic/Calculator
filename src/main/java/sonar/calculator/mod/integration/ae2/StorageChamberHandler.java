@@ -2,10 +2,11 @@ package sonar.calculator.mod.integration.ae2;
 
 import java.lang.reflect.Constructor;
 
-import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.BaseActionSource;
@@ -14,7 +15,6 @@ import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
-import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
 
 public class StorageChamberHandler implements IExternalStorageHandler {
@@ -61,49 +61,74 @@ public class StorageChamberHandler implements IExternalStorageHandler {
 
 	@Override
 	public IMEInventory getInventory(TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource src) {
-		System.out.print("available");
 		if (te != null && te instanceof TileEntityStorageChamber) {
-			return ReflectionFactory.createStorageBusMonitor(new StorageInventory((TileEntityStorageChamber) te), src);
+			return ReflectionFactory.createStorageBusMonitor(new StorageInventory(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord), src);
 		}
 		return null;
 	}
 
 	public static class StorageInventory implements IMEInventory<IAEItemStack> {
 
-		private TileEntityStorageChamber chamber;
+		private World world;
+		private int x;
+		private int y;
+		private int z;
 
-		public StorageInventory(TileEntityStorageChamber chamber) {
-			this.chamber = chamber;
+		public StorageInventory(World world, int x, int y, int z) {
+			this.world = world;
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
+
+		public TileEntityStorageChamber getChamber() {
+			if (world != null) {
+				TileEntity tile = world.getTileEntity(x, y, z);
+				if (tile != null && tile instanceof TileEntityStorageChamber) {
+					return (TileEntityStorageChamber) tile;
+				}
+			}
+			return null;
+
 		}
 
 		@Override
 		public IAEItemStack injectItems(IAEItemStack input, Actionable type, BaseActionSource src) {
-			if (chamber.getSavedStack() != null) {
-				if (chamber.getCircuitType(input.getItemStack()) == chamber.getCircuitType(chamber.getSavedStack())) {
-					int stored = chamber.stored[input.getItemDamage()];
-					System.out.print(stored);
-					if (stored == chamber.maxSize) {
-						return input;
+			TileEntityStorageChamber chamber = getChamber();
+			if (chamber != null) {
+				if (chamber.getSavedStack() != null) {
+					if (chamber.getCircuitType(input.getItemStack()) == chamber.getCircuitType(chamber.getSavedStack())) {
+						int stored = chamber.getStored()[input.getItemDamage()];
+						if (stored == chamber.maxSize) {
+							return input;
+						}
+						if (stored + input.getStackSize() <= chamber.maxSize) {
+							if (type != Actionable.SIMULATE)
+								chamber.increaseStored(input.getItemDamage(), (int) input.getStackSize());
+							return null;
+						} else {
+							if (type != Actionable.SIMULATE)
+								chamber.setStored(input.getItemDamage(), chamber.maxSize);
+							input.decStackSize(chamber.maxSize - stored);
+							return input;
+						}
 					}
-					if (stored + input.getStackSize() <= chamber.maxSize) {
-						chamber.stored[input.getItemDamage()] += input.getStackSize();
-						return null;
-					} else {
-						chamber.stored[input.getItemDamage()] = chamber.maxSize;
-						input.decStackSize(chamber.maxSize - stored);
-						return input;
+				} else if (chamber.getCircuitType(input.getItemStack()) != null) {
+
+					if (type != Actionable.SIMULATE) {
+						chamber.setSavedStack(input.getItemStack().copy());
 					}
 
-				}
-			} else if (chamber.getCircuitType(input.getItemStack()) != null) {
-				chamber.setSavedStack(input.getItemStack().copy());
-				if (input.getStackSize() <= chamber.maxSize) {
-					chamber.stored[input.getItemDamage()] += input.getStackSize();
-					return null;
-				} else {
-					chamber.stored[input.getItemDamage()] = chamber.maxSize;
-					input.decStackSize(chamber.maxSize);
-					return input;
+					if (input.getStackSize() <= chamber.maxSize) {
+						if (type != Actionable.SIMULATE)
+							chamber.stored[input.getItemDamage()] += input.getStackSize();
+						return null;
+					} else {
+						if (type != Actionable.SIMULATE)
+							chamber.stored[input.getItemDamage()] = chamber.maxSize;
+						input.decStackSize(chamber.maxSize);
+						return input;
+					}
 				}
 			}
 			return input;
@@ -111,17 +136,28 @@ public class StorageChamberHandler implements IExternalStorageHandler {
 
 		@Override
 		public IAEItemStack extractItems(IAEItemStack request, Actionable mode, BaseActionSource src) {
-			if (chamber.getSavedStack() != null) {
-				if (chamber.getCircuitType(request.getItemStack()) == chamber.getCircuitType(chamber.getSavedStack())) {
-					int stored = chamber.stored[request.getItemDamage()];
-					if (stored != 0) {
-						if (stored <= request.getStackSize()) {
-							chamber.stored[request.getItemDamage()] = 0;
-							chamber.resetSavedStack(request.getItemDamage());
-							return AEApi.instance().storage().createItemStack(chamber.getFullStack(request.getItemDamage()));
-						} else {
-							chamber.stored[request.getItemDamage()] -= request.getStackSize();
-							return AEApi.instance().storage().createItemStack(chamber.getSlotStack(request.getItemDamage(), (int) request.getStackSize()));
+			TileEntityStorageChamber chamber = getChamber();
+			if (chamber != null) {
+				if (chamber.getSavedStack() != null) {
+					if (chamber.getCircuitType(request.getItemStack()) == chamber.getCircuitType(chamber.getSavedStack())) {
+						int stored = chamber.stored[request.getItemDamage()];
+						if (stored != 0) {
+							if (stored <= request.getStackSize()) {
+
+								ItemStack stack = chamber.getFullStack(request.getItemDamage());
+								if (mode != Actionable.SIMULATE) {
+									chamber.stored[request.getItemDamage()] = 0;
+									chamber.resetSavedStack(request.getItemDamage());
+								}
+								return AEApi.instance().storage().createItemStack(stack);
+							} else {
+
+								ItemStack stack = chamber.getSlotStack(request.getItemDamage(), (int) request.getStackSize());
+								if (mode != Actionable.SIMULATE) {
+									chamber.stored[request.getItemDamage()] -= request.getStackSize();
+								}
+								return AEApi.instance().storage().createItemStack(stack);
+							}
 						}
 					}
 				}
@@ -131,11 +167,14 @@ public class StorageChamberHandler implements IExternalStorageHandler {
 
 		@Override
 		public IItemList getAvailableItems(IItemList out) {
-			if (chamber.getSavedStack() != null) {
-				for (int i = 0; i < 14; i++) {
-					ItemStack stack = chamber.getFullStack(i);
-					if (stack != null) {
-						out.add(AEApi.instance().storage().createItemStack(stack));
+			TileEntityStorageChamber chamber = getChamber();
+			if (chamber != null) {
+				if (chamber.getSavedStack() != null) {
+					for (int i = 0; i < 14; i++) {
+						ItemStack stack = chamber.getFullStack(i);
+						if (stack != null) {
+							out.add(AEApi.instance().storage().createItemStack(stack));
+						}
 					}
 				}
 			}

@@ -60,7 +60,7 @@ public class CalculatorDischargeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<ItemStack, Integer> recipes = DischargeValues.discharge().getPowerList();
+		Map<ItemStack, Integer> recipes = DischargeValues.getPowerList();
 		for (Map.Entry<ItemStack, Integer> recipe : recipes.entrySet()) {
 			if (NEIServerUtils.areStacksSameTypeCrafting(
 					recipe.getKey(), ingredient)) {
@@ -82,7 +82,7 @@ public class CalculatorDischargeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("calculatordischarge") && getClass() == CalculatorDischargeHandler.class)) {
-			Map<ItemStack, Integer> recipes = DischargeValues.discharge().getPowerList();
+			Map<ItemStack, Integer> recipes = DischargeValues.getPowerList();
 			for (Map.Entry<ItemStack, Integer> recipe : recipes.entrySet())
 					this.arecipes.add(new DischargePair(recipe.getKey(),	recipe.getValue()));
 				
@@ -94,7 +94,7 @@ public class CalculatorDischargeHandler extends TemplateRecipeHandler {
 	@Override
 	public void drawExtras(int recipe) {	    
 		ItemStack stack = arecipes.get(recipe).getResult().item;
-		int info = DischargeValues.discharge().value(stack);
+		int info = DischargeValues.getValueOf(stack);
 		int take =  info * 78 / CalculatorConfig.getInteger("Standard Machine");
 	    drawProgressBar(49-5, 37-11, 176, 0, take, 10, 48, 0);
 	    CalculatorDischargeHandler.fontRenderer.drawString(FontHelper.formatStorage(info), 176 / 2 - CalculatorDischargeHandler.fontRenderer.getStringWidth(" " + info) / 2-5, 38-11, -1);

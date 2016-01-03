@@ -9,9 +9,7 @@ import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Optional.Method;
 
-@Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2", striprefs = true),
-		@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2", striprefs = true),
-		@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "IC2", striprefs = true) })
+@Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2", striprefs = true), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2", striprefs = true), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "IC2", striprefs = true) })
 public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IEnergySource {
 
 	public int energySide;
@@ -29,7 +27,6 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-
 		if (!(from == ForgeDirection.getOrientation(energySide))) {
 			return this.storage.receiveEnergy(maxReceive, simulate);
 		}
@@ -40,7 +37,10 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	public void addEnergy() {
 		ForgeDirection dir = ForgeDirection.getOrientation(energySide);
 		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
-		if (SonarHelper.isEnergyHandlerFromSide(entity, dir)) {
+		if (SonarHelper.isEnergyHandlerFromSide(entity, dir.getOpposite())) {
+
+			if (entity != null)
+				System.out.print(entity.getBlockType());
 			this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(entity, dir.getOpposite(), this.storage.extractEnergy(maxTransfer, true), false));
 		}
 	}
@@ -71,6 +71,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+		System.out.print("extract");
 		if (from == ForgeDirection.getOrientation(energySide)) {
 			return this.storage.extractEnergy(maxExtract, simulate);
 		}

@@ -10,7 +10,6 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import appeng.api.AEApi;
 import sonar.calculator.mod.common.entities.CalculatorThrow;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
@@ -30,13 +29,13 @@ import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.calculator.mod.integration.ae2.StorageChamberHandler;
 import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
-import sonar.calculator.mod.integration.waila.CalculatorWailaModule;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
+import sonar.core.energy.DischargeValues;
 import sonar.core.integration.SonarAPI;
-import sonar.core.network.SonarPackets;
+import appeng.api.AEApi;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -52,14 +51,14 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = Calculator.modid, version = Calculator.version)
+@Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version)
 public class Calculator {
 
 	@SidedProxy(clientSide = "sonar.calculator.mod.network.CalculatorClient", serverSide = "sonar.calculator.mod.network.CalculatorCommon")
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "1.9.0";
+	public static final String version = "1.9.1";
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -76,12 +75,16 @@ public class Calculator {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		if(!Loader.isModLoaded("Sonar-Core")){
+			logger.fatal("Sonar Core is not loaded");
+		}else{
+			logger.info("Successfully loaded with Sonar Core");
+		}
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ChunkHandler());
 
 		network = NetworkRegistry.INSTANCE.newSimpleChannel(modid);
 		logger.info("Registered Network");
 
-		SonarPackets.registerPackets();
 		CalculatorCommon.registerPackets();
 		logger.info("Registered Packets");
 
@@ -93,13 +96,6 @@ public class Calculator {
 
 		} else {
 			logger.warn("'IC2' - Unavailable");
-		}
-
-		if (CalculatorConfig.enableWaila && SonarAPI.wailaLoaded()) {
-			CalculatorWailaModule.register();
-			logger.info("Integrated with WAILA");
-		} else {
-			logger.warn("'WAILA' - unavailable or disabled in config");
 		}
 
 		CalculatorBlocks.registerBlocks();
@@ -128,6 +124,13 @@ public class Calculator {
 		CalculatorSmelting.addSmeltingRecipes();
 		logger.info("Added Smelting Recipes");
 
+
+		DischargeValues.addValue(enriched_coal, 3000);
+		DischargeValues.addValue(firecoal, 10000);
+		DischargeValues.addValue(purified_coal, 10000);
+		DischargeValues.addValue(coal_dust, 250);
+		logger.info("Added Discharge Values");
+		
 		CalculatorOreDict.registerOres();
 		logger.info("Registered OreDict");
 
@@ -357,7 +360,10 @@ public class Calculator {
 
 	// common blocks
 	public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock, reinforceddirtBrick, purifiedobsidianBlock, stablestoneBlock, stablestonerimmedBlock, stablestonerimmedblackBlock, stableglassBlock, clearstableglassBlock, flawlessGlass;
-
+	public static Block reinforcedStoneStairs,reinforcedStoneBrickStairs,reinforcedDirtStairs,reinforcedDirtBrickStairs;
+	public static Block reinforcedStoneFence,reinforcedStoneBrickFence,reinforcedDirtFence,reinforcedDirtBrickFence;
+	
+	
 	// trees
 	public static Block amethystLeaf, tanzaniteLeaf, pearLeaf, diamondLeaf;
 	public static Block amethystLog, tanzaniteLog, pearLog, diamondLog;
@@ -365,8 +371,8 @@ public class Calculator {
 	public static Block amethystPlanks, tanzanitePlanks, pearPlanks, diamondPlanks;
 	public static Block amethystStairs, tanzaniteStairs, pearStairs, diamondStairs;
 	public static Block amethystFence, tanzaniteFence, pearFence, diamondFence;
-	public static Block amethystSlab, tanzaniteSlab, pearSlab, diamondSlab;
 
+		
 	// decorative blocks
 	public static Block amethyst_block, end_diamond_block, enriched_gold_block, flawless_block, flawless_fire_block;
 	public static Block reinforced_iron_block, tanzanite_block, weakened_diamond_block, electric_diamond_block;

@@ -73,7 +73,7 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 1, 8, false)) {
 						return null;
 					}
-				} else if (DischargeValues.discharge().value(itemstack1) > 0) {
+				} else if (DischargeValues.getValueOf(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 9, 10, false)) {
 						return null;
 					}

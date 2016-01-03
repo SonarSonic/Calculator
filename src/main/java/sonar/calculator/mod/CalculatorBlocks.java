@@ -103,12 +103,34 @@ public class CalculatorBlocks extends Calculator {
 		// common blocks
 		reinforcedstoneBlock = new ReinforcedStoneBlock().setBlockName("reinforcedstoneBlock").setCreativeTab(Calculator).setBlockTextureName(modid + ":" + "reinforcedstone");
 		GameRegistry.registerBlock(reinforcedstoneBlock, SonarBlockTip.class, "reinforcedstoneBlock");
+		reinforcedStoneStairs = new CalculatorStairs(reinforcedstoneBlock, 0).setBlockName("ReinforcedStoneStairs").setCreativeTab(Calculator);
+		GameRegistry.registerBlock(reinforcedStoneStairs, SonarBlockTip.class, "ReinforcedStoneStairs");		
+		reinforcedStoneFence = new BlockFence("Calculator:reinforcedstone", Material.rock).setBlockName("ReinforcedStoneFence").setCreativeTab(Calculator);
+		GameRegistry.registerBlock(reinforcedStoneFence, SonarBlockTip.class, "ReinforcedStoneFence");
+
+		
 		reinforcedstoneBrick = new ReinforcedStoneBlock().setBlockName("reinforcedstoneBrick").setCreativeTab(Calculator).setBlockTextureName(modid + ":" + "reinforcedstonebrick");
 		GameRegistry.registerBlock(reinforcedstoneBrick, SonarBlockTip.class, "reinforcedstoneBrick");
+		reinforcedStoneBrickStairs = new CalculatorStairs(reinforcedstoneBrick, 0).setBlockName("ReinforcedStoneBrickStairs").setCreativeTab(Calculator);
+		GameRegistry.registerBlock(reinforcedStoneBrickStairs, SonarBlockTip.class, "ReinforcedStoneBrickStairs");		
+		reinforcedStoneBrickFence = new BlockFence("Calculator:reinforcedstonebrick", Material.rock).setBlockName("ReinforcedStoneBrickFence").setCreativeTab(Calculator);
+		GameRegistry.registerBlock(reinforcedStoneBrickFence, SonarBlockTip.class, "ReinforcedStoneBrickFence");	
+		
 		reinforceddirtBlock = new ReinforcedDirtBlock().setBlockName("reinforceddirtBlock").setCreativeTab(Calculator).setBlockTextureName(modid + ":" + "reinforceddirt");
-		GameRegistry.registerBlock(reinforceddirtBlock, SonarBlockTip.class, "reinforceddirtBlock");
+		GameRegistry.registerBlock(reinforceddirtBlock, SonarBlockTip.class, "reinforceddirtBlock");		
+		reinforcedDirtStairs = new CalculatorStairs(reinforceddirtBlock, 0).setBlockName("ReinforcedDirtStairs").setCreativeTab(Calculator);
+		GameRegistry.registerBlock(reinforcedDirtStairs, SonarBlockTip.class, "ReinforcedDirtStairs");		
+		reinforcedDirtFence = new BlockFence("Calculator:reinforceddirt", Material.ground).setBlockName("ReinforcedDirtFence").setCreativeTab(Calculator);
+		GameRegistry.registerBlock(reinforcedDirtFence, SonarBlockTip.class, "ReinforcedDirtFence");
+		
 		reinforceddirtBrick = new ReinforcedDirtBlock().setBlockName("reinforceddirtBrick").setCreativeTab(Calculator).setBlockTextureName(modid + ":" + "reinforceddirtbrick");
 		GameRegistry.registerBlock(reinforceddirtBrick, SonarBlockTip.class, "reinforceddirtBrick");
+		reinforcedDirtBrickStairs = new CalculatorStairs(reinforceddirtBrick, 0).setBlockName("ReinforcedDirtBrickStairs").setCreativeTab(Calculator);
+		GameRegistry.registerBlock(reinforcedDirtBrickStairs, SonarBlockTip.class, "ReinforcedDirtBrickStairs");		
+		reinforcedDirtBrickFence = new BlockFence("Calculator:reinforceddirtbrick", Material.ground).setBlockName("ReinforcedDirtBrickFence").setCreativeTab(Calculator);
+		GameRegistry.registerBlock(reinforcedDirtBrickFence, SonarBlockTip.class, "ReinforcedDirtBrickFence");
+		
+		
 		stablestoneBlock = new ConnectedBlock.Stable().setBlockName("stablestoneBlock").setCreativeTab(Calculator).setHardness(2.0F);
 		GameRegistry.registerBlock(stablestoneBlock, ItemMetaBlock.class, "stablestoneBlock");
 		stablestonerimmedBlock = new ConnectedBlock.StableRimmed().setBlockName("stablestonerimmedBlock").setCreativeTab(Calculator).setHardness(2.0F);
