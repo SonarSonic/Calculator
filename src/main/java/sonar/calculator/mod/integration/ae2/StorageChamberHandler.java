@@ -17,7 +17,12 @@ import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 
-public class StorageChamberHandler implements IExternalStorageHandler {
+public class StorageChamberHandler {
+
+	public static void init() {
+		ReflectionFactory.init();
+		AEApi.instance().registries().externalStorage().addExternalStorageInterface(new StorageHandler());
+	}
 
 	public static class ReflectionFactory {
 		private static Class classInventoryAdaptor;
@@ -54,17 +59,19 @@ public class StorageChamberHandler implements IExternalStorageHandler {
 		}
 	}
 
-	@Override
-	public boolean canHandle(TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource mySrc) {
-		return te != null && te instanceof TileEntityStorageChamber;
-	}
-
-	@Override
-	public IMEInventory getInventory(TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource src) {
-		if (te != null && te instanceof TileEntityStorageChamber) {
-			return ReflectionFactory.createStorageBusMonitor(new StorageInventory(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord), src);
+	public static class StorageHandler implements IExternalStorageHandler {
+		@Override
+		public boolean canHandle(TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource mySrc) {
+			return te != null && te instanceof TileEntityStorageChamber;
 		}
-		return null;
+
+		@Override
+		public IMEInventory getInventory(TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource src) {
+			if (te != null && te instanceof TileEntityStorageChamber) {
+				return ReflectionFactory.createStorageBusMonitor(new StorageInventory(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord), src);
+			}
+			return null;
+		}
 	}
 
 	public static class StorageInventory implements IMEInventory<IAEItemStack> {

@@ -35,7 +35,6 @@ import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.energy.DischargeValues;
 import sonar.core.integration.SonarAPI;
-import appeng.api.AEApi;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -58,7 +57,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "1.9.1";
+	public static final String version = "1.9.2";
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -75,9 +74,9 @@ public class Calculator {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		if(!Loader.isModLoaded("Sonar-Core")){
+		if (!Loader.isModLoaded("Sonar-Core")) {
 			logger.fatal("Sonar Core is not loaded");
-		}else{
+		} else {
 			logger.info("Successfully loaded with Sonar Core");
 		}
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ChunkHandler());
@@ -124,13 +123,12 @@ public class Calculator {
 		CalculatorSmelting.addSmeltingRecipes();
 		logger.info("Added Smelting Recipes");
 
-
 		DischargeValues.addValue(enriched_coal, 3000);
 		DischargeValues.addValue(firecoal, 10000);
 		DischargeValues.addValue(purified_coal, 10000);
 		DischargeValues.addValue(coal_dust, 250);
 		logger.info("Added Discharge Values");
-		
+
 		CalculatorOreDict.registerOres();
 		logger.info("Registered OreDict");
 
@@ -178,13 +176,10 @@ public class Calculator {
 		}
 
 		if (Loader.isModLoaded("appliedenergistics2")) {
-			if (StorageChamberHandler.ReflectionFactory.init()) {
-				AEApi.instance().registries().externalStorage().addExternalStorageInterface(new StorageChamberHandler());
-				logger.info("Registered AE2 Handler for Storage Chamber");
-			} else {
-				logger.error("Failed to register AE2 Storage Chamber Handler");
-			}
+			StorageChamberHandler.init();
+			logger.info("Registered AE2 Handler for Storage Chamber");
 		}
+
 	}
 
 	@EventHandler
@@ -360,10 +355,9 @@ public class Calculator {
 
 	// common blocks
 	public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock, reinforceddirtBrick, purifiedobsidianBlock, stablestoneBlock, stablestonerimmedBlock, stablestonerimmedblackBlock, stableglassBlock, clearstableglassBlock, flawlessGlass;
-	public static Block reinforcedStoneStairs,reinforcedStoneBrickStairs,reinforcedDirtStairs,reinforcedDirtBrickStairs;
-	public static Block reinforcedStoneFence,reinforcedStoneBrickFence,reinforcedDirtFence,reinforcedDirtBrickFence;
-	
-	
+	public static Block reinforcedStoneStairs, reinforcedStoneBrickStairs, reinforcedDirtStairs, reinforcedDirtBrickStairs;
+	public static Block reinforcedStoneFence, reinforcedStoneBrickFence, reinforcedDirtFence, reinforcedDirtBrickFence;
+
 	// trees
 	public static Block amethystLeaf, tanzaniteLeaf, pearLeaf, diamondLeaf;
 	public static Block amethystLog, tanzaniteLog, pearLog, diamondLog;
@@ -372,7 +366,6 @@ public class Calculator {
 	public static Block amethystStairs, tanzaniteStairs, pearStairs, diamondStairs;
 	public static Block amethystFence, tanzaniteFence, pearFence, diamondFence;
 
-		
 	// decorative blocks
 	public static Block amethyst_block, end_diamond_block, enriched_gold_block, flawless_block, flawless_fire_block;
 	public static Block reinforced_iron_block, tanzanite_block, weakened_diamond_block, electric_diamond_block;
