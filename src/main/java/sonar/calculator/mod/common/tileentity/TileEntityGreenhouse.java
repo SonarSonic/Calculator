@@ -204,7 +204,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 	public final boolean plant(ItemStack stack, int slot) {
 		List<BlockCoords> coords = getPlantArea();
 		if (coords == null || coords.isEmpty()) {
-			
+
 			this.planting = 0;
 			return false;
 		}
@@ -225,7 +225,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 				}
 
 			}
-		}else{
+		} else {
 			IPlanter planter = PlanterRegistry.getPlanter(stack);
 
 			Block crop = planter.getCropFromStack(stack);
@@ -273,20 +273,20 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 
 		if (array != null) {
 			for (ItemStack stack : array) {
-				if (stack != null) {				
+				if (stack != null) {
 					TileEntity tile = this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ));
-					ItemStack harvest = InventoryHelper.addItems(tile, stack, 0, null);						
-					if (harvest != null) {							
+					ItemStack harvest = InventoryHelper.addItems(tile, stack, 0, null);
+					if (harvest != null) {
 						EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), harvest);
-						world.spawnEntityInWorld(drop);							
-					}	
+						world.spawnEntityInWorld(drop);
+					}
 					if (!removed)
-						world.setBlockToAir(x, y, z);					
+						world.setBlockToAir(x, y, z);
 					if (this.type == 3)
 						this.plantsHarvested++;
 				}
 			}
-			
+
 		}
 
 	}
@@ -306,7 +306,6 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 
 	/**
 	 * checks if crop can be planted at coords
-	 * 
 	 * @param slot2
 	 */
 	protected boolean canPlant(World worldObj, int x, int y, int z, int slot) {
@@ -315,7 +314,6 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 			return false;
 		}
 		if (AgriCraftAPIWrapper.getInstance().canPlaceCrops(worldObj, x, y, z, stack)) {
-
 			return true;
 		}
 		if (stack.getItem() instanceof IPlantable) {
@@ -327,32 +325,26 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 				if (type != null) {
 					if (checkTierUsage(this.slots[slot].getItem())) {
 						if (target instanceof CalculatorCrops) {
-
 							CalculatorCrops crops = (CalculatorCrops) target;
 							if (crops.canPlaceCropsAt(worldObj, x, y, z)) {
 								if (ground.canSustainPlant(worldObj, x, y - 1, z, ForgeDirection.UP, plantable)) {
 									return true;
 								}
-
 							}
-
 						} else {
 							if (type == EnumPlantType.Crop) {
 								if (target.canPlaceBlockAt(worldObj, x, y, z)) {
 									if (ground.canSustainPlant(worldObj, x, y - 1, z, ForgeDirection.UP, plantable)) {
 										return true;
 									}
-
 								}
 							}
 							if (type == EnumPlantType.Nether) {
-
 								if (target.canPlaceBlockAt(worldObj, x, y, z)) {
 									return true;
 
 								}
 							}
-
 						}
 					}
 				}
@@ -702,6 +694,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SYNC || type == SyncType.SAVE) {
+			nbt.setInteger("Multi", this.isMulti);
 			nbt.setInteger("wasBuilt", this.wasBuilt);
 			nbt.setInteger("Carbon", this.carbonLevels);
 		}

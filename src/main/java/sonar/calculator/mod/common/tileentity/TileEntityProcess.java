@@ -6,9 +6,11 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IPausable;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
+import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.utils.IMachineButtons;
 import sonar.core.utils.IUpgradeCircuits;
 import sonar.core.utils.helpers.FontHelper;
@@ -17,7 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /** electric smelting tile entity */
-public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable, IMachineButtons {
+public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable, IMachineButtons, IAdditionalInventory {
 	public int cookTime;
 	public int sUpgrade;
 	public int eUpgrade;
@@ -286,5 +288,16 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		case 1:
 			onPause();
 		}
+	}
+	@Override
+	public ItemStack[] getAdditionalStacks() {
+		ItemStack[] circuits = new ItemStack[2];
+		if (this.getUpgrades(0) != 0) {
+			circuits[0] = new ItemStack(Calculator.speedUpgrade, this.getUpgrades(0));
+		}
+		if (this.getUpgrades(1) != 0) {
+			circuits[1] = new ItemStack(Calculator.energyUpgrade, this.getUpgrades(1));
+		}
+		return circuits;
 	}
 }

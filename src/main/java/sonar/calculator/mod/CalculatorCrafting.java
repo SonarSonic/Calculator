@@ -134,10 +134,10 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(large_tanzanite, 1), new Object[] { "AAA", "AAA", "AAA", 'A', small_tanzanite });
 		addShaped(new ItemStack(small_tanzanite, 1), new Object[] { "AAA", "AAA", "AAA", 'A', shard_tanzanite });
 		// decoration
-		addShaped(new ItemStack(amethyst_block, 1), new Object[] { "AAA", "AAA", "AAA", 'A', small_amethyst });
-		addShapeless(new ItemStack(small_amethyst, 9), new Object[] { amethyst_block });
-		addShaped(new ItemStack(tanzanite_block, 1), new Object[] { "AAA", "AAA", "AAA", 'A', small_tanzanite });
-		addShapeless(new ItemStack(small_tanzanite, 9), new Object[] { tanzanite_block });
+		addShaped(new ItemStack(amethyst_block, 1), new Object[] { "AAA", "AAA", "AAA", 'A', large_amethyst });
+		addShapeless(new ItemStack(large_amethyst, 9), new Object[] { amethyst_block });
+		addShaped(new ItemStack(tanzanite_block, 1), new Object[] { "AAA", "AAA", "AAA", 'A', large_tanzanite });
+		addShapeless(new ItemStack(large_tanzanite, 9), new Object[] { tanzanite_block });
 		addShaped(new ItemStack(end_diamond_block, 1), new Object[] { "AAA", "AAA", "AAA", 'A', enddiamond });
 		addShapeless(new ItemStack(enddiamond, 9), new Object[] { end_diamond_block });
 		addShaped(new ItemStack(enriched_gold_block, 1), new Object[] { "AAA", "AAA", "AAA", 'A', enrichedgold_ingot });

@@ -11,6 +11,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.IStability;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventorySender;
+import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.utils.IUpgradeCircuits;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
@@ -20,7 +21,7 @@ import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender implements ISidedInventory, IUpgradeCircuits {
+public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender implements ISidedInventory, IUpgradeCircuits, IAdditionalInventory {
 
 	public int stable, vUpgrade, analysed;
 	public int maxTransfer = 2000;
@@ -57,9 +58,9 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 
 	private void addEnergy() {
 		TileEntity entity = this.worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN)) {		
-			if(entity instanceof IEnergyHandler){	
-			this.storage.modifyEnergyStored(-((IEnergyHandler) entity).receiveEnergy(ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false));
+		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN)) {
+			if (entity instanceof IEnergyHandler) {
+				this.storage.modifyEnergyStored(-((IEnergyHandler) entity).receiveEnergy(ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false));
 			}
 		}
 	}
@@ -192,7 +193,6 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 
 	}
 
-
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
 		if (from == ForgeDirection.DOWN) {
@@ -290,6 +290,15 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 			currenttip.add(FontHelper.translate("circuit.void") + ": " + FontHelper.translate("circuit.installed"));
 		}
 		return currenttip;
+	}
+
+	@Override
+	public ItemStack[] getAdditionalStacks() {
+		ItemStack[] circuits = new ItemStack[1];
+		if (this.getUpgrades(2) != 0) {
+			circuits[0] = new ItemStack(Calculator.voidUpgrade, 1);
+		}
+		return circuits;
 	}
 
 }

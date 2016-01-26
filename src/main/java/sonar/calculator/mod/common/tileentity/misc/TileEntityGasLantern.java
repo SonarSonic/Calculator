@@ -38,7 +38,6 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 					if (TileEntityFurnace.isItemFuel(slots[0])) {
 						burn();
 					}
-
 				}
 			}
 			if (this.maxBurnTime != 0 && this.burnTime == 0) {
@@ -51,7 +50,6 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 				this.burnTime = 0;
 				flag2 = true;
 			}
-
 		}
 
 		if (flag1 != this.burnTime > 0) {

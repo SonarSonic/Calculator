@@ -1,6 +1,5 @@
 package sonar.calculator.mod.utils.helpers;
 
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
@@ -13,7 +12,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 /** helps with using bonemeal on crops, growth speed and replacing blocks */
 public class GreenhouseHelper {
 	/**
-	 * @param crop you wish to grow
+	 * @param crop
+	 *            you wish to grow
 	 * @return if it was grown
 	 */
 	public static boolean applyBonemeal(World world, int x, int y, int z, boolean magic) {
@@ -46,8 +46,10 @@ public class GreenhouseHelper {
 	}
 
 	/**
-	 * @param oxygen current Green House oxygen
-	 * @param type Greenhouse Type - 1=Basic, 2=Advanced, 3=Flawless
+	 * @param oxygen
+	 *            current Green House oxygen
+	 * @param type
+	 *            Greenhouse Type - 1=Basic, 2=Advanced, 3=Flawless
 	 * @return if it was grown
 	 */
 	public static int getGrowTicks(int oxygen, int type) {
@@ -97,17 +99,21 @@ public class GreenhouseHelper {
 	/**
 	 * change block to farmland
 	 * 
-	 * @param x xCoord you wish to change
-	 * @param y yCoord you wish to change
-	 * @param z zCoord you wish to change
-	 * @param world world object
+	 * @param x
+	 *            xCoord you wish to change
+	 * @param y
+	 *            yCoord you wish to change
+	 * @param z
+	 *            zCoord you wish to change
+	 * @param world
+	 *            world object
 	 * @return if it was changed
 	 */
 	public static boolean applyFarmland(World world, int x, int y, int z) {
 		if (world.getBlock(x, y - 1, z) == Blocks.dirt) {
 			world.setBlock(x, y - 1, z, Blocks.farmland);
 			return true;
-		} else if (world.getBlock(x, y - 1, z) == Blocks.grass) {			
+		} else if (world.getBlock(x, y - 1, z) == Blocks.grass) {
 			world.setBlock(x, y - 1, z, Blocks.farmland);
 			return true;
 		}
@@ -117,10 +123,14 @@ public class GreenhouseHelper {
 	/**
 	 * change block to water
 	 * 
-	 * @param world world object
-	 * @param x xCoord you wish to change
-	 * @param y yCoord you wish to change
-	 * @param z zCoord you wish to change
+	 * @param world
+	 *            world object
+	 * @param x
+	 *            xCoord you wish to change
+	 * @param y
+	 *            yCoord you wish to change
+	 * @param z
+	 *            zCoord you wish to change
 	 * @return if it was changed
 	 */
 	public static boolean applyWater(World world, int x, int y, int z) {
@@ -138,14 +148,20 @@ public class GreenhouseHelper {
 	/**
 	 * can block be replaced
 	 * 
-	 * @param world world object
-	 * @param x xCoord you wish to check
-	 * @param y yCoord you wish to check
-	 * @param z zCoord you wish to check
+	 * @param world
+	 *            world object
+	 * @param x
+	 *            xCoord you wish to check
+	 * @param y
+	 *            yCoord you wish to check
+	 * @param z
+	 *            zCoord you wish to check
 	 */
 	public static boolean r(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y, z);
 		if (block == null) {
+			return true;
+		} else if (block.isAir(world, x, y, z)) {
 			return true;
 		} else if (block == Blocks.air) {
 			return true;
@@ -181,7 +197,8 @@ public class GreenhouseHelper {
 
 	/**
 	 * @return if the give block is Stable Stone
-	 * @param block block to check
+	 * @param block
+	 *            block to check
 	 */
 	public static boolean stableStone(Block block) {
 		if (block == Calculator.stablestoneBlock) {
@@ -204,7 +221,8 @@ public class GreenhouseHelper {
 
 	/**
 	 * @return if the give block is Flawless Glass
-	 * @param block block to check
+	 * @param block
+	 *            block to check
 	 */
 	public static boolean flawlessGlass(Block block) {
 		if (block == Calculator.flawlessGlass) {

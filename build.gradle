@@ -17,36 +17,35 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.8.4"
-group= "sonar.calculator.mod.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "1.9.3"
+group= "sonar.calculator.mod.modid"
 archivesBaseName = "Calculator-1.7.10"
 
 minecraft {
-    version = "1.7.10-10.13.4.1492-1.7.10"
+    version = "1.7.10-10.13.4.1614-1.7.10"
     runDir = "eclipse"
 }
 
 dependencies {
+compile files('lib/SonarCore-1.7.10-1.0.4-dev.jar')
 compile files('lib/Waila-1.5.10_1.7.10.jar')
-compile files('lib/NotEnoughItems-1.7.10-1.0.5.110-dev.jar')
-
+compile files('lib/NotEnoughItems-1.7.10-1.0.5.120-dev.jar')
+compile files('lib/MineTweaker3-1.7.10-3.0.10B.jar')
+compile files('lib/appliedenergistics2-rv3-beta-5-dev.jar')
+compile files('lib/AgriCraft-1.7.10-1.4.6-hotfix.jar')
 }
 
 processResources
 {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
                 
-        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
-    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }

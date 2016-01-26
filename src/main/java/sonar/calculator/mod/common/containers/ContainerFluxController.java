@@ -17,37 +17,36 @@ public class ContainerFluxController extends ContainerSync {
 
 	public ContainerFluxController(InventoryPlayer player, TileEntityFluxController entity) {
 		super(entity);
-		addSlots(player,entity);
-
+		addSlots(player, entity);
 
 	}
 
 	public void addSlots(InventoryPlayer player, TileEntity entity) {
 
-		if(state==1){
-		for (int i = 0; i < 3; i++) {
-			for (int k = 0; k < 9; k++) {
-				addSlotToContainer(new Slot(player, k + i * 9 + 9, 8 + k * 18, 84 + i * 18));
+		if (state == 1) {
+			for (int i = 0; i < 3; i++) {
+				for (int k = 0; k < 9; k++) {
+					addSlotToContainer(new Slot(player, k + i * 9 + 9, 8 + k * 18, 84 + i * 18));
+				}
 			}
-		}
-		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(player, i, 8 + i * 18, 142));
-		}
-		}else{
-		for (int i = 0; i < 3; i++) {
-			for (int k = 0; k < 9; k++) {
-				addSlotToContainer(new Slot(player, k + i * 9 + 9, 8 + k * 18, 84 + 33 + i * 18));
+			for (int i = 0; i < 9; i++) {
+				addSlotToContainer(new Slot(player, i, 8 + i * 18, 142));
+			}
+		} else {
+			for (int i = 0; i < 3; i++) {
+				for (int k = 0; k < 9; k++) {
+					addSlotToContainer(new Slot(player, k + i * 9 + 9, 8 + k * 18, 84 + 33 + i * 18));
+				}
+			}
+
+			for (int i = 0; i < 9; i++) {
+				addSlotToContainer(new Slot(player, i, 8 + i * 18, 142 + 33));
+			}
+			for (int j = 0; j < 9; j++) {
+				addSlotToContainer(new SlotAllowed((IInventory) entity, j, 8 + j * 18, 93, Calculator.itemLocatorModule));
 			}
 		}
 
-		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(player, i, 8 + i * 18, 142 + 33));
-		}
-		for (int j = 0; j < 9; j++) {
-			addSlotToContainer(new SlotAllowed((IInventory) entity, j, 8 + j * 18, 93, Calculator.itemLocatorModule));
-		}
-		}
-		
 	}
 
 	public void switchState(InventoryPlayer player, TileEntity entity) {

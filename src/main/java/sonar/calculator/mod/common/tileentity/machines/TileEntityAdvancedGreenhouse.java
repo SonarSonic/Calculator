@@ -30,7 +30,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 
 	public int stackStairs = 183;
 	public int stackLog = 31;
-	public int stackPlanks = 44;
+	public int stackPlanks = 42;
 	public int stackGlass = 94;
 
 	public final int requiredBuildEnergy = (stackStairs + stackLog + stackPlanks + stackGlass) * CalculatorConfig.getInteger("Build Energy");
@@ -253,17 +253,12 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 
 		for (int Z = -5; Z <= 5; Z++) {
 			for (int X = -5; X <= 5; X++) {
-
 				for (int Y = -1; Y <= 9; Y++) {
-
 					if (!GreenhouseHelper.r(worldObj, x + X, y + Y, z + Z)) {
 						if (!(this.worldObj.getTileEntity(x + X, y + Y, z + Z) == this)) {
-
 							return new FailedCoords(false, x + X, y + Y, z + Z, "none");
 						}
-
 					}
-
 				}
 			}
 		}
