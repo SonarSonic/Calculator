@@ -15,9 +15,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IConnectedBlock;
-import sonar.calculator.mod.api.IStableBlock;
-import sonar.calculator.mod.api.IStableGlass;
+import sonar.calculator.mod.api.blocks.IConnectedBlock;
+import sonar.calculator.mod.api.blocks.IObsidianDrop;
+import sonar.calculator.mod.api.blocks.IStableBlock;
+import sonar.calculator.mod.api.blocks.IStableGlass;
 import cofh.api.item.IToolHammer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -560,6 +561,19 @@ public class ConnectedBlock extends Block implements IConnectedBlock {
 		public StableGlass(String string, int type) {
 			super(Material.glass, string, type, false);
 		}
+	}
+
+	public static class PurifiedObsidian extends ConnectedBlock implements IObsidianDrop {
+
+		public PurifiedObsidian() {
+			super(Material.rock, "purifiedobsidian", 2, false);
+		}
+
+		@Override
+		public boolean canKeyDrop(World world, int x, int y, int z) {
+			return true;
+		}
+
 	}
 
 	@Override

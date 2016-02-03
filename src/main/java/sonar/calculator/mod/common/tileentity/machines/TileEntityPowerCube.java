@@ -17,8 +17,7 @@ public class TileEntityPowerCube extends TileEntityInventoryReceiver {
 	public void updateEntity() {
 		super.updateEntity();
 		charge(0);
-		discharge(1);
-		
+		discharge(1);		
 		this.markDirty();
 	}
 

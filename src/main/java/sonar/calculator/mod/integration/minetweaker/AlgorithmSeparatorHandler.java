@@ -30,7 +30,6 @@ public class AlgorithmSeparatorHandler {
 		MineTweakerAPI.apply(new RemoveRecipeAction(input));
 	}
 
-
 	private static class AddRecipeAction implements IUndoableAction {
 		private Object input;
 		private ItemStack output1, output2;
@@ -40,7 +39,6 @@ public class AlgorithmSeparatorHandler {
 				input = MineTweakerMC.getItemStack((IItemStack) input);
 			if (input instanceof IOreDictEntry)
 				input = new RecipeHelper.OreStack(((IOreDictEntry) input).getName(), 1);
-
 
 			if (input instanceof ILiquidStack) {
 				MineTweakerAPI.logError("A liquid was passed intro a algorithm separator recipe, calculators do not use liquids when crafting, aborting!");
@@ -54,16 +52,14 @@ public class AlgorithmSeparatorHandler {
 
 		@Override
 		public void apply() {
-			if (input == null || output1 == null ||output2 == null)
+			if (input == null || output1 == null || output2 == null)
 				return;
 			AlgorithmSeparatorRecipes.instance().addRecipe(input, output1, output2);
 		}
 
-
-
 		@Override
 		public void undo() {
-			if (input == null || output1 == null ||output2 == null)
+			if (input == null || output1 == null || output2 == null)
 				return;
 			AlgorithmSeparatorRecipes.instance().removeRecipe(input);
 		}
@@ -88,20 +84,17 @@ public class AlgorithmSeparatorHandler {
 			return null;
 		}
 
-
 	}
 
 	private static class RemoveRecipeAction implements IUndoableAction {
 		private Object input;
 		private ItemStack output1, output2;
 
-
 		public RemoveRecipeAction(Object input) {
 			if (input instanceof IItemStack)
 				input = MineTweakerMC.getItemStack((IItemStack) input);
 			if (input instanceof IOreDictEntry)
 				input = new RecipeHelper.OreStack(((IOreDictEntry) input).getName(), 1);
-
 
 			if (input instanceof ILiquidStack) {
 				MineTweakerAPI.logError("A liquid was passed intro a algorithm separator recipe, calculators do not use liquids when crafting, aborting!");
@@ -124,7 +117,7 @@ public class AlgorithmSeparatorHandler {
 
 		@Override
 		public void apply() {
-			if (input == null || output1 == null ||output2 == null)
+			if (input == null || output1 == null || output2 == null)
 				return;
 			AlgorithmSeparatorRecipes.instance().removeRecipe(input);
 		}
@@ -136,7 +129,7 @@ public class AlgorithmSeparatorHandler {
 
 		@Override
 		public void undo() {
-			if (input == null || output1 == null ||output2 == null)
+			if (input == null || output1 == null || output2 == null)
 				return;
 			AlgorithmSeparatorRecipes.instance().addRecipe(input, output1, output2);
 		}

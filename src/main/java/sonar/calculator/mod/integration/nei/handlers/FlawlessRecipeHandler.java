@@ -27,7 +27,7 @@ public class FlawlessRecipeHandler extends TemplateRecipeHandler {
 		public SmeltingPair(Object input, Object input2, Object input3, Object input4, Object output) {
 			super();
 			if (input instanceof RecipeHelper.OreStack)
-				input =((RecipeHelper.OreStack) input).getStacks();
+				input = ((RecipeHelper.OreStack) input).getStacks();
 			if (input2 instanceof RecipeHelper.OreStack)
 				input2 = ((RecipeHelper.OreStack) input2).getStacks();
 			if (input3 instanceof RecipeHelper.OreStack)
@@ -44,7 +44,7 @@ public class FlawlessRecipeHandler extends TemplateRecipeHandler {
 
 		@Override
 		public List<PositionedStack> getIngredients() {
-			return getCycledIngredients(FlawlessRecipeHandler.this.cycleticks / 48, Arrays.asList(new PositionedStack[] { this.input, this.input2, this.input3, this.input4}));
+			return getCycledIngredients(FlawlessRecipeHandler.this.cycleticks / 48, Arrays.asList(new PositionedStack[] { this.input, this.input2, this.input3, this.input4 }));
 		}
 
 		@Override

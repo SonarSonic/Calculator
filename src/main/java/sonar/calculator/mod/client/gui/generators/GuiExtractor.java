@@ -17,11 +17,7 @@ public abstract class GuiExtractor extends GuiContainer {
 
 	public GuiExtractor(InventoryPlayer inventoryPlayer, TileEntityGenerator entity) {
 		super(new ContainerExtractor(inventoryPlayer, entity));
-
 		this.entity = entity;
-
-		this.xSize = 176;
-		this.ySize = 166;
 	}
 
 	@Override
@@ -36,7 +32,6 @@ public abstract class GuiExtractor extends GuiContainer {
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(getResource());
-
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
 		int k = this.entity.storage.getEnergyStored() * 160 / 1000000;

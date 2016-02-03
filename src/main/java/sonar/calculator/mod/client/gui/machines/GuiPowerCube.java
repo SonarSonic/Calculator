@@ -18,11 +18,7 @@ public class GuiPowerCube extends GuiContainer {
 
 	public GuiPowerCube(InventoryPlayer inventoryPlayer, TileEntityPowerCube entity) {
 		super(new ContainerPowerCube(inventoryPlayer, entity));
-
 		this.entity = entity;
-
-		this.xSize = 176;
-		this.ySize = 166;
 	}
 
 	@Override
@@ -35,7 +31,6 @@ public class GuiPowerCube extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
 		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 

@@ -143,7 +143,7 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerBlock(clearstableglassBlock, SonarBlockTip.class, "ClearStableGlass");
 		flawlessGlass = new ConnectedBlock(Material.glass, "flawlessglass", 1, false).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);
 		GameRegistry.registerBlock(flawlessGlass, SonarBlockTip.class, "FlawlessGlass");
-		purifiedobsidianBlock = new ConnectedBlock(Material.rock, "purifiedobsidian", 2, false).setBlockName("purifiedobsidianBlock").setCreativeTab(Calculator);
+		purifiedobsidianBlock = new ConnectedBlock.PurifiedObsidian().setBlockName("purifiedobsidianBlock").setCreativeTab(Calculator);
 		GameRegistry.registerBlock(purifiedobsidianBlock, SonarBlockTip.class, "purifiedobsidianBlock");
 
 		// calculators

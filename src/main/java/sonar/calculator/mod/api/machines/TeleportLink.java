@@ -1,4 +1,4 @@
-package sonar.calculator.mod.api;
+package sonar.calculator.mod.api.machines;
 
 import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.ByteBufUtils;

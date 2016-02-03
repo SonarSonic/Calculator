@@ -15,7 +15,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.IResearchStore;
+import sonar.calculator.mod.api.items.IResearchStore;
 import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
 import sonar.calculator.mod.network.CalculatorGui;

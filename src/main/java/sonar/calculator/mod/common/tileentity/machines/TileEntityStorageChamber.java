@@ -4,7 +4,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IStability;
+import sonar.calculator.mod.api.items.IStability;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;

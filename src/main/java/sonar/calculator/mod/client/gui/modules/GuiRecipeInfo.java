@@ -12,35 +12,25 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.core.utils.helpers.FontHelper;
 
-public class GuiRecipeInfo
-  extends GuiContainer
-{
-  private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/clean.png");
-  
-  public GuiRecipeInfo(EntityPlayer player, InventoryPlayer invPlayer, World world, int x, int y, int z) { 
-	  super(new ContainerInfoCalculator(player, invPlayer, world, x, y, z));
-    
-    this.xSize = 176;
-    this.ySize = 166;
-  }
+public class GuiRecipeInfo extends GuiContainer {
+	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/clean.png");
 
-  @Override
-protected void drawGuiContainerForegroundLayer(int i, int j) { 
-	  //FontHelper.textCentre(FontHelper.translate("item.Calculator.name"), xSize, 5, 0);
-	  FontHelper.textCentre(FontHelper.translate("info.all"), xSize, 12, 0);
-	  FontHelper.textCentre(FontHelper.translate("research.newRecipes"), xSize, 30, 0);		  
-	  FontHelper.textCentre(FontHelper.translate("info.standard"), xSize, 48, 0);	    	  
-	  FontHelper.textCentre(FontHelper.translate("info.unlocked"), xSize, 66, 0);	   
-	  }
- 
+	public GuiRecipeInfo(EntityPlayer player, InventoryPlayer invPlayer, World world, int x, int y, int z) {
+		super(new ContainerInfoCalculator(player, invPlayer, world, x, y, z));
+	}
 
-  @Override
-protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3)
-  {
-    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-    
-    Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
-    
-    drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-  }
+	@Override
+	protected void drawGuiContainerForegroundLayer(int i, int j) {
+		FontHelper.textCentre(FontHelper.translate("info.all"), xSize, 12, 0);
+		FontHelper.textCentre(FontHelper.translate("research.newRecipes"), xSize, 30, 0);
+		FontHelper.textCentre(FontHelper.translate("info.standard"), xSize, 48, 0);
+		FontHelper.textCentre(FontHelper.translate("info.unlocked"), xSize, 66, 0);
+	}
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
+		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+	}
 }

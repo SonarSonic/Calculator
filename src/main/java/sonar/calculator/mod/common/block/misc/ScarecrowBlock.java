@@ -17,9 +17,7 @@ import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.block.IDismantleable;
 
 public class ScarecrowBlock extends Block implements IDismantleable {
-	private static boolean keepInventory;
-	private Random rand = new Random();
-
+	
 	public ScarecrowBlock() {
 		super(Material.cloth);
 	}

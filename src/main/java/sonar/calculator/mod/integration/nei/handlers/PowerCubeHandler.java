@@ -11,9 +11,7 @@ public class PowerCubeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadTransferRects() {
-
 		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(49 - 5, 63 - 11, 78, 10), "calculatordischarge", new Object[0]));
-
 	}
 
 	@Override

@@ -6,8 +6,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import sonar.calculator.mod.api.IHungerStore;
-import sonar.calculator.mod.api.ProcessType;
+import sonar.calculator.mod.api.machines.ProcessType;
+import sonar.calculator.mod.api.nutrition.IHungerProcessor;
+import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.FontHelper;
@@ -15,7 +16,7 @@ import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityHungerProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile {
+public class TileEntityHungerProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile, IHungerProcessor {
 
 	public int storedpoints, speed = 4;
 
@@ -127,6 +128,11 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	public List<String> getWailaInfo(List<String> currenttip) {
 		currenttip.add(FontHelper.translate("points.hunger") + ": " + storedpoints);
 		return currenttip;
+	}
+
+	@Override
+	public int getHungerPoints() {
+		return storedpoints;
 	}
 
 }

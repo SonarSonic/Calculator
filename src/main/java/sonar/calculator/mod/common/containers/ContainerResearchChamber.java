@@ -3,7 +3,7 @@ package sonar.calculator.mod.common.containers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.api.IResearchStore;
+import sonar.calculator.mod.api.items.IResearchStore;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.utils.SlotResearch;

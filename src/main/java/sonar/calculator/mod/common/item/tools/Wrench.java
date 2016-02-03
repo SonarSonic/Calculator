@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import sonar.calculator.mod.api.IWrenchable;
+import sonar.calculator.mod.api.blocks.IWrenchable;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.block.IDismantleable;

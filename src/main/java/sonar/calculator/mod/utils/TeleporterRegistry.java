@@ -11,8 +11,8 @@ import java.util.Map;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import sonar.calculator.mod.api.ITeleport;
-import sonar.calculator.mod.api.TeleportLink;
+import sonar.calculator.mod.api.machines.ITeleport;
+import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 
 public class TeleporterRegistry {

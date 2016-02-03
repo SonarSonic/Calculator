@@ -67,11 +67,7 @@ public class GuiWeatherController extends GuiContainer {
 
 	public GuiWeatherController(InventoryPlayer inventoryPlayer, TileEntityWeatherController entity) {
 		super(new ContainerWeatherController(inventoryPlayer, entity));
-
 		this.entity = entity;
-
-		this.xSize = 176;
-		this.ySize = 166;
 	}
 
 	@Override

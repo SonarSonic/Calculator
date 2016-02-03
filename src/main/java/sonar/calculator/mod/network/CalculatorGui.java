@@ -2,7 +2,7 @@ package sonar.calculator.mod.network;
 
 public class CalculatorGui {
 
-	//calculators
+	// calculators
 	public static final int Calculator = 0;
 	public static final int ScientificCalculator = 1;
 	public static final int AtomicCalculator = 2;
@@ -10,9 +10,9 @@ public class CalculatorGui {
 	public static final int CraftingCalculator = 4;
 	public static final int FlawlessCalculator = 5;
 	public static final int InfoCalculator = 6;
-	
-	//machines
-	public static final int PowerCube = 7;	
+
+	// machines
+	public static final int PowerCube = 7;
 	public static final int HungerProcessor = 8;
 	public static final int HealthProcessor = 9;
 	public static final int AnalysingChamber = 10;
@@ -24,8 +24,8 @@ public class CalculatorGui {
 	public static final int CO2Generator = 16;
 	public static final int DockingStation = 17;
 	public static final int StorageChamber = 18;
-	
-	//smelting
+
+	// smelting
 	public static final int StoneSeperator = 19;
 	public static final int AlgorithmSeperator = 20;
 	public static final int RestorationChamber = 21;
@@ -34,20 +34,20 @@ public class CalculatorGui {
 	public static final int ExtractionChamber = 24;
 	public static final int PrecisionChamber = 25;
 	public static final int ReinforcedFurnace = 26;
-	
-	//generators	
+
+	// generators
 	public static final int CrankedGenerator = 27;
-	public static final int StarchExtractor = 28;	
+	public static final int StarchExtractor = 28;
 	public static final int GlowstoneExtractor = 29;
 	public static final int RedstoneExtractor = 30;
 	public static final int ConductorMast = 31;
 	public static final int CalculatorLocator = 32;
 	public static final int CalculatorPlug = 33;
-	
-	//misc	
+
+	// misc
 	public static final int Lantern = 34;
 
-	public static final int PortableDynamic = 35;	
+	public static final int PortableDynamic = 35;
 	public static final int PortableCrafting = 36;
 	public static final int StorageModule = 37;
 	public static final int SmeltingModule = 38;
@@ -65,10 +65,5 @@ public class CalculatorGui {
 	public static final int sAssimilator = 50;
 	public static final int aAssimilator = 51;
 	public static final int flawlessFurnace = 52;
-
-	
-	
-	
-	
 
 }

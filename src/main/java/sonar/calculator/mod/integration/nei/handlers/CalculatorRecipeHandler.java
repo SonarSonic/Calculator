@@ -17,7 +17,7 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class CalculatorRecipeHandler extends TemplateRecipeHandler {
-	
+
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {
 		PositionedStack input;
 		PositionedStack input2;

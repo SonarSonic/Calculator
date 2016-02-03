@@ -16,11 +16,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiCraftingCalculator extends GuiContainer {
-	
-	
+
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/craftingcalculator.png");
 
-	  public GuiCraftingCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem craftingInv) { 
+	public GuiCraftingCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem craftingInv) {
 		super(new ContainerCraftingCalculator(player, inv, craftingInv));
 
 		this.xSize = 176;
@@ -29,16 +28,13 @@ public class GuiCraftingCalculator extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		 FontHelper.textCentre(FontHelper.translate("item.CraftingCalculator.name"), xSize, 5, 0);
+		FontHelper.textCentre(FontHelper.translate("item.CraftingCalculator.name"), xSize, 5, 0);
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2,int var3) {
-		
+	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
-		
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize,this.ySize);
+		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	}
 }

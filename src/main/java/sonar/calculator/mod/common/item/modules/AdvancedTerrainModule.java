@@ -12,7 +12,6 @@ public class AdvancedTerrainModule extends BaseTerrainModule {
 		maxReceive = CalculatorConfig.getInteger("Advanced Terrain Module");
 		maxExtract = CalculatorConfig.getInteger("Advanced Terrain Module");
 		maxTransfer = CalculatorConfig.getInteger("Advanced Terrain Module");
-
 	}
 
 }

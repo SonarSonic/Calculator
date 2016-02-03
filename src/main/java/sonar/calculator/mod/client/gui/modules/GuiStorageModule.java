@@ -29,8 +29,7 @@ public class GuiStorageModule extends GuiContainer {
 
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 	    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-	    Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
-	    
+	    Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);	    
 	    drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	}
 }

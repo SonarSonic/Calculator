@@ -11,23 +11,19 @@ import sonar.core.inventory.SonarButtons.SonarButton;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiSmeltingBlock extends GuiSonar {
-	
+
 	public TileEntityAbstractProcess entity;
 
 	public GuiSmeltingBlock(InventoryPlayer inventoryPlayer, TileEntityAbstractProcess entity) {
 		super(new ContainerSmeltingBlock(inventoryPlayer, entity), entity);
-
 		this.entity = entity;
-
-		this.xSize = 176;
-		this.ySize = 166;
 	}
-	
+
 	@Override
 	public ResourceLocation getBackground() {
 		return new ResourceLocation("Calculator:textures/gui/restorationchamber.png");
 	}
-	
+
 	public void initGui() {
 		super.initGui();
 		this.buttonList.add(new CircuitButton(0, guiLeft + 150 - 14, guiTop + 23));
@@ -37,7 +33,7 @@ public class GuiSmeltingBlock extends GuiSonar {
 	public void initGui(boolean pause) {
 		super.initGui();
 		this.buttonList.add(new CircuitButton(0, guiLeft + 150 - 14, guiTop + 23));
-		this.buttonList.add(new PauseButton(1,guiLeft + 8 + 14, guiTop + 23, pause));
+		this.buttonList.add(new PauseButton(1, guiLeft + 8 + 14, guiTop + 23, pause));
 	}
 
 	@Override
@@ -54,7 +50,7 @@ public class GuiSmeltingBlock extends GuiSonar {
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 
-		if (this.entity.currentSpeed!= 0  && this.entity.cookTime != 0) {
+		if (this.entity.currentSpeed != 0 && this.entity.cookTime != 0) {
 			int l = this.entity.cookTime * 23 / this.entity.currentSpeed;
 			drawTexturedModalRect(this.guiLeft + 76, this.guiTop + 24, 176, 10, l, 16);
 		}
@@ -68,8 +64,6 @@ public class GuiSmeltingBlock extends GuiSonar {
 			}
 		}
 	}
-
-	
 
 	public static class RestorationChamber extends GuiSmeltingBlock {
 		public RestorationChamber(InventoryPlayer inventoryPlayer, TileEntityAbstractProcess entity) {
@@ -93,6 +87,7 @@ public class GuiSmeltingBlock extends GuiSonar {
 		public ReinforcedFurnace(InventoryPlayer inventoryPlayer, TileEntityAbstractProcess entity) {
 			super(inventoryPlayer, entity);
 		}
+
 		@Override
 		public ResourceLocation getBackground() {
 			return new ResourceLocation("Calculator:textures/gui/reinforcedFurnace.png");

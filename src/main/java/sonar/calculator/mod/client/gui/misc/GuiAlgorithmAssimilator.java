@@ -14,17 +14,13 @@ public class GuiAlgorithmAssimilator extends GuiSonar {
 
 	public GuiAlgorithmAssimilator(InventoryPlayer inventoryPlayer, TileEntityAssimilator entity) {
 		super(new ContainerAlgorithmAssimilator(inventoryPlayer, entity), entity);
-
-		this.entity = (TileEntityAssimilator.Algorithm)entity;
-
-		this.xSize = 176;
-		this.ySize = 166;
+		this.entity = (TileEntityAssimilator.Algorithm) entity;
 	}
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		super.drawGuiContainerForegroundLayer(par1, par2);
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 8, 0);	
+		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 8, 0);
 	}
 
 	@Override

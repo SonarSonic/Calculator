@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.item.tools;
 
-import java.util.Random;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -10,11 +8,8 @@ import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.ItemStackHelper;
-import sonar.core.utils.helpers.SonarHelper;
 
 public class Sickle extends SonarItem {
-
-	public Random rand = new Random();
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par7, float par8, float par9, float par10) {

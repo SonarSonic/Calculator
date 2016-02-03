@@ -6,7 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IStability;
+import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.core.common.item.SonarItem;
 

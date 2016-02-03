@@ -48,8 +48,8 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess {
 		return RecipeRegistry.CalculatorRecipes.instance();
 	}
 
-	public int currentSpeed() {
-		return Math.max(1, super.currentSpeed() / 8);
+	public int getProcessTime() {
+		return Math.max(1, super.getProcessTime() / 8);
 	}
 
 	public int requiredEnergy() {
@@ -155,7 +155,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess {
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		int[] outputSlot = new int[]{5};
+		int[] outputSlot = new int[] { 5 };
 		int[] emptySlot = new int[0];
 		int size = this.isCalculator(calcStack);
 		ForgeDirection dir = ForgeDirection.getOrientation(blockMetadata);
@@ -207,6 +207,5 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess {
 		}
 		return meta;
 	}
-
 
 }

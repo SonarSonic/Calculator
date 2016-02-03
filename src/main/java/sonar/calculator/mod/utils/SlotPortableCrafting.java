@@ -1,7 +1,7 @@
 package sonar.calculator.mod.utils;
 
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.api.ICalculatorCrafter;
+import sonar.calculator.mod.common.containers.ICalculatorCrafter;
 import sonar.core.common.item.InventoryItem;
 
 public class SlotPortableCrafting extends SlotPortable {

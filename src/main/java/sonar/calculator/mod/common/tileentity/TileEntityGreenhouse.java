@@ -23,6 +23,7 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.api.machines.IGreenhouse;
 import sonar.calculator.mod.common.block.CalculatorCrops;
 import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
 import sonar.calculator.mod.integration.planting.IPlanter;
@@ -39,7 +40,7 @@ import sonar.core.utils.helpers.RenderHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
+public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver implements IGreenhouse {
 
 	public int wasBuilt, isMulti, maxLevel, carbonLevels, plantTicks, planting, houseSize;
 	public int plantsHarvested, plantsGrown;
@@ -306,6 +307,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 
 	/**
 	 * checks if crop can be planted at coords
+	 * 
 	 * @param slot2
 	 */
 	protected boolean canPlant(World worldObj, int x, int y, int z, int slot) {
@@ -499,6 +501,10 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 		return false;
 	}
 
+	public int getTier() {
+		return type;
+	}
+
 	public boolean isCompleted() {
 		if (isMulti == 2) {
 			return true;
@@ -552,6 +558,11 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver {
 
 	public int getCarbon() {
 		return carbonLevels;
+	}
+
+	@Override
+	public int maxGasLevel() {
+		return maxLevel;
 	}
 
 	public boolean getLog(Block block) {

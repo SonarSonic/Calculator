@@ -41,7 +41,7 @@ public class AtomicMultiplierBlacklist {
 		for (UniqueIdentifier item : apiBlocked) {
 			if (GameRegistry.findItem(item.modId, item.name) != null) {
 				this.addBan(GameRegistry.findItem(item.modId, item.name));
-			}else if (GameRegistry.findBlock(item.modId, item.name) != null) {
+			} else if (GameRegistry.findBlock(item.modId, item.name) != null) {
 				this.addBan(GameRegistry.findBlock(item.modId, item.name));
 			}
 		}
@@ -58,7 +58,7 @@ public class AtomicMultiplierBlacklist {
 	public boolean isAllowed(Item item) {
 		List<String> apiBlocked = CalculatorAPI.getModBlackList();
 		for (String modid : apiBlocked) {
-			if(GameRegistry.findUniqueIdentifierFor(item).modId.equals(modid)){
+			if (GameRegistry.findUniqueIdentifierFor(item).modId.equals(modid)) {
 				return false;
 			}
 		}

@@ -1,27 +1,20 @@
 package sonar.calculator.mod.client.gui.calculators;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
+import sonar.core.inventory.GuiSonar;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiAtomicCalculator extends GuiContainer {
+public class GuiAtomicCalculator extends GuiSonar {
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/atomiccalculator.png");
 
 	public GuiAtomicCalculator(EntityPlayer player, TileEntityCalculator.Atomic atomic) {
-		super(new ContainerAtomicCalculator(player, atomic));
-
-		this.xSize = 176;
-		this.ySize = 166;
+		super(new ContainerAtomicCalculator(player, atomic), atomic);
 	}
 
 	@Override
@@ -30,11 +23,7 @@ public class GuiAtomicCalculator extends GuiContainer {
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-		Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
-
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+	public ResourceLocation getBackground() {
+		return texture;
 	}
 }

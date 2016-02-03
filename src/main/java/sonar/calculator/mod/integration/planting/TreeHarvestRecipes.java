@@ -30,7 +30,7 @@ public class TreeHarvestRecipes extends RecipeHelper {
 		if (target != null) {
 			ItemStack[] outputs = recipes.getOutput(new ItemStack(target));
 			System.out.print(outputs.length);
-			if (outputs != null && outputs.length==2) {
+			if (outputs != null && outputs.length == 2) {
 				world.setBlockMetadataWithNotify(x, y, z, 0, 2);
 				switch (random) {
 				case 3:

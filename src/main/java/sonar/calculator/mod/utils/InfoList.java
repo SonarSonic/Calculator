@@ -20,7 +20,6 @@ public class InfoList {
 	}
 
 	private InfoList() {
-
 		addRecipe("Machines", new ItemStack(Calculator.powerCube), "Charges Calculators- -Uses RF or EU");
 		addRecipe("Machines", new ItemStack(Calculator.advancedPowerCube), "Charges Calculators quickly- -Uses RF or EU--Can convert EU to RF and back");
 		addRecipe("Calculators", new ItemStack(Calculator.itemCalculator), "Adds two items together.");
@@ -116,7 +115,7 @@ public class InfoList {
 		addRecipe("Items", new ItemStack(Calculator.calculator_screen), "Displays the RF stored-in machines when placed-on the side");
 		addRecipe("Machines", new ItemStack(Calculator.stoneAssimilator), "Harvests Calculator Trees-+Must be placed next to the Tree-+For Tanzanite and Amethyst-+Doesn't Require Energy");
 		addRecipe("Machines", new ItemStack(Calculator.algorithmAssimilator), "Harvests Calculator Trees-+Must be placed next to the Tree-+For Pear and Diamond-+Doesn't Require Energy");
-		
+
 	}
 
 	public void addRecipe(String type, ItemStack input, String info) {

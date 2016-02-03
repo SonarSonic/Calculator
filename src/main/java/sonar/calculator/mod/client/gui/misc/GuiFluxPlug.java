@@ -25,7 +25,6 @@ public class GuiFluxPlug extends GuiFlux {
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		super.drawGuiContainerForegroundLayer(par1, par2);
 		if (!this.network()) {
-			//FontHelper.text(FontHelper.translate(entity.blockType.getLocalizedName()), 6, 4, 0);
 			FontHelper.text(FontHelper.translate("plug.sending"), 10, 40, 0);
 			FontHelper.text(FontHelper.translate("plug.receiving"), xSize / 2 + 8, 40, 0);
 			FontHelper.text(FontHelper.formatOutput(entity.currentInput), 10, 50, 2);

@@ -20,9 +20,9 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IFluxPoint;
+import sonar.calculator.mod.api.flux.IFluxPoint;
+import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.calculator.mod.client.gui.misc.GuiFlux;
-import sonar.calculator.mod.common.item.modules.LocatorModule;
 import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
@@ -192,8 +192,8 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 			}
 			for (int i = 0; i < 9; i++) {
 				if (slots[i] != null) {
-					if (slots[i].getItem() == Calculator.itemLocatorModule) {
-						String locatorPlayer = LocatorModule.getPlayer(slots[i]);
+					if (slots[i].getItem() instanceof ILocatorModule) {
+						String locatorPlayer = ((ILocatorModule) slots[i].getItem()).getPlayer(slots[i]);
 						if (locatorPlayer != null) {
 							if (!players.contains(locatorPlayer)) {
 								players.add(locatorPlayer);

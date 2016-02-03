@@ -17,11 +17,7 @@ public class GuiMagneticFlux extends GuiSonar {
 
 	public GuiMagneticFlux(InventoryPlayer inventoryPlayer, TileEntityMagneticFlux entity) {
 		super(new ContainerMagneticFlux(inventoryPlayer, entity), entity);
-
 		this.entity = entity;
-
-		this.xSize = 176;
-		this.ySize = 166;
 	}
 
 	@Override

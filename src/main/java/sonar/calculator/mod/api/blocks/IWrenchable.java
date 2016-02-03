@@ -1,4 +1,4 @@
-package sonar.calculator.mod.api;
+package sonar.calculator.mod.api.blocks;
 
 import net.minecraft.world.World;
 

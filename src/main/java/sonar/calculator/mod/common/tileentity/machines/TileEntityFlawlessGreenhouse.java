@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.machines.IFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
@@ -27,7 +28,7 @@ import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implements ISidedInventory {
+public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implements ISidedInventory, IFlawlessGreenhouse {
 
 	public int plants, levelTicks, checkTicks, houseSize, growTicks, growTick;
 	public int plantsGrown;
@@ -44,9 +45,6 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		//if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-		//	return;
-		//}
 		if (!this.isBeingBuilt()) {
 			checkTile();
 		}
@@ -444,5 +442,15 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	public List<String> getWailaInfo(List<String> currenttip) {
 		currenttip.add(FontHelper.translate("greenhouse.size") + ": " + this.houseSize);
 		return super.getWailaInfo(currenttip);
+	}
+
+	@Override
+	public int getPlantsHarvested() {
+		return this.plantsHarvested;
+	}
+
+	@Override
+	public int getPlantsGrown() {
+		return this.plantsGrown;
 	}
 }

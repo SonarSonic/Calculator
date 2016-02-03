@@ -36,20 +36,12 @@ public class SmeltingBlock extends SonarMachineBlock {
 		super(SonarMaterials.machine);
 		this.type = num;
 	}
-	//@Override
-	//public int getRenderType() {
-	//	return type != 4 && type !=5 && type != 7 ? -1 : super.getRenderType();
-	//}
 
 	@Override
 	public boolean isOpaqueCube() {
-		return type != 4 && type !=5 && type != 7 ? false : true;
+		return type != 4 && type != 5 && type != 7 ? false : true;
 	}
 
-	//@Override
-	///public boolean renderAsNormalBlock() {
-	//	return type != 4 && type !=5 && type != 7 ? false : true;
-	//}
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -74,23 +66,23 @@ public class SmeltingBlock extends SonarMachineBlock {
 		case 7:
 			this.front = iconRegister.registerIcon("Calculator:reinforced_furnace");
 			this.front2 = iconRegister.registerIcon("Calculator:reinforced_furnace2");
-			
+
 			this.frontActive = iconRegister.registerIcon("Calculator:reinforced_furnace_active");
 			this.frontActive2 = iconRegister.registerIcon("Calculator:reinforced_furnace2_active");
 			this.slot1 = iconRegister.registerIcon("Calculator:stoneseperator_slot2");
 			this.slot2 = iconRegister.registerIcon("Calculator:stoneseperator_slot1");
 			break;
 		}
-		if (type < 4 || type ==6) {
+		if (type < 4 || type == 6) {
 			this.front = iconRegister.registerIcon("Calculator:overlays/machine_input");
-			this.front2 = iconRegister.registerIcon("Calculator:overlays/machine_output");		
+			this.front2 = iconRegister.registerIcon("Calculator:overlays/machine_output");
 			this.frontActive = iconRegister.registerIcon("Calculator:overlays/machine_input");
-			this.frontActive2 = iconRegister.registerIcon("Calculator:overlays/machine_output");			
+			this.frontActive2 = iconRegister.registerIcon("Calculator:overlays/machine_output");
 			this.slot1 = iconRegister.registerIcon("Calculator:overlays/machine_input");
 			this.slot2 = iconRegister.registerIcon("Calculator:overlays/machine_output");
-			if(type==6 || type ==3){
+			if (type == 6 || type == 3) {
 				this.blockIcon = iconRegister.registerIcon("Calculator:analysis_side_slot1");
-			}else{
+			} else {
 				this.blockIcon = iconRegister.registerIcon("Calculator:machine_side");
 			}
 		}
@@ -130,7 +122,7 @@ public class SmeltingBlock extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return type < 4 || type ==6 ?  this.blockIcon : side == metadata ? this.slot2 : side == 0 ? this.slot1 : side == 1 ? this.slot1 : (metadata == 0) && (side == 3) ? this.front : this.slot1;
+		return type < 4 || type == 6 ? this.blockIcon : side == metadata ? this.slot2 : side == 0 ? this.slot1 : side == 1 ? this.slot1 : (metadata == 0) && (side == 3) ? this.front : this.slot1;
 	}
 
 	@Override
@@ -271,6 +263,5 @@ public class SmeltingBlock extends SonarMachineBlock {
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 
 	}
-
 
 }

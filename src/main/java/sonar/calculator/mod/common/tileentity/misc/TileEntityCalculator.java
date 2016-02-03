@@ -4,8 +4,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
-import sonar.calculator.mod.api.IStableBlock;
-import sonar.calculator.mod.api.IStableGlass;
+import sonar.calculator.mod.api.blocks.IStableBlock;
+import sonar.calculator.mod.api.blocks.IStableGlass;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.SonarHelper;
@@ -13,47 +13,10 @@ import sonar.core.utils.helpers.SonarHelper;
 public class TileEntityCalculator extends TileEntityInventory implements ISidedInventory {
 
 	public static class Dynamic extends TileEntityCalculator {
-		//public Map<Integer, Integer> unblocked = new THashMap<Integer, Integer>();
-
 		public Dynamic() {
 			super.slots = new ItemStack[10];
 		}
-		/*
-		public void setUnblocked(Map<Integer, Integer> unblocked) {
-			this.unblocked = unblocked;
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		}
 
-		public Map<Integer, Integer> getUnblocked() {
-			return unblocked;
-		}
-
-		public void readData(NBTTagCompound nbt, SyncType type) {
-			super.readData(nbt, type);
-			this.unblocked = CalculatorRecipes.instance().readFromNBT(nbt, "unblocked");
-
-		}
-
-		public void writeData(NBTTagCompound nbt, SyncType type) {
-			super.writeData(nbt, type);
-			CalculatorRecipes.instance().writeToNBT(nbt, unblocked, "unblocked");
-
-		}
-	
-		public void getResearch() {
-			for (int X = -3; X <= 3; X++) {
-				for (int Y = -3; Y <= 3; Y++) {
-					for (int Z = -3; Z <= 3; Z++) {
-						TileEntity target = this.worldObj.getTileEntity(xCoord + X, yCoord + Y, zCoord + Z);
-						if (target != null && target instanceof TileEntityResearchChamber) {
-							TileEntityResearchChamber chamber = (TileEntityResearchChamber) target;
-							setUnblocked(chamber.unblocked);
-						}
-					}
-				}
-			}
-		}
-	*/
 		public FailedCoords checkStructure() {
 			ForgeDirection forward = SonarHelper.getForward(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
 
@@ -62,15 +25,15 @@ public class TileEntityCalculator extends TileEntityInventory implements ISidedI
 			int z = zCoord + (forward.offsetZ * 3);
 
 			FailedCoords bottom = this.outsideLayer(x, y - 3, z);
-			if(!bottom.getBoolean()){
+			if (!bottom.getBoolean()) {
 				return bottom;
 			}
 			FailedCoords top = this.outsideLayer(x, y + 3, z);
-			if(!top.getBoolean()){
+			if (!top.getBoolean()) {
 				return top;
 			}
 			FailedCoords middle = this.insideLayers(x, y, z);
-			if(!middle.getBoolean()){
+			if (!middle.getBoolean()) {
 				return middle;
 			}
 			return new FailedCoords(true, 0, 0, 0, null);

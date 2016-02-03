@@ -1,4 +1,4 @@
-package sonar.calculator.mod.api;
+package sonar.calculator.mod.api.flux;
 
 /**used on Tile Entities which can remove energy from a Flux Network*/
 public interface IFluxPoint extends IFlux{

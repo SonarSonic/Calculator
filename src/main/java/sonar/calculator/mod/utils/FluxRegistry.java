@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.tileentity.TileEntity;
-import sonar.calculator.mod.api.IFlux;
-import sonar.calculator.mod.api.IFluxPlug;
-import sonar.calculator.mod.api.IFluxPoint;
+import sonar.calculator.mod.api.flux.IFlux;
+import sonar.calculator.mod.api.flux.IFluxPlug;
+import sonar.calculator.mod.api.flux.IFluxPoint;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
@@ -207,7 +207,7 @@ public class FluxRegistry {
 				if (validPlayer(i, player)) {
 					TileEntityFluxController controller = FluxHelper.getController(i);
 					if (controller != null) {
-						if (flux==null || flux.equals(controller)) {
+						if (flux == null || flux.equals(controller)) {
 							available.add(new FluxNetwork(i, getNetwork(i), controller.playerProtect));
 						}
 					} else {

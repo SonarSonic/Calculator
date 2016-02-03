@@ -16,11 +16,7 @@ public class GuiDualOutputSmelting extends GuiSonar {
 
 	public GuiDualOutputSmelting(InventoryPlayer inventoryPlayer, TileEntityAbstractProcess entity) {
 		super(new ContainerDualOutputSmelting(inventoryPlayer, entity), entity);
-
 		this.entity = entity;
-
-		this.xSize = 176;
-		this.ySize = 166;
 	}
 
 	@Override

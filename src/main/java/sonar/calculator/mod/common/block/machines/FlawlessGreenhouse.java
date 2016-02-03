@@ -11,7 +11,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IConnectedBlock;
+import sonar.calculator.mod.api.blocks.IConnectedBlock;
 import sonar.calculator.mod.common.block.ConnectedBlock;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.network.CalculatorGui;

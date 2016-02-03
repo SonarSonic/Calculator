@@ -15,20 +15,16 @@ import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
-
-
-
 public class ConductorRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {
 		PositionedStack input;
 		PositionedStack result;
 
-		public SmeltingPair(ItemStack input, ItemStack result)
-		{
+		public SmeltingPair(ItemStack input, ItemStack result) {
 			super();
 			input.stackSize = 1;
-			this.input = new PositionedStack(input, 49, 16-5);
-			this.result = new PositionedStack(result, 103, 16-5);
+			this.input = new PositionedStack(input, 49, 16 - 5);
+			this.result = new PositionedStack(result, 103, 16 - 5);
 		}
 
 		@Override
@@ -42,24 +38,18 @@ public class ConductorRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
-
-
-
 	@Override
-	public void loadTransferRects()
-	{
+	public void loadTransferRects() {
 		this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(66, 19, 24, 10), "conductor", new Object[0]));
 	}
 
 	@Override
-	public Class<? extends GuiContainer> getGuiClass()
-	{
+	public Class<? extends GuiContainer> getGuiClass() {
 		return GuiConductorMast.class;
 	}
 
 	@Override
-	public String getRecipeName()
-	{
+	public String getRecipeName() {
 		return FontHelper.translate("tile.ConductorMast.name");
 	}
 
@@ -85,10 +75,8 @@ public class ConductorRecipeHandler extends TemplateRecipeHandler {
 
 	}
 
-
 	@Override
-	public void loadUsageRecipes(ItemStack ingredient)
-	{
+	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<ItemStack, ItemStack> recipes = RecipeRegistry.ConductorMastItemRecipes.instance().getRecipeStacks();
 		for (Map.Entry<ItemStack, ItemStack> recipe : recipes.entrySet()) {
 			if (NEIServerUtils.areStacksSameTypeCrafting(recipe.getKey(), ingredient)) {
@@ -105,19 +93,13 @@ public class ConductorRecipeHandler extends TemplateRecipeHandler {
 	}
 
 	@Override
-	public void drawExtras(int recipe)
-	{
+	public void drawExtras(int recipe) {
 		drawProgressBar(74, 15, 176, 0, 19, 9, 48, 0);
-
 
 	}
 
-
-
-
 	@Override
-	public String getOverlayIdentifier()
-	{
+	public String getOverlayIdentifier() {
 		return "conductor";
 	}
 }

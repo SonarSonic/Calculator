@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import sonar.calculator.mod.api.IStability;
+import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.generators.GuiCalculatorPlug;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.network.utils.ISyncTile;

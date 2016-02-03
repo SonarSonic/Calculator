@@ -6,12 +6,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class LocatorModule extends SonarItem {
+public class LocatorModule extends SonarItem implements ILocatorModule {
 	public LocatorModule() {
 		setTextureName("Calculator:locator_module_on");
 		setMaxStackSize(1);
@@ -28,11 +29,8 @@ public class LocatorModule extends SonarItem {
 		String name = player.getGameProfile().getName();
 		if (name != null) {
 			if (world.getPlayerEntityByName(name) != null) {
-
 				stack.getTagCompound().setString("Player", name);
-
 				FontHelper.sendMessage(FontHelper.translate("locator.owner") + ": " + player.getGameProfile().getName(), world, player);
-
 			}
 		}
 
@@ -54,7 +52,7 @@ public class LocatorModule extends SonarItem {
 		}
 	}
 
-	public static String getPlayer(ItemStack stack) {
+	public String getPlayer(ItemStack stack) {
 		if (stack.hasTagCompound()) {
 			String playerName = stack.getTagCompound().getString("Player");
 			if (playerName == "None") {

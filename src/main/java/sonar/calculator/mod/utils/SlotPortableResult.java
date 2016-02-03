@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
-import sonar.calculator.mod.api.ICalculatorCrafter;
+import sonar.calculator.mod.common.containers.ICalculatorCrafter;
 import sonar.core.common.item.InventoryItem;
 
 public class SlotPortableResult extends SlotPortable {

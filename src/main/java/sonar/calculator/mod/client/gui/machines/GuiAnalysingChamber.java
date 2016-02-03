@@ -17,15 +17,11 @@ public class GuiAnalysingChamber extends GuiContainer {
 
 	public GuiAnalysingChamber(InventoryPlayer inventoryPlayer, TileEntityAnalysingChamber entity) {
 		super(new ContainerAnalysingChamber(inventoryPlayer, entity));
-
 		this.entity = entity;
-		this.xSize = 176;
-		this.ySize = 166;
 	}
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 
 		if (this.entity.stable == 1) {

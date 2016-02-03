@@ -11,7 +11,7 @@ import sonar.core.utils.helpers.RecipeHelper;
 
 public class DualOutputHandlers {
 
-	public static class Algorithm extends AbstractDualOutputHandler{
+	public static class Algorithm extends AbstractDualOutputHandler {
 
 		@Override
 		public RecipeHelper recipeHelper() {
@@ -37,9 +37,10 @@ public class DualOutputHandlers {
 		public String getOverlayIdentifier() {
 			return "algorithm";
 		}
-		
+
 	}
-	public static class Stone extends AbstractDualOutputHandler{
+
+	public static class Stone extends AbstractDualOutputHandler {
 
 		@Override
 		public RecipeHelper recipeHelper() {
@@ -65,9 +66,10 @@ public class DualOutputHandlers {
 		public String getOverlayIdentifier() {
 			return "stone";
 		}
-		
+
 	}
-	public static class Precision extends AbstractDualOutputHandler{
+
+	public static class Precision extends AbstractDualOutputHandler {
 
 		@Override
 		public RecipeHelper recipeHelper() {
@@ -93,8 +95,7 @@ public class DualOutputHandlers {
 		public String getOverlayIdentifier() {
 			return "precision";
 		}
-		
+
 	}
-	
-	
+
 }

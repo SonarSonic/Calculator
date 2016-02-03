@@ -1043,4 +1043,5 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 	public boolean canExtractItem(int slot, ItemStack item, int side) {
 		return false;
 	}
+
 }

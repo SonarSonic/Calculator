@@ -1,4 +1,4 @@
-package sonar.calculator.mod.api;
+package sonar.calculator.mod.api.flux;
 
 /**used on Tile Entities which can add energy to a Flux Network*/
 public interface IFluxPlug extends IFlux{

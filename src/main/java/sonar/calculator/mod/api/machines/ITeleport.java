@@ -1,4 +1,4 @@
-package sonar.calculator.mod.api;
+package sonar.calculator.mod.api.machines;
 
 
 public interface ITeleport {

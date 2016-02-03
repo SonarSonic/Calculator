@@ -71,8 +71,7 @@ public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 		if ((outputId.equals("extraction")) && (getClass() == ExtractionRecipeHandler.class)) {
 			Map<Object[], Object[]> recipes = ExtractionChamberRecipes.instance().getRecipes();
 			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict
-						.circuitList(1) : CalculatorOreDict.circuitList(2)));
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict.circuitList(1) : CalculatorOreDict.circuitList(2)));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -89,13 +88,10 @@ public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 			int pos = ExtractionChamberRecipes.instance().containsStack(result, recipe.getValue(), false);
 
 			if (pos == 0) {
-				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict
-						.circuitList(1) : CalculatorOreDict.circuitList(2)));
-				
-				
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict.circuitList(1) : CalculatorOreDict.circuitList(2)));
+
 			} else if (result.getItem() == Calculator.circuitDamaged || result.getItem() == Calculator.circuitDirty) {
-				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict
-						.circuitList(1) : CalculatorOreDict.circuitList(2)));
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getValue()[0], ((ItemStack) recipe.getValue()[1]).getItem() == Calculator.circuitDamaged ? CalculatorOreDict.circuitList(1) : CalculatorOreDict.circuitList(2)));
 
 			}
 		}

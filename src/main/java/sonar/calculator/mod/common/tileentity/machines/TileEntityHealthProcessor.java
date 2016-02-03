@@ -5,8 +5,9 @@ import java.util.List;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import sonar.calculator.mod.api.IHealthStore;
-import sonar.calculator.mod.api.ProcessType;
+import sonar.calculator.mod.api.machines.ProcessType;
+import sonar.calculator.mod.api.nutrition.IHealthProcessor;
+import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.network.utils.ISyncTile;
@@ -15,7 +16,7 @@ import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityHealthProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile {
+public class TileEntityHealthProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile, IHealthProcessor {
 
 	public int storedpoints, speed = 4;
 
@@ -63,6 +64,11 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 			}
 		}
 
+	}
+
+	@Override
+	public int getHealthPoints() {
+		return storedpoints;
 	}
 
 	private void loot(ItemStack stack) {
@@ -135,4 +141,5 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 		currenttip.add(FontHelper.translate("points.health") + ": " + storedpoints);
 		return currenttip;
 	}
+
 }

@@ -3,8 +3,7 @@ package sonar.calculator.mod.utils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-
-/**not fully implemented yet but will be eventually...hopefully*/
+/** not fully implemented yet but will be eventually...hopefully */
 public class BigStack {
 
 	public int maxStacks;
@@ -110,7 +109,7 @@ public class BigStack {
 		}
 		ItemStack outputStack = stack.copy();
 		outputStack.stackSize = stackSize;
-		if(stackSize==stack.getMaxStackSize()){
+		if (stackSize == stack.getMaxStackSize()) {
 			return null;
 		}
 		return outputStack;

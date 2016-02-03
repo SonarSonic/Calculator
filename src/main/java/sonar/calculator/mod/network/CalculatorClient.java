@@ -91,7 +91,6 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer crank = new RenderCrank();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrankHandle.class, crank);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.crank), new ItemCrankHandle(crank, new TileEntityCrankHandle()));
-		
 
 		TileEntitySpecialRenderer glowstone = new RenderHandlers.GlowstoneExtractor();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGenerator.GlowstoneExtractor.class, glowstone);

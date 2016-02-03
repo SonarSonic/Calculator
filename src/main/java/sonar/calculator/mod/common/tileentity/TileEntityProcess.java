@@ -7,7 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.IPausable;
+import sonar.calculator.mod.api.machines.IPausable;
+import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
 import sonar.core.inventory.IAdditionalInventory;
@@ -19,7 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /** electric smelting tile entity */
-public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable, IMachineButtons, IAdditionalInventory {
+public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable, IMachineButtons, IAdditionalInventory, IProcessMachine {
 	public int cookTime;
 	public int sUpgrade;
 	public int eUpgrade;
@@ -43,7 +44,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 			if (this.cookTime > 0) {
 				this.cookTime++;
 				if (!this.worldObj.isRemote) {
-					energyBuffer += energyUsage();
+					energyBuffer += getEnergyUsage();
 					int energyUsage = (int) Math.round(energyBuffer);
 					if (energyBuffer - energyUsage < 0) {
 						this.energyBuffer = 0;
@@ -58,7 +59,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 				if (!this.worldObj.isRemote) {
 					if (cookTime == 0) {
 						this.cookTime++;
-						energyBuffer += energyUsage();
+						energyBuffer += getEnergyUsage();
 						int energyUsage = (int) Math.round(energyBuffer);
 						if (energyBuffer - energyUsage < 0) {
 							this.energyBuffer = 0;
@@ -68,7 +69,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 						this.storage.modifyEnergyStored(-energyUsage);
 						flag = 1;
 					}
-					if (this.cookTime >= this.currentSpeed()) {
+					if (this.cookTime >= this.getProcessTime()) {
 						this.finishProcess();
 						if (canProcess()) {
 							cookTime++;
@@ -119,29 +120,16 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	public abstract void finishProcess();
 
-	public int currentSpeed() {
-		int i = 16 - sUpgrade;
-		if (sUpgrade == 0) {
-			return 1000;
-		}
-		return ((8 + ((i * i) * 2 + i)));
-	}
-
 	private int roundNumber(double i) {
 		return (int) (Math.ceil(i / 10) * 10);
 	}
 
-	public double energyUsage() {
-
-		return (double) requiredEnergy() / currentSpeed();
-	}
-
 	public int requiredEnergy() {
 		if (eUpgrade + sUpgrade == 0) {
-			return 1000*5;
+			return 1000 * 5;
 		}
 		int i = 16 - (eUpgrade - sUpgrade);
-		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (eUpgrade - sUpgrade)))*5;
+		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (eUpgrade - sUpgrade))) * 5;
 	}
 
 	public boolean receiveClientEvent(int action, int param) {
@@ -173,7 +161,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 			nbt.setShort("eUpgrade", (short) this.eUpgrade);
 			nbt.setBoolean("pause", this.paused);
 			if (type == SyncType.SYNC) {
-				nbt.setInteger("speed", this.currentSpeed());
+				nbt.setInteger("speed", this.getProcessTime());
 			}
 		}
 	}
@@ -196,7 +184,6 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		return paused;
 	}
 
-	// IUpgradeCircuits
 	@Override
 	public boolean canAddUpgrades() {
 		return cookTime == 0;
@@ -252,8 +239,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public boolean canStack(ItemStack current, ItemStack stack) {
 		if (current == null) {
 			return true;
-		}
-		else if (current.stackSize == current.getMaxStackSize()) {
+		} else if (current.stackSize == current.getMaxStackSize()) {
 			return false;
 		}
 		return true;
@@ -289,6 +275,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 			onPause();
 		}
 	}
+
 	@Override
 	public ItemStack[] getAdditionalStacks() {
 		ItemStack[] circuits = new ItemStack[2];
@@ -299,5 +286,24 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 			circuits[1] = new ItemStack(Calculator.energyUpgrade, this.getUpgrades(1));
 		}
 		return circuits;
+	}
+
+	@Override
+	public int getCurrentProcessTime() {
+		return cookTime;
+	}
+
+	@Override
+	public int getProcessTime() {
+		int i = 16 - sUpgrade;
+		if (sUpgrade == 0) {
+			return 1000;
+		}
+		return ((8 + ((i * i) * 2 + i)));
+	}
+
+	@Override
+	public double getEnergyUsage() {
+		return requiredEnergy() / getProcessTime();
 	}
 }

@@ -28,7 +28,7 @@ public class AtomicRecipeHandler extends TemplateRecipeHandler {
 			if (input instanceof RecipeHelper.OreStack)
 				input = ((RecipeHelper.OreStack) input).getStacks();
 			if (input2 instanceof RecipeHelper.OreStack)
-				input2 =((RecipeHelper.OreStack) input2).getStacks();
+				input2 = ((RecipeHelper.OreStack) input2).getStacks();
 			if (input3 instanceof RecipeHelper.OreStack)
 				input3 = ((RecipeHelper.OreStack) input3).getStacks();
 

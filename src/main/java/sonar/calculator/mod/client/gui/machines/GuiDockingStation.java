@@ -23,11 +23,7 @@ public class GuiDockingStation extends GuiContainer {
 
 	public GuiDockingStation(InventoryPlayer inventoryPlayer, TileEntityDockingStation entity) {
 		super(new ContainerDockingStation(inventoryPlayer, entity));
-
 		this.entity = entity;
-
-		this.xSize = 176;
-		this.ySize = 166;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
 import net.minecraft.nbt.NBTTagCompound;
-import sonar.calculator.mod.api.IFluxPoint;
+import sonar.calculator.mod.api.flux.IFluxPoint;
 import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 

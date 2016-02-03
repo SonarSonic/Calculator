@@ -1,6 +1,7 @@
-package sonar.calculator.mod.api;
+package sonar.calculator.mod.api.nutrition;
 
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.api.machines.ProcessType;
 
 /**used on items with Health Storage*/
 public interface IHealthStore {

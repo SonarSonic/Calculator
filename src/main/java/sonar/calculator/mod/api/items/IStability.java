@@ -1,4 +1,4 @@
-package sonar.calculator.mod.api;
+package sonar.calculator.mod.api.items;
 
 import net.minecraft.item.ItemStack;
 
