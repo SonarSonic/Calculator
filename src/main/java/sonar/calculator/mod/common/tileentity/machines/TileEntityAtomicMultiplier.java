@@ -6,6 +6,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.utils.AtomicMultiplierBlacklist;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
 import sonar.core.energy.DischargeValues;
@@ -15,7 +16,7 @@ import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver implements ISidedInventory {
+public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver implements ISidedInventory, IProcessMachine {
 
 	public int cookTime, active;
 	public int furnaceSpeed = 1000;
@@ -203,5 +204,20 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 			currenttip.add(idle);
 		}
 		return currenttip;		
+	}
+
+	@Override
+	public int getCurrentProcessTime() {
+		return cookTime;
+	}
+
+	@Override
+	public int getProcessTime() {
+		return furnaceSpeed;
+	}
+
+	@Override
+	public double getEnergyUsage() {
+		return requiredEnergy / getProcessTime();
 	}
 }

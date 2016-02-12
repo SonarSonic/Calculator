@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.List;
 import java.util.Random;
 
@@ -14,7 +16,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.utils.IMachineButtons;
+import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
@@ -23,7 +25,7 @@ import cofh.api.transport.IItemDuct;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityMagneticFlux extends TileEntityInventory implements IEntitySelector, ISidedInventory, IMachineButtons {
+public class TileEntityMagneticFlux extends TileEntityInventory implements IEntitySelector, ISidedInventory, IByteBufTile {
 
 	public boolean whitelisted, exact;
 	public Random rand = new Random();
@@ -184,18 +186,6 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 		return false;
 	}
 
-	@Override
-	public void buttonPress(int buttonID, int value) {
-		switch (buttonID) {
-		case 0:
-			this.whitelisted = !whitelisted;
-			break;
-		case 1:
-			this.exact = !exact;
-			break;
-		}
-	}
-
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
 		if (!disabled) {
@@ -205,7 +195,33 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 			String idle = FontHelper.translate("locator.state") + " : " + FontHelper.translate("state.off");
 			currenttip.add(idle);
 		}
-		
+
 		return currenttip;
+	}
+
+	@Override
+	public void writePacket(ByteBuf buf, int id) {
+		switch (id) {
+		case 0:
+			this.whitelisted = !whitelisted;
+			buf.writeBoolean(whitelisted);
+			break;
+		case 1:
+			this.exact = !exact;
+			buf.writeBoolean(exact);
+			break;
+		}
+	}
+
+	@Override
+	public void readPacket(ByteBuf buf, int id) {
+		switch (id) {
+		case 0:
+			whitelisted = buf.readBoolean();
+			break;
+		case 1:
+			exact = buf.readBoolean();
+			break;
+		}
 	}
 }

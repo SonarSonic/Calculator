@@ -42,9 +42,6 @@ public class GuiDualOutputSmelting extends GuiSonar {
 				SonarButton sButton = (SonarButton) button;
 				sButton.onClicked();
 			}
-			if (button.id == 1) {
-				entity.paused = !entity.paused;
-			}
 		}
 	}
 
@@ -62,8 +59,8 @@ public class GuiDualOutputSmelting extends GuiSonar {
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 
-		if (this.entity.currentSpeed!= 0  && this.entity.cookTime != 0) {
-			int l = this.entity.cookTime * 23 / this.entity.currentSpeed;
+		if (this.entity.currentSpeed!= 0  && this.entity.cookTime.getInt() != 0) {
+			int l = this.entity.cookTime.getInt() * 23 / this.entity.currentSpeed;
 			drawTexturedModalRect(this.guiLeft + 62, this.guiTop + 24, 176, 10, l, 16);
 		}
 	}

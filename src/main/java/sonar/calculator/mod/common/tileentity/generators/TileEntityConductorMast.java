@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
@@ -18,7 +19,7 @@ import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.EnergyStorage;
 
-public class TileEntityConductorMast extends TileEntityInventorySender implements ISidedInventory {
+public class TileEntityConductorMast extends TileEntityInventorySender implements ISidedInventory, IProcessMachine {
 
 	public int cookTime, lightingTicks, lightTicks;
 	public int furnaceSpeed = 50;
@@ -152,7 +153,6 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 			return false;
 		}
 
-	
 		if (cookTime >= furnaceSpeed) {
 			return true;
 		}
@@ -329,5 +329,23 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
 		return slot == 1;
 	}
-	
+
+	@Override
+	public int getCurrentProcessTime() {
+		return cookTime;
+	}
+
+	@Override
+	public int getProcessTime() {
+		return furnaceSpeed;
+	}
+
+	@Override
+	public double getEnergyUsage() {
+		if (slots[0] != null) {
+			return recipeEnergy(slots[0]);
+		}
+		return 0;
+	}
+
 }

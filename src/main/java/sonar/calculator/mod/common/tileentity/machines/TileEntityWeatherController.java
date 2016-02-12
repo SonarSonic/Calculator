@@ -1,17 +1,19 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import ic2.api.energy.tile.IEnergySink;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
+import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ISyncTile;
-import sonar.core.utils.IMachineButtons;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 
-public class TileEntityWeatherController extends TileEntityInventoryReceiver implements IEnergyHandler, IEnergySink, ISyncTile, IMachineButtons {
+public class TileEntityWeatherController extends TileEntityInventoryReceiver implements IEnergyHandler, IEnergySink, ISyncTile, IByteBufTile,IProcessMachine {
 
 	public int type, data, buffer, coolDown;
 
@@ -34,11 +36,11 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 			if (buffer != 100) {
 				buffer++;
 			} else {
-					coolDown = 1;
-					buffer = 0;
-					if (!this.worldObj.isRemote) {
-						processType(type, false);
-					}
+				coolDown = 1;
+				buffer = 0;
+				if (!this.worldObj.isRemote) {
+					processType(type, false);
+				}
 			}
 
 		}
@@ -53,8 +55,7 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 
 	public void startProcess() {
 		int power = this.worldObj.getBlockPowerInput(xCoord, yCoord, zCoord);
-		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= requiredPower && this.processType(type, true)
-				&& (power != 0 || this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))) {
+		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= requiredPower && this.processType(type, true) && (power != 0 || this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))) {
 			buffer = 1;
 		}
 	}
@@ -105,7 +106,8 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
 			this.type = nbt.getInteger("type");
 			this.data = nbt.getInteger("data");
-			this.buffer = nbt.getInteger("buffer");		}
+			this.buffer = nbt.getInteger("buffer");
+		}
 	}
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
@@ -119,15 +121,34 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 	}
 
 	@Override
-	public void buttonPress(int buttonID, int value) {
-		if (buttonID == 0) {
+	public void writePacket(ByteBuf buf, int id) {
+	}
+
+	@Override
+	public void readPacket(ByteBuf buf, int id) {
+		if (id == 0) {
 			if (data == 1) {
 				data = 0;
 			} else {
 				data = 1;
 			}
 		} else {
-			setType(buttonID-1);
+			setType(id - 1);
 		}
+	}
+
+	@Override
+	public int getCurrentProcessTime() {
+		return buffer;
+	}
+
+	@Override
+	public int getProcessTime() {
+		return 100;
+	}
+
+	@Override
+	public double getEnergyUsage() {
+		return requiredPower/getProcessTime();
 	}
 }

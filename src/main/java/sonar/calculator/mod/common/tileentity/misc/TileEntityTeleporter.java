@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -16,17 +18,17 @@ import sonar.calculator.mod.utils.helpers.TeleporterHelper;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.network.PacketTileSync;
+import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ITextField;
-import sonar.core.utils.IMachineButtons;
 import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IMachineButtons, ITextField {
+public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, ITextField {
 
-	public int teleporterID, accessSetting;
+	public int teleporterID;
 	public String name = "LINK NAME";
 	public String destinationName = "DESTINATION";
 	public String password = "";
@@ -162,7 +164,6 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			this.accessSetting = nbt.getInteger("accessSetting");
 			this.teleporterID = nbt.getInteger("freq");
 			this.linkID = nbt.getInteger("linkID");
 			this.name = nbt.getString("name");
@@ -178,7 +179,6 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			nbt.setInteger("accessSetting", this.accessSetting);
 			nbt.setInteger("freq", this.teleporterID);
 			nbt.setInteger("linkID", this.linkID);
 			nbt.setString("name", this.name);
@@ -224,11 +224,6 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	}
 
 	@Override
-	public int accessSetting() {
-		return accessSetting;
-	}
-
-	@Override
 	public int xCoord() {
 		return xCoord;
 	}
@@ -254,22 +249,6 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	}
 
 	@Override
-	public void buttonPress(int buttonID, int value) {
-		this.removeFromFrequency();
-		if (buttonID == 0) {
-			if (this.accessSetting == 0) {
-				this.accessSetting = 1;
-			} else {
-				this.accessSetting = 0;
-			}
-		}
-		if (buttonID == 1) {
-			this.linkID = value;
-		}
-		this.addToFrequency();
-	}
-
-	@Override
 	public void textTyped(String string, int id) {
 		if (id == 1)
 			this.name = string;
@@ -289,6 +268,22 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB;
+	}
+
+	@Override
+	public void writePacket(ByteBuf buf, int id) {
+		if(id==0){
+			buf.writeInt(linkID);
+		}
+	}
+
+	@Override
+	public void readPacket(ByteBuf buf, int id) {
+		this.removeFromFrequency();
+		if (id == 0) {
+			this.linkID = buf.readInt();
+		}
+		this.addToFrequency();
 	}
 
 }

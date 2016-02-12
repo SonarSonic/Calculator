@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.tileentity;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;

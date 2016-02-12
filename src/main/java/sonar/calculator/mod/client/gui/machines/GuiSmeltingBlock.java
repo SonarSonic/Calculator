@@ -5,9 +5,12 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
+import sonar.core.SonarCore;
 import sonar.core.inventory.GuiSonar;
 import sonar.core.inventory.SonarButtons;
 import sonar.core.inventory.SonarButtons.SonarButton;
+import sonar.core.network.PacketByteBufServer;
+import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiSmeltingBlock extends GuiSonar {
@@ -50,8 +53,8 @@ public class GuiSmeltingBlock extends GuiSonar {
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 
-		if (this.entity.currentSpeed != 0 && this.entity.cookTime != 0) {
-			int l = this.entity.cookTime * 23 / this.entity.currentSpeed;
+		if (this.entity.currentSpeed != 0 && this.entity.cookTime.getInt() != 0) {
+			int l = this.entity.cookTime.getInt() * 23 / this.entity.currentSpeed;
 			drawTexturedModalRect(this.guiLeft + 76, this.guiTop + 24, 176, 10, l, 16);
 		}
 	}

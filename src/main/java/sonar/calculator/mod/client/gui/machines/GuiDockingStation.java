@@ -39,32 +39,32 @@ public class GuiDockingStation extends GuiContainer {
 			if (entity.calcStack.getItem() == Calculator.itemCalculator) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(calculatorTex);
 				drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-				if (this.entity.currentSpeed != 0 && this.entity.cookTime != 0) {
-					int l = this.entity.cookTime * 13 / this.entity.currentSpeed;
+				if (this.entity.currentSpeed != 0 && this.entity.cookTime.getInt() != 0) {
+					int l = this.entity.cookTime.getInt() * 13 / this.entity.currentSpeed;
 					drawTexturedModalRect(this.guiLeft + 109, this.guiTop + 34, 176, 10, l, 7);
 				}
 			}
 			if (entity.calcStack.getItem() == Calculator.itemScientificCalculator) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(scientificTex);
 				drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-				if (this.entity.currentSpeed != 0 && this.entity.cookTime != 0) {
-					int l = this.entity.cookTime * 13 / this.entity.currentSpeed;
+				if (this.entity.currentSpeed != 0 && this.entity.cookTime.getInt() != 0) {
+					int l = this.entity.cookTime.getInt() * 13 / this.entity.currentSpeed;
 					drawTexturedModalRect(this.guiLeft + 109, this.guiTop + 34, 176, 10, l, 7);
 				}
 			}
 			if (entity.calcStack.getItem() == Item.getItemFromBlock(Calculator.atomiccalculatorBlock)) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(atomicTex);
 				drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-				if (this.entity.currentSpeed != 0 && this.entity.cookTime != 0) {
-					int l = this.entity.cookTime * 11 / this.entity.currentSpeed;
+				if (this.entity.currentSpeed != 0 && this.entity.cookTime.getInt() != 0) {
+					int l = this.entity.cookTime.getInt() * 11 / this.entity.currentSpeed;
 					drawTexturedModalRect(this.guiLeft + 110, this.guiTop + 35, 176, 10, l, 7);
 				}
 			}
 			if (entity.calcStack.getItem() == Calculator.itemFlawlessCalculator) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(flawlessTex);
 				drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-				if (this.entity.currentSpeed != 0 && this.entity.cookTime != 0) {
-					int l = this.entity.cookTime * 11 / this.entity.currentSpeed;
+				if (this.entity.currentSpeed != 0 && this.entity.cookTime.getInt() != 0) {
+					int l = this.entity.cookTime.getInt() * 11 / this.entity.currentSpeed;
 					drawTexturedModalRect(this.guiLeft + 131, this.guiTop + 38, 176, 10, l, 7);
 				}
 			}

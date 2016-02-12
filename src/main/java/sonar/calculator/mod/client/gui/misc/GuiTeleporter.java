@@ -18,7 +18,7 @@ import sonar.core.SonarCore;
 import sonar.core.inventory.ContainerEmpty;
 import sonar.core.inventory.GuiSonar;
 import sonar.core.inventory.SonarButtons;
-import sonar.core.network.PacketMachineButton;
+import sonar.core.network.PacketByteBufServer;
 import sonar.core.network.PacketTextField;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -254,19 +254,13 @@ public class GuiTeleporter extends GuiSonar {
 	}
 
 	protected void actionPerformed(GuiButton button) {
-		if (entity.getWorldObj().isRemote) {
-			SonarCore.network.sendToServer(new PacketMachineButton(button.id, 0, entity.xCoord, entity.yCoord, entity.zCoord));
-			entity.buttonPress(button.id, 0);
-			this.reset();
-		}
 		if (button.id >= 10) {
 			if (entity.links != null) {
 				int start = (int) (entity.links.size() * this.currentScroll);
 				int network = start + button.id - 10;
 				if (network < entity.links.size()) {
-					SonarCore.network.sendToServer(new PacketMachineButton(1, entity.links.get(network).networkID, entity.xCoord, entity.yCoord, entity.zCoord));
-					entity.buttonPress(button.id, entity.links.get(network).networkID);
-
+					entity.linkID=entity.links.get(network).networkID;
+					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.xCoord, entity.yCoord, entity.zCoord, 0));
 				}
 			}
 		}

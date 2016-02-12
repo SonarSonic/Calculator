@@ -4,6 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
+import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +29,15 @@ import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.integration.SonarAPI;
+import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ISyncTile;
-import sonar.core.utils.IMachineButtons;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityFluxController extends TileEntityInventory implements IFluxPoint, ISyncTile, IMachineButtons {
+public class TileEntityFluxController extends TileEntityInventory implements IFluxPoint, ISyncTile, IByteBufTile {
 
 	private Ticket currentTicket;
 
@@ -328,8 +329,12 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 	}
 
 	@Override
-	public void buttonPress(int buttonID, int value) {
-		switch (buttonID) {
+	public void writePacket(ByteBuf buf, int id) {
+	}
+
+	@Override
+	public void readPacket(ByteBuf buf, int id) {
+		switch (id) {
 		case 3:
 			if (recieveMode < 4)
 				recieveMode++;
@@ -355,6 +360,5 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 				playerProtect = 0;
 			break;
 		}
-
 	}
 }

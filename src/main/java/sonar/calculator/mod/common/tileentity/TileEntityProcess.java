@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.List;
 
 import net.minecraft.entity.item.EntityItem;
@@ -10,9 +12,12 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
+import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
 import sonar.core.inventory.IAdditionalInventory;
-import sonar.core.utils.IMachineButtons;
+import sonar.core.network.sync.SyncBoolean;
+import sonar.core.network.sync.SyncInt;
+import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IUpgradeCircuits;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
@@ -20,70 +25,70 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /** electric smelting tile entity */
-public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable, IMachineButtons, IAdditionalInventory, IProcessMachine {
-	public int cookTime;
+public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable, IAdditionalInventory, IProcessMachine, IByteBufTile {
+	// public int cookTime;
 	public int sUpgrade;
 	public int eUpgrade;
+
 	public float renderTicks;
 	public double energyBuffer;
-	public boolean paused;
-	public int currentSpeed;
+	// private boolean paused;
+	// public boolean invertPaused;
+	public SyncBoolean invertPaused = new SyncBoolean(0);
+	public SyncBoolean paused = new SyncBoolean(1);
+	public SyncInt cookTime = new SyncInt(2);
+
 	public static int lowestSpeed = 4, lowestEnergy = 1000;
+
+	// client
+	public int currentSpeed;
 
 	public void updateEntity() {
 		super.updateEntity();
-		if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-			this.paused = true;
-			return;
-		} else {
-			this.paused = false;
+		if (!worldObj.isRemote) {
+			boolean oldPause = paused.getBoolean();
+			if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+				this.paused.setBoolean(false);
+				return;
+			} else {
+				this.paused.setBoolean(true);
+			}
+			if (oldPause != paused.getBoolean()) {
+				this.onPause();
+			}
 		}
 		int flag = 0;
 
-		if (!paused) {
-			if (this.cookTime > 0) {
-				this.cookTime++;
+		if (!isPaused()) {
+			if (this.cookTime.getInt() > 0) {
+				this.cookTime.increaseBy(1);
 				if (!this.worldObj.isRemote) {
-					energyBuffer += getEnergyUsage();
-					int energyUsage = (int) Math.round(energyBuffer);
-					if (energyBuffer - energyUsage < 0) {
-						this.energyBuffer = 0;
-					} else {
-						energyBuffer -= energyUsage;
-					}
-					this.storage.modifyEnergyStored(-energyUsage);
+					modifyEnergy();
 				}
 			}
 			if (this.canProcess()) {
 				this.renderTicks();
 				if (!this.worldObj.isRemote) {
-					if (cookTime == 0) {
-						this.cookTime++;
-						energyBuffer += getEnergyUsage();
-						int energyUsage = (int) Math.round(energyBuffer);
-						if (energyBuffer - energyUsage < 0) {
-							this.energyBuffer = 0;
-						} else {
-							energyBuffer -= energyUsage;
-						}
-						this.storage.modifyEnergyStored(-energyUsage);
+					if (cookTime.getInt() == 0) {
+						this.cookTime.increaseBy(1);
+						modifyEnergy();
 						flag = 1;
 					}
-					if (this.cookTime >= this.getProcessTime()) {
+					if (this.cookTime.getInt() >= this.getProcessTime()) {
 						this.finishProcess();
 						if (canProcess()) {
-							cookTime++;
+							this.cookTime.increaseBy(1);
 						} else {
 							flag = 2;
 						}
-						this.cookTime = 0;
+						cookTime.setInt(0);
 						this.energyBuffer = 0;
 					}
 				}
 			} else {
 				renderTicks = 0;
-				if (cookTime != 0) {
-					this.cookTime = 0;
+				if (cookTime.getInt() != 0) {
+					cookTime.setInt(0);
 					this.energyBuffer = 0;
 					flag = 2;
 				}
@@ -91,13 +96,23 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 			}
 			if (flag != 0) {
 				if (flag == 1 || flag == 2 && !canProcess()) {
-					this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-					this.worldObj.addBlockEvent(xCoord, yCoord, zCoord, blockType, 1, 1);
+					SonarCore.sendPacketAround(this, 128, 2);
 				}
 			}
 		}
 
 		this.markDirty();
+	}
+
+	public void modifyEnergy() {
+		energyBuffer += getEnergyUsage();
+		int energyUsage = (int) Math.round(energyBuffer);
+		if (energyBuffer - energyUsage < 0) {
+			this.energyBuffer = 0;
+		} else {
+			energyBuffer -= energyUsage;
+		}
+		this.storage.modifyEnergyStored(-energyUsage);
 	}
 
 	public void renderTicks() {
@@ -142,10 +157,11 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			this.cookTime = nbt.getShort("CookTime");
+			paused.readFromNBT(nbt, type);
+			invertPaused.readFromNBT(nbt, type);
+			cookTime.readFromNBT(nbt, type);
 			this.sUpgrade = nbt.getShort("sUpgrade");
 			this.eUpgrade = nbt.getShort("eUpgrade");
-			this.paused = nbt.getBoolean("pause");
 			if (type == SyncType.SYNC) {
 				this.currentSpeed = nbt.getInteger("speed");
 			}
@@ -156,10 +172,11 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			nbt.setShort("CookTime", (short) this.cookTime);
+			paused.writeToNBT(nbt, type);
+			invertPaused.writeToNBT(nbt, type);
+			cookTime.writeToNBT(nbt, type);
 			nbt.setShort("sUpgrade", (short) this.sUpgrade);
 			nbt.setShort("eUpgrade", (short) this.eUpgrade);
-			nbt.setBoolean("pause", this.paused);
 			if (type == SyncType.SYNC) {
 				nbt.setInteger("speed", this.getProcessTime());
 			}
@@ -169,24 +186,24 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	// IPausable
 	@Override
 	public boolean isActive() {
-		return !isPaused() && cookTime > 0;
+		return !isPaused() && cookTime.getInt() > 0;
 	}
 
 	@Override
 	public void onPause() {
-		paused = !paused;
+		// paused.invert();
 		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		this.worldObj.addBlockEvent(xCoord, yCoord, zCoord, blockType, 1, 1);
 	}
 
 	@Override
 	public boolean isPaused() {
-		return paused;
+		return invertPaused.getBoolean() ? paused.getBoolean() : !paused.getBoolean();
 	}
 
 	@Override
 	public boolean canAddUpgrades() {
-		return cookTime == 0;
+		return cookTime.getInt() == 0;
 	}
 
 	@Override
@@ -259,23 +276,6 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		return currenttip;
 	}
 
-	public void buttonPress(int buttonID, int value) {
-		switch (buttonID) {
-		case 0:
-			for (int i = 0; i < 3; i++) {
-				if (getUpgrades(i) != 0 && UpgradeCircuit.getItem(i) != null) {
-					ForgeDirection dir = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-					EntityItem upgrade = new EntityItem(worldObj, xCoord + dir.offsetX, yCoord + 0.5, zCoord + dir.offsetZ, new ItemStack(UpgradeCircuit.getItem(i), getUpgrades(i)));
-					incrementUpgrades(i, -getUpgrades(i));
-					worldObj.spawnEntityInWorld(upgrade);
-				}
-			}
-			break;
-		case 1:
-			onPause();
-		}
-	}
-
 	@Override
 	public ItemStack[] getAdditionalStacks() {
 		ItemStack[] circuits = new ItemStack[2];
@@ -290,7 +290,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	@Override
 	public int getCurrentProcessTime() {
-		return cookTime;
+		return cookTime.getInt();
 	}
 
 	@Override
@@ -305,5 +305,39 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	@Override
 	public double getEnergyUsage() {
 		return requiredEnergy() / getProcessTime();
+	}
+
+	@Override
+	public void writePacket(ByteBuf buf, int id) {
+		if (id == 1) {
+			invertPaused.invert();
+			invertPaused.writeToBuf(buf);
+		}
+		if (id == 2) {
+			invertPaused.writeToBuf(buf);
+			paused.writeToBuf(buf);
+		}
+	}
+
+	@Override
+	public void readPacket(ByteBuf buf, int id) {
+		if (id == 0) {
+			for (int i = 0; i < 3; i++) {
+				if (getUpgrades(i) != 0 && UpgradeCircuit.getItem(i) != null) {
+					ForgeDirection dir = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+					EntityItem upgrade = new EntityItem(worldObj, xCoord + dir.offsetX, yCoord + 0.5, zCoord + dir.offsetZ, new ItemStack(UpgradeCircuit.getItem(i), getUpgrades(i)));
+					incrementUpgrades(i, -getUpgrades(i));
+					worldObj.spawnEntityInWorld(upgrade);
+				}
+			}
+		}
+		if (id == 1) {
+			invertPaused.readFromBuf(buf);
+			onPause();
+		}
+		if (id == 2) {
+			invertPaused.readFromBuf(buf);
+			paused.readFromBuf(buf);
+		}
 	}
 }

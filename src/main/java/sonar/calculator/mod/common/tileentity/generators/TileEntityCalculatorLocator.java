@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,8 +16,15 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.api.items.ILocatorModule;
+import sonar.calculator.mod.api.machines.ICalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
+import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityInventorySender;
+import sonar.core.network.sync.SyncBoolean;
+import sonar.core.network.sync.SyncByte;
+import sonar.core.network.sync.SyncInt;
+import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
@@ -23,10 +32,12 @@ import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityCalculatorLocator extends TileEntityInventorySender {
+public class TileEntityCalculatorLocator extends TileEntityInventorySender implements IByteBufTile, ICalculatorLocator {
 
-	public byte active;
-	public int size, sizeTicks, luckTicks, stability;
+	public SyncBoolean active = new SyncBoolean(0);
+	public SyncInt size = new SyncInt(1);
+	public int stability;
+	private int sizeTicks, luckTicks;
 	public String owner = "None";
 
 	public TileEntityCalculatorLocator() {
@@ -39,20 +50,20 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	public void updateEntity() {
 		super.updateEntity();
 		if (!worldObj.isRemote) {
+			boolean invert = false;
 			if (canGenerate()) {
 				beginGeneration();
-				if (active != 1) {
-					this.active = 1;
-					this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+				if (!active.getBoolean()) {
+					invert = true;
 				}
-			} else {
-				if (active != 0) {
-					this.active = 0;
-					this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-				}
+			} else if (active.getBoolean()) {
+				invert = true;
 			}
-		}
-		if (!this.worldObj.isRemote) {
+			if (invert) {
+				this.active.invert();
+				SonarCore.sendPacketAround(this, 128, 0);
+			}
+
 			if (!(this.sizeTicks >= 25)) {
 				sizeTicks++;
 			} else {
@@ -67,9 +78,9 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	}
 
 	public int currentOutput() {
-		if (size != 0 && (((int) (2 * size + 1) * (2 * size + 1)) - 1) != 0) {
-			int stable = (int) (stability * 100) / ((int) (2 * size + 1) * (2 * size + 1));
-			return (5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size) / 2;
+		if (size.getInt() != 0 && (((int) (2 * size.getInt() + 1) * (2 * size.getInt() + 1)) - 1) != 0) {
+			int stable = (int) (stability * 100) / ((int) (2 * size.getInt() + 1) * (2 * size.getInt() + 1));
+			return (5 + ((int) (1000 * (Math.sqrt(size.getInt() * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size.getInt()) / 2;
 
 		}
 		return 0;
@@ -77,11 +88,12 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	public void getStability() {
 		int currentStable = 0;
-		if (size == 0) {
+		if (size.getInt() == 0) {
 			this.stability = 0;
 		}
-		for (int Z = -(size); Z <= (size); Z++) {
-			for (int X = -(size); X <= (size); X++) {
+
+		for (int Z = -(size.getInt()); Z <= (size.getInt()); Z++) {
+			for (int X = -(size.getInt()); X <= (size.getInt()); X++) {
 				TileEntity target = this.worldObj.getTileEntity(xCoord + X, yCoord, zCoord + Z);
 				if (target != null && target instanceof TileEntityCalculatorPlug) {
 					TileEntityCalculatorPlug plug = (TileEntityCalculatorPlug) target;
@@ -93,20 +105,15 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	}
 
 	public boolean canGenerate() {
-		if (!(this.storage.getEnergyStored() < this.storage.getMaxEnergyStored())) {
-			return false;
-		}
-		if (size == 0) {
+		if (!(this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) || size.getInt() == 0) {
 			return false;
 		}
 		if (isLocated()) {
 			if (this.stability >= 7) {
-				this.active = 1;
 				return true;
 			} else {
-				EntityPlayer player = this.worldObj.getPlayerEntityByName(owner);
-				if (!(player == null)) {
-					this.active = 1;
+				EntityPlayer player = this.worldObj.getPlayerEntityByName(getOwner());
+				if (player != null) {
 					return true;
 				}
 			}
@@ -152,7 +159,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	}
 
 	private void effectStart() {
-		EntityPlayer player = this.worldObj.getPlayerEntityByName(owner);
+		EntityPlayer player = this.worldObj.getPlayerEntityByName(getOwner());
 		if (player != null) {
 			double x = player.posX;
 			double y = player.posY;
@@ -245,14 +252,13 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		if (stack == null) {
 			return false;
 		}
-
-		if (stack.hasTagCompound()) {
-			if (stack.isItemEqual(new ItemStack(Calculator.itemLocatorModule))) {
-				if (!(stack.getTagCompound().getString("Player") == "None")) {
-					return true;
-				}
+		if (stack.getItem() instanceof ILocatorModule) {
+			String name = ((ILocatorModule) stack.getItem()).getPlayer(stack);
+			if (name != null && !name.equals("None")) {
+				return true;
 			}
 		}
+
 		return false;
 
 	}
@@ -264,9 +270,10 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 			return;
 		}
 
-		if (stack.hasTagCompound()) {
-			if (stack.isItemEqual(new ItemStack(Calculator.itemLocatorModule))) {
-				this.owner = stack.getTagCompound().getString("Player");
+		if (stack.getItem() instanceof ILocatorModule) {
+			String name = ((ILocatorModule) stack.getItem()).getPlayer(stack);
+			if (name != null) {
+				owner = name;
 			}
 		}
 
@@ -274,19 +281,19 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	public void createStructure() {
 		int size = CalculatorLocator.multiBlockStructure(getWorldObj(), xCoord, yCoord, zCoord);
-		if (size != this.size) {
-			this.size = size;
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		if (size != this.size.getInt()) {
+			this.size.setInt(size);
+			SonarCore.sendPacketAround(this, 128, 1);
 		}
 	}
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			active.readFromNBT(nbt, type);
+			size.readFromNBT(nbt, type);
 			this.stability = nbt.getInteger("stability");
-			this.active = nbt.getByte("active");
 			this.luckTicks = nbt.getInteger("ticks");
-			this.size = nbt.getInteger("size");
 			this.owner = nbt.getString("owner");
 		}
 	}
@@ -294,10 +301,10 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+			active.writeToNBT(nbt, type);
+			size.writeToNBT(nbt, type);
 			nbt.setInteger("stability", this.stability);
-			nbt.setByte("active", this.active);
 			nbt.setInteger("ticks", this.luckTicks);
-			nbt.setInteger("size", this.size);
 			nbt.setString("owner", this.owner);
 		}
 	}
@@ -310,15 +317,8 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		return false;
 	}
 
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared() {
-		return 65536.0D;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getRenderBoundingBox() {
-		return INFINITE_EXTENT_AABB;
+	public boolean maxRender() {
+		return true;
 	}
 
 	public int beamHeight() {
@@ -333,7 +333,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
-		currenttip.add(FontHelper.translate("locator.active") + ": " + (active == 0 ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
+		currenttip.add(FontHelper.translate("locator.active") + ": " + (!active.getBoolean() ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
 
 		currenttip.add(FontHelper.translate("locator.owner") + ": " + (owner != "None" ? owner : FontHelper.translate("locator.none")));
 		return currenttip;
@@ -343,6 +343,46 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender {
 		super.onLoaded();
 		createOwner();
 		createStructure();
+	}
+
+	@Override
+	public void writePacket(ByteBuf buf, int id) {
+		if (id == 0) {
+			active.writeToBuf(buf);
+		}
+		if (id == 1) {
+			size.writeToBuf(buf);
+		}
+	}
+
+	@Override
+	public void readPacket(ByteBuf buf, int id) {
+		if (id == 0) {
+			active.readFromBuf(buf);
+		}
+		if (id == 1) {
+			size.readFromBuf(buf);
+		}
+	}
+
+	@Override
+	public String getOwner() {
+		return owner;
+	}
+
+	@Override
+	public int getSize() {
+		return size.getInt();
+	}
+
+	@Override
+	public boolean isActive() {
+		return active.getBoolean();
+	}
+
+	@Override
+	public double getStabilityPercent() {
+		return (stability * 100 / (((2 * size.getInt()) + 1) * ((2 * size.getInt()) + 1) - 1));
 	}
 
 }

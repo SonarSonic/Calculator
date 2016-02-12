@@ -9,15 +9,15 @@ import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
-import sonar.core.utils.IMachineButtons;
+import sonar.core.network.sync.SyncInt;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RecipeHelper;
 import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver implements IPausable, IMachineButtons {
-	public int[] cookTime = new int[9];
+public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver implements IPausable {
+	public SyncInt[] cookTime = new SyncInt[9];
 	public float renderTicks;
 	public double energyBuffer;
 	public boolean paused;
@@ -41,10 +41,10 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 		this.discharge(27);
 		if (!paused) {
 			for (int i = 0; i < 9; i++) {
-				if (this.cookTime[i] > 0) {
-					this.cookTime[i]++;
+				if (this.cookTime[i].getInt() > 0) {
+					this.cookTime[i].increaseBy(1);
 					if (!this.worldObj.isRemote) {
-						energyBuffer += (energyUsage()/speed) * 8;
+						energyBuffer += (energyUsage() / speed) * 8;
 						int energyUsage = (int) Math.round(energyBuffer);
 						if (energyBuffer - energyUsage < 0) {
 							this.energyBuffer = 0;
@@ -56,9 +56,9 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 				}
 				if (this.canProcess(i)) {
 					if (!this.worldObj.isRemote) {
-						if (cookTime[i] == 0) {
-							this.cookTime[i]++;
-							energyBuffer += energyUsage()/speed;
+						if (this.cookTime[i].getInt() == 0) {
+							this.cookTime[i].increaseBy(1);
+							energyBuffer += energyUsage() / speed;
 							int energyUsage = (int) Math.round(energyBuffer);
 							if (energyBuffer - energyUsage < 0) {
 								this.energyBuffer = 0;
@@ -67,24 +67,24 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 							}
 							this.storage.modifyEnergyStored(-energyUsage);
 						}
-						if (this.cookTime[i] >= this.currentSpeed()) {
+						if (this.cookTime[i].getInt() >= this.currentSpeed()) {
 							for (int process = 0; process < 8; process++) {
 								if (canProcess(i)) {
 									this.finishProcess(i);
 								}
 							}
 							if (canProcess(i)) {
-								cookTime[i]++;
+								this.cookTime[i].increaseBy(1);
 							} else {
 							}
-							this.cookTime[i] = 0;
+							this.cookTime[i].setInt(0);
 							this.energyBuffer = 0;
 						}
 					}
 				} else {
 					renderTicks = 0;
-					if (cookTime[i] != 0) {
-						this.cookTime[i] = 0;
+					if (cookTime[i].getInt() != 0) {
+						this.cookTime[i].setInt(0);
 						this.energyBuffer = 0;
 					}
 				}
@@ -99,10 +99,10 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 			return false;
 		}
 
-		if (cookTime[slot] == 0) {
-			//if (this.storage.getEnergyStored() < energyUsage()) {
+		if (cookTime[slot].getInt() == 0) {
+			// if (this.storage.getEnergyStored() < energyUsage()) {
 			// return false;
-			 //}
+			// }
 		}
 		ItemStack[] output = getOutput(true, slots[slot]);
 		if (output == null || output.length == 0) {
@@ -112,11 +112,11 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 			if (output[o] == null) {
 				return false;
 			} else {
-				if (slots[slot + ((o+1) * 9)] != null) {
-					if (!slots[slot + ((o+1) * 9)].isItemEqual(output[o])) {
-						
+				if (slots[slot + ((o + 1) * 9)] != null) {
+					if (!slots[slot + ((o + 1) * 9)].isItemEqual(output[o])) {
+
 						return false;
-					} else if (slots[slot + ((o+1) * 9)].stackSize + output[o].stackSize > slots[slot + ((o+1) * 9)].getMaxStackSize()) {
+					} else if (slots[slot + ((o + 1) * 9)].stackSize + output[o].stackSize > slots[slot + ((o + 1) * 9)].getMaxStackSize()) {
 
 						return false;
 					}
@@ -130,14 +130,14 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 		ItemStack[] output = getOutput(false, slots[slot]);
 		for (int o = 0; o < output.length; o++) {
 			if (output[o] != null) {
-				if (this.slots[slot + ((o+1) * 9)] == null) {
+				if (this.slots[slot + ((o + 1) * 9)] == null) {
 					ItemStack outputStack = output[o].copy();
 					if (output[o].getItem() == Calculator.circuitBoard) {
 						ItemCircuit.setData(outputStack);
 					}
-					this.slots[slot + ((o+1) * 9)] = outputStack;
-				} else if (this.slots[slot + ((o+1) * 9)].isItemEqual(output[o])) {
-					this.slots[slot + ((o+1) * 9)].stackSize += output[o].stackSize;
+					this.slots[slot + ((o + 1) * 9)] = outputStack;
+				} else if (this.slots[slot + ((o + 1) * 9)].isItemEqual(output[o])) {
+					this.slots[slot + ((o + 1) * 9)].stackSize += output[o].stackSize;
 
 				}
 			}
@@ -158,7 +158,8 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 	}
 
 	public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {
-		//return new ItemStack[] { FurnaceRecipes.smelting().getSmeltingResult(stacks[0]) };
+		// return new ItemStack[] {
+		// FurnaceRecipes.smelting().getSmeltingResult(stacks[0]) };
 		return recipeHelper().getOutput(stacks);
 	}
 
@@ -185,7 +186,9 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			this.cookTime = nbt.getIntArray("CookTime");
+			for (int i = 0; i < cookTime.length; i++){
+				cookTime[i].readFromNBT(nbt, type);
+			}
 			this.paused = nbt.getBoolean("pause");
 		}
 
@@ -194,7 +197,9 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			nbt.setIntArray("CookTime", this.cookTime);
+			for (int i = 0; i < cookTime.length; i++){
+				cookTime[i].writeToNBT(nbt, type);
+			}
 			nbt.setBoolean("pause", this.paused);
 		}
 	}
@@ -237,7 +242,4 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 		return currenttip;
 	}
 
-	public void buttonPress(int buttonID, int value) {
-
-	}
 }

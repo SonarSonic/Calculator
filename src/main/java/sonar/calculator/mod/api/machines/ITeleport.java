@@ -9,9 +9,6 @@ public interface ITeleport {
 	/**tile dimension*/
 	public int dimension();
 	
-	/**0=Public, 1=Private*/
-	public int accessSetting();
-	
 	/**tile xCoord*/
 	public int xCoord();
 

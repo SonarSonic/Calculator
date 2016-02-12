@@ -31,7 +31,7 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 
 		if (entity.getWorldObj() != null && entity instanceof TileEntityCalculatorLocator) {
 			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) entity;
-			if (tile.active == 1) {
+			if (tile.active.getBoolean()) {
 				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, onTexture);	
 			}else{
 				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, offTexture);	
@@ -45,8 +45,7 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 
 		if (CalculatorConfig.beamEffect && entity.getWorldObj() != null && entity instanceof TileEntityCalculatorLocator) {
 			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) entity;
-			if (tile.active == 1) {
-
+			if (tile.active.getBoolean()) {
 				int height = tile.beamHeight();
 				Tessellator tessellator = Tessellator.instance;
 				this.bindTexture(beam);
@@ -64,7 +63,7 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 				double d3 = (double) f2 * 0.025D * (1.0D - (double) (b0 & 1) * 2.5D);
 				tessellator.startDrawingQuads();
 				tessellator.setColorRGBA(255, 255, 255, 32);
-				double d5 = (double) b0 * tile.size / 20;
+				double d5 = (double) b0 * tile.size.getInt() / 20;
 				double d7 = 0.5D + Math.cos(d3 + 2.356194490192345D) * d5;
 				double d9 = 0.5D + Math.sin(d3 + 2.356194490192345D) * d5;
 				double d11 = 0.5D + Math.cos(d3 + (Math.PI / 4D)) * d5;

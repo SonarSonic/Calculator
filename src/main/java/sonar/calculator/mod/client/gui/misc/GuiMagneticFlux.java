@@ -7,7 +7,7 @@ import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.core.SonarCore;
 import sonar.core.inventory.GuiSonar;
-import sonar.core.network.PacketMachineButton;
+import sonar.core.network.PacketByteBufServer;
 import sonar.core.utils.helpers.FontHelper;
 
 public class GuiMagneticFlux extends GuiSonar {
@@ -33,8 +33,7 @@ public class GuiMagneticFlux extends GuiSonar {
 			return;
 		}
 		if (button instanceof GuiButton) {
-			entity.buttonPress(button.id, 0);
-			SonarCore.network.sendToServer(new PacketMachineButton(button.id, 0, entity.xCoord, entity.yCoord, entity.zCoord));			
+			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.xCoord, entity.yCoord, entity.zCoord, button.id));		
 			this.reset();
 		}
 		
