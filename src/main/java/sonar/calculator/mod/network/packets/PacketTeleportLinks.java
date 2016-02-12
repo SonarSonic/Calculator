@@ -9,59 +9,50 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
+import sonar.core.network.PacketTileEntity;
+import sonar.core.network.PacketTileEntityHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketTeleportLinks implements IMessage {
+public class PacketTeleportLinks  extends PacketTileEntity {
 
-	public int xCoord, yCoord, zCoord;
 	public List<TeleportLink> links;
 
-	public PacketTeleportLinks() {
-	}
+	public PacketTeleportLinks() {}
 
-	public PacketTeleportLinks(int xCoord, int yCoord, int zCoord, List<TeleportLink> links) {
-		this.xCoord = xCoord;
-		this.yCoord = yCoord;
-		this.zCoord = zCoord;
+	public PacketTeleportLinks(int x, int y, int z, List<TeleportLink> links) {
+		super(x,y,z);
 		this.links = links;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		this.xCoord = buf.readInt();
-		this.yCoord = buf.readInt();
-		this.zCoord = buf.readInt();
+		super.fromBytes(buf);
 		links = new ArrayList();
 		int size = buf.readInt();
 		for (int i = 0; i < size; i++) {
-			links.add(i, TeleportLink.readFromBuf(buf));
-			
-		}
-
-		TileEntity tile = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(xCoord, yCoord, zCoord);
-		if (tile != null && tile instanceof TileEntityTeleporter) {
-			TileEntityTeleporter teleporter = (TileEntityTeleporter) tile;
-			teleporter.links = links;
+			links.add(i, TeleportLink.readFromBuf(buf));			
 		}
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(xCoord);
-		buf.writeInt(yCoord);
-		buf.writeInt(zCoord);
+		super.toBytes(buf);
 		buf.writeInt(links.size());
 		for (int i = 0; i < links.size(); i++) {
 			TeleportLink.writeToBuf(buf, links.get(i));
 		}
 	}
 
-	public static class Handler implements IMessageHandler<PacketTeleportLinks, IMessage> {
+	public static class Handler extends PacketTileEntityHandler<PacketTeleportLinks> {
 
 		@Override
-		public IMessage onMessage(PacketTeleportLinks message, MessageContext ctx) {
+		public IMessage processMessage(PacketTeleportLinks message, TileEntity target) {
+			if (target instanceof TileEntityTeleporter) {
+				TileEntityTeleporter teleporter = (TileEntityTeleporter) target;
+				teleporter.links = message.links;
+			}
 			return null;
 		}
 	}

@@ -7,33 +7,30 @@ import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.utils.FluxRegistry;
+import sonar.core.network.PacketTileEntity;
+import sonar.core.network.PacketTileEntityHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketFluxPoint implements IMessage {
+public class PacketFluxPoint extends PacketTileEntity {
 
-	public int xCoord, yCoord, zCoord;
 	public int id;
 	public String string;
 
 	public PacketFluxPoint() {
 	}
 
-	public PacketFluxPoint(String string, int xCoord, int yCoord, int zCoord, int id) {
-		this.xCoord = xCoord;
-		this.yCoord = yCoord;
-		this.zCoord = zCoord;
+	public PacketFluxPoint(String string, int x, int y, int z, int id) {
+		super(x, y, z);
 		this.string = string;
 		this.id = id;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		this.xCoord = buf.readInt();
-		this.yCoord = buf.readInt();
-		this.zCoord = buf.readInt();
+		super.fromBytes(buf);
 		this.string = ByteBufUtils.readUTF8String(buf);
 		this.id = buf.readInt();
 
@@ -41,22 +38,15 @@ public class PacketFluxPoint implements IMessage {
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(xCoord);
-		buf.writeInt(yCoord);
-		buf.writeInt(zCoord);
+		super.toBytes(buf);
 		ByteBufUtils.writeUTF8String(buf, string);
 		buf.writeInt(id);
 	}
 
-	public static class Handler implements IMessageHandler<PacketFluxPoint, IMessage> {
+	public static class Handler extends PacketTileEntityHandler<PacketFluxPoint> {
 
 		@Override
-		public IMessage onMessage(PacketFluxPoint message, MessageContext ctx) {
-			World world = ctx.getServerHandler().playerEntity.worldObj;
-			TileEntity te = world.getTileEntity(message.xCoord, message.yCoord, message.zCoord);
-			if (te == null) {
-				return null;
-			}
+		public IMessage processMessage(PacketFluxPoint message, TileEntity te) {
 
 			if (te instanceof TileEntityFlux) {
 				TileEntityFlux flux = (TileEntityFlux) te;

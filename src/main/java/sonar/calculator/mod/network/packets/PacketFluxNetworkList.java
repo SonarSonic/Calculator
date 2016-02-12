@@ -10,61 +10,55 @@ import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.utils.FluxNetwork;
+import sonar.core.network.PacketTileEntity;
+import sonar.core.network.PacketTileEntityHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketFluxNetworkList implements IMessage {
+public class PacketFluxNetworkList extends PacketTileEntity {
 
-	public int xCoord, yCoord, zCoord;
 	public List<FluxNetwork> networks;
 
 	public PacketFluxNetworkList() {
 	}
 
-	public PacketFluxNetworkList(int xCoord, int yCoord, int zCoord, List<FluxNetwork> networks) {
-		this.xCoord = xCoord;
-		this.yCoord = yCoord;
-		this.zCoord = zCoord;
+	public PacketFluxNetworkList(int x, int y, int z, List<FluxNetwork> networks) {
+		super(x, y, z);
 		this.networks = networks;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		this.xCoord = buf.readInt();
-		this.yCoord = buf.readInt();
-		this.zCoord = buf.readInt();
+		super.fromBytes(buf);
 		networks = new ArrayList();
 		int size = buf.readInt();
 		for (int i = 0; i < size; i++) {
 			networks.add(i, FluxNetwork.readFromBuf(buf));
 		}
 
-		TileEntity tile = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(xCoord, yCoord, zCoord);
-		if (tile != null && tile instanceof TileEntityFlux) {
-			TileEntityFlux flux = (TileEntityFlux) tile;
-			flux.networks = networks;
-		} else if (tile != null && tile instanceof TileEntityFluxController) {
-			TileEntityFluxController flux = (TileEntityFluxController) tile;
-			flux.networks = networks;
-		}
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(xCoord);
-		buf.writeInt(yCoord);
-		buf.writeInt(zCoord);
+		super.toBytes(buf);
 		buf.writeInt(networks.size());
 		for (int i = 0; i < networks.size(); i++) {
 			FluxNetwork.writeToBuf(buf, networks.get(i));
 		}
 	}
 
-	public static class Handler implements IMessageHandler<PacketFluxNetworkList, IMessage> {
+	public static class Handler extends PacketTileEntityHandler<PacketFluxNetworkList> {
 
 		@Override
-		public IMessage onMessage(PacketFluxNetworkList message, MessageContext ctx) {
+		public IMessage processMessage(PacketFluxNetworkList message, TileEntity target) {
+			if (target != null && target instanceof TileEntityFlux) {
+				TileEntityFlux flux = (TileEntityFlux) target;
+				flux.networks = message.networks;
+			} else if (target != null && target instanceof TileEntityFluxController) {
+				TileEntityFluxController flux = (TileEntityFluxController) target;
+				flux.networks = message.networks;
+			}
 			return null;
 		}
 	}

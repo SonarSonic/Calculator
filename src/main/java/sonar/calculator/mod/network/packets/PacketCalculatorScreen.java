@@ -4,57 +4,54 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
+import sonar.core.network.PacketTileEntity;
+import sonar.core.network.PacketTileEntityHandler;
+import sonar.logistics.network.packets.PacketProviders;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketCalculatorScreen implements IMessage {
+public class PacketCalculatorScreen extends PacketTileEntity {
 
-	public int xCoord, yCoord, zCoord;
 	public int type, energy;
 
 	public PacketCalculatorScreen() {
 	}
 
-	public PacketCalculatorScreen(int xCoord, int yCoord, int zCoord, int type, int energy) {
-		this.xCoord = xCoord;
-		this.yCoord = yCoord;
-		this.zCoord = zCoord;
+	public PacketCalculatorScreen(int x, int y, int z, int type, int energy) {
+		super(x, y, z);
 		this.type = type;
 		this.energy = energy;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		this.xCoord = buf.readInt();
-		this.yCoord = buf.readInt();
-		this.zCoord = buf.readInt();
-
+		super.fromBytes(buf);
+		this.type = buf.readInt();
+		this.energy = buf.readInt();
 		TileEntity tile = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(xCoord, yCoord, zCoord);
-		if (tile != null && tile instanceof TileEntityCalculatorScreen) {
-			TileEntityCalculatorScreen screen = (TileEntityCalculatorScreen) tile;
-			if (buf.readInt() == 0) {
-				screen.latestMax = buf.readInt();
-			} else {
-				screen.latestEnergy = buf.readInt();
-			}
-		}
 
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(xCoord);
-		buf.writeInt(yCoord);
-		buf.writeInt(zCoord);
+		super.toBytes(buf);
 		buf.writeInt(type);
 		buf.writeInt(energy);
 	}
 
-	public static class Handler implements IMessageHandler<PacketCalculatorScreen, IMessage> {
+	public static class Handler extends PacketTileEntityHandler<PacketCalculatorScreen> {
 
 		@Override
-		public IMessage onMessage(PacketCalculatorScreen message, MessageContext ctx) {
+		public IMessage processMessage(PacketCalculatorScreen message, TileEntity target) {
+			if (target instanceof TileEntityCalculatorScreen) {
+				TileEntityCalculatorScreen screen = (TileEntityCalculatorScreen) target;
+				if (message.type == 0) {
+					screen.latestMax = message.energy;
+				} else {
+					screen.latestEnergy = message.energy;
+				}
+			}
 			return null;
 		}
 	}
