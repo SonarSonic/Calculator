@@ -32,11 +32,11 @@ public class RenderAnalysingChamber extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float f) {
 		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(entity), texture);
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-	
+
 		RenderHelper.finishRender();
 		GL11.glTranslated(x, y, z);
 		int[] sides = new int[6];
-	
+
 		GL11.glPushMatrix();
 		if (entity != null && entity.getWorldObj() != null && entity instanceof TileEntityAnalysingChamber) {
 			TileEntityAnalysingChamber inv = (TileEntityAnalysingChamber) entity;

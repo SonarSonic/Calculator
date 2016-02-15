@@ -76,7 +76,7 @@ public class RenderHandlers {
 			if (entity.getWorldObj() != null && entity instanceof TileEntityTeleporter) {
 				TileEntityTeleporter tile = (TileEntityTeleporter) entity;
 
-				if (tile.destinationName.equals("DESTINATION") || tile.destinationName==null)
+				if (tile.destinationName.equals("DESTINATION") || tile.destinationName == null)
 					return;
 
 				GL11.glPushMatrix();
@@ -251,13 +251,15 @@ public class RenderHandlers {
 			}
 			GL11.glPopMatrix();
 		}
-		
+
 	}
+
 	public static class AlgorithmAssimilator extends SonarTERender {
 		public AlgorithmAssimilator() {
 			super(new ModelAssimilator(), "Calculator:textures/model/algorithm_assimilator.png");
 		}
 	}
+
 	public static class StoneAssimilator extends SonarTERender {
 		public StoneAssimilator() {
 			super(new ModelAssimilator(), "Calculator:textures/model/stone_assimilator.png");

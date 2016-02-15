@@ -93,7 +93,7 @@ public class RenderStorageChamber extends TileEntitySpecialRenderer {
 			tes.addVertexWithUV(1, 0.5, 1, 1, 1);
 			tes.addVertexWithUV(1, 0.5, 0, 0, 1);
 			tes.draw();
-			
+
 			tes.startDrawingQuads();
 			this.bindTexture(sides[2] != 0 ? outputT : inputT);
 			tes.addVertexWithUV(0, 0, 0.0002, 0, 0);
@@ -107,18 +107,14 @@ public class RenderStorageChamber extends TileEntitySpecialRenderer {
 			tes.addVertexWithUV(1, 1, 0.0002, 1, 1);
 			tes.draw();
 			/*
-			tes.startDrawingQuads();
-			this.bindTexture(sides[3] != 0 ? outputT : inputT);
-			tes.addVertexWithUV(0, 0, 0.9998, 0, 0);
-			tes.addVertexWithUV(0, 1, 0.9998, 0, 1);
-			tes.addVertexWithUV(1, 1, 0.9998, 1, 1);
-			tes.addVertexWithUV(1, 0, 0.9998, 1, 0);
-
-			tes.addVertexWithUV(0, 1, 0.9998, 0, 1);
-			tes.addVertexWithUV(0, 0, 0.9998, 0, 0);
-			tes.addVertexWithUV(1, 0, 0.9998, 1, 0);
-			tes.addVertexWithUV(1, 1, 0.9998, 1, 1);
-			tes.draw();
+			 * tes.startDrawingQuads(); this.bindTexture(sides[3] != 0 ? outputT
+			 * : inputT); tes.addVertexWithUV(0, 0, 0.9998, 0, 0);
+			 * tes.addVertexWithUV(0, 1, 0.9998, 0, 1); tes.addVertexWithUV(1,
+			 * 1, 0.9998, 1, 1); tes.addVertexWithUV(1, 0, 0.9998, 1, 0);
+			 * 
+			 * tes.addVertexWithUV(0, 1, 0.9998, 0, 1); tes.addVertexWithUV(0,
+			 * 0, 0.9998, 0, 0); tes.addVertexWithUV(1, 0, 0.9998, 1, 0);
+			 * tes.addVertexWithUV(1, 1, 0.9998, 1, 1); tes.draw();
 			 */
 			tes.startDrawingQuads();
 			this.bindTexture(sides[4] != 0 ? outputT : inputT);

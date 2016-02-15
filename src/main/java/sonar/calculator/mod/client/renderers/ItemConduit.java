@@ -17,20 +17,17 @@ public class ItemConduit implements net.minecraftforge.client.IItemRenderer {
 	}
 
 	@Override
-	public boolean handleRenderType(ItemStack item,
-			IItemRenderer.ItemRenderType type) {
+	public boolean handleRenderType(ItemStack item, IItemRenderer.ItemRenderType type) {
 		return true;
 	}
 
 	@Override
-	public boolean shouldUseRenderHelper(IItemRenderer.ItemRenderType type,
-			ItemStack item, IItemRenderer.ItemRendererHelper helper) {
+	public boolean shouldUseRenderHelper(IItemRenderer.ItemRenderType type, ItemStack item, IItemRenderer.ItemRendererHelper helper) {
 		return true;
 	}
 
 	@Override
-	public void renderItem(IItemRenderer.ItemRenderType type, ItemStack item,
-			Object... data) {
+	public void renderItem(IItemRenderer.ItemRenderType type, ItemStack item, Object... data) {
 
 		GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
 		if (type == IItemRenderer.ItemRenderType.INVENTORY) {

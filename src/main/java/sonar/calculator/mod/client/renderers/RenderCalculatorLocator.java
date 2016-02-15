@@ -32,13 +32,13 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 		if (entity.getWorldObj() != null && entity instanceof TileEntityCalculatorLocator) {
 			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) entity;
 			if (tile.active.getBoolean()) {
-				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, onTexture);	
-			}else{
-				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, offTexture);	
+				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, onTexture);
+			} else {
+				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, offTexture);
 			}
-			
-		}else{
-			RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, onTexture);	
+
+		} else {
+			RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, onTexture);
 		}
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		RenderHelper.finishRender();
