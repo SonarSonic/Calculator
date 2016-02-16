@@ -8,6 +8,7 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlu
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 
 public class CalculatorPlug extends SonarMachineBlock {
 
@@ -21,7 +22,7 @@ public class CalculatorPlug extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		if (!world.isRemote) {
 			player.openGui(Calculator.instance, CalculatorGui.CalculatorPlug, world, x, y, z);
 		}

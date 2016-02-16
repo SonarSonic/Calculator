@@ -14,14 +14,15 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class HungerProcessor extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront, front,front2,slot1,slot2;
-	
+	private IIcon iconFront, front, front2, slot1, slot2;
+
 	public HungerProcessor() {
 		super(SonarMaterials.machine);
 	}
@@ -57,14 +58,13 @@ public class HungerProcessor extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		if ((player.getHeldItem() != null) && (player.getHeldItem().getItem() == Calculator.wrench)) {
 			return false;
 		}
-		if (player != null) {
-			if (!world.isRemote) {
-				player.openGui(Calculator.instance, CalculatorGui.HungerProcessor, world, x, y, z);
-			}
+		if (player != null && !world.isRemote) {
+			player.openGui(Calculator.instance, CalculatorGui.HungerProcessor, world, x, y, z);
+
 		}
 
 		return true;

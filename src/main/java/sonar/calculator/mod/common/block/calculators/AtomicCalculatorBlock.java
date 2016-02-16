@@ -15,6 +15,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -25,7 +26,7 @@ public class AtomicCalculatorBlock extends SonarMachineBlock {
 	private IIcon iconTop;
 
 	public AtomicCalculatorBlock() {
-		super(SonarMaterials.machine, true);
+		super(SonarMaterials.machine);
 	}
 
 	@Override
@@ -43,12 +44,9 @@ public class AtomicCalculatorBlock extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if (!player.isSneaking()) {
-			player.openGui(Calculator.instance, CalculatorGui.AtomicCalculator, world, x, y, z);
-			return true;
-		}
-		return false;
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
+		player.openGui(Calculator.instance, CalculatorGui.AtomicCalculator, world, x, y, z);
+		return true;
 	}
 
 	@Override

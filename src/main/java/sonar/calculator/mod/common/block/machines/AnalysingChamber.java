@@ -17,6 +17,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -73,7 +74,7 @@ public class AnalysingChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		if (player != null) {
 			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof UpgradeCircuit) {
 				return false;
@@ -82,7 +83,6 @@ public class AnalysingChamber extends SonarMachineBlock {
 			} else {
 				if (!world.isRemote) {
 					player.openGui(Calculator.instance, CalculatorGui.AnalysingChamber, world, x, y, z);
-
 				}
 				return true;
 			}

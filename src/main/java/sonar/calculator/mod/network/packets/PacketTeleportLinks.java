@@ -9,13 +9,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
-import sonar.core.network.PacketTileEntity;
+import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketTeleportLinks  extends PacketTileEntity {
+public class PacketTeleportLinks  extends PacketCoords {
 
 	public List<TeleportLink> links;
 

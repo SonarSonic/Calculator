@@ -19,6 +19,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -26,24 +27,23 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class AdvancedGreenhouse extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront,iconTop;
+	private IIcon iconFront, iconTop;
 
 	public AdvancedGreenhouse() {
 		super(SonarMaterials.machine);
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof TileEntityAdvancedGreenhouse) {
 			TileEntityAdvancedGreenhouse house = (TileEntityAdvancedGreenhouse) world.getTileEntity(x, y, z);
-			if (player.isSneaking()) {
+			if (interact == BlockInteraction.SHIFT_RIGHT) {
 				if (house.hasRequiredStacks() && house.storage.getEnergyStored() >= house.requiredBuildEnergy) {
 					if (house.isIncomplete() && !house.wasBuilt() && !house.isBeingBuilt()) {
 						FailedCoords coords = house.createBlock();
 						if (!coords.getBoolean()) {
-							FontHelper.sendMessage(FontHelper.translate("greenhouse.block") + " " + "X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - "
-									+ FontHelper.translate("greenhouse.blocking"), world, player);
+							FontHelper.sendMessage(FontHelper.translate("greenhouse.block") + " " + "X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - " + FontHelper.translate("greenhouse.blocking"), world, player);
 						} else {
 							FontHelper.sendMessage(FontHelper.translate("greenhouse.construction"), world, player);
 						}
@@ -66,9 +66,7 @@ public class AdvancedGreenhouse extends SonarMachineBlock {
 				if (!house.isBeingBuilt() && house.isIncomplete() && house.wasBuilt()) {
 					FailedCoords coords = house.isComplete();
 					if (!coords.getBoolean()) {
-						FontHelper.sendMessage(
-								"X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(), world,
-								player);
+						FontHelper.sendMessage("X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(), world, player);
 					}
 				} else if (house.isCompleted()) {
 					FontHelper.sendMessage(FontHelper.translate("greenhouse.complete"), world, player);

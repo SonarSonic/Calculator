@@ -4,13 +4,13 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
-import sonar.core.network.PacketTileEntity;
+import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketStorageChamber extends PacketTileEntity {
+public class PacketStorageChamber extends PacketCoords {
 
 	public int id,value;
 

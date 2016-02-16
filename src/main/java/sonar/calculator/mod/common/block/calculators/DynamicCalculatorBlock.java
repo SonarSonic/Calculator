@@ -17,6 +17,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator.Dynamic;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +27,7 @@ public class DynamicCalculatorBlock extends SonarMachineBlock {
 	private IIcon iconFront, iconTop;
 
 	public DynamicCalculatorBlock() {
-		super(SonarMaterials.machine, true);
+		super(SonarMaterials.machine);
 	}
 
 	@Override
@@ -56,7 +57,7 @@ public class DynamicCalculatorBlock extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		if (player != null) {
 			TileEntity target = world.getTileEntity(x, y, z);
 			if (target != null && target instanceof TileEntityCalculator.Dynamic) {

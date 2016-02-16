@@ -17,6 +17,7 @@ import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.PacketTileSync;
+import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class Teleporter extends SonarMachineBlock {
@@ -30,7 +31,7 @@ public class Teleporter extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
 				NBTTagCompound tag = new NBTTagCompound();

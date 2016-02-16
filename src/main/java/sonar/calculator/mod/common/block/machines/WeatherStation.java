@@ -13,6 +13,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 
 public class WeatherStation extends SonarMachineBlock {
 
@@ -26,7 +27,7 @@ public class WeatherStation extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
 				player.openGui(Calculator.instance, CalculatorGui.WeatherStation, world, x, y, z);

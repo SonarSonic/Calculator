@@ -12,6 +12,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -29,7 +30,7 @@ public class CrankHandle extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		TileEntityCrankHandle crank = (TileEntityCrankHandle) world.getTileEntity(x, y, z);
 		int rand1 = 0 + (int) (Math.random() * 100.0D);
 
@@ -39,7 +40,6 @@ public class CrankHandle extends SonarMachineBlock {
 				dropBlockAsItem(world, x, y, z, new ItemStack(Items.stick, 2));
 				world.setBlockToAir(x, y, z);
 			}
-
 			return true;
 		}
 

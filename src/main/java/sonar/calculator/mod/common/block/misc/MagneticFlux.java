@@ -8,6 +8,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 
 public class MagneticFlux extends SonarMachineBlock {
 
@@ -26,7 +27,7 @@ public class MagneticFlux extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitx, float hity, float hitz) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitx, float hity, float hitz, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
 				player.openGui(Calculator.instance, CalculatorGui.MagneticFlux, world, x, y, z);

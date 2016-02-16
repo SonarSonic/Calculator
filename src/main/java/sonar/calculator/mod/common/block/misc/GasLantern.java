@@ -24,6 +24,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.block.IDismantleable;
 import cpw.mods.fml.relauncher.Side;
@@ -49,7 +50,7 @@ public class GasLantern extends SonarMachineBlock implements IDismantleable {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
 				player.openGui(Calculator.instance, CalculatorGui.Lantern, world, x, y, z);

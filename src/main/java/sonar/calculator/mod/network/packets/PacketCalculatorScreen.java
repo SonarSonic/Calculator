@@ -4,14 +4,14 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
-import sonar.core.network.PacketTileEntity;
+import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
 import sonar.logistics.network.packets.PacketProviders;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketCalculatorScreen extends PacketTileEntity {
+public class PacketCalculatorScreen extends PacketCoords {
 
 	public int type, energy;
 

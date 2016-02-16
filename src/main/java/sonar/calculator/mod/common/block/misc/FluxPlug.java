@@ -22,18 +22,20 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.PacketTileSync;
+import sonar.core.utils.BlockInteraction;
 
 public class FluxPlug extends SonarMachineBlock {
 
 	private Random rand = new Random();
 
 	public FluxPlug() {
-		super(SonarMaterials.machine, false);
+		super(SonarMaterials.machine);
+		this.disableOrientation();
 		this.setBlockBounds(0.25F, 0.25F, 0.25F, 0.75F, 0.75F, 0.75F);
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
 

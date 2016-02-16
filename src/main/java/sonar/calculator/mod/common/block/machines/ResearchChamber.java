@@ -17,9 +17,10 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.helpers.FontHelper;
 
-public class ResearchChamber extends SonarMachineBlock{
+public class ResearchChamber extends SonarMachineBlock {
 
 	public ResearchChamber() {
 		super(SonarMaterials.machine);
@@ -41,12 +42,11 @@ public class ResearchChamber extends SonarMachineBlock{
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
 		if (player != null && world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityResearchChamber) {
 			TileEntityResearchChamber entity = (TileEntityResearchChamber) world.getTileEntity(x, y, z);
 			if (entity.slots[0] == null && player.getHeldItem() != null) {
-				if ((RecipeRegistry.CalculatorRecipes.instance().validInput(player.getHeldItem()) || player.getHeldItem().getItem() == Calculator.circuitBoard
-						&& player.getHeldItem().getItem() instanceof IStability && ((IStability) player.getHeldItem().getItem()).getStability(player.getHeldItem()))) {
+				if ((RecipeRegistry.CalculatorRecipes.instance().validInput(player.getHeldItem()) || player.getHeldItem().getItem() == Calculator.circuitBoard && player.getHeldItem().getItem() instanceof IStability && ((IStability) player.getHeldItem().getItem()).getStability(player.getHeldItem()))) {
 					ItemStack stack = new ItemStack(player.getHeldItem().getItem(), 1, player.getHeldItem().getItemDamage());
 					stack.setTagCompound(player.getHeldItem().getTagCompound());
 					entity.slots[0] = stack;
@@ -54,7 +54,7 @@ public class ResearchChamber extends SonarMachineBlock{
 					world.markBlockForUpdate(x, y, z);
 					world.addBlockEvent(x, y, z, entity.blockType, 1, 0);
 				}
-			} else if (!world.isRemote && player.isSneaking() && entity.slots[0] != null) {
+			} else if (!world.isRemote && interact == BlockInteraction.SHIFT_RIGHT && entity.slots[0] != null) {
 				ForgeDirection dir = ForgeDirection.getOrientation(entity.blockMetadata);
 
 				EntityItem item = new EntityItem(world, x + (dir.offsetX * 2), y + 1, z + (dir.offsetZ * 2), new ItemStack(entity.slots[0].getItem(), 1, entity.slots[0].getItemDamage()));
@@ -86,6 +86,7 @@ public class ResearchChamber extends SonarMachineBlock{
 			list.add(FontHelper.translate("research.recipe") + ": " + stored + "/" + max);
 		}
 	}
+
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 		list.add("Currently disabled - Research System will be changed soon");
