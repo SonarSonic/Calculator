@@ -17,6 +17,7 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.helpers.FontHelper;
 
 public class DockingStation extends SonarMachineBlock {
@@ -27,9 +28,9 @@ public class DockingStation extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
-			if (interact == BlockInteraction.RIGHT) {
+			if (interact.type == BlockInteractionType.RIGHT) {
 				if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof UpgradeCircuit) {
 					return false;
 				}

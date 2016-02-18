@@ -20,6 +20,7 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -34,11 +35,11 @@ public class BasicGreenhouse extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof TileEntityBasicGreenhouse) {
 			TileEntityBasicGreenhouse house = (TileEntityBasicGreenhouse) world.getTileEntity(x, y, z);
-			if (interact == BlockInteraction.SHIFT_RIGHT) {
+			if (interact.type == BlockInteractionType.SHIFT_RIGHT) {
 				if (house.hasRequiredStacks() && house.storage.getEnergyStored() >= house.requiredBuildEnergy) {
 					if (house.isIncomplete() && !house.wasBuilt() && !house.isBeingBuilt()) {
 						FailedCoords coords = house.createBlock();

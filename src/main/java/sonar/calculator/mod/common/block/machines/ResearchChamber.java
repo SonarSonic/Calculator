@@ -18,6 +18,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.helpers.FontHelper;
 
 public class ResearchChamber extends SonarMachineBlock {
@@ -42,7 +43,7 @@ public class ResearchChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
 		if (player != null && world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityResearchChamber) {
 			TileEntityResearchChamber entity = (TileEntityResearchChamber) world.getTileEntity(x, y, z);
 			if (entity.slots[0] == null && player.getHeldItem() != null) {
@@ -54,7 +55,7 @@ public class ResearchChamber extends SonarMachineBlock {
 					world.markBlockForUpdate(x, y, z);
 					world.addBlockEvent(x, y, z, entity.blockType, 1, 0);
 				}
-			} else if (!world.isRemote && interact == BlockInteraction.SHIFT_RIGHT && entity.slots[0] != null) {
+			} else if (!world.isRemote && interact.type == BlockInteractionType.SHIFT_RIGHT && entity.slots[0] != null) {
 				ForgeDirection dir = ForgeDirection.getOrientation(entity.blockMetadata);
 
 				EntityItem item = new EntityItem(world, x + (dir.offsetX * 2), y + 1, z + (dir.offsetZ * 2), new ItemStack(entity.slots[0].getItem(), 1, entity.slots[0].getItemDamage()));

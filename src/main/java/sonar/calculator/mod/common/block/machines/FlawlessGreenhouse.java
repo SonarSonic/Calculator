@@ -19,6 +19,7 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -36,11 +37,11 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedB
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof TileEntityFlawlessGreenhouse) {
 			TileEntityFlawlessGreenhouse house = (TileEntityFlawlessGreenhouse) world.getTileEntity(x, y, z);
-			if (interact == BlockInteraction.SHIFT_RIGHT) {
+			if (interact.type == BlockInteractionType.SHIFT_RIGHT) {
 				if (!house.isBeingBuilt() && house.isIncomplete()) {
 					FailedCoords coords = house.isComplete();
 					if (!coords.getBoolean()) {

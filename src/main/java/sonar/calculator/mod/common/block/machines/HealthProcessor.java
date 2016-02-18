@@ -57,7 +57,7 @@ public class HealthProcessor extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
 		if ((player.getHeldItem() != null) && (player.getHeldItem().getItem() == Calculator.wrench)) {
 			return false;
 		}

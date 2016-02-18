@@ -14,6 +14,7 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.helpers.FontHelper;
 
 public class FlawlessCapacitor extends SonarMachineBlock {
@@ -32,9 +33,9 @@ public class FlawlessCapacitor extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ, BlockInteraction interact) {
+	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
-			if (interact == BlockInteraction.RIGHT) {
+			if (interact.type == BlockInteractionType.RIGHT) {
 				if (!world.isRemote) {
 					player.openGui(Calculator.instance, CalculatorGui.AtomicEnergyCube, world, x, y, z);
 				}
@@ -42,7 +43,7 @@ public class FlawlessCapacitor extends SonarMachineBlock {
 				TileEntity te = world.getTileEntity(x, y, z);
 				if (te != null && te instanceof TileEntityFlawlessCapacitor) {
 					TileEntityFlawlessCapacitor cube = (TileEntityFlawlessCapacitor) te;
-					cube.incrementSide(side);
+					cube.incrementSide(interact.side);
 					FontHelper.sendMessage("Current Stored: " + cube.storage.getEnergyStored(), world, player);
 				}
 
