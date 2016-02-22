@@ -15,8 +15,9 @@ import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
 import sonar.core.inventory.IAdditionalInventory;
-import sonar.core.network.sync.SyncBoolean;
-import sonar.core.network.sync.SyncInt;
+import sonar.core.network.sync.SyncTagType;
+import sonar.core.network.sync.SyncTagType.BOOLEAN;
+import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IUpgradeCircuits;
 import sonar.core.utils.helpers.FontHelper;
@@ -34,9 +35,9 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public double energyBuffer;
 	// private boolean paused;
 	// public boolean invertPaused;
-	public SyncBoolean invertPaused = new SyncBoolean(0);
-	public SyncBoolean paused = new SyncBoolean(1);
-	public SyncInt cookTime = new SyncInt(2);
+	public SyncTagType.BOOLEAN invertPaused = new SyncTagType.BOOLEAN(0);
+	public SyncTagType.BOOLEAN paused = new SyncTagType.BOOLEAN(1);
+	public SyncTagType.INT cookTime = new SyncTagType.INT(2);
 
 	public static int lowestSpeed = 4, lowestEnergy = 1000;
 
@@ -46,21 +47,21 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public void updateEntity() {
 		super.updateEntity();
 		if (!worldObj.isRemote) {
-			boolean oldPause = paused.getBoolean();
+			boolean oldPause = paused.getObject();
 			if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-				this.paused.setBoolean(false);
+				this.paused.setObject(false);
 				return;
 			} else {
-				this.paused.setBoolean(true);
+				this.paused.setObject(true);
 			}
-			if (oldPause != paused.getBoolean()) {
+			if (oldPause != paused.getObject()) {
 				this.onPause();
 			}
 		}
 		int flag = 0;
 
 		if (!isPaused()) {
-			if (this.cookTime.getInt() > 0) {
+			if (this.cookTime.getObject() > 0) {
 				this.cookTime.increaseBy(1);
 				if (!this.worldObj.isRemote) {
 					modifyEnergy();
@@ -69,26 +70,26 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 			if (this.canProcess()) {
 				this.renderTicks();
 				if (!this.worldObj.isRemote) {
-					if (cookTime.getInt() == 0) {
+					if (cookTime.getObject() == 0) {
 						this.cookTime.increaseBy(1);
 						modifyEnergy();
 						flag = 1;
 					}
-					if (this.cookTime.getInt() >= this.getProcessTime()) {
+					if (this.cookTime.getObject() >= this.getProcessTime()) {
 						this.finishProcess();
 						if (canProcess()) {
 							this.cookTime.increaseBy(1);
 						} else {
 							flag = 2;
 						}
-						cookTime.setInt(0);
+						cookTime.setObject(0);
 						this.energyBuffer = 0;
 					}
 				}
 			} else {
 				renderTicks = 0;
-				if (cookTime.getInt() != 0) {
-					cookTime.setInt(0);
+				if (cookTime.getObject() != 0) {
+					cookTime.setObject(0);
 					this.energyBuffer = 0;
 					flag = 2;
 				}
@@ -186,7 +187,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	// IPausable
 	@Override
 	public boolean isActive() {
-		return !isPaused() && cookTime.getInt() > 0;
+		return !isPaused() && cookTime.getObject() > 0;
 	}
 
 	@Override
@@ -198,12 +199,12 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	@Override
 	public boolean isPaused() {
-		return invertPaused.getBoolean() ? paused.getBoolean() : !paused.getBoolean();
+		return invertPaused.getObject() ? paused.getObject() : !paused.getObject();
 	}
 
 	@Override
 	public boolean canAddUpgrades() {
-		return cookTime.getInt() == 0;
+		return cookTime.getObject() == 0;
 	}
 
 	@Override
@@ -290,7 +291,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	@Override
 	public int getCurrentProcessTime() {
-		return cookTime.getInt();
+		return cookTime.getObject();
 	}
 
 	@Override

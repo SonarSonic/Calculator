@@ -50,7 +50,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 			return false;
 		}
 
-		if (cookTime.getInt() == 0) {
+		if (cookTime.getObject() == 0) {
 			if (this.storage.getEnergyStored() < this.requiredEnergy()) {
 				return false;
 			}

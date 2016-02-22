@@ -46,7 +46,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 		if (entity != null && entity.getWorldObj() != null && entity instanceof TileEntityProcess) {
 			TileEntityProcess inv = (TileEntityProcess) entity;
 			ItemStack target = null;
-			if (inv.cookTime.getInt() == 0 && inv.getStackInSlot(2) != null) {
+			if (inv.cookTime.getObject() == 0 && inv.getStackInSlot(2) != null) {
 				target = inv.getStackInSlot(2);
 			} else {
 				target = inv.getStackInSlot(0);

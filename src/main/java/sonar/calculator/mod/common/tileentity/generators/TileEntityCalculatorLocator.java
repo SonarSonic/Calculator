@@ -12,7 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
@@ -21,9 +20,7 @@ import sonar.calculator.mod.api.machines.ICalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityInventorySender;
-import sonar.core.network.sync.SyncBoolean;
-import sonar.core.network.sync.SyncByte;
-import sonar.core.network.sync.SyncInt;
+import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
@@ -34,8 +31,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityCalculatorLocator extends TileEntityInventorySender implements IByteBufTile, ICalculatorLocator {
 
-	public SyncBoolean active = new SyncBoolean(0);
-	public SyncInt size = new SyncInt(1);
+	public SyncTagType.BOOLEAN active = new SyncTagType.BOOLEAN(0);
+	public SyncTagType.INT size = new SyncTagType.INT(1);
 	public int stability;
 	private int sizeTicks, luckTicks;
 	public String owner = "None";
@@ -53,10 +50,10 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 			boolean invert = false;
 			if (canGenerate()) {
 				beginGeneration();
-				if (!active.getBoolean()) {
+				if (!active.getObject()) {
 					invert = true;
 				}
-			} else if (active.getBoolean()) {
+			} else if (active.getObject()) {
 				invert = true;
 			}
 			if (invert) {
@@ -78,9 +75,9 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	}
 
 	public int currentOutput() {
-		if (size.getInt() != 0 && (((int) (2 * size.getInt() + 1) * (2 * size.getInt() + 1)) - 1) != 0) {
-			int stable = (int) (stability * 100) / ((int) (2 * size.getInt() + 1) * (2 * size.getInt() + 1));
-			return (5 + ((int) (1000 * (Math.sqrt(size.getInt() * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size.getInt()) / 2;
+		if (size.getObject() != 0 && (((int) (2 * size.getObject() + 1) * (2 * size.getObject() + 1)) - 1) != 0) {
+			int stable = (int) (stability * 100) / ((int) (2 * size.getObject() + 1) * (2 * size.getObject() + 1));
+			return (5 + ((int) (1000 * (Math.sqrt(size.getObject() * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size.getObject()) / 2;
 
 		}
 		return 0;
@@ -88,12 +85,12 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 	public void getStability() {
 		int currentStable = 0;
-		if (size.getInt() == 0) {
+		if (size.getObject() == 0) {
 			this.stability = 0;
 		}
 
-		for (int Z = -(size.getInt()); Z <= (size.getInt()); Z++) {
-			for (int X = -(size.getInt()); X <= (size.getInt()); X++) {
+		for (int Z = -(size.getObject()); Z <= (size.getObject()); Z++) {
+			for (int X = -(size.getObject()); X <= (size.getObject()); X++) {
 				TileEntity target = this.worldObj.getTileEntity(xCoord + X, yCoord, zCoord + Z);
 				if (target != null && target instanceof TileEntityCalculatorPlug) {
 					TileEntityCalculatorPlug plug = (TileEntityCalculatorPlug) target;
@@ -105,7 +102,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	}
 
 	public boolean canGenerate() {
-		if (!(this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) || size.getInt() == 0) {
+		if (!(this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) || size.getObject() == 0) {
 			return false;
 		}
 		if (isLocated()) {
@@ -281,8 +278,8 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 	public void createStructure() {
 		int size = CalculatorLocator.multiBlockStructure(getWorldObj(), xCoord, yCoord, zCoord);
-		if (size != this.size.getInt()) {
-			this.size.setInt(size);
+		if (size != this.size.getObject()) {
+			this.size.setObject(size);
 			SonarCore.sendPacketAround(this, 128, 1);
 		}
 	}
@@ -333,7 +330,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
-		currenttip.add(FontHelper.translate("locator.active") + ": " + (!active.getBoolean() ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
+		currenttip.add(FontHelper.translate("locator.active") + ": " + (!active.getObject() ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
 
 		currenttip.add(FontHelper.translate("locator.owner") + ": " + (owner != "None" ? owner : FontHelper.translate("locator.none")));
 		return currenttip;
@@ -372,17 +369,17 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 	@Override
 	public int getSize() {
-		return size.getInt();
+		return size.getObject();
 	}
 
 	@Override
 	public boolean isActive() {
-		return active.getBoolean();
+		return active.getObject();
 	}
 
 	@Override
 	public double getStabilityPercent() {
-		return (stability * 100 / (((2 * size.getInt()) + 1) * ((2 * size.getInt()) + 1) - 1));
+		return (stability * 100 / (((2 * size.getObject()) + 1) * ((2 * size.getObject()) + 1) - 1));
 	}
 
 }

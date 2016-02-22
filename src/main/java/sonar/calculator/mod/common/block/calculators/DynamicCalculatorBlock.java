@@ -64,7 +64,7 @@ public class DynamicCalculatorBlock extends SonarMachineBlock {
 				TileEntityCalculator.Dynamic calc = (Dynamic) target;
 				player.openGui(Calculator.instance, CalculatorGui.DynamicCalculator, world, x, y, z);
 				/*
-				 * FailedCoords coords = calc.checkStructure(); if (coords.getBoolean()) { player.openGui(Calculator.instance, CalculatorGui.DynamicCalculator, world, x, y, z); } else { if
+				 * FailedCoords coords = calc.checkStructure(); if (coords.getObject()) { player.openGui(Calculator.instance, CalculatorGui.DynamicCalculator, world, x, y, z); } else { if
 				 * (!world.isRemote) { FontHelper.sendMessage("No Multi-block", world, player); FontHelper.sendMessage("X: " + coords.getX() + " Y: " + coords.getY() + " Z: " + coords.getZ() + " - " +
 				 * FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(), world, player); } }
 				 */

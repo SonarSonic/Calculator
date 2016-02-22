@@ -9,7 +9,8 @@ import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
-import sonar.core.network.sync.SyncInt;
+import sonar.core.network.sync.SyncTagType;
+import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RecipeHelper;
 import cofh.api.energy.EnergyStorage;
@@ -17,7 +18,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver implements IPausable {
-	public SyncInt[] cookTime = new SyncInt[9];
+	public SyncTagType.INT[] cookTime = new SyncTagType.INT[9];
 	public float renderTicks;
 	public double energyBuffer;
 	public boolean paused;
@@ -41,7 +42,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 		this.discharge(27);
 		if (!paused) {
 			for (int i = 0; i < 9; i++) {
-				if (this.cookTime[i].getInt() > 0) {
+				if (this.cookTime[i].getObject() > 0) {
 					this.cookTime[i].increaseBy(1);
 					if (!this.worldObj.isRemote) {
 						energyBuffer += (energyUsage() / speed) * 8;
@@ -56,7 +57,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 				}
 				if (this.canProcess(i)) {
 					if (!this.worldObj.isRemote) {
-						if (this.cookTime[i].getInt() == 0) {
+						if (this.cookTime[i].getObject() == 0) {
 							this.cookTime[i].increaseBy(1);
 							energyBuffer += energyUsage() / speed;
 							int energyUsage = (int) Math.round(energyBuffer);
@@ -67,7 +68,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 							}
 							this.storage.modifyEnergyStored(-energyUsage);
 						}
-						if (this.cookTime[i].getInt() >= this.currentSpeed()) {
+						if (this.cookTime[i].getObject() >= this.currentSpeed()) {
 							for (int process = 0; process < 8; process++) {
 								if (canProcess(i)) {
 									this.finishProcess(i);
@@ -77,14 +78,14 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 								this.cookTime[i].increaseBy(1);
 							} else {
 							}
-							this.cookTime[i].setInt(0);
+							this.cookTime[i].setObject(0);
 							this.energyBuffer = 0;
 						}
 					}
 				} else {
 					renderTicks = 0;
-					if (cookTime[i].getInt() != 0) {
-						this.cookTime[i].setInt(0);
+					if (cookTime[i].getObject() != 0) {
+						this.cookTime[i].setObject(0);
 						this.energyBuffer = 0;
 					}
 				}
@@ -99,7 +100,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 			return false;
 		}
 
-		if (cookTime[slot].getInt() == 0) {
+		if (cookTime[slot].getObject() == 0) {
 			// if (this.storage.getEnergyStored() < energyUsage()) {
 			// return false;
 			// }

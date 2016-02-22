@@ -44,7 +44,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
 		TileEntityCalculatorLocator te = (TileEntityCalculatorLocator) world.getTileEntity(x, y, z);
-		if (te.active.getBoolean()) {
+		if (te.active.getObject()) {
 			float x1 = x + random.nextFloat();
 			float y1 = y + 0.5F;
 			float z1 = z + random.nextFloat();

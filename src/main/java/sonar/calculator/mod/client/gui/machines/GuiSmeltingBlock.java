@@ -53,8 +53,8 @@ public class GuiSmeltingBlock extends GuiSonar {
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 
-		if (this.entity.currentSpeed != 0 && this.entity.cookTime.getInt() != 0) {
-			int l = this.entity.cookTime.getInt() * 23 / this.entity.currentSpeed;
+		if (this.entity.currentSpeed != 0 && this.entity.cookTime.getObject() != 0) {
+			int l = this.entity.cookTime.getObject() * 23 / this.entity.currentSpeed;
 			drawTexturedModalRect(this.guiLeft + 76, this.guiTop + 24, 176, 10, l, 16);
 		}
 	}

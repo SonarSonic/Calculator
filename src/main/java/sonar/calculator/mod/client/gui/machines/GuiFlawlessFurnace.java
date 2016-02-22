@@ -39,7 +39,7 @@ public class GuiFlawlessFurnace extends GuiContainer {
 		int slotID = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				int k = this.entity.cookTime[slotID].getInt() * 20 / this.entity.speed;
+				int k = this.entity.cookTime[slotID].getObject() * 20 / this.entity.speed;
 				drawTexturedModalRect(this.guiLeft + 12 + j * 56, this.guiTop + 49 + i * 40, 176, 0, k, 4);
 				slotID++;
 			}
