@@ -239,9 +239,7 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 	}
 
 	public void increaseStored(int slot, int increase) {
-		if (!this.worldObj.isRemote) {
-			System.out.print(stored[slot]);
-			
+		if (!this.worldObj.isRemote) {			
 			stored[slot] += increase;
 		}
 	}

@@ -30,7 +30,7 @@ public class GuiCalculatorLocator extends GuiContainer {
 		if (this.entity.size.getObject() != 0) {
 			FontHelper.text(FontHelper.translate("locator.multiblock") + ": " + FontHelper.translate("locator.true"), 25, 21, 0);
 
-			if (this.entity.stability == 0 || this.entity.size.getObject() == 0) {
+			if (this.entity.stability.getObject() == 0 || this.entity.size.getObject() == 0) {
 				FontHelper.text((FontHelper.translate("circuit.stability") + ": " + 0 + "%"), 25, 43, 2);
 			} else {
 				FontHelper.text(FontHelper.translate("circuit.stability") + ": " + String.valueOf(entity.getStabilityPercent()) + "%", 25, 43, 0);
@@ -47,7 +47,7 @@ public class GuiCalculatorLocator extends GuiContainer {
 		}
 
 		if (!this.entity.owner.equals("None")) {
-			FontHelper.text(FontHelper.translate("locator.owner") + ": " + this.entity.owner, 25, 32, 0);
+			FontHelper.text(FontHelper.translate("locator.owner") + ": " + this.entity.getOwner(), 25, 32, 0);
 		} else {
 			FontHelper.text(FontHelper.translate("locator.owner") + ": " + FontHelper.translate("locator.none"), 25, 32, 2);
 		}

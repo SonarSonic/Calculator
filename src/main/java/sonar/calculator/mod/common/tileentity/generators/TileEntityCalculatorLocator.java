@@ -20,7 +20,9 @@ import sonar.calculator.mod.api.machines.ICalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityInventorySender;
+import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
+import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
@@ -33,9 +35,9 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 	public SyncTagType.BOOLEAN active = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.INT size = new SyncTagType.INT(1);
-	public int stability;
+	public SyncTagType.INT stability = new SyncTagType.INT("stability");
+	public SyncTagType.STRING owner = (STRING) new SyncTagType.STRING("owner").setDefault("None");
 	private int sizeTicks, luckTicks;
-	public String owner = "None";
 
 	public TileEntityCalculatorLocator() {
 		super.storage = new EnergyStorage(25000000, 25000000);
@@ -76,7 +78,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 	public int currentOutput() {
 		if (size.getObject() != 0 && (((int) (2 * size.getObject() + 1) * (2 * size.getObject() + 1)) - 1) != 0) {
-			int stable = (int) (stability * 100) / ((int) (2 * size.getObject() + 1) * (2 * size.getObject() + 1));
+			int stable = (int) (stability.getObject() * 100) / ((int) (2 * size.getObject() + 1) * (2 * size.getObject() + 1));
 			return (5 + ((int) (1000 * (Math.sqrt(size.getObject() * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size.getObject()) / 2;
 
 		}
@@ -86,7 +88,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	public void getStability() {
 		int currentStable = 0;
 		if (size.getObject() == 0) {
-			this.stability = 0;
+			this.stability.setObject(0);
 		}
 
 		for (int Z = -(size.getObject()); Z <= (size.getObject()); Z++) {
@@ -98,7 +100,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 				}
 			}
 		}
-		this.stability = currentStable;
+		this.stability.setObject(currentStable);
 	}
 
 	public boolean canGenerate() {
@@ -106,7 +108,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 			return false;
 		}
 		if (isLocated()) {
-			if (this.stability >= 7) {
+			if (this.stability.getObject() >= 7) {
 				return true;
 			} else {
 				EntityPlayer player = this.worldObj.getPlayerEntityByName(getOwner());
@@ -129,7 +131,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 				this.effectStart();
 			}
 			if (CalculatorConfig.timeEffect) {
-				if (stability * 4 < 20) {
+				if (stability.getObject() * 4 < 20) {
 					this.timeStart();
 				}
 			}
@@ -161,7 +163,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 			double x = player.posX;
 			double y = player.posY;
 			double z = player.posZ;
-
+			int stability = this.stability.getObject();
 			int luck = 1 + (int) (Math.random() * ((20 * (stability + 1) - 1) + 20 * (stability + 1)));
 
 			if (stability == 0) {
@@ -263,14 +265,14 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	public void createOwner() {
 		ItemStack stack = this.getStackInSlot(1);
 		if (stack == null) {
-			this.owner = "None";
+			this.owner.setObject("None");
 			return;
 		}
 
 		if (stack.getItem() instanceof ILocatorModule) {
 			String name = ((ILocatorModule) stack.getItem()).getPlayer(stack);
 			if (name != null) {
-				owner = name;
+				this.owner.setObject(name);
 			}
 		}
 
@@ -286,24 +288,23 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			active.readFromNBT(nbt, type);
-			size.readFromNBT(nbt, type);
-			this.stability = nbt.getInteger("stability");
+		if (type == SyncType.SAVE) {
 			this.luckTicks = nbt.getInteger("ticks");
-			this.owner = nbt.getString("owner");
 		}
 	}
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			active.writeToNBT(nbt, type);
-			size.writeToNBT(nbt, type);
-			nbt.setInteger("stability", this.stability);
+		if (type == SyncType.SAVE) {
 			nbt.setInteger("ticks", this.luckTicks);
-			nbt.setString("owner", this.owner);
 		}
+	}
+
+	public void addSyncParts(List<ISyncPart> part) {
+		part.add(active);
+		part.add(size);
+		part.add(stability);
+		part.add(owner);
 	}
 
 	@Override
@@ -331,8 +332,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
 		currenttip.add(FontHelper.translate("locator.active") + ": " + (!active.getObject() ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
-
-		currenttip.add(FontHelper.translate("locator.owner") + ": " + (owner != "None" ? owner : FontHelper.translate("locator.none")));
+		currenttip.add(FontHelper.translate("locator.owner") + ": " + (!owner.getObject().equals("None") ? owner.getObject() : FontHelper.translate("locator.none")));
 		return currenttip;
 	}
 
@@ -364,7 +364,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 	@Override
 	public String getOwner() {
-		return owner;
+		return owner.getObject();
 	}
 
 	@Override
@@ -379,7 +379,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 	@Override
 	public double getStabilityPercent() {
-		return (stability * 100 / (((2 * size.getObject()) + 1) * ((2 * size.getObject()) + 1) - 1));
+		return (stability.getObject() * 100 / (((2 * size.getObject()) + 1) * ((2 * size.getObject()) + 1) - 1));
 	}
 
 }

@@ -40,7 +40,6 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 		if (SonarHelper.isEnergyHandlerFromSide(entity, dir.getOpposite())) {
 
 			if (entity != null)
-				System.out.print(entity.getBlockType());
 			this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(entity, dir.getOpposite(), this.storage.extractEnergy(maxTransfer, true), false));
 		}
 	}
@@ -71,7 +70,6 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		System.out.print("extract");
 		if (from == ForgeDirection.getOrientation(energySide)) {
 			return this.storage.extractEnergy(maxExtract, simulate);
 		}
