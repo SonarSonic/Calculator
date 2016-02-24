@@ -3,12 +3,12 @@ package sonar.calculator.mod.common.tileentity.machines;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
-import cofh.api.energy.EnergyStorage;
+import sonar.core.network.sync.SyncEnergyStorage;
 
 public class TileEntityPowerCube extends TileEntityInventoryReceiver {
 
 	public TileEntityPowerCube() {
-		super.storage = new EnergyStorage(CalculatorConfig.getInteger("Standard Machine"));
+		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"));
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 1;
 	}

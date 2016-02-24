@@ -10,9 +10,9 @@ import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.utils.AtomicMultiplierBlacklist;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
 import sonar.core.energy.DischargeValues;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -27,7 +27,7 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 	private static final int[] output = new int[] { 8 };
 
 	public TileEntityAtomicMultiplier() {
-		super.storage = new EnergyStorage(1500000000, 1500000000);
+		super.storage = new SyncEnergyStorage(1500000000, 1500000000);
 		super.slots = new ItemStack[10];
 	}
 

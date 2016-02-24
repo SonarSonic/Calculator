@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -29,9 +31,6 @@ import sonar.core.utils.ISpecialTooltip;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.block.IDismantleable;
-
-import com.google.common.collect.Lists;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

@@ -9,11 +9,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.api.flux.IFlux;
+import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.api.flux.IFluxPlug;
 import sonar.calculator.mod.api.flux.IFluxPoint;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux.TransferList;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.utils.FluxRegistry;
 
@@ -48,11 +48,11 @@ public class FluxHelper {
 		return null;
 	}
 
-	public static TileEntityFluxController getController(int networkID) {
+	public static IFluxController getController(int networkID) {
 		TileEntity target = getTile(FluxRegistry.getController(networkID));
 
-		if (target != null && target instanceof TileEntityFluxController) {
-			return (TileEntityFluxController) target;
+		if (target != null && target instanceof IFluxController) {
+			return (IFluxController) target;
 		}
 		return null;
 	}
@@ -93,11 +93,11 @@ public class FluxHelper {
 				plugs.add(plug);
 			}
 		}
-		TileEntityFluxController controller = FluxHelper.getController(networkID);
-		if (controller == null || controller != null && controller.sendMode == 0) {
+		IFluxController controller = FluxHelper.getController(networkID);
+		if (controller == null || controller != null && controller.getSendMode() == 0) {
 			return plugs;
 
-		} else if (controller.sendMode == 2) {
+		} else if (controller.getSendMode() == 2) {
 			Collections.sort(plugs, new Comparator<IFluxPlug>() {
 				public int compare(IFluxPlug o1, IFluxPlug o2) {
 					return o2.pullEnergy(TileEntityFluxPlug.maxTransfer, true, true) - o1.pullEnergy(TileEntityFluxPlug.maxTransfer, true, true);
@@ -165,7 +165,7 @@ public class FluxHelper {
 	}
 
 	public static boolean checkPlayerName(String player, int networkID) {
-		TileEntityFluxController controller = FluxHelper.getController(networkID);
+		IFluxController controller = FluxHelper.getController(networkID);
 		if (controller == null) {
 			return true;
 		} else {
@@ -177,11 +177,11 @@ public class FluxHelper {
 		if (flux == null || !(flux instanceof TileEntityFlux)) {
 			return true;
 		}
-		TileEntityFluxController controller = FluxHelper.getController(networkName);
+		IFluxController controller = FluxHelper.getController(networkName);
 		if (controller == null) {
 			return true;
 		} else {
-			return controller.validPlayer(((TileEntityFlux) flux).playerName);
+			return controller.validPlayer(((TileEntityFlux) flux).playerName.getObject());
 		}
 	}
 

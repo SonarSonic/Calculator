@@ -40,7 +40,7 @@ public class GuiFluxPoint extends GuiFlux {
 			if(entity.networkName.equals("NETWORK")){
 				FontHelper.textCentre(FontHelper.translate("network.notConnected"), xSize, 47, 0);	
 			}else{
-				FontHelper.textCentre(entity.networkName + ": " + getNetworkType(entity.networkState), xSize, 47, 0);
+				FontHelper.textCentre(entity.networkName + ": " + getNetworkType(entity.networkState.getObject()), xSize, 47, 0);
 			}
 		}
 
@@ -121,13 +121,13 @@ public class GuiFluxPoint extends GuiFlux {
 
 	@Override
 	public void setNetworkName(String string) {
-		entity.networkName = string;
+		entity.networkName.setObject(string);
 
 	}
 
 	@Override
 	public String getNetworkName() {
-		return entity.networkName;
+		return entity.networkName.getObject();
 	}
 
 	@Override
@@ -153,6 +153,6 @@ public class GuiFluxPoint extends GuiFlux {
 	}
 	@Override
 	public int getNetworkID() {
-		return entity.networkID;
+		return entity.networkID();
 	}
 }

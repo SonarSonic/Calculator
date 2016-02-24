@@ -38,7 +38,7 @@ public class GuiFluxPlug extends GuiFlux {
 			if(entity.networkName.equals("NETWORK")){
 				FontHelper.text(FontHelper.translate("network.notConnected"), 8, 9, 0);	
 			}else{
-				FontHelper.text(entity.networkName + ": " + getNetworkType(entity.networkState), 8, 9, 0);
+				FontHelper.text(entity.networkName.getObject() + ": " + getNetworkType(entity.networkState.getObject()), 8, 9, 0);
 			}
 		}
 	}
@@ -50,13 +50,13 @@ public class GuiFluxPlug extends GuiFlux {
 
 	@Override
 	public void setNetworkName(String string) {
-		entity.networkName = string;
+		entity.networkName.setObject(string);
 
 	}
 
 	@Override
 	public String getNetworkName() {
-		return entity.networkName;
+		return entity.networkName.getObject();
 	}
 
 	@Override
@@ -85,6 +85,6 @@ public class GuiFluxPlug extends GuiFlux {
 	}
 	@Override
 	public int getNetworkID() {
-		return entity.networkID;
+		return entity.networkID();
 	}
 }

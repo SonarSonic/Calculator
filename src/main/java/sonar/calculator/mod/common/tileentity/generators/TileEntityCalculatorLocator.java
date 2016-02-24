@@ -21,13 +21,13 @@ import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityInventorySender;
 import sonar.core.network.sync.ISyncPart;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -40,7 +40,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	private int sizeTicks, luckTicks;
 
 	public TileEntityCalculatorLocator() {
-		super.storage = new EnergyStorage(25000000, 25000000);
+		super.storage = new SyncEnergyStorage(25000000, 25000000);
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 100000;
 	}
@@ -300,11 +300,12 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 		}
 	}
 
-	public void addSyncParts(List<ISyncPart> part) {
-		part.add(active);
-		part.add(size);
-		part.add(stability);
-		part.add(owner);
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.add(active);
+		parts.add(size);
+		parts.add(stability);
+		parts.add(owner);
 	}
 
 	@Override

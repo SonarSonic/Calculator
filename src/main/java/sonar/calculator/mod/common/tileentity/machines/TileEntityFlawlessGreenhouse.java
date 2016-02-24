@@ -18,13 +18,13 @@ import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RenderHelper;
-import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -34,7 +34,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	public int plantsGrown;
 
 	public TileEntityFlawlessGreenhouse() {
-		super.storage = new EnergyStorage(500000, 500000);
+		super.storage = new SyncEnergyStorage(500000, 500000);
 		super.slots = new ItemStack[10];
 		super.type = 3;
 		super.maxLevel = 100000;

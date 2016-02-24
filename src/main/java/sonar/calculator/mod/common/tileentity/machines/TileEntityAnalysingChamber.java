@@ -12,11 +12,11 @@ import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventorySender;
 import sonar.core.inventory.IAdditionalInventory;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IUpgradeCircuits;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,7 +29,7 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 	public TileEntityAnalysingChamber() {
 		super.input = new int[] { 0 };
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
-		super.storage = new EnergyStorage(1000000, 1000000);
+		super.storage = new SyncEnergyStorage(1000000, 1000000);
 		super.slots = new ItemStack[8];
 		super.maxTransfer = 2000;
 

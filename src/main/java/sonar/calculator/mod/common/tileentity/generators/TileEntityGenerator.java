@@ -17,10 +17,10 @@ import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.core.common.tileentity.TileEntityInventorySender;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,7 +39,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 	private static final int[] slotsSides = new int[] { 1 };
 
 	public TileEntityGenerator() {
-		super.storage = new EnergyStorage(1000000, 1000000);
+		super.storage = new SyncEnergyStorage(1000000, 1000000);
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 2000;
 	}

@@ -17,6 +17,7 @@ import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
+import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
@@ -45,7 +46,8 @@ public class FluxPlug extends SonarMachineBlock {
 					NBTTagCompound tag = new NBTTagCompound();
 					plug.writeToNBT(tag);
 					Calculator.network.sendTo(new PacketTileSync(x, y, z, tag),(EntityPlayerMP) player);
-					Calculator.network.sendTo(new PacketFluxNetworkList(x, y, z, FluxRegistry.getAvailableNetworks(player.getGameProfile().getName(), null)), (EntityPlayerMP) player);
+					List<FluxNetwork> networks = FluxRegistry.getAvailableNetworks(player.getGameProfile().getName(), null);
+					Calculator.network.sendTo(new PacketFluxNetworkList(x, y, z, networks), (EntityPlayerMP) player);
 					player.openGui(Calculator.instance, CalculatorGui.FluxPlug, world, x, y, z);
 
 				}

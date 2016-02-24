@@ -3,21 +3,24 @@ package sonar.calculator.mod.common.tileentity.misc;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import sonar.calculator.mod.common.block.misc.GasLantern;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.network.sync.ISyncPart;
+import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
+
+import com.google.common.collect.Lists;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityGasLantern extends TileEntityInventory implements ISyncTile {
 
-	public int burnTime;
-	public int maxBurnTime;
-
+	public SyncTagType.INT burnTime = new SyncTagType.INT("burnTime");
+	public SyncTagType.INT maxBurnTime = new SyncTagType.INT("maxBurnTime");
+	
 	public TileEntityGasLantern() {
 		super.slots = new ItemStack[1];
 	}
@@ -27,32 +30,32 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 		if (this.worldObj.isRemote) {
 			return;
 		}
-		boolean flag1 = this.burnTime > 0;
+		boolean flag1 = burnTime.getObject() > 0;
 		boolean flag2 = false;
-		if (this.burnTime > 0) {
-			this.burnTime++;
+		if (burnTime.getObject() > 0) {
+			burnTime.increaseBy(1);
 		}
 		if (!this.worldObj.isRemote) {
-			if (this.maxBurnTime == 0) {
+			if (maxBurnTime.getObject() == 0) {
 				if (this.slots[0] != null) {
 					if (TileEntityFurnace.isItemFuel(slots[0])) {
 						burn();
 					}
 				}
 			}
-			if (this.maxBurnTime != 0 && this.burnTime == 0) {
-				this.burnTime++;
+			if (maxBurnTime.getObject() != 0 && burnTime.getObject() == 0) {
+				burnTime.increaseBy(1);
 				flag2 = true;
 			}
 
-			if (this.burnTime == maxBurnTime) {
-				this.maxBurnTime = 0;
-				this.burnTime = 0;
+			if (burnTime == maxBurnTime) {
+				maxBurnTime.setObject(0);
+				burnTime.setObject(0);
 				flag2 = true;
 			}
 		}
 
-		if (flag1 != this.burnTime > 0) {
+		if (flag1 != this.burnTime.getObject() > 0) {
 			flag1 = true;
 
 			GasLantern.updateLatternBlockState(this.isBurning(), worldObj, xCoord, yCoord, zCoord);
@@ -67,7 +70,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 	}
 
 	private void burn() {
-		this.maxBurnTime = TileEntityFurnace.getItemBurnTime(this.slots[0]) * 10;
+		this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(this.slots[0]) * 10);
 		this.slots[0].stackSize--;
 
 		if (this.slots[0].stackSize <= 0) {
@@ -77,32 +80,21 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 	}
 
 	public boolean isBurning() {
-		if (this.maxBurnTime == 0) {
+		if (this.maxBurnTime.getObject() == 0) {
 			return false;
 		}
 		return true;
 	}
 
-	public void readData(NBTTagCompound nbt, SyncType type) {
-		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			this.burnTime = nbt.getInteger("burnTime");
-			this.maxBurnTime = nbt.getInteger("maxBurnTime");
-		}
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.addAll(Lists.newArrayList(burnTime, maxBurnTime));
 	}
-
-	public void writeData(NBTTagCompound nbt, SyncType type) {
-		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			nbt.setInteger("burnTime", this.burnTime);
-			nbt.setInteger("maxBurnTime", this.maxBurnTime);
-
-		}
-	}
+	
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
-		if (burnTime > 0 && maxBurnTime != 0) {
-			String burn = FontHelper.translate("co2.burnt") + ": " + burnTime * 100 / maxBurnTime;
+		if (burnTime.getObject() > 0 && maxBurnTime.getObject() != 0) {
+			String burn = FontHelper.translate("co2.burnt") + ": " + burnTime.getObject() * 100 / maxBurnTime.getObject();
 			currenttip.add(burn);
 		} else {
 			String burn = FontHelper.translate("co2.burning");

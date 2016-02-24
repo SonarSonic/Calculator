@@ -16,12 +16,12 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.RenderHelper;
-import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -38,7 +38,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 
 	public TileEntityBasicGreenhouse() {
 
-		super.storage = new EnergyStorage(350000, 350000);
+		super.storage = new SyncEnergyStorage(350000, 350000);
 		super.slots = new ItemStack[14];
 		super.type = 1;
 		super.maxLevel = 100000;

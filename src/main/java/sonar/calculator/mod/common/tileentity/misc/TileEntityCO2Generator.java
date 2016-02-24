@@ -11,10 +11,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RenderHelper;
-import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -30,7 +30,7 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 	private static final int[] input = new int[] { 0 };
 
 	public TileEntityCO2Generator() {
-		super.storage = new EnergyStorage(1000000, 1000000);
+		super.storage = new SyncEnergyStorage(1000000, 1000000);
 		super.slots = new ItemStack[2];
 	}
 

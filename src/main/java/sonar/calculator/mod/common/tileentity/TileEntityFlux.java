@@ -13,45 +13,54 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.api.flux.IFlux;
+import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.client.gui.misc.GuiFlux;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.integration.SonarAPI;
+import sonar.core.network.sync.ISyncPart;
+import sonar.core.network.sync.SyncTagType;
+import sonar.core.network.sync.SyncTagType.INT;
+import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyHandler;
+
+import com.google.common.collect.Lists;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyHandler, ISyncTile, IEnergySink, IFlux {
 
-	public int networkState, playerState;
-	private int dimension;
-	public int networkID;
-	public String playerName, masterName, networkName = "NETWORK";
-
+	public SyncTagType.INT networkState = (INT) new SyncTagType.INT("networkState").removeSyncType(SyncType.SAVE);
+	public SyncTagType.INT playerState = (INT) new SyncTagType.INT("playerState").removeSyncType(SyncType.SAVE);	
+	public SyncTagType.INT dimension = (INT) new SyncTagType.INT("DIMENSION").removeSyncType(SyncType.SYNC);
+	public SyncTagType.INT networkID = new SyncTagType.INT("networkID");
+	public SyncTagType.STRING playerName = (STRING) new SyncTagType.STRING("playerName").removeSyncType(SyncType.SYNC);
+	public SyncTagType.STRING networkName = (STRING) new SyncTagType.STRING("networkName").setDefault("NETWORK");
+	public String masterName = "";
 	/** client only list */
 	public List<FluxNetwork> networks;
 
 	public String getMasterName() {
-		TileEntityFluxController controller = FluxHelper.getController(networkID);
+		IFluxController controller = FluxHelper.getController(networkID.getObject());
 		if (controller != null) {
-			this.networkState = controller.playerProtect;
-			if (controller.validPlayer(this.playerName)) {
-				this.playerState = 0;
+			this.networkState.setObject(controller.getProtectionMode());
+			if (controller.validPlayer(this.playerName.getObject())) {
+				this.playerState.setObject(0);
 			} else {
-				this.playerState = 1;
+				this.playerState.setObject(1);
 			}
-			return controller.playerName;
+			return controller.toString();
 		}
 
-		this.playerState = 0;
-		this.networkState = 1;
+		this.playerState.setObject(0);
+		this.networkState.setObject(1);
 		return " ";
 
 	}
@@ -59,22 +68,22 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 	public void setName(String name) {
 		if (!name.isEmpty() && !name.equals("NETWORK")) {
 			this.removeFromFrequency();
-			int network = FluxRegistry.getNetwork(name, playerName);
+			int network = FluxRegistry.getNetwork(name, playerName.getObject());
 			if (network == 0) {
-				this.networkID = FluxRegistry.createNetwork(name);
+				this.networkID.setObject(FluxRegistry.createNetwork(name));
 			} else {
-				this.networkID = network;
+				this.networkID.setObject(network);
 			}
 
 			this.addToFrequency();
-			networkName = name;
+			networkName.setObject(name);
 		}
 	}
 
 	public void rename(String name) {
 		if (!name.isEmpty() && !name.equals("NETWORK")) {
-			FluxRegistry.renameNetwork(playerName, networkName, name);
-			networkName = name;
+			FluxRegistry.renameNetwork(playerName.getObject(), networkName.getObject(), name);
+			networkName.setObject(name);
 		}
 	}
 
@@ -92,40 +101,23 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE) {
-			this.networkID = nbt.getInteger("networkID");
-			this.dimension = nbt.getInteger("DIMENSION");
-			this.playerName = nbt.getString("playerName");
-			this.networkName = nbt.getString("networkName");
-		} else if (type == SyncType.SYNC) {
+		if (type == SyncType.SYNC) {
 			this.masterName = nbt.getString("masterName");
-			this.networkID = nbt.getInteger("networkID");
-			this.networkState = nbt.getInteger("networkState");
-			this.playerState = nbt.getInteger("playerState");
-			this.networkName = nbt.getString("networkName");
 		}
 	}
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE) {
-			nbt.setInteger("networkID", networkID);
-			nbt.setInteger("DIMENSION", dimension);
-			if(playerName==null || playerName.isEmpty()){
-				playerName=" ";
-			}
-			nbt.setString("playerName", playerName);
-			nbt.setString("networkName", networkName);
-		} else if (type == SyncType.SYNC) {
+		if (type == SyncType.SYNC) {
 			nbt.setString("masterName", getMasterName());
-			nbt.setInteger("networkID", networkID);
-			nbt.setInteger("networkState", networkState);
-			nbt.setInteger("playerState", playerState);
-			nbt.setString("networkName", networkName);
 		}
 
 	}
 
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.addAll(Lists.newArrayList(dimension, networkID, playerName, networkName, networkState, playerState));
+	}
 
 	public boolean hasEnergyHandler(ForgeDirection from) {
 		TileEntity handler = SonarHelper.getAdjacentTileEntity(this, from);
@@ -165,11 +157,12 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 			if (SonarAPI.ic2Loaded()) {
 				MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			}
-			int network = FluxRegistry.getNetwork(networkName, playerName);
+			int network = FluxRegistry.getNetwork(networkName.getObject(), playerName.getObject());
+
 			if (network == 0) {
-				this.networkID = FluxRegistry.createNetwork(networkName);
+				this.networkID.setObject(FluxRegistry.createNetwork(networkName.getObject()));
 			} else {
-				this.networkID = network;
+				this.networkID.setObject(network);
 			}
 			this.addToFrequency();
 		}
@@ -223,28 +216,28 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 
 	@Override
 	public int networkID() {
-		return this.networkID;
+		return this.networkID.getObject();
 	}
 
 	@Override
 	public int dimension() {
-		return this.dimension;
+		return this.dimension.getObject();
 	}
 
 	public String getPlayer() {
-		return this.playerName;
+		return this.playerName.getObject();
 	}
 
 	public void setPlayer(EntityPlayer player) {
 		if (player == null) {
 			return;
 		}
-		this.playerName = player.getGameProfile().getName();
-		this.dimension = player.dimension;
+		this.playerName.setObject(player.getGameProfile().getName());
+		this.dimension.setObject(player.dimension);
 	}
 
 	public static class TransferList {
-		public int[] inputList;		
+		public int[] inputList;
 		public int energy;
 
 		public TransferList(int[] inputList, int input) {
@@ -266,14 +259,15 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 
 	@Override
 	public String masterName() {
-		return this.playerName;
+		return this.playerName.getObject();
 	}
+
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
-		if(networkName.equals("NETWORK")){
-			currenttip.add(FontHelper.translate("network.notConnected"));	
-		}else{
-			currenttip.add(networkName + ": " + GuiFlux.getNetworkType(networkState));
+		if (networkName.equals("NETWORK")) {
+			currenttip.add(FontHelper.translate("network.notConnected"));
+		} else {
+			currenttip.add(networkName.getObject() + ": " + GuiFlux.getNetworkType(networkState.getObject()));
 		}
 		return currenttip;
 	}

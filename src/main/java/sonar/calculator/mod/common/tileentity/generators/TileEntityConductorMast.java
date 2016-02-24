@@ -15,9 +15,9 @@ import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.core.common.tileentity.TileEntityInventorySender;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.energy.EnergyStorage;
 
 public class TileEntityConductorMast extends TileEntityInventorySender implements ISidedInventory, IProcessMachine {
 
@@ -31,7 +31,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	public Random rand = new Random();
 
 	public TileEntityConductorMast() {
-		super.storage = new EnergyStorage(5000000, 5000000);
+		super.storage = new SyncEnergyStorage(5000000, 5000000);
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 5000000;
 	}

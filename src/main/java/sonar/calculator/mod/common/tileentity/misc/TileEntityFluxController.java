@@ -21,7 +21,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.flux.IFluxPoint;
+import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.calculator.mod.client.gui.misc.GuiFlux;
 import sonar.calculator.mod.network.ChunkHandler;
@@ -37,7 +37,7 @@ import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityFluxController extends TileEntityInventory implements IFluxPoint, ISyncTile, IByteBufTile {
+public class TileEntityFluxController extends TileEntityInventory implements IFluxController, ISyncTile, IByteBufTile {
 
 	private Ticket currentTicket;
 
@@ -361,4 +361,25 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 			break;
 		}
 	}
+
+	@Override
+	public int getRecieveMode() {
+		return this.recieveMode;
+	}
+
+	@Override
+	public int getTransmitterMode() {
+		return transmitterMode;
+	}
+
+	@Override
+	public int getSendMode() {
+		return sendMode;
+	}
+
+	@Override
+	public int getProtectionMode() {
+		return playerProtect;
+	}
+
 }

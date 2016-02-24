@@ -7,10 +7,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 
 public class TileEntityWeatherController extends TileEntityInventoryReceiver implements IEnergyHandler, IEnergySink, ISyncTile, IByteBufTile,IProcessMachine {
@@ -25,7 +25,7 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 
 	public TileEntityWeatherController() {
 		super.slots = new ItemStack[1];
-		super.storage = new EnergyStorage(1000000, 100000);
+		super.storage = new SyncEnergyStorage(1000000, 100000);
 	}
 
 	public void updateEntity() {

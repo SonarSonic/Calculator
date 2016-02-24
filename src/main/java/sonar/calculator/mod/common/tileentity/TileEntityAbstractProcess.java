@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.RecipeHelper;
-import cofh.api.energy.EnergyStorage;
 
 public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 
@@ -24,7 +24,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 		}
 		super.input = inputs;
 		super.output = outputs;
-		super.storage = new EnergyStorage(CalculatorConfig.getInteger("Standard Machine"));
+		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"));
 		super.slots = new ItemStack[1 + inputSize() + outputSize()];
 	}
 

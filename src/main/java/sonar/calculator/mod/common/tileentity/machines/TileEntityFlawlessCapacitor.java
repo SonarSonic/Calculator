@@ -4,9 +4,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.core.common.tileentity.TileEntitySender;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.energy.EnergyStorage;
 
 /**WIP*/
 public class TileEntityFlawlessCapacitor extends TileEntitySender {
@@ -14,7 +14,7 @@ public class TileEntityFlawlessCapacitor extends TileEntitySender {
 	public int[] output = new int[6];
 	
 	public TileEntityFlawlessCapacitor(){
-		super.storage = new EnergyStorage(2000000000);
+		super.storage = new SyncEnergyStorage(2000000000);
 	}
 	public void updateEntity(){
 		handleEnergy();

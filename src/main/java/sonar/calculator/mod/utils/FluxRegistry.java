@@ -10,10 +10,9 @@ import java.util.Map;
 
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.api.flux.IFlux;
+import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.api.flux.IFluxPlug;
 import sonar.calculator.mod.api.flux.IFluxPoint;
-import sonar.calculator.mod.common.tileentity.TileEntityFlux;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
 
 public class FluxRegistry {
@@ -85,16 +84,16 @@ public class FluxRegistry {
 	}
 
 	public static boolean validPlayer(int networkID, String masterName) {
-		TileEntityFluxController controller = FluxHelper.getController(networkID);
+		IFluxController controller = FluxHelper.getController(networkID);
 		if (controller != null && controller.validPlayer(masterName)) {
 			return true;
 		} else if (controller != null) {
 			return false;
 		}
 		TileEntity master = FluxHelper.getTile(FluxRegistry.getMaster(networkID));
-		if (master != null && master instanceof TileEntityFlux) {
-			TileEntityFlux flux = (TileEntityFlux) master;
-			return flux.playerName.equals(masterName);
+		if (master != null && master instanceof IFlux) {
+			IFlux flux = (IFlux) master;
+			return flux.masterName().equals(masterName);
 		} else if (master == null) {
 			return true;
 		}
@@ -205,10 +204,10 @@ public class FluxRegistry {
 		for (int i = 0; i <= networksNAME.size(); i++) {
 			if (getNetwork(i) != null && getNetwork(i) != "NETWORK") {
 				if (validPlayer(i, player)) {
-					TileEntityFluxController controller = FluxHelper.getController(i);
+					IFluxController controller = FluxHelper.getController(i);
 					if (controller != null) {
 						if (flux == null || flux.equals(controller)) {
-							available.add(new FluxNetwork(i, getNetwork(i), controller.playerProtect));
+							available.add(new FluxNetwork(i, getNetwork(i), controller.getProtectionMode()));
 						}
 					} else {
 						available.add(new FluxNetwork(i, getNetwork(i), 1));
@@ -216,7 +215,7 @@ public class FluxRegistry {
 				}
 			}
 		}
-
+		
 		Collections.sort(available, new Comparator<FluxNetwork>() {
 			public int compare(FluxNetwork str1, FluxNetwork str2) {
 				int res = String.CASE_INSENSITIVE_ORDER.compare(str1.networkName, str2.networkName);

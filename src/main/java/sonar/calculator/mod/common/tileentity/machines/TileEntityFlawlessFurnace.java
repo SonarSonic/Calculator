@@ -9,11 +9,10 @@ import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
-import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RecipeHelper;
-import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -28,7 +27,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 
 	public TileEntityFlawlessFurnace() {
 		this.slots = new ItemStack[28];
-		this.storage = new EnergyStorage(10000000);
+		this.storage = new SyncEnergyStorage(10000000);
 	}
 
 	public void updateEntity() {

@@ -40,10 +40,10 @@ public class RenderCalculatorPlug extends TileEntitySpecialRenderer {
 
 		if (tileentity.getWorldObj() != null && tileentity instanceof TileEntityCalculatorPlug) {
 			TileEntityCalculatorPlug tile = (TileEntityCalculatorPlug) tileentity;
-			if (tile.stable == 2) {
+			if (tile.stable.getObject() == 2) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(onTexture);
 			}
-			if (tile.stable != 2) {
+			if (tile.stable.getObject() != 2) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(offTexture);
 			}
 		} else {

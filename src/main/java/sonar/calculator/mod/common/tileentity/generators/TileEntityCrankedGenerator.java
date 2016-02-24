@@ -11,10 +11,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.core.common.tileentity.TileEntitySender;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
 
 public class TileEntityCrankedGenerator extends TileEntitySender {
@@ -25,7 +25,7 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 	public int ticksforpower = 2;
 
 	public TileEntityCrankedGenerator() {
-		super.storage = new EnergyStorage(1000, 1000);
+		super.storage = new SyncEnergyStorage(1000, 1000);
 		super.maxTransfer = 32;
 	}
 

@@ -2,7 +2,6 @@ package sonar.calculator.mod.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
@@ -11,8 +10,6 @@ import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketFluxPoint extends PacketCoords {
 

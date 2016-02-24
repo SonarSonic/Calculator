@@ -15,29 +15,29 @@ import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
 import sonar.core.inventory.IAdditionalInventory;
+import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
-import sonar.core.network.sync.SyncTagType.BOOLEAN;
-import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IUpgradeCircuits;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
+
+import com.google.common.collect.Lists;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /** electric smelting tile entity */
 public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable, IAdditionalInventory, IProcessMachine, IByteBufTile {
-	// public int cookTime;
-	public int sUpgrade;
-	public int eUpgrade;
 
 	public float renderTicks;
 	public double energyBuffer;
-	// private boolean paused;
-	// public boolean invertPaused;
+
 	public SyncTagType.BOOLEAN invertPaused = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.BOOLEAN paused = new SyncTagType.BOOLEAN(1);
 	public SyncTagType.INT cookTime = new SyncTagType.INT(2);
+	public SyncTagType.SHORT sUpgrade = new SyncTagType.SHORT("sUpgrade");
+	public SyncTagType.SHORT eUpgrade = new SyncTagType.SHORT("eUpgrade");
 
 	public static int lowestSpeed = 4, lowestEnergy = 1000;
 
@@ -118,9 +118,9 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	public void renderTicks() {
 		if (this instanceof TileEntityMachines.PrecisionChamber || this instanceof TileEntityMachines.ExtractionChamber) {
-			this.renderTicks += (float) Math.max(1, sUpgrade) / 50;
+			this.renderTicks += (float) Math.max(1, sUpgrade.getObject()) / 50;
 		} else {
-			this.renderTicks += (float) Math.max(1, sUpgrade * 8) / 1000;
+			this.renderTicks += (float) Math.max(1, sUpgrade.getObject() * 8) / 1000;
 		}
 		if (this.renderTicks >= 2) {
 			this.renderTicks = 0;
@@ -141,11 +141,11 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	}
 
 	public int requiredEnergy() {
-		if (eUpgrade + sUpgrade == 0) {
+		if (eUpgrade.getObject() + sUpgrade.getObject() == 0) {
 			return 1000 * 5;
 		}
-		int i = 16 - (eUpgrade - sUpgrade);
-		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (eUpgrade - sUpgrade))) * 5;
+		int i = 16 - (eUpgrade.getObject() - sUpgrade.getObject());
+		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (eUpgrade.getObject() - sUpgrade.getObject()))) * 5;
 	}
 
 	public boolean receiveClientEvent(int action, int param) {
@@ -158,11 +158,6 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			paused.readFromNBT(nbt, type);
-			invertPaused.readFromNBT(nbt, type);
-			cookTime.readFromNBT(nbt, type);
-			this.sUpgrade = nbt.getShort("sUpgrade");
-			this.eUpgrade = nbt.getShort("eUpgrade");
 			if (type == SyncType.SYNC) {
 				this.currentSpeed = nbt.getInteger("speed");
 			}
@@ -173,15 +168,15 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			paused.writeToNBT(nbt, type);
-			invertPaused.writeToNBT(nbt, type);
-			cookTime.writeToNBT(nbt, type);
-			nbt.setShort("sUpgrade", (short) this.sUpgrade);
-			nbt.setShort("eUpgrade", (short) this.eUpgrade);
 			if (type == SyncType.SYNC) {
 				nbt.setInteger("speed", this.getProcessTime());
 			}
 		}
+	}
+
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.addAll(Lists.newArrayList(paused, invertPaused, cookTime, sUpgrade, eUpgrade));
 	}
 
 	// IPausable
@@ -220,10 +215,10 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	@Override
 	public int getUpgrades(int type) {
 		if (type == 0) {
-			return sUpgrade;
+			return sUpgrade.getObject();
 
 		} else if (type == 1) {
-			return eUpgrade;
+			return eUpgrade.getObject();
 		}
 		return 0;
 	}
@@ -231,9 +226,9 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	@Override
 	public void incrementUpgrades(int type, int increment) {
 		if (type == 0) {
-			sUpgrade += increment;
+			sUpgrade.increaseBy(increment);
 		} else if (type == 1) {
-			eUpgrade += increment;
+			eUpgrade.increaseBy(increment);
 		}
 
 	}
@@ -265,12 +260,12 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
-		if (sUpgrade != 0) {
+		if (sUpgrade.getObject() != 0) {
 			String speed = FontHelper.translate("circuit.speed") + ": " + sUpgrade;
 
 			currenttip.add(speed);
 		}
-		if (eUpgrade != 0) {
+		if (eUpgrade.getObject() != 0) {
 			String energy = FontHelper.translate("circuit.energy") + ": " + eUpgrade;
 			currenttip.add(energy);
 		}
@@ -296,8 +291,8 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	@Override
 	public int getProcessTime() {
-		int i = 16 - sUpgrade;
-		if (sUpgrade == 0) {
+		int i = 16 - sUpgrade.getObject();
+		if (sUpgrade.getObject() == 0) {
 			return 1000;
 		}
 		return ((8 + ((i * i) * 2 + i)));

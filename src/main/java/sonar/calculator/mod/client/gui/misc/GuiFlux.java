@@ -16,7 +16,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
+import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.inventory.GuiSonar;
@@ -222,7 +222,7 @@ public abstract class GuiFlux extends GuiSonar {
 			state = 1;
 			this.switchContainer(this.mc.thePlayer.openContainer);
 			this.inventorySlots = this.mc.thePlayer.openContainer;
-			if (!(tile instanceof TileEntityFluxController)) {
+			if (!(tile instanceof IFluxController)) {
 				this.changed = 1;
 			}
 			this.reset();

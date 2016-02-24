@@ -4,8 +4,8 @@ import ic2.api.energy.tile.IEnergySource;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Optional.Method;
 
@@ -15,7 +15,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	public int energySide;
 
 	public TileEntityAdvancedPowerCube() {
-		super.storage = new EnergyStorage(100000, 100000);
+		super.storage = new SyncEnergyStorage(100000, 100000);
 		super.maxTransfer = 100000;
 	}
 

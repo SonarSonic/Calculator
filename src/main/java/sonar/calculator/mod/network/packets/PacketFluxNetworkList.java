@@ -5,7 +5,6 @@ import io.netty.buffer.ByteBuf;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
@@ -13,8 +12,6 @@ import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketFluxNetworkList extends PacketCoords {
 
