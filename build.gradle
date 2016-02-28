@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.9.3"
+version = "1.9.5"
 group= "sonar.calculator.mod.modid"
 archivesBaseName = "Calculator-1.7.10"
 
@@ -27,7 +27,7 @@ minecraft {
 }
 
 dependencies {
-compile files('lib/SonarCore-1.7.10-1.0.4-dev.jar')
+compile files('lib/SonarCore-1.7.10-1.0.6-dev.jar')
 compile files('lib/Waila-1.5.10_1.7.10.jar')
 compile files('lib/NotEnoughItems-1.7.10-1.0.5.120-dev.jar')
 compile files('lib/MineTweaker3-1.7.10-3.0.10B.jar')

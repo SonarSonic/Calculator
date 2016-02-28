@@ -36,8 +36,8 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public SyncTagType.BOOLEAN invertPaused = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.BOOLEAN paused = new SyncTagType.BOOLEAN(1);
 	public SyncTagType.INT cookTime = new SyncTagType.INT(2);
-	public SyncTagType.SHORT sUpgrade = new SyncTagType.SHORT("sUpgrade");
-	public SyncTagType.SHORT eUpgrade = new SyncTagType.SHORT("eUpgrade");
+	public SyncTagType.INT sUpgrade = new SyncTagType.INT("sUpgrade");
+	public SyncTagType.INT eUpgrade = new SyncTagType.INT("eUpgrade");
 
 	public static int lowestSpeed = 4, lowestEnergy = 1000;
 
