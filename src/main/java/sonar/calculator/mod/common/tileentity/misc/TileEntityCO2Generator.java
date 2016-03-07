@@ -30,7 +30,7 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 	private static final int[] input = new int[] { 0 };
 
 	public TileEntityCO2Generator() {
-		super.storage = new SyncEnergyStorage(1000000, 1000000);
+		super.storage = new SyncEnergyStorage(1000000, 64000);
 		super.slots = new ItemStack[2];
 	}
 

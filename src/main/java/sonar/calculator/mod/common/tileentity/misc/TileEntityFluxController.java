@@ -44,7 +44,7 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 	public int recieveMode, sendMode;
 	public int transmitterMode, playerProtect;
 	public int dimension, networkID;
-	public String playerName, networkName = "NETWORK";
+	public String playerName = "", networkName = "NETWORK";
 
 	/** client only list */
 	public List<FluxNetwork> networks;

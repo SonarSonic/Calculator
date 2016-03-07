@@ -31,7 +31,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	public Random rand = new Random();
 
 	public TileEntityConductorMast() {
-		super.storage = new SyncEnergyStorage(5000000, 5000000);
+		super.storage = new SyncEnergyStorage(5000000, 64000);
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 5000000;
 	}

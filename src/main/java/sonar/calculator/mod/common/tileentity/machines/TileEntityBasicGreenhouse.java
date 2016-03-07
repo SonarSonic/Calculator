@@ -38,7 +38,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 
 	public TileEntityBasicGreenhouse() {
 
-		super.storage = new SyncEnergyStorage(350000, 350000);
+		super.storage = new SyncEnergyStorage(350000, 800);
 		super.slots = new ItemStack[14];
 		super.type = 1;
 		super.maxLevel = 100000;

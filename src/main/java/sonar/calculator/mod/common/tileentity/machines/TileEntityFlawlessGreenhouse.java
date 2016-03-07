@@ -34,7 +34,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	public int plantsGrown;
 
 	public TileEntityFlawlessGreenhouse() {
-		super.storage = new SyncEnergyStorage(500000, 500000);
+		super.storage = new SyncEnergyStorage(500000, 64000);
 		super.slots = new ItemStack[10];
 		super.type = 3;
 		super.maxLevel = 100000;

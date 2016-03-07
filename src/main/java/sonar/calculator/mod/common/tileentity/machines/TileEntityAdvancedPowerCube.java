@@ -15,7 +15,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	public int energySide;
 
 	public TileEntityAdvancedPowerCube() {
-		super.storage = new SyncEnergyStorage(100000, 100000);
+		super.storage = new SyncEnergyStorage(100000, 64000);
 		super.maxTransfer = 100000;
 	}
 

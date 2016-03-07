@@ -8,7 +8,7 @@ import sonar.core.network.sync.SyncEnergyStorage;
 public class TileEntityPowerCube extends TileEntityInventoryReceiver {
 
 	public TileEntityPowerCube() {
-		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"));
+		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 200);
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 1;
 	}

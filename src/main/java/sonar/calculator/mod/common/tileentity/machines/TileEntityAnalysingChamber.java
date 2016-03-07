@@ -29,7 +29,7 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 	public TileEntityAnalysingChamber() {
 		super.input = new int[] { 0 };
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
-		super.storage = new SyncEnergyStorage(1000000, 1000000);
+		super.storage = new SyncEnergyStorage(1000000, 64000);
 		super.slots = new ItemStack[8];
 		super.maxTransfer = 2000;
 

@@ -39,7 +39,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 	private static final int[] slotsSides = new int[] { 1 };
 
 	public TileEntityGenerator() {
-		super.storage = new SyncEnergyStorage(1000000, 1000000);
+		super.storage = new SyncEnergyStorage(1000000, 800);
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 2000;
 	}

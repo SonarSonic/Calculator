@@ -25,7 +25,7 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 
 	public TileEntityWeatherController() {
 		super.slots = new ItemStack[1];
-		super.storage = new SyncEnergyStorage(1000000, 100000);
+		super.storage = new SyncEnergyStorage(1000000, 64000);
 	}
 
 	public void updateEntity() {

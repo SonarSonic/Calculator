@@ -25,7 +25,7 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 	public int ticksforpower = 2;
 
 	public TileEntityCrankedGenerator() {
-		super.storage = new SyncEnergyStorage(1000, 1000);
+		super.storage = new SyncEnergyStorage(1000, 200);
 		super.maxTransfer = 32;
 	}
 

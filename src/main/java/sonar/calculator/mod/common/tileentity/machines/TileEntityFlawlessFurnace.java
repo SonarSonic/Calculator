@@ -27,7 +27,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 
 	public TileEntityFlawlessFurnace() {
 		this.slots = new ItemStack[28];
-		this.storage = new SyncEnergyStorage(10000000);
+		this.storage = new SyncEnergyStorage(10000000, 64000);
 	}
 
 	public void updateEntity() {

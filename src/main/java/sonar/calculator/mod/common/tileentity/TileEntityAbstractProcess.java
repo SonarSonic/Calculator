@@ -24,7 +24,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 		}
 		super.input = inputs;
 		super.output = outputs;
-		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"));
+		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 1600);
 		super.slots = new ItemStack[1 + inputSize() + outputSize()];
 	}
 

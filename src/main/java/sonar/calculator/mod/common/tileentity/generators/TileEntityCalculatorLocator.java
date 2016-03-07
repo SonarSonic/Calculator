@@ -40,7 +40,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	private int sizeTicks, luckTicks;
 
 	public TileEntityCalculatorLocator() {
-		super.storage = new SyncEnergyStorage(25000000, 25000000);
+		super.storage = new SyncEnergyStorage(25000000, 64000);
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 100000;
 	}

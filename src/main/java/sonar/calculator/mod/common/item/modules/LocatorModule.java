@@ -13,6 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class LocatorModule extends SonarItem implements ILocatorModule {
+	
 	public LocatorModule() {
 		setTextureName("Calculator:locator_module_on");
 		setMaxStackSize(1);
@@ -40,7 +41,6 @@ public class LocatorModule extends SonarItem implements ILocatorModule {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-
 		super.addInformation(stack, player, list, par4);
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbtData = stack.getTagCompound();
