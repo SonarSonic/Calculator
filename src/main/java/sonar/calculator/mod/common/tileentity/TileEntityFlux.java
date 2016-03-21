@@ -1,23 +1,22 @@
 package sonar.calculator.mod.common.tileentity;
 
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.tile.IEnergySink;
-
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.flux.IFlux;
 import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.client.gui.misc.GuiFlux;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
+import sonar.core.common.tileentity.TileEntityEnergy;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.integration.SonarAPI;
 import sonar.core.network.sync.ISyncPart;
@@ -25,6 +24,7 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.ISyncTile;
+import sonar.core.utils.BlockCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
@@ -32,10 +32,7 @@ import cofh.api.energy.IEnergyHandler;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyHandler, ISyncTile, IEnergySink, IFlux {
+public abstract class TileEntityFlux extends TileEntityEnergy implements IEnergyHandler, ISyncTile, IFlux {
 
 	public SyncTagType.INT networkState = (INT) new SyncTagType.INT("networkState").removeSyncType(SyncType.SAVE);
 	public SyncTagType.INT playerState = (INT) new SyncTagType.INT("playerState").removeSyncType(SyncType.SAVE);	
@@ -119,7 +116,7 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 		parts.addAll(Lists.newArrayList(dimension, networkID, playerName, networkName, networkState, playerState));
 	}
 
-	public boolean hasEnergyHandler(ForgeDirection from) {
+	public boolean hasEnergyHandler(EnumFacing from) {
 		TileEntity handler = SonarHelper.getAdjacentTileEntity(this, from);
 		if (handler instanceof TileEntityFlux) {
 			return false;
@@ -128,23 +125,23 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 	}
 
 	@Override
-	public boolean canConnectEnergy(ForgeDirection from) {
+	public boolean canConnectEnergy(EnumFacing from) {
 		return true;
 	}
 
-	public int receiveEnergy(ForgeDirection dir, int maxTransfer, boolean simulate) {
+	public int receiveEnergy(EnumFacing dir, int maxTransfer, boolean simulate) {
 		return 0;
 	}
 
-	public int extractEnergy(ForgeDirection dir, int paramInt, boolean paramBoolean) {
+	public int extractEnergy(EnumFacing dir, int paramInt, boolean paramBoolean) {
 		return 0;
 	}
 
-	public int getEnergyStored(ForgeDirection dir) {
+	public int getEnergyStored(EnumFacing dir) {
 		return 0;
 	}
 
-	public int getMaxEnergyStored(ForgeDirection dir) {
+	public int getMaxEnergyStored(EnumFacing dir) {
 		return 0;
 	}
 
@@ -154,9 +151,6 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 
 	public void onLoaded() {
 		if (!this.worldObj.isRemote) {
-			if (SonarAPI.ic2Loaded()) {
-				MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
-			}
 			int network = FluxRegistry.getNetwork(networkName.getObject(), playerName.getObject());
 
 			if (network == 0) {
@@ -172,58 +166,20 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 	public void invalidate() {
 		super.invalidate();
 		if (!this.worldObj.isRemote) {
-			if (SonarAPI.ic2Loaded()) {
-				MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-			}
 			this.removeFromFrequency();
 		}
 	}
 
 	@Override
-	public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
-		return true;
-	}
-
-	@Override
-	public double getDemandedEnergy() {
-		return 0;
-	}
-
-	@Override
-	public int getSinkTier() {
-		return 4;
-	}
-
-	@Override
-	public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage) {
-		return 0;
-	}
-
-	@Override
-	public int xCoord() {
-		return xCoord;
-	}
-
-	@Override
-	public int yCoord() {
-		return yCoord;
-	}
-
-	@Override
-	public int zCoord() {
-		return zCoord;
+	public BlockCoords getCoords(){
+		return new BlockCoords(this);
 	}
 
 	@Override
 	public int networkID() {
 		return this.networkID.getObject();
 	}
-
-	@Override
-	public int dimension() {
-		return this.dimension.getObject();
-	}
-
+	
 	public String getPlayer() {
 		return this.playerName.getObject();
 	}

@@ -11,10 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.block.IDismantleable;
 
 public class ScarecrowBlock extends Block implements IDismantleable {
 	
@@ -57,7 +55,7 @@ public class ScarecrowBlock extends Block implements IDismantleable {
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		int metadata = world.getBlockMetadata(x, y, z);
-		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
+		EnumFacing dir = EnumFacing.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
 
 		if (world.getBlock(x, y - 2, z) == Calculator.scarecrow) {
 			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.6F, 1.0F);

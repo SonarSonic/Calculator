@@ -23,12 +23,12 @@ public class SlotResearch extends Slot {
 			int[] unblocked = entity.unblockedList();
 			if (entity.isBlocked(entity.lastResearch) && entity.lastResearch != 0) {
 				if (CalculatorRecipes.recipes().discovery(unblocked, entity.lastResearch)) {
-					FontHelper.sendMessage(FontHelper.translate("research.recipeNew"), entity.getWorldObj(), player);
+					FontHelper.sendMessage(FontHelper.translate("research.recipeNew"), entity.getWorld(), player);
 				}
 			}
 			*/
-			entity.getWorldObj().markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
-			entity.getWorldObj().addBlockEvent(entity.xCoord, entity.yCoord, entity.zCoord, entity.blockType, 1, 0);
+			entity.getWorld().markBlockForUpdate(entity.getPos());
+			entity.getWorld().addBlockEvent(entity.getPos(), entity.getBlockType(), 1, 0);
 
 		}
 	}
@@ -40,12 +40,12 @@ public class SlotResearch extends Slot {
 			int[] unblocked = entity.unblockedList();
 			if (entity.isBlocked(entity.lastResearch) && entity.lastResearch != 0) {
 				if (CalculatorRecipes.recipes().discovery(unblocked, entity.lastResearch)) {
-					FontHelper.sendMessage(FontHelper.translate("research.recipeNew"), entity.getWorldObj(), player);
+					FontHelper.sendMessage(FontHelper.translate("research.recipeNew"), entity.getWorld(), player);
 				}
 			}
 			*/
-			entity.getWorldObj().markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
-			entity.getWorldObj().addBlockEvent(entity.xCoord, entity.yCoord, entity.zCoord, entity.blockType, 1, 0);
+			entity.getWorld().markBlockForUpdate(entity.getPos());
+			entity.getWorld().addBlockEvent(entity.getPos(), entity.getBlockType(), 1, 0);
 
 		}
 	}

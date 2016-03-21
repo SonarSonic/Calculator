@@ -2,21 +2,19 @@ package sonar.calculator.mod.common.item.calculators;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class InfoCalc extends SonarItem {
 
 	public InfoCalc() {
-		setCreativeTab(Calculator.Calculator);
 		setMaxStackSize(1);
 	}
 
@@ -32,11 +30,4 @@ public class InfoCalc extends SonarItem {
 		player.openGui(Calculator.instance, CalculatorGui.InfoCalculator, world, (int) player.posX, (int) player.posY, (int) player.posZ);
 		return itemstack;
 	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconregister) {
-		this.itemIcon = iconregister.registerIcon("Calculator:infocalculator");
-	}
-
 }

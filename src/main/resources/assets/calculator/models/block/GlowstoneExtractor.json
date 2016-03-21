@@ -1,0 +1,9 @@
+{
+    "parent":"calculator:block/Extractor",   
+
+    "textures": {
+        "0":"calculator:model/glowstone_generator_0",        
+        "1":"calculator:model/glowstone_generator_1"
+    }
+
+}

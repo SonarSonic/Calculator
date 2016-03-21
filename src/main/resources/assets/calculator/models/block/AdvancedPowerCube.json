@@ -1,0 +1,11 @@
+{
+    "parent":"calculator:block/SonarMachine",
+    "textures": {
+        "north":"calculator:blocks/advancedPowerCube_front_slot1",             
+        "east":"calculator:blocks/advancedPowerCube_side_slot1",            
+        "south":"calculator:blocks/advancedPowerCube_side_slot1",               
+        "west":"calculator:blocks/advancedPowerCube_side_slot1",
+        "up":"calculator:blocks/advancedPowerCube_side_slot1",  
+        "down":"calculator:blocks/advancedPowerCube_side_slot1"    
+    }
+}

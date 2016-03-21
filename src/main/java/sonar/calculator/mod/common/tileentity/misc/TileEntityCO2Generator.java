@@ -7,18 +7,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
-import sonar.core.common.tileentity.TileEntityInventoryReceiver;
+import sonar.core.common.block.SonarBlock;
+import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RenderHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityCO2Generator extends TileEntityInventoryReceiver implements ISidedInventory {
+public class TileEntityCO2Generator extends TileEntityEnergyInventory implements ISidedInventory {
 
 	public int burnTime;
 	public int maxBurnTime;
@@ -28,24 +30,32 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 	public boolean controlled;
 	public boolean control;
 	private static final int[] input = new int[] { 0 };
+	public EnumFacing forward = EnumFacing.NORTH;
+	public EnumFacing horizontal = EnumFacing.EAST;
 
 	public TileEntityCO2Generator() {
 		super.storage = new SyncEnergyStorage(1000000, 64000);
-		super.slots = new ItemStack[2];
+		super.inv = new SonarTileInventory(this, 2);
+	}
+
+	public void validate() {
+		super.validate();
+		forward = worldObj.getBlockState(pos).getValue(SonarBlock.FACING);
+		horizontal = RenderHelper.getHorizontal(forward);
 	}
 
 	@Override
-	public void updateEntity() {
+	public void update() {
 
-		super.updateEntity();
-		if (RenderHelper.getHorizontal(getForward()) != null) {
+		super.update();
+		if (RenderHelper.getHorizontal(forward) != null) {
 			boolean flag1 = this.burnTime > 0;
 			boolean flag2 = false;
-			ForgeDirection hoz = RenderHelper.getHorizontal(getForward()).getOpposite();
-			TileEntity tile = this.worldObj.getTileEntity(xCoord + (hoz.offsetX * 3), yCoord, zCoord + (hoz.offsetZ * 3));
+			EnumFacing hoz = RenderHelper.getHorizontal(forward).getOpposite();
+			TileEntity tile = this.worldObj.getTileEntity(pos.add((hoz.getFrontOffsetX() * 3), 0, (hoz.getFrontOffsetZ() * 3)));
 
-			if (this.maxBurnTime == 0 && !this.worldObj.isRemote && this.slots[0] != null) {
-				if (TileEntityFurnace.isItemFuel(slots[0]) && this.storage.getEnergyStored() >= energyAmount) {
+			if (this.maxBurnTime == 0 && !this.worldObj.isRemote && this.slots()[0] != null) {
+				if (TileEntityFurnace.isItemFuel(slots()[0]) && this.storage.getEnergyStored() >= energyAmount) {
 					if (tile != null && tile instanceof TileEntityFlawlessGreenhouse) {
 						burn();
 						this.storage.modifyEnergyStored(-energyAmount);
@@ -101,12 +111,12 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 
 	public void burn() {
 		this.maxBurnTime = maxBurn;
-		this.gasAdd = TileEntityFurnace.getItemBurnTime(this.slots[0]) / 100;
-		this.controlled = slots[0].getItem() == Calculator.controlled_Fuel;
-		this.slots[0].stackSize--;
+		this.gasAdd = TileEntityFurnace.getItemBurnTime(this.slots()[0]) / 100;
+		this.controlled = slots()[0].getItem() == Calculator.controlled_Fuel;
+		this.slots()[0].stackSize--;
 
-		if (this.slots[0].stackSize <= 0) {
-			this.slots[0] = null;
+		if (this.slots()[0].stackSize <= 0) {
+			this.slots()[0] = null;
 		}
 
 	}
@@ -144,7 +154,7 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
+	public int[] getSlotsForFace(EnumFacing side) {
 		return input;
 	}
 
@@ -158,26 +168,21 @@ public class TileEntityCO2Generator extends TileEntityInventoryReceiver implemen
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int par) {
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing par) {
 		return this.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
 		return false;
 	}
 
-	public ForgeDirection getForward() {
-
-		return ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
-	}
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
 		if (burnTime > 0 && maxBurn != 0 && gasAdd == 0) {
 			String burn = FontHelper.translate("co2.control");
 			currenttip.add(burn);
-		}
-		else if (burnTime > 0 && maxBurn != 0) {
+		} else if (burnTime > 0 && maxBurn != 0) {
 			String burn = FontHelper.translate("co2.burnt") + ": " + burnTime * 100 / maxBurn;
 			currenttip.add(burn);
 		} else {

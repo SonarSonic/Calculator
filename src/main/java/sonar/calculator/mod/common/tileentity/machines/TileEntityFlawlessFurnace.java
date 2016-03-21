@@ -4,19 +4,21 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
-import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
+import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RecipeHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver implements IPausable {
+public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory implements IPausable {
 	public SyncTagType.INT[] cookTime = new SyncTagType.INT[9];
 	public float renderTicks;
 	public double energyBuffer;
@@ -26,13 +28,13 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 	public int maxProcess;
 
 	public TileEntityFlawlessFurnace() {
-		this.slots = new ItemStack[28];
+		this.inv = new SonarTileInventory(this, 28);
 		this.storage = new SyncEnergyStorage(10000000, 64000);
 	}
 
-	public void updateEntity() {
-		super.updateEntity();
-		if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+	public void update() {
+		super.update();
+		if (this.worldObj.isBlockPowered(pos)) {
 			this.paused = true;
 			return;
 		} else {
@@ -95,7 +97,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 	}
 
 	public boolean canProcess(int slot) {
-		if (slots[slot] == null) {
+		if (slots()[slot] == null) {
 			return false;
 		}
 
@@ -104,7 +106,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 			// return false;
 			// }
 		}
-		ItemStack[] output = getOutput(true, slots[slot]);
+		ItemStack[] output = getOutput(true, slots()[slot]);
 		if (output == null || output.length == 0) {
 			return false;
 		}
@@ -112,11 +114,11 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 			if (output[o] == null) {
 				return false;
 			} else {
-				if (slots[slot + ((o + 1) * 9)] != null) {
-					if (!slots[slot + ((o + 1) * 9)].isItemEqual(output[o])) {
+				if (slots()[slot + ((o + 1) * 9)] != null) {
+					if (!slots()[slot + ((o + 1) * 9)].isItemEqual(output[o])) {
 
 						return false;
-					} else if (slots[slot + ((o + 1) * 9)].stackSize + output[o].stackSize > slots[slot + ((o + 1) * 9)].getMaxStackSize()) {
+					} else if (slots()[slot + ((o + 1) * 9)].stackSize + output[o].stackSize > slots()[slot + ((o + 1) * 9)].getMaxStackSize()) {
 
 						return false;
 					}
@@ -127,28 +129,28 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 	}
 
 	public void finishProcess(int slot) {
-		ItemStack[] output = getOutput(false, slots[slot]);
+		ItemStack[] output = getOutput(false, slots()[slot]);
 		for (int o = 0; o < output.length; o++) {
 			if (output[o] != null) {
-				if (this.slots[slot + ((o + 1) * 9)] == null) {
+				if (this.slots()[slot + ((o + 1) * 9)] == null) {
 					ItemStack outputStack = output[o].copy();
 					if (output[o].getItem() == Calculator.circuitBoard) {
 						ItemCircuit.setData(outputStack);
 					}
-					this.slots[slot + ((o + 1) * 9)] = outputStack;
-				} else if (this.slots[slot + ((o + 1) * 9)].isItemEqual(output[o])) {
-					this.slots[slot + ((o + 1) * 9)].stackSize += output[o].stackSize;
+					this.slots()[slot + ((o + 1) * 9)] = outputStack;
+				} else if (this.slots()[slot + ((o + 1) * 9)].isItemEqual(output[o])) {
+					this.slots()[slot + ((o + 1) * 9)].stackSize += output[o].stackSize;
 
 				}
 			}
 		}
 		if (recipeHelper() != null) {
-			this.slots[slot].stackSize -= recipeHelper().getInputSize(0, output);
+			this.slots()[slot].stackSize -= recipeHelper().getInputSize(0, output);
 		} else {
-			this.slots[slot].stackSize -= 1;
+			this.slots()[slot].stackSize -= 1;
 		}
-		if (this.slots[slot].stackSize <= 0) {
-			this.slots[slot] = null;
+		if (this.slots()[slot].stackSize <= 0) {
+			this.slots()[slot] = null;
 		}
 
 	}
@@ -178,7 +180,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1) {
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			this.worldObj.markBlockForUpdate(pos);
 		}
 		return true;
 	}
@@ -213,8 +215,8 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 	@Override
 	public void onPause() {
 		paused = !paused;
-		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		this.worldObj.addBlockEvent(xCoord, yCoord, zCoord, blockType, 1, 1);
+		this.worldObj.markBlockForUpdate(pos);
+		this.worldObj.addBlockEvent(pos, blockType, 1, 1);
 	}
 
 	@Override
@@ -223,7 +225,7 @@ public class TileEntityFlawlessFurnace extends TileEntitySidedInventoryReceiver 
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing dir) {
 		return true;
 	}
 

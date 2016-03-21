@@ -19,7 +19,7 @@ public class WeatherStation extends SonarMachineBlock {
 
 
 	public WeatherStation() {
-		super(SonarMaterials.machine);
+		super(SonarMaterials.machine, false, true);
 	}
 
 	public boolean hasSpecialRenderer() {
@@ -27,7 +27,7 @@ public class WeatherStation extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
 				player.openGui(Calculator.instance, CalculatorGui.WeatherStation, world, x, y, z);

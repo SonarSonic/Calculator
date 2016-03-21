@@ -24,7 +24,7 @@ public class RenderTransmitter extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileentity, double X, double Y, double Z, float f) {
 		int i;
 
-		if (tileentity.getWorldObj() == null) {
+		if (tileentity.getWorld() == null) {
 			i = 0;
 		} else {
 			Block block = tileentity.getBlockType();

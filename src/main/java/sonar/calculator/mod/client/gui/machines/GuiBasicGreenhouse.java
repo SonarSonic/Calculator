@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -44,7 +46,7 @@ public class GuiBasicGreenhouse extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
 
@@ -60,20 +62,17 @@ public class GuiBasicGreenhouse extends GuiContainer {
 			int o = this.entity.getOxygen() * 66 / this.entity.maxLevel;
 			this.drawTexturedModalRect(this.guiLeft + 137, this.guiTop + 11 + 66 - o, 218, 66 - o, 28, 66);
 		}
-
-		if (entity.slots[0] == null) {
-			itemRender.renderItemIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), new ItemStack(Blocks.log), this.guiLeft + 19, this.guiTop + 28);
+		if (entity.slots()[0] == null) {
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.log), this.guiLeft + 19, this.guiTop + 28);
 		}
-		if (entity.slots[1] == null) {
-			itemRender.renderItemIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), new ItemStack(Blocks.oak_stairs), this.guiLeft + 37, this.guiTop + 28);
+		if (entity.slots()[1] == null) {
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.oak_stairs), this.guiLeft + 37, this.guiTop + 28);
 		}
-		if (entity.slots[2] == null) {
-			itemRender.renderItemIntoGUI(this.fontRendererObj,
-
-			this.mc.getTextureManager(), new ItemStack(Blocks.glass), this.guiLeft + 19, this.guiTop + 46);
+		if (entity.slots()[2] == null) {
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.glass), this.guiLeft + 19, this.guiTop + 46);
 		}
-		if (entity.slots[3] == null) {
-			itemRender.renderItemIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), new ItemStack(Blocks.planks), this.guiLeft + 37, this.guiTop + 46);
+		if (entity.slots()[3] == null) {
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.planks), this.guiLeft + 37, this.guiTop + 46);
 		}
 	}
 }

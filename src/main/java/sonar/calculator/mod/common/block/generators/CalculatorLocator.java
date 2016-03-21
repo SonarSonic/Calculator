@@ -3,27 +3,38 @@ package sonar.calculator.mod.common.block.generators;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.blocks.IStableBlock;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
+import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class CalculatorLocator extends SonarMachineBlock {
 
+	public static final PropertyBool ACTIVE = PropertyBool.create("active");
+	
 	public CalculatorLocator() {
-		super(SonarMaterials.machine);
-		this.disableOrientation();
+		super(SonarMaterials.machine,false,true);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, true));
 	}
 
 	public boolean hasSpecialRenderer() {
@@ -31,10 +42,10 @@ public class CalculatorLocator extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
-				player.openGui(Calculator.instance, CalculatorGui.CalculatorLocator, world, x, y, z);
+				player.openGui(Calculator.instance, CalculatorGui.CalculatorLocator, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		return true;
@@ -42,32 +53,31 @@ public class CalculatorLocator extends SonarMachineBlock {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-		TileEntityCalculatorLocator te = (TileEntityCalculatorLocator) world.getTileEntity(x, y, z);
-		if (te.active.getObject()) {
-			float x1 = x + random.nextFloat();
-			float y1 = y + 0.5F;
-			float z1 = z + random.nextFloat();
-
-			world.spawnParticle("smoke", x1, y1, z1, 0.0D, 0.0D, 0.0D);
-			world.spawnParticle("smoke", x1, y1, z1, 0.0D, 0.0D, 0.0D);
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
+		if (state.getValue(ACTIVE)) {
+			float x1 = pos.getX() + random.nextFloat();
+			float y1 = pos.getY() + 0.5F;
+			float z1 = pos.getZ() + random.nextFloat();			
+			
+			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
+			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
 		}
 	}
 
-	public static int multiBlockStructure(World world, int x, int y, int z) {
+	public static int multiBlockStructure(World world, BlockPos pos) {
 		for (int size = 1; size < 12; size++) {
-			if (checkSize(world, x, y, z, size)) {
+			if (checkSize(world, pos, size)) {
 				return size;
 			}
 		}
 		return 0;
 	}
 
-	public static boolean checkSize(World world, int x, int y, int z, int size) {
+	public static boolean checkSize(World world, BlockPos pos, int size) {
 		for (int X = -size; X <= size; X++) {
 			for (int Z = -size; Z <= size; Z++) {
 				if (!(X == 0 && Z == 0)) {
-					if (!(world.getBlock(x + X, y - 1, z + Z) instanceof IStableBlock)) {
+					if (!(world.getBlockState(pos.add(X, -1, Z)).getBlock() instanceof IStableBlock)) {
 						return false;
 					}
 				}
@@ -76,13 +86,13 @@ public class CalculatorLocator extends SonarMachineBlock {
 
 		for (int XZ = -(size); XZ <= (size); XZ++) {
 			for (int Y = -1; Y <= 0; Y++) {
-				if (!(world.getBlock(x + XZ, y + Y, z + size+1) instanceof IStableBlock)) {
+				if (!(world.getBlockState(pos.add(XZ, Y, size + 1)).getBlock() instanceof IStableBlock)) {
 					return false;
-				} else if (!(world.getBlock(x + XZ, y + Y, z - (size+1)) instanceof IStableBlock)) {
+				} else if (!(world.getBlockState(pos.add(XZ, Y, -(size + 1))).getBlock() instanceof IStableBlock)) {
 					return false;
-				} else if (!(world.getBlock(x + (size+1), y + Y, z + XZ) instanceof IStableBlock)) {
+				} else if (!(world.getBlockState(pos.add((size + 1), Y, XZ)).getBlock() instanceof IStableBlock)) {
 					return false;
-				} else if (!(world.getBlock(x - (size+1), y + Y, z + XZ) instanceof IStableBlock)) {
+				} else if (!(world.getBlockState(pos.add(-(size + 1), Y, XZ)).getBlock() instanceof IStableBlock)) {
 					return false;
 				}
 			}
@@ -91,7 +101,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 		for (int X = -(size); X <= (size); X++) {
 			for (int Z = -(size); Z <= (size); Z++) {
 				if (!(X == 0 && Z == 0)) {
-					if (!(world.getBlock(x + X, y, z + Z) == Calculator.calculatorplug)) {
+					if (!(world.getBlockState(pos.add(X, 0, Z)).getBlock() == Calculator.calculatorplug)) {
 						return false;
 					}
 				}
@@ -111,4 +121,16 @@ public class CalculatorLocator extends SonarMachineBlock {
 
 	}
 
+	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
+		TileEntity target = world.getTileEntity(pos);
+		if(target !=null && target instanceof TileEntityCalculatorLocator){
+			TileEntityCalculatorLocator locator = (TileEntityCalculatorLocator) target;
+			return state.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, locator.active.getObject());
+		}
+		return state;
+	}
+
+	protected BlockState createBlockState() {
+		return new BlockState(this, new IProperty[] { FACING, ACTIVE });
+	}
 }

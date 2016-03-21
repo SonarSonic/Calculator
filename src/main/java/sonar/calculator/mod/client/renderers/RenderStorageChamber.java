@@ -32,11 +32,11 @@ public class RenderStorageChamber extends TileEntitySpecialRenderer {
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		RenderHelper.finishRender();
 		int[] sides = new int[6];
-		if (entity != null && entity.getWorldObj() != null && entity instanceof TileEntitySidedInventory) {
+		if (entity != null && entity.getWorld() != null && entity instanceof TileEntitySidedInventory) {
 			TileEntitySidedInventory inv = (TileEntitySidedInventory) entity;
 			sides = inv.sides;
 		}
-		if (entity == null || entity.getWorldObj() == null) {
+		if (entity == null || entity.getWorld() == null) {
 			Tessellator tes = Tessellator.instance;
 			GL11.glTranslated(x, y, z);
 			tes.startDrawingQuads();

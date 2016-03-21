@@ -1,15 +1,16 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 
-public class TileEntityRainSensor extends TileEntity {
+public class TileEntityRainSensor extends TileEntity implements ITickable {
 
-	public void updateEntity() {
+	public void update() {
 		if (this.worldObj != null && !this.worldObj.isRemote) {
-			int meta = this.blockMetadata;
+			int meta = this.getBlockMetadata();
 			int newMeta = this.getMeta();
 			if (newMeta != meta) {
-				this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, newMeta, 3);
+				this.worldObj.setBlockState(pos, this.getBlockType().getStateFromMeta(newMeta), 3);
 			}
 		}
 	}

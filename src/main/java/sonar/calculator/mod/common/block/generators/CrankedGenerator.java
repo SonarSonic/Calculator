@@ -2,32 +2,31 @@ package sonar.calculator.mod.common.block.generators;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenerator;
+import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class CrankedGenerator extends SonarMachineBlock {
-	@SideOnly(Side.CLIENT)
-	private IIcon iconFront, iconTop;
-
 	public CrankedGenerator() {
-		super(SonarMaterials.machine);
+		super(SonarMaterials.machine, true, true);
 	}
 
+	/*
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -35,40 +34,31 @@ public class CrankedGenerator extends SonarMachineBlock {
 		this.iconFront = iconRegister.registerIcon("Calculator:crank_front");
 		this.iconTop = iconRegister.registerIcon("Calculator:crank_top");
 	}
+	*/
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.iconFront : side == 0 ? this.iconTop : side == 1 ? this.iconTop : (metadata == 0) && (side == 3) ? this.iconFront : this.blockIcon;
-	}
-
-	@Override
-	public void onNeighborChange(IBlockAccess world, int x, int y, int z, int tileX, int tileY, int tileZ) {
-		TileEntity tileentity = world.getTileEntity(x, y, z);
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+		super.onBlockAdded(world, pos, state);
+		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity != null && tileentity instanceof TileEntityCrankedGenerator) {
-			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(x, y, z);
+			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(pos);
+			generator.updateAdjacentHandlers();
+		}
+	}
+	@Override
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) {
+		TileEntity tileentity = world.getTileEntity(pos);
+		if (tileentity != null && tileentity instanceof TileEntityCrankedGenerator) {
+			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(pos);
 			generator.updateAdjacentHandlers();
 		}
 
 	}
-
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
-		setDefaultDirection(world, x, y, z);
-		TileEntity te = world.getTileEntity(x, y, z);
-		if (te != null && te instanceof TileEntityCrankedGenerator) {
-			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(x, y, z);
-			generator.updateAdjacentHandlers();
-		}
-
-	}
-
-	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
-				player.openGui(Calculator.instance, CalculatorGui.CrankedGenerator, world, x, y, z);
+				player.openGui(Calculator.instance, CalculatorGui.CrankedGenerator, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		return true;

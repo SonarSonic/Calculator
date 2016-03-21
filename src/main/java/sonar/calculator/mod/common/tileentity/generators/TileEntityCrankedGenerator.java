@@ -1,23 +1,21 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import ic2.api.energy.tile.IEnergySink;
-
 import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
-import sonar.core.common.tileentity.TileEntitySender;
+import sonar.core.common.tileentity.TileEntityEnergy;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyReceiver;
 
-public class TileEntityCrankedGenerator extends TileEntitySender {
+public class TileEntityCrankedGenerator extends TileEntityEnergy {
 
 	protected TileEntity[] handlers = new TileEntity[6];
 	public boolean cranked;
@@ -30,11 +28,11 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 	}
 
 	@Override
-	public void updateEntity() {
+	public void update() {
 
-		super.updateEntity();
+		super.update();
 		if (cranked()) {
-			TileEntityCrankHandle crank = (TileEntityCrankHandle) this.worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
+			TileEntityCrankHandle crank = (TileEntityCrankHandle) this.worldObj.getTileEntity(pos.offset(EnumFacing.UP));
 			if (crank.angle > 0) {
 				if (ticks == 0) {
 					this.storage.modifyEnergyStored(2);
@@ -50,7 +48,7 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 	}
 
 	public boolean cranked() {
-		Block crank = this.worldObj.getBlock(xCoord, yCoord + 1, zCoord);
+		Block crank = this.worldObj.getBlockState(pos.offset(EnumFacing.UP)).getBlock();
 		if (crank != null && crank == Calculator.crank) {
 			return true;
 		}
@@ -61,13 +59,7 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 		for (int i = 0; i < 6; i++) {
 			if (this.handlers[i] != null) {
 				if (handlers[i] instanceof IEnergyReceiver) {
-					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve, simulate);
-				} else if (handlers[i] instanceof IEnergySink) {
-					if (simulate) {
-						recieve -= ((IEnergySink) this.handlers[i]).getDemandedEnergy() * 4;
-					} else {
-						recieve -= (recieve - (((IEnergySink) this.handlers[i]).injectEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve / 4, 128) * 4));
-					}
+					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(EnumFacing.VALUES[(i ^ 0x1)], recieve, simulate);
 				}
 			}
 		}
@@ -76,9 +68,9 @@ public class TileEntityCrankedGenerator extends TileEntitySender {
 
 	public void updateAdjacentHandlers() {
 		for (int i = 0; i < 6; i++) {
-			TileEntity te = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.getOrientation(i));
+			TileEntity te = SonarHelper.getAdjacentTileEntity(this, EnumFacing.getFront(i));
 			if (!(te instanceof TileEntityFlux)) {
-				if (SonarHelper.isEnergyHandlerFromSide(te, ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)])) {
+				if (SonarHelper.isEnergyHandlerFromSide(te, EnumFacing.VALUES[(i ^ 0x1)])) {
 					this.handlers[i] = te;
 				} else
 					this.handlers[i] = null;

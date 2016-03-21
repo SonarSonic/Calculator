@@ -27,8 +27,7 @@ public class FluxController extends SonarMachineBlock {
 	private Random rand = new Random();	
 
 	public FluxController() {
-		super(SonarMaterials.machine);
-		this.disableOrientation();
+		super(SonarMaterials.machine, false, true);
 		this.setBlockBounds(0.0625F, 0.0625F, 0.0625F, 1 - 0.0625F, 1 - 0.0625F, 1 - 0.0625F);
 	}
 
@@ -48,7 +47,7 @@ public class FluxController extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
 				TileEntity target = world.getTileEntity(x, y, z);

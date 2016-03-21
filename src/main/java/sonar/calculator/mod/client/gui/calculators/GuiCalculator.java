@@ -7,21 +7,21 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerCalculator;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInventory;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiCalculator extends GuiContainer {
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/calculator.png");
 
-	public GuiCalculator(EntityPlayer player, InventoryPlayer inv, CalculatorInventory calculatorInventory, Map<Integer, Integer> map) {
-		super(new ContainerCalculator(player, inv, calculatorInventory, map));
+	public GuiCalculator(EntityPlayer player, InventoryPlayer inv, CalculatorInventory calculatorInventory) {
+		super(new ContainerCalculator(player, inv, calculatorInventory));
 	}
 
 	@Override

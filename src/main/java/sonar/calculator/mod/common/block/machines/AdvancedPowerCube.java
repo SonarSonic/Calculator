@@ -1,16 +1,25 @@
 package sonar.calculator.mod.common.block.machines;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Lists;
+
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCube;
 import sonar.calculator.mod.network.CalculatorGui;
@@ -19,74 +28,36 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import sonar.core.utils.MachineSide;
 
 public class AdvancedPowerCube extends SonarMachineBlock {
-	@SideOnly(Side.CLIENT)
-	private IIcon front1, front2, side1, side2;
-	
+
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyEnum<MachineSide> DOWN = PropertyEnum.create("down", MachineSide.class);
+	public static final PropertyEnum<MachineSide> UP = PropertyEnum.create("up", MachineSide.class);
+	public static final PropertyEnum<MachineSide> NORTH = PropertyEnum.create("north", MachineSide.class);
+	public static final PropertyEnum<MachineSide> EAST = PropertyEnum.create("east", MachineSide.class);
+	public static final PropertyEnum<MachineSide> SOUTH = PropertyEnum.create("south", MachineSide.class);
+	public static final PropertyEnum<MachineSide> WEST = PropertyEnum.create("west", MachineSide.class);
+
 	public AdvancedPowerCube() {
-		super(SonarMaterials.machine);
+		super(SonarMaterials.machine, true, true);
 	}
 
+	/*@Override
+	 * 
+	 * @SideOnly(Side.CLIENT) public void registerBlockIcons(IIconRegister iconRegister) { this.side1 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_side_slot1"); this.side2 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_side_slot2"); this.front1 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_front_slot1"); this.front2 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_front_slot2"); } */
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.side1 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_side_slot1");
-		this.side2 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_side_slot2");
-		this.front1 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_front_slot1");
-		this.front2 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_front_slot2");
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(IBlockAccess access, int x, int y, int z, int side) {
-		TileEntity entity = access.getTileEntity(x, y, z);
-		if (entity != null) {
-			if (entity instanceof TileEntityAdvancedPowerCube) {
-				TileEntityAdvancedPowerCube t = (TileEntityAdvancedPowerCube) access.getTileEntity(x, y, z);
-				int s = t.side(side);
-				if (side == access.getBlockMetadata(x, y, z)) {
-					if (side == s) {
-						return front2;
-					} else {
-						return front1;
-					}
-				} else {
-					if (side == s) {
-						return side2;
-					} else {
-						return side1;
-					}
-				}
-			}
-		}
-		return side1;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.front1 : side == 0 ? this.side1 : side == 1 ? this.side1 : (metadata == 0) && (side == 3) ? this.front1 : this.side1;
-	}
-
-	@Override
-	public Item getItemDropped(int i, Random random, int j) {
-		return Item.getItemFromBlock(Calculator.advancedPowerCube);
-	}
-
-	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (interact.type == BlockInteractionType.SHIFT_RIGHT) {
-				if (world.getTileEntity(x, y, z) instanceof TileEntityAdvancedPowerCube) {
-					TileEntityAdvancedPowerCube cube = (TileEntityAdvancedPowerCube) world.getTileEntity(x, y, z);
+				if (world.getTileEntity(pos) instanceof TileEntityAdvancedPowerCube) {
+					TileEntityAdvancedPowerCube cube = (TileEntityAdvancedPowerCube) world.getTileEntity(pos);
 					cube.incrementEnergy(interact.side);
-					world.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
+					world.markBlockRangeForRenderUpdate(pos, pos);
 				}
 			} else {
-				player.openGui(Calculator.instance, CalculatorGui.advancedCube, world, x, y, z);
+				player.openGui(Calculator.instance, CalculatorGui.advancedCube, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 

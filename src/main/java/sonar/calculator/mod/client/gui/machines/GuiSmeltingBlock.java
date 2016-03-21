@@ -38,7 +38,7 @@ public class GuiSmeltingBlock extends GuiSonar {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {
-		FontHelper.textCentre(this.entity.getInventoryName(), xSize, 6, 0);
+		FontHelper.textCentre(this.entity.getName(), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 		super.drawGuiContainerForegroundLayer(x, y);
 	}
@@ -57,7 +57,7 @@ public class GuiSmeltingBlock extends GuiSonar {
 	}
 
 	protected void actionPerformed(GuiButton button) {
-		if (entity.getWorldObj().isRemote) {
+		if (entity.getWorld().isRemote) {
 			if (button != null && button instanceof SonarButtons.SonarButton) {
 				SonarButton sButton = (SonarButton) button;
 				sButton.onClicked();

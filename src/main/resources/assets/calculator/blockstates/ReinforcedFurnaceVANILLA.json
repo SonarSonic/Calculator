@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model":"calculator:ReinforcedFurnace" },
+        "facing=south": { "model":"calculator:ReinforcedFurnace", "y": 180 },
+        "facing=west":  { "model":"calculator:ReinforcedFurnace", "y": 270 },
+        "facing=east":  { "model":"calculator:ReinforcedFurnace", "y": 90 }
+    }
+}

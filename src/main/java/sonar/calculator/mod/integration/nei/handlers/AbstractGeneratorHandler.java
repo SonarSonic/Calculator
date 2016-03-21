@@ -14,9 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import sonar.core.utils.helpers.ValueHelper;
-import codechicken.nei.ItemList;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public abstract class AbstractGeneratorHandler extends TemplateRecipeHandler {
 

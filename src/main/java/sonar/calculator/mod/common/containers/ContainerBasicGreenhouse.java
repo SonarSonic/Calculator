@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.containers;
 
-import ic2.api.item.IElectricItem;
-import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -79,15 +77,7 @@ public class ContainerBasicGreenhouse extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 4, 5, false)) {
 						return null;
 					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
-					if (!mergeItemStack(itemstack1, 4, 5, false)) {
-						return null;
-					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
-					if (!mergeItemStack(itemstack1, 4, 5, false)) {
-						return null;
-					}
-				} else if (itemstack1.getItem() instanceof IPlantable) {
+				}else if (itemstack1.getItem() instanceof IPlantable) {
 					if (!mergeItemStack(itemstack1, 5, 14, false)) {
 						return null;
 					}

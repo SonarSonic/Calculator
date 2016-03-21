@@ -1,0 +1,34 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model":"calculator:CalculatorPlug"
+    },
+    "variants": {
+        "facing":{            
+            "north":{
+                
+            },
+            "south":{
+                
+            },
+            "west":{
+                
+            },
+            "east":{
+                
+            }
+        },
+        "active":{
+            "true":{
+                "textures": {
+                    "particle":"calculator:model/calculator_plug_base_on",
+                    "0":"calculator:model/calculator_plug_base_on",
+                    "1":"calculator:model/calculator_plug_on"                    
+                }
+            },
+            "false":{
+                
+            }
+        }
+    }
+}

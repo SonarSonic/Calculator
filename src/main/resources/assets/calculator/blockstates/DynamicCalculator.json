@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model":"calculator:DynamicCalculator" },
+        "facing=south": { "model":"calculator:DynamicCalculator", "y": 180 },
+        "facing=west":  { "model":"calculator:DynamicCalculator", "y": 270 },
+        "facing=east":  { "model":"calculator:DynamicCalculator", "y": 90 }
+    }
+}

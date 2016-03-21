@@ -5,18 +5,20 @@ import java.util.List;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.utils.AtomicMultiplierBlacklist;
-import sonar.core.common.tileentity.TileEntityInventoryReceiver;
+import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.energy.DischargeValues;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver implements ISidedInventory, IProcessMachine {
+public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine {
 
 	public int cookTime, active;
 	public int furnaceSpeed = 1000;
@@ -28,12 +30,12 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 
 	public TileEntityAtomicMultiplier() {
 		super.storage = new SyncEnergyStorage(1500000000, 1500000000);
-		super.slots = new ItemStack[10];
+		super.inv = new SonarTileInventory(this, 10);
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		discharge(9);
 		if (this.cookTime > 0) {
 			this.active = 1;
@@ -55,14 +57,14 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 
 				int energy = requiredEnergy / furnaceSpeed;
 				this.storage.modifyEnergyStored(-energy);
-				this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				this.worldObj.markBlockForUpdate(pos);
 			}
 
 		} else {
 			if (this.cookTime != 0 || this.active != 0) {
 				this.cookTime = 0;
 				this.active = 0;
-				this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				this.worldObj.markBlockForUpdate(pos);
 			}
 		}
 
@@ -75,19 +77,19 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 			return false;
 		}
 		for (int i = 0; i < 8; i++) {
-			if (slots[i] == null) {
+			if (slots()[i] == null) {
 				return false;
 			}
 		}
-		if (!isAllowed(slots[0])) {
+		if (!isAllowed(slots()[0])) {
 			return false;
 		}
 
-		if (slots[8] != null) {
-			if (slots[8].stackSize + 4 > 64) {
+		if (slots()[8] != null) {
+			if (slots()[8].stackSize + 4 > 64) {
 				return false;
 			}
-			if (!slots[0].isItemEqual(slots[8])) {
+			if (!slots()[0].isItemEqual(slots()[8])) {
 				return false;
 			}
 		}
@@ -97,12 +99,12 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 				return false;
 			}
 		}
-		if (!(slots[0].getMaxStackSize() >= 4)) {
+		if (!(slots()[0].getMaxStackSize() >= 4)) {
 			return false;
 		}
 
 		for (int i = 1; i < 8; i++) {
-			if (slots[i].getItem() != Calculator.circuitBoard) {
+			if (slots()[i].getItem() != Calculator.circuitBoard) {
 				return false;
 			}
 		}
@@ -119,22 +121,21 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 	}
 
 	private void cookItem() {
-		ItemStack itemstack = new ItemStack(slots[0].getItem(), 4, slots[0].getItemDamage());
-		if (this.slots[8] == null) {
-			this.slots[8] = itemstack;
-		} else if (this.slots[8].isItemEqual(itemstack)) {
-			this.slots[8].stackSize = this.slots[8].stackSize + 4;
+		ItemStack itemstack = new ItemStack(slots()[0].getItem(), 4, slots()[0].getItemDamage());
+		if (this.slots()[8] == null) {
+			this.slots()[8] = itemstack;
+		} else if (this.slots()[8].isItemEqual(itemstack)) {
+			this.slots()[8].stackSize = this.slots()[8].stackSize + 4;
 		}
 
 		for (int i = 0; i < 8; i++) {
-			this.slots[i].stackSize--;
-			if (this.slots[i].stackSize <= 0) {
-				this.slots[i] = null;
+			this.slots()[i].stackSize--;
+			if (this.slots()[i].stackSize <= 0) {
+				this.slots()[i] = null;
 			}
 		}
 
 	}
-
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
@@ -170,17 +171,17 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int par) {
+	public int[] getSlotsForFace(EnumFacing side) {
+		return EnumFacing.DOWN == side ? output : EnumFacing.UP == side ? input : EnumFacing.VALUES[2] == side ? circuits : EnumFacing.VALUES[3] == side ? circuits : EnumFacing.VALUES[4] == side ? circuits : EnumFacing.VALUES[5] == side ? circuits : input;
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
 		return this.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int slot) {
-		return slot == 0 ? output : slot == 1 ? input : slot == 2 ? circuits : slot == 3 ? circuits : slot == 4 ? circuits : slot == 5 ? circuits : input;
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, ItemStack p_102008_2_, int side) {
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
 		if (slot == 8) {
 			return true;
 		}
@@ -189,12 +190,13 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1) {
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			this.worldObj.markBlockForUpdate(pos);
 		}
 		return true;
 	}
+
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip){
+	public List<String> getWailaInfo(List<String> currenttip) {
 		super.getWailaInfo(currenttip);
 		if (cookTime > 0) {
 			String active = FontHelper.translate("locator.state") + ":" + FontHelper.translate("locator.active");
@@ -203,7 +205,7 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 			String idle = FontHelper.translate("locator.state") + ":" + FontHelper.translate("locator.idle");
 			currenttip.add(idle);
 		}
-		return currenttip;		
+		return currenttip;
 	}
 
 	@Override
@@ -220,4 +222,5 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 	public double getEnergyUsage() {
 		return requiredEnergy / getProcessTime();
 	}
+
 }

@@ -15,7 +15,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 
 public class ModelFluxPoint extends ModelBase
@@ -124,29 +124,29 @@ public class ModelFluxPoint extends ModelBase
 		super.render(null, f, f1, f2, f3, f4, f5);
 		setRotationAngles(null, f, f1, f2, f3, f4, f5);
 		Centre.render(f5);
-		if (entity != null && entity.getWorldObj() != null) {
+		if (entity != null && entity.getWorld() != null) {
 			TileEntityFlux flux = (TileEntityFlux) entity;
-			if (flux.hasEnergyHandler(ForgeDirection.UP)) {
+			if (flux.hasEnergyHandler(EnumFacing.UP)) {
 				Support1.render(f5);
 				Side5.render(f5);
 			}
-			if (flux.hasEnergyHandler(ForgeDirection.DOWN)) {
+			if (flux.hasEnergyHandler(EnumFacing.DOWN)) {
 				Support2.render(f5);
 				Side6.render(f5);
 			}
-			if (flux.hasEnergyHandler(ForgeDirection.NORTH)) {
+			if (flux.hasEnergyHandler(EnumFacing.NORTH)) {
 				Support6.render(f5);
 				Side2.render(f5);
 			}
-			if (flux.hasEnergyHandler(ForgeDirection.SOUTH)) {
+			if (flux.hasEnergyHandler(EnumFacing.SOUTH)) {
 				Support5.render(f5);
 				Side1.render(f5);
 			}
-			if (flux.hasEnergyHandler(ForgeDirection.EAST)) {
+			if (flux.hasEnergyHandler(EnumFacing.EAST)) {
 				Support3.render(f5);
 				Side4.render(f5);
 			}
-			if (flux.hasEnergyHandler(ForgeDirection.WEST)) {
+			if (flux.hasEnergyHandler(EnumFacing.WEST)) {
 				Support4.render(f5);
 				Side3.render(f5);
 			}

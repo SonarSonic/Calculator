@@ -2,6 +2,7 @@ package sonar.calculator.mod.integration.planting;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.IPlantable;
 
 public class NaturaPlanter implements IPlanter {
@@ -9,7 +10,7 @@ public class NaturaPlanter implements IPlanter {
 	@Override
 	public Block getCropFromStack(ItemStack stack) {
 		if (stack.getItem() instanceof IPlantable) {
-			return ((IPlantable) stack.getItem()).getPlant(null, 0, 0, 0);
+			return ((IPlantable) stack.getItem()).getPlant(null, new BlockPos(0, 0, 0)).getBlock();
 		}
 		return null;
 	}

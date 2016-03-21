@@ -4,6 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.FontHelper;
@@ -72,7 +74,7 @@ public class NutritionHelper {
 		return stack;
 	}
 
-	public static boolean useHunger(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par, String tag) {
+	public static boolean useHunger(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, String tag) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound nbtData = stack.getTagCompound();
@@ -81,25 +83,28 @@ public class NutritionHelper {
 		}
 		int points = stack.getTagCompound().getInteger(tag);
 
-		if (!player.canPlayerEdit(x, y, z, par, stack)) {
+		if (!player.canPlayerEdit(pos, side, stack)) {
 			return false;
 		}
-		Block block = world.getBlock(x, y, z);
-		if (block == Calculator.amethystLeaf) {
-			int meta = world.getBlockMetadata(x, y, z);
+		Block block = world.getBlockState(pos).getBlock();
+		if (block!=null && block == Calculator.amethystLeaf) {
+			/*
+			int meta = world.getBlockState(pos);
 			if (meta > 2) {
 				points += 1;
 				if (!world.isRemote) {
-					world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+					//set no leaves
+					world.setBlockMetadataWithNotify(pos, 0, 2);
 				}
 
 				nbtData.setInteger(tag, points);
 			}
+			*/
 		}
 		return true;
 	}
 
-	public static boolean useHealth(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par, String tag) {
+	public static boolean useHealth(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, String tag) {
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
@@ -110,20 +115,22 @@ public class NutritionHelper {
 
 		int points = stack.getTagCompound().getInteger(tag);
 		{
-			if (!player.canPlayerEdit(x, y, z, par, stack)) {
+			if (!player.canPlayerEdit(pos, side, stack)) {
 				return false;
 			}
 
-			Block block = world.getBlock(x, y, z);
-			if (block == Calculator.tanzaniteLeaf) {
-				int meta = world.getBlockMetadata(x, y, z);
+			Block block = world.getBlockState(pos).getBlock();
+			if (block==null && block == Calculator.tanzaniteLeaf) {
+				/*
+				int meta = world.getBlockState(pos);
 				if (meta > 2) {
 					int points1 = ((points + 1));
 					if (!world.isRemote) {
-						world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+						world.setBlockMetadataWithNotify(pos, 0, 2);
 					}
 					nbtData.setInteger(tag, points1);
 				}
+				*/
 			}
 		}
 		return true;

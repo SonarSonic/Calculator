@@ -1,9 +1,9 @@
 package sonar.calculator.mod;
 
 import net.minecraftforge.event.entity.player.BonemealEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import sonar.calculator.mod.common.block.CalculatorSaplings;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class CalculatorEvents {
 /*
@@ -46,7 +46,7 @@ public class CalculatorEvents {
 		if (event.block != null) {
 			if (event.block == Calculator.AmethystSapling) {				
 				if (!event.world.isRemote) {
-					((CalculatorSaplings) Calculator.AmethystSapling).growTree(event.world, event.x, event.y, event.z, event.world.rand);
+					((CalculatorSaplings) Calculator.AmethystSapling).growTree(event.world, event.pos, event.world.rand);
 					event.setResult(Result.ALLOW);
 				}
 			}
@@ -58,7 +58,7 @@ public class CalculatorEvents {
 		if (event.block != null) {
 			if (event.block == Calculator.tanzaniteSapling) {
 				if (!event.world.isRemote) {
-					((CalculatorSaplings) Calculator.tanzaniteSapling).growTree(event.world, event.x, event.y, event.z, event.world.rand);
+					((CalculatorSaplings) Calculator.tanzaniteSapling).growTree(event.world, event.pos, event.world.rand);
 					event.setResult(Result.ALLOW);
 				}
 			}
@@ -70,7 +70,7 @@ public class CalculatorEvents {
 		if (event.block != null) {
 			if (event.block == Calculator.PearSapling) {
 				if (!event.world.isRemote) {
-					((CalculatorSaplings) Calculator.PearSapling).growTree(event.world, event.x, event.y, event.z, event.world.rand);
+					((CalculatorSaplings) Calculator.PearSapling).growTree(event.world, event.pos, event.world.rand);
 					event.setResult(Result.ALLOW);
 				}
 			}
@@ -82,7 +82,7 @@ public class CalculatorEvents {
 		if (event.block != null) {
 			if (event.block == Calculator.diamondSapling) {
 				if (!event.world.isRemote) {
-					((CalculatorSaplings) Calculator.diamondSapling).growTree(event.world, event.x, event.y, event.z, event.world.rand);
+					((CalculatorSaplings) Calculator.diamondSapling).growTree(event.world, event.pos, event.world.rand);
 					event.setResult(Result.ALLOW);
 				}
 			}

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model":"calculator:HandCrankedGenerator" },
+        "facing=south": { "model":"calculator:HandCrankedGenerator", "y": 180 },
+        "facing=west":  { "model":"calculator:HandCrankedGenerator", "y": 270 },
+        "facing=east":  { "model":"calculator:HandCrankedGenerator", "y": 90 }
+    }
+}

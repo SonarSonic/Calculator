@@ -3,10 +3,11 @@ package sonar.calculator.mod.network.packets;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class PacketCalculatorScreen extends PacketCoords {
 
@@ -15,8 +16,8 @@ public class PacketCalculatorScreen extends PacketCoords {
 	public PacketCalculatorScreen() {
 	}
 
-	public PacketCalculatorScreen(int x, int y, int z, int type, int energy) {
-		super(x, y, z);
+	public PacketCalculatorScreen(BlockPos pos, int type, int energy) {
+		super(pos);
 		this.type = type;
 		this.energy = energy;
 	}
@@ -26,8 +27,6 @@ public class PacketCalculatorScreen extends PacketCoords {
 		super.fromBytes(buf);
 		this.type = buf.readInt();
 		this.energy = buf.readInt();
-		TileEntity tile = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(xCoord, yCoord, zCoord);
-
 	}
 
 	@Override

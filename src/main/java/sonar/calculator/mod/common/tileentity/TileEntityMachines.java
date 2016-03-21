@@ -71,7 +71,7 @@ public class TileEntityMachines {
 	public static class ReinforcedFurnace extends TileEntityAbstractProcess {
 		@Override
 		public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {
-			return new ItemStack[] { FurnaceRecipes.smelting().getSmeltingResult(stacks[0]) };
+			return new ItemStack[] { FurnaceRecipes.instance().getSmeltingResult(stacks[0]) };
 		}
 
 		@Override

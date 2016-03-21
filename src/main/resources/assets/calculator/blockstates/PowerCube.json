@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model":"calculator:PowerCube" },
+        "facing=south": { "model":"calculator:PowerCube", "y": 180 },
+        "facing=west":  { "model":"calculator:PowerCube", "y": 270 },
+        "facing=east":  { "model":"calculator:PowerCube", "y": 90 }
+    }
+}

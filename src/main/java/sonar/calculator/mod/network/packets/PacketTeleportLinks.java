@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class PacketTeleportLinks  extends PacketCoords {
 
@@ -18,8 +19,8 @@ public class PacketTeleportLinks  extends PacketCoords {
 
 	public PacketTeleportLinks() {}
 
-	public PacketTeleportLinks(int x, int y, int z, List<TeleportLink> links) {
-		super(x,y,z);
+	public PacketTeleportLinks(BlockPos pos, List<TeleportLink> links) {
+		super(pos);
 		this.links = links;
 	}
 

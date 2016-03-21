@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.containers;
 
-import ic2.api.item.IElectricItem;
-import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -115,15 +113,7 @@ public class ContainerDualOutputSmelting extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				}else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				}else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if ((id >= 4) && (id < 30)) {
+				}else if ((id >= 4) && (id < 30)) {
 					if (!mergeItemStack(itemstack1, 30, 39, false)) {
 						return null;
 					}

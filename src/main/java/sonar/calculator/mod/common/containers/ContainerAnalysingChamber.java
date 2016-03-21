@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.containers;
 
-import ic2.api.item.IElectricItem;
-import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -68,22 +66,7 @@ public class ContainerAnalysingChamber extends ContainerSync {
 						return null;
 					}
 				}
-			} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
-				if (!mergeItemStack(itemstack1, 1, 2, false)) {
-					return null;
-				}
-			} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
-				if (!mergeItemStack(itemstack1, 1, 2, false)) {
-					return null;
-				} else if ((num >= 8) && (num < 34)) {
-					if (!mergeItemStack(itemstack1, 34, 43, false)) {
-						return null;
-					}
-				} else if ((num >= 34) && (num < 43)
-						&& (!mergeItemStack(itemstack1, 8, 34, false))) {
-					return null;
-				}
-			} else if (!mergeItemStack(itemstack1, 8, 43, false)) {
+			}else if (!mergeItemStack(itemstack1, 8, 43, false)) {
 				return null;
 			}
 

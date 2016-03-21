@@ -3,9 +3,24 @@ package sonar.calculator.mod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,20 +50,6 @@ import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.energy.DischargeValues;
 import sonar.core.integration.SonarAPI;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version)
 public class Calculator {
@@ -74,46 +75,41 @@ public class Calculator {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		if (!Loader.isModLoaded("Sonar-Core")) {
+		if (!Loader.isModLoaded("SonarCore")) {
 			logger.fatal("Sonar Core is not loaded");
 		} else {
 			logger.info("Successfully loaded with Sonar Core");
 		}
+		/*
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ChunkHandler());
 
+		*/
 		network = NetworkRegistry.INSTANCE.newSimpleChannel(modid);
 		logger.info("Registered Network");
 
 		CalculatorCommon.registerPackets();
 		logger.info("Registered Packets");
-
 		CalculatorConfig.initConfiguration(event);
 		logger.info("Loaded Configuration");
 
-		if (SonarAPI.ic2Loaded()) {
-			logger.info("Integrated with 'IC2'");
-
-		} else {
-			logger.warn("'IC2' - Unavailable");
-		}
-
 		CalculatorBlocks.registerBlocks();
 		logger.info("Loaded Blocks");
-
+		
 		CalculatorItems.registerItems();
 		logger.info("Loaded Items");
-
+		/*
 		EntityRegistry.registerModEntity(EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntitySoil.class, "Soil", 3, instance, 64, 10, true);
 		logger.info("Registered Entities");
+		*/
 
 	}
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
-
+		
 		RecipeRegistry.registerRecipes();
 		logger.info("Registered Calculator Recipes");
 
@@ -131,25 +127,26 @@ public class Calculator {
 
 		CalculatorOreDict.registerOres();
 		logger.info("Registered OreDict");
-
+	
 		calculatorProxy.registerRenderThings();
 		logger.info("Registered Renderers");
+		/*
 		PlanterRegistry.registerPlanters();
 		logger.info("Registered Planters");
 
+		 */
 		GameRegistry.registerFuelHandler(new CalculatorSmelting());
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CalculatorCommon());
 		logger.info("Registered Handlers");
 
-		MinecraftForge.EVENT_BUS.register(new CalculatorEvents());
-		FMLCommonHandler.instance().bus().register(new CalculatorEvents());
-		logger.info("Registered Events");
-
+		//MinecraftForge.EVENT_BUS.register(new CalculatorEvents());
+		//FMLCommonHandler.instance().bus().register(new CalculatorEvents());
+		//logger.info("Registered Events");
 	}
 
 	@EventHandler
 	public void postLoad(FMLPostInitializationEvent evt) {
-
+		/*
 		BlockDispenser.dispenseBehaviorRegistry.putObject(baby_grenade, new CalculatorThrow(0));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(grenade, new CalculatorThrow(1));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(small_stone, new CalculatorThrow(2));
@@ -178,7 +175,7 @@ public class Calculator {
 			StorageChamberHandler.init();
 			logger.info("Registered AE2 Handler for Storage Chamber");
 		}
-
+		 */
 	}
 
 	@EventHandler
@@ -207,8 +204,8 @@ public class Calculator {
 	public static Item circuitDirty;
 	public static Item wrench;
 
-	public static Block atomiccalculatorBlock;
-	public static Block dynamiccalculatorBlock;
+	public static Block atomicCalculator;
+	public static Block dynamicCalculator;
 	public static Block powerCube;
 	public static Block advancedPowerCube;
 	public static Block dockingStation;
@@ -221,20 +218,20 @@ public class Calculator {
 	public static Block analysingChamber;
 	public static Block storageChamber;
 	public static Block manipulationChamber;
-	public static Block hungerprocessor;
-	public static Block healthprocessor;
+	public static Block hungerProcessor;
+	public static Block healthProcessor;
 	public static Block basicGreenhouse;
 	public static Block advancedGreenhouse;
 	public static Block flawlessGreenhouse;
-	public static Block carbondioxideGenerator;
+	public static Block CO2Generator;
 	public static Block fluxPlug, fluxPoint, fluxController;
 	public static Block scarecrow;
 	public static Block scarecrowBlock;
 	public static Block gas_lantern_on;
 	public static Block gas_lantern_off;
 	public static Block basic_lantern;
-	public static Block stoneSeperator;
-	public static Block algorithmSeperator;
+	public static Block stoneSeparator;
+	public static Block algorithmSeparator;
 	public static Block starchextractor;
 	public static Block redstoneextractor;
 	public static Block glowstoneextractor;
@@ -330,10 +327,10 @@ public class Calculator {
 	public static Item enriched_coal, purified_coal, firecoal, controlled_Fuel;
 
 	// diamonds
-	public static Item weakeneddiamond, flawlessdiamond, flawlessfirediamond, electricdiamond, enddiamond;
+	public static Item weakeneddiamond, flawlessdiamond, firediamond, electricDiamond, endDiamond;
 
 	// ingots
-	public static Item redstone_ingot, reinforcediron_ingot, enrichedgold_ingot, enrichedgold;
+	public static Item redstone_ingot, reinforcediron_ingot, enrichedgold_ingot, enrichedGold;
 
 	// gems
 	public static Item large_amethyst, small_amethyst, shard_amethyst;
@@ -343,7 +340,7 @@ public class Calculator {
 	public static Item baby_grenade, grenade, grenadecasing;
 
 	// crops
-	public static Item broccoliSeeds, broccoli, CookedBroccoli;
+	public static Item broccoliSeeds, broccoli, cookedBroccoli;
 	public static Item prunaeSeeds, coal_dust;
 	public static Item fiddledewFruit;
 	public static Block cropBroccoliPlant, cropPrunaePlant, cropFiddledewPlant;
@@ -353,7 +350,7 @@ public class Calculator {
 	public static Item soil, small_stone;
 
 	// common blocks
-	public static Block reinforcedstoneBlock, reinforcedstoneBrick, reinforceddirtBlock, reinforceddirtBrick, purifiedobsidianBlock, stablestoneBlock, stablestonerimmedBlock, stablestonerimmedblackBlock, stableglassBlock, clearstableglassBlock, flawlessGlass;
+	public static Block reinforcedStoneBlock, reinforcedStoneBrick, reinforcedDirtBlock, reinforcedDirtBrick, purifiedobsidianBlock, stableStone, stablestonerimmedBlock, stablestonerimmedblackBlock, stableglassBlock, clearstableglassBlock, flawlessGlass;
 	public static Block reinforcedStoneStairs, reinforcedStoneBrickStairs, reinforcedDirtStairs, reinforcedDirtBrickStairs;
 	public static Block reinforcedStoneFence, reinforcedStoneBrickFence, reinforcedDirtFence, reinforcedDirtBrickFence;
 

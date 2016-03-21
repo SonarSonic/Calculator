@@ -23,7 +23,7 @@ public class GuiPowerCube extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 
 	}

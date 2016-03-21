@@ -73,7 +73,7 @@ public class RenderHandlers {
 
 		@Override
 		public void renderExtras(TileEntity entity, double x, double y, double z, float f) {
-			if (entity.getWorldObj() != null && entity instanceof TileEntityTeleporter) {
+			if (entity.getWorld() != null && entity instanceof TileEntityTeleporter) {
 				TileEntityTeleporter tile = (TileEntityTeleporter) entity;
 
 				if (tile.destinationName.equals("DESTINATION") || tile.destinationName == null)
@@ -93,7 +93,7 @@ public class RenderHandlers {
 						GL11.glDepthMask(true);
 						OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 						GL11.glTranslated(0.0, 0.70, 0.0);
-						float f2 = (float) entity.getWorldObj().getTotalWorldTime() + 20;
+						float f2 = (float) entity.getWorld().getTotalWorldTime() + 20;
 						float f4 = -f2 * 0.2F - (float) MathHelper.floor_float(-f2 * 0.1F);
 						byte b0 = 1;
 						double d3 = (double) f2 * 0.025D * (1.0D - (double) (b0 & 1) * 2.5D);
@@ -191,7 +191,7 @@ public class RenderHandlers {
 		public void renderExtras(TileEntity entity, double x, double y, double z, float f) {
 			GL11.glPushMatrix();
 			GL11.glTranslated(0.0, -0.6, 0.0);
-			if (CalculatorConfig.beamEffect && entity.getWorldObj() != null && entity instanceof TileEntityFluxController) {
+			if (CalculatorConfig.beamEffect && entity.getWorld() != null && entity instanceof TileEntityFluxController) {
 				TileEntityFluxController tile = (TileEntityFluxController) entity;
 				float height = 0.8F;
 				Tessellator tessellator = Tessellator.instance;
@@ -204,7 +204,7 @@ public class RenderHandlers {
 				GL11.glDepthMask(true);
 				OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 				GL11.glTranslated(0.0, 0.70, 0.0);
-				float f2 = (float) entity.getWorldObj().getTotalWorldTime() + 20;
+				float f2 = (float) entity.getWorld().getTotalWorldTime() + 20;
 				float f3 = -f2 * 0.2F - (float) MathHelper.floor_float(-f2 * 0.1F);
 				byte b0 = 1;
 				double d3 = (double) f2 * 0.025D * (1.0D - (double) (b0 & 1) * 2.5D);

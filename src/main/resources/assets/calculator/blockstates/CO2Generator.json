@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model":"calculator:CO2Generator" },
+        "facing=south": { "model":"calculator:CO2Generator", "y": 180 },
+        "facing=west":  { "model":"calculator:CO2Generator", "y": 270 },
+        "facing=east":  { "model":"calculator:CO2Generator", "y": 90 }
+    }
+}

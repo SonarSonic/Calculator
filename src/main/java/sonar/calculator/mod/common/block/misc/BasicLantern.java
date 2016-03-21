@@ -1,12 +1,16 @@
 package sonar.calculator.mod.common.block.misc;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,118 +18,87 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityBasicLantern;
+import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.block.IDismantleable;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class BasicLantern extends BlockContainer implements IDismantleable {
+public class BasicLantern extends SonarBlock {
 
-	@SideOnly(Side.CLIENT)
-	private IIcon icon;
+	public static final PropertyDirection DIR = PropertyDirection.create("dir");
 
 	public BasicLantern() {
-		super(SonarMaterials.machine);
+		super(SonarMaterials.machine, false, true);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(DIR, EnumFacing.NORTH));
+	}
+
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
 
 	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
+	public boolean isFullCube() {
 		return false;
 	}
 
 	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+		super.onBlockAdded(world, pos, state);
+		// setDefaultFacing(world, pos, state);
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister register) {
-		this.icon = register.registerIcon("Calculator:reinforcedstone");
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
-		return this.icon;
-	}
-
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityplayer, ItemStack itemstack) {
-
-		Block north = world.getBlock(x + (ForgeDirection.NORTH.offsetX), y, z + (ForgeDirection.NORTH.offsetZ));
-		Block south = world.getBlock(x + (ForgeDirection.SOUTH.offsetX), y, z + (ForgeDirection.SOUTH.offsetZ));
-		Block east = world.getBlock(x + (ForgeDirection.EAST.offsetX), y, z + (ForgeDirection.EAST.offsetZ));
-		Block west = world.getBlock(x + (ForgeDirection.WEST.offsetX), y, z + (ForgeDirection.WEST.offsetZ));
-		Block down = world.getBlock(x, y - 1, z);
-
-		if (down != null && down.getMaterial().isSolid() && down != Calculator.gas_lantern_on && down != Calculator.gas_lantern_off && down != Calculator.basic_lantern) {
-			world.setBlockMetadataWithNotify(x, y, z, 0, 2);
-
-		} else if (north != null && north.getMaterial().isSolid() && north != Calculator.gas_lantern_on && north != Calculator.gas_lantern_off
-
-		&& north != Calculator.basic_lantern && world.isSideSolid(x + (ForgeDirection.NORTH.offsetX), y, z + (ForgeDirection.NORTH.offsetZ), ForgeDirection.NORTH)) {
-			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-
-		} else if (south != null && south.getMaterial().isSolid() && south != Calculator.gas_lantern_on && south != Calculator.gas_lantern_off
-
-		&& south != Calculator.basic_lantern && world.isSideSolid(x + (ForgeDirection.SOUTH.offsetX), y, z + (ForgeDirection.SOUTH.offsetZ), ForgeDirection.SOUTH)) {
-			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-
-		} else if (east != null && east.getMaterial().isSolid() && east != Calculator.gas_lantern_on && east != Calculator.gas_lantern_off
-
-		&& east != Calculator.basic_lantern && world.isSideSolid(x + (ForgeDirection.EAST.offsetX), y, z + (ForgeDirection.EAST.offsetZ), ForgeDirection.EAST)) {
-			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-
-		} else if (west != null && west.getMaterial().isSolid() && west != Calculator.gas_lantern_on && west != Calculator.gas_lantern_off
-
-		&& west != Calculator.basic_lantern && world.isSideSolid(x + (ForgeDirection.WEST.offsetX), y, z + (ForgeDirection.WEST.offsetZ), ForgeDirection.WEST)) {
-			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) {
+		super.onNeighborChange(world, pos, neighbour);
+		try {
+			// setDefaultFacing((World) world, pos, world.getBlockState(pos));
+		} catch (ClassCastException exception) {
+			Calculator.logger.error("Lantern: Tried to cast IBlockAccess to World");
 		}
+	}
 
-		else {
-			world.setBlockMetadataWithNotify(x, y, z, 0, 2);
-
+	private EnumFacing getDefaultFacing(IBlockAccess world, BlockPos pos, IBlockState state) {
+		if (world != null) {
+			Iterator<EnumFacing> iterator = EnumFacing.Plane.VERTICAL.iterator();
+			boolean vertical = false;
+			do {
+				if (!iterator.hasNext()) {
+					if (!vertical) {
+						vertical = true;
+						iterator = EnumFacing.Plane.HORIZONTAL.iterator();
+					} else {
+						return EnumFacing.DOWN;
+					}
+				}
+				EnumFacing facing = iterator.next();
+				Block block = world.getBlockState(pos.offset(facing)).getBlock();
+				if (block.isFullBlock()) {
+					return facing;
+				}
+			} while (iterator.hasNext() || !vertical);
 		}
-
+		return EnumFacing.DOWN;
 	}
 
-	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-		this.onBlockPlacedBy(world, x, y, z, null, null);
-	}
-
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-		int metadata = world.getBlockMetadata(x, y, z);
-		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
-
-		setBlockBounds(0.3F + (dir.offsetX * 0.32F), 0.0F + getY(metadata), 0.3F + (dir.offsetZ * 0.32F), 0.7F + (dir.offsetX * 0.32F), 0.7F + getY(metadata), 0.7F + (dir.offsetZ * 0.32F));
-
-	}
-
-	@Override
-	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axis, List list, Entity entity) {
-		int metadata = world.getBlockMetadata(x, y, z);
-		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
-
-		this.setBlockBounds(0.3F + (dir.offsetX * 0.32F), 0.0F + getY(metadata), 0.3F + (dir.offsetZ * 0.32F), 0.7F + (dir.offsetX * 0.32F), 0.7F + getY(metadata), 0.7F + (dir.offsetZ * 0.32F));
-		super.addCollisionBoxesToList(world, x, y, z, axis, list, entity);
-
-	}
-
+	/* @Override public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) { int metadata = world.getBlockMetadata(x, y, z); EnumFacing dir = EnumFacing.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
+	 * 
+	 * setBlockBounds(0.3F + (dir.offsetX * 0.32F), 0.0F + getY(metadata), 0.3F + (dir.offsetZ * 0.32F), 0.7F + (dir.offsetX * 0.32F), 0.7F + getY(metadata), 0.7F + (dir.offsetZ * 0.32F));
+	 * 
+	 * }
+	 * 
+	 * @Override public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axis, List list, Entity entity) { int metadata = world.getBlockMetadata(x, y, z); EnumFacing dir = EnumFacing.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
+	 * 
+	 * this.setBlockBounds(0.3F + (dir.offsetX * 0.32F), 0.0F + getY(metadata), 0.3F + (dir.offsetZ * 0.32F), 0.7F + (dir.offsetX * 0.32F), 0.7F + getY(metadata), 0.7F + (dir.offsetZ * 0.32F)); super.addCollisionBoxesToList(world, x, y, z, axis, list, entity);
+	 * 
+	 * } */
 	public float getY(int meta) {
 		if (meta == 0) {
 			return 0.0F;
@@ -136,34 +109,48 @@ public class BasicLantern extends BlockContainer implements IDismantleable {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-		float x1 = x + random.nextFloat();
-		float y1 = y + 0.5F;
-		float z1 = z + random.nextFloat();
-		world.spawnParticle("smoke", x1, y1, z1, 0.0D, 0.0D, 0.0D);
-		world.spawnParticle("smoke", x1, y1, z1, 0.0D, 0.0D, 0.0D);
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
+		float x1 = pos.getX() + random.nextFloat();
+		float y1 = pos.getY() + 0.5F;
+		float z1 = pos.getZ() + random.nextFloat();
+		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
+		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
 
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
-		return new TileEntityBasicLantern();
-	}
-
-	@Override
-	public Item getItem(World world, int x, int y, int z) {
-		return Item.getItemFromBlock(Calculator.basic_lantern);
-	}
-
-	@Override
-	public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops) {
-		SonarHelper.dropTile(player, world.getBlock(x, y, z), world, x, y, z);
-		return null;
-	}
-
-	@Override
-	public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z) {
+	public boolean dropStandard(IBlockAccess world, BlockPos pos) {
 		return true;
+	}
+
+	@Override
+	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+		return false;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public IBlockState getStateForEntityRender(IBlockState state) {
+		return this.getDefaultState().withProperty(DIR, EnumFacing.SOUTH);
+	}
+
+	public IBlockState getStateFromMeta(int meta) {
+		EnumFacing enumfacing = EnumFacing.getFront(meta);
+		if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
+			enumfacing = EnumFacing.NORTH;
+		}
+		return this.getDefaultState().withProperty(DIR, enumfacing);
+	}
+
+	public int getMetaFromState(IBlockState state) {
+		return ((EnumFacing) state.getValue(DIR)).getIndex();
+	}
+
+	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return state.withProperty(DIR, getDefaultFacing(world, pos, state));
+	}
+
+	protected BlockState createBlockState() {
+		return new BlockState(this, new IProperty[] { DIR });
 	}
 
 }

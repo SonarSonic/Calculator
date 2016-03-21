@@ -7,13 +7,16 @@ import java.util.List;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.core.SonarCore;
-import sonar.core.common.tileentity.TileEntitySidedInventoryReceiver;
+import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
+import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
@@ -24,11 +27,8 @@ import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 /** electric smelting tile entity */
-public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver implements IUpgradeCircuits, IPausable, IAdditionalInventory, IProcessMachine, IByteBufTile {
+public abstract class TileEntityProcess extends TileEntityEnergySidedInventory implements IUpgradeCircuits, IPausable, IAdditionalInventory, IProcessMachine, IByteBufTile {
 
 	public float renderTicks;
 	public double energyBuffer;
@@ -36,19 +36,20 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	public SyncTagType.BOOLEAN invertPaused = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.BOOLEAN paused = new SyncTagType.BOOLEAN(1);
 	public SyncTagType.INT cookTime = new SyncTagType.INT(2);
-	public SyncTagType.INT sUpgrade = new SyncTagType.INT("sUpgrade");
-	public SyncTagType.INT eUpgrade = new SyncTagType.INT("eUpgrade");
+	public SyncTagType.INT sUpgrade = new SyncTagType.INT(3);
+	public SyncTagType.INT eUpgrade = new SyncTagType.INT(4);
+	public boolean isActive = false;
 
 	public static int lowestSpeed = 4, lowestEnergy = 1000;
 
 	// client
 	public int currentSpeed;
 
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		if (!worldObj.isRemote) {
 			boolean oldPause = paused.getObject();
-			if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+			if (this.worldObj.isBlockIndirectlyGettingPowered(pos) > 0) {
 				this.paused.setObject(false);
 				return;
 			} else {
@@ -58,7 +59,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 				this.onPause();
 			}
 		}
-		int flag = 0;
+		boolean flag = this.isActive();
 
 		if (!isPaused()) {
 			if (this.cookTime.getObject() > 0) {
@@ -73,14 +74,11 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 					if (cookTime.getObject() == 0) {
 						this.cookTime.increaseBy(1);
 						modifyEnergy();
-						flag = 1;
 					}
 					if (this.cookTime.getObject() >= this.getProcessTime()) {
 						this.finishProcess();
 						if (canProcess()) {
 							this.cookTime.increaseBy(1);
-						} else {
-							flag = 2;
 						}
 						cookTime.setObject(0);
 						this.energyBuffer = 0;
@@ -91,18 +89,27 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 				if (cookTime.getObject() != 0) {
 					cookTime.setObject(0);
 					this.energyBuffer = 0;
-					flag = 2;
 				}
 
 			}
-			if (flag != 0) {
-				if (flag == 1 || flag == 2 && !canProcess()) {
-					SonarCore.sendPacketAround(this, 128, 2);
-				}
-			}
+			
 		}
-
+		boolean flag2 = this.isActive();
+		if (flag != flag2) {
+			isActive = flag2;
+			SonarCore.sendPacketAround(this, 128, 2);
+			worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
+		}
 		this.markDirty();
+	}
+
+	public void onLoaded() {
+		super.onLoaded();
+		if (!worldObj.isRemote) {
+			isActive = this.isActive();
+			SonarCore.sendPacketAround(this, 128, 2);
+			worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
+		}
 	}
 
 	public void modifyEnergy() {
@@ -150,7 +157,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1) {
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			this.worldObj.markBlockForUpdate(pos);
 		}
 		return true;
 	}
@@ -182,14 +189,17 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	// IPausable
 	@Override
 	public boolean isActive() {
+		if (worldObj.isRemote) {
+			return isActive;
+		}
 		return !isPaused() && cookTime.getObject() > 0;
 	}
 
 	@Override
 	public void onPause() {
 		// paused.invert();
-		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		this.worldObj.addBlockEvent(xCoord, yCoord, zCoord, blockType, 1, 1);
+		this.worldObj.markBlockForUpdate(pos);
+		this.worldObj.addBlockEvent(pos, blockType, 1, 1);
 	}
 
 	@Override
@@ -244,8 +254,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		return 1;
 	}
 
-	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing dir) {
 		return true;
 	}
 
@@ -312,6 +321,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		if (id == 2) {
 			invertPaused.writeToBuf(buf);
 			paused.writeToBuf(buf);
+			buf.writeBoolean(isActive);
 		}
 	}
 
@@ -320,10 +330,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		if (id == 0) {
 			for (int i = 0; i < 3; i++) {
 				if (getUpgrades(i) != 0 && UpgradeCircuit.getItem(i) != null) {
-					ForgeDirection dir = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-					EntityItem upgrade = new EntityItem(worldObj, xCoord + dir.offsetX, yCoord + 0.5, zCoord + dir.offsetZ, new ItemStack(UpgradeCircuit.getItem(i), getUpgrades(i)));
-					incrementUpgrades(i, -getUpgrades(i));
-					worldObj.spawnEntityInWorld(upgrade);
+					/* EnumFacing dir = EnumFacing.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord)); EntityItem upgrade = new EntityItem(worldObj, xCoord + dir.offsetX, yCoord + 0.5, zCoord + dir.offsetZ, new ItemStack(UpgradeCircuit.getItem(i), getUpgrades(i))); incrementUpgrades(i, -getUpgrades(i)); worldObj.spawnEntityInWorld(upgrade); */
 				}
 			}
 		}
@@ -334,6 +341,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		if (id == 2) {
 			invertPaused.readFromBuf(buf);
 			paused.readFromBuf(buf);
+			isActive = buf.readBoolean();
 		}
 	}
 }

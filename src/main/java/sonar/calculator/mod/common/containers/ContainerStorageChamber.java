@@ -7,12 +7,12 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
 import sonar.calculator.mod.utils.SlotBigStorage;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerStorageChamber extends Container {
 	
@@ -53,8 +53,8 @@ public class ContainerStorageChamber extends Container {
     public void addCraftingToCrafters(ICrafting crafters)
     {
         super.addCraftingToCrafters(crafters);
-        for(int i = 0; i<entity.stored.length;i++){
-        	crafters.sendProgressBarUpdate(this, i, entity.stored[i]);	
+        for(int i = 0; i<entity.getStorage().stored.length;i++){
+        	crafters.sendProgressBarUpdate(this, i, entity.getStorage().stored[i]);	
         }
     }
 
@@ -69,13 +69,13 @@ public class ContainerStorageChamber extends Container {
         {
             ICrafting icrafting = (ICrafting)this.crafters.get(i);
 
-            for(int s = 0; s<entity.stored.length;s++){
-            	if(this.currentStored == null || entity.stored[s]!=this.currentStored[s]){
-            	icrafting.sendProgressBarUpdate(this, s, entity.stored[s]);	
+            for(int s = 0; s<entity.getStorage().stored.length;s++){
+            	if(this.currentStored == null || entity.getStorage().stored[s]!=this.currentStored[s]){
+            	icrafting.sendProgressBarUpdate(this, s, entity.getStorage().stored[s]);	
             	}
             }
         }
-        this.currentStored=this.entity.stored;
+        this.currentStored=this.entity.getStorage().stored;
     }
 
     @SideOnly(Side.CLIENT)
@@ -83,14 +83,14 @@ public class ContainerStorageChamber extends Container {
     {
         if (id < 14)
         {
-            this.entity.stored[id]=value;
+            this.entity.getStorage().stored[id]=value;
         }
 
     }
     public void updateStoredValue(int id, int value){
 		for (Object o : crafters){
 			if (o != null && o instanceof EntityPlayerMP){
-				Calculator.network.sendTo(new PacketStorageChamber(entity.xCoord, entity.yCoord, entity.zCoord, id,value), (EntityPlayerMP) o);
+				Calculator.network.sendTo(new PacketStorageChamber(entity.getPos(), id,value), (EntityPlayerMP) o);
 
 			}
 		}
@@ -108,7 +108,7 @@ public class ContainerStorageChamber extends Container {
 				if (!this.mergeItemStack(entity.getSlotStack(slotID, 1), 14, this.inventorySlots.size(), true)) {
 					return null;
 				}
-				if (!entity.getWorldObj().isRemote) {
+				if (!entity.getWorld().isRemote) {
 					if (entity.stored[slotID] == 1) {
 						entity.resetSavedStack(slotID);
 					}
@@ -142,7 +142,7 @@ public class ContainerStorageChamber extends Container {
 			}
 		}
 		if(entity.stored[stack.getItemDamage()]!=entity.maxSize){
-			if(!entity.getWorldObj().isRemote){
+			if(!entity.getWorld().isRemote){
 			if (entity.getSavedStack() == null) {
 				entity.setSavedStack(stack);
 			}

@@ -1,0 +1,7 @@
+{
+    "parent":"block/cube_column",
+    "textures": {
+        "end":"calculator:blocks/wood/log_diamond_top",
+        "side":"calculator:blocks/wood/log_diamond_side"
+    }
+}

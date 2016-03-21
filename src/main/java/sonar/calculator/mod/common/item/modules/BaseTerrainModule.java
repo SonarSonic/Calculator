@@ -6,11 +6,13 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.item.calculators.SonarCalculator;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BaseTerrainModule extends SonarCalculator {
 
@@ -26,24 +28,25 @@ public class BaseTerrainModule extends SonarCalculator {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par7, float par8, float par9, float par10) {
-		if (this.getEnergyStored(stack) > 0) {
-			if (!player.canPlayerEdit(x, y, z, par7, stack)) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitx, float hity, float hitz) {
+		if (player.capabilities.isCreativeMode || this.getEnergyStored(stack) > 0) {
+			if (!player.canPlayerEdit(pos, side, stack)) {
 				return false;
 			}
 			if (player.isSneaking()) {
 				incrementMode(stack);
 				FontHelper.sendMessage(currentBlockString(stack, player), world, player);
 			} else {
-				if (canReplace(stack, world, x, y, z)) {
-					world.setBlock(x, y, z, getCurrentBlock(stack));
-					int energy = this.getEnergyStored(stack);
-					stack.getTagCompound().setInteger("Energy", energy - 1);
+				if (canReplace(stack, world, pos)) {
+					world.setBlockState(pos, getCurrentBlock(stack).getStateFromMeta(stack.getMetadata()));
+					if (!player.capabilities.isCreativeMode) {
+						int energy = this.getEnergyStored(stack);
+						stack.getTagCompound().setInteger("Energy", energy - 1);
+					}
 				}
 			}
 		}
-
-		if (this.getEnergyStored(stack) == 0) {
+		else if (this.getEnergyStored(stack) == 0) {
 			FontHelper.sendMessage(FontHelper.translate("energy.noEnergy"), world, player);
 		}
 		return true;
@@ -76,10 +79,10 @@ public class BaseTerrainModule extends SonarCalculator {
 		}
 	}
 
-	public boolean canReplace(ItemStack stack, World world, int x, int y, int z) {
-		if (getCurrentBlock(stack) == world.getBlock(x, y, z)) {
+	public boolean canReplace(ItemStack stack, World world, BlockPos pos) {
+		if (getCurrentBlock(stack) == world.getBlockState(pos).getBlock()) {
 			return false;
-		} else if (replaceableBlock(world.getBlock(x, y, z))) {
+		} else if (replaceableBlock(world.getBlockState(pos).getBlock())) {
 			return true;
 		}
 		return false;

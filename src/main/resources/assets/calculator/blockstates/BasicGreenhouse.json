@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model":"calculator:BasicGreenhouse" },
+        "facing=south": { "model":"calculator:BasicGreenhouse", "y": 180 },
+        "facing=west":  { "model":"calculator:BasicGreenhouse", "y": 270 },
+        "facing=east":  { "model":"calculator:BasicGreenhouse", "y": 90 }
+    }
+}

@@ -8,8 +8,8 @@ public class TileEntityCrankHandle extends TileEntitySonar {
 	public boolean cranked;
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		if (this.cranked) {
 			
 			if (this.angle == 36) {

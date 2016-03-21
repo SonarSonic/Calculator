@@ -3,14 +3,11 @@ package sonar.calculator.mod.common.block;
 import java.util.Random;
 
 import net.minecraft.block.BlockCrops;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class CalculatorCrops extends BlockCrops {
 
@@ -92,7 +89,7 @@ public class CalculatorCrops extends BlockCrops {
 	}
 
 	public boolean canPlaceCropsAt(World world, int x, int y, int z) {
-		return world.getBlock(x, y, z).isReplaceable(world, x, y, z) && world.getBlock(x, y - 1, z).canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, this);
+		return world.getBlock(x, y, z).isReplaceable(world, x, y, z) && world.getBlock(x, y - 1, z).canSustainPlant(world, x, y - 1, z, EnumFacing.UP, this);
 	}
 
 }

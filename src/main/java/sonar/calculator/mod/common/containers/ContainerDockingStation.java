@@ -1,6 +1,5 @@
 package sonar.calculator.mod.common.containers;
 
-import ic2.api.item.IElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -44,7 +43,7 @@ public class ContainerDockingStation extends ContainerSync {
 				addSlotToContainer(new Slot(entity, 3, 112, 33));
 				addSlotToContainer(new Slot(entity, 4, 28, 60));
 				addSlotToContainer(new SlotBlockedInventory(entity, 5, 144, 33));
-			} else if (entity.calcStack.getItem() == Item.getItemFromBlock(Calculator.atomiccalculatorBlock)) {
+			} else if (entity.calcStack.getItem() == Item.getItemFromBlock(Calculator.atomicCalculator)) {
 				addSlotToContainer(new Slot(entity, 0, 21, 30));
 				addSlotToContainer(new Slot(entity, 1, 53, 30));
 				addSlotToContainer(new Slot(entity, 2, 85, 30));
@@ -82,11 +81,7 @@ public class ContainerDockingStation extends ContainerSync {
 						if (!mergeItemStack(itemstack1, start - 2, start - 1, false)) {
 							return null;
 						}
-					} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
-						if (!mergeItemStack(itemstack1, start - 2, start - 1, false)) {
-							return null;
-						}
-					} else if (!this.mergeItemStack(itemstack1, 0, entity.isCalculator(entity.calcStack), false)) {
+					}else if (!this.mergeItemStack(itemstack1, 0, entity.isCalculator(entity.calcStack), false)) {
 						return null;
 					}
 

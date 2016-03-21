@@ -2,12 +2,14 @@ package sonar.calculator.mod.common.block.machines;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.calculator.mod.network.CalculatorGui;
@@ -15,40 +17,20 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class PowerCube extends SonarMachineBlock {
-	@SideOnly(Side.CLIENT)
-	private IIcon iconFront,iconTop;
 
 	public PowerCube() {
-		super(SonarMaterials.machine);
+		super(SonarMaterials.machine, true, true);
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon(Calculator.modid + ":" + "on_powercube");
-		this.iconFront = iconRegister.registerIcon(Calculator.modid + ":" + "on_powercube_front");
-		this.iconTop = iconRegister.registerIcon(Calculator.modid + ":" + "on_powercube");
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.iconFront : side == 0 ? this.iconTop : side == 1 ? this.iconTop : (metadata == 0) && (side == 3) ? this.iconFront : this.blockIcon;
-	}
-
-	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
-				FMLNetworkHandler.openGui(player, Calculator.instance, CalculatorGui.PowerCube, world, x, y, z);
+				FMLNetworkHandler.openGui(player, Calculator.instance, CalculatorGui.PowerCube, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
-
 		return true;
 	}
 
@@ -60,6 +42,5 @@ public class PowerCube extends SonarMachineBlock {
 	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
 	}
 }

@@ -1,6 +1,7 @@
 package sonar.calculator.mod.integration.nei;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.API;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiCalculator;
@@ -37,9 +38,6 @@ import sonar.calculator.mod.integration.nei.handlers.PowerCubeHandler;
 import sonar.calculator.mod.integration.nei.handlers.ProcessingHandlers;
 import sonar.calculator.mod.integration.nei.handlers.RecipeInfoHandler;
 import sonar.calculator.mod.integration.nei.handlers.ScientificRecipeHandler;
-import codechicken.nei.api.API;
-import codechicken.nei.api.IConfigureNEI;
-import codechicken.nei.recipe.DefaultOverlayHandler;
 
 public class NEICalculatorConfig implements IConfigureNEI {
 	@Override

@@ -1,33 +1,32 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import ic2.api.energy.tile.IEnergySource;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.common.Optional.Method;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.SonarHelper;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.Optional.Method;
 
-@Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2", striprefs = true), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2", striprefs = true), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "IC2", striprefs = true) })
-public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IEnergySource {
+public class TileEntityAdvancedPowerCube extends TileEntityPowerCube {
 
 	public int energySide;
 
 	public TileEntityAdvancedPowerCube() {
 		super.storage = new SyncEnergyStorage(100000, 64000);
 		super.maxTransfer = 100000;
+		super.energyMode = EnergyMode.SEND_RECIEVE;
 	}
 
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		this.addEnergy();
 		this.markDirty();
+		
 	}
 
 	@Override
-	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		if (!(from == ForgeDirection.getOrientation(energySide))) {
+	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+		if (!(from == EnumFacing.getFront(energySide))) {
 			return this.storage.receiveEnergy(maxReceive, simulate);
 		}
 
@@ -35,7 +34,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	}
 
 	public void addEnergy() {
-		ForgeDirection dir = ForgeDirection.getOrientation(energySide);
+		EnumFacing dir = EnumFacing.getFront(energySide);
 		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
 		if (SonarHelper.isEnergyHandlerFromSide(entity, dir.getOpposite())) {
 
@@ -69,72 +68,10 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	}
 
 	@Override
-	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		if (from == ForgeDirection.getOrientation(energySide)) {
+	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
+		if (from == EnumFacing.getFront(energySide)) {
 			return this.storage.extractEnergy(maxExtract, simulate);
 		}
 		return 0;
-	}
-
-	@Method(modid = "IC2")
-	@Override
-	public boolean emitsEnergyTo(TileEntity receiver, ForgeDirection direction) {
-		if (direction == ForgeDirection.getOrientation(energySide)) {
-			return true;
-		}
-		return false;
-	}
-
-	@Method(modid = "IC2")
-	@Override
-	public double getOfferedEnergy() {
-		return this.storage.extractEnergy(maxTransfer, true) / 4;
-	}
-
-	@Method(modid = "IC2")
-	@Override
-	public void drawEnergy(double amount) {
-		this.storage.extractEnergy((int) (amount * 4), false);
-
-	}
-
-	@Method(modid = "IC2")
-	@Override
-	public int getSourceTier() {
-		return 4;
-	}
-
-	@Method(modid = "IC2")
-	@Override
-	public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
-		if (!(direction == ForgeDirection.getOrientation(energySide))) {
-			return true;
-		}
-		return false;
-	}
-
-	@Method(modid = "IC2")
-	@Override
-	public double getDemandedEnergy() {
-		return this.storage.receiveEnergy(this.storage.getMaxReceive(), true) / 4;
-	}
-
-	@Method(modid = "IC2")
-	@Override
-	public int getSinkTier() {
-		return 4;
-	}
-
-	@Method(modid = "IC2")
-	@Override
-	public double injectEnergy(ForgeDirection directionFrom, double amountEU, double voltage) {
-
-		if (!(directionFrom == ForgeDirection.getOrientation(energySide))) {
-			int addRF = this.storage.receiveEnergy((int) amountEU * 4, true);
-			this.storage.receiveEnergy((int) addRF, false);
-			return amountEU - (addRF / 4);
-		} else {
-			return 0;
-		}
 	}
 }

@@ -3,8 +3,8 @@ item.Calculator.name=Calculator
 item.CraftingCalculator.name=Crafting Calculator
 item.ScientificCalculator.name=Scientific Calculator
 item.FlawlessCalculator.name=Flawless Calculator
-tile.atomiccalculatorBlock.name=Atomic Calculator
-tile.dynamiccalculatorBlock.name=Dynamic Calculator
+tile.AtomicCalculator.name=Atomic Calculator
+tile.DynamicCalculator.name=Dynamic Calculator
 
 
 //modules
@@ -21,8 +21,8 @@ item.SpeedUpgrade.name=Speed Upgrade
 item.VoidUpgrade.name=Void Upgrade
 
 //blocks
-tile.reinforcedstoneBlock.name=Reinforced Stone
-tile.reinforceddirtBlock.name=Reinforced Dirt
+tile.ReinforcedStoneBlock.name=Reinforced Stone
+tile.ReinforcedDirtBlock.name=Reinforced Dirt
 tile.stablestoneBlock.name=Stable Stone
 tile.stablePort.name=Stable Stone
 
@@ -40,20 +40,20 @@ itemGroup.Calculator=Calculator
 //generators
 tile.CalculatorLocator.name=Calculator Locator
 tile.CalculatorPlug.name=Calculator Plug
-tile.starchextractor.name=Starch Extractor
-tile.redstoneextractor.name=Redstone Extractor
-tile.glowstoneextractor.name=Glowstone Extractor
+tile.StarchExtractor.name=Starch Extractor
+tile.RedstoneExtractor.name=Redstone Extractor
+tile.GlowstoneExtractor.name=Glowstone Extractor
 tile.Crank.name=Crank Handle
-tile.CrankedGenerator.name=Hand Cranked Generator
+tile.HandCrankedGenerator.name=Hand Cranked Generator
 
 //machines
 tile.AtomicMultiplier.name=Atomic Multiplier
 tile.ConductorMast.name=Conductor Mast
 tile.ConductorMastBlock.name=Conductor Mast
-tile.PCubeIdle.name=Power Cube
-tile.AdvancedPCubeIdle.name=Advanced Power Cube
-tile.StoneSeperatorIdle.name=Stone Separator
-tile.AlgorithmSeperatorIdle.name=Algorithm Separator
+tile.PowerCube.name=Power Cube
+tile.AdvancedPowerCube.name=Advanced Power Cube
+tile.StoneSeparator.name=Stone Separator
+tile.AlgorithmSeparator.name=Algorithm Separator
 tile.HungerProcessor.name=Hunger Processor
 tile.HealthProcessor.name=Health Processor
 tile.ExtractionChamber.name=Extraction Chamber
@@ -64,9 +64,9 @@ tile.AnalysingChamber.name=Analysing Chamber
 tile.PrecisionChamber.name=Precision Chamber
 tile.StorageChamber.name=Storage Chamber
 tile.ReinforcedFurnace.name=Reinforced Furnace
-tile.LanternOn.name=Gas Lantern
-tile.LanternOff.name=Gas Lantern
-tile.LanternBasic.name=Lantern
+tile.GasLanternOn.name=Gas Lantern
+tile.GasLanternOff.name=Gas Lantern
+tile.Lantern.name=Lantern
 tile.AdvancedGreenhouse.name=Advanced Greenhouse
 tile.BasicGreenhouse.name=Basic Greenhouse
 tile.FlawlessGreenhouse.name=Flawless Greenhouse
@@ -283,7 +283,7 @@ item.ElectricHoe.name=Electric Hoe
 
 //end_tools
 item.EndDiamond.name=End Diamond
-item.EndForgedSword.name=End Forged Sword
+item.EndSword.name=End Forged Sword
 item.EndForgedPickaxe.name=End Forged Pickaxe
 item.EndForgedAxe.name=End Forged Axe
 item.EndForgedShovel.name=End Forged Shovel
@@ -435,8 +435,8 @@ research.newRecipes=New Recipes
 
 info.standard=Standard
 info.unlocked=Unlocked
-tile.reinforcedstoneBrick.name=Reinforced Stone Bricks
-tile.reinforceddirtBrick.name=Reinforced Dirt Bricks
+tile.ReinforcedStoneBrick.name=Reinforced Stone Bricks
+tile.ReinforcedDirtBrick.name=Reinforced Dirt Bricks
 death.attack.stone=%1$s was hit by a Stone
 tile.Transmitter.name=Transmitter
 tile.TransmitterBlock.name=Transmitter

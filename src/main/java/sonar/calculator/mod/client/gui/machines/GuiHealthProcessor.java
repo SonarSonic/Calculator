@@ -23,7 +23,7 @@ public class GuiHealthProcessor extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		String points = FontHelper.translate("points.health") + ": " + this.entity.storedpoints;
 		FontHelper.textCentre(points, xSize, 60, 0);
 	}

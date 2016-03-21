@@ -1,19 +1,14 @@
 package sonar.calculator.mod.api.flux;
 
+import sonar.core.utils.BlockCoords;
+import net.minecraft.util.BlockPos;
+
 
 /**extended by IFluxPoint & IFluxPlug you must use them if you wish to send and receive energy from the network*/
 public interface IFlux {
 
-	/** @return Tile Entity X Coordinate */
-	public int xCoord();
-
-
-	/** @return Tile Entity Y Coordinate */
-	public int yCoord();
-
-	/** @return Tile Entity Z Coordinate */
-	public int zCoord();
-
+	
+	public BlockCoords getCoords();	
 
 	/** @return Tile Entity X Coordinate */
 	public int networkID();
@@ -23,9 +18,5 @@ public interface IFlux {
 	 */
 	public String masterName();
 
-	/**
-	 * @return Tile Entities containing dimension ID
-	 */
-	public int dimension();
 
 }

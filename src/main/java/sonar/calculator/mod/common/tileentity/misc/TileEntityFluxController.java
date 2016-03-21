@@ -1,9 +1,5 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import ic2.api.item.ElectricItem;
-import ic2.api.item.IElectricItem;
-import ic2.api.item.IElectricItemManager;
-import ic2.api.item.ISpecialElectricItem;
 import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
@@ -20,6 +16,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.api.items.ILocatorModule;
@@ -29,13 +27,13 @@ import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.integration.SonarAPI;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ISyncTile;
+import sonar.core.utils.BlockCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityFluxController extends TileEntityInventory implements IFluxController, ISyncTile, IByteBufTile {
 
@@ -50,7 +48,7 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 	public List<FluxNetwork> networks;
 
 	public TileEntityFluxController() {
-		super.slots = new ItemStack[9];
+		super.inv = new SonarTileInventory(this, 9);
 	}
 
 	public int pushEnergy(int recieve, boolean simulate) {
@@ -72,23 +70,6 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 									if (((IEnergyContainerItem) target.getItem()).getEnergyStored(target) != ((IEnergyContainerItem) target.getItem()).getMaxEnergyStored(target)) {
 										recieve -= ((IEnergyContainerItem) target.getItem()).receiveEnergy(inv.getStackInSlot(i), recieve, simulate);
 									}
-								} else if (SonarAPI.ic2Loaded() && target.getItem() instanceof IElectricItem) {
-									IElectricItem item = (IElectricItem) target.getItem();
-									IElectricItemManager manager = ElectricItem.manager;
-
-									int itemEnergyRF = (int) Math.round(Math.min(Math.sqrt(item.getMaxCharge(target) * 4), (item.getMaxCharge(target) * 4) - (manager.getCharge(target) * 4)));
-									int toTransferRF = Math.min(recieve, Math.round(itemEnergyRF));
-
-									recieve -= manager.charge(target, toTransferRF / 4, 4, false, simulate) * 4;
-								} else if (SonarAPI.ic2Loaded() && target.getItem() instanceof ISpecialElectricItem) {
-
-									ISpecialElectricItem item = (ISpecialElectricItem) target.getItem();
-									IElectricItemManager manager = item.getManager(target);
-
-									int itemEnergyRF = (int) Math.round(Math.min(Math.sqrt(item.getMaxCharge(target) * 4), (item.getMaxCharge(target) * 4) - (manager.getCharge(target) * 4)));
-									int toTransferRF = Math.min(recieve, Math.round(itemEnergyRF));
-
-									recieve -= manager.charge(target, toTransferRF / 4, 4, false, simulate) * 4;
 								}
 							}
 						}
@@ -164,7 +145,7 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 	public void loadChunks() {
 		this.currentTicket = ForgeChunkManager.requestTicket(Calculator.instance, this.worldObj, Type.NORMAL);
 		if (currentTicket != null) {
-			ChunkCoordIntPair chunk = new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4);
+			ChunkCoordIntPair chunk = new ChunkCoordIntPair(pos.getX() >> 4, pos.getZ() >> 4);
 			ChunkHandler.saveFluxController(currentTicket, this);
 			ForgeChunkManager.forceChunk(currentTicket, chunk);
 		}
@@ -192,9 +173,9 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 				players.add(playerName);
 			}
 			for (int i = 0; i < 9; i++) {
-				if (slots[i] != null) {
-					if (slots[i].getItem() instanceof ILocatorModule) {
-						String locatorPlayer = ((ILocatorModule) slots[i].getItem()).getPlayer(slots[i]);
+				if (slots()[i] != null) {
+					if (slots()[i].getItem() instanceof ILocatorModule) {
+						String locatorPlayer = ((ILocatorModule) slots()[i].getItem()).getPlayer(slots()[i]);
 						if (locatorPlayer != null) {
 							if (!players.contains(locatorPlayer)) {
 								players.add(locatorPlayer);
@@ -279,28 +260,8 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 	}
 
 	@Override
-	public int xCoord() {
-		return this.xCoord;
-	}
-
-	@Override
-	public int yCoord() {
-		return this.yCoord;
-	}
-
-	@Override
-	public int zCoord() {
-		return this.zCoord;
-	}
-
-	@Override
 	public int networkID() {
 		return this.networkID;
-	}
-
-	@Override
-	public int dimension() {
-		return this.dimension;
 	}
 
 	@Override

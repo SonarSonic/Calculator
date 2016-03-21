@@ -11,9 +11,9 @@ import sonar.core.inventory.slots.SlotBlockedInventory;
 public class ContainerAlgorithmAssimilator extends Container {
 	private TileEntityAssimilator entity;
 
-	public ContainerAlgorithmAssimilator(IInventory playerInv, TileEntityAssimilator entity) {
+	public ContainerAlgorithmAssimilator(EntityPlayer player, TileEntityAssimilator entity) {
 		this.entity = entity;
-		entity.openInventory();
+		entity.openInventory(player);
 		int i = (3 - 4) * 18;
 		int j;
 		int k;
@@ -26,12 +26,12 @@ public class ContainerAlgorithmAssimilator extends Container {
 
 		for (j = 0; j < 3; ++j) {
 			for (k = 0; k < 9; ++k) {
-				this.addSlotToContainer(new Slot(playerInv, k + j * 9 + 9, 8 + k * 18, 102 + j * 18 + i));
+				this.addSlotToContainer(new Slot(player.inventory, k + j * 9 + 9, 8 + k * 18, 102 + j * 18 + i));
 			}
 		}
 
 		for (j = 0; j < 9; ++j) {
-			this.addSlotToContainer(new Slot(playerInv, j, 8 + j * 18, 160 + i));
+			this.addSlotToContainer(new Slot(player.inventory, j, 8 + j * 18, 160 + i));
 		}
 	}
 
@@ -76,7 +76,7 @@ public class ContainerAlgorithmAssimilator extends Container {
 
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		this.entity.closeInventory();
+		this.entity.closeInventory(player);
 	}
 
 	public IInventory getLowerChestInventory() {

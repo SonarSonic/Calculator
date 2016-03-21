@@ -1,0 +1,78 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model":"calculator:ReinforcedFurnace"
+    },
+    "variants": { 
+        "facing":{  
+            "north":{},
+            "south":{
+                "y": 180
+            },
+            "west":{
+                "y": 270
+            },
+            "east":{
+                "y": 90
+            }
+        },
+        "north":{
+            "input":{},
+            "output":{             
+               "textures": {        
+                    "north":"calculator:blocks/stoneseperator_still_front2"     
+                }         
+            },
+            "input_animate":{
+                 "textures": {        
+                    "north":"calculator:blocks/reinforced_furnace_active"     
+                }  
+            },
+            "output_animate":{                           
+               "textures": {        
+                    "north":"calculator:blocks/reinforced_furnace2_active"     
+                }    
+            }
+        },
+        "east":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "east":"calculator:blocks/stoneseperator_slot2"     
+                 }
+            }
+        },
+        "south":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "south":"calculator:blocks/stoneseperator_slot2"     
+                 }
+            }
+        },
+        "west":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "west":"calculator:blocks/stoneseperator_slot2"     
+                 }
+            }
+        },
+        "up":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "up":"calculator:blocks/stoneseperator_slot2"     
+                 }
+            }
+        },
+        "down":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "down":"calculator:blocks/stoneseperator_slot2"     
+                 }
+            }
+        }
+    }
+}

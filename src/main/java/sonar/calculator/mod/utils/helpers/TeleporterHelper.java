@@ -14,9 +14,9 @@ public class TeleporterHelper {
 
 	public static void travelToDimension(List<EntityPlayer> players, TileEntityTeleporter tile) {
 		for (EntityPlayer entity : players) {
-			int currentDimension = entity.worldObj.provider.dimensionId;
+			int currentDimension = entity.worldObj.provider.getDimensionId();
 			if (tile.dimension() != currentDimension) {
-				if (!tile.getWorldObj().isRemote && !entity.isDead) {
+				if (!tile.getWorld().isRemote && !entity.isDead) {
 
 					EntityPlayerMP entityPlayerMP = (EntityPlayerMP) entity;
 					WorldServer worldServer = MinecraftServer.getServer().worldServerForDimension(tile.dimension());
@@ -32,7 +32,7 @@ public class TeleporterHelper {
 
 				}
 			} else {
-				((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5, SonarHelper.getAngleFromMeta(tile.getWorldObj().getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord)), 0);
+				((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5, SonarHelper.getAngleFromMeta(tile.getWorld().getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord)), 0);
 			}
 			tile.coolDown = true;
 			tile.coolDownTicks = 100;

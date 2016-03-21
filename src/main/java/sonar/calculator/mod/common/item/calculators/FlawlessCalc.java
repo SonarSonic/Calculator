@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.items.IResearchStore;
@@ -22,10 +25,6 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-
 
 public class FlawlessCalc extends SonarCalculator implements IItemInventory, IResearchStore {
 
@@ -73,6 +72,7 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 	}
 
 	public FlawlessCalc() {
+		maxStackSize=1;	
 		capacity = 1000000;
 		maxReceive = 1000000;
 		maxExtract = 1000000;
@@ -183,19 +183,19 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par7, float par8, float par9, float par10) {
-
-		if (!(world.getBlock(x, y, z) == Calculator.stablestoneBlock)) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitx, float hity, float hitz) {
+		Block target= world.getBlockState(pos).getBlock();
+		if (!(target == Calculator.stableStone)) {
 			return false;
 		}
 		int mode = stack.getTagCompound().getInteger("Mode");
-		if (world.getBlock(x, y, z) == Calculator.stablestoneBlock) {
+		if (target == Calculator.stableStone) {
 			if (stack.hasTagCompound()) {
 				if (mode == FlawlessCalc.Teleport) {
-					if ((world.getBlock(x, y, z) == Calculator.stablestoneBlock) && (!stack.getTagCompound().getBoolean("Tele"))) {
-						stack.getTagCompound().setDouble("TeleX", x - 0.5);
-						stack.getTagCompound().setDouble("TeleY", y + 1);
-						stack.getTagCompound().setDouble("TeleZ", z - 0.5);
+					if ((target == Calculator.stableStone) && (!stack.getTagCompound().getBoolean("Tele"))) {
+						stack.getTagCompound().setDouble("TeleX", pos.getX() - 0.5);
+						stack.getTagCompound().setDouble("TeleY", pos.getY() + 1);
+						stack.getTagCompound().setDouble("TeleZ", pos.getZ() - 0.5);
 						stack.getTagCompound().setBoolean("Tele", true);
 						stack.getTagCompound().setInteger("Dimension", player.dimension);
 						if (!world.isRemote) {
@@ -204,10 +204,10 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 							FontHelper.translate("calc.position")));
 						}
 
-					} else if ((world.getBlock(x, y, z) == Calculator.stablestoneBlock) && (stack.getTagCompound().getBoolean("Tele")) && (world.getBlock((int) stack.getTagCompound().getDouble("TeleX"), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) stack.getTagCompound().getDouble("TeleZ")) != Calculator.stablestoneBlock)) {
-						stack.getTagCompound().setDouble("TeleX", x + 0.5);
-						stack.getTagCompound().setDouble("TeleY", y + 1);
-						stack.getTagCompound().setDouble("TeleZ", z + 0.5);
+					} else if ((target == Calculator.stableStone) && (stack.getTagCompound().getBoolean("Tele")) && (world.getBlockState(new BlockPos((int) stack.getTagCompound().getDouble("TeleX"), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) stack.getTagCompound().getDouble("TeleZ"))).getBlock() != Calculator.stableStone)) {
+						stack.getTagCompound().setDouble("TeleX", pos.getX() + 0.5);
+						stack.getTagCompound().setDouble("TeleY", pos.getY() + 1);
+						stack.getTagCompound().setDouble("TeleZ", pos.getZ() + 0.5);
 						stack.getTagCompound().setBoolean("Tele", true);
 						stack.getTagCompound().setInteger("Dimension", player.dimension);
 						if (!world.isRemote) {
@@ -225,8 +225,8 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 	public void teleport(EntityPlayer player, World world, ItemStack stack) {
 		if (player.dimension == stack.getTagCompound().getInteger("Dimension")) {
 			if (stack.getTagCompound().getBoolean("Tele")) {
-				Block target = world.getBlock((int) (stack.getTagCompound().getDouble("TeleX") - 0.5), (int) stack.getTagCompound().getDouble("TeleY") - 1, (int) (stack.getTagCompound().getDouble("TeleZ") - 0.5));
-				if (target == Calculator.stablestoneBlock) {
+				Block target = world.getBlockState(new BlockPos((stack.getTagCompound().getDouble("TeleX") - 0.5), stack.getTagCompound().getDouble("TeleY") - 1, (stack.getTagCompound().getDouble("TeleZ") - 0.5))).getBlock();
+				if (target == Calculator.stableStone) {
 					player.setPositionAndUpdate(stack.getTagCompound().getDouble("TeleX"), stack.getTagCompound().getDouble("TeleY"), stack.getTagCompound().getDouble("TeleZ"));
 
 				} else {
@@ -245,12 +245,6 @@ public class FlawlessCalc extends SonarCalculator implements IItemInventory, IRe
 
 	public int currentEnergy(ItemStack itemstack) {
 		return getEnergyStored(itemstack);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconregister) {
-		this.itemIcon = iconregister.registerIcon("Calculator:flawlesscalculator");
 	}
 
 	public void ender(World world, EntityPlayer player) {

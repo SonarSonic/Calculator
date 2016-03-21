@@ -5,13 +5,13 @@ import net.minecraft.client.model.ModelSign;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderCalculatorScreen extends TileEntitySpecialRenderer {
@@ -55,7 +55,7 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer {
 		GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
 		GL11.glDepthMask(false);
 		byte b0 = 0;
-		if (screen.getWorldObj() != null) {
+		if (screen.getWorld() != null) {
 			String energy = "C: " + FontHelper.formatStorage(screen.latestEnergy);
 			String max = "M: " +FontHelper.formatStorage(screen.latestMax);
 			fontrenderer.drawString(energy, -fontrenderer.getStringWidth(energy) / 2, -8, b0);

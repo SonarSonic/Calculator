@@ -1,66 +1,72 @@
 package sonar.calculator.mod.common.block;
 
 import net.minecraft.block.BlockLog;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CalculatorLogs extends BlockLog {
-	int type;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-
-	public CalculatorLogs(int type) {
-		this.type = type;
+	public CalculatorLogs() {
 		setHarvestLevel("axe", 0);
 		setHardness(0.7F);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
 	}
 
 	@Override
-	public boolean isWood(IBlockAccess world, int x, int y, int z) {
+	public boolean isWood(IBlockAccess world, BlockPos pos) {
 		return true;
 	}
 
 	@Override
-	public boolean canSustainLeaves(IBlockAccess world, int x, int y, int z) {
+	public boolean canSustainLeaves(IBlockAccess world, BlockPos pos) {
 		return true;
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		switch (type) {
+	public IBlockState getStateFromMeta(int meta) {
+		IBlockState iblockstate = this.getDefaultState();
+		switch (meta & 12) {
 		case 0:
-			this.blockIcon = iconRegister.registerIcon("Calculator:wood/log_amethyst_side");
-			this.iconTop = iconRegister.registerIcon("Calculator:wood/log_amethyst_top");
+			iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
 			break;
-		case 1:
-			this.blockIcon = iconRegister.registerIcon("Calculator:wood/log_tanzanite_side");
-			this.iconTop = iconRegister.registerIcon("Calculator:wood/log_tanzanite_top");
+		case 4:
+			iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
 			break;
-		case 2:
-			this.blockIcon = iconRegister.registerIcon("Calculator:wood/log_pear_side");
-			this.iconTop = iconRegister.registerIcon("Calculator:wood/log_pear_top");
+		case 8:
+			iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
 			break;
-		case 3:
-			this.blockIcon = iconRegister.registerIcon("Calculator:wood/log_diamond_side");
-			this.iconTop = iconRegister.registerIcon("Calculator:wood/log_diamond_top");
+		default:
+			iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
+		}
+
+		return iblockstate;
+	}
+
+	public int getMetaFromState(IBlockState state) {
+		int i = 0;
+		i = i | 0;
+
+		switch ((BlockLog.EnumAxis) state.getValue(LOG_AXIS)) {
+		case X:
+			i |= 4;
+			break;
+		case Z:
+			i |= 8;
+			break;
+		case NONE:
+			i |= 12;
+		default:
 			break;
 		}
+
+		return i;
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getSideIcon(int side) {
-		return blockIcon;
-
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getTopIcon(int side) {
-		return iconTop;
+	protected BlockState createBlockState() {
+		return new BlockState(this, new IProperty[] { LOG_AXIS });
 	}
 }

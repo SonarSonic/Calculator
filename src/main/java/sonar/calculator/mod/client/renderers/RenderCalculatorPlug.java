@@ -26,7 +26,7 @@ public class RenderCalculatorPlug extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
 		int i;
 
-		if (tileentity.getWorldObj() == null) {
+		if (tileentity.getWorld() == null) {
 			i = 0;
 		} else {
 			Block block = tileentity.getBlockType();
@@ -38,7 +38,7 @@ public class RenderCalculatorPlug extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 
-		if (tileentity.getWorldObj() != null && tileentity instanceof TileEntityCalculatorPlug) {
+		if (tileentity.getWorld() != null && tileentity instanceof TileEntityCalculatorPlug) {
 			TileEntityCalculatorPlug tile = (TileEntityCalculatorPlug) tileentity;
 			if (tile.stable.getObject() == 2) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(onTexture);

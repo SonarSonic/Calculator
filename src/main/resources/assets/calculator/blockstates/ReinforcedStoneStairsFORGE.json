@@ -1,0 +1,63 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model":"calculator:ReinforcedStoneStairs",
+        "uvlock": true
+    },
+    "variants": {        
+        "facing": {
+            "east":{
+                
+            },
+            "west":{
+                "y": 180
+            },
+            "south":{
+                "y": 90
+            },
+            "north":{
+                "y": 270
+            }
+        },
+        "half":{
+            "bottom":{
+                
+            },
+            "top":{
+                "x": 180
+            }
+        },
+        "shape":{
+            "straight":{
+                "model":"calculator:ReinforcedStoneStairs"
+            },
+            "outer_right":{
+                "model":"calculator:ReinforcedStoneStairs_Outer"
+            },            
+            "outer_left":{
+                "model":"calculator:ReinforcedStoneStairs_Outer",
+                "facing":{                    
+                    "east":{                
+                        "y": 270
+                    },
+                    "west":{
+                        "y": 90
+                    },
+                    "south":{
+                        
+                    },
+                    "north":{
+                        "y": 180
+                    }
+                }
+            },            
+            "inner_right":{
+                "model":"calculator:ReinforcedStoneStairs_Inner"
+            },            
+            "inner_left":{
+                "model":"calculator:ReinforcedStoneStairs_Inner",
+                "y": 270
+            }
+        }
+    }
+}

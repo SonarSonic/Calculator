@@ -54,7 +54,7 @@ public class SlotPortableResult extends SlotPortable {
 						continue;
 					}
 
-					if (!itemstack1.getItem().doesContainerItemLeaveCraftingGrid(itemstack1) || !this.thePlayer.inventory.addItemStackToInventory(itemstack2)) {
+					if (!this.thePlayer.inventory.addItemStackToInventory(itemstack2)) {
 						if (this.invItem.getStackInSlot(craftSlots[i]) == null) {
 							this.invItem.setInventorySlotContents(craftSlots[i], itemstack2, isRemote);
 						} else {

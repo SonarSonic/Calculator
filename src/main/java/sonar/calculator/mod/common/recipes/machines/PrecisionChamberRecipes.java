@@ -31,7 +31,7 @@ public class PrecisionChamberRecipes extends RecipeHelper {
 		addRecipe("treeLeaves", new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 7));
 		addRecipe("gemLapis", new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 8));
 		addRecipe(Blocks.nether_brick, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 9));
-		addRecipe(Calculator.reinforceddirtBlock, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 10));
+		addRecipe(Calculator.reinforcedDirtBlock, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 10));
 		addRecipe("sandstone", new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDamaged, 1, 11));
 		addRecipe(Blocks.clay, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 12));
 		addRecipe("dustRedstone", new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 13));

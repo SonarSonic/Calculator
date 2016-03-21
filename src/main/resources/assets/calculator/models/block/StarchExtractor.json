@@ -1,0 +1,9 @@
+{
+    "parent":"calculator:block/Extractor",   
+
+    "textures": {
+        "0":"calculator:model/starch_generator_0",        
+        "1":"calculator:model/starch_generator_1"
+    }
+
+}

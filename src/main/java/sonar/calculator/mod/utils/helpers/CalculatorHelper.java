@@ -1,7 +1,5 @@
 package sonar.calculator.mod.utils.helpers;
 
-import ic2.api.item.IElectricItem;
-
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -37,8 +35,6 @@ public class CalculatorHelper {
 		if (DischargeValues.getValueOf(stack) > 0) {
 			return true;
 		} else if (stack.getItem() instanceof IEnergyContainerItem) {
-			return true;
-		} else if (SonarAPI.ic2Loaded() && stack.getItem() instanceof IElectricItem) {
 			return true;
 		}
 		return false;

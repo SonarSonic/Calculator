@@ -46,7 +46,7 @@ public class GuiCalculatorLocator extends GuiContainer {
 			FontHelper.text(FontHelper.translate("locator.active") + ": " + FontHelper.translate("locator.false"), 25, 10, 2);
 		}
 
-		if (!this.entity.owner.equals("None")) {
+		if (!this.entity.owner.getObject().equals("None")) {
 			FontHelper.text(FontHelper.translate("locator.owner") + ": " + this.entity.getOwner(), 25, 32, 0);
 		} else {
 			FontHelper.text(FontHelper.translate("locator.owner") + ": " + FontHelper.translate("locator.none"), 25, 32, 2);

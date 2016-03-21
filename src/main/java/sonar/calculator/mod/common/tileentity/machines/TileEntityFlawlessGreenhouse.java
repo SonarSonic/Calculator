@@ -5,19 +5,24 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.IFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
-import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
@@ -25,8 +30,6 @@ import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RenderHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implements ISidedInventory, IFlawlessGreenhouse {
 
@@ -35,7 +38,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	public TileEntityFlawlessGreenhouse() {
 		super.storage = new SyncEnergyStorage(500000, 64000);
-		super.slots = new ItemStack[10];
+		super.inv = new SonarTileInventory(this, 10);
 		super.type = 3;
 		super.maxLevel = 100000;
 		super.plantTick = 2;
@@ -43,8 +46,8 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		if (!this.isBeingBuilt()) {
 			checkTile();
 		}
@@ -90,24 +93,23 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	public List<BlockCoords> getPlantArea() {
 		List<BlockCoords> coords = new ArrayList();
 
-		int hX = RenderHelper.getHorizontal(getForward()).offsetX;
-		int hZ = RenderHelper.getHorizontal(getForward()).offsetZ;
+		int hX = horizontal.getFrontOffsetX();
+		int hZ = horizontal.getFrontOffsetZ();
 
-		int hoX = RenderHelper.getHorizontal(getForward()).getOpposite().offsetX;
-		int hoZ = RenderHelper.getHorizontal(getForward()).getOpposite().offsetZ;
+		int hoX = horizontal.getOpposite().getFrontOffsetX();
+		int hoZ = horizontal.getOpposite().getFrontOffsetZ();
 
-		int fX = getForward().offsetX;
-		int fZ = getForward().offsetZ;
+		int fX = forward.getFrontOffsetX();
+		int fZ = forward.getFrontOffsetZ();
 
 		for (int i = 0; i <= this.houseSize; i++) {
 			for (int XZ = 1; XZ <= 2; XZ++) {
-				coords.add(new BlockCoords(xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i))));
+				coords.add(new BlockCoords(pos.add((hX * XZ) + (fX * (1 + i)), 0, (hZ * XZ) + (fZ * (1 + i)))));
 
 			}
 		}
 		return coords;
 	}
-
 
 	public void extraTicks() {
 		if (levelTicks == 15) {
@@ -118,36 +120,32 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		}
 		if (this.levelTicks == 20) {
 			this.levelTicks = 0;
-			InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, 0, 0, new PlantableFilter());
+			InventoryHelper.extractItems(this.getWorld().getTileEntity(pos.add((forward.getOpposite().getFrontOffsetX()), 0, (forward.getOpposite().getFrontOffsetZ()))), this, 0, 0, new PlantableFilter());
 			gasLevels();
 
 		}
 	}
 
 	public FailedCoords isComplete() {
-		if (RenderHelper.getHorizontal(getForward()) != null) {
-			int hX = RenderHelper.getHorizontal(getForward()).offsetX;
-			int hZ = RenderHelper.getHorizontal(getForward()).offsetZ;
+		if (RenderHelper.getHorizontal(forward) != null) {
+			int hX = RenderHelper.getHorizontal(forward).getFrontOffsetX();
+			int hZ = RenderHelper.getHorizontal(forward).getFrontOffsetZ();
 
-			int hoX = RenderHelper.getHorizontal(getForward()).getOpposite().offsetX;
-			int hoZ = RenderHelper.getHorizontal(getForward()).getOpposite().offsetZ;
+			int hoX = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
+			int hoZ = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
 
-			int fX = getForward().offsetX;
-			int fZ = getForward().offsetZ;
+			int fX = forward.getFrontOffsetX();
+			int fZ = forward.getFrontOffsetZ();
 
-			int x = xCoord;
-			int y = yCoord;
-			int z = zCoord;
-
-			FailedCoords size = checkSize(true, this.worldObj, hX, hZ, hoX, hoZ, fX, fZ, xCoord, yCoord, zCoord);
+			FailedCoords size = checkSize(true, this.worldObj, hX, hZ, hoX, hoZ, fX, fZ, pos.getX(), pos.getY(), pos.getZ());
 
 			if (!size.getBoolean()) {
 				return size;
 			}
 
-			return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
+			return new FailedCoords(true, BlockCoords.EMPTY, FontHelper.translate("locator.none"));
 		}
-		return new FailedCoords(false, 0, 0, 0, "Something went wrong...");
+		return new FailedCoords(false, BlockCoords.EMPTY, "Something went wrong...");
 	}
 
 	private void checkTile() {
@@ -188,7 +186,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	}
 
 	private int getGasAdd() {
-		TileEntity tile = this.worldObj.getTileEntity(xCoord + (RenderHelper.getHorizontal(getForward()).offsetX * 3), yCoord, zCoord + (RenderHelper.getHorizontal(getForward()).offsetZ) * 3);
+		TileEntity tile = this.worldObj.getTileEntity(pos.add((RenderHelper.getHorizontal(forward).getFrontOffsetX() * 3), 0, (RenderHelper.getHorizontal(forward).getFrontOffsetZ()) * 3));
 		if (tile != null && tile instanceof TileEntityCO2Generator) {
 			TileEntityCO2Generator generator = (TileEntityCO2Generator) tile;
 			return generator.gasAdd;
@@ -198,20 +196,21 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	/** gets plants inside greenhouse and sets it to this.plants **/
 	private void getPlants() {
-		int hX = RenderHelper.getHorizontal(getForward()).offsetX;
-		int hZ = RenderHelper.getHorizontal(getForward()).offsetZ;
+		int hX = RenderHelper.getHorizontal(forward).getFrontOffsetX();
+		int hZ = RenderHelper.getHorizontal(forward).getFrontOffsetZ();
 
-		int hoX = RenderHelper.getHorizontal(getForward()).getOpposite().offsetX;
-		int hoZ = RenderHelper.getHorizontal(getForward()).getOpposite().offsetZ;
+		int hoX = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
+		int hoZ = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
 
-		int fX = getForward().offsetX;
-		int fZ = getForward().offsetZ;
+		int fX = forward.getFrontOffsetX();
+		int fZ = forward.getFrontOffsetZ();
 
 		this.plants = 0;
 
 		for (int i = 0; i <= this.houseSize; i++) {
 			for (int XZ = 1; XZ <= 2; XZ++) {
-				if (this.worldObj.getBlock(xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i))) instanceof IGrowable) {
+				BlockPos pos = this.pos.add((hX * XZ) + (fX * (1 + i)), 0, (hZ * XZ) + (fZ * (1 + i)));
+				if (this.worldObj.getBlockState(pos).getBlock() instanceof IGrowable) {
 					this.plants++;
 
 				}
@@ -237,37 +236,31 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	/** Hoes the ground **/
 	public void addFarmland() {
-		int hX = RenderHelper.getHorizontal(getForward()).offsetX;
-		int hZ = RenderHelper.getHorizontal(getForward()).offsetZ;
+		int hX = RenderHelper.getHorizontal(forward).getFrontOffsetX();
+		int hZ = RenderHelper.getHorizontal(forward).getFrontOffsetZ();
 
-		int hoX = RenderHelper.getHorizontal(getForward()).getOpposite().offsetX;
-		int hoZ = RenderHelper.getHorizontal(getForward()).getOpposite().offsetZ;
+		int hoX = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
+		int hoZ = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
 
-		int fX = getForward().offsetX;
-		int fZ = getForward().offsetZ;
-
-		int x = (this.xCoord + getForward().offsetX * 2);
-		int y = this.yCoord;
-		int z = (this.zCoord + getForward().offsetZ * 2);
+		int fX = forward.getFrontOffsetX();
+		int fZ = forward.getFrontOffsetZ();
 
 		for (int i = 0; i <= this.houseSize; i++) {
 			for (int XZ = 0; XZ <= 3; XZ++) {
+				BlockPos pos = this.pos.add((fX * 2) + (hX * XZ) + (fX * (1 + i)), 0, (fZ * 2) + (hZ * XZ) + (fZ * (1 + i)));
 				if (XZ != 1 && XZ != 2) {
 					if (this.storage.getEnergyStored() >= waterRF) {
-						if (GreenhouseHelper.applyWater(worldObj, xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)))) {
+						if (GreenhouseHelper.applyWater(worldObj, pos)) {
 							this.storage.modifyEnergyStored(-waterRF);
 						}
 					}
 				} else {
 					if (this.storage.getEnergyStored() >= farmlandRF) {
-						if (GreenhouseHelper.applyFarmland(worldObj, xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)))) {
+						if (GreenhouseHelper.applyFarmland(worldObj, pos)) {
 							this.storage.modifyEnergyStored(-farmlandRF);
 						}
 					}
-
-					AgriCraftAPIWrapper.getInstance().removeWeeds(worldObj, xCoord + (hX * XZ) + (fX * (1 + i)), yCoord, zCoord + (hZ * XZ) + (fZ * (1 + i)), false);
 				}
-
 			}
 		}
 	}
@@ -311,36 +304,38 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		}
 	}
 
-	public boolean stableStone(Block block) {
-		if (block == Calculator.stablestoneBlock) {
+	public boolean stableStone(int x, int y, int z) {
+		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
+		if (block != null && block == Calculator.stableStone) {
 			return false;
 		}
-		if (block == Calculator.stablestonerimmedBlock) {
+		if (block != null && block == Calculator.stablestonerimmedBlock) {
 			return false;
 		}
-		if (block == Calculator.stablestonerimmedblackBlock) {
+		if (block != null && block == Calculator.stablestonerimmedblackBlock) {
 			return false;
 		}
-		if (block == Calculator.flawlessGreenhouse) {
+		if (block != null && block == Calculator.flawlessGreenhouse) {
 			return false;
 		}
-		if (block == Calculator.carbondioxideGenerator) {
+		if (block != null && block == Calculator.CO2Generator) {
 			return false;
 		}
 		return true;
 	}
 
-	public boolean flawlessGlass(Block block) {
-		if (block == Calculator.flawlessGlass) {
+	public boolean flawlessGlass(int x, int y, int z) {
+		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
+		if (block != null && block == Calculator.flawlessGlass) {
 			return false;
 		}
 		return true;
 	}
 
 	public boolean slabQuartz(int x, int y, int z) {
-		Block block = this.worldObj.getBlock(x, y, z);
-		if (block == Blocks.stone_slab) {
-			if (block.getDamageValue(this.worldObj, x, y, z) == 7) {
+		IBlockState state = this.worldObj.getBlockState(new BlockPos(x, y, z));
+		if (state.getBlock() == Blocks.stone_slab) {
+			if (state.getBlock().getMetaFromState(state) == 7) {
 				return false;
 			}
 		}
@@ -378,7 +373,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			return start;
 		}
 
-		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
+		return new FailedCoords(true, BlockCoords.EMPTY, FontHelper.translate("locator.none"));
 	}
 
 	public FailedCoords middle(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {
@@ -390,21 +385,21 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 		}
 		for (int i = 0; i <= 1; i++) {
-			if (flawlessGlass(w.getBlock(x + (hX * 3), y + i, z + (hZ * 3)))) {
+			if (flawlessGlass(x + (hX * 3), y + i, z + (hZ * 3))) {
 				return new FailedCoords(false, x + (hX * 3), y + i, z + (hZ * 3), FontHelper.translate("greenhouse.glass"));
 			}
-			if (flawlessGlass(w.getBlock(x, y + i, z))) {
+			if (flawlessGlass(x, y + i, z)) {
 				return new FailedCoords(false, x, y + i, z, FontHelper.translate("greenhouse.glass"));
 			}
 		}
 
-		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
+		return new FailedCoords(true, BlockCoords.EMPTY, FontHelper.translate("locator.none"));
 	}
 
 	public FailedCoords end(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {
 
 		for (int i = 0; i <= 3; i++) {
-			if (stableStone(w.getBlock(x + (hX * i), y - 1, z + (hZ * i)))) {
+			if (stableStone(x + (hX * i), y - 1, z + (hZ * i))) {
 				return new FailedCoords(false, x + (hX * i), y - 1, z + (hZ * i), FontHelper.translate("greenhouse.stable"));
 			}
 			if (slabQuartz(x + (hX * i), y + 2, z + (hZ * i))) {
@@ -413,29 +408,29 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 		}
 		for (int i = 0; i <= 1; i++) {
-			if (stableStone(w.getBlock(x + (hX * 3), y + i, z + (hZ * 3)))) {
+			if (stableStone(x + (hX * 3), y + i, z + (hZ * 3))) {
 				return new FailedCoords(false, x + (hX * 3), y + i, z + (hZ * 3), FontHelper.translate("greenhouse.stable"));
 			}
-			if (stableStone(w.getBlock(x, y + i, z))) {
+			if (stableStone(x, y + i, z)) {
 				return new FailedCoords(false, x, y + i, z, FontHelper.translate("greenhouse.stable"));
 			}
 		}
-		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
+		return new FailedCoords(true, BlockCoords.EMPTY, FontHelper.translate("locator.none"));
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
+	public int[] getSlotsForFace(EnumFacing side) {
 		return new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack item, int side) {
+	public boolean canInsertItem(int index, ItemStack stack, EnumFacing direction) {
 		return true;
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack item, int side) {
-		return item != null && item.getItem() instanceof IPlantable;
+	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+		return stack != null && stack.getItem() instanceof IPlantable;
 	}
 
 	@SideOnly(Side.CLIENT)

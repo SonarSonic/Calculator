@@ -20,7 +20,7 @@ public class GuiStoneAssimilator extends GuiSonar {
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		super.drawGuiContainerForegroundLayer(par1, par2);
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		FontHelper.textCentre("Hunger Points: " + entity.hungerPoints, xSize, 60, 0);
 		FontHelper.textCentre("Health Points: " + entity.healthPoints, xSize, 70, 0);
 	}

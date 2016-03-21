@@ -9,7 +9,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.ITeleport;
 import sonar.calculator.mod.api.machines.TeleportLink;
@@ -22,9 +25,6 @@ import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ITextField;
 import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, ITextField {
 
@@ -41,8 +41,8 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	/** client only list */
 	public List<TeleportLink> links;
 
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		if (this.worldObj.isRemote) {
 			return;
 		}
@@ -96,25 +96,25 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			destinationName = name;
 			NBTTagCompound syncData = new NBTTagCompound();
 			writeData(syncData, NBTHelper.SyncType.SYNC);
-			SonarCore.network.sendToAllAround(new PacketTileSync(xCoord, yCoord, zCoord, syncData), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 32));
+			SonarCore.network.sendToAllAround(new PacketTileSync(pos, syncData), new TargetPoint(worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 32));
 		}
 	}
 
 	public boolean canTeleportPlayer() {
 		boolean flag = true;
 		for (int i = 1; i < 3; i++) {
-			Block block = worldObj.getBlock(xCoord, yCoord - i, zCoord);
+			Block block = worldObj.getBlockState(pos.offset(EnumFacing.DOWN, i)).getBlock();
 			if (!(block == Blocks.air || block == null)) {
 				flag = false;
 			}
 		}
-		ForgeDirection[] dirs = new ForgeDirection[] { ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.EAST, ForgeDirection.WEST };
+		EnumFacing[] dirs = new EnumFacing[] { EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.EAST, EnumFacing.WEST };
 		int stable = 0;
 		for (int i = 0; i < dirs.length; i++) {
-			ForgeDirection dir = dirs[i];
+			EnumFacing dir = dirs[i];
 			int blocks = 0;
 			for (int j = 0; j < 3; j++) {
-				if (worldObj.getBlock(xCoord + dir.offsetX, yCoord - j, zCoord + dir.offsetZ) == Calculator.stablestoneBlock) {
+				if (worldObj.getBlockState(pos.add(dir.getFrontOffsetX(), -j, dir.getFrontOffsetZ())).getBlock() == Calculator.stableStone) {
 					blocks++;
 				}
 			}
@@ -124,12 +124,12 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			}
 		}
 
-		return stable >= 3 && flag && yCoord - 2 > 0;
+		return stable >= 3 && flag && pos.getY() - 2 > 0;
 	}
 
 	public List<EntityPlayer> getPlayerList() {
-		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord - 2, zCoord - 1, xCoord + 1, yCoord - 1, zCoord + 1);
-		List<EntityPlayer> players = this.worldObj.selectEntitiesWithinAABB(EntityPlayer.class, aabb, null);
+		AxisAlignedBB aabb = AxisAlignedBB.fromBounds(pos.getX() - 1, pos.getY() - 2, pos.getZ() - 1, pos.getX() + 1, pos.getY() - 1, pos.getZ() + 1);
+		List<EntityPlayer> players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, aabb, null);
 		return players;
 	}
 
@@ -224,28 +224,8 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	}
 
 	@Override
-	public int xCoord() {
-		return xCoord;
-	}
-
-	@Override
-	public int yCoord() {
-		return yCoord;
-	}
-
-	@Override
-	public int zCoord() {
-		return zCoord;
-	}
-
-	@Override
 	public String name() {
 		return name;
-	}
-
-	@Override
-	public int dimension() {
-		return this.worldObj.provider.dimensionId;
 	}
 
 	@Override

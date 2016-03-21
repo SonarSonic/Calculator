@@ -4,8 +4,11 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.block.misc.GasLantern;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.ISyncTile;
@@ -13,20 +16,17 @@ import sonar.core.utils.helpers.FontHelper;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 public class TileEntityGasLantern extends TileEntityInventory implements ISyncTile {
 
 	public SyncTagType.INT burnTime = new SyncTagType.INT("burnTime");
 	public SyncTagType.INT maxBurnTime = new SyncTagType.INT("maxBurnTime");
 	
 	public TileEntityGasLantern() {
-		super.slots = new ItemStack[1];
+		super.inv = new SonarTileInventory(this, 1);
 	}
 
 	@Override
-	public void updateEntity() {
+	public void update() {
 		if (this.worldObj.isRemote) {
 			return;
 		}
@@ -37,8 +37,8 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 		}
 		if (!this.worldObj.isRemote) {
 			if (maxBurnTime.getObject() == 0) {
-				if (this.slots[0] != null) {
-					if (TileEntityFurnace.isItemFuel(slots[0])) {
+				if (this.slots()[0] != null) {
+					if (TileEntityFurnace.isItemFuel(slots()[0])) {
 						burn();
 					}
 				}
@@ -58,8 +58,8 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 		if (flag1 != this.burnTime.getObject() > 0) {
 			flag1 = true;
 
-			GasLantern.updateLatternBlockState(this.isBurning(), worldObj, xCoord, yCoord, zCoord);
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			GasLantern.setState(this.isBurning(), worldObj, pos);
+			this.worldObj.markBlockForUpdate(pos);
 
 		}
 
@@ -70,11 +70,11 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 	}
 
 	private void burn() {
-		this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(this.slots[0]) * 10);
-		this.slots[0].stackSize--;
+		this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(this.slots()[0]) * 10);
+		this.slots()[0].stackSize--;
 
-		if (this.slots[0].stackSize <= 0) {
-			this.slots[0] = null;
+		if (this.slots()[0].stackSize <= 0) {
+			this.slots()[0] = null;
 		}
 
 	}

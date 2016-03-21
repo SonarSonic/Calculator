@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import ic2.api.energy.tile.IEnergySink;
-
 import java.util.List;
 
 import net.minecraft.init.Items;
@@ -10,22 +8,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
-import sonar.core.common.tileentity.TileEntityInventorySender;
+import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyReceiver;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class TileEntityGenerator extends TileEntityInventorySender implements ISidedInventory {
+public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory {
 
 	protected TileEntity[] handlers = new TileEntity[6];
 	public int itemLevel, burnTime;
@@ -40,13 +39,14 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 	public TileEntityGenerator() {
 		super.storage = new SyncEnergyStorage(1000000, 800);
-		super.slots = new ItemStack[2];
+		super.inv = new SonarTileInventory(this, 2);
+		super.energyMode = EnergyMode.SEND;
 		super.maxTransfer = 2000;
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		if (!this.worldObj.isRemote) {
 			processItemLevel();
 			generateEnergy();
@@ -63,10 +63,10 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 				if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel >= requiredLevel) {
 					this.maxBurnTime = TileEntityFurnace.getItemBurnTime(stack);
 					burnTime++;
-					this.slots[0].stackSize--;
+					this.slots()[0].stackSize--;
 
-					if (this.slots[0].stackSize <= 0) {
-						this.slots[0] = null;
+					if (this.slots()[0].stackSize <= 0) {
+						this.slots()[0] = null;
 					}
 				}
 			}
@@ -85,15 +85,15 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 	}
 
 	public void processItemLevel() {
-		ItemStack stack = this.slots[1];
+		ItemStack stack = this.slots()[1];
 		if (stack == null || !(getItemValue(stack) > 0)) {
 			return;
 		}
 		if (!(itemLevel + getItemValue(stack) > levelMax)) {
 			addItem(getItemValue(stack));
-			this.slots[1].stackSize--;
-			if (this.slots[1].stackSize <= 0) {
-				this.slots[1] = null;
+			this.slots()[1].stackSize--;
+			if (this.slots()[1].stackSize <= 0) {
+				this.slots()[1] = null;
 			}
 		}
 
@@ -103,13 +103,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 		for (int i = 0; i < 6; i++) {
 			if (this.handlers[i] != null) {
 				if (handlers[i] instanceof IEnergyReceiver) {
-					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve, simulate);
-				} else if (handlers[i] instanceof IEnergySink) {
-					if (simulate) {
-						recieve -= ((IEnergySink) this.handlers[i]).getDemandedEnergy() * 4;
-					} else {
-						recieve -= (recieve - (((IEnergySink) this.handlers[i]).injectEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve / 4, 128) * 4));
-					}
+					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(EnumFacing.VALUES[(i ^ 0x1)], recieve, simulate);
 				}
 			}
 		}
@@ -118,9 +112,9 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 	public void updateAdjacentHandlers() {
 		for (int i = 0; i < 6; i++) {
-			TileEntity te = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.getOrientation(i));
+			TileEntity te = SonarHelper.getAdjacentTileEntity(this, EnumFacing.getFront(i));
 			if (!(te instanceof TileEntityFlux)) {
-				if (SonarHelper.isEnergyHandlerFromSide(te, ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)])) {
+				if (SonarHelper.isEnergyHandlerFromSide(te, EnumFacing.VALUES[(i ^ 0x1)])) {
 					this.handlers[i] = te;
 				} else
 					this.handlers[i] = null;
@@ -177,19 +171,18 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int slot) {
-		return slot == 0 ? slotsSides : (slot == 1 ? slotsTop : slotsSides);
+	public int[] getSlotsForFace(EnumFacing side) {
+		return side == EnumFacing.DOWN ? slotsSides : (side == EnumFacing.UP ? slotsTop : slotsSides);
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int par) {
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
 		return this.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
-
-		return slots != 0 || slot != 1 || stack != null && stack.getItem() == Items.bucket;
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
+		return direction != EnumFacing.DOWN || slot != 1 || stack != null && stack.getItem() == Items.bucket;
 	}
 
 	public static class StarchExtractor extends TileEntityGenerator {
@@ -199,7 +192,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel*100/5000 + "%");
+			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel * 100 / 5000 + "%");
 			return currenttip;
 		}
 
@@ -220,7 +213,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel*100/5000 + "%");
+			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel * 100 / 5000 + "%");
 			return currenttip;
 		}
 	}
@@ -236,7 +229,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel*100/5000 + "%");
+			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel * 100 / 5000 + "%");
 			return currenttip;
 		}
 	}

@@ -1,0 +1,31 @@
+{    
+    "forge_marker": 1,
+    "defaults": {
+        "model":"calculator:Lantern"
+    },
+    "variants": {
+        "dir":{            
+            "north":{  
+                "model":"calculator:Lantern_Side",   
+                "y":90       
+            },
+            "south":{                
+                "model":"calculator:Lantern_Side",   
+                "y":270 
+            },
+            "west":{                         
+                "model":"calculator:Lantern_Side"   
+            },
+            "east":{                         
+                "model":"calculator:Lantern_Side",   
+                "y":180 
+            },
+            "up":{
+                
+            },
+            "down":{
+                
+            }                
+        }
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model":"calculator:AtomicCalculator" },
+        "facing=south": { "model":"calculator:AtomicCalculator", "y": 180 },
+        "facing=west":  { "model":"calculator:AtomicCalculator", "y": 270 },
+        "facing=east":  { "model":"calculator:AtomicCalculator", "y": 90 }
+    }
+}

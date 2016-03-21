@@ -6,6 +6,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.containers.ContainerFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.utils.FluxNetwork;
@@ -14,8 +16,6 @@ import sonar.core.inventory.SonarButtons;
 import sonar.core.inventory.SonarButtons.SonarButton;
 import sonar.core.network.PacketByteBufServer;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GuiFluxController extends GuiFlux {
 
@@ -34,7 +34,7 @@ public class GuiFluxController extends GuiFlux {
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		super.drawGuiContainerForegroundLayer(par1, par2);
 		if (!network()) {
-			FontHelper.text(FontHelper.translate(entity.blockType.getLocalizedName()), 6, 8, 0);
+			FontHelper.text(FontHelper.translate(entity.getBlockType().getLocalizedName()), 6, 8, 0);
 			FontHelper.text("R: " + getReceiveString(entity.recieveMode), 10, 27, 0);
 			FontHelper.text("S: " + getSendString(entity.sendMode), 10, 37, 0);
 			FontHelper.text("T: " + ((entity.transmitterMode == 1) ? FontHelper.translate("network.on") : FontHelper.translate("network.off")), 10, 47, 0);
@@ -104,7 +104,7 @@ public class GuiFluxController extends GuiFlux {
 
 		@Override
 		public void onClicked() {
-			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.xCoord, entity.yCoord, entity.zCoord, id));
+			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), id));
 			buttonList.clear();
 			initGui();
 		}

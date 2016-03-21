@@ -2,18 +2,18 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 
-public class TileEntityScarecrow extends TileEntity {
+public class TileEntityScarecrow extends TileEntity implements ITickable {
 
 	public int growTicks;
 	public int range = CalculatorConfig.getInteger("Scarecrow Range");
 	public int speed = CalculatorConfig.getInteger("Scarecrow Tick Rate");
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
 		if (this.worldObj.isRemote) {
 			return;
 		}
@@ -36,7 +36,7 @@ public class TileEntityScarecrow extends TileEntity {
 	public boolean growCrop() {
 		int X = (0 + (int) (Math.random() * ((range - 0) + range))) - (range - 1);
 		int Z = (0 + (int) (Math.random() * ((range - 0) + range))) - (range - 1);
-		return GreenhouseHelper.applyBonemeal(worldObj, xCoord + X, yCoord, zCoord + Z, false);
+		return GreenhouseHelper.applyBonemeal(worldObj, pos.add(X, 0, Z), false);
 	}
 
 	@Override

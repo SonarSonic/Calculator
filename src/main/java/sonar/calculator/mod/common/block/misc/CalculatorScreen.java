@@ -7,14 +7,13 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.common.block.SonarMaterials;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**basically a fabrication of the BlockSign code*/
 public class CalculatorScreen extends BlockContainer {
@@ -29,7 +28,7 @@ public class CalculatorScreen extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		
-		return Calculator.reinforcedstoneBlock.getBlockTextureFromSide(side);
+		return Calculator.reinforcedStoneBlock.getBlockTextureFromSide(side);
 	}
 
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {

@@ -27,7 +27,7 @@ public class RenderCrank extends TileEntitySpecialRenderer {
 
 	public void renderAModelAt(TileEntityCrankHandle tileentity, double x, double y, double z, float f) {
 		int i;
-		if (tileentity.getWorldObj() == null) {
+		if (tileentity.getWorld() == null) {
 			i = 0;
 		} else {
 			Block block = tileentity.getBlockType();

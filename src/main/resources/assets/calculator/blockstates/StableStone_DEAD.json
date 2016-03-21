@@ -1,0 +1,11 @@
+{
+    "variants": {
+         "colour=NONE,down=false,east=false,north=false,south=false,up=false,west=false": {      
+              "textures": {
+                "all":"calculator:blocks/connected/stablestone"
+               },                   
+               "model":"calculator:block/StableStone",
+               "uvlock": true
+         }
+    }
+}

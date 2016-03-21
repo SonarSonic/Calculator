@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class PacketFluxNetworkList extends PacketCoords {
 
@@ -20,8 +21,8 @@ public class PacketFluxNetworkList extends PacketCoords {
 	public PacketFluxNetworkList() {
 	}
 
-	public PacketFluxNetworkList(int x, int y, int z, List<FluxNetwork> networks) {
-		super(x, y, z);
+	public PacketFluxNetworkList(BlockPos pos, List<FluxNetwork> networks) {
+		super(pos);
 		this.networks = networks;
 	}
 

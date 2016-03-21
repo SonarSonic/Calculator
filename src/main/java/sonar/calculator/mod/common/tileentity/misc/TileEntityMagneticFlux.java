@@ -13,17 +13,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.transport.IItemDuct;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityMagneticFlux extends TileEntityInventory implements IEntitySelector, ISidedInventory, IByteBufTile {
 
@@ -33,7 +32,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 	public boolean disabled;
 
 	public TileEntityMagneticFlux() {
-		super.slots = new ItemStack[8];
+		super.inv = new SonarTileInventory(this, 8);
 	}
 
 	@Override
@@ -41,9 +40,9 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 		return 1;
 	}
 
-	public void updateEntity() {
-		super.updateEntity();
-		if (this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+	public void update() {
+		super.update();
+		if (this.worldObj.isBlockIndirectlyGettingPowered(pos)>0) {
 			disabled = true;
 			return;
 		}
@@ -113,8 +112,8 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 			return true;
 		}
 		for (int i = 0; i < slots.length; i++) {
-			if (slots[i] != null) {
-				boolean matches = matchingStack(slots[i], stack);
+			if (slots()[i] != null) {
+				boolean matches = matchingStack(slots()[i], stack);
 				if (!this.whitelisted && matches) {
 					return false;
 				} else if (whitelisted && matches) {
@@ -151,9 +150,9 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 			}
 			ItemStack itemstack = entity.getEntityItem();
 			int i = itemstack.stackSize;
-			TileEntity target = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.DOWN);
+			TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
 			if (target instanceof IItemDuct) {
-				itemstack = ((IItemDuct) target).insertItem(ForgeDirection.UP, itemstack);
+				itemstack = ((IItemDuct) target).insertItem(EnumFacing.UP, itemstack);
 			} else {
 				itemstack = InventoryHelper.addItems(target, itemstack, 1, null);
 			}

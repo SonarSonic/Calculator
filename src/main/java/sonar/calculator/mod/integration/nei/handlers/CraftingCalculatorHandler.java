@@ -5,8 +5,6 @@ import java.awt.Rectangle;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import sonar.calculator.mod.client.gui.calculators.GuiCraftingCalculator;
 import sonar.core.utils.helpers.FontHelper;
-import codechicken.nei.recipe.ShapelessRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class CraftingCalculatorHandler extends ShapelessRecipeHandler {
 	@Override

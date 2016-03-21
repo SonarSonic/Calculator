@@ -6,16 +6,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class LocatorModule extends SonarItem implements ILocatorModule {
 	
 	public LocatorModule() {
-		setTextureName("Calculator:locator_module_on");
 		setMaxStackSize(1);
 	}
 

@@ -13,8 +13,6 @@ import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
 import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.RecipeHelper;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class ExtractionRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {

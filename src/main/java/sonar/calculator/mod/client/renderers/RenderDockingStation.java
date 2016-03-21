@@ -25,7 +25,7 @@ public class RenderDockingStation extends TileEntitySpecialRenderer {
 		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(tileentity), texture);
 		model.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 
-		if (tileentity.getWorldObj() != null && tileentity instanceof TileEntityDockingStation) {
+		if (tileentity.getWorld() != null && tileentity instanceof TileEntityDockingStation) {
 			TileEntityDockingStation station = (TileEntityDockingStation) tileentity;
 			if (station.calcStack != null) {
 				GL11.glTranslated(0, 0.86, -0.20);
@@ -36,7 +36,7 @@ public class RenderDockingStation extends TileEntitySpecialRenderer {
 				} else {
 					GL11.glRotated(90 + 45, 1, 0, 0);
 				}
-				RenderHelper.renderItem(tileentity.getWorldObj(), station.calcStack);
+				RenderHelper.renderItem(tileentity.getWorld(), station.calcStack);
 			}
 
 		}

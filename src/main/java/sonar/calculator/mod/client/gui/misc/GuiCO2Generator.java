@@ -23,7 +23,7 @@ public class GuiCO2Generator extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		if (entity.burnTime > 0 && this.entity.maxBurnTime != 0 && this.entity.gasAdd == 0) {
 			String burn = FontHelper.translate("co2.control");
 			FontHelper.textCentre(burn, xSize, 50, 0);

@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.containers;
 
-import ic2.api.item.IElectricItem;
-import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -82,16 +80,6 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 						return null;
 					}
 
-				} else if ((SonarAPI.ic2Loaded() && itemstack.getItem() instanceof IElectricItem)) {
-					if (!mergeItemStack(itemstack1, 9, 10, false)) {
-						return null;
-					}
-				}
-
-				else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
-					if (!mergeItemStack(itemstack1, 9, 10, false)) {
-						return null;
-					}
 				}
 			} else if (itemstack1.getMaxStackSize() >= 4) {
 				if (!mergeItemStack(itemstack1, 0, 1, false)) {

@@ -1,0 +1,43 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "end":"calculator:blocks/wood/log_amethyst_top",
+            "side":"calculator:blocks/wood/log_amethyst_side"
+        },
+        "model":"cube_column",
+        "uvlock": true
+    },
+    "variants": {    
+        "axis": {
+            "y":{
+                 "textures": {
+                    "end":"calculator:blocks/wood/log_amethyst_top",
+                    "side":"calculator:blocks/wood/log_amethyst_side"
+                 },
+                 "model":"cube_column"
+            },
+            "z":{            
+                 "textures": {
+                    "end":"calculator:blocks/wood/log_amethyst_top",
+                    "side":"calculator:blocks/wood/log_amethyst_side"
+                 },
+                 "model":"column_side"
+            }, 
+            "x":{            
+                 "textures": {
+                    "end":"calculator:blocks/wood/log_amethyst_top",
+                    "side":"calculator:blocks/wood/log_amethyst_side"
+                 },
+                 "model":"column_side",
+                 "y": 90
+            },
+            "none":{            
+                 "textures": {
+                    "all":"calculator:blocks/wood/log_amethyst_side"
+                 },
+                 "model":"cube_all"
+            }
+        }
+    }
+}

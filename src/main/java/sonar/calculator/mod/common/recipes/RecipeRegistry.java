@@ -14,9 +14,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.fml.common.FMLLog;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.RecipeHelper;
-import cpw.mods.fml.common.FMLLog;
 
 public class RecipeRegistry {
 
@@ -107,13 +107,13 @@ public class RecipeRegistry {
 	}
 	private static void addStandardRecipes() {
 		registerCalculatorRecipe(Calculator.baby_grenade, Calculator.grenadecasing, Blocks.tnt, false);
-		registerCalculatorRecipe(Calculator.reinforcedstoneBlock, "cobblestone", "plankWood", false);
-		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBlock,4), "cobblestone", "logWood", false);
+		registerCalculatorRecipe(Calculator.reinforcedStoneBlock, "cobblestone", "plankWood", false);
+		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedStoneBlock,4), "cobblestone", "logWood", false);
 
 		registerCalculatorRecipe(Calculator.wrench, Calculator.reinforced_sword, Calculator.reinforced_pickaxe, false);
-		registerCalculatorRecipe(Calculator.reinforceddirtBlock, Blocks.dirt, "plankWood", false);
-		registerCalculatorRecipe(new ItemStack(Calculator.enrichedgold, 4), "ingotGold", "dustRedstone", false);
-		registerCalculatorRecipe(Calculator.reinforcediron_ingot, "ingotIron", Calculator.reinforcedstoneBlock, false);
+		registerCalculatorRecipe(Calculator.reinforcedDirtBlock, Blocks.dirt, "plankWood", false);
+		registerCalculatorRecipe(new ItemStack(Calculator.enrichedGold, 4), "ingotGold", "dustRedstone", false);
+		registerCalculatorRecipe(Calculator.reinforcediron_ingot, "ingotIron", Calculator.reinforcedStoneBlock, false);
 		registerCalculatorRecipe(Calculator.enriched_coal, Items.coal, "dustRedstone", false);
 		registerCalculatorRecipe(Calculator.broccoliSeeds, Items.wheat_seeds, Items.pumpkin_seeds, false);
 		registerCalculatorRecipe(Calculator.sickle, Calculator.reinforced_shovel, Calculator.reinforced_axe, false);
@@ -122,10 +122,10 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(Calculator.gas_lantern_off, Calculator.basic_lantern, Calculator.basic_lantern, false);
 		registerCalculatorRecipe(Calculator.prunaeSeeds, Calculator.enriched_coal, Items.wheat_seeds, false);
 		registerCalculatorRecipe(Calculator.enriched_coal, Calculator.coal_dust, Calculator.coal_dust, false);
-		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedstoneBrick, 2), Calculator.reinforcedstoneBlock, Calculator.reinforcedstoneBlock, false);
+		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedStoneBrick, 2), Calculator.reinforcedStoneBlock, Calculator.reinforcedStoneBlock, false);
 		registerCalculatorRecipe(new ItemStack(Calculator.stableglassBlock, 2), "blockGlass", "blockGlass", false);
-		registerCalculatorRecipe(new ItemStack(Calculator.stablestoneBlock, 2), Calculator.reinforcedstoneBrick, Calculator.reinforcedstoneBrick, false);
-		registerCalculatorRecipe(new ItemStack(Calculator.reinforceddirtBrick, 2), Calculator.reinforceddirtBlock, Calculator.reinforceddirtBlock, false);
+		registerCalculatorRecipe(new ItemStack(Calculator.stableStone, 2), Calculator.reinforcedStoneBrick, Calculator.reinforcedStoneBrick, false);
+		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedDirtBrick, 2), Calculator.reinforcedDirtBlock, Calculator.reinforcedDirtBlock, false);
 		registerCalculatorRecipe(Calculator.rainSensor, Blocks.daylight_detector, Items.bucket, false);
 		
 		//registerCalculatorRecipe(Calculator.researchChamber, Calculator.reinforced_iron_block, Calculator.powerCube, false);
@@ -551,29 +551,29 @@ public class RecipeRegistry {
 	private static void addAtomicRecipes() {
 		registerAtomicRecipe("ingotIron", "dustRedstone", "ingotIron", Calculator.itemScientificCalculator);
 		registerAtomicRecipe("gemDiamond", Calculator.atomic_binder, "gemDiamond", Calculator.flawlessdiamond);
-		registerAtomicRecipe("gemDiamond", Items.blaze_rod, "gemDiamond", Calculator.flawlessfirediamond);
-		registerAtomicRecipe(Items.blaze_rod, Calculator.flawlessdiamond, Items.blaze_rod, Calculator.flawlessfirediamond);
-		registerAtomicRecipe(Blocks.end_stone, Calculator.electricdiamond, Blocks.obsidian, Calculator.enddiamond);
+		registerAtomicRecipe("gemDiamond", Items.blaze_rod, "gemDiamond", Calculator.firediamond);
+		registerAtomicRecipe(Items.blaze_rod, Calculator.flawlessdiamond, Items.blaze_rod, Calculator.firediamond);
+		registerAtomicRecipe(Blocks.end_stone, Calculator.electricDiamond, Blocks.obsidian, Calculator.endDiamond);
 		registerAtomicRecipe(Calculator.AmethystSapling, Blocks.end_stone, Calculator.tanzaniteSapling, Calculator.PearSapling);
 		registerAtomicRecipe(Calculator.itemScientificCalculator, Calculator.atomic_binder, "ingotRedstone", Calculator.itemAdvancedTerrainModule);
 		registerAtomicRecipe(Calculator.tanzaniteLog, Calculator.atomic_binder, Calculator.tanzaniteLeaf, Calculator.tanzaniteSapling);
 		registerAtomicRecipe(Calculator.large_tanzanite, Calculator.atomic_binder, "treeSapling", Calculator.tanzaniteSapling);
-		registerAtomicRecipe(Calculator.healthprocessor, Calculator.itemEnergyModule, Calculator.hungerprocessor, Calculator.itemNutritionModule);
+		registerAtomicRecipe(Calculator.healthProcessor, Calculator.itemEnergyModule, Calculator.hungerProcessor, Calculator.itemNutritionModule);
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 4), Calculator.atomic_binder, "dustEnrichedGold", new ItemStack(Calculator.speedUpgrade, 4));
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 5), Calculator.atomic_binder, "dustEnrichedGold", new ItemStack(Calculator.energyUpgrade, 4));
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 6), Calculator.atomic_binder, "dustEnrichedGold", Calculator.voidUpgrade);
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 9), Calculator.redstoneextractor, Calculator.large_tanzanite, Calculator.glowstoneextractor);
 		registerAtomicRecipe("ingotRedstone", Calculator.starchextractor, "ingotRedstone", Calculator.redstoneextractor);
-		registerAtomicRecipe(Calculator.itemEnergyModule, Calculator.flawlessfirediamond, Calculator.itemEnergyModule, Calculator.conductorMast);
+		registerAtomicRecipe(Calculator.itemEnergyModule, Calculator.firediamond, Calculator.itemEnergyModule, Calculator.conductorMast);
 		registerAtomicRecipe(Calculator.reinforced_iron_block, Blocks.chest, Calculator.reinforced_iron_block, Calculator.storageChamber);
 		registerAtomicRecipe(Calculator.reassemblyChamber, Calculator.flawlessdiamond, Calculator.restorationChamber, Calculator.processingChamber);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Blocks.chest, Calculator.reinforcediron_ingot, Calculator.itemStorageModule);
-		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.electricdiamond, Calculator.reinforcediron_ingot, Calculator.transmitter);
-		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.flawlessfirediamond, Calculator.reinforcediron_ingot, new ItemStack(Calculator.weatherStation, 4));
+		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.electricDiamond, Calculator.reinforcediron_ingot, Calculator.transmitter);
+		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.firediamond, Calculator.reinforcediron_ingot, new ItemStack(Calculator.weatherStation, 4));
 	}
 
 	private static void addFlawlessRecipes() {
-		registerFlawlessRecipe(Calculator.PearSapling, Calculator.enddiamond, Calculator.enddiamond, Blocks.end_stone, Calculator.diamondSapling);
+		registerFlawlessRecipe(Calculator.PearSapling, Calculator.endDiamond, Calculator.endDiamond, Blocks.end_stone, Calculator.diamondSapling);
 		registerFlawlessRecipe("ingotGold", "ingotGold", "ingotGold", "ingotGold", Items.diamond);
 		registerFlawlessRecipe("gemDiamond", "gemDiamond", "gemDiamond", "gemDiamond", Items.emerald);
 		registerFlawlessRecipe("ingotIron", "ingotIron", "ingotIron", "ingotIron", Items.ender_pearl);
@@ -584,7 +584,7 @@ public class RecipeRegistry {
 		registerFlawlessRecipe(Calculator.itemEnergyModule, Calculator.itemCalculator, Calculator.itemCalculator, Calculator.itemEnergyModule, Calculator.itemLocatorModule);
 		registerFlawlessRecipe(Calculator.flawlessdiamond, "blockGlass", "blockGlass", Calculator.flawlessdiamond, new ItemStack(Calculator.flawlessGlass, 4));
 		registerFlawlessRecipe(Calculator.circuitBoard, Calculator.enriched_coal, Calculator.enriched_coal, Calculator.circuitBoard, new ItemStack(Calculator.controlled_Fuel, 4));
-		registerFlawlessRecipe(Calculator.gas_lantern_off, new ItemStack(Calculator.circuitBoard, 1, 8), new ItemStack(Calculator.circuitBoard, 1, 8), Calculator.gas_lantern_off, Calculator.carbondioxideGenerator);
+		registerFlawlessRecipe(Calculator.gas_lantern_off, new ItemStack(Calculator.circuitBoard, 1, 8), new ItemStack(Calculator.circuitBoard, 1, 8), Calculator.gas_lantern_off, Calculator.CO2Generator);
 
 		registerFlawlessRecipe(Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_rod);
 		registerFlawlessRecipe(Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.ghast_tear);
@@ -629,8 +629,6 @@ public class RecipeRegistry {
 			for (int i = 0; i < RecipeRegistry.unblocked.size(); i++) {
 				this.addRecipe(RecipeRegistry.unblocked.get(i));
 			}
-			/*for (int i = 0; i < RecipeRegistry.blocked.size(); i++) { currentRecipe = i; this.addRecipe(RecipeRegistry.blocked.get(i)); } */
-
 		}
 		
 		public void writeToNBT(NBTTagCompound nbt, Map<Integer, Integer> unblocked, String tag) {
@@ -830,7 +828,7 @@ public class RecipeRegistry {
 
 		@Override
 		public void addRecipes() {
-			addRecipe(Calculator.flawlessfirediamond, new ItemStack(Calculator.electricdiamond));
+			addRecipe(Calculator.firediamond, new ItemStack(Calculator.electricDiamond));
 			addRecipe(Calculator.itemCalculator, new ItemStack(Calculator.itemScientificCalculator));
 			addRecipe(Calculator.flawless_fire_block, new ItemStack(Calculator.electric_diamond_block));
 		}
@@ -862,7 +860,7 @@ public class RecipeRegistry {
 
 		@Override
 		public void addRecipes() {
-			addRecipe(new ItemStack(Calculator.electricdiamond), 10000);
+			addRecipe(new ItemStack(Calculator.electricDiamond), 10000);
 			addRecipe(new ItemStack(Calculator.itemScientificCalculator), 2000);
 			addRecipe(new ItemStack(Calculator.electric_diamond_block), 90000);
 		}

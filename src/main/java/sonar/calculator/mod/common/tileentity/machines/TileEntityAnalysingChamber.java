@@ -6,22 +6,24 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
-import sonar.core.common.tileentity.TileEntitySidedInventorySender;
+import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.inventory.IAdditionalInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IUpgradeCircuits;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import cofh.api.energy.IEnergyReceiver;
 
-public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender implements ISidedInventory, IUpgradeCircuits, IAdditionalInventory {
+public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements ISidedInventory, IUpgradeCircuits, IAdditionalInventory {
 
 	public int stable, vUpgrade, analysed;
 	public int maxTransfer = 2000;
@@ -30,19 +32,19 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 		super.input = new int[] { 0 };
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
 		super.storage = new SyncEnergyStorage(1000000, 64000);
-		super.slots = new ItemStack[8];
+		super.inv = new SonarTileInventory(this, 8);
 		super.maxTransfer = 2000;
 
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 
 		if (this.worldObj.isRemote) {
 			return;
 		}
-		if (analysed == 1 && this.slots[0] == null) {
+		if (analysed == 1 && this.slots()[0] == null) {
 			this.analysed = 0;
 			this.stable = 0;
 		}
@@ -57,18 +59,18 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 	}
 
 	private void addEnergy() {
-		TileEntity entity = this.worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN)) {
-			if (entity instanceof IEnergyHandler) {
-				this.storage.modifyEnergyStored(-((IEnergyHandler) entity).receiveEnergy(ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false));
+		TileEntity entity = this.worldObj.getTileEntity(pos.offset(EnumFacing.DOWN));
+		if (SonarHelper.isEnergyHandlerFromSide(entity, EnumFacing.DOWN)) {
+			if (entity instanceof IEnergyReceiver) {
+				this.storage.modifyEnergyStored(-((IEnergyReceiver) entity).receiveEnergy(EnumFacing.UP, this.storage.extractEnergy(maxTransfer, true), false));
 			}
 		}
 	}
 
 	private void analyse(int slot) {
-		if (slots[slot].hasTagCompound()) {
-			NBTTagCompound tag = slots[slot].getTagCompound();
-			int storedEnergy = itemEnergy(slots[slot].getTagCompound().getInteger("Energy"));
+		if (slots()[slot].hasTagCompound()) {
+			NBTTagCompound tag = slots()[slot].getTagCompound();
+			int storedEnergy = itemEnergy(slots()[slot].getTagCompound().getInteger("Energy"));
 			this.storage.receiveEnergy(storedEnergy, false);
 
 			if (vUpgrade == 0) {
@@ -114,22 +116,22 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 	private void add(ItemStack item, int slotID) {
 		if (item != null) {
 			if (this.canAnalyse()) {
-				this.slots[slotID] = new ItemStack(item.getItem(), 1, item.getItemDamage());
+				this.slots()[slotID] = new ItemStack(item.getItem(), 1, item.getItemDamage());
 			}
 		}
 
 	}
 
 	private boolean canAnalyse() {
-		if (slots[0] != null) {
-			if (slots[0].getItem() == Calculator.circuitBoard) {
-				if (this.slots[2] == null && this.slots[3] == null && this.slots[4] == null && this.slots[5] == null && this.slots[6] == null && this.slots[7] == null) {
+		if (slots()[0] != null) {
+			if (slots()[0].getItem() == Calculator.circuitBoard) {
+				if (this.slots()[2] == null && this.slots()[3] == null && this.slots()[4] == null && this.slots()[5] == null && this.slots()[6] == null && this.slots()[7] == null) {
 					return true;
 				}
 			}
 		}
 
-		if (slots[0] == null) {
+		if (slots()[0] == null) {
 			stable = 0;
 			return false;
 		}
@@ -179,12 +181,12 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 	}
 
 	private int stable(int par) {
-		if (slots[par] != null) {
-			if (slots[par].hasTagCompound() && slots[par].getItem() instanceof IStability) {
-				IStability item = (IStability) slots[par].getItem();
-				boolean stable = item.getStability(slots[par]);
+		if (slots()[par] != null) {
+			if (slots()[par].hasTagCompound() && slots()[par].getItem() instanceof IStability) {
+				IStability item = (IStability) slots()[par].getItem();
+				boolean stable = item.getStability(slots()[par]);
 				if (!stable) {
-					item.onFalse(slots[par]);
+					item.onFalse(slots()[par]);
 				}
 				return stable ? 1 : 0;
 			}
@@ -194,8 +196,8 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 	}
 
 	@Override
-	public boolean canConnectEnergy(ForgeDirection from) {
-		if (from == ForgeDirection.DOWN) {
+	public boolean canConnectEnergy(EnumFacing from) {
+		if (from == EnumFacing.DOWN) {
 			return true;
 		}
 		return false;
@@ -216,12 +218,12 @@ public class TileEntityAnalysingChamber extends TileEntitySidedInventorySender i
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int par) {
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
 		return this.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
 		return slot != 1;
 	}
 

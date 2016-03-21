@@ -7,19 +7,21 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
-import sonar.core.common.tileentity.TileEntityInventorySender;
+import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 
-public class TileEntityConductorMast extends TileEntityInventorySender implements ISidedInventory, IProcessMachine {
+public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine {
 
 	public int cookTime, lightingTicks, lightTicks;
 	public int furnaceSpeed = 50;
@@ -32,7 +34,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 
 	public TileEntityConductorMast() {
 		super.storage = new SyncEnergyStorage(5000000, 64000);
-		super.slots = new ItemStack[2];
+		super.inv = new SonarTileInventory(this, 2);
 		super.maxTransfer = 5000000;
 	}
 
@@ -45,12 +47,12 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	}
 
 	public void onLoaded() {
-		setWeatherStationAngles(true, worldObj, xCoord, yCoord, zCoord);
+		setWeatherStationAngles(true, worldObj, pos);
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		if (this.cookTime > 0) {
 			this.cookTime++;
 		}
@@ -89,7 +91,8 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 						currentstrikes = strikes;
 					}
 					while (currentstrikes != 0) {
-						worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, xCoord, yCoord + 4, zCoord));
+
+						worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, pos.getX(), pos.getY() + 4, pos.getZ()));
 						currentstrikes--;
 					}
 				}
@@ -129,11 +132,11 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 
 	private void addEnergy() {
 
-		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.DOWN);
+		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
 
-		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN.getOpposite())) {
+		if (SonarHelper.isEnergyHandlerFromSide(entity, EnumFacing.DOWN.getOpposite())) {
 
-			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false), false);
+			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, EnumFacing.UP, this.storage.extractEnergy(maxTransfer, true), false), false);
 		}
 	}
 
@@ -149,7 +152,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 			return false;
 		}
 
-		if (slots[0] == null) {
+		if (slots()[0] == null) {
 			return false;
 		}
 
@@ -157,19 +160,19 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 			return true;
 		}
 
-		ItemStack itemstack = recipeOutput(slots[0]);
+		ItemStack itemstack = recipeOutput(slots()[0]);
 		if (itemstack == null) {
 			return false;
 		}
-		if (slots[1] != null) {
-			if (!slots[1].isItemEqual(itemstack)) {
+		if (slots()[1] != null) {
+			if (!slots()[1].isItemEqual(itemstack)) {
 				return false;
-			} else if (slots[1].stackSize + itemstack.stackSize > slots[1].getMaxStackSize()) {
+			} else if (slots()[1].stackSize + itemstack.stackSize > slots()[1].getMaxStackSize()) {
 				return false;
 			}
 		}
 
-		int itemEnergy = recipeEnergy(slots[0]);
+		int itemEnergy = recipeEnergy(slots()[0]);
 		if (cookTime == 0) {
 			if (this.storage.getEnergyStored() < itemEnergy) {
 				return false;
@@ -182,20 +185,20 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 
 	private void cookItem() {
 
-		ItemStack itemstack = recipeOutput(slots[0]);
-		int energy = recipeEnergy(slots[0]);
+		ItemStack itemstack = recipeOutput(slots()[0]);
+		int energy = recipeEnergy(slots()[0]);
 		this.storage.modifyEnergyStored(-energy);
 
-		if (this.slots[1] == null) {
-			this.slots[1] = itemstack.copy();
+		if (this.slots()[1] == null) {
+			this.slots()[1] = itemstack.copy();
 
-		} else if (this.slots[1].isItemEqual(itemstack)) {
-			this.slots[1].stackSize++;
+		} else if (this.slots()[1].isItemEqual(itemstack)) {
+			this.slots()[1].stackSize++;
 		}
-		this.slots[0].stackSize--;
+		this.slots()[0].stackSize--;
 
-		if (this.slots[0].stackSize <= 0) {
-			this.slots[0] = null;
+		if (this.slots()[0].stackSize <= 0) {
+			this.slots()[0] = null;
 		}
 
 	}
@@ -232,20 +235,22 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	}
 
 	@Override
-	public boolean canConnectEnergy(ForgeDirection direction) {
-		if (direction == ForgeDirection.DOWN) {
+	public boolean canConnectEnergy(EnumFacing direction) {
+		if (direction == EnumFacing.DOWN) {
 			return true;
 		}
 		return false;
 	}
 
-	public static void setWeatherStationAngles(boolean packet, World world, int xCoord, int yCoord, int zCoord) {
+	public static void setWeatherStationAngles(boolean packet, World world, BlockPos pos) {
 		for (int x = -10; x <= 10; x++) {
 			for (int z = -10; z <= 10; z++) {
-				if (world.getTileEntity(xCoord + x, yCoord, zCoord + z) != null && world.getTileEntity(xCoord + x, yCoord, zCoord + z) instanceof TileEntityWeatherStation) {
-					TileEntityWeatherStation station = (TileEntityWeatherStation) world.getTileEntity(xCoord + x, yCoord, zCoord + z);
+				BlockPos currentPos = pos.add(x, 0, z);
+				TileEntity target = world.getTileEntity(currentPos);
+				if (target != null && target instanceof TileEntityWeatherStation) {
+					TileEntityWeatherStation station = (TileEntityWeatherStation) target;
 					station.setAngle();
-					world.markBlockForUpdate(xCoord + x, yCoord, zCoord + z);
+					world.markBlockForUpdate(currentPos);
 
 				}
 			}
@@ -256,9 +261,10 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 		int stations = 0;
 		for (int x = -10; x <= 10; x++) {
 			for (int z = -10; z <= 10; z++) {
-				if (this.worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z) != null && this.worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z) instanceof TileEntityWeatherStation) {
-					TileEntityWeatherStation station = (TileEntityWeatherStation) this.worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z);
-					if (station.x == this.xCoord && station.z == this.zCoord) {
+				TileEntity target = worldObj.getTileEntity(pos.add(x, 0, z));
+				if (target != null && target instanceof TileEntityWeatherStation) {
+					TileEntityWeatherStation station = (TileEntityWeatherStation) target;
+					if (station.x == pos.getX() && station.z == pos.getZ()) {
 						stations++;
 					}
 				}
@@ -297,10 +303,10 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 		int transmitter = 0;
 		for (int x = -20; x <= 20; x++) {
 			for (int z = -20; z <= 20; z++) {
-				if (this.worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z) != null && this.worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z) instanceof TileEntityTransmitter) {
-					TileEntityTransmitter station = (TileEntityTransmitter) this.worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z);
+				TileEntity target = worldObj.getTileEntity(pos.add(x, 0, z));
+				if (target != null && target instanceof TileEntityTransmitter) {
+					TileEntityTransmitter station = (TileEntityTransmitter) target;
 					transmitter++;
-
 				}
 			}
 		}
@@ -308,12 +314,12 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
-		return side == 0 ? new int[] { 1 } : new int[] { 0 };
+	public int[] getSlotsForFace(EnumFacing side) {
+		return side == EnumFacing.DOWN ? new int[] { 1 } : new int[] { 0 };
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int side) {
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
 		if (slot == 0) {
 			if (stack != null && recipeOutput(stack) != null) {
 				return true;
@@ -326,7 +332,7 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
 		return slot == 1;
 	}
 
@@ -342,10 +348,9 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 
 	@Override
 	public double getEnergyUsage() {
-		if (slots[0] != null) {
-			return recipeEnergy(slots[0]);
+		if (slots()[0] != null) {
+			return recipeEnergy(slots()[0]);
 		}
 		return 0;
 	}
-
 }

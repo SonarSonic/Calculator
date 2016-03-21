@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
@@ -20,13 +21,11 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 
 	private static final int INV_START = CalculatorItem.CalculatorInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
-	public Map<Integer, Integer> research;
 	private EntityPlayer player;
 
-	public ContainerCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem, Map<Integer, Integer> research) {
+	public ContainerCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
 		this.player = player;
 		this.inventory = inventoryItem;
-		this.research = research;
 		isRemote = player.getEntityWorld().isRemote;
 		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, isRemote));
 		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, isRemote));

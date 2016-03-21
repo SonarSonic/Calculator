@@ -5,17 +5,7 @@ import java.lang.reflect.Constructor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
-import appeng.api.AEApi;
-import appeng.api.config.Actionable;
-import appeng.api.networking.security.BaseActionSource;
-import appeng.api.storage.IExternalStorageHandler;
-import appeng.api.storage.IMEInventory;
-import appeng.api.storage.IMEMonitor;
-import appeng.api.storage.StorageChannel;
-import appeng.api.storage.data.IAEItemStack;
-import appeng.api.storage.data.IItemList;
 
 public class StorageChamberHandler {
 
@@ -61,14 +51,14 @@ public class StorageChamberHandler {
 
 	public static class StorageHandler implements IExternalStorageHandler {
 		@Override
-		public boolean canHandle(TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource mySrc) {
+		public boolean canHandle(TileEntity te, EnumFacing d, StorageChannel channel, BaseActionSource mySrc) {
 			return te != null && te instanceof TileEntityStorageChamber;
 		}
 
 		@Override
-		public IMEInventory getInventory(TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource src) {
+		public IMEInventory getInventory(TileEntity te, EnumFacing d, StorageChannel channel, BaseActionSource src) {
 			if (te != null && te instanceof TileEntityStorageChamber) {
-				return ReflectionFactory.createStorageBusMonitor(new StorageInventory(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord), src);
+				return ReflectionFactory.createStorageBusMonitor(new StorageInventory(te.getWorld(), te.xCoord, te.yCoord, te.zCoord), src);
 			}
 			return null;
 		}

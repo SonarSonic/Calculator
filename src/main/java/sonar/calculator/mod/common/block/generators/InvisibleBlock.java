@@ -14,7 +14,6 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.block.IDismantleable;
 
 public class InvisibleBlock extends Block implements IDismantleable {
 

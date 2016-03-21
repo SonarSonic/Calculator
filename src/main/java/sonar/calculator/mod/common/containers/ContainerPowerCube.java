@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.containers;
 
-import ic2.api.item.IElectricItem;
-import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -48,25 +46,7 @@ public class ContainerPowerCube extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 0, 2, false)) {
 						return null;
 					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
-					ISpecialElectricItem container = (ISpecialElectricItem) itemstack1.getItem();
-					if (!mergeItemStack(itemstack1, 0, 2, false)) {
-						return null;
-					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
-					if (!mergeItemStack(itemstack1, 0, 2, false)) {
-						return null;
-					}
-
-				} else if (DischargeValues.getValueOf(itemstack1) > 0) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
+				}else if (DischargeValues.getValueOf(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}

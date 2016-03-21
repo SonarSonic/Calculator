@@ -3,7 +3,10 @@ package sonar.calculator.mod.common.tileentity.misc;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
 import sonar.core.common.tileentity.TileEntitySonar;
@@ -11,58 +14,56 @@ import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
-import cofh.api.tileentity.IEnergyInfo;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import cofh.api.energy.IEnergyStorage;
 
 public class TileEntityCalculatorScreen extends TileEntitySonar {
 
 	public int latestMax, latestEnergy;
 	public int lastMax, lastEnergy;
 
-	public void updateEntity() {
+	public void update() {
 
 		if (this.worldObj != null && !this.worldObj.isRemote) {
-			TileEntity target = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite());
+			EnumFacing front = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
+			TileEntity target = SonarHelper.getAdjacentTileEntity(this, front);
 			if (target == null) {
 				return;
 			} else {
-				if (target instanceof IEnergyInfo) {
-					IEnergyInfo energy = (IEnergyInfo) target;
-					int max = energy.getInfoMaxEnergyStored();
-					int current = energy.getInfoEnergyStored();
+				if (target instanceof IEnergyStorage) {
+					IEnergyStorage energy = (IEnergyStorage) target;
+					int max = energy.getMaxEnergyStored();
+					int current = energy.getEnergyStored();
 
 					if (max != this.lastMax) {
 						this.sendMax(max);
 					}
 					if (current != this.lastEnergy) {
 						this.sendEnergy(current);
-						this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+						this.worldObj.markBlockForUpdate(pos);
 					}
 				} else if (target instanceof IEnergyReceiver) {
 					IEnergyReceiver energy = (IEnergyReceiver) target;
-					int max = energy.getMaxEnergyStored(ForgeDirection.UNKNOWN);
-					int current = energy.getEnergyStored(ForgeDirection.UNKNOWN);
+					int max = energy.getMaxEnergyStored(front);
+					int current = energy.getEnergyStored(front);
 
 					if (max != this.lastMax) {
 						this.sendMax(max);
 					}
 					if (current != this.lastEnergy) {
 						this.sendEnergy(current);
-						this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+						this.worldObj.markBlockForUpdate(pos);
 					}
 				} else if (target instanceof IEnergyHandler) {
 					IEnergyHandler energy = (IEnergyHandler) target;
-					int max = energy.getMaxEnergyStored(ForgeDirection.UNKNOWN);
-					int current = energy.getEnergyStored(ForgeDirection.UNKNOWN);
+					int max = energy.getMaxEnergyStored(front);
+					int current = energy.getEnergyStored(front);
 
 					if (max != this.lastMax) {
 						this.sendMax(max);
 					}
 					if (current != this.lastEnergy) {
 						this.sendEnergy(current);
-						this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+						this.worldObj.markBlockForUpdate(pos);
 					}
 				}
 			}
@@ -75,7 +76,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 		this.lastMax = this.latestMax;
 		this.latestMax = max;
 		if (!this.worldObj.isRemote)
-			Calculator.network.sendToAllAround(new PacketCalculatorScreen(xCoord, yCoord, zCoord, 0, max), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 64));
+			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 0, max), new TargetPoint(this.worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 64));
 
 	}
 
@@ -84,7 +85,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 		this.lastEnergy = this.latestEnergy;
 		this.latestEnergy = energy;
 		if (!this.worldObj.isRemote)
-			Calculator.network.sendToAllAround(new PacketCalculatorScreen(xCoord, yCoord, zCoord, 1, energy), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 64));
+			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 1, energy), new TargetPoint(this.worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 64));
 	}
 
 	public void readData(NBTTagCompound nbt, SyncType type) {

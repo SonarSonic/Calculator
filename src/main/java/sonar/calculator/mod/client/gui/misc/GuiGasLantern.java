@@ -27,7 +27,7 @@ public class GuiGasLantern extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		if (entity.burnTime.getObject() > 0 && entity.maxBurnTime.getObject() != 0) {
 			String burn = FontHelper.translate("co2.burnt") + ": " + entity.burnTime.getObject() * 100 / entity.maxBurnTime.getObject();
 			FontHelper.textCentre(burn, xSize, 60, 0);

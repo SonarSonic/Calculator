@@ -1,19 +1,19 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import ic2.api.energy.tile.IEnergySink;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IProcessMachine;
-import sonar.core.common.tileentity.TileEntityInventoryReceiver;
+import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.IEnergyHandler;
 
-public class TileEntityWeatherController extends TileEntityInventoryReceiver implements IEnergyHandler, IEnergySink, ISyncTile, IByteBufTile,IProcessMachine {
+public class TileEntityWeatherController extends TileEntityEnergyInventory implements IEnergyHandler, ISyncTile, IByteBufTile,IProcessMachine {
 
 	public int type, data, buffer, coolDown;
 
@@ -24,12 +24,12 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 	public int requiredPower = CalculatorConfig.getInteger("Weather Controller");
 
 	public TileEntityWeatherController() {
-		super.slots = new ItemStack[1];
+		super.inv = new SonarTileInventory(this, 1);
 		super.storage = new SyncEnergyStorage(1000000, 64000);
 	}
 
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		this.discharge(0);
 		if (buffer > 0) {
 			storage.modifyEnergyStored(-(requiredPower / 100));
@@ -54,8 +54,8 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 	}
 
 	public void startProcess() {
-		int power = this.worldObj.getBlockPowerInput(xCoord, yCoord, zCoord);
-		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= requiredPower && this.processType(type, true) && (power != 0 || this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))) {
+		boolean power = this.worldObj.isBlockPowered(pos);
+		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= requiredPower && this.processType(type, true) && (power || this.worldObj.isBlockIndirectlyGettingPowered(pos)>0)) {
 			buffer = 1;
 		}
 	}

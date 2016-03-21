@@ -1,0 +1,29 @@
+{
+    
+    "forge_marker": 1,
+    "defaults": {
+        "model":"calculator:GasLanternOn"
+    },
+    "variants": {
+        "dir":{            
+            "north":{
+                
+            },
+            "south":{
+                
+            },
+            "west":{
+                
+            },
+            "east":{
+                    
+            },
+            "up":{
+                
+            },
+            "down":{
+                
+            }                
+        } 
+    }
+}

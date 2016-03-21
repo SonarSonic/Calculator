@@ -6,15 +6,17 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHungerProcessor;
 import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityHungerProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile, IHungerProcessor {
 
@@ -23,15 +25,15 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	public TileEntityHungerProcessor() {
 		super.input = new int[] { 0 };
 		super.output = new int[] { 1 };
-		super.slots = new ItemStack[2];
+		super.inv = new SonarTileInventory(this, 2);
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		if (!this.worldObj.isRemote)
-			food(slots[0]);
-		charge(slots[1]);
+			food(slots()[0]);
+		charge(slots()[1]);
 
 		this.markDirty();
 	}
@@ -70,10 +72,10 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 		if (!(stack == null)) {
 			if (stack.getItem() instanceof ItemFood) {
 				ItemFood food = (ItemFood) stack.getItem();
-				storedpoints = storedpoints + food.func_150905_g(stack);
-				this.slots[0].stackSize--;
-				if (this.slots[0].stackSize <= 0) {
-					this.slots[0] = null;
+				storedpoints = storedpoints + food.getHealAmount(stack);
+				this.slots()[0].stackSize--;
+				if (this.slots()[0].stackSize <= 0) {
+					this.slots()[0] = null;
 				}
 			}
 			if (stack.getItem() instanceof IHungerStore) {
@@ -107,12 +109,12 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int par) {
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
 		return this.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
 		if (slot == 1) {
 			if (this.storedpoints == 0) {
 				return true;

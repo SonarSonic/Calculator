@@ -9,38 +9,39 @@ import net.minecraft.block.BlockGlass;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.block.BlockWood;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IGreenhouse;
 import sonar.calculator.mod.common.block.CalculatorCrops;
-import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
 import sonar.calculator.mod.integration.planting.IPlanter;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.common.block.SonarBlock;
 import sonar.core.common.item.SonarSeeds;
 import sonar.core.common.item.SonarSeedsFood;
-import sonar.core.common.tileentity.TileEntityInventoryReceiver;
+import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RenderHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver implements IGreenhouse {
+public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory implements IGreenhouse {
 
 	public int wasBuilt, isMulti, maxLevel, carbonLevels, plantTicks, planting, houseSize;
 	public int plantsHarvested, plantsGrown;
@@ -51,6 +52,14 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 	public final int buildRF = CalculatorConfig.getInteger("Build Energy");
 	public final int farmlandRF = CalculatorConfig.getInteger("Adding Farmland");
 	public final int waterRF = CalculatorConfig.getInteger("Adding Water");
+	public EnumFacing forward = EnumFacing.NORTH;
+	public EnumFacing horizontal = EnumFacing.EAST;
+
+	public void onLoaded() {
+		super.onLoaded();
+		forward = worldObj.getBlockState(pos).getValue(SonarBlock.FACING);
+		horizontal = RenderHelper.getHorizontal(forward);
+	}
 
 	public static class PlantableFilter implements InventoryHelper.IInventoryFilter {
 
@@ -66,9 +75,9 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 		return stack != null && stack.getItem() instanceof IPlantable;
 	}
 
-	public static boolean canHarvest(World world, int x, int y, int z) {
-		Block block = world.getBlock(x, y, z);
-		return block instanceof IGrowable || AgriCraftAPIWrapper.getInstance().isMature(world, x, y, z);
+	public static boolean canHarvest(World world, BlockPos pos) {
+		Block block = world.getBlockState(pos).getBlock();
+		return block instanceof IGrowable;
 	}
 
 	public void harvestCrops() {
@@ -78,8 +87,8 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 				return;
 			}
 			for (BlockCoords crops : coords) {
-				if (canHarvest(worldObj, crops.getX(), crops.getY(), crops.getZ())) {
-					harvest(worldObj, crops.getX(), crops.getY(), crops.getZ());
+				if (canHarvest(worldObj, crops.getBlockPos())) {
+					harvest(worldObj, crops.getBlockPos());
 				}
 			}
 		}
@@ -105,7 +114,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 		if (plants != null && !plants.isEmpty() && this.planting == 0) {
 			for (int i = 0; i < plants.size(); i++) {
 				this.planting = 1;
-				if (plant(slots[plants.get(i)], plants.get(i))) {
+				if (plant(slots()[plants.get(i)], plants.get(i))) {
 					planting = 0;
 					return true;
 				}
@@ -122,8 +131,8 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 
 		if (type == 2) {
 			for (int j = 0; j < 9; j++) {
-				if (slots[8 + j] != null) {
-					if (isSeed(slots[8 + j])) {
+				if (slots()[8 + j] != null) {
+					if (isSeed(slots()[8 + j])) {
 						plants.add(8 + j);
 					}
 				}
@@ -131,8 +140,8 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 		}
 		if (type == 1) {
 			for (int j = 0; j < 9; j++) {
-				if (slots[5 + j] != null) {
-					if (isSeed(slots[5 + j])) {
+				if (slots()[5 + j] != null) {
+					if (isSeed(slots()[5 + j])) {
 						plants.add(5 + j);
 					}
 				}
@@ -140,8 +149,8 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 		}
 		if (type == 3) {
 			for (int j = 0; j < 9; j++) {
-				if (slots[1 + j] != null) {
-					if (isSeed(slots[1 + j])) {
+				if (slots()[1 + j] != null) {
+					if (isSeed(slots()[1 + j])) {
 						plants.add(1 + j);
 					}
 				}
@@ -158,48 +167,31 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 	}
 
 	public boolean growCrop(int house, int size) {
-		int x = xCoord;
-		int y = yCoord;
-		int z = zCoord;
-		int X = 0;
-		int Z = 0;
-		int XX = 0;
-		int ZZ = 0;
-		if (house == 1) {
-			int fX = getForward().offsetX;
-			int fZ = getForward().offsetZ;
-			x = xCoord + (2 * fX);
-			y = yCoord;
-			z = zCoord + (2 * fZ);
-
+		BlockPos cropPos = pos;
+		int X = 0, Z = 0, XX = 0, ZZ = 0;
+		int fX = forward.getFrontOffsetX();
+		int fZ = forward.getFrontOffsetZ();
+		switch (house) {
+		case 1:
+			cropPos.add((2 * fX), 0, (2 * fZ));
 			X = (0 + (int) (Math.random() * ((3 - 0) + 3))) - 2;
 			Z = (0 + (int) (Math.random() * ((3 - 0) + 3))) - 2;
-		}
-		if (house == 2) {
-			int fX = getForward().offsetX;
-			int fZ = getForward().offsetZ;
-			x = xCoord + (4 * fX);
-			y = yCoord;
-			z = zCoord + (4 * fZ);
-
+			break;
+		case 2:
+			cropPos.add((4 * fX), 0, (4 * fZ));
 			X = (0 + (int) (Math.random() * ((6 - 0) + 6))) - 3;
 			Z = (0 + (int) (Math.random() * ((6 - 0) + 6))) - 3;
-		}
-		if (house == 3) {
-
-			int fX = getForward().offsetX;
-			int fZ = getForward().offsetZ;
-
-			int hX = RenderHelper.getHorizontal(getForward()).offsetX;
-			int hZ = RenderHelper.getHorizontal(getForward()).offsetZ;
-
+			break;
+		case 3:
+			int hX = RenderHelper.getHorizontal(forward).getFrontOffsetX();
+			int hZ = RenderHelper.getHorizontal(forward).getFrontOffsetZ();
 			X = fX * (0 + (int) (Math.random() * ((size - 0) + size)));
 			Z = fZ * (0 + (int) (Math.random() * ((size - 0) + size)));
 			XX = hX * ((1 + (int) (Math.random() * ((2 - 1) + 2))));
 			ZZ = hZ * ((1 + (int) (Math.random() * ((2 + 1) + 2))));
-			return GreenhouseHelper.applyBonemeal(worldObj, x + X + XX, y, z + Z + ZZ, true);
+			break;
 		}
-		return GreenhouseHelper.applyBonemeal(worldObj, x + X + XX, y, z + Z + ZZ, false);
+		return GreenhouseHelper.applyBonemeal(worldObj, cropPos.add(X + XX, 0, Z + ZZ), house == 3);
 	}
 
 	public final boolean plant(ItemStack stack, int slot) {
@@ -209,45 +201,26 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 			this.planting = 0;
 			return false;
 		}
+		IPlanter planter = PlanterRegistry.getPlanter(stack);
 
-		if (AgriCraftAPIWrapper.getInstance().isHandledByAgricraft(stack)) {
-			for (BlockCoords crops : coords) {
-				if (AgriCraftAPIWrapper.getInstance().applySeeds(worldObj, crops.getX(), crops.getY(), crops.getZ(), stack)) {
-					this.planting = 0;
-					return true;
+		Block crop = planter.getCropFromStack(stack);
+		int meta = planter.getMetaFromStack(stack);
+		if (crop == null) {
+			this.planting = 0;
+			return false;
+		}
+		for (BlockCoords crops : coords) {
+			if (canPlant(this.worldObj, crops.getBlockPos(), slot)) {
 
+				this.worldObj.setBlockState(crops.getBlockPos(), crop.getDefaultState(), 1 | 2);
+				this.slots()[slot].stackSize--;
+				if (this.slots()[slot].stackSize <= 0) {
+					this.slots()[slot] = null;
 				}
-			}
-			for (BlockCoords crops : coords) {
-				if (AgriCraftAPIWrapper.getInstance().placeCrops(worldObj, crops.getX(), crops.getY(), crops.getZ(), stack)) {
-					this.planting = 0;
-					return true;
-
-				}
-
-			}
-		} else {
-			IPlanter planter = PlanterRegistry.getPlanter(stack);
-
-			Block crop = planter.getCropFromStack(stack);
-			int meta = planter.getMetaFromStack(stack);
-			if (crop == null) {
 				this.planting = 0;
-				return false;
+				return true;
 			}
-			for (BlockCoords crops : coords) {
-				if (canPlant(this.worldObj, crops.getX(), crops.getY(), crops.getZ(), slot)) {
 
-					this.worldObj.setBlock(crops.getX(), crops.getY(), crops.getZ(), crop, meta, 1 | 2);
-					this.slots[slot].stackSize--;
-					if (this.slots[slot].stackSize <= 0) {
-						this.slots[slot] = null;
-					}
-					this.planting = 0;
-					return true;
-				}
-
-			}
 		}
 
 		this.planting = 0;
@@ -255,34 +228,27 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 
 	}
 
-	public void harvest(World world, int x, int y, int z) {
+	public void harvest(World world, BlockPos pos) {
 		List<ItemStack> array = new ArrayList();
-		List<ItemStack> agriArray = AgriCraftAPIWrapper.getInstance().harvest(world, x, y, z);
-		boolean removed = false;
-		if (agriArray == null) {
-			Block block = world.getBlock(x, y, z);
-			if (!(block instanceof IGrowable)) {
-				return;
-			}
-			if (!((IGrowable) block).func_149851_a(world, x, y, z, world.isRemote)) {
-				array = world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-			}
-		} else {
-			array = agriArray;
-			removed = true;
+		IBlockState state = world.getBlockState(pos);
+		Block block = state.getBlock();
+		if (!(block instanceof IGrowable)) {
+			return;
+		}
+		if (!((IGrowable) block).canGrow(world, pos, state, world.isRemote)) {
+			array = block.getDrops(world, pos, state, 0);
 		}
 
 		if (array != null) {
 			for (ItemStack stack : array) {
 				if (stack != null) {
-					TileEntity tile = this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ));
+					TileEntity tile = this.getWorld().getTileEntity(pos.add((forward.getOpposite().getFrontOffsetX()), 0, (forward.getFrontOffsetZ())));
 					ItemStack harvest = InventoryHelper.addItems(tile, stack, 0, null);
 					if (harvest != null) {
-						EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), harvest);
+						EntityItem drop = new EntityItem(world, pos.getX() + (forward.getOpposite().getFrontOffsetX()), pos.getY(), pos.getY() + (forward.getOpposite().getFrontOffsetZ()), harvest);
 						world.spawnEntityInWorld(drop);
 					}
-					if (!removed)
-						world.setBlockToAir(x, y, z);
+					world.setBlockToAir(pos);
 					if (this.type == 3)
 						this.plantsHarvested++;
 				}
@@ -305,44 +271,39 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 		return true;
 	}
 
-	/**
-	 * checks if crop can be planted at coords
+	/** checks if crop can be planted at coords
 	 * 
-	 * @param slot2
-	 */
-	protected boolean canPlant(World worldObj, int x, int y, int z, int slot) {
-		ItemStack stack = slots[slot];
+	 * @param slot2 */
+	protected boolean canPlant(World worldObj, BlockPos pos, int slot) {
+		ItemStack stack = slots()[slot];
 		if (stack == null) {
 			return false;
 		}
-		if (AgriCraftAPIWrapper.getInstance().canPlaceCrops(worldObj, x, y, z, stack)) {
-			return true;
-		}
 		if (stack.getItem() instanceof IPlantable) {
 			IPlantable plantable = (IPlantable) stack.getItem();
-			Block target = plantable.getPlant(null, 0, 0, 0);
-			Block ground = worldObj.getBlock(x, y - 1, z);
+			Block target = plantable.getPlant(null, new BlockPos(0, 0, 0)).getBlock();
+			Block ground = worldObj.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
 			if (target != null) {
-				EnumPlantType type = plantable.getPlantType(this.worldObj, 0, 0, 0);
+				EnumPlantType type = plantable.getPlantType(this.worldObj, new BlockPos(0, 0, 0));
 				if (type != null) {
-					if (checkTierUsage(this.slots[slot].getItem())) {
+					if (checkTierUsage(this.slots()[slot].getItem())) {
 						if (target instanceof CalculatorCrops) {
 							CalculatorCrops crops = (CalculatorCrops) target;
-							if (crops.canPlaceCropsAt(worldObj, x, y, z)) {
-								if (ground.canSustainPlant(worldObj, x, y - 1, z, ForgeDirection.UP, plantable)) {
+							if (crops.canPlaceBlockAt(worldObj, pos)) {
+								if (ground.canSustainPlant(worldObj, pos.offset(EnumFacing.DOWN), EnumFacing.UP, plantable)) {
 									return true;
 								}
 							}
 						} else {
 							if (type == EnumPlantType.Crop) {
-								if (target.canPlaceBlockAt(worldObj, x, y, z)) {
-									if (ground.canSustainPlant(worldObj, x, y - 1, z, ForgeDirection.UP, plantable)) {
+								if (target.canPlaceBlockAt(worldObj, pos)) {
+									if (ground.canSustainPlant(worldObj, pos.offset(EnumFacing.DOWN), EnumFacing.UP, plantable)) {
 										return true;
 									}
 								}
 							}
 							if (type == EnumPlantType.Nether) {
-								if (target.canPlaceBlockAt(worldObj, x, y, z)) {
+								if (target.canPlaceBlockAt(worldObj, pos)) {
 									return true;
 
 								}
@@ -355,8 +316,49 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 		return false;
 	}
 
+	public enum BlockType {
+		LOG, GLASS, PLANKS, STAIRS;
+		public boolean checkBlock(Item item) {
+			Block block = Block.getBlockFromItem(item);
+			if (block == null) {
+				return false;
+			}
+			switch (this) {
+			case LOG:
+				return checkLog(block);
+			case GLASS:
+				return checkGlass(block);
+			case PLANKS:
+				return checkPlanks(block);
+			case STAIRS:
+				return checkStairs(block);
+			}
+			return false;
+		}
+	}
+
+	public void setBlockType(int x, int y, int z, int[] slots, BlockType type) {
+		boolean found = false;
+		for (int i = 0; i < slots.length; i++) {
+			ItemStack target = slots()[i];
+			if (target != null && type.checkBlock(target.getItem())) {
+				found = true;
+				Block block = Block.getBlockFromItem(target.getItem());
+				slots()[i].stackSize--;
+				if (slots()[i].stackSize == 1) {
+					slots()[i] = null;
+				}
+				this.worldObj.setBlockState(new BlockPos(x, y, z), block.getStateFromMeta(target.getItemDamage()), 2);
+				this.storage.modifyEnergyStored(-buildRF);
+			}
+		}
+		if (!found) {
+			setIncomplete();
+		}
+	}
+
 	/** checks ore dictionary for registered logs **/
-	public boolean checkLog(Block block) {
+	public static boolean checkLog(Block block) {
 
 		for (int i = 0; i < OreDictionary.getOres("logWood").size(); i++) {
 			if (OreDictionary.getOres("logWood").get(i).getItem() == Item.getItemFromBlock(block)) {
@@ -375,7 +377,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 	}
 
 	/** checks ore dictionary for registered glass **/
-	public boolean checkGlass(Block block) {
+	public static boolean checkGlass(Block block) {
 
 		for (int i = 0; i < OreDictionary.getOres("blockGlass").size(); i++) {
 			if (OreDictionary.getOres("blockGlass").get(i).getItem() == Item.getItemFromBlock(block)) {
@@ -407,7 +409,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 	}
 
 	/** checks ore dictionary for registered stairs **/
-	public boolean checkStairs(Block block) {
+	public static boolean checkStairs(Block block) {
 
 		for (int i = 0; i < OreDictionary.getOres("stairWood").size(); i++) {
 			if (OreDictionary.getOres("stairWood").get(i).getItem() == Item.getItemFromBlock(block)) {
@@ -483,7 +485,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 	}
 
 	/** checks ore dictionary for registered planks **/
-	public boolean checkPlanks(Block block) {
+	public static boolean checkPlanks(Block block) {
 
 		for (int i = 0; i < OreDictionary.getOres("plankWood").size(); i++) {
 			if (OreDictionary.getOres("plankWood").get(i).getItem() == Item.getItemFromBlock(block)) {
@@ -495,7 +497,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 				return true;
 			}
 		}
-		if (block instanceof BlockWood) {
+		if (block instanceof BlockLog) {
 			return true;
 		}
 		return false;
@@ -565,29 +567,33 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 		return maxLevel;
 	}
 
-	public boolean getLog(Block block) {
-		if (!checkLog(block)) {
+	public boolean getLog(int x, int y, int z) {
+		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
+		if (block != null && !checkLog(block)) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean getGlass(Block block) {
-		if (!checkGlass(block)) {
+	public boolean getGlass(int x, int y, int z) {
+		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
+		if (block != null && !checkGlass(block)) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean getPlanks(Block block) {
-		if (!checkPlanks(block)) {
+	public boolean getPlanks(int x, int y, int z) {
+		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
+		if (block != null && !checkPlanks(block)) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean getStairs(Block block) {
-		if (!checkStairs(block)) {
+	public boolean getStairs(int x, int y, int z) {
+		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
+		if (block != null && !checkStairs(block)) {
 			return true;
 		}
 		return false;
@@ -655,33 +661,29 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 
 	}
 
-	public ForgeDirection getForward() {
+	// public EnumFacing forward {
+	// return EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
+	// }
 
-		return ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
-
-	}
-
-	/**
-	 * types Basic =1 Advanced =2 Flawless = 3
-	 **/
+	/** types Basic =1 Advanced =2 Flawless = 3 **/
 	public int getInvEmpty() {
 		if (this.type == 2) {
 			for (int j = 0; j < 9; j++) {
-				if (slots[8 + j] == null) {
+				if (slots()[8 + j] == null) {
 					return 8 + j;
 				}
 			}
 		}
 		if (this.type == 1) {
 			for (int j = 0; j < 9; j++) {
-				if (slots[5 + j] == null) {
+				if (slots()[5 + j] == null) {
 					return 5 + j;
 				}
 			}
 		}
 		if (this.type == 3) {
 			for (int j = 0; j < 9; j++) {
-				if (slots[1 + j] == null) {
+				if (slots()[1 + j] == null) {
 					return 1 + j;
 				}
 			}

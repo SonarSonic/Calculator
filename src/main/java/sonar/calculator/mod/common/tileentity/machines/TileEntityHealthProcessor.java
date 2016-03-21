@@ -5,16 +5,18 @@ import java.util.List;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHealthProcessor;
 import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityHealthProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile, IHealthProcessor {
 
@@ -23,16 +25,16 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	public TileEntityHealthProcessor() {
 		super.input = new int[] { 0 };
 		super.output = new int[] { 1 };
-		super.slots = new ItemStack[2];
+		super.inv = new SonarTileInventory(this, 2);
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		if (!this.worldObj.isRemote)
-			loot(slots[0]);
+			loot(slots()[0]);
 
-		charge(slots[1]);
+		charge(slots()[1]);
 		this.markDirty();
 	}
 
@@ -76,9 +78,9 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 			if (isLoot(stack)) {
 				int add = (Integer) HealthProcessorRecipes.instance().getOutput(stack);
 				storedpoints = storedpoints + add;
-				this.slots[0].stackSize--;
-				if (this.slots[0].stackSize <= 0) {
-					this.slots[0] = null;
+				this.slots()[0].stackSize--;
+				if (this.slots()[0].stackSize <= 0) {
+					this.slots()[0] = null;
 				}
 			}
 			if (stack.getItem() instanceof IHealthStore) {
@@ -119,12 +121,12 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int par) {
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction){
 		return this.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing slots){
 		if (slot == 1) {
 			if (this.storedpoints == 0) {
 				return true;
@@ -141,5 +143,5 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 		currenttip.add(FontHelper.translate("points.health") + ": " + storedpoints);
 		return currenttip;
 	}
-
+	    
 }

@@ -12,14 +12,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.calculator.mod.api.machines.ICalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.core.SonarCore;
-import sonar.core.common.tileentity.TileEntityInventorySender;
+import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
@@ -28,10 +31,8 @@ import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityCalculatorLocator extends TileEntityInventorySender implements IByteBufTile, ICalculatorLocator {
+public class TileEntityCalculatorLocator extends TileEntityEnergyInventory implements IByteBufTile, ICalculatorLocator {
 
 	public SyncTagType.BOOLEAN active = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.INT size = new SyncTagType.INT(1);
@@ -41,13 +42,13 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 	public TileEntityCalculatorLocator() {
 		super.storage = new SyncEnergyStorage(25000000, 64000);
-		super.slots = new ItemStack[2];
+		super.inv = new SonarTileInventory(this, 2);
 		super.maxTransfer = 100000;
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		if (!worldObj.isRemote) {
 			boolean invert = false;
 			if (canGenerate()) {
@@ -93,7 +94,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 
 		for (int Z = -(size.getObject()); Z <= (size.getObject()); Z++) {
 			for (int X = -(size.getObject()); X <= (size.getObject()); X++) {
-				TileEntity target = this.worldObj.getTileEntity(xCoord + X, yCoord, zCoord + Z);
+				TileEntity target = this.worldObj.getTileEntity(pos.add(X, 0, Z));
 				if (target != null && target instanceof TileEntityCalculatorPlug) {
 					TileEntityCalculatorPlug plug = (TileEntityCalculatorPlug) target;
 					currentStable += plug.getS();
@@ -143,9 +144,9 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	}
 
 	private void addEnergy() {
-		TileEntity entity = this.worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN)) {
-			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false), false);
+		TileEntity entity = this.worldObj.getTileEntity(pos.offset(EnumFacing.DOWN));
+		if (SonarHelper.isEnergyHandlerFromSide(entity, EnumFacing.DOWN)) {
+			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, EnumFacing.UP, this.storage.extractEnergy(maxTransfer, true), false), false);
 		}
 	}
 
@@ -279,7 +280,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	}
 
 	public void createStructure() {
-		int size = CalculatorLocator.multiBlockStructure(getWorldObj(), xCoord, yCoord, zCoord);
+		int size = CalculatorLocator.multiBlockStructure(getWorld(), pos);
 		if (size != this.size.getObject()) {
 			this.size.setObject(size);
 			SonarCore.sendPacketAround(this, 128, 1);
@@ -309,8 +310,8 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	}
 
 	@Override
-	public boolean canConnectEnergy(ForgeDirection from) {
-		if (from == ForgeDirection.DOWN) {
+	public boolean canConnectEnergy(EnumFacing from) {
+		if (from == EnumFacing.DOWN) {
 			return true;
 		}
 		return false;
@@ -323,7 +324,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	public int beamHeight() {
 		int f = 0;
 		for (int i = 1; i <= 256; i++) {
-			if (this.worldObj.isSideSolid(xCoord, yCoord + i, zCoord, ForgeDirection.UP)) {
+			if (this.worldObj.isSideSolid(pos.add(0, i, 0), EnumFacing.UP)) {
 				return i;
 			}
 		}

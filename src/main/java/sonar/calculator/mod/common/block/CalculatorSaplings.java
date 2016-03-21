@@ -5,21 +5,20 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.event.terraingen.TerrainGen;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
 import sonar.core.utils.ISpecialTooltip;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class CalculatorSaplings extends BlockFlower implements ISpecialTooltip {
 	int type;
@@ -89,11 +88,11 @@ public class CalculatorSaplings extends BlockFlower implements ISpecialTooltip {
 		}
 	}
 
-	public void growTree(World world, int x, int y, int z, Random rand) {
-		if (!TerrainGen.saplingGrowTree(world, rand, x, y, z)) {
+	public void growTree(World world, BlockPos pos, Random rand) {
+		if (!TerrainGen.saplingGrowTree(world, rand, pos)) {
 			return;
 		}
-		int l = world.getBlockMetadata(x, y, z) & 0x7;
+		int l = world.getBlockMetadata(pos) & 0x7;
 		Object object = null;
 		int i1 = 0;
 		int j1 = 0;

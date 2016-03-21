@@ -3,10 +3,14 @@ package sonar.calculator.mod.common.tileentity.misc;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.api.blocks.IStableBlock;
 import sonar.calculator.mod.api.blocks.IStableGlass;
+import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.inventory.SonarTileInventory;
+import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.SonarHelper;
 
@@ -14,93 +18,92 @@ public class TileEntityCalculator extends TileEntityInventory implements ISidedI
 
 	public static class Dynamic extends TileEntityCalculator {
 		public Dynamic() {
-			super.slots = new ItemStack[10];
+			super.inv = new SonarTileInventory(this, 10);
 		}
 
 		public FailedCoords checkStructure() {
-			ForgeDirection forward = SonarHelper.getForward(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+			EnumFacing forward = this.worldObj.getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
+			BlockPos centre = pos.add((forward.getFrontOffsetX() * 3), 0, (forward.getFrontOffsetZ() * 3));
 
-			int x = xCoord + (forward.offsetX * 3);
-			int y = yCoord;
-			int z = zCoord + (forward.offsetZ * 3);
-
-			FailedCoords bottom = this.outsideLayer(x, y - 3, z);
+			FailedCoords bottom = this.outsideLayer(centre.offset(EnumFacing.DOWN, 3));
 			if (!bottom.getBoolean()) {
 				return bottom;
 			}
-			FailedCoords top = this.outsideLayer(x, y + 3, z);
+			FailedCoords top = this.outsideLayer(centre.offset(EnumFacing.UP, 3));
 			if (!top.getBoolean()) {
 				return top;
 			}
-			FailedCoords middle = this.insideLayers(x, y, z);
+			FailedCoords middle = this.insideLayers(centre);
 			if (!middle.getBoolean()) {
 				return middle;
 			}
-			return new FailedCoords(true, 0, 0, 0, null);
+			return new FailedCoords(true, BlockCoords.EMPTY, null);
 
 		}
 
-		public FailedCoords outsideLayer(int x, int y, int z) {
+		public FailedCoords outsideLayer(BlockPos pos) {
 			for (int X = -3; X <= 3; X++) {
 				for (int Z = -3; Z <= 3; Z++) {
+					BlockPos current = pos.add(X, 0, Z);
 					if (X == 3 || Z == 3 || X == -3 || Z == -3) {
-						if (!(this.worldObj.getBlock(x + X, y, z + Z) instanceof IStableBlock)) {
-							return new FailedCoords(false, x + X, y, z + Z, "stable");
+						if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableBlock)) {
+							return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimensionId()), "stable");
 						}
-					} else if (!(this.worldObj.getBlock(x + X, y, z + Z) instanceof IStableGlass)) {
-						return new FailedCoords(false, x + X, y, z + Z, "glass");
+					} else if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableGlass)) {
+						return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimensionId()), "glass");
 					}
 
 				}
 			}
-			return new FailedCoords(true, 0, 0, 0, null);
+			return new FailedCoords(true, BlockCoords.EMPTY, null);
 		}
 
-		public FailedCoords insideLayers(int x, int y, int z) {
+		public FailedCoords insideLayers(BlockPos pos) {
 			for (int Y = -2; Y <= 2; Y++) {
 
 				for (int X = -3; X <= 3; X++) {
 					for (int Z = -3; Z <= 3; Z++) {
+						BlockPos current = pos.add(X, Y, Z);
 						if (X == 3 || Z == 3 || X == -3 || Z == -3) {
-							if (!(xCoord == x + X) || !(yCoord == y + Y) || !(zCoord == z + Z)) {
+							if (!this.pos.equals(current)) {
 								if (X == 3 && Z == 3 || X == -3 && Z == -3 || X == -3 && Z == 3 || X == 3 && Z == -3) {
-									if (!(this.worldObj.getBlock(x + X, y + Y, z + Z) instanceof IStableBlock)) {
-										return new FailedCoords(false, x + X, y + Y, z + Z, "stable");
+									if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableBlock)) {
+										return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimensionId()), "stable");
 									}
-								} else if (!(this.worldObj.getBlock(x + X, y + Y, z + Z) instanceof IStableGlass)) {
+								} else if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableGlass)) {
 
-									return new FailedCoords(false, x + X, y + Y, z + Z, "glass");
+									return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimensionId()), "glass");
 								}
 							}
-						} else if (!(this.worldObj.getBlock(x + X, y + Y, z + Z) == Blocks.air)) {
-							return new FailedCoords(false, x + X, y + Y, z + Z, "air");
+						} else if (!(this.worldObj.getBlockState(current).getBlock() == Blocks.air)) {
+							return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimensionId()), "air");
 						}
 
 					}
 				}
 			}
-			return new FailedCoords(true, 0, 0, 0, null);
+			return new FailedCoords(true, BlockCoords.EMPTY, null);
 		}
 	}
 
 	public static class Atomic extends TileEntityCalculator {
 		public Atomic() {
-			super.slots = new ItemStack[4];
+			super.inv = new SonarTileInventory(this,4);
 		}
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
+	public int[] getSlotsForFace(EnumFacing side) {
 		return new int[0];
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int side) {
+	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
 		return false;
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
 		return false;
 	}
 }

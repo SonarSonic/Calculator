@@ -2,9 +2,11 @@ package sonar.calculator.mod.common.block.generators;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
@@ -21,8 +23,7 @@ public class ExtractorBlock extends SonarMachineBlock {
 	public int type;
 
 	public ExtractorBlock(int type) {
-		super(SonarMaterials.machine);
-		this.disableOrientation();
+		super(SonarMaterials.machine, false, true);
 		this.type = type;
 		this.setBlockBounds(0.0625F, 0.0625F, 0.0625F, 1 - 0.0625F, 1 - 0.0625F, 1 - 0.0625F);
 	}
@@ -32,18 +33,18 @@ public class ExtractorBlock extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
 				switch (type) {
 				case 0:
-					player.openGui(Calculator.instance, CalculatorGui.StarchExtractor, world, x, y, z);
+					player.openGui(Calculator.instance, CalculatorGui.StarchExtractor, world, pos.getX(), pos.getY(), pos.getZ());
 					break;
 				case 1:
-					player.openGui(Calculator.instance, CalculatorGui.RedstoneExtractor, world, x, y, z);
+					player.openGui(Calculator.instance, CalculatorGui.RedstoneExtractor, world, pos.getX(), pos.getY(), pos.getZ());
 					break;
 				case 2:
-					player.openGui(Calculator.instance, CalculatorGui.GlowstoneExtractor, world, x, y, z);
+					player.openGui(Calculator.instance, CalculatorGui.GlowstoneExtractor, world, pos.getX(), pos.getY(), pos.getZ());
 					break;
 				}
 			}
@@ -52,17 +53,20 @@ public class ExtractorBlock extends SonarMachineBlock {
 	}
 
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
-		TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(x, y, z);
-		generator.updateAdjacentHandlers();
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+		super.onBlockAdded(world, pos, state);
+		TileEntity tileentity = world.getTileEntity(pos);
+		if (tileentity != null && tileentity instanceof TileEntityGenerator) {
+			TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(pos);
+			generator.updateAdjacentHandlers();
+		}
 	}
 
 	@Override
-	public void onNeighborChange(IBlockAccess world, int x, int y, int z, int tileX, int tileY, int tileZ) {
-		TileEntity tileentity = world.getTileEntity(x, y, z);
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) {
+		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity != null && tileentity instanceof TileEntityGenerator) {
-			TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(x, y, z);
+			TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(pos);
 			generator.updateAdjacentHandlers();
 		}
 

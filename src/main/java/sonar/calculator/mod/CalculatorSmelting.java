@@ -2,26 +2,27 @@ package sonar.calculator.mod;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CalculatorSmelting extends Calculator implements IFuelHandler {
 
 	public static void addSmeltingRecipes() {
-
-		GameRegistry.addSmelting(enrichedgold, new ItemStack(enrichedgold_ingot), 0.8F);
-		GameRegistry.addSmelting(broccoli, new ItemStack(CookedBroccoli), 0.2F);
-
+		addSmelting(enrichedGold, new ItemStack(enrichedgold_ingot), 0.8F);
+		addSmelting(broccoli, new ItemStack(cookedBroccoli), 0.2F);
 	}
 
 	public static void addSmelting(Item input, ItemStack output, float xp) {
-		if (CalculatorConfig.isEnabled(output)) {
+		if (input != null && output != null && CalculatorConfig.isEnabled(output)) {
 			GameRegistry.addSmelting(input, output, xp);
 		}
 	}
 
 	@Override
 	public int getBurnTime(ItemStack fuel) {
+		if (fuel.getItem() == null) {
+			return 0;
+		}
 		if (fuel.getItem() == enriched_coal)
 			return 5000;
 		if (fuel.getItem() == coal_dust)
@@ -30,7 +31,7 @@ public class CalculatorSmelting extends Calculator implements IFuelHandler {
 			return 10000;
 		if (fuel.getItem() == firecoal)
 			return 25000;
-		if (fuel.getItem() == flawlessfirediamond)
+		if (fuel.getItem() == firediamond)
 			return 160000;
 		if (fuel.getItem() == controlled_Fuel)
 			return 80000;

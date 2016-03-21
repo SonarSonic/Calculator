@@ -34,7 +34,7 @@ public class GuiFluxPoint extends GuiFlux {
 		if (!network()) {
 			priority.drawTextBox();
 			transfer.drawTextBox();
-			FontHelper.text(FontHelper.translate(entity.blockType.getLocalizedName()), 20, 8, 0);
+			FontHelper.text(FontHelper.translate(entity.getBlockType().getLocalizedName()), 20, 8, 0);
 			FontHelper.text(FontHelper.translate("point.priority") + ":", 6, 28, 0);
 			FontHelper.text(FontHelper.translate("point.max") +":", 84, 28, 0);
 			if(entity.networkName.equals("NETWORK")){
@@ -51,11 +51,11 @@ public class GuiFluxPoint extends GuiFlux {
 		super.initGui();
 		Keyboard.enableRepeatEvents(true);
 		if (!network()) {
-			priority = new GuiTextField(this.fontRendererObj, 50, 26, 30, 12);
+			priority = new GuiTextField(0, this.fontRendererObj, 50, 26, 30, 12);
 			priority.setMaxStringLength(3);
 			priority.setText(String.valueOf(entity.priority));
 
-			transfer = new GuiTextField(this.fontRendererObj, 110, 26, 58, 12);
+			transfer = new GuiTextField(1, this.fontRendererObj, 110, 26, 58, 12);
 			transfer.setMaxStringLength(8);
 			transfer.setText(String.valueOf(entity.maxTransfer));
 		}
@@ -79,9 +79,9 @@ public class GuiFluxPoint extends GuiFlux {
 				FontHelper.addDigitsToString(priority, c, i);
 				final String order = priority.getText();
 				if (order.isEmpty() || order == "" || order == null) {
-					Calculator.network.sendToServer(new PacketFluxPoint(String.valueOf(0), entity.xCoord, entity.yCoord, entity.zCoord, 1));
+					Calculator.network.sendToServer(new PacketFluxPoint(String.valueOf(0), entity.getPos(), 1));
 				} else {
-					Calculator.network.sendToServer(new PacketFluxPoint(order, entity.xCoord, entity.yCoord, entity.zCoord, 1));
+					Calculator.network.sendToServer(new PacketFluxPoint(order, entity.getPos(), 1));
 				}
 				if (order.isEmpty() || order == "" || order == null) {
 					entity.priority = 0;
@@ -97,9 +97,9 @@ public class GuiFluxPoint extends GuiFlux {
 				final String order = transfer.getText();
 				
 				if (order.isEmpty() || order == "" || order == null) {
-					Calculator.network.sendToServer(new PacketFluxPoint(String.valueOf(0), entity.xCoord, entity.yCoord, entity.zCoord, 2));
+					Calculator.network.sendToServer(new PacketFluxPoint(String.valueOf(0), entity.getPos(), 2));
 				} else {
-					Calculator.network.sendToServer(new PacketFluxPoint(order, entity.xCoord, entity.yCoord, entity.zCoord, 2));
+					Calculator.network.sendToServer(new PacketFluxPoint(order, entity.getPos(), 2));
 				}
 				
 				if (order.isEmpty() || order == "" || order == null) {

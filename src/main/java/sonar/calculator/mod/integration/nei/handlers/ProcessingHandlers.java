@@ -10,7 +10,6 @@ import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
 import sonar.core.integration.nei.AbstractProcessorHandler;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.RecipeHelper;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class ProcessingHandlers {
 

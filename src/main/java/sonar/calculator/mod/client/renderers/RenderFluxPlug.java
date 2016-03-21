@@ -17,7 +17,7 @@ public class RenderFluxPlug extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float f) {
-		if (entity != null && entity.getWorldObj() != null) {
+		if (entity != null && entity.getWorld() != null) {
 			RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(entity), on);
 			model.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 			RenderHelper.finishRender();

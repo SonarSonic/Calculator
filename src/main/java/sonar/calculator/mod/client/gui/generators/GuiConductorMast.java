@@ -23,7 +23,7 @@ public class GuiConductorMast extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 
 		String wait = FontHelper.translate("conductor.wait") + ": ";
 		if (!(this.entity.lightningSpeed < 600) && this.entity.lightingTicks < 500) {

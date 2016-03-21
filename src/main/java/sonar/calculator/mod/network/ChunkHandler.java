@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -35,7 +36,7 @@ public class ChunkHandler implements LoadingCallback {
 
 	public static boolean readFluxController(Ticket ticket, World world) {
 		NBTTagCompound tag = ticket.getModData();
-		TileEntity target = world.getTileEntity(tag.getInteger("X"), tag.getInteger("Y"), tag.getInteger("Z"));
+		TileEntity target = world.getTileEntity(new BlockPos(tag.getInteger("X"), tag.getInteger("Y"), tag.getInteger("Z")));
 		if (target != null && target instanceof TileEntityFluxController) {
 			return true;
 		}
@@ -44,9 +45,9 @@ public class ChunkHandler implements LoadingCallback {
 
 	public static void saveFluxController(Ticket ticket, TileEntityFluxController controller) {
 		ticket.getModData().setInteger("ID", 1);
-		ticket.getModData().setInteger("X", controller.xCoord);
-		ticket.getModData().setInteger("Y", controller.yCoord);
-		ticket.getModData().setInteger("Z", controller.zCoord);
+		ticket.getModData().setInteger("X", controller.getPos().getX());
+		ticket.getModData().setInteger("Y", controller.getPos().getY());
+		ticket.getModData().setInteger("Z", controller.getPos().getZ());
 	}
 
 }

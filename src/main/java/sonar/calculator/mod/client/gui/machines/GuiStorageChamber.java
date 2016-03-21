@@ -27,8 +27,8 @@ public class GuiStorageChamber extends GuiContainer {
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		String string = FontHelper.translate("circuit.type") + ": ";
 
-		if (entity.getSavedStack() != null) {
-			switch (TileEntityStorageChamber.getCircuitValue(TileEntityStorageChamber.getCircuitType(entity.getSavedStack()))) {
+		if (((TileEntityStorageChamber.StorageChamberInventory) entity.inv).getSavedStack() != null) {
+			switch (TileEntityStorageChamber.getCircuitValue(TileEntityStorageChamber.getCircuitType(((TileEntityStorageChamber.StorageChamberInventory) entity.inv).getSavedStack()))) {
 			case 1:
 				string = string + FontHelper.translate("circuit.analysed");
 				break;

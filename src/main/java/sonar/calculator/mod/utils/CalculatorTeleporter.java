@@ -17,13 +17,10 @@ public class CalculatorTeleporter extends Teleporter {
 		this.z = z;
 	}
 
-	@Override
-	public void placeInPortal(Entity entity, double p2, double p3, double p4, float p5) {
-		this.world.getBlock((int) this.x, (int) this.y, (int) this.z);
-		entity.setPosition(this.x, this.y, this.z);
+    public void placeInPortal(Entity entity, float rotationYaw){
+    	entity.setPosition(x, y, z);
 		entity.motionX = 0F;
 		entity.motionY = 0F;
 		entity.motionZ = 0F;
-	}
-
+    }
 }

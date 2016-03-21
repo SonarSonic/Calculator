@@ -25,7 +25,7 @@ public class RenderMagneticFlux extends TileEntitySpecialRenderer {
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 
 		int r = 0;
-		if (entity != null && entity.getWorldObj() != null) {
+		if (entity != null && entity.getWorld() != null) {
 			r = (int) ((float) ((TileEntityMagneticFlux) entity).rotate * 360);
 		}
 		GL11.glRotated(r, 0, 1, 0);

@@ -57,9 +57,9 @@ public class TeleporterRegistry {
 			return null;
 		}
 		MinecraftServer server = MinecraftServer.getServer();
-		World world = server.worldServerForDimension(teleport.dimension());
+		World world = server.worldServerForDimension(teleport.teleporterID());
 		if (world != null) {
-			TileEntity target = world.getTileEntity(teleport.xCoord(), teleport.yCoord(), teleport.zCoord());
+			TileEntity target = world.getTileEntity(teleport.getCoords().getBlockPos());
 			return (TileEntityTeleporter) (target instanceof TileEntityTeleporter ? target : null);
 		}
 		return null;
@@ -77,7 +77,7 @@ public class TeleporterRegistry {
 			if (teleport != null && teleport.teleporterID() != currentID) {
 				TileEntity tile = getTile(teleport);
 				if (tile != null) {
-					list.add(new TeleportLink(teleport.teleporterID(), teleport.name(), teleport.dimension()));
+					list.add(new TeleportLink(teleport.teleporterID(), teleport.name(), teleport.getCoords().getDimension()));
 				} else {
 					teleporters.remove(teleport.teleporterID());
 				}

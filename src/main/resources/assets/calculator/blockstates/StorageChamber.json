@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model":"calculator:StorageChamber" },
+        "facing=south": { "model":"calculator:StorageChamber", "y": 180 },
+        "facing=west":  { "model":"calculator:StorageChamber", "y": 270 },
+        "facing=east":  { "model":"calculator:StorageChamber", "y": 90 }
+    }
+}

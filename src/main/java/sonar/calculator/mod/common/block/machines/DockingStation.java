@@ -23,12 +23,12 @@ import sonar.core.utils.helpers.FontHelper;
 public class DockingStation extends SonarMachineBlock {
 
 	public DockingStation() {
-		super(SonarMaterials.machine);
+		super(SonarMaterials.machine, true, true);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.95F, 1.0F);
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (interact.type == BlockInteractionType.RIGHT) {
 				if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof UpgradeCircuit) {

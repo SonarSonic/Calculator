@@ -2,7 +2,6 @@ package sonar.calculator.mod.client.renderers;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -14,7 +13,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.lwjgl.opengl.GL11;
 
@@ -22,7 +21,6 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.models.ModelResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.core.utils.helpers.RenderHelper;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RenderResearchChamber extends TileEntitySpecialRenderer {
 	private static final ResourceLocation texture = new ResourceLocation("Calculator:textures/model/researchchamber.png");
@@ -43,48 +41,48 @@ public class RenderResearchChamber extends TileEntitySpecialRenderer {
 		RenderHelper.beginRender(xCoord + 0.5F, yCoord + 1.5F, zCoord + 0.5F, RenderHelper.setMetaData(tileentity), texture.toString());
 
 		this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-		if (tileentity.getWorldObj() != null) {
+		if (tileentity.getWorld() != null) {
 			TileEntityResearchChamber chamber = (TileEntityResearchChamber) tileentity;
 
-			if (chamber.slots[0] != null) {
-				if (GameRegistry.findUniqueIdentifierFor(chamber.slots[0].getItem()).modId.equals(Calculator.modid) && !RenderBlocks.renderItemIn3d(Block.getBlockFromItem(chamber.slots[0].getItem()).getRenderType()) && chamber.slots[0].getItem() instanceof ItemBlock && Block.getBlockFromItem(chamber.slots[0].getItem()).getRenderType() == -1 && MinecraftForgeClient.getItemRenderer(chamber.slots[0], ItemRenderType.FIRST_PERSON_MAP) != null) {
+			if (chamber.slots()[0] != null) {
+				if (GameRegistry.findUniqueIdentifierFor(chamber.slots()[0].getItem()).modId.equals(Calculator.modid) && !RenderBlocks.renderItemIn3d(Block.getBlockFromItem(chamber.slots()[0].getItem()).getRenderType()) && chamber.slots()[0].getItem() instanceof ItemBlock && Block.getBlockFromItem(chamber.slots()[0].getItem()).getRenderType() == -1 && MinecraftForgeClient.getItemRenderer(chamber.slots()[0], ItemRenderType.FIRST_PERSON_MAP) != null) {
 
 					GL11.glRotated(180, 1, 0, 0);
 					GL11.glScaled(0.31, 0.31, 0.31);
 					GL11.glTranslated(-0.5, -3.25, -0.3);
-					if (Block.getBlockFromItem(chamber.slots[0].getItem()) == Calculator.scarecrow) {
+					if (Block.getBlockFromItem(chamber.slots()[0].getItem()) == Calculator.scarecrow) {
 						GL11.glRotated(180, 0, 1, 0);
 						GL11.glScaled(0.5, 0.5, 0.5);
 						GL11.glTranslated(-1.45, 0, -1.45);
 					}
 
-					if (Block.getBlockFromItem(chamber.slots[0].getItem()) == Calculator.starchextractor || Block.getBlockFromItem(chamber.slots[0].getItem()) == Calculator.glowstoneextractor || Block.getBlockFromItem(chamber.slots[0].getItem()) == Calculator.redstoneextractor) {
+					if (Block.getBlockFromItem(chamber.slots()[0].getItem()) == Calculator.starchextractor || Block.getBlockFromItem(chamber.slots()[0].getItem()) == Calculator.glowstoneextractor || Block.getBlockFromItem(chamber.slots()[0].getItem()) == Calculator.redstoneextractor) {
 						GL11.glTranslated(0, 0.2, 0);
 					}
-					if (Block.getBlockFromItem(chamber.slots[0].getItem()) == Calculator.conductorMast) {
+					if (Block.getBlockFromItem(chamber.slots()[0].getItem()) == Calculator.conductorMast) {
 						GL11.glScaled(0.3, 0.3, 0.3);
 						GL11.glTranslated(1.2, 0, 1.2);
 					}
-					MinecraftForgeClient.getItemRenderer(chamber.slots[0], ItemRenderType.FIRST_PERSON_MAP).renderItem(ItemRenderType.FIRST_PERSON_MAP, chamber.slots[0], renderBlocks, new EntityItem(tileentity.getWorldObj(), (int) xCoord, (int) yCoord, (int) zCoord, chamber.slots[0]));
+					MinecraftForgeClient.getItemRenderer(chamber.slots()[0], ItemRenderType.FIRST_PERSON_MAP).renderItem(ItemRenderType.FIRST_PERSON_MAP, chamber.slots()[0], renderBlocks, new EntityItem(tileentity.getWorld(), (int) xCoord, (int) yCoord, (int) zCoord, chamber.slots()[0]));
 					;
 
 				} else {
 					GL11.glTranslated(0.0, 1.01, -0.06);
 					GL11.glRotated(180, 1, 0, 0);
-					if (!(chamber.slots[0].getItemSpriteNumber() == 0) || chamber.slots[0].getItemSpriteNumber() == 0 && chamber.slots[0].getItem() instanceof ItemBlock && !RenderBlocks.renderItemIn3d(Block.getBlockFromItem(chamber.slots[0].getItem()).getRenderType())) {
+					if (!(chamber.slots()[0].getItemSpriteNumber() == 0) || chamber.slots()[0].getItemSpriteNumber() == 0 && chamber.slots()[0].getItem() instanceof ItemBlock && !RenderBlocks.renderItemIn3d(Block.getBlockFromItem(chamber.slots()[0].getItem()).getRenderType())) {
 						GL11.glRotated(-90, 1, 0, 0);
 						GL11.glTranslated(0, -0.22, 0.03);
 					}
-					RenderHelper.renderItem(tileentity.getWorldObj(), chamber.slots[0]);
+					RenderHelper.renderItem(tileentity.getWorld(), chamber.slots()[0]);
 
 				}
 			}
 		}
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
-		if (tileentity.getWorldObj() != null && tileentity instanceof TileEntityResearchChamber) {
+		if (tileentity.getWorld() != null && tileentity instanceof TileEntityResearchChamber) {
 			TileEntityResearchChamber tile = (TileEntityResearchChamber) tileentity;
-			if (tile.slots[0] != null && tile.ticks != 0 && tile.ticks != tile.researchSpeed) {
+			if (tile.slots()[0] != null && tile.ticks != 0 && tile.ticks != tile.researchSpeed) {
 
 				double height = 0.3;
 				Tessellator tessellator = Tessellator.instance;
@@ -96,7 +94,7 @@ public class RenderResearchChamber extends TileEntitySpecialRenderer {
 				GL11.glDisable(GL11.GL_BLEND);
 				GL11.glDepthMask(true);
 				OpenGlHelper.glBlendFunc(770, 1, 1, 0);
-				float f2 = (float) tileentity.getWorldObj().getTotalWorldTime() + 20;
+				float f2 = (float) tileentity.getWorld().getTotalWorldTime() + 20;
 				float f3 = -f2 * 0.01F - (float) MathHelper.floor_float(-f2 * 0.1F);
 				byte b0 = 1;
 				double d3 = (double) f2 * 0.025D * (1.0D - (double) (b0 & 1) * 2.5D);
@@ -117,7 +115,7 @@ public class RenderResearchChamber extends TileEntitySpecialRenderer {
 				double d28 = (double) (-1.0F + f3);
 				double d29 = (double) (height) * (0.5D / d5) + d28;
 
-				ForgeDirection dir = ForgeDirection.getOrientation(tileentity.blockMetadata);
+				EnumFacing dir = EnumFacing.getOrientation(tileentity.blockMetadata);
 				double x = xCoord + dir.offsetX * +0.06;
 				double y = yCoord + 0.5;
 				double z = zCoord + dir.offsetZ * +0.06;

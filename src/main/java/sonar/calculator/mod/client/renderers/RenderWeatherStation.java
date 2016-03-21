@@ -29,7 +29,7 @@ public class RenderWeatherStation extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
 		int i;
 
-		if (tileentity.getWorldObj() == null) {
+		if (tileentity.getWorld() == null) {
 			i = 0;
 		} else {
 			Block block = tileentity.getBlockType();
@@ -46,7 +46,7 @@ public class RenderWeatherStation extends TileEntitySpecialRenderer {
 		GL11.glRotatef(180.0F, 180.0F, 0.0F, 1.0F);
 
 		GL11.glRotated(-0.625, 0, 1, 0);
-		if (tileentity.getWorldObj() != null && tileentity instanceof TileEntityWeatherStation) {
+		if (tileentity.getWorld() != null && tileentity instanceof TileEntityWeatherStation) {
 			TileEntityWeatherStation station = (TileEntityWeatherStation) tileentity;
 			if (station.angle == 1000) {
 				int j = 0;

@@ -12,9 +12,6 @@ import sonar.calculator.mod.client.gui.calculators.GuiScientificCalculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.RecipeHelper;
-import codechicken.nei.NEIServerUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class ScientificRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model":"calculator:StoneSeparator" },
+        "facing=south": { "model":"calculator:StoneSeparator", "y": 180 },
+        "facing=west":  { "model":"calculator:StoneSeparator", "y": 270 },
+        "facing=east":  { "model":"calculator:StoneSeparator", "y": 90 }
+    }
+}

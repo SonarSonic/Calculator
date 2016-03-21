@@ -16,11 +16,11 @@ public class SlotBigStorage extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		return tile.isItemValid(slotNumber, stack);
+		return tile.isItemValidForSlot(slotNumber, stack);
 	}
 
 	public ItemStack getStack() {
-		return tile.getFullStack(this.getSlotIndex());
+		return ((TileEntityStorageChamber.StorageChamberInventory) tile.inv).getFullStack(this.getSlotIndex());
 	}
 
 	public void putStack(ItemStack stack) {

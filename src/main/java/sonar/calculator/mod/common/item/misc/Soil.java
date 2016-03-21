@@ -4,6 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
@@ -11,10 +13,6 @@ import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.core.common.item.SonarItem;
 
 public class Soil extends SonarItem implements IStability {
-
-	public Soil() {
-		setUnlocalizedName("Soil").setCreativeTab(Calculator.Calculator).setTextureName("Calculator:soil");
-	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
@@ -31,20 +29,20 @@ public class Soil extends SonarItem implements IStability {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par7, float par8, float par9, float par10) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitx, float hity, float hitz) {
 
 		if (player.isSneaking()) {
-			if (!player.canPlayerEdit(x, y, z, par7, stack)) {
+			if (!player.canPlayerEdit(pos, side, stack)) {
 				return false;
 			}
-			Block block = world.getBlock(x, y, z);
+			Block block = world.getBlockState(pos).getBlock();
 
 			if (block == Blocks.dirt) {
-				world.setBlock(x, y, z, Blocks.farmland);
+				world.setBlockState(pos, Blocks.farmland.getDefaultState());
 				stack.stackSize -= 1;
 			}
 			if (block == Blocks.grass) {
-				world.setBlock(x, y, z, Blocks.farmland);
+				world.setBlockState(pos, Blocks.farmland.getDefaultState());
 				stack.stackSize -= 1;
 			} else {
 				return false;

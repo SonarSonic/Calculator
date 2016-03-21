@@ -1,6 +1,5 @@
 package sonar.calculator.mod.integration.minetweaker;
 
-import minetweaker.MineTweakerAPI;
 
 /**
  * Created by AEnterprise

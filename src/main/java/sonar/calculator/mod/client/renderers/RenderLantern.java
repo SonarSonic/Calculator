@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -37,7 +36,7 @@ public class RenderLantern extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
 		int i;
 
-		if (tileentity.getWorldObj() == null) {
+		if (tileentity.getWorld() == null) {
 			i = 0;
 		} else {
 			Block block = tileentity.getBlockType();
@@ -48,7 +47,7 @@ public class RenderLantern extends TileEntitySpecialRenderer {
 		}
 
 		GL11.glPushMatrix();
-		ForgeDirection dir = ForgeDirection.getOrientation(i).getOpposite();
+		EnumFacing dir = EnumFacing.getOrientation(i).getOpposite();
 
 		GL11.glTranslatef((float) (x + 0.5F + (dir.offsetX * 0.32)), getY(y, i), (float) (z + 0.5 + (dir.offsetZ * 0.32)));
 

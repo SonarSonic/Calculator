@@ -19,7 +19,7 @@ public class Assimilator extends SonarMachineBlock {
 	public int type;
 
 	public Assimilator(int type) {
-		super(SonarMaterials.machine);
+		super(SonarMaterials.machine, true, true);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - 0.0625F * 3, 1.0F);
 		this.type = type;
 	}
@@ -29,7 +29,7 @@ public class Assimilator extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
 				if (type == 0) {

@@ -1,76 +1,14 @@
 package sonar.calculator.mod.network;
 
-import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.Item;
-import net.minecraftforge.client.MinecraftForgeClient;
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.client.renderers.ItemAxe;
-import sonar.calculator.mod.client.renderers.ItemCalculatorPlug;
-import sonar.calculator.mod.client.renderers.ItemConductorMask;
-import sonar.calculator.mod.client.renderers.ItemCrankHandle;
-import sonar.calculator.mod.client.renderers.ItemHoe;
-import sonar.calculator.mod.client.renderers.ItemLantern;
-import sonar.calculator.mod.client.renderers.ItemPickaxe;
-import sonar.calculator.mod.client.renderers.ItemScarecrow;
-import sonar.calculator.mod.client.renderers.ItemShovel;
-import sonar.calculator.mod.client.renderers.ItemSickle;
-import sonar.calculator.mod.client.renderers.ItemStarchExtractor;
-import sonar.calculator.mod.client.renderers.ItemSword;
-import sonar.calculator.mod.client.renderers.ItemTransmitter;
-import sonar.calculator.mod.client.renderers.ItemWeatherStation;
-import sonar.calculator.mod.client.renderers.ItemWrench;
-import sonar.calculator.mod.client.renderers.RenderAnalysingChamber;
-import sonar.calculator.mod.client.renderers.RenderCalculatorLocator;
-import sonar.calculator.mod.client.renderers.RenderCalculatorPlug;
-import sonar.calculator.mod.client.renderers.RenderCalculatorScreen;
-import sonar.calculator.mod.client.renderers.RenderChamber;
-import sonar.calculator.mod.client.renderers.RenderCrank;
-import sonar.calculator.mod.client.renderers.RenderDockingStation;
-import sonar.calculator.mod.client.renderers.RenderFlawlessCapacitor;
-import sonar.calculator.mod.client.renderers.RenderFluxPlug;
-import sonar.calculator.mod.client.renderers.RenderFluxPoint;
-import sonar.calculator.mod.client.renderers.RenderHandlers;
-import sonar.calculator.mod.client.renderers.RenderLantern;
-import sonar.calculator.mod.client.renderers.RenderMagneticFlux;
-import sonar.calculator.mod.client.renderers.RenderStorageChamber;
-import sonar.calculator.mod.client.renderers.RenderTransmitter;
-import sonar.calculator.mod.client.renderers.RenderWeatherStation;
-import sonar.calculator.mod.common.entities.EntityBabyGrenade;
-import sonar.calculator.mod.common.entities.EntityGrenade;
-import sonar.calculator.mod.common.entities.EntitySmallStone;
-import sonar.calculator.mod.common.entities.EntitySoil;
-import sonar.calculator.mod.common.tileentity.TileEntityMachines;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessCapacitor;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityBasicLantern;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
-import sonar.core.renderers.ItemModelRender;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import sonar.calculator.mod.BlockRenderRegister;
+import sonar.calculator.mod.ItemRenderRegister;
 
 public class CalculatorClient extends CalculatorCommon {
 	@Override
 	public void registerRenderThings() {
+		BlockRenderRegister.register();
+		ItemRenderRegister.register();
+		/*
 		RenderingRegistry.registerEntityRenderingHandler(EntityBabyGrenade.class, new RenderSnowball(Calculator.baby_grenade));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderSnowball(Calculator.grenade));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySmallStone.class, new RenderSnowball(Calculator.small_stone));
@@ -99,11 +37,12 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer redstone = new RenderHandlers.RedstoneExtractor();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGenerator.RedstoneExtractor.class, redstone);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.redstoneextractor), new ItemStarchExtractor(redstone, new TileEntityGenerator.RedstoneExtractor()));
-
+		
 		TileEntitySpecialRenderer atomic = new RenderHandlers.AtomicMultiplier();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAtomicMultiplier.class, atomic);
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.atomicMultiplier), new ItemModelRender(atomic, new TileEntityAtomicMultiplier()));
-
+		*/
+		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.atomicMultiplier), new ItemModelRender(atomic, new TileEntityAtomicMultiplier()));
+		/*
 		TileEntitySpecialRenderer conductor = new RenderHandlers.ConductorMast();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConductorMast.class, conductor);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.conductorMast), new ItemConductorMask(conductor, new TileEntityConductorMast()));
@@ -255,6 +194,6 @@ public class CalculatorClient extends CalculatorCommon {
 		TileEntitySpecialRenderer aAssimilator = new RenderHandlers.AlgorithmAssimilator();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAssimilator.Algorithm.class, aAssimilator);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.algorithmAssimilator), new ItemModelRender(aAssimilator, new TileEntityAssimilator.Algorithm()));
-
+	*/
 	}
 }

@@ -8,7 +8,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.relauncher.Side;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.flux.IFlux;
 import sonar.calculator.mod.api.items.IResearchStore;
@@ -131,8 +134,6 @@ import sonar.calculator.mod.network.packets.PacketStorageChamber;
 import sonar.calculator.mod.network.packets.PacketTeleportLinks;
 import sonar.core.inventory.ContainerEmpty;
 import sonar.core.inventory.IItemInventory;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.relauncher.Side;
 
 public class CalculatorCommon implements IGuiHandler {
 
@@ -149,7 +150,7 @@ public class CalculatorCommon implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {		
-		TileEntity entity = world.getTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(new BlockPos(x,y,z));
 		ItemStack equipped;
 
 		if (entity != null) {
@@ -315,7 +316,7 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 			case CalculatorGui.aAssimilator:
 				if ((entity instanceof TileEntityAssimilator.Algorithm)) {
-					return new ContainerAlgorithmAssimilator(player.inventory, (TileEntityAssimilator) entity);
+					return new ContainerAlgorithmAssimilator(player, (TileEntityAssimilator) entity);
 				}
 			case CalculatorGui.flawlessFurnace:
 				if ((entity instanceof TileEntityFlawlessFurnace)) {
@@ -332,7 +333,7 @@ public class CalculatorCommon implements IGuiHandler {
 
 			switch (ID) {
 			case CalculatorGui.Calculator:
-				return new ContainerCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped), ((IResearchStore) equipped.getItem()).getResearch(equipped));
+				return new ContainerCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped));
 
 			case CalculatorGui.ScientificCalculator:
 				return new ContainerScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped));
@@ -372,7 +373,7 @@ public class CalculatorCommon implements IGuiHandler {
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity entity = world.getTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(new BlockPos(x,y,z));
 		ItemStack equipped;
 		if (entity != null) {
 			switch (ID) {
@@ -558,7 +559,7 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 			case CalculatorGui.aAssimilator:
 				if ((entity instanceof TileEntityAssimilator.Algorithm)) {
-					return new GuiAlgorithmAssimilator(player.inventory, (TileEntityAssimilator) entity);
+					return new GuiAlgorithmAssimilator(player, (TileEntityAssimilator) entity);
 				}
 			case CalculatorGui.flawlessFurnace:
 				if ((entity instanceof TileEntityFlawlessFurnace)) {
@@ -575,7 +576,7 @@ public class CalculatorCommon implements IGuiHandler {
 			}
 			switch (ID) {
 			case CalculatorGui.Calculator:
-				return new GuiCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped), ((IResearchStore) equipped.getItem()).getResearch(equipped));
+				return new GuiCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped));
 
 			case CalculatorGui.ScientificCalculator:
 				return new GuiScientificCalculator(player, player.inventory, new CalculatorItem.CalculatorInventory(equipped));

@@ -1,12 +1,12 @@
 package sonar.calculator.mod.common.containers;
 
-import ic2.api.item.IElectricItem;
-import ic2.api.item.ISpecialElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.modules.WIPSmeltingModule;
 import sonar.core.common.item.InventoryItem;
@@ -16,8 +16,6 @@ import sonar.core.inventory.ContainerCraftInventory;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 import sonar.core.inventory.slots.SlotLimiter;
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerSmeltingModule extends ContainerCraftInventory {
 	private WIPSmeltingModule module;
@@ -114,15 +112,7 @@ public class ContainerSmeltingModule extends ContainerCraftInventory {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if ((slotID >= 3) && (slotID < 30)) {
+				}else if ((slotID >= 3) && (slotID < 30)) {
 					if (!mergeItemStack(itemstack1, 30, 39, false)) {
 						return null;
 					}

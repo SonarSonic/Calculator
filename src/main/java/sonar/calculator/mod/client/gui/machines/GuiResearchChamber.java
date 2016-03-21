@@ -23,7 +23,7 @@ public class GuiResearchChamber extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		if (entity.ticks != 0 && entity.ticks!=-1) {
 			FontHelper.textCentre(("" + this.entity.ticks * 100 / this.entity.researchSpeed) + " %", xSize, 55, 0);
 		}

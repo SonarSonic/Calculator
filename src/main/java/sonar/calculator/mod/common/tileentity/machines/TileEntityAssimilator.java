@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHealthStore;
@@ -30,7 +29,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 
 	public abstract boolean harvestBlock(BlockCoords block);
 
-	public void updateEntity() {
+	public void update() {
 		if (this.worldObj.isRemote) {
 			return;
 		}
@@ -38,7 +37,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 			tick++;
 		} else {
 		//	int blockmeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-		//	InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetX), yCoord, zCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetZ)), this, 0, 0, null);
+		//	InventoryHelper.extractItems(this.getWorld().getTileEntity(xCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetX), yCoord, zCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetZ)), this, 0, 0, null);
 			tick=0;
 			this.hasTree = hasTree();
 			if (hasTree) {
@@ -60,7 +59,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 	}
 
 	public boolean hasTree() {
-		ForgeDirection dir = SonarHelper.getForward(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+		EnumFacing dir = SonarHelper.getForward(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
 		boolean flag = true;
 		for (int log = 0; log < 3; log++) {
 			if (!(this.worldObj.getBlock(this.xCoord + dir.offsetX, this.yCoord + log, this.zCoord + dir.offsetZ) instanceof CalculatorLogs)) {
@@ -84,7 +83,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 	}
 
 	public List<BlockCoords> getLeaves() {
-		ForgeDirection dir = SonarHelper.getForward(this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord));
+		EnumFacing dir = SonarHelper.getForward(this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord));
 		List<BlockCoords> leafList = new ArrayList();
 		for (int X = -2; X < 3; X++) {
 			for (int Z = -2; Z < 3; Z++) {
@@ -117,13 +116,13 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 
 		public int healthPoints, hungerPoints, speed = 4;;
 
-		public void updateEntity() {
-			super.updateEntity();
+		public void update() {
+			super.update();
 			if (this.worldObj.isRemote) {
 				return;
 			}
-			chargeHunger(slots[0]);
-			chargeHealth(slots[0]);
+			chargeHunger(slots()[0]);
+			chargeHealth(slots()[0]);
 		}
 
 		public boolean harvestBlock(BlockCoords block) {
@@ -225,7 +224,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 			int meta = worldObj.getBlockMetadata(block.getX(), block.getY(), block.getZ());
 			if (meta > 2) {
 				int randInt = 3 + rand.nextInt(3);
-				ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getX(), block.getY(), block.getZ(), randInt);
+				ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getZ(), randInt);
 				if (stacks != null) {
 					for (int i = 0; i < stacks.length; i++) {
 						InventoryHelper.addItems(this, ItemStackHelper.restoreItemStack(stacks[i], 1), 0, null);

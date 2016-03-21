@@ -28,7 +28,7 @@ public class GuiDockingStation extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 	}
 
@@ -52,7 +52,7 @@ public class GuiDockingStation extends GuiContainer {
 					drawTexturedModalRect(this.guiLeft + 109, this.guiTop + 34, 176, 10, l, 7);
 				}
 			}
-			if (entity.calcStack.getItem() == Item.getItemFromBlock(Calculator.atomiccalculatorBlock)) {
+			if (entity.calcStack.getItem() == Item.getItemFromBlock(Calculator.atomicCalculator)) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(atomicTex);
 				drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 				if (this.entity.currentSpeed != 0 && this.entity.cookTime.getObject() != 0) {

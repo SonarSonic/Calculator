@@ -12,9 +12,6 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.client.gui.calculators.GuiInfoCalculator;
 import sonar.calculator.mod.utils.InfoList;
 import sonar.core.utils.helpers.FontHelper;
-import codechicken.nei.NEIServerUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class InfoUsageHandler extends TemplateRecipeHandler {
 

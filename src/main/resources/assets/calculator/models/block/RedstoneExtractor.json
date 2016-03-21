@@ -1,0 +1,9 @@
+{
+    "parent":"calculator:block/Extractor",   
+
+    "textures": {
+        "0":"calculator:model/redstone_generator_0",        
+        "1":"calculator:model/redstone_generator_1"
+    }
+
+}

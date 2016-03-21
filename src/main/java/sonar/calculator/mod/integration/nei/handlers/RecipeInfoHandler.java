@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import sonar.calculator.mod.client.gui.modules.GuiRecipeInfo;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class RecipeInfoHandler extends CalculatorRecipeHandler {
 

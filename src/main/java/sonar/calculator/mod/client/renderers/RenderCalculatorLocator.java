@@ -29,7 +29,7 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float f) {
 
-		if (entity.getWorldObj() != null && entity instanceof TileEntityCalculatorLocator) {
+		if (entity.getWorld() != null && entity instanceof TileEntityCalculatorLocator) {
 			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) entity;
 			if (tile.active.getObject()) {
 				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, onTexture);
@@ -43,7 +43,7 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		RenderHelper.finishRender();
 
-		if (CalculatorConfig.beamEffect && entity.getWorldObj() != null && entity instanceof TileEntityCalculatorLocator) {
+		if (CalculatorConfig.beamEffect && entity.getWorld() != null && entity instanceof TileEntityCalculatorLocator) {
 			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) entity;
 			if (tile.active.getObject()) {
 				int height = tile.beamHeight();
@@ -57,7 +57,7 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 				GL11.glDepthMask(true);
 				OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 				GL11.glTranslated(0.0, 0.70, 0.0);
-				float f2 = (float) entity.getWorldObj().getTotalWorldTime() + 20;
+				float f2 = (float) entity.getWorld().getTotalWorldTime() + 20;
 				float f3 = -f2 * 0.2F - (float) MathHelper.floor_float(-f2 * 0.1F);
 				byte b0 = 1;
 				double d3 = (double) f2 * 0.025D * (1.0D - (double) (b0 & 1) * 2.5D);

@@ -10,8 +10,6 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.client.gui.machines.GuiHealthProcessor;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.core.utils.helpers.FontHelper;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class HealthProcessorRecipeHandler extends TemplateRecipeHandler {
 	public class ChancePair extends TemplateRecipeHandler.CachedRecipe {

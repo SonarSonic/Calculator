@@ -6,6 +6,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.core.utils.helpers.FontHelper;
@@ -22,13 +24,12 @@ public class WIPAtomicTerrainModule extends BaseTerrainModule {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
-			int x, int y, int z, int par7, float par8, float par9, float par10) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitx, float hity, float hitz) {
 		if (this.getEnergyStored(stack) > 0) {
-			if (!player.canPlayerEdit(x, y, z, par7, stack)) {
+			if (!player.canPlayerEdit(pos, side, stack)) {
 				return false;
 			}
-			Block block = world.getBlock(x, y, z);
+			Block block = world.getBlock(pos);
 			if (player.isSneaking()) {
 				int mode = this.getCurrentMode(stack);
 				if (!(block instanceof ITileEntityProvider)) {

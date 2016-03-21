@@ -4,25 +4,26 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.api.blocks.IWrenchable;
 import sonar.core.common.item.SonarItem;
+import sonar.core.utils.IWrench;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.block.IDismantleable;
-import cofh.api.tileentity.IReconfigurableSides;
 
-public class Wrench extends SonarItem {
+public class Wrench extends SonarItem implements IWrench {
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float par8, float par9, float par10) {
-		if (!player.canPlayerEdit(x, y, z, side, stack)) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitx, float hity, float hitz) {
+		if (!player.canPlayerEdit(pos, side, stack)) {
 			return false;
 		}
-		TileEntity te = world.getTileEntity(x, y, z);
-		Block block = world.getBlock(x, y, z);
+		TileEntity te = world.getTileEntity(pos);
+		Block block = world.getBlockState(pos).getBlock();
 		if (!player.isSneaking()) {
 			if (block instanceof IWrenchable)
-				((IWrenchable) block).onWrench(world, x, y, z, side);
+				((IWrenchable) block).onWrench(world, pos, side);
 			else if (te != null && te instanceof IReconfigurableSides)
 				((IReconfigurableSides) te).incrSide(side);
 

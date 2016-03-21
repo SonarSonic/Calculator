@@ -1,12 +1,10 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import ic2.api.energy.tile.IEnergySource;
-
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.api.flux.IFlux;
 import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.api.flux.IFluxPlug;
@@ -31,8 +29,8 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 	public static final int DISTRIBUTE = 1, SURGE = 2, HYPER_SURGE = 3, GOD_MODE = 4;
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
+		super.update();
 		if (this.worldObj.isRemote) {
 			return;
 		}
@@ -51,23 +49,16 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		export -= buffer.extractEnergy(export, simulate);
 		return export;
 	}
+
 	@Override
 	public int pullEnergy(int export, boolean simulate, boolean buffer) {
-		if(buffer){
+		if (buffer) {
 			export -= this.buffer.extractEnergy(export, simulate);
 		}
 		for (int i = 0; i < 6; i++) {
 			if (this.handlers[i] != null) {
 				if (handlers[i] instanceof IEnergyProvider) {
-					export -= ((IEnergyProvider) this.handlers[i]).extractEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], export, simulate);
-				} else if (handlers[i] instanceof IEnergySource) {
-					if (simulate) {
-						export -= ((IEnergySource) this.handlers[i]).getOfferedEnergy() * 4;
-					} else {
-						int remove = (int) Math.min(((IEnergySource) this.handlers[i]).getOfferedEnergy(), export / 4);
-						export -= remove * 4;
-						((IEnergySource) this.handlers[i]).drawEnergy(remove);
-					}
+					export -= ((IEnergyProvider) this.handlers[i]).extractEnergy(EnumFacing.VALUES[(i ^ 0x1)], export, simulate);
 				}
 			}
 
@@ -87,13 +78,13 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		if (controller != null && controller.getTransmitterMode() == 1) {
 			TransferList push = sendEnergy(controller, currentList, controller.getRecieveMode(), true);
 			currentList = push.inputList;
-			currentTransfer += push.energy;			
+			currentTransfer += push.energy;
 		}
-		if (points != null && points.size() > 0 && currentOutput != 0  && (currentInput != 0 || bufferStorage!=0)) {
+		if (points != null && points.size() > 0 && currentOutput != 0 && (currentInput != 0 || bufferStorage != 0)) {
 			for (int i = 0; i < points.size(); i++) {
 				TileEntity target = FluxHelper.getTile(points.get(i));
 				if (controller == null) {
-					if (target != null && target instanceof TileEntityFlux && ((TileEntityFlux) (target)).dimension() == this.dimension()) {
+					if (target != null && target instanceof TileEntityFlux && ((TileEntityFlux) (target)).getCoords().getDimension() == coords.getDimension()) {
 						TransferList push = transferEnergy((IFluxPoint) target, currentList, 0, false);
 						currentList = push.inputList;
 						currentTransfer += push.energy;
@@ -127,7 +118,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			if (target instanceof IFluxPlug) {
 				int plugTransfer = 0;
 				int maxTransfer = Math.min(currentList[i], outputted);
-				
+
 				int output = Math.min(maxTransfer - point.pushEnergy(maxTransfer, true), maxTransfer - ((IFluxPlug) target).pullEnergy(maxTransfer, true, true));
 				plugTransfer += push(point, ((IFluxPlug) target), output, false);
 
@@ -141,15 +132,13 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		return new TransferList(currentList, currentTrans);
 	}
 
-	/**
-	 * sends energy from all available handlers to the given point
+	/** sends energy from all available handlers to the given point
 	 * 
 	 * @param point recieving transfer
 	 * @param inputList list of maximum rf/t for plugs
 	 * @param recieveMode DISTRIBUTE = 1, SURGE = 2, HYPER_SURGE = 3, GOD_MODE = 4;
 	 * @param allowDimensions is a controller present
-	 * @return
-	 */
+	 * @return */
 	public TransferList transferEnergy(IFluxPoint point, int[] inputList, int recieveMode, boolean allowDimensions) {
 		int maxOutput = Math.min(point.maxTransfer(), this.maxTransfer);
 		if (!(maxOutput > 0)) {
@@ -163,7 +152,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			int maxTransfer = Math.min(currentList[i], outputted);
 			TileEntity target = FluxHelper.getTile(plugs.get(i));
 			int plugTransfer = 0;
-			if (target != null && (allowDimensions || target instanceof TileEntityFlux && ((IFluxPlug) target).dimension() == point.dimension()) && FluxHelper.checkPlayerName(target, networkID())) {
+			if (target != null && (allowDimensions || target instanceof TileEntityFlux && ((IFluxPlug) target).getCoords().getDimension() == point.getCoords().getDimension()) && FluxHelper.checkPlayerName(target, networkID())) {
 				switch (recieveMode) {
 				case SURGE:
 					if (currentList[i] > 0) {
@@ -214,7 +203,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			for (int i = 0; i < points.size(); i++) {
 				TileEntity target = FluxHelper.getTile(points.get(i));
 				if (controller == null) {
-					if (target != null && target instanceof TileEntityFlux && ((TileEntityFlux) (target)).dimension() == this.dimension()) {
+					if (target != null && target instanceof TileEntityFlux && ((TileEntityFlux) (target)).getCoords().getDimension() == coords.getDimension()) {
 						currentTransfer += receiveEnergy((IFluxPoint) target, receive, 0, false, simulate);
 					}
 				} else {
@@ -227,15 +216,13 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		return currentTransfer;
 	}
 
-	/**
-	 * receiving energy from nearby tiles
+	/** receiving energy from nearby tiles
 	 * 
 	 * @param point recieving transfer
 	 * @param inputList list of maximum rf/t for plugs
 	 * @param recieveMode DISTRIBUTE = 1, SURGE = 2, HYPER_SURGE = 3, GOD_MODE = 4;
 	 * @param allowDimensions is a controller present
-	 * @return
-	 */
+	 * @return */
 	public int receiveEnergy(IFluxPoint point, int input, int recieveMode, boolean allowDimensions, boolean simulate) {
 		int maxOutput = Math.min(point.maxTransfer(), this.maxTransfer);
 		if (!(maxOutput > 0)) {
@@ -244,7 +231,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		int outputted = maxOutput - point.pushEnergy(maxOutput, true);
 		int maxTransfer = Math.min(input, outputted);
 		int plugTransfer = 0;
-		if (allowDimensions || dimension() == point.dimension() && FluxHelper.checkPlayerName(this, networkID())) {
+		if (allowDimensions || coords.getDimension() == point.getCoords().getDimension() && FluxHelper.checkPlayerName(this, networkID())) {
 			switch (recieveMode) {
 			case SURGE:
 				if (input > 0) {
@@ -286,15 +273,12 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		return plugTransfer;
 	}
 
-	public int receiveEnergy(ForgeDirection dir, int maxTransfer, boolean simulate) {
+	public int receiveEnergy(EnumFacing dir, int maxTransfer, boolean simulate) {
 		int export = maxTransfer;
 		TileEntity handler = SonarHelper.getAdjacentTileEntity(this, dir);
 		if (handler != null) {
 			if (handler instanceof IEnergyProvider) {
 				export -= ((IEnergyProvider) handler).extractEnergy(dir.getOpposite(), maxTransfer, true);
-				
-			} else if (handler instanceof IEnergySource) {
-				export -= ((IEnergySource) handler).getOfferedEnergy() * 4;
 			}
 		}
 		if (maxTransfer == export) {
@@ -328,7 +312,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			return false;
 		}
 		IFlux flux = FluxRegistry.getMaster(this.networkID());
-		return flux.networkID() == networkID() && flux.dimension() == this.dimension() && flux.xCoord() == xCoord && flux.yCoord() == yCoord && flux.zCoord() == zCoord;
+		return flux.networkID() == networkID() && flux.getCoords().getDimension() == coords.getDimension() && flux.getCoords().getX() == pos.getX() && flux.getCoords().getY() == pos.getY() && flux.getCoords().getZ() == pos.getZ();
 	}
 
 	@Override

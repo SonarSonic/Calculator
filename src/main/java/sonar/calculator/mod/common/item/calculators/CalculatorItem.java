@@ -3,20 +3,23 @@ package sonar.calculator.mod.common.item.calculators;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.IResearchStore;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class CalculatorItem extends SonarCalculator implements IItemInventory, IResearchStore {
+public class CalculatorItem extends SonarCalculator implements IItemInventory {
 
+	public CalculatorItem(){
+		this.maxStackSize=1;
+	}
+	
 	public static class CalculatorInventory extends InventoryItem {
 		public static final int size = 3;
 
@@ -30,13 +33,7 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 		return onCalculatorRightClick(itemstack, world, player, CalculatorGui.Calculator);
 
 	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconregister) {
-		this.itemIcon = iconregister.registerIcon("Calculator:calculator");
-	}
-
+	
 	@Override
 	public InventoryItem getInventory(ItemStack stack) {
 		return new CalculatorInventory(stack);
@@ -57,33 +54,6 @@ public class CalculatorItem extends SonarCalculator implements IItemInventory, I
 				list.add(FontHelper.translate("research.recipe") + ": " + stored + "/" + max);
 			}
 		}
-	}
-
-	public Map<Integer, Integer> getResearch(ItemStack stack) {
-		/*
-		Map<Integer, Integer> unblocked = new THashMap<Integer, Integer>();
-		if (stack != null && stack.getItem() instanceof IResearchStore) {
-			if (!stack.hasTagCompound()) {
-				stack.setTagCompound(new NBTTagCompound());
-			}
-			unblocked = CalculatorRecipes.instance().readFromNBT(stack.getTagCompound(), "unblocked");
-		}
-		*/
-		return null;
-	}
-
-	public void setResearch(ItemStack stack, Map<Integer, Integer> unblocked, int stored, int max) {
-		/*
-		if (stack != null && stack.getItem() == Calculator.itemCalculator) {
-			if (!stack.hasTagCompound()) {
-				stack.setTagCompound(new NBTTagCompound());
-			}
-			CalculatorRecipes.instance().writeToNBT(stack.getTagCompound(), unblocked, "unblocked");
-			stack.getTagCompound().setInteger("Max", max);
-			stack.getTagCompound().setInteger("Stored", stored);
-
-		}
-		*/
 	}
 
 }

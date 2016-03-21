@@ -8,6 +8,7 @@ public class TerrainModule extends BaseTerrainModule {
 
 	public TerrainModule() {
 		super.replacable = new Block[]{ Blocks.grass, Blocks.dirt, Blocks.stone};
+		maxStackSize = 1;
 		capacity = CalculatorConfig.getInteger("Terrain Module");
 		maxReceive = CalculatorConfig.getInteger("Terrain Module");
 		maxExtract = CalculatorConfig.getInteger("Terrain Module");

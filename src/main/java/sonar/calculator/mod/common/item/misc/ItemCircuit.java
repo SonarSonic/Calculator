@@ -3,23 +3,20 @@ package sonar.calculator.mod.common.item.misc;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 
 import com.google.common.collect.Maps;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCircuit extends SonarItem implements IStability {
 	@Override
@@ -81,7 +78,7 @@ public class ItemCircuit extends SonarItem implements IStability {
 			setData(stack);
 		}
 	}
-
+	/*
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister register) {
@@ -99,7 +96,7 @@ public class ItemCircuit extends SonarItem implements IStability {
 		CircuitType type = CircuitType.getTypeFromDamage(p_77617_1_);
 		return type.getIcon();
 	}
-
+	*/
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		CircuitType[] atype = CircuitType.values();
@@ -107,7 +104,6 @@ public class ItemCircuit extends SonarItem implements IStability {
 
 		for (int j = 0; j < i; j++) {
 			CircuitType type = atype[j];
-
 			list.add(new ItemStack(this, 1, type.getItemDamage()));
 		}
 	}
@@ -123,8 +119,8 @@ public class ItemCircuit extends SonarItem implements IStability {
 		private static final Map circuits;
 		private final int number;
 		private final String name;
-		@SideOnly(Side.CLIENT)
-		private IIcon icon;
+		//@SideOnly(Side.CLIENT)
+		//private IIcon icon;
 
 		private CircuitType(int number, String name) {
 			this.number = number;
@@ -138,7 +134,7 @@ public class ItemCircuit extends SonarItem implements IStability {
 		public String getUnlocalizedNamePart() {
 			return this.name;
 		}
-
+		/*
 		@SideOnly(Side.CLIENT)
 		public void registerIcon(IIconRegister register) {
 			this.icon = register.registerIcon("Calculator:circuits/circuit" + this.name);
@@ -148,7 +144,7 @@ public class ItemCircuit extends SonarItem implements IStability {
 		public IIcon getIcon() {
 			return this.icon;
 		}
-
+		*/
 		public static CircuitType getTypeFromDamage(int par) {
 			CircuitType type = (CircuitType) circuits.get(Integer.valueOf(par));
 			return type == null ? C1 : type;

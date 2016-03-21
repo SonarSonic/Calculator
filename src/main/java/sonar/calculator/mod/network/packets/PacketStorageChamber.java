@@ -2,10 +2,11 @@ package sonar.calculator.mod.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class PacketStorageChamber extends PacketCoords {
 
@@ -13,8 +14,8 @@ public class PacketStorageChamber extends PacketCoords {
 
 	public PacketStorageChamber() {}
 
-	public PacketStorageChamber(int x, int y, int z, int id, int value) {
-		super(x,y,z);
+	public PacketStorageChamber(BlockPos pos, int id, int value) {
+		super(pos);
 		this.id=id;
 		this.value=value;
 	}
@@ -39,7 +40,7 @@ public class PacketStorageChamber extends PacketCoords {
 		public IMessage processMessage(PacketStorageChamber message, TileEntity target) {
 			if(target !=null && target instanceof TileEntityStorageChamber){
 				TileEntityStorageChamber chamber = (TileEntityStorageChamber) target;
-				chamber.stored[message.id]=message.value;			
+				((TileEntityStorageChamber.StorageChamberInventory)chamber.inv).stored[message.id]=message.value;			
 			}	
 			return null;
 		}

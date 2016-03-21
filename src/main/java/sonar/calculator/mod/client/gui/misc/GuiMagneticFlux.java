@@ -33,7 +33,7 @@ public class GuiMagneticFlux extends GuiSonar {
 			return;
 		}
 		if (button instanceof GuiButton) {
-			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.xCoord, entity.yCoord, entity.zCoord, button.id));		
+			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), button.id));		
 			this.reset();
 		}
 		
@@ -42,7 +42,7 @@ public class GuiMagneticFlux extends GuiSonar {
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		super.drawGuiContainerForegroundLayer(x, y);
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 	}
 
 	@Override

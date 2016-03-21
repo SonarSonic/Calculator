@@ -2,14 +2,15 @@ package sonar.calculator.mod.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
 public class PacketFluxPoint extends PacketCoords {
 
@@ -19,8 +20,8 @@ public class PacketFluxPoint extends PacketCoords {
 	public PacketFluxPoint() {
 	}
 
-	public PacketFluxPoint(String string, int x, int y, int z, int id) {
-		super(x, y, z);
+	public PacketFluxPoint(String string, BlockPos pos, int id) {
+		super(pos);
 		this.string = string;
 		this.id = id;
 	}
@@ -82,9 +83,9 @@ public class PacketFluxPoint extends PacketCoords {
 
 				if (te instanceof TileEntityFluxController) {
 					TileEntityFluxController flux = (TileEntityFluxController) te;
-					return new PacketFluxNetworkList(message.xCoord, message.yCoord, message.zCoord, FluxRegistry.getAvailableNetworks(message.string, flux));
+					return new PacketFluxNetworkList(message.pos, FluxRegistry.getAvailableNetworks(message.string, flux));
 				} else {
-					return new PacketFluxNetworkList(message.xCoord, message.yCoord, message.zCoord, FluxRegistry.getAvailableNetworks(message.string, null));
+					return new PacketFluxNetworkList(message.pos, FluxRegistry.getAvailableNetworks(message.string, null));
 				}
 			}
 			return null;

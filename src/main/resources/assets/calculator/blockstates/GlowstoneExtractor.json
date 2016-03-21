@@ -1,0 +1,9 @@
+{
+    
+   "variants": {
+        "facing=north": { "model":"calculator:GlowstoneExtractor" },
+        "facing=south": { "model":"calculator:GlowstoneExtractor", "y": 180 },
+        "facing=west":  { "model":"calculator:GlowstoneExtractor", "y": 270 },
+        "facing=east":  { "model":"calculator:GlowstoneExtractor", "y": 90 }
+    }
+}

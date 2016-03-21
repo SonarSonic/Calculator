@@ -43,7 +43,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(entity), texture);
 		model.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 		this.renderAnimation(entity, x, y, z);
-		if (entity != null && entity.getWorldObj() != null && entity instanceof TileEntityProcess) {
+		if (entity != null && entity.getWorld() != null && entity instanceof TileEntityProcess) {
 			TileEntityProcess inv = (TileEntityProcess) entity;
 			ItemStack target = null;
 			if (inv.cookTime.getObject() == 0 && inv.getStackInSlot(2) != null) {
@@ -55,7 +55,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 			if (target != null) {
 				GL11.glRotated(90, 1, 0, 0);
 				GL11.glTranslated(0, -0.2, -1.17);
-				RenderHelper.renderItem(entity.getWorldObj(), target);
+				RenderHelper.renderItem(entity.getWorld(), target);
 			}
 		}
 		GL11.glPopMatrix();
@@ -93,7 +93,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 		/*
 		 * Tessellator tes = Tessellator.instance; GL11.glTranslated(x, y, z);
-		 * int[] sides = new int[6]; if (entity != null && entity.getWorldObj()
+		 * int[] sides = new int[6]; if (entity != null && entity.getWorld()
 		 * != null && entity instanceof TileEntityProcess) { TileEntityProcess
 		 * inv = (TileEntityProcess) entity; sides = inv.sides; }
 		 * 
@@ -162,7 +162,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 		}
 
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
-			if (entity != null && entity.getWorldObj() != null) {
+			if (entity != null && entity.getWorld() != null) {
 				float tick = (((TileEntityProcess) entity).getRenderPosition()) / 2F;
 				GL11.glTranslated(0, 0, -tick);
 				process.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
@@ -185,7 +185,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 		}
 
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
-			if (entity != null && entity.getWorldObj() != null) {
+			if (entity != null && entity.getWorld() != null) {
 				float tick = (((TileEntityProcess) entity).getRenderPosition()) / 2F;
 				GL11.glTranslated(0, 0, -tick);
 				process.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
@@ -211,7 +211,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 		}
 
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
-			if (entity != null && entity.getWorldObj() != null) {
+			if (entity != null && entity.getWorld() != null) {
 				float tick = (((TileEntityProcess) entity).getRenderPosition()) / 4.5F;
 				GL11.glTranslated(0, tick, 0);
 				splitter.renderSplitter((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
@@ -237,7 +237,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 		}
 
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
-			if (entity != null && entity.getWorldObj() != null) {
+			if (entity != null && entity.getWorld() != null) {
 				float tick = (((TileEntityProcess) entity).getRenderPosition()) / 4.5F;
 				GL11.glTranslated(0, tick, 0);
 				splitter.renderSplitter((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);

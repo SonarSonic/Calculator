@@ -10,6 +10,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -22,8 +24,6 @@ import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.inventory.GuiSonar;
 import sonar.core.inventory.SonarButtons;
 import sonar.core.utils.helpers.FontHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class GuiFlux extends GuiSonar {
 
@@ -267,7 +267,7 @@ public abstract class GuiFlux extends GuiSonar {
 	}
 
 	public void changeNetworkName(String string, int type) {
-		Calculator.network.sendToServer(new PacketFluxPoint(string, tile.xCoord, tile.yCoord, tile.zCoord, type));
+		Calculator.network.sendToServer(new PacketFluxPoint(string, tile.getPos(), type));
 		this.setNetworkName(string);
 		this.currentName = string;
 	}

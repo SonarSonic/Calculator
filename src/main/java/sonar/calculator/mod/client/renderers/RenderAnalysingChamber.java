@@ -29,7 +29,7 @@ public class RenderAnalysingChamber extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float f) {
+	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float f, int par) {
 		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(entity), texture);
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 
@@ -38,17 +38,17 @@ public class RenderAnalysingChamber extends TileEntitySpecialRenderer {
 		int[] sides = new int[6];
 
 		GL11.glPushMatrix();
-		if (entity != null && entity.getWorldObj() != null && entity instanceof TileEntityAnalysingChamber) {
+		if (entity != null && entity.getWorld() != null && entity instanceof TileEntityAnalysingChamber) {
 			TileEntityAnalysingChamber inv = (TileEntityAnalysingChamber) entity;
 			ItemStack target = inv.getStackInSlot(0);
 			if (target != null) {
 				GL11.glRotated(90, 1, 0, 0);
 				GL11.glTranslated(0.5, 0.3, -0.0625 * 8);
-				RenderHelper.renderItem(entity.getWorldObj(), target);
+				RenderHelper.renderItem(entity.getWorld(), target);
 			}
 		}
 		GL11.glPopMatrix();
-		if (entity != null && entity.getWorldObj() != null && entity instanceof TileEntityAnalysingChamber) {
+		if (entity != null && entity.getWorld() != null && entity instanceof TileEntityAnalysingChamber) {
 			TileEntitySidedInventory inv = (TileEntitySidedInventory) entity;
 			sides = inv.sides;
 		}

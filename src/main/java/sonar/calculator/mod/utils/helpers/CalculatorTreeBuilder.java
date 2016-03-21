@@ -4,9 +4,10 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.block.CalculatorSaplings;
@@ -36,32 +37,32 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 		this.blockLog = blockLog;
 	}
 
-	public boolean generate(World world, Random rand, int x, int y, int z) {
+	public boolean generate(World world, Random rand, BlockPos pos) {
 		int l = rand.nextInt(3) + this.minTreeHeight;
 		boolean flag = true;
 
-		if (y >= 1 && y + l + 1 <= 256) {
+		if (pos.getY() >= 1 && pos.getY() + l + 1 <= 256) {
 			byte b0;
 			int k1;
 			Block block;
 
-			for (int i1 = y; i1 <= y + 1 + l; ++i1) {
+			for (int i1 = pos.getY(); i1 <= pos.getY() + 1 + l; ++i1) {
 				b0 = 1;
 
-				if (i1 == y) {
+				if (i1 == pos.getY()) {
 					b0 = 0;
 				}
 
-				if (i1 >= y + 1 + l - 2) {
+				if (i1 >= pos.getY() + 1 + l - 2) {
 					b0 = 2;
 				}
 
-				for (int j1 = x - b0; j1 <= x + b0 && flag; ++j1) {
-					for (k1 = z - b0; k1 <= z + b0 && flag; ++k1) {
+				for (int j1 = pos.getX() - b0; j1 <= pos.getX() + b0 && flag; ++j1) {
+					for (k1 = pos.getZ() - b0; k1 <= pos.getZ() + b0 && flag; ++k1) {
 						if (i1 >= 0 && i1 < 256) {
-							block = world.getBlock(j1, i1, k1);
+							block = world.getBlockState(new BlockPos(j1, i1, k1)).getBlock();
 
-							if (!this.isReplaceable(world, j1, i1, k1)) {
+							if (!isReplaceable(world, new BlockPos(j1, i1, k1))) {
 								flag = false;
 							}
 						} else {
@@ -74,11 +75,11 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 			if (!flag) {
 				return false;
 			} else {
-				Block block2 = world.getBlock(x, y - 1, z);
+				Block block2 = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
 
-				boolean isSoil = block2.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, sapling);
-				if (isSoil && y < 256 - l - 1) {
-					block2.onPlantGrow(world, x, y - 1, z, x, y, z);
+				boolean isSoil = block2.canSustainPlant(world, pos.offset(EnumFacing.DOWN), EnumFacing.UP, sapling);
+				if (isSoil && pos.getY() < 256 - l - 1) {
+					block2.onPlantGrow(world, pos.offset(EnumFacing.DOWN), pos);
 					b0 = 3;
 					byte b1 = 0;
 					int l1;
@@ -86,21 +87,21 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 					int j2;
 					int i3;
 
-					for (k1 = y - b0 + l; k1 <= y + l; ++k1) {
-						i3 = k1 - (y + l);
+					for (k1 = pos.getY() - b0 + l; k1 <= pos.getY() + l; ++k1) {
+						i3 = k1 - (pos.getY() + l);
 						l1 = b1 + 1 - i3 / 2;
 
-						for (i2 = x - l1; i2 <= x + l1; ++i2) {
-							j2 = i2 - x;
+						for (i2 = pos.getX() - l1; i2 <= pos.getX() + l1; ++i2) {
+							j2 = i2 - pos.getX();
 
-							for (int k2 = z - l1; k2 <= z + l1; ++k2) {
-								int l2 = k2 - z;
+							for (int k2 = pos.getZ() - l1; k2 <= pos.getZ() + l1; ++k2) {
+								int l2 = k2 - pos.getZ();
 
 								if (Math.abs(j2) != l1 || Math.abs(l2) != l1 || rand.nextInt(2) != 0 && i3 != 0) {
-									Block block1 = world.getBlock(i2, k1, k2);
+									Block block1 = world.getBlockState(new BlockPos(i2, k1, k2)).getBlock();
 
-									if (block1.isAir(world, i2, k1, k2) || block1.isLeaves(world, i2, k1, k2)) {
-										world.setBlock(i2, k1, k2, blockLeaves);
+									if (block1.isAir(world, new BlockPos(i2, k1, k2)) || block1.isLeaves(world, new BlockPos(i2, k1, k2))) {
+										world.setBlockState(new BlockPos(i2, k1, k2), blockLeaves.getDefaultState());
 									}
 								}
 							}
@@ -108,10 +109,10 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 					}
 
 					for (k1 = 0; k1 < l; ++k1) {
-						block = world.getBlock(x, y + k1, z);
+						block = world.getBlockState(pos.add(0, k1, 0)).getBlock();
 
-						if (block.isAir(world, x, y + k1, z) || block.isLeaves(world, x, y + k1, z)) {
-							world.setBlock(x, y + k1, z, blockLog);
+						if (block.isAir(world, pos.add(0, k1, 0)) || block.isLeaves(world, pos.add(0, k1, 0))) {
+							world.setBlockState(pos.add(0, k1, 0), blockLog.getDefaultState());
 
 						}
 					}
@@ -123,19 +124,6 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 			}
 		} else {
 			return false;
-		}
-	}
-
-	private void growVines(World world, int x, int y, int z, int flag) {
-		setBlockAndNotifyAdequately(world, x, y, z, Blocks.vine, flag);
-		int i1 = 4;
-		for (;;) {
-			y--;
-			if ((world.getBlock(x, y, z).isAir(world, x, y, z)) || (i1 <= 0)) {
-				return;
-			}
-			setBlockAndNotifyAdequately(world, x, y, z, Blocks.vine, flag);
-			i1--;
 		}
 	}
 }

@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import sonar.calculator.mod.client.gui.machines.GuiAdvancedPowerCube;
 import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
-import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class PowerCubeHandler extends TemplateRecipeHandler {
 

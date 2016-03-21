@@ -1,0 +1,387 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model":"calculator:StableStone"
+    },
+    "variants": { 
+        "colour":{
+            "none":{
+            }, 
+            "orange":{                
+                 "textures": {
+                     "all":"calculator:blocks/connected/stablestone_orange"
+                 }
+            },
+            "magenta":{                              
+                 "textures": {
+                     "all":"calculator:blocks/connected/stablestone_magenta"
+                 }
+            },
+            "lightblue":{                                      
+                 "textures": {
+                     "all":"calculator:blocks/connected/stablestone_lightblue"
+                 }
+            },
+            "yellow":{                                                     
+                 "textures": {
+                     "all":"calculator:blocks/connected/stablestone_yellow"
+                 }
+            },
+            "lime":{                                                                   
+                 "textures": {
+                     "all":"calculator:blocks/connected/stablestone_lime"
+                 }
+            },
+            "pink":{                                                                                 
+                 "textures": {
+                     "all":"calculator:blocks/connected/stablestone_pink"
+                 }
+            },
+            "plain":{                                                                                              
+                 "textures": {
+                     "all":"calculator:blocks/connected/stablestone_plain"
+                 }
+            },
+            "lightgrey":{                                                                                                              
+                 "textures": {
+                     "all":"calculator:blocks/connected/stablestone_lightgrey"
+                 }
+            },
+            "cyan":{                                                                                                                           
+                 "textures": {
+                     "all":"calculator:blocks/connected/stablestone_cyan"
+                 }
+            },
+            "purple":{                                                                                                                                         
+                 "textures": {
+                     "all":"calculator:blocks/connected/stablestone_purple"
+                 }
+            },
+            "blue":{
+                "textures": {
+                     "all":"calculator:blocks/connected/stablestone_blue"
+                 }
+            },
+            "brown":{
+                "textures": {
+                     "all":"calculator:blocks/connected/stablestone_brown"
+                 }
+            },
+            "green":{
+                "textures": {
+                     "all":"calculator:blocks/connected/stablestone_green"
+                 }
+            },
+            "red":{
+                "textures": {
+                     "all":"calculator:blocks/connected/stablestone_red"
+                 }
+            },
+            "black":{                
+                "textures": {
+                     "all":"calculator:blocks/connected/stablestone_black"
+                 }
+            }
+        },
+        "north":{
+            "t1":{
+                
+            },
+            "t2":{
+                
+            },
+            "t3":{
+                
+            },
+            "t4":{
+                
+            },
+            "t5":{
+                
+            },
+            "t6":{
+                
+            },
+            "t7":{
+                
+            },
+            "t8":{
+                
+            },
+            "t9":{
+                
+            },
+            "t10":{
+                
+            },
+            "t11":{
+                
+            },
+            "t12":{
+                
+            },
+            "t13":{
+                
+            },
+            "t14":{
+                
+            },
+            "t15":{
+                
+            },
+            "t16":{
+                
+            }
+        },
+        "east":{
+           "t1":{
+                
+            },
+            "t2":{
+                
+            },
+            "t3":{
+                
+            },
+            "t4":{
+                
+            },
+            "t5":{
+                
+            },
+            "t6":{
+                
+            },
+            "t7":{
+                
+            },
+            "t8":{
+                
+            },
+            "t9":{
+                
+            },
+            "t10":{
+                
+            },
+            "t11":{
+                
+            },
+            "t12":{
+                
+            },
+            "t13":{
+                
+            },
+            "t14":{
+                
+            },
+            "t15":{
+                
+            },
+            "t16":{
+                
+            }
+        },
+        "south":{
+            "t1":{
+                
+            },
+            "t2":{
+                
+            },
+            "t3":{
+                
+            },
+            "t4":{
+                
+            },
+            "t5":{
+                
+            },
+            "t6":{
+                
+            },
+            "t7":{
+                
+            },
+            "t8":{
+                
+            },
+            "t9":{
+                
+            },
+            "t10":{
+                
+            },
+            "t11":{
+                
+            },
+            "t12":{
+                
+            },
+            "t13":{
+                
+            },
+            "t14":{
+                
+            },
+            "t15":{
+                
+            },
+            "t16":{
+                
+            }
+        },
+        "west":{
+             "t1":{
+                
+            },
+            "t2":{
+                
+            },
+            "t3":{
+                
+            },
+            "t4":{
+                
+            },
+            "t5":{
+                
+            },
+            "t6":{
+                
+            },
+            "t7":{
+                
+            },
+            "t8":{
+                
+            },
+            "t9":{
+                
+            },
+            "t10":{
+                
+            },
+            "t11":{
+                
+            },
+            "t12":{
+                
+            },
+            "t13":{
+                
+            },
+            "t14":{
+                
+            },
+            "t15":{
+                
+            },
+            "t16":{
+                
+            }
+        },
+        "up":{
+             "t1":{
+                
+            },
+            "t2":{
+                
+            },
+            "t3":{
+                
+            },
+            "t4":{
+                
+            },
+            "t5":{
+                
+            },
+            "t6":{
+                
+            },
+            "t7":{
+                
+            },
+            "t8":{
+                
+            },
+            "t9":{
+                
+            },
+            "t10":{
+                
+            },
+            "t11":{
+                
+            },
+            "t12":{
+                
+            },
+            "t13":{
+                
+            },
+            "t14":{
+                
+            },
+            "t15":{
+                
+            },
+            "t16":{
+                
+            }
+        },
+        "down":{
+             "t1":{
+                
+            },
+            "t2":{
+                
+            },
+            "t3":{
+                
+            },
+            "t4":{
+                
+            },
+            "t5":{
+                
+            },
+            "t6":{
+                
+            },
+            "t7":{
+                
+            },
+            "t8":{
+                
+            },
+            "t9":{
+                
+            },
+            "t10":{
+                
+            },
+            "t11":{
+                
+            },
+            "t12":{
+                
+            },
+            "t13":{
+                
+            },
+            "t14":{
+                
+            },
+            "t15":{
+                
+            },
+            "t16":{
+                
+            }
+        }                
+    }
+}

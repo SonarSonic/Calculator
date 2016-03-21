@@ -1,9 +1,7 @@
 package sonar.calculator.mod.common.tileentity;
 
-import ic2.api.energy.tile.IEnergySink;
-import ic2.api.energy.tile.IEnergySource;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
@@ -16,16 +14,8 @@ public class TileEntityFluxHandler extends TileEntityFlux {
 		for (int i = 0; i < 6; i++) {
 			if (this.handlers[i] != null) {
 				if (handlers[i] instanceof IEnergyProvider) {
-					export -= ((IEnergyProvider) this.handlers[i]).extractEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], export, simulate);
+					export -= ((IEnergyProvider) this.handlers[i]).extractEnergy(EnumFacing.VALUES[(i ^ 0x1)], export, simulate);
 	
-				} else if (handlers[i] instanceof IEnergySource) {
-					if (simulate) {
-						export -= ((IEnergySource) this.handlers[i]).getOfferedEnergy() * 4;
-					} else {
-						int remove = (int) Math.min(((IEnergySource) this.handlers[i]).getOfferedEnergy(), export / 4);
-						export -= remove * 4;
-						((IEnergySource) this.handlers[i]).drawEnergy(remove);
-					}
 				}
 			}
 		}
@@ -36,13 +26,7 @@ public class TileEntityFluxHandler extends TileEntityFlux {
 		for (int i = 0; i < 6; i++) {
 			if (this.handlers[i] != null) {
 				if (handlers[i] instanceof IEnergyReceiver) {
-					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve, simulate);
-				} else if (handlers[i] instanceof IEnergySink) {
-					if (simulate) {
-						recieve -= ((IEnergySink) this.handlers[i]).getDemandedEnergy() * 4;
-					} else {
-						recieve -= (recieve - (((IEnergySink) this.handlers[i]).injectEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve / 4, 128) * 4));
-					}
+					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(EnumFacing.VALUES[(i ^ 0x1)], recieve, simulate);
 				}
 			}
 		}
@@ -51,9 +35,9 @@ public class TileEntityFluxHandler extends TileEntityFlux {
 
 	public void updateAdjacentHandlers() {
 		for (int i = 0; i < 6; i++) {
-			TileEntity te = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.getOrientation(i));
+			TileEntity te = SonarHelper.getAdjacentTileEntity(this, EnumFacing.getFront(i));
 			if (!(te instanceof TileEntityFlux)) {
-				if (SonarHelper.isEnergyHandlerFromSide(te, ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)])) {
+				if (SonarHelper.isEnergyHandlerFromSide(te, EnumFacing.VALUES[(i ^ 0x1)])) {
 					this.handlers[i] = te;
 				} else
 					this.handlers[i] = null;

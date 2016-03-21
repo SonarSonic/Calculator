@@ -7,16 +7,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 
@@ -38,8 +35,8 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		// they don't disappear anymore
 		int blocks = 0;
-		for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++) {
-			ForgeDirection dir = ForgeDirection.VALID_DIRECTIONS[i];
+		for (int i = 0; i < EnumFacing.VALID_DIRECTIONS.length; i++) {
+			EnumFacing dir = EnumFacing.VALID_DIRECTIONS[i];
 			Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 			if (!block.isAir(world, x, y, z)) {
 				blocks++;
@@ -89,7 +86,7 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 		return false;
 	}
 
-	public int getFlammability(IBlockAccess world, int x, int y, int z, int metadata, ForgeDirection face) {
+	public int getFlammability(IBlockAccess world, int x, int y, int z, int metadata, EnumFacing face) {
 		return 150;
 	}
 

@@ -2,6 +2,7 @@ package sonar.calculator.mod.integration.planting;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.core.utils.helpers.RecipeHelper;
@@ -25,12 +26,13 @@ public class TreeHarvestRecipes extends RecipeHelper {
 		return "Tree Harvest Recipes";
 	}
 
-	public static ItemStack[] harvestLeaves(World world, int x, int y, int z, int random) {
-		Block target = world.getBlock(x, y, z);
+	public static ItemStack[] harvestLeaves(World world, BlockPos pos, int random) {
+		Block target = world.getBlockState(pos).getBlock();
 		if (target != null) {
 			ItemStack[] outputs = recipes.getOutput(new ItemStack(target));
 			if (outputs != null && outputs.length == 2) {
-				world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+				//HELP NEEDED
+				world.setBlockMetadataWithNotify(pos, 0, 2);
 				switch (random) {
 				case 3:
 					return new ItemStack[] { outputs[0] };
