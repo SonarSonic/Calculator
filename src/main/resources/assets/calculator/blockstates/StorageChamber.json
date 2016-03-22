@@ -1,8 +1,28 @@
 {
-    "variants": {
-        "facing=north": { "model":"calculator:StorageChamber" },
-        "facing=south": { "model":"calculator:StorageChamber", "y": 180 },
-        "facing=west":  { "model":"calculator:StorageChamber", "y": 270 },
-        "facing=east":  { "model":"calculator:StorageChamber", "y": 90 }
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+	        "0":"calculator:model/storage_chamber_front",
+	        "1":"calculator:blocks/analysis_side_slot1",
+	        "particle":"calculator:model/storage_chamber_front"
+        },     
+        "model":"calculator:StorageChamber",        
+        "transform":"forge:default-block",
+        "uvlock": true
+    },
+    "variants": { 
+        "inventory": [{}], 
+        "facing":{  
+            "north":{},
+            "south":{
+                "y": 180
+            },
+            "west":{
+                "y": 270
+            },
+            "east":{
+                "y": 90
+            }
+        }
     }
 }

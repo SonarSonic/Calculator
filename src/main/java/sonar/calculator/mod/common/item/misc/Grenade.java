@@ -12,7 +12,6 @@ public class Grenade extends SonarItem {
 
 	public Grenade(int par) {
 		type = par;
-
 	}
 
 	@Override
@@ -24,7 +23,6 @@ public class Grenade extends SonarItem {
 
 		if (!world.isRemote) {
 			switch (type) {
-
 			case 0:
 				world.spawnEntityInWorld(new EntityBabyGrenade(world, player));
 				break;

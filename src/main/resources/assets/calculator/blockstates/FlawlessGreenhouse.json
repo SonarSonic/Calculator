@@ -1,8 +1,34 @@
 {
-    "variants": {
-        "facing=north": { "model":"calculator:FlawlessGreenhouse" },
-        "facing=south": { "model":"calculator:FlawlessGreenhouse", "y": 180 },
-        "facing=west":  { "model":"calculator:FlawlessGreenhouse", "y": 270 },
-        "facing=east":  { "model":"calculator:FlawlessGreenhouse", "y": 90 }
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {            
+            "particle":"calculator:blocks/flawless_greenhouse_front",          
+            "north":"calculator:blocks/flawless_greenhouse_front",             
+            "east":"calculator:blocks/greenhouse_side",            
+            "south":"calculator:blocks/greenhouse_side",               
+            "west":"calculator:blocks/greenhouse_side",
+            "up":"calculator:blocks/greenhouse_side",  
+            "down":"calculator:blocks/greenhouse_side"   
+        },
+        "model":"calculator:SonarMachine",        
+        "transform":"forge:default-block",
+        "uvlock": true
+    },
+    "variants": {  
+        "inventory": [{}],  
+        "facing": {
+            "north":{                
+            
+            },
+            "south":{    
+                 "y": 180
+            }, 
+            "west":{      
+                 "y": 270
+            },
+            "east":{            
+                 "y": 90
+            }
+        }
     }
 }

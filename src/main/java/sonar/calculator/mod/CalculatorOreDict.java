@@ -76,17 +76,17 @@ public class CalculatorOreDict extends Calculator {
 	}
 
 	public static void registerOre(String string, Item item) {
-		if (item != null)
+		if (string!=null && item != null)
 			OreDictionary.registerOre(string, item);
 	}
 
 	public static void registerOre(String string, Block block) {
-		if (block != null)
+		if (string!=null && block != null)
 			OreDictionary.registerOre(string, block);
 	}
 	
 	public static void registerOre(String string, ItemStack stack) {
-		if (stack != null)
+		if (string!=null && stack != null && stack.getItem()!=null)
 			OreDictionary.registerOre(string, stack);
 	}
 	

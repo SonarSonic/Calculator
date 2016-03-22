@@ -1,8 +1,27 @@
 {
-    "variants": {
-        "facing=north": { "model":"calculator:AtomicMultiplier" },
-        "facing=south": { "model":"calculator:AtomicMultiplier", "y": 180 },
-        "facing=west":  { "model":"calculator:AtomicMultiplier", "y": 270 },
-        "facing=east":  { "model":"calculator:AtomicMultiplier", "y": 90 }
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+	        "particle":"calculator:blocks/connected/stablestonerimmed",
+	        "0":"calculator:model/atomic_multiplier",        
+	        "1":"calculator:blocks/connected/stablestonerimmed"
+        },  
+        "model":"calculator:AtomicMultiplier",        
+        "transform":"forge:default-block"
+    },
+    "variants": { 
+        "inventory": [{}], 
+        "facing":{  
+            "north":{},
+            "south":{
+                "y": 180
+            },
+            "west":{
+                "y": 270
+            },
+            "east":{
+                "y": 90
+            }
+        }
     }
 }

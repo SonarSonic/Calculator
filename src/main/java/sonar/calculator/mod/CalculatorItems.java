@@ -19,9 +19,9 @@ import sonar.calculator.mod.common.item.calculators.ScientificCalc;
 import sonar.calculator.mod.common.item.misc.CalculatorScreen;
 import sonar.calculator.mod.common.item.misc.EndDiamond;
 import sonar.calculator.mod.common.item.misc.Grenade;
-import sonar.calculator.mod.common.item.misc.ItemCircuit;
-import sonar.calculator.mod.common.item.misc.ItemCircuitDamaged;
-import sonar.calculator.mod.common.item.misc.ItemCircuitDirty;
+import sonar.calculator.mod.common.item.misc.CircuitBoard;
+import sonar.calculator.mod.common.item.misc.CircuitDamaged;
+import sonar.calculator.mod.common.item.misc.CircuitDirty;
 import sonar.calculator.mod.common.item.misc.SmallStone;
 import sonar.calculator.mod.common.item.misc.Soil;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
@@ -217,7 +217,9 @@ public class CalculatorItems extends Calculator {
 		grenadecasing = registerItem("GrenadeCasing", new Item());
 		baby_grenade = registerItem("BabyGrenade", new Grenade(0));
 		grenade = registerItem("Grenade", new Grenade(1));
-		//circuitBoard = registerItem("CircuitBoard", new ItemCircuit().setHasSubtypes(true).setMaxStackSize(1));
+		circuitBoard = registerItem("CircuitBoard", new CircuitBoard().setHasSubtypes(true).setMaxStackSize(1));
+		circuitDamaged = registerItem("CircuitDamaged", new CircuitDamaged().setHasSubtypes(true).setMaxStackSize(1));
+		circuitDirty = registerItem("CircuitDirty", new CircuitDirty().setHasSubtypes(true).setMaxStackSize(1));
 
 		// circuitDamaged = new ItemCircuitDamaged().setHasSubtypes(true).setUnlocalizedName("CircuitDamaged").setCreativeTab(Calculator).setMaxStackSize(1);
 		// GameRegistry.registerItem(circuitDamaged, "CircuitDamaged");

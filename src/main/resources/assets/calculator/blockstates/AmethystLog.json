@@ -5,30 +5,20 @@
             "end":"calculator:blocks/wood/log_amethyst_top",
             "side":"calculator:blocks/wood/log_amethyst_side"
         },
-        "model":"cube_column",
+        "model":"cube_column",        
+        "transform":"forge:default-block",
         "uvlock": true
     },
-    "variants": {    
+    "variants": {  
+        "inventory": [{}],  
         "axis": {
             "y":{
-                 "textures": {
-                    "end":"calculator:blocks/wood/log_amethyst_top",
-                    "side":"calculator:blocks/wood/log_amethyst_side"
-                 },
                  "model":"cube_column"
             },
-            "z":{            
-                 "textures": {
-                    "end":"calculator:blocks/wood/log_amethyst_top",
-                    "side":"calculator:blocks/wood/log_amethyst_side"
-                 },
+            "z":{    
                  "model":"column_side"
             }, 
-            "x":{            
-                 "textures": {
-                    "end":"calculator:blocks/wood/log_amethyst_top",
-                    "side":"calculator:blocks/wood/log_amethyst_side"
-                 },
+            "x":{      
                  "model":"column_side",
                  "y": 90
             },

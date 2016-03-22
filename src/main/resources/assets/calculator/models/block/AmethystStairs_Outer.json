@@ -1,0 +1,8 @@
+{
+    "parent":"block/outer_stairs",
+    "textures": {
+        "bottom":"Calculator:blocks/wood/planks_amethyst",
+        "top":"Calculator:blocks/wood/planks_amethyst",        
+        "side":"Calculator:blocks/wood/planks_amethyst"
+    }
+}

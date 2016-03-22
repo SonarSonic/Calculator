@@ -1,6 +1,0 @@
-{
-    "parent":"block/cube_all",    
-    "textures": {
-        "all":"calculator:blocks/wood/planks_tanzanite"
-    }
-}

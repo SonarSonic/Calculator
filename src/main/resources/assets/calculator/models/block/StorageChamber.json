@@ -1,9 +1,5 @@
 {
-    "textures": {
-        "0":"calculator:model/storage_chamber_front",
-        "1":"calculator:blocks/analysis_side_slot1",
-        "particle":"calculator:model/storage_chamber_front"
-    },    
+       
     "elements": [
         {
             "name": "Cube",

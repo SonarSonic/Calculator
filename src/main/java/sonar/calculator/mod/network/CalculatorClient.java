@@ -1,19 +1,31 @@
 package sonar.calculator.mod.network;
 
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderSnowball;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import sonar.calculator.mod.BlockRenderRegister;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.ItemRenderRegister;
+import sonar.calculator.mod.common.entities.EntityBabyGrenade;
+import sonar.calculator.mod.common.entities.EntityGrenade;
+import sonar.calculator.mod.common.entities.EntitySmallStone;
+import sonar.calculator.mod.common.entities.EntitySoil;
 
-public class CalculatorClient extends CalculatorCommon {
+public class CalculatorClient extends CalculatorCommon{
+	
+	
 	@Override
 	public void registerRenderThings() {
 		BlockRenderRegister.register();
 		ItemRenderRegister.register();
-		/*
-		RenderingRegistry.registerEntityRenderingHandler(EntityBabyGrenade.class, new RenderSnowball(Calculator.baby_grenade));
-		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderSnowball(Calculator.grenade));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySmallStone.class, new RenderSnowball(Calculator.small_stone));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySoil.class, new RenderSnowball(Calculator.soil));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, RenderThrowables.GRENADE);
+		RenderingRegistry.registerEntityRenderingHandler(EntityBabyGrenade.class, RenderThrowables.BABY_GRENADE);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySoil.class, RenderThrowables.SOIL);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySmallStone.class, RenderThrowables.SMALL_STONE);
 
+		/*
 		TileEntitySpecialRenderer plug = new RenderCalculatorPlug();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalculatorPlug.class, plug);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.calculatorplug), new ItemCalculatorPlug(plug, new TileEntityCalculatorPlug()));

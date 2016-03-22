@@ -1,7 +1,6 @@
 {
     "textures": {
-        "particle":"calculator:blocks/reinforcedstone",
-        "0":"calculator:model/lantern"
+        "particle":"calculator:blocks/reinforcedstone"
     },
     "elements": [
         {

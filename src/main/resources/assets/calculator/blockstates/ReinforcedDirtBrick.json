@@ -1,5 +1,12 @@
 {
-	"variants": {
-		"normal": { "model":"calculator:ReinforcedDirtBrick" }
-	}
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {"all":"calculator:blocks/reinforceddirtbrick"},
+        "model":"cube_all",
+        "transform":"forge:default-block"
+     },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
 }

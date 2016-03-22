@@ -1,0 +1,106 @@
+package sonar.calculator.mod.common.item.misc;
+
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.calculator.mod.api.items.IStability;
+import sonar.core.common.item.SonarItem;
+import sonar.core.utils.helpers.FontHelper;
+
+import com.google.common.collect.Maps;
+
+public class CircuitBoard extends SonarItem implements IStability {
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+		super.addInformation(stack, player, list, par4);
+		if (stack.hasTagCompound()) {
+			int stable = stack.getTagCompound().getInteger("Stable");
+			if (stable == 1) {
+				list.add(FontHelper.translate("circuit.stable"));
+			} else {
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setInteger("Stable", 0);
+				tag.setInteger("Item1", 0);
+				tag.setInteger("Item2", 0);
+				tag.setInteger("Item3", 0);
+				tag.setInteger("Item4", 0);
+				tag.setInteger("Item5", 0);
+				tag.setInteger("Item6", 0);
+				tag.setInteger("Energy", 0);
+				ItemStack analysed = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
+				analysed.setTagCompound(tag);
+				if (ItemStack.areItemStackTagsEqual(analysed, stack)) {
+					list.add(FontHelper.translate("circuit.analysed"));
+				}
+			}
+		}
+	}
+
+	public static void setData(ItemStack stack) {
+		NBTTagCompound nbtData = stack.getTagCompound();
+		if (stack != null) {
+			if (nbtData == null) {
+				int energy = 1 + (int) (Math.random() * 200.0D);
+				int item1 = 1 + (int) (Math.random() * 50.0D);
+				int item2 = 1 + (int) (Math.random() * 100.0D);
+				int item3 = 1 + (int) (Math.random() * 1000.0D);
+				int item4 = 1 + (int) (Math.random() * 2000.0D);
+				int item5 = 1 + (int) (Math.random() * 10000.0D);
+				int item6 = 1 + (int) (Math.random() * 20000.0D);
+				int stable = 1 + (int) (Math.random() * 6.0D);
+				nbtData = new NBTTagCompound();
+				nbtData.setInteger("Energy", energy);
+				nbtData.setInteger("Item1", item1);
+				nbtData.setInteger("Item2", item2);
+				nbtData.setInteger("Item3", item3);
+				nbtData.setInteger("Item4", item4);
+				nbtData.setInteger("Item5", item5);
+				nbtData.setInteger("Item6", item6);
+				nbtData.setInteger("Stable", stable);
+				stack.setTagCompound(nbtData);
+			}
+
+		}
+	}
+
+	public void onUpdate(ItemStack stack, World world, Entity entity, int par, boolean bool) {
+		if (stack.getTagCompound() == null && !stack.hasTagCompound()) {
+			setData(stack);
+		}
+	}
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, CreativeTabs tab, List list) {
+		for (int i = 0; i < 14; i++) {
+			list.add(new ItemStack(this, 1, i));
+		}
+	}
+
+	public String getUnlocalizedName(ItemStack stack) {
+		return getUnlocalizedName() + "." + stack.getItemDamage();
+	}
+
+	@Override
+	public boolean getStability(ItemStack stack) {
+		if (stack.hasTagCompound()) {
+			return stack.getTagCompound().getInteger("Stable") == 1;
+		} else {
+			this.setData(stack);
+			return stack.getTagCompound().getInteger("Stable") == 1;
+		}
+	}
+
+	@Override
+	public void onFalse(ItemStack stack) {
+		stack.getTagCompound().setInteger("Stable", 0);
+	}
+}

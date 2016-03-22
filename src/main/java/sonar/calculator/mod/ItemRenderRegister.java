@@ -3,6 +3,7 @@ package sonar.calculator.mod;
 import java.util.ArrayList;
 import java.util.List;
 
+import sonar.core.common.block.properties.IMetaRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelBakery;
@@ -19,22 +20,16 @@ public class ItemRenderRegister {
 				List<ItemStack> stacks = new ArrayList();
 				item.getSubItems(item, Calculator.Calculator, stacks);
 				for (ItemStack stack : stacks) {
-					//Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(stack.getItem(), stack.getItemDamage(), new ModelResourceLocation(Calculator.modid + ":" + item.getUnlocalizedName().substring(5) + "_" + stack.getItemDamage(), "inventory"));
-					ModelLoader.setCustomModelResourceLocation(item, stack.getItemDamage(), new ModelResourceLocation(Calculator.modid + ":" + item.getUnlocalizedName().substring(5),"variant=meta" + stack.getItemDamage()));
-					Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, stack.getItemDamage(), new ModelResourceLocation(Calculator.modid + ":" + item.getUnlocalizedName().substring(5),"inventory"));
-					
-					// ModelLoader.setCustomModelResourceLocation(stack.getItem(), stack.getItemDamage(), new ModelResourceLocation(new ResourceLocation(Calculator.modid, "item/" + "CircuitBoard"), "variant=meta" + stack.getItemDamage()));
+					String variant = "variant=meta" + stack.getItemDamage();
+					if (item instanceof IMetaRenderer) {
+						IMetaRenderer meta = (IMetaRenderer) item;
+						variant = "variant=" + meta.getVariant(stack.getItemDamage()).getName();
+					}
+					ModelLoader.setCustomModelResourceLocation(item, stack.getItemDamage(), new ModelResourceLocation(Calculator.modid + ":" + "items/" + item.getUnlocalizedName().substring(5), variant));
 				}
 			} else {
-				registerItem(item);
+				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Calculator.modid, item.getUnlocalizedName().substring(5)), "inventory"));
 			}
 		}
-
 	}
-
-	public static void registerItem(Item item) {
-		if (item != null)
-			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Calculator.modid + ":" + item.getUnlocalizedName().substring(5), "inventory"));
-	}
-
 }

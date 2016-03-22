@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model":"calculator:HungerProcessor" },
-        "facing=south": { "model":"calculator:HungerProcessor", "y": 180 },
-        "facing=west":  { "model":"calculator:HungerProcessor", "y": 270 },
-        "facing=east":  { "model":"calculator:HungerProcessor", "y": 90 }
-    }
-}

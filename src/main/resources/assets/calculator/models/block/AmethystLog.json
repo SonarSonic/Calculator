@@ -1,7 +1,0 @@
-{
-    "parent":"block/cube_column",
-    "textures": {
-        "end":"calculator:blocks/wood/log_amethyst_top",
-        "side":"calculator:blocks/wood/log_amethyst_side"
-    }
-}

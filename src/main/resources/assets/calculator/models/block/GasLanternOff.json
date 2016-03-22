@@ -1,6 +1,0 @@
-{    
-    "parent":"calculator:block/Lantern",    
-    "textures": {
-        "0":"calculator:model/gas_lantern_off"
-    }
-}

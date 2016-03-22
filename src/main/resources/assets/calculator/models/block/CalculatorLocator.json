@@ -1,10 +1,5 @@
 {
-    "textures": {        
-        "particle":"calculator:model/calculator_locator_off_2",
-        "0":"calculator:model/calculator_locator_off_0",
-        "1":"calculator:model/calculator_locator_off_1",
-        "2":"calculator:model/calculator_locator_off_2"
-    },
+    
     "elements": [
         {
             "name":"Base",

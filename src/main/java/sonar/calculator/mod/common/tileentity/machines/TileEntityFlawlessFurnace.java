@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.IPausable;
-import sonar.calculator.mod.common.item.misc.ItemCircuit;
+import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.inventory.SonarTileInventory;
@@ -135,7 +135,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 				if (this.slots()[slot + ((o + 1) * 9)] == null) {
 					ItemStack outputStack = output[o].copy();
 					if (output[o].getItem() == Calculator.circuitBoard) {
-						ItemCircuit.setData(outputStack);
+						CircuitBoard.setData(outputStack);
 					}
 					this.slots()[slot + ((o + 1) * 9)] = outputStack;
 				} else if (this.slots()[slot + ((o + 1) * 9)].isItemEqual(output[o])) {

@@ -1,15 +1,4 @@
-{
-    "textures": {
-        "0":"calculator:model/scarecrow_front",
-        "1":"calculator:model/scarecrow_side",
-        "2":"calculator:model/scarecrow_top",
-        "3":"blocks/pumpkin_face_off",
-        "4":"blocks/pumpkin_side",
-        "5":"blocks/pumpkin_top",
-        "6":"calculator:model/scarecrow_hat_base",
-        "7":"calculator:model/scarecrow_hat_top",
-        "8":"blocks/planks_oak"
-    },
+{   
     "elements": [
         {
             "name":"Base",

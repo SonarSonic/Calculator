@@ -1,5 +1,12 @@
 {
-	"variants": {
-		"normal": { "model":"calculator:DiamondPlanks" }
-	}
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {"all":"calculator:blocks/wood/planks_diamond"},
+        "model":"cube_all",
+        "transform":"forge:default-block"
+     },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
 }

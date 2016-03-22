@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.misc.ItemCircuit;
+import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 import sonar.core.utils.helpers.FontHelper;
@@ -50,7 +50,7 @@ public class CircuitBoardHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		if (ingredient.getItem() instanceof ItemCircuit) {
+		if (ingredient.getItem() instanceof CircuitBoard) {
 			if (ingredient.hasTagCompound()) {
 
 				Circuit arecipe = new Circuit(ingredient, checkEnergy(ingredient), checkItem(ingredient), false);

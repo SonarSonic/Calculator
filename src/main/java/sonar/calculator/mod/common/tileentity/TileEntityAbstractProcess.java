@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.common.item.misc.ItemCircuit;
+import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.MachineSide;
@@ -112,7 +112,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 					ItemStack outputStack = output[o].copy();
 					
 					if (output[o].getItem() == Calculator.circuitBoard) {
-						ItemCircuit.setData(outputStack);
+						CircuitBoard.setData(outputStack);
 					}
 					this.slots()[o + inputSize() + 1] = outputStack;
 				} else if (this.slots()[o + inputSize() + 1].isItemEqual(output[o])) {

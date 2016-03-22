@@ -1,9 +1,14 @@
 {    
     "forge_marker": 1,
     "defaults": {
-        "model":"calculator:Lantern"
+        "textures": {
+            "0":"calculator:model/lantern"
+        },
+        "model":"calculator:Lantern",
+        "transform":"forge:default-block"
     },
     "variants": {
+        "inventory": [{}], 
         "dir":{            
             "north":{  
                 "model":"calculator:Lantern_Side",   
@@ -20,12 +25,8 @@
                 "model":"calculator:Lantern_Side",   
                 "y":180 
             },
-            "up":{
-                
-            },
-            "down":{
-                
-            }                
-        }
+            "up":{},
+            "down":{}
+        }      
     }
 }

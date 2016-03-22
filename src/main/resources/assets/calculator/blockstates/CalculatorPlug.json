@@ -1,9 +1,16 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "model":"calculator:CalculatorPlug"
+        "textures": {
+	        "particle":"calculator:model/calculator_plug_base_off",
+	        "0":"calculator:model/calculator_plug_base_off",
+	        "1":"calculator:model/calculator_plug_off"
+        },
+        "model":"calculator:CalculatorPlug",    
+        "transform":"forge:default-block"
     },
     "variants": {
+        "inventory": [{}], 
         "facing":{            
             "north":{
                 

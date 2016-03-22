@@ -1,9 +1,21 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "model":"calculator:AlgorithmSeparator"
+        "textures": {            
+	        "particle":"calculator:blocks/algorithmseperator_front_1",           
+	        "north":"calculator:blocks/algorithmseperator_front_1",                     
+	        "east":"calculator:blocks/algorithmseperator_slot1",             
+	        "south":"calculator:blocks/algorithmseperator_slot1",               
+	        "west":"calculator:blocks/algorithmseperator_slot1",
+	        "up":"calculator:blocks/algorithmseperator_slot1",  
+	        "down":"calculator:blocks/algorithmseperator_slot1"   
+        },    
+        "model":"calculator:SonarMachine",        
+        "transform":"forge:default-block",
+        "uvlock": true
     },
     "variants": { 
+        "inventory": [{}], 
         "facing":{  
             "north":{},
             "south":{

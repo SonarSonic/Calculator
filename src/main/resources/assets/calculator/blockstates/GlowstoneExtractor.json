@@ -1,9 +1,27 @@
 {
-    
-   "variants": {
-        "facing=north": { "model":"calculator:GlowstoneExtractor" },
-        "facing=south": { "model":"calculator:GlowstoneExtractor", "y": 180 },
-        "facing=west":  { "model":"calculator:GlowstoneExtractor", "y": 270 },
-        "facing=east":  { "model":"calculator:GlowstoneExtractor", "y": 90 }
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+	        "0":"calculator:model/glowstone_generator_0",        
+	        "1":"calculator:model/glowstone_generator_1"
+        },    
+        "model":"calculator:Extractor",        
+        "transform":"forge:default-block",
+        "uvlock": true
+    },
+    "variants": { 
+        "inventory": [{}], 
+        "facing":{  
+            "north":{},
+            "south":{
+                "y": 180
+            },
+            "west":{
+                "y": 270
+            },
+            "east":{
+                "y": 90
+            }
+        }
     }
 }

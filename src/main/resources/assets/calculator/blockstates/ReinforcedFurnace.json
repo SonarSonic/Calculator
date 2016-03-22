@@ -1,9 +1,21 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "model":"calculator:ReinforcedFurnace"
+        "textures": {            
+	        "particle":"calculator:blocks/reinforced_furnace",  
+	        "north":"calculator:blocks/reinforced_furnace",             
+	        "east":"calculator:blocks/stoneseperator_slot1",            
+	        "south":"calculator:blocks/stoneseperator_slot1",               
+	        "west":"calculator:blocks/stoneseperator_slot1",
+	        "up":"calculator:blocks/stoneseperator_slot1",  
+	        "down":"calculator:blocks/stoneseperator_slot1"     
+        },    
+        "model":"calculator:SonarMachine",        
+        "transform":"forge:default-block",
+        "uvlock": true
     },
     "variants": { 
+        "inventory": [{}], 
         "facing":{  
             "north":{},
             "south":{

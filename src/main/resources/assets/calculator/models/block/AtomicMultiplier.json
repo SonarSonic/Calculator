@@ -1,9 +1,4 @@
-{
-    "textures": {
-        "particle":"calculator:blocks/connected/stablestonerimmed",
-        "0":"calculator:model/atomic_multiplier",        
-        "1":"calculator:blocks/connected/stablestonerimmed"
-    },
+{    
     "elements": [
         {
             "name":"Base",

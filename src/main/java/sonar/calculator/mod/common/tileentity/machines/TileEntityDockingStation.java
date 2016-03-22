@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.misc.ItemCircuit;
+import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
@@ -85,7 +85,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess {
 				if (this.slots()[o + inputSize() + 1] == null) {
 					ItemStack outputStack = output[o].copy();
 					if (output[o].getItem() == Calculator.circuitBoard) {
-						ItemCircuit.setData(outputStack);
+						CircuitBoard.setData(outputStack);
 					}
 					this.slots()[o + inputSize() + 1] = outputStack;
 				} else if (this.slots()[o + inputSize() + 1].isItemEqual(output[o])) {

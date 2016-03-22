@@ -1,9 +1,32 @@
 {
-    "variants": {
-        "facing=north": { "model":"calculator:AdvancedPowerCube" },
-        "facing=south": { "model":"calculator:AdvancedPowerCube", "y": 180 },
-        "facing=west":  { "model":"calculator:AdvancedPowerCube", "y": 270 },
-        "facing=east":  { "model":"calculator:AdvancedPowerCube", "y": 90 }
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {              
+            "particle":"calculator:blocks/advancedPowerCube_front_slot1",  
+	        "north":"calculator:blocks/advancedPowerCube_front_slot1",           
+	        "east":"calculator:blocks/advancedPowerCube_side_slot1",            
+	        "south":"calculator:blocks/advancedPowerCube_side_slot1",               
+	        "west":"calculator:blocks/advancedPowerCube_side_slot1",
+	        "up":"calculator:blocks/advancedPowerCube_side_slot1",  
+	        "down":"calculator:blocks/advancedPowerCube_side_slot1"  
+        },    
+        "model":"calculator:SonarMachine",        
+        "transform":"forge:default-block",
+        "uvlock": true
+    },
+    "variants": { 
+        "inventory": [{}], 
+        "facing":{  
+            "north":{},
+            "south":{
+                "y": 180
+            },
+            "west":{
+                "y": 270
+            },
+            "east":{
+                "y": 90
+            }
+        }
     }
-    
 }

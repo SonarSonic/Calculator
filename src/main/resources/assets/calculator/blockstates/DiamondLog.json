@@ -5,34 +5,24 @@
             "end":"calculator:blocks/wood/log_diamond_top",
             "side":"calculator:blocks/wood/log_diamond_side"
         },
-        "model":"cube_column",
+        "model":"cube_column",        
+        "transform":"forge:default-block",
         "uvlock": true
     },
-    "variants": {    
+    "variants": {  
+        "inventory": [{}],  
         "axis": {
             "y":{
-                 "textures": {
-                    "end":"calculator:blocks/wood/log_diamond_top",
-                    "side":"calculator:blocks/wood/log_diamond_side"
-                 },
                  "model":"cube_column"
             },
-            "z":{            
-                 "textures": {
-                    "end":"calculator:blocks/wood/log_diamond_top",
-                    "side":"calculator:blocks/wood/log_diamond_side"
-                 },
+            "z":{    
                  "model":"column_side"
             }, 
-            "x":{            
-                 "textures": {
-                    "end":"calculator:blocks/wood/log_diamond_top",
-                    "side":"calculator:blocks/wood/log_diamond_side"
-                 },
+            "x":{      
                  "model":"column_side",
                  "y": 90
             },
-            "none":{            
+            "none":{           
                  "textures": {
                     "all":"calculator:blocks/wood/log_diamond_side"
                  },

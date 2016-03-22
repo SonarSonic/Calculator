@@ -1,8 +1,32 @@
 {
-    "variants": {
-        "facing=north": { "model":"calculator:HandCrankedGenerator" },
-        "facing=south": { "model":"calculator:HandCrankedGenerator", "y": 180 },
-        "facing=west":  { "model":"calculator:HandCrankedGenerator", "y": 270 },
-        "facing=east":  { "model":"calculator:HandCrankedGenerator", "y": 90 }
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+	        "particle":"calculator:blocks/crank_front",          
+	        "north":"calculator:blocks/crank_front",             
+	        "east":"calculator:blocks/crank_side",            
+	        "south":"calculator:blocks/crank_side",               
+	        "west":"calculator:blocks/crank_side",
+	        "up":"calculator:blocks/crank_top",  
+	        "down":"calculator:blocks/crank_top"    
+        },  
+        "model":"calculator:SonarMachine",        
+        "transform":"forge:default-block",
+        "uvlock": true
+    },
+    "variants": { 
+        "inventory": [{}], 
+        "facing":{  
+            "north":{},
+            "south":{
+                "y": 180
+            },
+            "west":{
+                "y": 270
+            },
+            "east":{
+                "y": 90
+            }
+        }
     }
 }

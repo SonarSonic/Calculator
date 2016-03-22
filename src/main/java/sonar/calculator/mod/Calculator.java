@@ -97,13 +97,16 @@ public class Calculator {
 		
 		CalculatorItems.registerItems();
 		logger.info("Loaded Items");
-		/*
+
+		calculatorProxy.registerRenderThings();
+		logger.info("Registered Renderers");
+		
 		EntityRegistry.registerModEntity(EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntitySoil.class, "Soil", 3, instance, 64, 10, true);
 		logger.info("Registered Entities");
-		*/
+		
 
 	}
 
@@ -128,8 +131,6 @@ public class Calculator {
 		CalculatorOreDict.registerOres();
 		logger.info("Registered OreDict");
 	
-		calculatorProxy.registerRenderThings();
-		logger.info("Registered Renderers");
 		/*
 		PlanterRegistry.registerPlanters();
 		logger.info("Registered Planters");
@@ -146,7 +147,7 @@ public class Calculator {
 
 	@EventHandler
 	public void postLoad(FMLPostInitializationEvent evt) {
-		/*
+		
 		BlockDispenser.dispenseBehaviorRegistry.putObject(baby_grenade, new CalculatorThrow(0));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(grenade, new CalculatorThrow(1));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(small_stone, new CalculatorThrow(2));
@@ -175,7 +176,7 @@ public class Calculator {
 			StorageChamberHandler.init();
 			logger.info("Registered AE2 Handler for Storage Chamber");
 		}
-		 */
+		 
 	}
 
 	@EventHandler
@@ -365,7 +366,7 @@ public class Calculator {
 	// decorative blocks
 	public static Block amethyst_block, end_diamond_block, enriched_gold_block, flawless_block, flawless_fire_block;
 	public static Block reinforced_iron_block, tanzanite_block, weakened_diamond_block, electric_diamond_block;
-
+	public static Block material_block;
 	// tools
 	public static Item sickle, ObsidianKey;
 }

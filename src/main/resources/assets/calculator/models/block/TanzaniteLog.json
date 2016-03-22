@@ -1,7 +1,0 @@
-{
-    "parent":"block/cube_column",
-    "textures": {
-        "end":"calculator:blocks/wood/log_tanzanite_top",
-        "side":"calculator:blocks/wood/log_tanzanite_side"
-    }
-}

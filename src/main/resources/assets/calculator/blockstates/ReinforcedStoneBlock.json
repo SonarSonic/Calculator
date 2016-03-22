@@ -1,5 +1,12 @@
 {
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {"all":"calculator:blocks/reinforcedstone"},
+        "model":"cube_all",
+        "transform":"forge:default-block"
+     },
     "variants": {
-        "normal": { "model":"calculator:ReinforcedStoneBlock" }
+        "normal": [{}],
+        "inventory": [{}]
     }
 }

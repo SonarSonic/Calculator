@@ -1,5 +1,12 @@
 {
-	"variants": {
-		"normal": { "model":"calculator:PearPlanks" }
-	}
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {"all":"calculator:blocks/wood/planks_pear"},
+        "model":"cube_all",
+        "transform":"forge:default-block"
+     },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
 }
