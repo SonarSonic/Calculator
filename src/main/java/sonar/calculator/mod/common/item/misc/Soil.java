@@ -30,7 +30,6 @@ public class Soil extends SonarItem implements IStability {
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitx, float hity, float hitz) {
-
 		if (player.isSneaking()) {
 			if (!player.canPlayerEdit(pos, side, stack)) {
 				return false;

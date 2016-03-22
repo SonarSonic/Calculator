@@ -30,7 +30,7 @@ public class StoneSeparatorRecipes extends RecipeHelper {
 		addRecipe(new ItemStack(Blocks.log, 1, 3), new ItemStack(Blocks.planks, 4, 3), new ItemStack(Items.stick, 2, 0));
 		addRecipe(new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.planks, 4, 4), new ItemStack(Items.stick, 2, 0));
 		addRecipe(new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.planks, 4, 5), new ItemStack(Items.stick, 2, 0));
-		addRecipe(Calculator.amethystLeaf, new ItemStack(Blocks.leaves, 1, 0), new ItemStack(Calculator.shard_amethyst, 2));
+		addRecipe(Calculator.amethystLeaves, new ItemStack(Blocks.leaves, 1, 0), new ItemStack(Calculator.shard_amethyst, 2));
 		addRecipe(Calculator.amethystLog, new ItemStack(Blocks.log, 1, 0), new ItemStack(Calculator.small_amethyst, 1));
 
 	}

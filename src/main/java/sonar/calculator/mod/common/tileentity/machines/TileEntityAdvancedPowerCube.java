@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.Optional.Method;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.SonarHelper;
 
-public class TileEntityAdvancedPowerCube extends TileEntityPowerCube {
+public class TileEntityAdvancedPowerCube extends TileEntityPowerCube  {
 
 	public int energySide;
 

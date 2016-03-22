@@ -34,7 +34,7 @@ public class AnalysingChamberRecipes {
 		this.addRecipe(1, 7, new ItemStack(Calculator.broccoli,1));
 		this.addRecipe(1, 8, new ItemStack(Calculator.reinforcediron_axe, 1));
 		this.addRecipe(1, 9, new ItemStack(Calculator.reinforcediron_sword, 1));
-		this.addRecipe(1, 10, new ItemStack(Calculator.crank,1));
+		this.addRecipe(1, 10, new ItemStack(Calculator.crankHandle,1));
 		this.addRecipe(1, 11, new ItemStack(Calculator.handcrankedGenerator,1));
 		this.addRecipe(1, 12, new ItemStack(Calculator.broccoliSeeds,1));
 		this.addRecipe(1, 13, new ItemStack(Calculator.grenade,1));

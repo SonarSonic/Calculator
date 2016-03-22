@@ -1,10 +1,13 @@
 package sonar.calculator.mod.integration.planting;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.common.block.CalculatorLeaves;
+import sonar.calculator.mod.common.block.CalculatorLeaves.LeafGrowth;
 import sonar.core.utils.helpers.RecipeHelper;
 
 public class TreeHarvestRecipes extends RecipeHelper {
@@ -17,8 +20,8 @@ public class TreeHarvestRecipes extends RecipeHelper {
 
 	@Override
 	public void addRecipes() {
-		this.addRecipe(Calculator.pearLeaf, new ItemStack(Calculator.pear, 1), new ItemStack(Calculator.rotten_pear, 1));
-		this.addRecipe(Calculator.diamondLeaf, new ItemStack(Calculator.weakeneddiamond, 1), new ItemStack(Calculator.flawlessdiamond, 1));
+		this.addRecipe(Calculator.pearLeaves, new ItemStack(Calculator.pear, 1), new ItemStack(Calculator.rotten_pear, 1));
+		this.addRecipe(Calculator.diamondLeaves, new ItemStack(Calculator.weakeneddiamond, 1), new ItemStack(Calculator.flawlessdiamond, 1));
 	}
 
 	@Override
@@ -31,9 +34,13 @@ public class TreeHarvestRecipes extends RecipeHelper {
 		if (target != null) {
 			ItemStack[] outputs = recipes.getOutput(new ItemStack(target));
 			if (outputs != null && outputs.length == 2) {
-				//HELP NEEDED
-				world.setBlockMetadataWithNotify(pos, 0, 2);
-				switch (random) {
+				IBlockState state = world.getBlockState(pos);
+				LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
+				
+				int meta = growth.getMeta();
+				world.setBlockState(pos, state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));	
+				
+				switch (meta) {
 				case 3:
 					return new ItemStack[] { outputs[0] };
 				case 4:

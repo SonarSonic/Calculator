@@ -110,7 +110,7 @@ public class CalculatorCrafting extends Calculator {
 		addShapedOre(new ItemStack(fluxController, 1), new Object[] { "ABA", "A A", "ACA", 'A', reinforcedStoneBlock, 'B', endDiamond, 'C', "calculatorStableStone" });
 
 		// generators
-		addShapedOre(new ItemStack(crank, 1), new Object[] { "  A", "AAA", "A  ", 'A', "stickWood" });
+		addShapedOre(new ItemStack(crankHandle, 1), new Object[] { "  A", "AAA", "A  ", 'A', "stickWood" });
 		addShapedOre(new ItemStack(handcrankedGenerator, 1), new Object[] { "AAA", "CBC", "AAA", 'A', "stickWood", 'B', powerCube, 'C', "plankWood" });
 		addShapedOre(new ItemStack(calculatorlocator, 1), new Object[] { " B ", "CAC", "DDD", 'A', calculatorplug, 'B', Blocks.beacon, 'C', atomic_assembly, 'D', "calculatorStableStone" });
 		addShapedOre(new ItemStack(calculatorplug, 1), new Object[] { " B ", "CAC", "DDD", 'A', "calculatorStableStone", 'B', itemEnergyModule, 'C', advanced_assembly, 'D', redstone_ingot });

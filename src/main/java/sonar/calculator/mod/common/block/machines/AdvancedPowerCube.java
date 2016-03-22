@@ -26,27 +26,17 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.MachineSide;
 
 public class AdvancedPowerCube extends SonarMachineBlock {
 
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	public static final PropertyEnum<MachineSide> DOWN = PropertyEnum.create("down", MachineSide.class);
-	public static final PropertyEnum<MachineSide> UP = PropertyEnum.create("up", MachineSide.class);
-	public static final PropertyEnum<MachineSide> NORTH = PropertyEnum.create("north", MachineSide.class);
-	public static final PropertyEnum<MachineSide> EAST = PropertyEnum.create("east", MachineSide.class);
-	public static final PropertyEnum<MachineSide> SOUTH = PropertyEnum.create("south", MachineSide.class);
-	public static final PropertyEnum<MachineSide> WEST = PropertyEnum.create("west", MachineSide.class);
-
 	public AdvancedPowerCube() {
 		super(SonarMaterials.machine, true, true);
 	}
 
-	/*@Override
-	 * 
-	 * @SideOnly(Side.CLIENT) public void registerBlockIcons(IIconRegister iconRegister) { this.side1 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_side_slot1"); this.side2 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_side_slot2"); this.front1 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_front_slot1"); this.front2 = iconRegister.registerIcon(Calculator.modid + ":" + "advancedPowerCube_front_slot2"); } */
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {

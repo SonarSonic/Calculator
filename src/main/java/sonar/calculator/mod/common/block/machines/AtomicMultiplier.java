@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,13 +27,13 @@ public class AtomicMultiplier extends SonarMachineBlock {
 
 	public AtomicMultiplier() {
 		super(SonarMaterials.machine, true, true);
-		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - 0.0625F*3, 1.0F);
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - 0.0625F * 3, 1.0F);
 	}
 
-	public boolean hasSpecialRenderer(){
-		return true;		
-	}	
-	
+	public boolean hasSpecialRenderer() {
+		return true;
+	}
+
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
@@ -72,4 +74,7 @@ public class AtomicMultiplier extends SonarMachineBlock {
 
 	}
 
+	public EnumWorldBlockLayer getBlockLayer() {
+		return Minecraft.isFancyGraphicsEnabled() ? EnumWorldBlockLayer.CUTOUT_MIPPED : EnumWorldBlockLayer.SOLID;
+	}
 }

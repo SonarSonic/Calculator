@@ -51,10 +51,10 @@ public class CalculatorOreDict extends Calculator {
 		registerOre("stairWood", diamondStairs);
 
 		// leaves
-		registerOre("calculatorLeaves", amethystLeaf);
-		registerOre("calculatorLeaves", tanzaniteLeaf);
-		registerOre("calculatorLeaves", pearLeaf);
-		registerOre("calculatorLeaves", diamondLeaf);
+		registerOre("calculatorLeaves", amethystLeaves);
+		registerOre("calculatorLeaves", tanzaniteLeaves);
+		registerOre("calculatorLeaves", pearLeaves);
+		registerOre("calculatorLeaves", diamondLeaves);
 
 		// saplings
 		registerOre("treeSapling", tanzaniteSapling);

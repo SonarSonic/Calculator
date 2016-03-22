@@ -3,103 +3,55 @@ package sonar.calculator.mod;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.block.CalculatorPlanks;
 import sonar.calculator.mod.common.block.CalculatorSaplings;
 import sonar.calculator.mod.common.block.CalculatorStairs;
-import sonar.calculator.mod.common.block.ConnectedBlock;
 import sonar.calculator.mod.common.block.MaterialBlock;
 import sonar.calculator.mod.common.block.SmeltingBlock;
 import sonar.calculator.mod.common.block.SmeltingBlock.BlockTypes;
-import sonar.calculator.mod.common.block.StableStone;
 import sonar.calculator.mod.common.block.calculators.AtomicCalculator;
 import sonar.calculator.mod.common.block.calculators.DynamicCalculator;
-import sonar.calculator.mod.common.block.decoration.AmethystBlock;
-import sonar.calculator.mod.common.block.decoration.ElectricBlock;
-import sonar.calculator.mod.common.block.decoration.EndBlock;
-import sonar.calculator.mod.common.block.decoration.EnrichedBlock;
-import sonar.calculator.mod.common.block.decoration.FlawlessBlock;
-import sonar.calculator.mod.common.block.decoration.FlawlessFireBlock;
-import sonar.calculator.mod.common.block.decoration.ReinforcedBlock;
-import sonar.calculator.mod.common.block.decoration.TanzaniteBlock;
-import sonar.calculator.mod.common.block.decoration.WeakenedBlock;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorPlug;
-import sonar.calculator.mod.common.block.generators.ConductorMast;
 import sonar.calculator.mod.common.block.generators.CrankHandle;
 import sonar.calculator.mod.common.block.generators.CrankedGenerator;
 import sonar.calculator.mod.common.block.generators.ExtractorBlock;
-import sonar.calculator.mod.common.block.generators.InvisibleBlock;
 import sonar.calculator.mod.common.block.machines.AdvancedGreenhouse;
 import sonar.calculator.mod.common.block.machines.AdvancedPowerCube;
-import sonar.calculator.mod.common.block.machines.AnalysingChamber;
-import sonar.calculator.mod.common.block.machines.Assimilator;
 import sonar.calculator.mod.common.block.machines.AtomicMultiplier;
 import sonar.calculator.mod.common.block.machines.BasicGreenhouse;
-import sonar.calculator.mod.common.block.machines.DockingStation;
 import sonar.calculator.mod.common.block.machines.FlawlessGreenhouse;
 import sonar.calculator.mod.common.block.machines.HealthProcessor;
 import sonar.calculator.mod.common.block.machines.HungerProcessor;
 import sonar.calculator.mod.common.block.machines.PowerCube;
-import sonar.calculator.mod.common.block.machines.ResearchChamber;
 import sonar.calculator.mod.common.block.machines.StorageChamber;
-import sonar.calculator.mod.common.block.machines.Teleporter;
-import sonar.calculator.mod.common.block.machines.Transmitter;
-import sonar.calculator.mod.common.block.machines.WeatherStation;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
 import sonar.calculator.mod.common.block.misc.CO2Generator;
-import sonar.calculator.mod.common.block.misc.CalculatorScreen;
-import sonar.calculator.mod.common.block.misc.FluxController;
-import sonar.calculator.mod.common.block.misc.FluxPlug;
-import sonar.calculator.mod.common.block.misc.FluxPoint;
 import sonar.calculator.mod.common.block.misc.GasLantern;
-import sonar.calculator.mod.common.block.misc.MagneticFlux;
-import sonar.calculator.mod.common.block.misc.RainSensor;
 import sonar.calculator.mod.common.block.misc.Scarecrow;
-import sonar.calculator.mod.common.block.misc.ScarecrowBlock;
-import sonar.calculator.mod.common.block.misc.WeatherController;
-import sonar.calculator.mod.common.item.misc.Soil;
 import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenerator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCube;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityBasicLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.common.block.BlockBase;
 import sonar.core.common.block.SonarBlockTip;
 import sonar.core.common.block.SonarMetaBlock;
@@ -285,10 +237,9 @@ public class CalculatorBlocks extends Calculator {
 		handcrankedGenerator = registerBlock("HandCrankedGenerator",new CrankedGenerator().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityCrankedGenerator.class, "HandCrankedGenerator");
 		
+		crankHandle = registerBlock("CrankHandle",new CrankHandle().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityCrankHandle.class, "CrankHandle");
 		/*
-		handcrankedGenerator = new CrankedGenerator().setUnlocalizedName("CrankedGenerator").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "handcrankedGenerator").setResistance(20.0F);
-		GameRegistry.registerBlock(handcrankedGenerator, SonarBlockTip.class, "CrankedGenerator");
-		GameRegistry.registerTileEntity(TileEntityCrankedGenerator.class, "CrankedGenerator");
 		crank = new CrankHandle().setUnlocalizedName("Crank").setCreativeTab(Calculator).setHardness(20.0F);
 		GameRegistry.registerBlock(crank, SonarBlockTip.class, "Crank");
 		GameRegistry.registerTileEntity(TileEntityCrankHandle.class, "Crank");
@@ -318,84 +269,50 @@ public class CalculatorBlocks extends Calculator {
 		gas_lantern_off = registerBlock("GasLanternOff", new GasLantern(true).setHardness(0.1F));
 		basic_lantern = registerBlock("Lantern", new BasicLantern().setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100));
 		GameRegistry.registerTileEntity(TileEntityGasLantern.class, "Lantern");
-
 		scarecrow = registerBlock("Scarecrow", new Scarecrow().setHardness(0.5F).setResistance(24.0F));
 		GameRegistry.registerTileEntity(TileEntityScarecrow.class, "Scarecrow");
 		/*
 		scarecrowBlock = new ScarecrowBlock().setUnlocalizedName("ScarecrowBlock").setHardness(0.5F).setBlockTextureName(modid + ":" + "reinforcedstone");
 		GameRegistry.registerBlock(scarecrowBlock, SonarBlockTip.class, "ScarecrowBlock");
-	*/
+		 */
 		// amethyst
 		amethystLog = registerBlock("AmethystLog",new CalculatorLogs());
 		amethystPlanks = registerBlock("AmethystPlanks",new CalculatorPlanks());
 		amethystStairs = registerBlock("AmethystStairs",new CalculatorStairs(amethystPlanks));
+		amethystLeaves = registerBlock("AmethystLeaves",new CalculatorLeaves(0));
+		AmethystSapling = registerBlock("AmethystSapling",new CalculatorSaplings(0));
 		/*
 		amethystFence = new BlockFence("Calculator:wood/planks_amethyst", Material.wood).setBlockName("AmethystFence").setCreativeTab(Calculator);
 		GameRegistry.registerBlock(amethystFence, SonarBlockTip.class, "AmethystFence");
-		amethystLeaf = new CalculatorLeaves(0).setBlockName("AmethystLeaf").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(amethystLeaf, SonarBlockTip.class, "AmethystLeaf");
-		AmethystSapling = new CalculatorSaplings(0).setBlockName("AmethystSapling").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(AmethystSapling, SonarBlockTip.class, "AmethystSapling");
-	
-		// tanzanite
-		 * */
+		 */
 
 		tanzaniteLog = registerBlock("TanzaniteLog",new CalculatorLogs());
 		tanzanitePlanks = registerBlock("TanzanitePlanks",new CalculatorPlanks());
 		tanzaniteStairs = registerBlock("TanzaniteStairs",new CalculatorStairs(tanzanitePlanks));
+		tanzaniteLeaves = registerBlock("TanzaniteLeaves",new CalculatorLeaves(1));
+		tanzaniteSapling = registerBlock("TanzaniteSapling",new CalculatorSaplings(1));
 		/*
 		tanzaniteFence = new BlockFence("Calculator:wood/planks_tanzanite", Material.wood).setBlockName("TanzaniteFence").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(tanzaniteFence, SonarBlockTip.class, "TanzaniteFence");
-		tanzaniteLeaf = new CalculatorLeaves(1).setBlockName("TanzaniteLeaf").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(tanzaniteLeaf, SonarBlockTip.class, "TanzaniteLeaf");
-		tanzaniteSapling = new CalculatorSaplings(1).setBlockName("TanzaniteSapling").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(tanzaniteSapling, SonarBlockTip.class, "TanzaniteSapling");
-
-		// pear
-		 * */
+		GameRegistry.registerBlock(tanzaniteFence, SonarBlockTip.class, "TanzaniteFence");*/
 		pearLog = registerBlock("PearLog",new CalculatorLogs());
 		pearPlanks = registerBlock("PearPlanks",new CalculatorPlanks());
 		pearStairs = registerBlock("PearStairs",new CalculatorStairs(pearPlanks));
+		pearLeaves = registerBlock("PearLeaves",new CalculatorLeaves(2));
+		PearSapling = registerBlock("PearSapling",new CalculatorSaplings(2));
 		/*
 		pearFence = new BlockFence("Calculator:wood/planks_pear", Material.wood).setBlockName("PearFence").setCreativeTab(Calculator);
 		GameRegistry.registerBlock(pearFence, SonarBlockTip.class, "PearFence");
-		pearLeaf = new CalculatorLeaves(2).setBlockName("PearLeaf").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(pearLeaf, SonarBlockTip.class, "PearLeaf");
-		PearSapling = new CalculatorSaplings(2).setBlockName("PearSapling").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(PearSapling, SonarBlockTip.class, "PearSapling");
 
 		// diamond
 		 */
 		diamondLog = registerBlock("DiamondLog",new CalculatorLogs());
 		diamondPlanks = registerBlock("DiamondPlanks",new CalculatorPlanks());
 		diamondStairs = registerBlock("DiamondStairs",new CalculatorStairs(diamondPlanks));
+		diamondLeaves = registerBlock("DiamondLeaves",new CalculatorLeaves(3));
+		diamondSapling = registerBlock("DiamondSapling",new CalculatorSaplings(3));
 		/*
 		diamondFence = new BlockFence("Calculator:wood/planks_diamond", Material.wood).setBlockName("DiamondFence").setCreativeTab(Calculator);
 		GameRegistry.registerBlock(diamondFence, SonarBlockTip.class, "DiamondFence");
-		diamondLeaf = new CalculatorLeaves(3).setBlockName("DiamondLeaf").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(diamondLeaf, SonarBlockTip.class, "DiamondLeaf");
-		diamondSapling = new CalculatorSaplings(3).setBlockName("DiamondSapling").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(diamondSapling, SonarBlockTip.class, "DiamondSapling");
-
-		// decoration blocks
-		amethyst_block = new AmethystBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
-		GameRegistry.registerBlock(amethyst_block, SonarBlockTip.class, "AmethystBlock");
-		tanzanite_block = new TanzaniteBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
-		GameRegistry.registerBlock(tanzanite_block, SonarBlockTip.class, "TanzaniteBlock");
-		enriched_gold_block = new EnrichedBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
-		GameRegistry.registerBlock(enriched_gold_block, SonarBlockTip.class, "EnrichedBlock");
-		reinforced_iron_block = new ReinforcedBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
-		GameRegistry.registerBlock(reinforced_iron_block, SonarBlockTip.class, "ReinforcedBlock");
-		weakened_diamond_block = new WeakenedBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
-		GameRegistry.registerBlock(weakened_diamond_block, SonarBlockTip.class, "WeakenedBlock");
-		flawless_block = new FlawlessBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
-		GameRegistry.registerBlock(flawless_block, SonarBlockTip.class, "FlawlessBlock");
-		flawless_fire_block = new FlawlessFireBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
-		GameRegistry.registerBlock(flawless_fire_block, SonarBlockTip.class, "FlawlessFireBlock");
-		electric_diamond_block = new ElectricBlock().setHardness(1.0F).setCreativeTab(Calculator).setResistance(20.0F);
-		GameRegistry.registerBlock(electric_diamond_block, SonarBlockTip.class, "ElectricBlock");
-		end_diamond_block = new EndBlock().setCreativeTab(Calculator).setResistance(20.0F);
-		GameRegistry.registerBlock(end_diamond_block, SonarBlockTip.class, "EndBlock");
 
 		calculatorScreen = new CalculatorScreen().setUnlocalizedName("calculatorScreen").setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(calculatorScreen, SonarBlockTip.class, "calculatorScreen");

@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.core.common.item.SonarItem;
@@ -19,10 +21,8 @@ public class UpgradeCircuit extends SonarItem {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
-			int x, int y, int z, int par7, float par8, float par9, float par10) {
-		TileEntity tile = world.getTileEntity(x, y, z);
-
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitx, float hity, float hitz) {
+		TileEntity tile = world.getTileEntity(pos);
 		if (tile != null && tile instanceof IUpgradeCircuits) {
 			IUpgradeCircuits uTile = (IUpgradeCircuits) tile;
 			if (!player.isSneaking()) {
@@ -33,20 +33,13 @@ public class UpgradeCircuit extends SonarItem {
 						return true;
 					}
 
-				} else if (!uTile.canAddUpgrades()
-						&& uTile.canAddUpgrades(type)) {
-					FontHelper.sendMessage(FontHelper.translate("circuit.upgrade"),world, player);
+				} else if (!uTile.canAddUpgrades() && uTile.canAddUpgrades(type)) {
+					FontHelper.sendMessage(FontHelper.translate("circuit.upgrade"), world, player);
 				}
 			} else {
-				FontHelper.sendMessage(FontHelper.translate("circuit.acceptedUpgrades")
-								+ ": "
-								+ acceptsCircuit(0, uTile)
-								+ acceptsCircuit(1, uTile)
-								+ acceptsCircuit(2, uTile), world, player);
-
+				FontHelper.sendMessage(FontHelper.translate("circuit.acceptedUpgrades") + ": " + acceptsCircuit(0, uTile) + acceptsCircuit(1, uTile) + acceptsCircuit(2, uTile), world, player);
 			}
 		}
-
 		return false;
 	}
 
@@ -59,22 +52,23 @@ public class UpgradeCircuit extends SonarItem {
 
 	public String circuitName(int circuit) {
 		if (circuit == 0) {
-			return FontHelper.translate("item.SpeedUpgrade.name")
-					+ " ";
+			return FontHelper.translate("item.SpeedUpgrade.name") + " ";
 		} else if (circuit == 1) {
-			return FontHelper.translate("item.EnergyUpgrade.name")
-					+ " ";
+			return FontHelper.translate("item.EnergyUpgrade.name") + " ";
 		} else if (circuit == 2) {
-			return FontHelper.translate("item.VoidUpgrade.name")
-					+ " ";
+			return FontHelper.translate("item.VoidUpgrade.name") + " ";
 		}
 		return null;
 	}
-	public static Item getItem(int circuit){
-		switch(circuit){
-		case 0: return Calculator.speedUpgrade;
-		case 1: return Calculator.energyUpgrade;
-		case 3: return Calculator.voidUpgrade;
+
+	public static Item getItem(int circuit) {
+		switch (circuit) {
+		case 0:
+			return Calculator.speedUpgrade;
+		case 1:
+			return Calculator.energyUpgrade;
+		case 3:
+			return Calculator.voidUpgrade;
 		}
 		return null;
 	}

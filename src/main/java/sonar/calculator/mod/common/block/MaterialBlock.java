@@ -1,6 +1,7 @@
 package sonar.calculator.mod.common.block;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -13,8 +14,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.block.ConnectedBlock.StableStoneColours;
@@ -61,6 +64,32 @@ public class MaterialBlock extends Block implements IMetaRenderer<MaterialBlock.
 
 	public MaterialBlock() {
 		super(Material.rock);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
+		super.randomDisplayTick(world, pos, state, rand);
+		if (state.getValue(VARIANTS) == Variants.END_DIAMOND) {
+			for (int l = 0; l < 3; ++l) {
+				double d6 = pos.getX() + rand.nextFloat();
+				double d1 = pos.getY() + rand.nextFloat();
+				d6 = pos.getZ() + rand.nextFloat();
+				double d3 = 0.0D;
+				double d4 = 0.0D;
+				double d5 = 0.0D;
+				int i1 = rand.nextInt(2) * 2 - 1;
+				int j1 = rand.nextInt(2) * 2 - 1;
+				d3 = (rand.nextFloat() - 0.5D) * 0.125D;
+				d4 = (rand.nextFloat() - 0.5D) * 0.125D;
+				d5 = (rand.nextFloat() - 0.5D) * 0.125D;
+				double d2 = pos.getZ() + 0.5D + 0.25D * j1;
+				d5 = rand.nextFloat() * 1.0F * j1;
+				double d0 = pos.getX() + 0.5D + 0.25D * i1;
+				d3 = rand.nextFloat() * 1.0F * i1;
+				world.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5);
+			}
+		}
 	}
 
 	public int damageDropped(IBlockState state) {

@@ -3,15 +3,18 @@ package sonar.calculator.mod.network;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import sonar.calculator.mod.BlockRenderRegister;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.ItemRenderRegister;
+import sonar.calculator.mod.client.renderers.RenderCrank;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
+import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
 
 public class CalculatorClient extends CalculatorCommon{
 	
@@ -24,6 +27,7 @@ public class CalculatorClient extends CalculatorCommon{
 		RenderingRegistry.registerEntityRenderingHandler(EntityBabyGrenade.class, RenderThrowables.BABY_GRENADE);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySoil.class, RenderThrowables.SOIL);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySmallStone.class, RenderThrowables.SMALL_STONE);
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrankHandle.class, new RenderCrank());
 
 		/*
 		TileEntitySpecialRenderer plug = new RenderCalculatorPlug();

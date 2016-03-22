@@ -1,6 +1,7 @@
 package sonar.calculator.mod.utils.helpers;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,6 +9,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.common.block.CalculatorLeaves;
+import sonar.calculator.mod.common.block.CalculatorLeaves.LeafGrowth;
 import sonar.core.utils.helpers.FontHelper;
 
 public class NutritionHelper {
@@ -87,24 +90,23 @@ public class NutritionHelper {
 			return false;
 		}
 		Block block = world.getBlockState(pos).getBlock();
-		if (block!=null && block == Calculator.amethystLeaf) {
-			/*
-			int meta = world.getBlockState(pos);
-			if (meta > 2) {
+		if (block != null && block == Calculator.amethystLeaves) {
+			IBlockState state = world.getBlockState(pos);
+			LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
+			if (growth == LeafGrowth.READY || growth == LeafGrowth.MATURED) {
 				points += 1;
 				if (!world.isRemote) {
-					//set no leaves
-					world.setBlockMetadataWithNotify(pos, 0, 2);
+					world.setBlockState(pos, state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
 				}
-
 				nbtData.setInteger(tag, points);
 			}
-			*/
+
 		}
 		return true;
 	}
 
 	public static boolean useHealth(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, String tag) {
+	
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
@@ -114,25 +116,24 @@ public class NutritionHelper {
 		}
 
 		int points = stack.getTagCompound().getInteger(tag);
-		{
-			if (!player.canPlayerEdit(pos, side, stack)) {
-				return false;
-			}
 
-			Block block = world.getBlockState(pos).getBlock();
-			if (block==null && block == Calculator.tanzaniteLeaf) {
-				/*
-				int meta = world.getBlockState(pos);
-				if (meta > 2) {
-					int points1 = ((points + 1));
-					if (!world.isRemote) {
-						world.setBlockMetadataWithNotify(pos, 0, 2);
-					}
-					nbtData.setInteger(tag, points1);
+		if (!player.canPlayerEdit(pos, side, stack)) {
+			return false;
+		}
+
+		Block block = world.getBlockState(pos).getBlock();	
+		if (block != null && block == Calculator.tanzaniteLeaves) {
+			IBlockState state = world.getBlockState(pos);
+			LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
+			if (growth == LeafGrowth.READY || growth == LeafGrowth.MATURED) {
+				points += 1;
+				if (!world.isRemote) {
+					world.setBlockState(pos, state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
 				}
-				*/
+				nbtData.setInteger(tag, points);
 			}
 		}
+
 		return true;
 	}
 

@@ -537,7 +537,7 @@ public class RecipeRegistry {
 		registerScientificRecipe(Calculator.baby_grenade, Calculator.baby_grenade, Calculator.grenade);
 		registerScientificRecipe(Calculator.enriched_coal, Items.lava_bucket, Calculator.firecoal);
 		registerScientificRecipe(Calculator.large_amethyst, "treeSapling", Calculator.AmethystSapling);
-		registerScientificRecipe(Calculator.amethystLog, Calculator.amethystLeaf, Calculator.AmethystSapling);
+		registerScientificRecipe(Calculator.amethystLog, Calculator.amethystLeaves, Calculator.AmethystSapling);
 		registerScientificRecipe(Calculator.amethystLog, Calculator.small_amethyst, Calculator.AmethystSapling);
 		registerScientificRecipe(Calculator.amethystLog, Calculator.amethystLog, Calculator.AmethystSapling);
 		registerScientificRecipe(Calculator.itemCalculator, Calculator.redstone_ingot, Calculator.itemTerrainModule);
@@ -556,7 +556,7 @@ public class RecipeRegistry {
 		registerAtomicRecipe(Blocks.end_stone, Calculator.electricDiamond, Blocks.obsidian, Calculator.endDiamond);
 		registerAtomicRecipe(Calculator.AmethystSapling, Blocks.end_stone, Calculator.tanzaniteSapling, Calculator.PearSapling);
 		registerAtomicRecipe(Calculator.itemScientificCalculator, Calculator.atomic_binder, "ingotRedstone", Calculator.itemAdvancedTerrainModule);
-		registerAtomicRecipe(Calculator.tanzaniteLog, Calculator.atomic_binder, Calculator.tanzaniteLeaf, Calculator.tanzaniteSapling);
+		registerAtomicRecipe(Calculator.tanzaniteLog, Calculator.atomic_binder, Calculator.tanzaniteLeaves, Calculator.tanzaniteSapling);
 		registerAtomicRecipe(Calculator.large_tanzanite, Calculator.atomic_binder, "treeSapling", Calculator.tanzaniteSapling);
 		registerAtomicRecipe(Calculator.healthProcessor, Calculator.itemEnergyModule, Calculator.hungerProcessor, Calculator.itemNutritionModule);
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 4), Calculator.atomic_binder, "dustEnrichedGold", new ItemStack(Calculator.speedUpgrade, 4));

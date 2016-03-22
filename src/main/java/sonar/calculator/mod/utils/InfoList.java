@@ -49,7 +49,7 @@ public class InfoList {
 		addRecipe("Circuits", new ItemStack(Calculator.circuitBoard, 1, 11), "Has Recipes, Items & Energy-Extract with Analysing Chamber- -'Stable' will appear for Stable-Circuits");
 		addRecipe("Circuits", new ItemStack(Calculator.circuitBoard, 1, 12), "Has Recipes, Items & Energy-Extract with Analysing Chamber- -'Stable' will appear for Stable-Circuits");
 		addRecipe("Circuits", new ItemStack(Calculator.circuitBoard, 1, 13), "Has Recipes, Items & Energy-Extract with Analysing Chamber- -'Stable' will appear for Stable-Circuits");
-		addRecipe("Generators", new ItemStack(Calculator.crank), "For Hand Cranked Generator-Right click to generate power");
+		addRecipe("Generators", new ItemStack(Calculator.crankHandle), "For Hand Cranked Generator-Right click to generate power");
 		addRecipe("Calculators", new ItemStack(Calculator.dynamicCalculator), "Combines all Calcs into one!- -Doesn't require power");
 		addRecipe("Machines", new ItemStack(Calculator.extractionChamber), "Extracts Circuits from-Dirt or Stone");
 		addRecipe("Generators", new ItemStack(Calculator.handcrankedGenerator), "Generates power by cranking- -Requires Crank Handle on top");

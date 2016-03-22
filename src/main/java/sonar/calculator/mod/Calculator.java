@@ -248,7 +248,7 @@ public class Calculator {
 	public static Block flawlessCapacitor;
 	public static Block handcrankedGenerator;
 	public static Block weatherController, rainSensor;
-	public static Block crank;
+	public static Block crankHandle;
 	public static Block researchChamber;
 	public static Block calculatorScreen;
 	public static Block magneticFlux;
@@ -356,7 +356,7 @@ public class Calculator {
 	public static Block reinforcedStoneFence, reinforcedStoneBrickFence, reinforcedDirtFence, reinforcedDirtBrickFence;
 
 	// trees
-	public static Block amethystLeaf, tanzaniteLeaf, pearLeaf, diamondLeaf;
+	public static Block amethystLeaves, tanzaniteLeaves, pearLeaves, diamondLeaves;
 	public static Block amethystLog, tanzaniteLog, pearLog, diamondLog;
 	public static Block AmethystSapling, tanzaniteSapling, PearSapling, diamondSapling;
 	public static Block amethystPlanks, tanzanitePlanks, pearPlanks, diamondPlanks;

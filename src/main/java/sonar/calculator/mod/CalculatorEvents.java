@@ -46,7 +46,7 @@ public class CalculatorEvents {
 		if (event.block != null) {
 			if (event.block == Calculator.AmethystSapling) {				
 				if (!event.world.isRemote) {
-					((CalculatorSaplings) Calculator.AmethystSapling).growTree(event.world, event.pos, event.world.rand);
+					((CalculatorSaplings) Calculator.AmethystSapling).generateTree(event.world, event.pos, event.block, event.world.rand);
 					event.setResult(Result.ALLOW);
 				}
 			}
@@ -58,7 +58,7 @@ public class CalculatorEvents {
 		if (event.block != null) {
 			if (event.block == Calculator.tanzaniteSapling) {
 				if (!event.world.isRemote) {
-					((CalculatorSaplings) Calculator.tanzaniteSapling).growTree(event.world, event.pos, event.world.rand);
+					((CalculatorSaplings) Calculator.tanzaniteSapling).generateTree(event.world, event.pos, event.block, event.world.rand);
 					event.setResult(Result.ALLOW);
 				}
 			}
@@ -70,7 +70,7 @@ public class CalculatorEvents {
 		if (event.block != null) {
 			if (event.block == Calculator.PearSapling) {
 				if (!event.world.isRemote) {
-					((CalculatorSaplings) Calculator.PearSapling).growTree(event.world, event.pos, event.world.rand);
+					((CalculatorSaplings) Calculator.PearSapling).generateTree(event.world, event.pos, event.block, event.world.rand);
 					event.setResult(Result.ALLOW);
 				}
 			}
@@ -82,7 +82,7 @@ public class CalculatorEvents {
 		if (event.block != null) {
 			if (event.block == Calculator.diamondSapling) {
 				if (!event.world.isRemote) {
-					((CalculatorSaplings) Calculator.diamondSapling).growTree(event.world, event.pos, event.world.rand);
+					((CalculatorSaplings) Calculator.diamondSapling).generateTree(event.world, event.pos, event.block, event.world.rand);
 					event.setResult(Result.ALLOW);
 				}
 			}

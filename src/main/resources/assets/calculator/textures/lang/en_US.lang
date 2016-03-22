@@ -111,16 +111,15 @@ item.FiddledewFruit.name=Fiddledew Fruit
 tile.FiddledewPlant.name=Fiddledew Plant
 
 //amethyst tree
-tile.Leaves.name=Leaves
 tile.AmethystLog.name=Amethyst Wood
-tile.AmethystLeaf.name=Amethyst Leaves
+tile.AmethystLeaves.name=Amethyst Leaves
 tile.AmethystSapling.name=Amethyst Sapling
 tile.AmethystPlanks.name=Amethyst Planks
 tile.AmethystStairs.name=Amethyst Stairs
 
 //tanzanite tree
 tile.TanzaniteLog.name=Tanzanite Wood
-tile.TanzaniteLeaf.name=Tanzanite Leaves
+tile.TanzaniteLeaves.name=Tanzanite Leaves
 tile.TanzaniteSapling.name=Tanzanite Sapling
 tile.TanzanitePlanks.name=Tanzanite Planks
 tile.TanzaniteStairs.name=Tanzanite Stairs
@@ -129,16 +128,15 @@ tile.TanzaniteStairs.name=Tanzanite Stairs
 item.Pear.name=Pear
 item.RottenPear.name=Rotten Pear
 tile.PearLog.name=Pear Wood
-tile.PearLeaf.name=Pear Leaves
+tile.PearLeaves.name=Pear Leaves
 tile.PearSapling.name=Pear Sapling
 tile.PearPlanks.name=Pear Planks
 tile.PearStairs.name=Pear Stairs
 
 //diamond tree
 tile.DiamondLog.name=Diamond Wood
-tile.DiamondLeaf.name=Diamond Leaves
+tile.DiamondLeaves.name=Diamond Leaves
 tile.DiamondSapling.name=Diamond Sapling
-tile.DiamondLeaves.name=Leaves
 tile.DiamondPlanks.name=Diamond Planks
 tile.DiamondStairs.name=Diamond Stairs
 

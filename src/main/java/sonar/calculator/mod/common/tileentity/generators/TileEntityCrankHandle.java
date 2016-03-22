@@ -11,7 +11,6 @@ public class TileEntityCrankHandle extends TileEntitySonar {
 	public void update() {
 		super.update();
 		if (this.cranked) {
-			
 			if (this.angle == 36) {
 				this.angle = 0;
 				this.cranked = false;
@@ -21,7 +20,6 @@ public class TileEntityCrankHandle extends TileEntitySonar {
 	}
 
 	public void active() {
-
 		if (this.cranked) {
 			this.angle += 2;
 		}

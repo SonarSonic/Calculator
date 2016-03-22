@@ -52,7 +52,7 @@ public class ContainerStorageChamber extends Container {
 
     public void addCraftingToCrafters(ICrafting crafters)
     {
-        super.addCraftingToCrafters(crafters);
+       // super.addCraftingToCrafters(crafters);
         for(int i = 0; i<entity.getStorage().stored.length;i++){
         	crafters.sendProgressBarUpdate(this, i, entity.getStorage().stored[i]);	
         }
@@ -105,15 +105,15 @@ public class ContainerStorageChamber extends Container {
 			itemstack = itemstack1.copy();
 
 			if (slotID < 14) {
-				if (!this.mergeItemStack(entity.getSlotStack(slotID, 1), 14, this.inventorySlots.size(), true)) {
+				if (!this.mergeItemStack(entity.getStorage().getSlotStack(slotID, 1), 14, this.inventorySlots.size(), true)) {
 					return null;
 				}
 				if (!entity.getWorld().isRemote) {
-					if (entity.stored[slotID] == 1) {
-						entity.resetSavedStack(slotID);
+					if (entity.getStorage().stored[slotID] == 1) {
+						entity.getStorage().resetSavedStack(slotID);
 					}
-					entity.stored[slotID]--;
-					updateStoredValue(slotID,entity.stored[slotID]);
+					entity.getStorage().stored[slotID]--;
+					updateStoredValue(slotID,entity.getStorage().stored[slotID]);
 				}
 				return null;
 
@@ -136,18 +136,18 @@ public class ContainerStorageChamber extends Container {
 		if (entity.getCircuitType(stack) == null) {
 			return false;
 		}
-		if(entity.getSavedStack()!=null){
-			if(entity.getCircuitType(stack)!=entity.getCircuitType(entity.getSavedStack())){
+		if(entity.getStorage().getSavedStack()!=null){
+			if(entity.getCircuitType(stack)!=entity.getCircuitType(entity.getStorage().getSavedStack())){
 			return false;	
 			}
 		}
-		if(entity.stored[stack.getItemDamage()]!=entity.maxSize){
+		if(entity.getStorage().stored[stack.getItemDamage()]!=entity.getStorage().maxSize){
 			if(!entity.getWorld().isRemote){
-			if (entity.getSavedStack() == null) {
-				entity.setSavedStack(stack);
+			if (entity.getStorage().getSavedStack() == null) {
+				entity.getStorage().setSavedStack(stack);
 			}
-			entity.stored[stack.getItemDamage()]++;
-			updateStoredValue(stack.getItemDamage(),entity.stored[stack.getItemDamage()]);
+			entity.getStorage().stored[stack.getItemDamage()]++;
+			updateStoredValue(stack.getItemDamage(),entity.getStorage().stored[stack.getItemDamage()]);
 			}
 			stack.stackSize--;
 

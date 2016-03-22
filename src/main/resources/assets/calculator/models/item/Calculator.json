@@ -1,5 +1,5 @@
 {
-    "parent":"calculator:item/SonarModuleBase",
+    "parent":"calculator:item/SonarItemBase",
     "textures": {
         "layer0":"calculator:items/calculator"
     }

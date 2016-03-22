@@ -3,148 +3,155 @@ package sonar.calculator.mod.common.block;
 import java.util.List;
 import java.util.Random;
 
+import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlower;
+import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockOldLeaf;
+import net.minecraft.block.BlockOldLog;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.IGrowable;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenBigTree;
+import net.minecraft.world.gen.feature.WorldGenCanopyTree;
+import net.minecraft.world.gen.feature.WorldGenForest;
+import net.minecraft.world.gen.feature.WorldGenMegaJungle;
+import net.minecraft.world.gen.feature.WorldGenMegaPineTree;
+import net.minecraft.world.gen.feature.WorldGenSavannaTree;
+import net.minecraft.world.gen.feature.WorldGenTaiga2;
+import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.event.terraingen.TerrainGen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
-import sonar.core.utils.ISpecialTooltip;
 
-public class CalculatorSaplings extends BlockFlower implements ISpecialTooltip {
+public class CalculatorSaplings extends BlockBush implements IGrowable {
+	
+	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
+
 	int type;
 
-	public CalculatorSaplings(int type) {
-		super(0);
-		this.type = type;
-		this.stepSound = soundTypeGrass;
+	public CalculatorSaplings(int i) {
+		this.type=i;
+		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, Integer.valueOf(0)));
 		float f = 0.4F;
-		setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
-		return blockIcon;
+		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
 	}
 
 	@Override
 	public boolean canPlaceBlockOn(Block block) {
-		return type==3 ? block == Calculator.end_diamond_block : super.canPlaceBlockOn(block);
+		return type == 3 ? block == Calculator.end_diamond_block : super.canPlaceBlockOn(block);
 	}
 
 	@Override
-	public boolean canBlockStay(World world, int x, int y, int z) {
-		return type==3 ? canPlaceBlockOn(world.getBlock(x, y - 1, z)) : super.canBlockStay(world, x, y, z);
+	public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
+		return type == 3 ? canPlaceBlockOn(world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock()) : super.canBlockStay(world, pos, state);
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconReg) {
-		if (type == 0) {
-			blockIcon = iconReg.registerIcon("Calculator:wood/sapling_amethyst");
-		}
-		if (type == 1) {
-			blockIcon = iconReg.registerIcon("Calculator:wood/sapling_tanzanite");
-		}
-		if (type == 2) {
-			blockIcon = iconReg.registerIcon("Calculator:wood/sapling_pear");
-		}
-		if (type == 3) {
-			blockIcon = iconReg.registerIcon("Calculator:wood/sapling_diamond");
-		}
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		if (!worldIn.isRemote) {
+			super.updateTick(worldIn, pos, state, rand);
 
-	}
-
-	public boolean isSameSapling(World world, int x, int y, int z, int meta) {
-		return (world.getBlock(x, y, z) == this) && ((world.getBlockMetadata(x, y, z) & 0x3) == meta);
-	}
-
-	public int setUnlocalizedName(int type) {
-		return type & 0x3;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab, List listSaplings) {
-		listSaplings.add(new ItemStack(item, 1, 0));
-	}
-
-	public void markOrGrowMarked(World world, int x, int y, int z, Random rand) {
-		int l = world.getBlockMetadata(x, y, z);
-		if ((l & 0x8) == 0) {
-			world.setBlockMetadataWithNotify(x, y, z, l | 0x8, 4);
-		} else {
-			growTree(world, x, y, z, rand);
-		}
-	}
-
-	public void growTree(World world, BlockPos pos, Random rand) {
-		if (!TerrainGen.saplingGrowTree(world, rand, pos)) {
-			return;
-		}
-		int l = world.getBlockMetadata(pos) & 0x7;
-		Object object = null;
-		int i1 = 0;
-		int j1 = 0;
-
-		switch (type) {
-		case 0:
-			object = new CalculatorTreeBuilder(true, Calculator.AmethystSapling, Calculator.amethystLeaf, Calculator.amethystLog);
-			break;
-
-		case 1:
-			object = new CalculatorTreeBuilder(true, Calculator.tanzaniteSapling, Calculator.tanzaniteLeaf, Calculator.tanzaniteLog);
-			break;
-
-		case 2:
-			object = new CalculatorTreeBuilder(true, Calculator.PearSapling, Calculator.pearLeaf, Calculator.pearLog);
-			break;
-
-		case 3:
-			object = new CalculatorTreeBuilder(true, Calculator.diamondSapling, Calculator.diamondLeaf, Calculator.diamondLog);
-			break;
-		}
-
-		world.setBlock(x, y, z, Blocks.air, 0, 4);
-		if (!((WorldGenerator) object).generate(world, rand, x + i1, y, z + j1)) {
-			world.setBlock(x, y, z, this, l, 4);
-		}else{
-			world.setBlock(x, y-1, z, Blocks.grass);
-		}
-	}
-
-	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand) {
-		if (!world.isRemote) {
-			super.updateTick(world, x, y, z, rand);
-			if (world.getBlock(x, y, z) == this) {
-				if ((world.getBlockLightValue(x, y + 1, z) >= 9) && (rand.nextInt(7) == 0)) {
-					markOrGrowMarked(world, x, y, z, rand);
-				}
+			if (worldIn.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(7) == 0) {
+				this.grow(worldIn, pos, state, rand);
 			}
 		}
 	}
 
-	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		
+	public void grow(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		if (((Integer) state.getValue(STAGE)).intValue() == 0) {
+			worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
+		} else {
+			this.generateTree(worldIn, pos, state, rand);
+		}
 	}
 
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		if(type==3){
-			list.add("Must be planted on an End Diamond Block");
+	public void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		if (!net.minecraftforge.event.terraingen.TerrainGen.saplingGrowTree(worldIn, rand, pos))
+			return;
+		WorldGenerator worldgenerator = (WorldGenerator) (rand.nextInt(10) == 0 ? new WorldGenBigTree(true) : new WorldGenTrees(true));
+		int i = 0;
+		int j = 0;
+		boolean flag = false;
+
+		switch (type) {
+		case 0:
+			worldgenerator = new CalculatorTreeBuilder(true, Calculator.AmethystSapling, Calculator.amethystLeaves, Calculator.amethystLog);
+			break;
+
+		case 1:
+			worldgenerator = new CalculatorTreeBuilder(true, Calculator.tanzaniteSapling, Calculator.tanzaniteLeaves, Calculator.tanzaniteLog);
+			break;
+
+		case 2:
+			worldgenerator = new CalculatorTreeBuilder(true, Calculator.PearSapling, Calculator.pearLeaves, Calculator.pearLog);
+			break;
+
+		case 3:
+			worldgenerator = new CalculatorTreeBuilder(true, Calculator.diamondSapling, Calculator.diamondLeaves, Calculator.diamondLog);
+			break;
 		}
-		
+
+		IBlockState iblockstate2 = Blocks.air.getDefaultState();
+
+		if (flag) {
+			worldIn.setBlockState(pos.add(i, 0, j), iblockstate2, 4);
+			worldIn.setBlockState(pos.add(i + 1, 0, j), iblockstate2, 4);
+			worldIn.setBlockState(pos.add(i, 0, j + 1), iblockstate2, 4);
+			worldIn.setBlockState(pos.add(i + 1, 0, j + 1), iblockstate2, 4);
+		} else {
+			worldIn.setBlockState(pos, iblockstate2, 4);
+		}
+
+		if (!worldgenerator.generate(worldIn, rand, pos.add(i, 0, j))) {
+			if (flag) {
+				worldIn.setBlockState(pos.add(i, 0, j), state, 4);
+				worldIn.setBlockState(pos.add(i + 1, 0, j), state, 4);
+				worldIn.setBlockState(pos.add(i, 0, j + 1), state, 4);
+				worldIn.setBlockState(pos.add(i + 1, 0, j + 1), state, 4);
+			} else {
+				worldIn.setBlockState(pos, state, 4);
+			}
+		}
+	}
+
+	public int damageDropped(IBlockState state) {
+		return 0;
+	}
+
+	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+		return true;
+	}
+
+	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+		return (double) worldIn.rand.nextFloat() < 0.45D;
+	}
+
+	public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+		this.grow(worldIn, pos, state, rand);
+	}
+
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(STAGE, meta);
+	}
+
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(STAGE).intValue();
+	}
+
+	protected BlockState createBlockState() {
+		return new BlockState(this, new IProperty[] { STAGE });
 	}
 }

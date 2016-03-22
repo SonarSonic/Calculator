@@ -23,6 +23,54 @@
             "east":{
                 "y": 90
             }
+        },
+        "north":{
+            "input":{},
+            "output":{             
+               "textures": {        
+                    "north":"calculator:model/storage_chamber_front_2"     
+                }         
+            }
+        },
+        "east":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "east":"calculator:blocks/analysis_side_slot2"     
+                 }
+            }
+        },
+        "south":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "south":"calculator:blocks/analysis_side_slot2"     
+                 }
+            }
+        },
+        "west":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "west":"calculator:blocks/analysis_side_slot2"     
+                 }
+            }
+        },
+        "up":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "up":"calculator:blocks/analysis_side_slot2"     
+                 }
+            }
+        },
+        "down":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "down":"calculator:blocks/analysis_side_slot2"     
+                 }
+            }
         }
     }
 }

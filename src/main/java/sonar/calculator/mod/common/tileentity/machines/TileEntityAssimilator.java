@@ -126,11 +126,11 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		}
 
 		public boolean harvestBlock(BlockCoords block) {
-			if (block.getBlock(worldObj) == Calculator.tanzaniteLeaf) {
+			if (block.getBlock(worldObj) == Calculator.tanzaniteLeaves) {
 				this.healthPoints++;
 				this.worldObj.setBlockMetadataWithNotify(block.getX(), block.getY(), block.getZ(), 0, 2);
 				return true;
-			} else if (block.getBlock(worldObj) == Calculator.amethystLeaf) {
+			} else if (block.getBlock(worldObj) == Calculator.amethystLeaves) {
 				this.hungerPoints++;
 				this.worldObj.setBlockMetadataWithNotify(block.getX(), block.getY(), block.getZ(), 0, 2);
 				return true;

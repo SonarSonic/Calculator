@@ -17,15 +17,20 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.helpers.FontHelper;
 
-public class StorageChamber extends SonarMachineBlock {
+public class StorageChamber extends SonarSidedBlock {
 
 	public StorageChamber() {
 		super(SonarMaterials.machine, true, true);
 	}
 
+	public boolean hasAnimatedFront() {
+		return false;
+	}
+	
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {

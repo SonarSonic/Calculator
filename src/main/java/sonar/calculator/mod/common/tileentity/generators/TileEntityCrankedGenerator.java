@@ -49,7 +49,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy {
 
 	public boolean cranked() {
 		Block crank = this.worldObj.getBlockState(pos.offset(EnumFacing.UP)).getBlock();
-		if (crank != null && crank == Calculator.crank) {
+		if (crank != null && crank == Calculator.crankHandle) {
 			return true;
 		}
 		return false;
