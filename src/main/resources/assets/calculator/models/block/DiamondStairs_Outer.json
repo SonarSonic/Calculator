@@ -1,8 +1,0 @@
-{
-    "parent":"block/outer_stairs",
-    "textures": {
-        "bottom":"Calculator:blocks/wood/planks_diamond",
-        "top":"Calculator:blocks/wood/planks_diamond",        
-        "side":"Calculator:blocks/wood/planks_diamond"
-    }
-}

@@ -1,8 +1,0 @@
-{
-    "parent":"block/inner_stairs",
-    "textures": {
-        "bottom":"Calculator:blocks/reinforceddirt",
-        "top":"Calculator:blocks/reinforceddirt",        
-        "side":"Calculator:blocks/reinforceddirt"
-    }
-}

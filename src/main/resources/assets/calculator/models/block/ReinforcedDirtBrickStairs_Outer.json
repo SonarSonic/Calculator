@@ -1,8 +1,0 @@
-{
-    "parent":"block/outer_stairs",
-    "textures": {
-        "bottom":"Calculator:blocks/ReinforcedDirtBrick",
-        "top":"Calculator:blocks/ReinforcedDirtBrick",        
-        "side":"Calculator:blocks/ReinforcedDirtBrick"
-    }
-}

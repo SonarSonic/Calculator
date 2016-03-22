@@ -14,11 +14,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.core.common.item.SonarItem;
+import sonar.core.common.item.SonarMetaItem;
 import sonar.core.utils.helpers.FontHelper;
 
 import com.google.common.collect.Maps;
 
-public class CircuitBoard extends SonarItem implements IStability {
+public class CircuitBoard extends SonarMetaItem implements IStability {
+	
+	
+	public CircuitBoard() {
+		super(14);
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
@@ -77,16 +84,6 @@ public class CircuitBoard extends SonarItem implements IStability {
 		if (stack.getTagCompound() == null && !stack.hasTagCompound()) {
 			setData(stack);
 		}
-	}
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		for (int i = 0; i < 14; i++) {
-			list.add(new ItemStack(this, 1, i));
-		}
-	}
-
-	public String getUnlocalizedName(ItemStack stack) {
-		return getUnlocalizedName() + "." + stack.getItemDamage();
 	}
 
 	@Override

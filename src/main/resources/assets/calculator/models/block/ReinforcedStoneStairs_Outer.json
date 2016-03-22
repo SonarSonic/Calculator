@@ -1,8 +1,0 @@
-{
-    "parent":"block/outer_stairs",
-    "textures": {
-        "bottom":"Calculator:blocks/reinforcedstone",
-        "top":"Calculator:blocks/reinforcedstone",        
-        "side":"Calculator:blocks/reinforcedstone"
-    }
-}

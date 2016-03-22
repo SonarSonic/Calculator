@@ -5,23 +5,17 @@ import java.util.ArrayList;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import sonar.calculator.mod.common.block.CalculatorCrops;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.item.calculators.CraftingCalc;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
 import sonar.calculator.mod.common.item.calculators.InfoCalc;
 import sonar.calculator.mod.common.item.calculators.ScientificCalc;
 import sonar.calculator.mod.common.item.misc.CalculatorScreen;
+import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.item.misc.EndDiamond;
 import sonar.calculator.mod.common.item.misc.Grenade;
-import sonar.calculator.mod.common.item.misc.CircuitBoard;
-import sonar.calculator.mod.common.item.misc.CircuitDamaged;
-import sonar.calculator.mod.common.item.misc.CircuitDirty;
 import sonar.calculator.mod.common.item.misc.SmallStone;
 import sonar.calculator.mod.common.item.misc.Soil;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
@@ -38,9 +32,7 @@ import sonar.calculator.mod.common.item.tools.CalcHoe;
 import sonar.calculator.mod.common.item.tools.CalcPickaxe;
 import sonar.calculator.mod.common.item.tools.CalcShovel;
 import sonar.calculator.mod.common.item.tools.CalcSword;
-import sonar.calculator.mod.common.item.tools.ObsidianKey;
-import sonar.calculator.mod.common.item.tools.Sickle;
-import sonar.calculator.mod.common.item.tools.Wrench;
+import sonar.core.common.item.SonarMetaItem;
 import sonar.core.common.item.SonarSeeds;
 import sonar.core.common.item.SonarSeedsFood;
 
@@ -95,6 +87,7 @@ public class CalculatorItems extends Calculator {
 
 		// calculator parts
 		calculator_screen = registerItem("CalculatorScreen", new CalculatorScreen());
+		
 		calculator_assembly = registerItem("CalculatorAssembly", new Item());
 		advanced_assembly = registerItem("AdvancedAssembly", new Item());
 		atomic_module = registerItem("AtomicModule", new Item());
@@ -218,8 +211,8 @@ public class CalculatorItems extends Calculator {
 		baby_grenade = registerItem("BabyGrenade", new Grenade(0));
 		grenade = registerItem("Grenade", new Grenade(1));
 		circuitBoard = registerItem("CircuitBoard", new CircuitBoard().setHasSubtypes(true).setMaxStackSize(1));
-		circuitDamaged = registerItem("CircuitDamaged", new CircuitDamaged().setHasSubtypes(true).setMaxStackSize(1));
-		circuitDirty = registerItem("CircuitDirty", new CircuitDirty().setHasSubtypes(true).setMaxStackSize(1));
+		circuitDamaged = registerItem("CircuitDamaged", new SonarMetaItem(14).setHasSubtypes(true).setMaxStackSize(1));
+		circuitDirty = registerItem("CircuitDirty", new SonarMetaItem(14).setHasSubtypes(true).setMaxStackSize(1));
 
 		// circuitDamaged = new ItemCircuitDamaged().setHasSubtypes(true).setUnlocalizedName("CircuitDamaged").setCreativeTab(Calculator).setMaxStackSize(1);
 		// GameRegistry.registerItem(circuitDamaged, "CircuitDamaged");
