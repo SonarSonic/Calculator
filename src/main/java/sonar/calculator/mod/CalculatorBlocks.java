@@ -3,8 +3,10 @@ package sonar.calculator.mod;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import sonar.calculator.mod.common.block.CalculatorCrops;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.block.CalculatorPlanks;
@@ -13,6 +15,7 @@ import sonar.calculator.mod.common.block.CalculatorStairs;
 import sonar.calculator.mod.common.block.MaterialBlock;
 import sonar.calculator.mod.common.block.SmeltingBlock;
 import sonar.calculator.mod.common.block.SmeltingBlock.BlockTypes;
+import sonar.calculator.mod.common.block.ConnectedBlock;
 import sonar.calculator.mod.common.block.calculators.AtomicCalculator;
 import sonar.calculator.mod.common.block.calculators.DynamicCalculator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
@@ -77,27 +80,27 @@ public class CalculatorBlocks extends Calculator {
 		// common blocks
 		reinforcedStoneBlock = registerBlock("ReinforcedStoneBlock",new BlockBase(Material.rock, 2.0f, 10.0f));
 		reinforcedStoneStairs = registerBlock("ReinforcedStoneStairs",new CalculatorStairs(reinforcedStoneBlock));
+		reinforcedStoneFence = registerBlock("ReinforcedStoneFence",new BlockFence(Material.rock));
+		
 		reinforcedStoneBrick = registerBlock("ReinforcedStoneBrick",new BlockBase(Material.rock, 2.0f, 10.0f));
 		reinforcedStoneBrickStairs = registerBlock("ReinforcedStoneBrickStairs",new CalculatorStairs(reinforcedStoneBrick));
+		reinforcedStoneBrickFence = registerBlock("ReinforcedStoneBrickFence",new BlockFence(Material.rock));
+		
 		reinforcedDirtBlock = registerBlock("ReinforcedDirtBlock",new BlockBase(Material.ground, 1.0f, 4.0f));
 		reinforcedDirtStairs = registerBlock("ReinforcedDirtStairs",new CalculatorStairs(reinforcedDirtBlock));
+		reinforcedDirtFence = registerBlock("ReinforcedDirtFence",new BlockFence(Material.ground));
+		
+		
 		reinforcedDirtBrick = registerBlock("ReinforcedDirtBrick",new BlockBase(Material.ground, 1.0f, 4.0f));
 		reinforcedDirtBrickStairs = registerBlock("ReinforcedDirtBrickStairs",new CalculatorStairs(reinforcedDirtBrick));
-		/*	
-		reinforcedStoneBrickFence = new BlockFence("Calculator:reinforcedstonebrick", Material.rock).setBlockName("ReinforcedStoneBrickFence").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(reinforcedStoneBrickFence, SonarBlockTip.class, "ReinforcedStoneBrickFence");	
-		*/
-		/*	
-		reinforcedDirtFence = new BlockFence("Calculator:reinforceddirt", Material.ground).setBlockName("ReinforcedDirtFence").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(reinforcedDirtFence, SonarBlockTip.class, "ReinforcedDirtFence");
-		*/
-		/*
-		reinforcedDirtBrickFence = new BlockFence("Calculator:reinforceddirtbrick", Material.ground).setBlockName("ReinforcedDirtBrickFence").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(reinforcedDirtBrickFence, SonarBlockTip.class, "ReinforcedDirtBrickFence");
-		*/
+		reinforcedDirtBrickFence = registerBlock("ReinforcedDirtBrickFence",new BlockFence(Material.ground));
 		
-		//stableStone = new StableStone(Material.rock).setUnlocalizedName("StableStone").setCreativeTab(Calculator).setHardness(2.0F);
-		//GameRegistry.registerBlock(stableStone, SonarBlockTip.class, "StableStone");
+		stableStone = registerBlock("StableStone", new ConnectedBlock(Material.rock, 0));		
+		stableGlass = registerBlock("StableGlass", new ConnectedBlock.Glass(Material.glass, 1)).setLightLevel(0.625F).setHardness(0.6F);
+		clearStableGlass = registerBlock("ClearStableGlass", new ConnectedBlock.Glass(Material.glass, 2)).setLightLevel(0.625F).setHardness(0.6F);		
+		flawlessGlass = registerBlock("FlawlessGlass", new ConnectedBlock.Glass(Material.glass, 3)).setLightLevel(0.625F).setHardness(0.6F);
+		purifiedObsidian = registerBlock("PurifiedObsidian", new ConnectedBlock(Material.rock, 4)).setBlockUnbreakable();
+		
 		/*
 		stablestonerimmedBlock = new ConnectedBlock.StableRimmed().setUnlocalizedName("stablestonerimmedBlock").setCreativeTab(Calculator).setHardness(2.0F);
 		GameRegistry.registerBlock(stablestonerimmedBlock, ItemMetaBlock.class, "stablestonerimmedBlock");
@@ -109,8 +112,6 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerBlock(clearstableglassBlock, SonarBlockTip.class, "ClearStableGlass");
 		flawlessGlass = new ConnectedBlock(Material.glass, "flawlessglass", 1, false).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F);
 		GameRegistry.registerBlock(flawlessGlass, SonarBlockTip.class, "FlawlessGlass");
-		purifiedobsidianBlock = new ConnectedBlock.PurifiedObsidian().setUnlocalizedName("purifiedobsidianBlock").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(purifiedobsidianBlock, SonarBlockTip.class, "purifiedobsidianBlock");
 	*/
 		// calculators
 		powerCube = registerBlock("PowerCube",new PowerCube().setHardness(1.0F).setResistance(20.0F));
@@ -279,47 +280,40 @@ public class CalculatorBlocks extends Calculator {
 		amethystLog = registerBlock("AmethystLog",new CalculatorLogs());
 		amethystPlanks = registerBlock("AmethystPlanks",new CalculatorPlanks());
 		amethystStairs = registerBlock("AmethystStairs",new CalculatorStairs(amethystPlanks));
+		amethystFence = registerBlock("AmethystFence",new BlockFence(Material.wood));
 		amethystLeaves = registerBlock("AmethystLeaves",new CalculatorLeaves(0));
 		AmethystSapling = registerBlock("AmethystSapling",new CalculatorSaplings(0));
-		/*
-		amethystFence = new BlockFence("Calculator:wood/planks_amethyst", Material.wood).setBlockName("AmethystFence").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(amethystFence, SonarBlockTip.class, "AmethystFence");
-		 */
-
+		
 		tanzaniteLog = registerBlock("TanzaniteLog",new CalculatorLogs());
 		tanzanitePlanks = registerBlock("TanzanitePlanks",new CalculatorPlanks());
 		tanzaniteStairs = registerBlock("TanzaniteStairs",new CalculatorStairs(tanzanitePlanks));
+		tanzaniteFence = registerBlock("TanzaniteFence",new BlockFence(Material.wood));
 		tanzaniteLeaves = registerBlock("TanzaniteLeaves",new CalculatorLeaves(1));
 		tanzaniteSapling = registerBlock("TanzaniteSapling",new CalculatorSaplings(1));
-		/*
-		tanzaniteFence = new BlockFence("Calculator:wood/planks_tanzanite", Material.wood).setBlockName("TanzaniteFence").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(tanzaniteFence, SonarBlockTip.class, "TanzaniteFence");*/
+		
 		pearLog = registerBlock("PearLog",new CalculatorLogs());
 		pearPlanks = registerBlock("PearPlanks",new CalculatorPlanks());
 		pearStairs = registerBlock("PearStairs",new CalculatorStairs(pearPlanks));
+		pearFence = registerBlock("PearFence",new BlockFence(Material.wood));
 		pearLeaves = registerBlock("PearLeaves",new CalculatorLeaves(2));
 		PearSapling = registerBlock("PearSapling",new CalculatorSaplings(2));
-		/*
-		pearFence = new BlockFence("Calculator:wood/planks_pear", Material.wood).setBlockName("PearFence").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(pearFence, SonarBlockTip.class, "PearFence");
-
-		// diamond
-		 */
+		
 		diamondLog = registerBlock("DiamondLog",new CalculatorLogs());
 		diamondPlanks = registerBlock("DiamondPlanks",new CalculatorPlanks());
 		diamondStairs = registerBlock("DiamondStairs",new CalculatorStairs(diamondPlanks));
+		diamondFence = registerBlock("DiamondFence",new BlockFence(Material.wood));
 		diamondLeaves = registerBlock("DiamondLeaves",new CalculatorLeaves(3));
 		diamondSapling = registerBlock("DiamondSapling",new CalculatorSaplings(3));
 		/*
-		diamondFence = new BlockFence("Calculator:wood/planks_diamond", Material.wood).setBlockName("DiamondFence").setCreativeTab(Calculator);
-		GameRegistry.registerBlock(diamondFence, SonarBlockTip.class, "DiamondFence");
-
 		calculatorScreen = new CalculatorScreen().setUnlocalizedName("calculatorScreen").setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(calculatorScreen, SonarBlockTip.class, "calculatorScreen");
 		GameRegistry.registerTileEntity(TileEntityCalculatorScreen.class, "calculatorScreen");
 		*/
 		material_block = registerMetaBlock("Material", new MaterialBlock());
-		
+
+		cropBroccoliPlant = registerBlock("CropBroccoli",new CalculatorCrops(0, 0));
+		cropPrunaePlant = registerBlock("CropPrunae",new CalculatorCrops(1, 2));
+		cropFiddledewPlant = registerBlock("CropFiddledew",new CalculatorCrops(2, 3));
 	}
 
 }

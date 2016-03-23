@@ -32,6 +32,7 @@ import sonar.calculator.mod.common.item.tools.CalcHoe;
 import sonar.calculator.mod.common.item.tools.CalcPickaxe;
 import sonar.calculator.mod.common.item.tools.CalcShovel;
 import sonar.calculator.mod.common.item.tools.CalcSword;
+import sonar.core.common.block.properties.IMetaVariant;
 import sonar.core.common.item.SonarMetaItem;
 import sonar.core.common.item.SonarSeeds;
 import sonar.core.common.item.SonarSeedsFood;
@@ -49,6 +50,29 @@ public class CalculatorItems extends Calculator {
 	public static final Item.ToolMaterial FireDiamond = EnumHelper.addToolMaterial("FireDiamond", 3, 2600, 16.0F, 7.0F, 30);
 	public static final Item.ToolMaterial ElectricDiamond = EnumHelper.addToolMaterial("ElectricDiamond", 4, 10000, 18.0F, 10.0F, 30);
 	public static final Item.ToolMaterial EndForged = EnumHelper.addToolMaterial("EndForged", 6, -1, 50F, 16.0F, 30);
+
+	public static enum ToolTypes implements IMetaVariant {
+		ReinforcedStone(0, CalculatorItems.ReinforcedStone), Redstone(1, CalculatorItems.RedstoneMaterial), EnrichedGold(2, CalculatorItems.EnrichedGold), ReinforcedIron(3, CalculatorItems.ReinforcedIron), WeakenedDiamond(4, CalculatorItems.WeakenedDiamond), FlawlessDiamond(5, CalculatorItems.FlawlessDiamond), FireDiamond(6, CalculatorItems.FireDiamond), ElectricDiamond(7, CalculatorItems.ElectricDiamond), EndForged(8, CalculatorItems.EndForged);
+
+		Item.ToolMaterial material;
+		int type = 0;
+
+		ToolTypes(int type, Item.ToolMaterial material) {
+			this.material = material;
+			this.type = type;
+		}
+
+		@Override
+		public String getName() {
+			return name();
+		}
+
+		@Override
+		public int getMeta() {
+			return type;
+		}
+
+	}
 
 	public static Item registerItem(String name, Item item) {
 		item.setCreativeTab(Calculator);
@@ -87,7 +111,7 @@ public class CalculatorItems extends Calculator {
 
 		// calculator parts
 		calculator_screen = registerItem("CalculatorScreen", new CalculatorScreen());
-		
+
 		calculator_assembly = registerItem("CalculatorAssembly", new Item());
 		advanced_assembly = registerItem("AdvancedAssembly", new Item());
 		atomic_module = registerItem("AtomicModule", new Item());
@@ -96,71 +120,63 @@ public class CalculatorItems extends Calculator {
 
 		// calculator parts
 		// tools
-		/*
-		wrench = new Wrench().setUnlocalizedName("Wrench").setCreativeTab(Calculator).setMaxStackSize(1).setTextureName(modid + ":" + "wrench");
-		GameRegistry.registerItem(wrench, "Wrench");
-		sickle = new Sickle().setUnlocalizedName("Sickle").setCreativeTab(Calculator).setTextureName(modid + ":" + "sickle").setMaxStackSize(1);
-		GameRegistry.registerItem(sickle, "Sickle");
-		ObsidianKey = new ObsidianKey().setUnlocalizedName("ObsidianKey").setCreativeTab(Calculator).setTextureName(modid + ":" + "codedkey");
-		GameRegistry.registerItem(ObsidianKey, "ObsidianKey");
-		/
-		 * */
-		 
-		//swords
+		/* wrench = new Wrench().setUnlocalizedName("Wrench").setCreativeTab(Calculator).setMaxStackSize(1).setTextureName(modid + ":" + "wrench"); GameRegistry.registerItem(wrench, "Wrench"); sickle = new Sickle().setUnlocalizedName("Sickle").setCreativeTab(Calculator).setTextureName(modid + ":" + "sickle").setMaxStackSize(1); GameRegistry.registerItem(sickle, "Sickle"); ObsidianKey = new ObsidianKey().setUnlocalizedName("ObsidianKey").setCreativeTab(Calculator).setTextureName(modid + ":" + "codedkey"); GameRegistry.registerItem(ObsidianKey, "ObsidianKey"); / */
+
+		// swords
 		reinforced_sword = registerItem("ReinforcedSword", new CalcSword(ReinforcedStone));
 		enrichedgold_sword = registerItem("EnrichedGoldSword", new CalcSword(EnrichedGold));
 		reinforcediron_sword = registerItem("ReinforcedIronSword", new CalcSword(ReinforcedIron));
 		redstone_sword = registerItem("RedstoneSword", new CalcSword(RedstoneMaterial));
 		weakeneddiamond_sword = registerItem("WeakenedDiamondSword", new CalcSword(WeakenedDiamond));
-		flawlessdiamond_sword = registerItem("FlawlessDiamondSword", new CalcSword(FlawlessDiamond));	
-		firediamond_sword = registerItem("FireDiamondSword", new CalcSword(FireDiamond));		
-		electric_sword = registerItem("ElectricSword", new CalcSword(ElectricDiamond));		
+		flawlessdiamond_sword = registerItem("FlawlessDiamondSword", new CalcSword(FlawlessDiamond));
+		firediamond_sword = registerItem("FireDiamondSword", new CalcSword(FireDiamond));
+		electric_sword = registerItem("ElectricSword", new CalcSword(ElectricDiamond));
 		endforged_sword = registerItem("EndForgedSword", new CalcSword(EndForged));
 
-		//pickaxes
+		// pickaxes
 		reinforced_pickaxe = registerItem("ReinforcedPickaxe", new CalcPickaxe(ReinforcedStone));
 		enrichedgold_pickaxe = registerItem("EnrichedGoldPickaxe", new CalcPickaxe(EnrichedGold));
 		reinforcediron_pickaxe = registerItem("ReinforcedIronPickaxe", new CalcPickaxe(ReinforcedIron));
 		redstone_pickaxe = registerItem("RedstonePickaxe", new CalcPickaxe(RedstoneMaterial));
 		weakeneddiamond_pickaxe = registerItem("WeakenedDiamondPickaxe", new CalcPickaxe(WeakenedDiamond));
-		flawlessdiamond_pickaxe = registerItem("FlawlessDiamondPickaxe", new CalcPickaxe(FlawlessDiamond));	
-		firediamond_pickaxe = registerItem("FireDiamondPickaxe", new CalcPickaxe(FireDiamond));		
-		electric_pickaxe = registerItem("ElectricPickaxe", new CalcPickaxe(ElectricDiamond));		
+		flawlessdiamond_pickaxe = registerItem("FlawlessDiamondPickaxe", new CalcPickaxe(FlawlessDiamond));
+		firediamond_pickaxe = registerItem("FireDiamondPickaxe", new CalcPickaxe(FireDiamond));
+		electric_pickaxe = registerItem("ElectricPickaxe", new CalcPickaxe(ElectricDiamond));
 		endforged_pickaxe = registerItem("EndForgedPickaxe", new CalcPickaxe(EndForged));
-		
-		//axes
+
+		// axes
 		reinforced_axe = registerItem("ReinforcedAxe", new CalcAxe(ReinforcedStone));
 		enrichedgold_axe = registerItem("EnrichedGoldAxe", new CalcAxe(EnrichedGold));
 		reinforcediron_axe = registerItem("ReinforcedIronAxe", new CalcAxe(ReinforcedIron));
 		redstone_axe = registerItem("RedstoneAxe", new CalcAxe(RedstoneMaterial));
 		weakeneddiamond_axe = registerItem("WeakenedDiamondAxe", new CalcAxe(WeakenedDiamond));
-		flawlessdiamond_axe = registerItem("FlawlessDiamondAxe", new CalcAxe(FlawlessDiamond));	
-		firediamond_axe = registerItem("FireDiamondAxe", new CalcAxe(FireDiamond));		
-		electric_axe = registerItem("ElectricAxe", new CalcAxe(ElectricDiamond));		
-		endforged_axe = registerItem("EndForgedAxe", new CalcAxe(EndForged));		
-		
-		//shovels
+		flawlessdiamond_axe = registerItem("FlawlessDiamondAxe", new CalcAxe(FlawlessDiamond));
+		firediamond_axe = registerItem("FireDiamondAxe", new CalcAxe(FireDiamond));
+		electric_axe = registerItem("ElectricAxe", new CalcAxe(ElectricDiamond));
+		endforged_axe = registerItem("EndForgedAxe", new CalcAxe(EndForged));
+
+		// shovels
 		reinforced_shovel = registerItem("ReinforcedShovel", new CalcShovel(ReinforcedStone));
 		enrichedgold_shovel = registerItem("EnrichedGoldShovel", new CalcShovel(EnrichedGold));
 		reinforcediron_shovel = registerItem("ReinforcedIronShovel", new CalcShovel(ReinforcedIron));
 		redstone_shovel = registerItem("RedstoneShovel", new CalcShovel(RedstoneMaterial));
 		weakeneddiamond_shovel = registerItem("WeakenedDiamondShovel", new CalcShovel(WeakenedDiamond));
-		flawlessdiamond_shovel = registerItem("FlawlessDiamondShovel", new CalcShovel(FlawlessDiamond));	
-		firediamond_shovel = registerItem("FireDiamondShovel", new CalcShovel(FireDiamond));		
-		electric_shovel = registerItem("ElectricShovel", new CalcShovel(ElectricDiamond));		
+		flawlessdiamond_shovel = registerItem("FlawlessDiamondShovel", new CalcShovel(FlawlessDiamond));
+		firediamond_shovel = registerItem("FireDiamondShovel", new CalcShovel(FireDiamond));
+		electric_shovel = registerItem("ElectricShovel", new CalcShovel(ElectricDiamond));
 		endforged_shovel = registerItem("EndForgedShovel", new CalcShovel(EndForged));
 
-		//hoes
+		// hoes
 		reinforced_hoe = registerItem("ReinforcedHoe", new CalcHoe(ReinforcedStone));
 		enrichedgold_hoe = registerItem("EnrichedGoldHoe", new CalcHoe(EnrichedGold));
 		reinforcediron_hoe = registerItem("ReinforcedIronHoe", new CalcHoe(ReinforcedIron));
 		redstone_hoe = registerItem("RedstoneHoe", new CalcHoe(RedstoneMaterial));
 		weakeneddiamond_hoe = registerItem("WeakenedDiamondHoe", new CalcHoe(WeakenedDiamond));
-		flawlessdiamond_hoe = registerItem("FlawlessDiamondHoe", new CalcHoe(FlawlessDiamond));	
-		firediamond_hoe = registerItem("FireDiamondHoe", new CalcHoe(FireDiamond));		
-		electric_hoe = registerItem("ElectricHoe", new CalcHoe(ElectricDiamond));		
+		flawlessdiamond_hoe = registerItem("FlawlessDiamondHoe", new CalcHoe(FlawlessDiamond));
+		firediamond_hoe = registerItem("FireDiamondHoe", new CalcHoe(FireDiamond));
+		electric_hoe = registerItem("ElectricHoe", new CalcHoe(ElectricDiamond));
 		endforged_hoe = registerItem("EndForgedHoe", new CalcHoe(EndForged));
-		
+
 		// materials
 		enrichedGold = registerItem("EnrichedGold", new Item());
 		enrichedgold_ingot = registerItem("EnrichedGoldIngot", new Item());
@@ -179,14 +195,6 @@ public class CalculatorItems extends Calculator {
 		large_tanzanite = registerItem("LargeTanzanite", new Item());
 		small_tanzanite = registerItem("SmallTanzanite", new Item());
 		shard_tanzanite = registerItem("ShardTanzanite", new Item());
-
-		// crops
-		// cropBroccoliPlant = new CalculatorCrops(0, 0).setBlockName("BroccoliPlant");
-		// GameRegistry.registerBlock(cropBroccoliPlant, "BroccoliPlant");
-		// /cropPrunaePlant = new CalculatorCrops(1, 2).setBlockName("PrunaePlant");
-		// GameRegistry.registerBlock(cropPrunaePlant, "PrunaePlant");
-		// cropFiddledewPlant = new CalculatorCrops(2, 3).setBlockName("FiddledewPlant");
-		// GameRegistry.registerBlock(cropFiddledewPlant, "FiddledewPlant");
 
 		// seeds
 		broccoliSeeds = registerItem("BroccoliSeeds", new SonarSeeds(cropBroccoliPlant, Blocks.farmland, 0));

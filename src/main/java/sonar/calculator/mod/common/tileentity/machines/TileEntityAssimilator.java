@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHealthStore;

@@ -11,7 +11,6 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.modules.WIPSmeltingModule;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.energy.DischargeValues;
-import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerCraftInventory;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 import sonar.core.inventory.slots.SlotLimiter;

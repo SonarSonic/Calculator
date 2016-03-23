@@ -1,14 +1,12 @@
 package sonar.calculator.mod.common.item.calculators;
 
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.api.items.IResearchStore;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.IItemInventory;

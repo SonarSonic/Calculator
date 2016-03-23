@@ -1,8 +1,8 @@
 package sonar.calculator.mod.common.block;
 
-import sonar.calculator.mod.Calculator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
+import sonar.calculator.mod.Calculator;
 
 public class CalculatorStairs extends BlockStairs {
 

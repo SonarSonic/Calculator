@@ -2,7 +2,6 @@ package sonar.calculator.mod.common.block.generators;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,6 +31,9 @@ public class CalculatorPlug extends SonarMachineBlock {
 		return true;
 	}
 
+	public boolean isFullCube(){
+		return false;
+	}
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (!world.isRemote) {

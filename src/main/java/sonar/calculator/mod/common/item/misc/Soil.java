@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.core.common.item.SonarItem;

@@ -3,11 +3,11 @@ package sonar.calculator.mod.client.renderers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.client.models.ModelWrench;
+import sonar.core.common.block.properties.IItemRenderer;
 
 public class ItemWrench implements net.minecraftforge.client.IItemRenderer {
 	public String texture;

@@ -65,8 +65,8 @@ public class CalculatorOreDict extends Calculator {
 		// blocks
 		registerOre("calculatorReinforcedBlock", reinforcedStoneBlock);
 		registerOre("calculatorReinforcedBlock", reinforcedDirtBlock);
-		registerOre("blockGlass", stableglassBlock);
-		registerOre("blockGlass", clearstableglassBlock);
+		registerOre("blockGlass", stableGlass);
+		registerOre("blockGlass", clearStableGlass);
 		registerOre("reinforcedStone", reinforcedStoneBlock);
 		registerOre("strongStone", reinforcedStoneBlock);
 		registerOre("hardStone", reinforcedStoneBlock);

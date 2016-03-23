@@ -101,14 +101,14 @@ item.Broccoli.name=Broccoli
 item.BroccoliSeeds.name=Broccoli Seeds
 item.CookedBroccoli.name=Cooked Broccoli
 item.Broccoli.name=Broccoli
-tile.BroccoliPlant.name=Broccoli Plant
+tile.CropBroccoli.name=Broccoli Plant
 
 item.CoalDust.name=Coal Dust
 item.PrunaeSeeds.name=Prunae Seeds
-tile.PrunaePlant.name=Prunae Plant
+tile.CropPrunae.name=Prunae Plant
 
 item.FiddledewFruit.name=Fiddledew Fruit
-tile.FiddledewPlant.name=Fiddledew Plant
+tile.CropFiddledew.name=Fiddledew Plant
 
 //amethyst tree
 tile.AmethystLog.name=Amethyst Wood

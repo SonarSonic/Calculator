@@ -12,8 +12,6 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -23,12 +21,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.block.ConnectedBlock.StableStoneColours;
-import sonar.calculator.mod.common.block.MaterialBlock.Variants;
-import sonar.calculator.mod.common.block.StableStone.TextureTypes;
 
 public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 

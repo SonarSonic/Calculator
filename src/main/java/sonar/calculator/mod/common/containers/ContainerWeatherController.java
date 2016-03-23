@@ -6,7 +6,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.core.energy.DischargeValues;
-import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerSync;
 
 public class ContainerWeatherController extends ContainerSync {

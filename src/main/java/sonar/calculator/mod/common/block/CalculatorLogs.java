@@ -1,14 +1,11 @@
 package sonar.calculator.mod.common.block;
 
 import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CalculatorLogs extends BlockLog {
 	public CalculatorLogs() {

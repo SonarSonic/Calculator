@@ -1,7 +1,5 @@
 package sonar.calculator.mod.client.gui.calculators;
 
-import java.util.Map;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;

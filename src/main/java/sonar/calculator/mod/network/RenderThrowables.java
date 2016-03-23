@@ -1,12 +1,11 @@
 package sonar.calculator.mod.network;
 
-import sonar.calculator.mod.Calculator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.init.Items;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import sonar.calculator.mod.Calculator;
 
 public enum RenderThrowables implements IRenderFactory {
 	

@@ -7,14 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CalculatorConfig extends Calculator {
 
@@ -179,6 +175,7 @@ public class CalculatorConfig extends Calculator {
 	 * @return if the Item/Block is enabled
 	 */
 	public static boolean isEnabled(ItemStack stack) {
+		/*
 		if (stack == null) {
 			return true;
 		}
@@ -200,5 +197,7 @@ public class CalculatorConfig extends Calculator {
 		} else {
 			return true;
 		}
+		*/
+		return true;
 	}
 }

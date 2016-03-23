@@ -1,387 +1,523 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "model":"calculator:StableStone"
+        "textures":{            
+            "particle":"calculator:blocks/connected/stablestone",          
+            "north":"calculator:blocks/connected/stablestone",             
+            "east":"calculator:blocks/connected/stablestone",            
+            "south":"calculator:blocks/connected/stablestone",               
+            "west":"calculator:blocks/connected/stablestone",
+            "up":"calculator:blocks/connected/stablestone",  
+            "down":"calculator:blocks/connected/stablestone" 
+        },   
+        "model":"cube_all",
+        "transform":"forge:default-block"
     },
-    "variants": { 
-        "colour":{
-            "none":{
-            }, 
-            "orange":{                
-                 "textures": {
-                     "all":"calculator:blocks/connected/stablestone_orange"
-                 }
-            },
-            "magenta":{                              
-                 "textures": {
-                     "all":"calculator:blocks/connected/stablestone_magenta"
-                 }
-            },
-            "lightblue":{                                      
-                 "textures": {
-                     "all":"calculator:blocks/connected/stablestone_lightblue"
-                 }
-            },
-            "yellow":{                                                     
-                 "textures": {
-                     "all":"calculator:blocks/connected/stablestone_yellow"
-                 }
-            },
-            "lime":{                                                                   
-                 "textures": {
-                     "all":"calculator:blocks/connected/stablestone_lime"
-                 }
-            },
-            "pink":{                                                                                 
-                 "textures": {
-                     "all":"calculator:blocks/connected/stablestone_pink"
-                 }
-            },
-            "plain":{                                                                                              
-                 "textures": {
-                     "all":"calculator:blocks/connected/stablestone_plain"
-                 }
-            },
-            "lightgrey":{                                                                                                              
-                 "textures": {
-                     "all":"calculator:blocks/connected/stablestone_lightgrey"
-                 }
-            },
-            "cyan":{                                                                                                                           
-                 "textures": {
-                     "all":"calculator:blocks/connected/stablestone_cyan"
-                 }
-            },
-            "purple":{                                                                                                                                         
-                 "textures": {
-                     "all":"calculator:blocks/connected/stablestone_purple"
-                 }
-            },
-            "blue":{
-                "textures": {
-                     "all":"calculator:blocks/connected/stablestone_blue"
-                 }
-            },
-            "brown":{
-                "textures": {
-                     "all":"calculator:blocks/connected/stablestone_brown"
-                 }
-            },
-            "green":{
-                "textures": {
-                     "all":"calculator:blocks/connected/stablestone_green"
-                 }
-            },
-            "red":{
-                "textures": {
-                     "all":"calculator:blocks/connected/stablestone_red"
-                 }
-            },
-            "black":{                
-                "textures": {
-                     "all":"calculator:blocks/connected/stablestone_black"
-                 }
+    "variants": {        
+        "inventory": [{}], 
+        "down=false,east=false,north=false,south=false,up=false,west=false": {             
+            "model":"cube_all"
+        },             
+        "down=false,east=false,north=false,south=false,up=true,west=false": {           
+            "model":"cube_all",
+             "textures":{                    
+                "north":"calculator:blocks/connected/stablestone_2",             
+                "east":"calculator:blocks/connected/stablestone_2",            
+                "south":"calculator:blocks/connected/stablestone_2",               
+                "west":"calculator:blocks/connected/stablestone_2"
+            }
+        }, 
+        "down=true,east=false,north=false,south=false,up=false,west=false": {     
+            "model":"cube_all",
+            "textures":{                    
+                "north":"calculator:blocks/connected/stablestone_1",             
+                "east":"calculator:blocks/connected/stablestone_1",            
+                "south":"calculator:blocks/connected/stablestone_1",               
+                "west":"calculator:blocks/connected/stablestone_1"
+            }
+        },     
+        
+        "down=false,east=false,north=true,south=false,up=false,west=false": {    
+            "model":"cube_all",
+            "textures":{                                
+                "east":"calculator:blocks/connected/stablestone_6",              
+                "west":"calculator:blocks/connected/stablestone_7",
+	            "up":"calculator:blocks/connected/stablestone_2",  
+	            "down":"calculator:blocks/connected/stablestone_1" 
             }
         },
-        "north":{
-            "t1":{
-                
-            },
-            "t2":{
-                
-            },
-            "t3":{
-                
-            },
-            "t4":{
-                
-            },
-            "t5":{
-                
-            },
-            "t6":{
-                
-            },
-            "t7":{
-                
-            },
-            "t8":{
-                
-            },
-            "t9":{
-                
-            },
-            "t10":{
-                
-            },
-            "t11":{
-                
-            },
-            "t12":{
-                
-            },
-            "t13":{
-                
-            },
-            "t14":{
-                
-            },
-            "t15":{
-                
-            },
-            "t16":{
-                
+        
+        "down=false,east=false,north=false,south=true,up=false,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "east":"calculator:blocks/connected/stablestone_7",                
+                "west":"calculator:blocks/connected/stablestone_6",
+                "up":"calculator:blocks/connected/stablestone_1",  
+                "down":"calculator:blocks/connected/stablestone_2" 
             }
         },
-        "east":{
-           "t1":{
-                
-            },
-            "t2":{
-                
-            },
-            "t3":{
-                
-            },
-            "t4":{
-                
-            },
-            "t5":{
-                
-            },
-            "t6":{
-                
-            },
-            "t7":{
-                
-            },
-            "t8":{
-                
-            },
-            "t9":{
-                
-            },
-            "t10":{
-                
-            },
-            "t11":{
-                
-            },
-            "t12":{
-                
-            },
-            "t13":{
-                
-            },
-            "t14":{
-                
-            },
-            "t15":{
-                
-            },
-            "t16":{
-                
+        "down=false,east=false,north=false,south=false,up=false,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_6",                
+                "south":"calculator:blocks/connected/stablestone_7",
+                "up":"calculator:blocks/connected/stablestone_7",  
+                "down":"calculator:blocks/connected/stablestone_7" 
             }
         },
-        "south":{
-            "t1":{
-                
-            },
-            "t2":{
-                
-            },
-            "t3":{
-                
-            },
-            "t4":{
-                
-            },
-            "t5":{
-                
-            },
-            "t6":{
-                
-            },
-            "t7":{
-                
-            },
-            "t8":{
-                
-            },
-            "t9":{
-                
-            },
-            "t10":{
-                
-            },
-            "t11":{
-                
-            },
-            "t12":{
-                
-            },
-            "t13":{
-                
-            },
-            "t14":{
-                
-            },
-            "t15":{
-                
-            },
-            "t16":{
-                
+        "down=false,east=true,north=false,south=false,up=false,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_7",                
+                "south":"calculator:blocks/connected/stablestone_6",
+                "up":"calculator:blocks/connected/stablestone_6",  
+                "down":"calculator:blocks/connected/stablestone_6" 
             }
         },
-        "west":{
-             "t1":{
-                
-            },
-            "t2":{
-                
-            },
-            "t3":{
-                
-            },
-            "t4":{
-                
-            },
-            "t5":{
-                
-            },
-            "t6":{
-                
-            },
-            "t7":{
-                
-            },
-            "t8":{
-                
-            },
-            "t9":{
-                
-            },
-            "t10":{
-                
-            },
-            "t11":{
-                
-            },
-            "t12":{
-                
-            },
-            "t13":{
-                
-            },
-            "t14":{
-                
-            },
-            "t15":{
-                
-            },
-            "t16":{
-                
+
+        "down=false,east=true,north=false,south=false,up=true,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_5",                
+                "south":"calculator:blocks/connected/stablestone_4",
+                "west":"calculator:blocks/connected/stablestone_2",  
+                "down":"calculator:blocks/connected/stablestone_6" 
             }
         },
-        "up":{
-             "t1":{
-                
-            },
-            "t2":{
-                
-            },
-            "t3":{
-                
-            },
-            "t4":{
-                
-            },
-            "t5":{
-                
-            },
-            "t6":{
-                
-            },
-            "t7":{
-                
-            },
-            "t8":{
-                
-            },
-            "t9":{
-                
-            },
-            "t10":{
-                
-            },
-            "t11":{
-                
-            },
-            "t12":{
-                
-            },
-            "t13":{
-                
-            },
-            "t14":{
-                
-            },
-            "t15":{
-                
-            },
-            "t16":{
-                
+        "down=false,east=false,north=false,south=false,up=true,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_4",                
+                "south":"calculator:blocks/connected/stablestone_5",
+                "east":"calculator:blocks/connected/stablestone_2",  
+                "down":"calculator:blocks/connected/stablestone_7" 
             }
         },
-        "down":{
-             "t1":{
-                
-            },
-            "t2":{
-                
-            },
-            "t3":{
-                
-            },
-            "t4":{
-                
-            },
-            "t5":{
-                
-            },
-            "t6":{
-                
-            },
-            "t7":{
-                
-            },
-            "t8":{
-                
-            },
-            "t9":{
-                
-            },
-            "t10":{
-                
-            },
-            "t11":{
-                
-            },
-            "t12":{
-                
-            },
-            "t13":{
-                
-            },
-            "t14":{
-                
-            },
-            "t15":{
-                
-            },
-            "t16":{
-                
+        "down=true,east=true,north=false,south=false,up=false,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_10",                
+                "south":"calculator:blocks/connected/stablestone_9",
+                "west":"calculator:blocks/connected/stablestone_1",  
+                "up":"calculator:blocks/connected/stablestone_6" 
             }
-        }                
+        },
+        "down=true,east=false,north=false,south=false,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_9",                
+                "south":"calculator:blocks/connected/stablestone_10",
+                "east":"calculator:blocks/connected/stablestone_1",  
+                "up":"calculator:blocks/connected/stablestone_7" 
+            }
+        },
+        "down=false,east=false,north=true,south=false,up=true,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "south":"calculator:blocks/connected/stablestone_2",                
+                "east":"calculator:blocks/connected/stablestone_4",
+                "west":"calculator:blocks/connected/stablestone_5",  
+                "down":"calculator:blocks/connected/stablestone_1" 
+            }
+        },
+        "down=false,east=false,north=false,south=true,up=true,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_2",                
+                "east":"calculator:blocks/connected/stablestone_5",
+                "west":"calculator:blocks/connected/stablestone_4",  
+                "down":"calculator:blocks/connected/stablestone_2" 
+            }
+        },
+        "down=true,east=false,north=true,south=false,up=false,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "south":"calculator:blocks/connected/stablestone_1",                
+                "east":"calculator:blocks/connected/stablestone_9",
+                "west":"calculator:blocks/connected/stablestone_10",  
+                "up":"calculator:blocks/connected/stablestone_2" 
+            }
+        },
+        "down=true,east=false,north=false,south=true,up=false,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_1",                
+                "east":"calculator:blocks/connected/stablestone_10",
+                "west":"calculator:blocks/connected/stablestone_9",  
+                "up":"calculator:blocks/connected/stablestone_1" 
+            }
+         },
+        "down=false,east=true,north=true,south=false,up=false,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "south":"calculator:blocks/connected/stablestone_6",                
+                "west":"calculator:blocks/connected/stablestone_7",
+                "down":"calculator:blocks/connected/stablestone_9",  
+                "up":"calculator:blocks/connected/stablestone_4" 
+            }            
+        },
+        "down=false,east=true,north=false,south=true,up=false,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_7",                
+                "west":"calculator:blocks/connected/stablestone_6",
+                "down":"calculator:blocks/connected/stablestone_4",  
+                "up":"calculator:blocks/connected/stablestone_9" 
+            }             
+        },
+        "down=false,east=false,north=true,south=false,up=false,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "south":"calculator:blocks/connected/stablestone_7",                
+                "east":"calculator:blocks/connected/stablestone_6",
+                "down":"calculator:blocks/connected/stablestone_10",  
+                "up":"calculator:blocks/connected/stablestone_5" 
+            }
+         },
+        "down=false,east=false,north=false,south=true,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_6",                
+                "east":"calculator:blocks/connected/stablestone_7",
+                "down":"calculator:blocks/connected/stablestone_5",  
+                "up":"calculator:blocks/connected/stablestone_10" 
+            }
+        },
+        "down=true,east=false,north=false,south=false,up=true,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_3",                
+                "south":"calculator:blocks/connected/stablestone_3",
+                "east":"calculator:blocks/connected/stablestone_3",  
+                "west":"calculator:blocks/connected/stablestone_3" 
+            }
+        },
+        "down=false,east=true,north=false,south=false,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_8",                
+                "south":"calculator:blocks/connected/stablestone_8",
+                "up":"calculator:blocks/connected/stablestone_8",  
+                "down":"calculator:blocks/connected/stablestone_8" 
+            }
+        },
+        "down=false,east=false,north=true,south=true,up=false,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "east":"calculator:blocks/connected/stablestone_8",                
+                "west":"calculator:blocks/connected/stablestone_8",
+                "down":"calculator:blocks/connected/stablestone_3",  
+                "up":"calculator:blocks/connected/stablestone_3" 
+            }
+        },
+        "down=true,east=false,north=false,south=false,up=true,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_14",                
+                "south":"calculator:blocks/connected/stablestone_12",
+                "west":"calculator:blocks/connected/stablestone_3"  
+            }
+        },
+        "down=true,east=false,north=false,south=true,up=true,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_3",                
+                "east":"calculator:blocks/connected/stablestone_12",
+                "west":"calculator:blocks/connected/stablestone_14"  
+            }
+         },
+        "down=true,east=true,north=false,south=false,up=true,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_12",                
+                "south":"calculator:blocks/connected/stablestone_14",
+                "west":"calculator:blocks/connected/stablestone_3"  
+            }
+        },
+        "down=true,east=false,north=true,south=false,up=true,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "south":"calculator:blocks/connected/stablestone_3",                
+                "east":"calculator:blocks/connected/stablestone_14",
+                "west":"calculator:blocks/connected/stablestone_12"  
+            }
+        },
+        "down=false,east=false,north=true,south=true,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_12",                
+                "up":"calculator:blocks/connected/stablestone_12",
+                "east":"calculator:blocks/connected/stablestone_8"  
+            }
+        },
+        "down=false,east=true,north=true,south=true,up=false,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_14",                
+                "up":"calculator:blocks/connected/stablestone_14",
+                "west":"calculator:blocks/connected/stablestone_8"  
+            }
+         },
+
+        "down=false,east=true,north=false,south=false,up=true,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_8",                
+                "north":"calculator:blocks/connected/stablestone_13",
+                "south":"calculator:blocks/connected/stablestone_13"  
+            } 
+         },
+        "down=false,east=true,north=false,south=true,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_13",                
+                "north":"calculator:blocks/connected/stablestone_8",
+                "up":"calculator:blocks/connected/stablestone_11"  
+            }
+        },
+        "down=true,east=true,north=false,south=false,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "up":"calculator:blocks/connected/stablestone_8",                
+                "north":"calculator:blocks/connected/stablestone_11",
+                "south":"calculator:blocks/connected/stablestone_11"  
+            }
+         },
+        "down=false,east=true,north=true,south=false,up=false,west=true": {    
+            "model":"cube_all",
+             "textures":{                               
+                "up":"calculator:blocks/connected/stablestone_13",                
+                "south":"calculator:blocks/connected/stablestone_8",
+                "down":"calculator:blocks/connected/stablestone_11"  
+            }
+         },
+        "down=false,east=false,north=true,south=true,up=true,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_3",                
+                "east":"calculator:blocks/connected/stablestone_13",
+                "west":"calculator:blocks/connected/stablestone_13"  
+            }
+        },
+        "down=true,east=false,north=true,south=true,up=false,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "up":"calculator:blocks/connected/stablestone_3",                
+                "east":"calculator:blocks/connected/stablestone_11",
+                "west":"calculator:blocks/connected/stablestone_11"  
+            }
+         },
+        "down=false,east=true,north=false,south=true,up=true,west=false": {   
+             "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_4",                
+                "north":"calculator:blocks/connected/stablestone_5",
+                "west":"calculator:blocks/connected/stablestone_4"  
+            }
+        },
+        "down=false,east=false,north=false,south=true,up=true,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_5",                
+                "north":"calculator:blocks/connected/stablestone_4",
+                "east":"calculator:blocks/connected/stablestone_5"  
+            }
+        },
+        "down=false,east=true,north=true,south=false,up=true,west=false": { 
+            "model":"cube_all",  
+            "textures":{                                            
+                "south":"calculator:blocks/connected/stablestone_4",
+                "down":"calculator:blocks/connected/stablestone_9",  
+                "west":"calculator:blocks/connected/stablestone_5" 
+            } 
+        },
+        "down=true,east=true,north=true,south=false,up=false,west=false": {   
+            "model":"cube_all",
+            "textures":{                                           
+                "south":"calculator:blocks/connected/stablestone_9",
+                "west":"calculator:blocks/connected/stablestone_10",  
+                "up":"calculator:blocks/connected/stablestone_4" 
+            }
+         },
+        "down=true,east=true,north=false,south=true,up=false,west=false": {   
+            "model":"cube_all",
+            "textures":{                                           
+                "north":"calculator:blocks/connected/stablestone_10",
+                "west":"calculator:blocks/connected/stablestone_9",  
+                "up":"calculator:blocks/connected/stablestone_9" 
+            }
+        },
+
+        "down=true,east=false,north=false,south=true,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                                           
+                "east":"calculator:blocks/connected/stablestone_10",
+                "north":"calculator:blocks/connected/stablestone_9",  
+                "up":"calculator:blocks/connected/stablestone_10" 
+            }
+         },
+        "down=true,east=false,north=true,south=false,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                                           
+                "east":"calculator:blocks/connected/stablestone_9",
+                "south":"calculator:blocks/connected/stablestone_10",  
+                "up":"calculator:blocks/connected/stablestone_5" 
+            }
+        },
+        "down=false,east=false,north=true,south=false,up=true,west=true": {    
+            "model":"cube_all",
+            "textures":{                                           
+                "down":"calculator:blocks/connected/stablestone_10",
+                "east":"calculator:blocks/connected/stablestone_4",  
+                "south":"calculator:blocks/connected/stablestone_5" 
+            }
+        },
+        "down=true,east=true,north=false,south=false,up=true,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_15",  
+                "south":"calculator:blocks/connected/stablestone_15" 
+            }
+        },
+        "down=false,east=true,north=true,south=true,up=false,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "up":"calculator:blocks/connected/stablestone_15",  
+                "down":"calculator:blocks/connected/stablestone_15" 
+            }
+        },
+        "down=true,east=false,north=true,south=true,up=true,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "east":"calculator:blocks/connected/stablestone_15",  
+                "west":"calculator:blocks/connected/stablestone_15" 
+            }
+        },
+
+        "down=true,east=false,north=true,south=false,up=true,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "east":"calculator:blocks/connected/stablestone_14",  
+                "south":"calculator:blocks/connected/stablestone_12" 
+            }
+          },
+        "down=true,east=false,north=true,south=true,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "east":"calculator:blocks/connected/stablestone_11",  
+                "up":"calculator:blocks/connected/stablestone_12" 
+            }
+        },
+        "down=false,east=false,north=true,south=true,up=true,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_12",  
+                "east":"calculator:blocks/connected/stablestone_13" 
+            }           
+        },
+        "down=true,east=false,north=false,south=true,up=true,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "east":"calculator:blocks/connected/stablestone_12",  
+                "north":"calculator:blocks/connected/stablestone_14" 
+            }
+        },
+        "down=true,east=true,north=true,south=false,up=true,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "south":"calculator:blocks/connected/stablestone_14",  
+                "west":"calculator:blocks/connected/stablestone_12" 
+            }
+        },
+        "down=true,east=true,north=false,south=true,up=true,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_12",  
+                "west":"calculator:blocks/connected/stablestone_14" 
+            }
+         },
+        "down=false,east=true,north=true,south=true,up=true,west=false": {    
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_14",  
+                "west":"calculator:blocks/connected/stablestone_13" 
+            }
+         },
+        "down=true,east=true,north=true,south=true,up=false,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "up":"calculator:blocks/connected/stablestone_14",  
+                "west":"calculator:blocks/connected/stablestone_11" 
+            }
+          },
+        "down=false,east=true,north=false,south=true,up=true,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_13",  
+                "north":"calculator:blocks/connected/stablestone_13" 
+            }
+        },
+        "down=true,east=true,north=false,south=true,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "up":"calculator:blocks/connected/stablestone_11",  
+                "north":"calculator:blocks/connected/stablestone_11" 
+            }
+        },
+        "down=false,east=true,north=true,south=false,up=true,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_11",  
+                "south":"calculator:blocks/connected/stablestone_13" 
+            }
+        },
+        "down=true,east=true,north=true,south=false,up=false,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "south":"calculator:blocks/connected/stablestone_11",                
+                "up":"calculator:blocks/connected/stablestone_13"
+            }
+         },
+
+        "down=true,east=true,north=true,south=true,up=false,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "up":"calculator:blocks/connected/stablestone_15"
+            }
+          },
+        "down=true,east=true,north=false,south=true,up=true,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "north":"calculator:blocks/connected/stablestone_15"
+            }
+         },
+        "down=true,east=false,north=true,south=true,up=true,west=true": {    
+            "model":"cube_all",
+            "textures":{                               
+                "east":"calculator:blocks/connected/stablestone_15"
+            }
+         },
+        "down=true,east=true,north=true,south=true,up=true,west=false": {   
+            "model":"cube_all",
+            "textures":{                               
+                "west":"calculator:blocks/connected/stablestone_15"
+            }
+         },
+        "down=true,east=true,north=true,south=false,up=true,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "south":"calculator:blocks/connected/stablestone_15"
+            }
+        },
+        "down=false,east=true,north=true,south=true,up=true,west=true": {   
+            "model":"cube_all",
+            "textures":{                               
+                "down":"calculator:blocks/connected/stablestone_15" 
+            } 
+        },
+
+        "down=true,east=true,north=true,south=true,up=true,west=true": {    
+            "model":"cube_all"}
     }
+
 }

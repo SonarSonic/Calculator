@@ -3,7 +3,6 @@ package sonar.calculator.mod.common.tileentity.machines;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fml.common.Optional.Method;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.helpers.SonarHelper;
 

@@ -3,11 +3,7 @@ package sonar.calculator.mod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -43,13 +39,10 @@ import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.calculator.mod.integration.ae2.StorageChamberHandler;
 import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
-import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.network.CalculatorCommon;
-import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.energy.DischargeValues;
-import sonar.core.integration.SonarAPI;
 
 @Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version)
 public class Calculator {
@@ -265,6 +258,8 @@ public class Calculator {
 	public static Item atomic_binder;
 	public static Item atomic_assembly;
 
+	public static Item calculator_sword;
+	
 	// tools
 	public static Item reinforced_axe;
 	public static Item reinforced_pickaxe;
@@ -351,7 +346,7 @@ public class Calculator {
 	public static Item soil, small_stone;
 
 	// common blocks
-	public static Block reinforcedStoneBlock, reinforcedStoneBrick, reinforcedDirtBlock, reinforcedDirtBrick, purifiedobsidianBlock, stableStone, stablestonerimmedBlock, stablestonerimmedblackBlock, stableglassBlock, clearstableglassBlock, flawlessGlass;
+	public static Block reinforcedStoneBlock, reinforcedStoneBrick, reinforcedDirtBlock, reinforcedDirtBrick, purifiedObsidian, stableStone, stablestonerimmedBlock, stablestonerimmedblackBlock, stableGlass, clearStableGlass, flawlessGlass;
 	public static Block reinforcedStoneStairs, reinforcedStoneBrickStairs, reinforcedDirtStairs, reinforcedDirtBrickStairs;
 	public static Block reinforcedStoneFence, reinforcedStoneBrickFence, reinforcedDirtFence, reinforcedDirtBrickFence;
 
@@ -364,8 +359,6 @@ public class Calculator {
 	public static Block amethystFence, tanzaniteFence, pearFence, diamondFence;
 
 	// decorative blocks
-	public static Block amethyst_block, end_diamond_block, enriched_gold_block, flawless_block, flawless_fire_block;
-	public static Block reinforced_iron_block, tanzanite_block, weakened_diamond_block, electric_diamond_block;
 	public static Block material_block;
 	// tools
 	public static Item sickle, ObsidianKey;

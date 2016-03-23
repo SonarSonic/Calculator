@@ -20,7 +20,6 @@ import sonar.core.utils.IUpgradeCircuits;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
-import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 
 public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements ISidedInventory, IUpgradeCircuits, IAdditionalInventory {

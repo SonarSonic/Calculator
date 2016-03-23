@@ -1,41 +1,23 @@
 package sonar.calculator.mod.common.block;
 
-import java.util.List;
 import java.util.Random;
 
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockOldLeaf;
-import net.minecraft.block.BlockOldLog;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenBigTree;
-import net.minecraft.world.gen.feature.WorldGenCanopyTree;
-import net.minecraft.world.gen.feature.WorldGenForest;
-import net.minecraft.world.gen.feature.WorldGenMegaJungle;
-import net.minecraft.world.gen.feature.WorldGenMegaPineTree;
-import net.minecraft.world.gen.feature.WorldGenSavannaTree;
-import net.minecraft.world.gen.feature.WorldGenTaiga2;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
 
 public class CalculatorSaplings extends BlockBush implements IGrowable {
 	
@@ -52,7 +34,7 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 
 	@Override
 	public boolean canPlaceBlockOn(Block block) {
-		return type == 3 ? block == Calculator.end_diamond_block : super.canPlaceBlockOn(block);
+		return type == 3 ? block == Calculator.material_block: super.canPlaceBlockOn(block);
 	}
 
 	@Override

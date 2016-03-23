@@ -5,14 +5,10 @@ import java.text.DecimalFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.core.utils.helpers.FontHelper;

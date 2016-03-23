@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 

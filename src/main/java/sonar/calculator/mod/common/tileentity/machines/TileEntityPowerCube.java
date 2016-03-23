@@ -1,6 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.inventory.SonarTileInventory;

@@ -12,7 +12,6 @@ import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
-import sonar.core.utils.helpers.SonarHelper;
 
 public class TileEntityCalculator extends TileEntityInventory implements ISidedInventory {
 

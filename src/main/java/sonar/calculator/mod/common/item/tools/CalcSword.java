@@ -12,7 +12,7 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.CalculatorItems;
 import sonar.core.utils.helpers.FontHelper;
 
-public class CalcSword extends ItemSword {
+public class CalcSword extends ItemSword{
 	ToolMaterial type;
 
 	public CalcSword(ToolMaterial material) {
@@ -42,4 +42,5 @@ public class CalcSword extends ItemSword {
 	public boolean isItemTool(ItemStack stack) {
 		return true;
 	}
+
 }

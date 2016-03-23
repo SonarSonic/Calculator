@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.item.modules;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.calculators.SonarCalculator;
 

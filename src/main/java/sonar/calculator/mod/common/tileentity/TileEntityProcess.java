@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 
 import java.util.List;
 
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -16,7 +15,6 @@ import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
-import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;

@@ -11,7 +11,6 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.core.energy.DischargeValues;
-import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerSync;
 import cofh.api.energy.IEnergyContainerItem;
 

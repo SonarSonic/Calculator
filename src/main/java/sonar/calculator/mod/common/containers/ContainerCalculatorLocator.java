@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.utils.SlotLocatorModule;
-import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerSync;
 import cofh.api.energy.IEnergyContainerItem;
 

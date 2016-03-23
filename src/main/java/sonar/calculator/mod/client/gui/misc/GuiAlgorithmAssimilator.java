@@ -1,7 +1,6 @@
 package sonar.calculator.mod.client.gui.misc;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerAlgorithmAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;

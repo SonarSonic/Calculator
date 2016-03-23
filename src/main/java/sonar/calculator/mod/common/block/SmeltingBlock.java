@@ -3,9 +3,6 @@ package sonar.calculator.mod.common.block;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,7 +20,6 @@ import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.BlockInteraction;

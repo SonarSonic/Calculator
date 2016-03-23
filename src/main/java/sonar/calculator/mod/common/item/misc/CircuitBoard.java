@@ -1,23 +1,17 @@
 package sonar.calculator.mod.common.item.misc;
 
 import java.util.List;
-import java.util.Map;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.IStability;
-import sonar.core.common.item.SonarItem;
 import sonar.core.common.item.SonarMetaItem;
 import sonar.core.utils.helpers.FontHelper;
-
-import com.google.common.collect.Maps;
 
 public class CircuitBoard extends SonarMetaItem implements IStability {
 	

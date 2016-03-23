@@ -8,7 +8,6 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.core.utils.helpers.FontHelper;
 
 public class CalcHoe extends ItemHoe {
 	public CalcHoe(Item.ToolMaterial material) {

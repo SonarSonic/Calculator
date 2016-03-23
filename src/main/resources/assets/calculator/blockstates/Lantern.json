@@ -8,7 +8,16 @@
         "transform":"forge:default-block"
     },
     "variants": {
-        "inventory": [{}], 
+        "inventory": [{
+           "display": {
+                "thirdperson": {
+		            "rotation": [ 10, -45, 170 ],
+		            "translation": [ 0, 1.5, -2.75 ],
+		            "scale": [ 0.375, 0.375, 0.375 ]
+                },     
+                "gui": {"scale": [ 1.5, 1.5, 1.5 ], "translation": [ 0, 0.1, 0 ]}
+           }
+        }], 
         "dir":{            
             "north":{  
                 "model":"calculator:Lantern_Side",   

@@ -3,17 +3,14 @@ package sonar.calculator.mod.common.item.calculators;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.core.common.item.InventoryContainerItem;
-import sonar.core.integration.SonarAPI;
 import sonar.core.utils.helpers.FontHelper;
 import cofh.api.energy.IEnergyContainerItem;
 

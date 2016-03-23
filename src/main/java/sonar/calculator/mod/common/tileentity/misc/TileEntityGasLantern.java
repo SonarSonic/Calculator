@@ -2,7 +2,6 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import java.util.List;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

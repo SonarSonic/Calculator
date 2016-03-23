@@ -65,7 +65,7 @@ public class InfoList {
 		addRecipe("Modules", new ItemStack(Calculator.itemStorageModule), "A portable double size chest");
 		addRecipe("Blocks", new ItemStack(Calculator.ObsidianKey), "See Purified Obsidian");
 		addRecipe("Machines", new ItemStack(Calculator.processingChamber), "Combines Restoration & -Reassembly Chambers");
-		addRecipe("Blocks", new ItemStack(Calculator.purifiedobsidianBlock), "Indestructable/Security block--Only removable with Obsidian Key");
+		addRecipe("Blocks", new ItemStack(Calculator.purifiedObsidian), "Indestructable/Security block--Only removable with Obsidian Key");
 		addRecipe("Machines", new ItemStack(Calculator.reassemblyChamber), "Reassembles Damaged Circuits");
 		addRecipe("Machines", new ItemStack(Calculator.restorationChamber), "Restores Dirty Circuits");
 		addRecipe("Items", new ItemStack(Calculator.sickle), "Can remove berries/diamonds- from their trees");

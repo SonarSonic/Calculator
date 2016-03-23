@@ -20,7 +20,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.blocks.IStableBlock;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
@@ -41,6 +40,10 @@ public class CalculatorLocator extends SonarMachineBlock {
 		return true;
 	}
 
+	public boolean isFullCube(){
+		return false;
+	}
+	
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {

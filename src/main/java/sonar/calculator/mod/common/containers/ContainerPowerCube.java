@@ -6,7 +6,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.core.energy.DischargeValues;
-import sonar.core.integration.SonarAPI;
 import sonar.core.inventory.ContainerSync;
 import cofh.api.energy.IEnergyContainerItem;
 

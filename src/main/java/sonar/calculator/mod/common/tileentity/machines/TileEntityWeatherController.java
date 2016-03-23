@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IProcessMachine;

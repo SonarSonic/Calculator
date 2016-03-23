@@ -10,7 +10,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.utils.helpers.NutritionHelper;

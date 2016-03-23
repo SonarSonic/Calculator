@@ -3,14 +3,12 @@ package sonar.calculator.mod;
 import java.util.ArrayList;
 import java.util.List;
 
-import sonar.core.common.block.properties.IMetaRenderer;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
+import sonar.core.common.block.properties.IMetaRenderer;
 
 public class BlockRenderRegister {
 	public static void register() {

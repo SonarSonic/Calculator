@@ -49,10 +49,13 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	@Override
 	public void update() {
 		super.update();
-		if (!worldObj.isRemote) {
+			boolean flag = active.getObject();
 			boolean invert = false;
 			if (canGenerate()) {
+
+				if (!worldObj.isRemote) {
 				beginGeneration();
+				}
 				if (!active.getObject()) {
 					invert = true;
 				}
@@ -71,7 +74,10 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 				this.createStructure();
 				this.getStability();
 			}
-		}
+			if(flag!=active.getObject()){
+				SonarCore.sendPacketAround(this, 64, 0);
+			}
+		
 		this.charge(0);
 		this.addEnergy();
 		this.markDirty();
@@ -358,6 +364,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	public void readPacket(ByteBuf buf, int id) {
 		if (id == 0) {
 			active.readFromBuf(buf);
+			this.worldObj.markBlockForUpdate(pos);
 		}
 		if (id == 1) {
 			size.readFromBuf(buf);

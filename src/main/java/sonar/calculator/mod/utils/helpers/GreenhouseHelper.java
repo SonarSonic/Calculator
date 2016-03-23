@@ -9,7 +9,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import sonar.calculator.mod.Calculator;
 
 /** helps with using bonemeal on crops, growth speed and replacing blocks */
