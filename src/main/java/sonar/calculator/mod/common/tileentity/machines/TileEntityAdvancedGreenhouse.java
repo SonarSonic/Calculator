@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -16,13 +17,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
+import sonar.calculator.mod.integration.planting.IHarvester;
+import sonar.calculator.mod.integration.planting.IPlanter;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.RenderHelper;
 
 public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implements ISidedInventory {
@@ -59,7 +61,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 			if (!this.worldObj.isRemote) {
 				extraTicks();
 			}
-			plant();
+			plantCrops();
 			growTicks();
 			harvestCrops();
 
@@ -71,8 +73,46 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		this.markDirty();
 	}
 
-	public List<BlockCoords> getPlantArea() {
-		List<BlockCoords> coords = new ArrayList();
+	private void harvestCrops() {
+		if (!(this.storage.getEnergyStored() > this.growthRF)) {
+			return;
+		}
+		for (BlockCoords coord : (ArrayList<BlockCoords>) getPlantArea().clone()) {
+			if (coord.getBlock().isReplaceable(worldObj, coord.getBlockPos())) {
+				for (IHarvester harvester : Calculator.harvesters.getObjects()) {
+					IBlockState state = worldObj.getBlockState(coord.getBlockPos());
+					if(harvester.canHarvest(worldObj, coord.getBlockPos(), state)){
+						List<ItemStack> stack = harvester.getDrops(worldObj, coord.getBlockPos(), state, type);			
+						//ADD ITEMSTACKS
+					}
+				}
+			}
+		}
+	}
+
+	private void plantCrops() {
+		if (!(this.storage.getEnergyStored() > this.plantRF)) {
+			return;
+		}
+		for (BlockCoords coord : (ArrayList<BlockCoords>) getPlantArea().clone()) {
+			if (coord.getBlock().isReplaceable(worldObj, coord.getBlockPos())) {
+				for (IPlanter planter : Calculator.planters.getObjects()) {
+					for (Integer slot : getInvPlants()) {
+						ItemStack stack = slots()[slot];
+						if (stack != null && planter.canTierPlant(slots()[slot], type)) {
+							storage.extractEnergy(plantRF, false);
+							IBlockState state = planter.getPlant(stack, worldObj, coord.getBlockPos());
+							worldObj.setBlockState(coord.getBlockPos(), state, 3);
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public ArrayList<BlockCoords> getPlantArea() {
+		ArrayList<BlockCoords> coords = new ArrayList();
 		for (int Z = -3; Z <= 3; Z++) {
 			for (int X = -3; X <= 3; X++) {
 				BlockPos pos = this.pos.add((forward.getFrontOffsetX() * 4) + X, 0, (forward.getFrontOffsetZ() * 4) + Z);

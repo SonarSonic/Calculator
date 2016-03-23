@@ -2,7 +2,7 @@ package sonar.calculator.mod.integration.planting;
 
 import sonar.core.utils.helpers.RegistryHelper;
 
-public class PlanterRegistry extends RegistryHelper<IPlanter> {
+public class HarvesterRegistry extends RegistryHelper<IHarvester> {
 
 	@Override
 	public void register() {
@@ -11,7 +11,7 @@ public class PlanterRegistry extends RegistryHelper<IPlanter> {
 
 	@Override
 	public String registeryType() {
-		return "Planters";
+		return "Harvesters";
 	}
 
 }

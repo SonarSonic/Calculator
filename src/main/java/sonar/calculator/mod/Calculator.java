@@ -39,6 +39,9 @@ import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.calculator.mod.integration.ae2.StorageChamberHandler;
 import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
+import sonar.calculator.mod.integration.planting.FertiliserRegistry;
+import sonar.calculator.mod.integration.planting.HarvesterRegistry;
+import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
@@ -56,6 +59,10 @@ public class Calculator {
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
 
+	public static PlanterRegistry planters = new PlanterRegistry();
+	public static HarvesterRegistry harvesters = new HarvesterRegistry();
+	public static FertiliserRegistry fertilisers = new FertiliserRegistry();
+	
 	@Instance(modid)
 	public static Calculator instance;
 
@@ -140,6 +147,9 @@ public class Calculator {
 
 	@EventHandler
 	public void postLoad(FMLPostInitializationEvent evt) {
+		planters.register();
+		harvesters.register();
+		fertilisers.register();		
 		
 		BlockDispenser.dispenseBehaviorRegistry.putObject(baby_grenade, new CalculatorThrow(0));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(grenade, new CalculatorThrow(1));

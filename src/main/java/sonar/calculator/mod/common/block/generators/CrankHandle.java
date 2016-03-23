@@ -23,10 +23,10 @@ public class CrankHandle extends SonarMachineBlock {
 		setBlockBounds((float) (0.0625 * 3), 0.0F, (float) (0.0625 * 3), (float) (1 - (0.0625 * 3)), 0.625F, (float) (1 - (0.0625 * 3)));
 	}
 
-	public int getRenderType(){
+	public int getRenderType() {
 		return 2;
 	}
-	
+
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -69,6 +69,19 @@ public class CrankHandle extends SonarMachineBlock {
 		if (block != Calculator.handcrankedGenerator) {
 			world.destroyBlock(pos, true);
 			world.markBlockForUpdate(pos);
+		}
+	}
+
+	@Override
+	protected void setDefaultFacing(World worldIn, BlockPos pos, IBlockState state) {
+		if (!worldIn.isRemote) {
+			IBlockState down = worldIn.getBlockState(pos.offset(EnumFacing.DOWN));
+			if (down.getBlock() == Calculator.handcrankedGenerator) {
+				System.out.print(down.getValue(FACING));
+				worldIn.setBlockState(pos, state.withProperty(FACING, down.getValue(FACING)), 3);
+			} else {
+				super.setDefaultFacing(worldIn, pos, state);
+			}
 		}
 	}
 

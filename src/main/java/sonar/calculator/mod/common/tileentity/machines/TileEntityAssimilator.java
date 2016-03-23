@@ -15,7 +15,7 @@ import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
-import sonar.calculator.mod.integration.planting.TreeHarvestRecipes;
+import sonar.calculator.mod.common.recipes.TreeHarvestRecipes;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.helpers.InventoryHelper;

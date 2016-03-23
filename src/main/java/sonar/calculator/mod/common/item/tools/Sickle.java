@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import sonar.calculator.mod.integration.planting.TreeHarvestRecipes;
+import sonar.calculator.mod.common.recipes.TreeHarvestRecipes;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;

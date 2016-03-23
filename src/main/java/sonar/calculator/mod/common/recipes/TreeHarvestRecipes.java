@@ -1,4 +1,4 @@
-package sonar.calculator.mod.integration.planting;
+package sonar.calculator.mod.common.recipes;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

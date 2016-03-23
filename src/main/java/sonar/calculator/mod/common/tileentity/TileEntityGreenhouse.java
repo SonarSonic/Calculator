@@ -69,12 +69,14 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 	}
 
-	public abstract List<BlockCoords> getPlantArea();
-
+	public abstract ArrayList<BlockCoords> getPlantArea();
+	
+	/*
 	public static boolean isSeed(ItemStack stack) {
 		return stack != null && stack.getItem() instanceof IPlantable;
 	}
-
+	*/
+	/*
 	public static boolean canHarvest(World world, BlockPos pos) {
 		Block block = world.getBlockState(pos).getBlock();
 		return block instanceof IGrowable;
@@ -165,7 +167,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			this.carbonLevels = set;
 		}
 	}
-
+	/*
 	public boolean growCrop(int house, int size) {
 		BlockPos cropPos = pos;
 		int X = 0, Z = 0, XX = 0, ZZ = 0;
@@ -204,7 +206,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		IPlanter planter = PlanterRegistry.getPlanter(stack);
 
 		Block crop = planter.getCropFromStack(stack);
-		int meta = planter.getMetaFromStack(stack);
+		int meta = planter.getStateFromStack(stack);
 		if (crop == null) {
 			this.planting = 0;
 			return false;
@@ -274,6 +276,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	/** checks if crop can be planted at coords
 	 * 
 	 * @param slot2 */
+	/*
 	protected boolean canPlant(World worldObj, BlockPos pos, int slot) {
 		ItemStack stack = slots()[slot];
 		if (stack == null) {
@@ -315,7 +318,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 		return false;
 	}
-
+	*/
 	public enum BlockType {
 		LOG, GLASS, PLANKS, STAIRS;
 		public boolean checkBlock(Item item) {

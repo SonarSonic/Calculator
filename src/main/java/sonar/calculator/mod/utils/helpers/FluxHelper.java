@@ -24,9 +24,9 @@ public class FluxHelper {
 			return null;
 		}
 		MinecraftServer server = MinecraftServer.getServer();
-		World world = server.worldServerForDimension(flux.dimension());
+		World world = server.worldServerForDimension(flux.getCoords().getDimension());
 		if (world != null) {
-			TileEntity target = world.getTileEntity(flux.xCoord(), flux.yCoord(), flux.zCoord());
+			TileEntity target = world.getTileEntity(flux.getCoords().getBlockPos());
 			return target;
 		}
 		return null;

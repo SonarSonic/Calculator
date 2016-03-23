@@ -8,6 +8,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.calculator.mod.utils.CalculatorTeleporter;
+import sonar.core.common.block.SonarBlock;
+import sonar.core.utils.BlockCoords;
 import sonar.core.utils.helpers.SonarHelper;
 
 public class TeleporterHelper {
@@ -15,24 +17,25 @@ public class TeleporterHelper {
 	public static void travelToDimension(List<EntityPlayer> players, TileEntityTeleporter tile) {
 		for (EntityPlayer entity : players) {
 			int currentDimension = entity.worldObj.provider.getDimensionId();
-			if (tile.dimension() != currentDimension) {
+			BlockCoords coords = tile.getCoords();
+			if (coords.getDimension() != currentDimension) {
 				if (!tile.getWorld().isRemote && !entity.isDead) {
 
 					EntityPlayerMP entityPlayerMP = (EntityPlayerMP) entity;
-					WorldServer worldServer = MinecraftServer.getServer().worldServerForDimension(tile.dimension());
-					MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(entityPlayerMP, tile.dimension(), new CalculatorTeleporter(worldServer, tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5));
+					WorldServer worldServer = MinecraftServer.getServer().worldServerForDimension(coords.getDimension());
+					MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(entityPlayerMP, tile.getCoords().getDimension(), new CalculatorTeleporter(worldServer, coords.getX() + 0.5, coords.getY() - 2, coords.getZ() + 0.5));
 
 					if (currentDimension == 1) {
-						((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5, SonarHelper.getAngleFromMeta(worldServer.getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord)), 0);
+						((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(coords.getX() + 0.5, coords.getY() - 2, coords.getZ() + 0.5, SonarHelper.getAngleFromMeta(worldServer.getBlockState(coords.getBlockPos()).getValue(SonarBlock.FACING).getIndex()), 0);
 						worldServer.spawnEntityInWorld(entity);
 						worldServer.updateEntityWithOptionalForce(entity, false);
 					} else {
-						((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5, SonarHelper.getAngleFromMeta(worldServer.getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord)), 0);
+						((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(coords.getX() + 0.5, coords.getY() - 2, coords.getZ() + 0.5, SonarHelper.getAngleFromMeta(worldServer.getBlockState(coords.getBlockPos()).getValue(SonarBlock.FACING).getIndex()), 0);
 					}
 
 				}
 			} else {
-				((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(tile.xCoord + 0.5, tile.yCoord - 2, tile.zCoord + 0.5, SonarHelper.getAngleFromMeta(tile.getWorld().getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord)), 0);
+				((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(coords.getX() + 0.5, coords.getY() - 2, coords.getZ() + 0.5, SonarHelper.getAngleFromMeta(entity.worldObj.getBlockState(coords.getBlockPos()).getValue(SonarBlock.FACING).getIndex()), 0);
 			}
 			tile.coolDown = true;
 			tile.coolDownTicks = 100;
@@ -40,7 +43,7 @@ public class TeleporterHelper {
 	}
 
 	public static boolean canTeleport(TileEntityTeleporter target, TileEntityTeleporter current) {
-		if ((target.xCoord != current.xCoord || target.yCoord != current.yCoord || target.zCoord != current.zCoord) && target.canTeleportPlayer()) {
+		if (!target.getCoords().equals(current.getCoords()) && target.canTeleportPlayer()) {
 			if ((target.password == null || target.password == "") || current.linkPassword.equals(target.password)) {
 				return true;
 			}
