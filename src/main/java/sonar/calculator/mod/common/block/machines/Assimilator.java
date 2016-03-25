@@ -13,6 +13,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 
 public class Assimilator extends SonarMachineBlock {
@@ -31,15 +32,14 @@ public class Assimilator extends SonarMachineBlock {
 
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
-		if (player != null) {
-			if (!world.isRemote) {
-				if (type == 0) {
-					player.openGui(Calculator.instance, CalculatorGui.sAssimilator, world, x, y, z);
-				} else {
-					player.openGui(Calculator.instance, CalculatorGui.aAssimilator, world, x, y, z);
+		if (player != null && !world.isRemote) {
+			if (type == 0) {
+				player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
+			} else {
+				player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
 
-				}
 			}
+
 		}
 		return true;
 	}

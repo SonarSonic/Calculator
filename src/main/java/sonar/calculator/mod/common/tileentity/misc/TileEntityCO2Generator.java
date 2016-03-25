@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,16 +12,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.client.gui.misc.GuiCO2Generator;
+import sonar.calculator.mod.common.containers.ContainerCO2Generator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RenderHelper;
 
-public class TileEntityCO2Generator extends TileEntityEnergyInventory implements ISidedInventory {
+public class TileEntityCO2Generator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile {
 
 	public int burnTime;
 	public int maxBurnTime;
@@ -190,5 +194,15 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 			currenttip.add(burn);
 		}
 		return currenttip;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerCO2Generator(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiCO2Generator(player.inventory, this);
 	}
 }

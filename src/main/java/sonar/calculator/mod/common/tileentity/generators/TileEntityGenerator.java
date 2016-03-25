@@ -2,6 +2,9 @@ package sonar.calculator.mod.common.tileentity.generators;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -12,23 +15,31 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.client.gui.generators.GuiExtractor;
+import sonar.calculator.mod.common.containers.ContainerExtractor;
 import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.inventory.SonarTileInventory;
+import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
+import sonar.core.network.sync.SyncTagType;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyReceiver;
 
-public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory {
+public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory,IGuiTile  {
 
 	protected TileEntity[] handlers = new TileEntity[6];
-	public int itemLevel, burnTime;
-	public int maxBurnTime;
+
+	public SyncTagType.INT itemLevel = new SyncTagType.INT(0);
+	public SyncTagType.INT burnTime = new SyncTagType.INT(1);
+	public SyncTagType.INT maxBurnTime = new SyncTagType.INT(2);
+	//public int itemLevel, burnTime;
 	public int levelMax = 5000;
 	public int requiredLevel = 400;
 	public int energyMultiplier;
@@ -59,10 +70,10 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	public void generateEnergy() {
 		ItemStack stack = this.getStackInSlot(0);
 		if (!(stack == null)) {
-			if (burnTime == 0 && TileEntityFurnace.isItemFuel(stack)) {
-				if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel >= requiredLevel) {
-					this.maxBurnTime = TileEntityFurnace.getItemBurnTime(stack);
-					burnTime++;
+			if (burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
+				if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel.getObject() >= requiredLevel) {
+					this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(stack));
+					burnTime.increaseBy(1);;
 					this.slots()[0].stackSize--;
 
 					if (this.slots()[0].stackSize <= 0) {
@@ -72,13 +83,13 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 			}
 
 		}
-		if (burnTime > 0 && !(burnTime == maxBurnTime)) {
+		if (burnTime.getObject() > 0 && !(burnTime.getObject() == maxBurnTime.getObject())) {
 			this.storage.receiveEnergy(energyMultiplier, false);
-			burnTime++;
+			burnTime.increaseBy(1);;
 		}
-		if (maxBurnTime != 0 && burnTime == maxBurnTime) {
+		if (maxBurnTime.getObject() != 0 && burnTime.getObject() == maxBurnTime.getObject()) {
 			this.storage.receiveEnergy(energyMultiplier, false);
-			burnTime = 0;
+			burnTime.setObject(0);
 			this.removeItem(requiredLevel);
 		}
 
@@ -89,7 +100,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		if (stack == null || !(getItemValue(stack) > 0)) {
 			return;
 		}
-		if (!(itemLevel + getItemValue(stack) > levelMax)) {
+		if (!(itemLevel.getObject() + getItemValue(stack) > levelMax)) {
 			addItem(getItemValue(stack));
 			this.slots()[1].stackSize--;
 			if (this.slots()[1].stackSize <= 0) {
@@ -129,30 +140,17 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	public abstract int getItemValue(ItemStack stack);
 
-	public void readData(NBTTagCompound nbt, SyncType type) {
-		super.readData(nbt, type);
-		this.itemLevel = nbt.getInteger("ItemLevel");
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			this.burnTime = nbt.getInteger("Burn");
-			this.maxBurnTime = nbt.getInteger("MaxBurn");
-		}
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.addAll(Lists.newArrayList(itemLevel, burnTime, maxBurnTime));
 	}
-
-	public void writeData(NBTTagCompound nbt, SyncType type) {
-		super.writeData(nbt, type);
-		nbt.setInteger("ItemLevel", itemLevel);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			nbt.setInteger("Burn", this.burnTime);
-			nbt.setInteger("MaxBurn", this.maxBurnTime);
-		}
-	}
-
+	
 	public void addItem(int add) {
-		itemLevel = itemLevel + add;
+		itemLevel.increaseBy(add);
 	}
 
 	public void removeItem(int remove) {
-		itemLevel = itemLevel - remove;
+		itemLevel.increaseBy(-remove);
 	}
 
 	@Override
@@ -192,13 +190,19 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel * 100 / 5000 + "%");
+			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel.getObject() * 100 / 5000 + "%");
 			return currenttip;
 		}
 
 		@Override
 		public int getItemValue(ItemStack stack) {
 			return (Integer) StarchExtractorRecipes.instance().getOutput(stack);
+		}
+
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiExtractor.Starch(player.inventory, this);
 		}
 	}
 
@@ -213,8 +217,13 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel * 100 / 5000 + "%");
+			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel.getObject() * 100 / 5000 + "%");
 			return currenttip;
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiExtractor.Redstone(player.inventory, this);
 		}
 	}
 
@@ -229,9 +238,18 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel * 100 / 5000 + "%");
+			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel.getObject() * 100 / 5000 + "%");
 			return currenttip;
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiExtractor.Glowstone(player.inventory, this);
 		}
 	}
 
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerExtractor(player.inventory, this);
+	}
 }

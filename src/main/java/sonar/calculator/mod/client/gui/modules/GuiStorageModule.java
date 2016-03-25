@@ -11,14 +11,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerStorageModule;
-import sonar.calculator.mod.common.item.modules.StorageModule;
+import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.helpers.FontHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiStorageModule extends GuiContainer {
 	private static final ResourceLocation texture = new ResourceLocation("textures/gui/container/generic_54.png");
 
-	public GuiStorageModule(EntityPlayer player, InventoryPlayer inv, StorageModule.StorageInventory inventory) { 
+	public GuiStorageModule(EntityPlayer player, InventoryPlayer inv, InventoryItem inventory) { 
 		super(new ContainerStorageModule(player, inv, inventory));
         this.ySize = 222;
     }

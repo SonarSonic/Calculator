@@ -22,6 +22,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.PacketTileSync;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 
 public class FluxController extends SonarMachineBlock {
 
@@ -58,7 +59,7 @@ public class FluxController extends SonarMachineBlock {
 					controller.writeToNBT(tag);
 					Calculator.network.sendTo(new PacketTileSync(x, y, z, tag),(EntityPlayerMP) player);
 					Calculator.network.sendTo(new PacketFluxNetworkList(x, y, z, FluxRegistry.getAvailableNetworks(player.getGameProfile().getName(), controller)), (EntityPlayerMP) player);
-					player.openGui(Calculator.instance, CalculatorGui.FluxController, world, x, y, z);
+					player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
 				}
 			}
 		}

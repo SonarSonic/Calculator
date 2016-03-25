@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.tileentity.generators;
 
 import io.netty.buffer.ByteBuf;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +20,9 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.calculator.mod.api.machines.ICalculatorLocator;
+import sonar.calculator.mod.client.gui.generators.GuiCalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
+import sonar.calculator.mod.common.containers.ContainerCalculatorLocator;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.inventory.SonarTileInventory;
@@ -28,16 +31,17 @@ import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 
-public class TileEntityCalculatorLocator extends TileEntityEnergyInventory implements IByteBufTile, ICalculatorLocator {
+public class TileEntityCalculatorLocator extends TileEntityEnergyInventory implements IByteBufTile, ICalculatorLocator, IGuiTile {
 
 	public SyncTagType.BOOLEAN active = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.INT size = new SyncTagType.INT(1);
-	public SyncTagType.INT stability = new SyncTagType.INT("stability");
-	public SyncTagType.STRING owner = (STRING) new SyncTagType.STRING("owner").setDefault("None");
+	public SyncTagType.INT stability = new SyncTagType.INT(2);
+	public SyncTagType.STRING owner = (STRING) new SyncTagType.STRING(3).setDefault("None");
 	private int sizeTicks, luckTicks;
 
 	public TileEntityCalculatorLocator() {
@@ -309,10 +313,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 
 	public void addSyncParts(List<ISyncPart> parts) {
 		super.addSyncParts(parts);
-		parts.add(active);
-		parts.add(size);
-		parts.add(stability);
-		parts.add(owner);
+		parts.addAll(Arrays.asList(active,size,stability,owner));
 	}
 
 	@Override
@@ -389,6 +390,16 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	@Override
 	public double getStabilityPercent() {
 		return (stability.getObject() * 100 / (((2 * size.getObject()) + 1) * ((2 * size.getObject()) + 1) - 1));
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerCalculatorLocator(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiCalculatorLocator(player.inventory, this);
 	}
 
 }

@@ -8,7 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
-import sonar.calculator.mod.common.item.calculators.CraftingCalc;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.InventoryStoredCrafting;
 import sonar.core.inventory.InventoryStoredResult;
@@ -18,7 +17,7 @@ public class ContainerCraftingCalculator extends Container{
 	private final InventoryItem inventory;
 	private boolean isRemote;
 
-	private static final int INV_START = CraftingCalc.CraftingInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
+	private static final int INV_START = 10, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
 	public InventoryStoredCrafting craftMatrix;
 	public InventoryStoredResult craftResult;
@@ -57,12 +56,13 @@ public class ContainerCraftingCalculator extends Container{
 		this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, player.worldObj));
 
 	}
-
+	/*
 	public void removeEnergy() {
 		if (!this.isRemote) {
 			if (player.capabilities.isCreativeMode) {
 				return;
 			}
+			System.out.print("energy");
 			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IEnergyContainerItem) {
 				IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItem().getItem();
 				energy.extractEnergy(player.getHeldItem(), 1, false);
@@ -70,7 +70,7 @@ public class ContainerCraftingCalculator extends Container{
 			}
 		}
 	}
-
+	*/
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);

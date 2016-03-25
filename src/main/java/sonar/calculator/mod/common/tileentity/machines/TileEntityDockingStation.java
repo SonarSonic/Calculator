@@ -1,18 +1,22 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.client.gui.machines.GuiDockingStation;
+import sonar.calculator.mod.common.containers.ContainerDockingStation;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RecipeHelper;
 import sonar.core.utils.helpers.RenderHelper;
 
-public class TileEntityDockingStation extends TileEntityAbstractProcess {
+public class TileEntityDockingStation extends TileEntityAbstractProcess implements IGuiTile {
 
 	public ItemStack calcStack;
 
@@ -186,6 +190,16 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess {
 			meta = 2;
 		}
 		return meta;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerDockingStation(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiDockingStation(player.inventory, this);
 	}
 
 }

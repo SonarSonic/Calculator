@@ -25,6 +25,7 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 
 public class CalculatorLocator extends SonarMachineBlock {
 
@@ -48,7 +49,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
-				player.openGui(Calculator.instance, CalculatorGui.CalculatorLocator, world, pos.getX(), pos.getY(), pos.getZ());
+				player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		return true;

@@ -2,6 +2,9 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,18 +13,25 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.IProcessMachine;
+import sonar.calculator.mod.client.gui.machines.GuiAtomicMultiplier;
+import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.utils.AtomicMultiplierBlacklist;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.SonarTileInventory;
+import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
+import sonar.core.network.sync.SyncTagType;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 
-public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine {
+public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
 
-	public int cookTime, active;
-	public int furnaceSpeed = 1000;
+	public SyncTagType.INT cookTime = new SyncTagType.INT(0);
+	public SyncTagType.INT active = new SyncTagType.INT(1);
+	
+	public static int furnaceSpeed = 1000;
 	public static int requiredEnergy = 1500000000;
 
 	private static final int[] input = new int[] { 0 };
@@ -29,7 +39,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	private static final int[] output = new int[] { 8 };
 
 	public TileEntityAtomicMultiplier() {
-		super.storage = new SyncEnergyStorage(1500000000, 1500000000);
+		super.storage = new SyncEnergyStorage(requiredEnergy, requiredEnergy);
 		super.inv = new SonarTileInventory(this, 10);
 	}
 
@@ -37,23 +47,23 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	public void update() {
 		super.update();
 		discharge(9);
-		if (this.cookTime > 0) {
-			this.active = 1;
-			this.cookTime++;
+		if (this.cookTime.getObject() > 0) {
+			this.active.setObject(1);
+			this.cookTime.increaseBy(1);
 			int energy = requiredEnergy / furnaceSpeed;
 			this.storage.modifyEnergyStored(-energy);
 		}
 		if (this.canCook()) {
 			if (!this.worldObj.isRemote) {
-				if (cookTime == 0) {
-					this.cookTime++;
+				if (cookTime.getObject() == 0) {
+					this.cookTime.increaseBy(1);
 				}
 			}
-			if (this.cookTime == furnaceSpeed) {
+			if (this.cookTime.getObject() == furnaceSpeed) {
 
-				this.cookTime = 0;
+				this.cookTime.setObject(0);
 				this.cookItem();
-				this.active = 0;
+				this.active.setObject(0);
 
 				int energy = requiredEnergy / furnaceSpeed;
 				this.storage.modifyEnergyStored(-energy);
@@ -61,9 +71,9 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			}
 
 		} else {
-			if (this.cookTime != 0 || this.active != 0) {
-				this.cookTime = 0;
-				this.active = 0;
+			if (this.cookTime.getObject() != 0 || this.active.getObject() != 0) {
+				this.cookTime.setObject(0);
+				this.active.setObject(0);
 				this.worldObj.markBlockForUpdate(pos);
 			}
 		}
@@ -94,7 +104,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			}
 		}
 
-		if (cookTime == 0) {
+		if (cookTime.getObject() == 0) {
 			if (this.storage.getEnergyStored() < requiredEnergy) {
 				return false;
 			}
@@ -109,7 +119,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			}
 		}
 
-		if (cookTime >= furnaceSpeed) {
+		if (cookTime.getObject() >= furnaceSpeed) {
 			return true;
 		}
 		return true;
@@ -136,23 +146,12 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		}
 
 	}
-
-	public void readData(NBTTagCompound nbt, SyncType type) {
-		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			this.cookTime = nbt.getShort("cookTime");
-			this.active = nbt.getShort("active");
-		}
+	
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.addAll(Lists.newArrayList(cookTime, active));
 	}
-
-	public void writeData(NBTTagCompound nbt, SyncType type) {
-		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			nbt.setShort("cookTime", (short) this.cookTime);
-			nbt.setShort("active", (short) this.active);
-		}
-	}
-
+	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (0 < slot && slot < 8) {
@@ -198,7 +197,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
 		super.getWailaInfo(currenttip);
-		if (cookTime > 0) {
+		if (cookTime.getObject() > 0) {
 			String active = FontHelper.translate("locator.state") + ":" + FontHelper.translate("locator.active");
 			currenttip.add(active);
 		} else {
@@ -210,7 +209,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 	@Override
 	public int getCurrentProcessTime() {
-		return cookTime;
+		return cookTime.getObject();
 	}
 
 	@Override
@@ -221,6 +220,16 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	@Override
 	public double getEnergyUsage() {
 		return requiredEnergy / getProcessTime();
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerAtomicMultiplier(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiAtomicMultiplier(player.inventory, this);
 	}
 
 }

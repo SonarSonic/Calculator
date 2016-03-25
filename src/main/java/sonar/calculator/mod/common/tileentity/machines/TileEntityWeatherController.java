@@ -1,18 +1,22 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IProcessMachine;
+import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
+import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ISyncTile;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.IEnergyHandler;
 
-public class TileEntityWeatherController extends TileEntityEnergyInventory implements IEnergyHandler, ISyncTile, IByteBufTile,IProcessMachine {
+public class TileEntityWeatherController extends TileEntityEnergyInventory implements IByteBufTile,IProcessMachine, IGuiTile {
 
 	public int type, data, buffer, coolDown;
 
@@ -149,5 +153,15 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 	@Override
 	public double getEnergyUsage() {
 		return requiredPower/getProcessTime();
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerWeatherController(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiWeatherController(player.inventory, this);
 	}
 }

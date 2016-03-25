@@ -1,12 +1,13 @@
 package sonar.calculator.mod.integration.planting;
 
+import sonar.calculator.mod.integration.planting.vanilla.Harvester;
 import sonar.core.utils.helpers.RegistryHelper;
 
 public class HarvesterRegistry extends RegistryHelper<IHarvester> {
 
 	@Override
 	public void register() {
-		
+		registerObject(new Harvester());
 	}
 
 	@Override

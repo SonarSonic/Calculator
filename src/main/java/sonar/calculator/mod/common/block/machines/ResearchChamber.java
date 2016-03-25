@@ -20,6 +20,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 
 public class ResearchChamber extends SonarMachineBlock {
@@ -69,7 +70,7 @@ public class ResearchChamber extends SonarMachineBlock {
 				world.markBlockForUpdate(x, y, z);
 				world.addBlockEvent(x, y, z, entity.blockType, 1, 0);
 			} else if (!world.isRemote) {
-				player.openGui(Calculator.instance, CalculatorGui.ResearchChamber, world, x, y, z);
+				player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
 			}
 		}
 		return true;

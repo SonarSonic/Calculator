@@ -19,6 +19,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.PacketTileSync;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class Teleporter extends SonarMachineBlock {
@@ -42,7 +43,7 @@ public class Teleporter extends SonarMachineBlock {
 					tele.writeData(tag, SyncType.SYNC);
 					Calculator.network.sendTo(new PacketTileSync(x, y, z, tag), (EntityPlayerMP) player);
 					Calculator.network.sendTo(new PacketTeleportLinks(x, y, z, TeleporterRegistry.getTeleportLinks(tele.teleporterID)), (EntityPlayerMP) player);
-					player.openGui(Calculator.instance, CalculatorGui.Teleporter, world, x, y, z);
+					player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
 				}
 			}
 		}

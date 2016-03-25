@@ -17,6 +17,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 
 public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedBlock {
@@ -46,7 +47,7 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedB
 			} else {
 				if (player != null) {
 					if (!world.isRemote) {
-						player.openGui(Calculator.instance, CalculatorGui.FlawlessGreenhouse, world, pos.getX(), pos.getY(), pos.getZ());
+						player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 					}
 				}
 			}

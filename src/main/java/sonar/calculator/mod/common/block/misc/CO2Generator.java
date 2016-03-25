@@ -16,6 +16,7 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 
 public class CO2Generator extends SonarMachineBlock implements IConnectedBlock {
 	public int[] connections = new int[] { 0, 5, 6 };
@@ -30,7 +31,7 @@ public class CO2Generator extends SonarMachineBlock implements IConnectedBlock {
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
-				player.openGui(Calculator.instance, CalculatorGui.CO2Generator, world, pos.getX(), pos.getY(), pos.getZ());
+				player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		return true;

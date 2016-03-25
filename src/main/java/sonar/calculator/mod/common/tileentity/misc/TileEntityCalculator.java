@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -7,13 +8,18 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.api.blocks.IStableBlock;
 import sonar.calculator.mod.api.blocks.IStableGlass;
+import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
+import sonar.calculator.mod.client.gui.calculators.GuiDynamicCalculator;
+import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
+import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.IGuiTile;
 
-public class TileEntityCalculator extends TileEntityInventory implements ISidedInventory {
+public abstract class TileEntityCalculator extends TileEntityInventory implements ISidedInventory,IGuiTile {
 
 	public static class Dynamic extends TileEntityCalculator {
 		public Dynamic() {
@@ -83,11 +89,31 @@ public class TileEntityCalculator extends TileEntityInventory implements ISidedI
 			}
 			return new FailedCoords(true, BlockCoords.EMPTY, null);
 		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerDynamicCalculator(player, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiDynamicCalculator(player, this);
+		}
 	}
 
 	public static class Atomic extends TileEntityCalculator {
 		public Atomic() {
 			super.inv = new SonarTileInventory(this,4);
+		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerAtomicCalculator(player, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiAtomicCalculator(player, (TileEntityCalculator.Atomic) this);
 		}
 	}
 

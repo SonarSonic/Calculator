@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -13,17 +15,21 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.api.nutrition.IHungerStore;
+import sonar.calculator.mod.client.gui.misc.GuiAlgorithmAssimilator;
+import sonar.calculator.mod.client.gui.misc.GuiStoneAssimilator;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
+import sonar.calculator.mod.common.containers.ContainerAlgorithmAssimilator;
+import sonar.calculator.mod.common.containers.ContainerAssimilator;
 import sonar.calculator.mod.common.recipes.TreeHarvestRecipes;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.utils.BlockCoords;
-import sonar.core.utils.helpers.InventoryHelper;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.ItemStackHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 
-public abstract class TileEntityAssimilator extends TileEntityInventory {
+public abstract class TileEntityAssimilator extends TileEntityInventory implements IGuiTile {
 	public boolean hasTree;
 	public Random rand = new Random();
 	public int tickRate = 30, tick;
@@ -37,9 +43,9 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		if (this.tick != tickRate) {
 			tick++;
 		} else {
-		//	int blockmeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-		//	InventoryHelper.extractItems(this.getWorld().getTileEntity(xCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetX), yCoord, zCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetZ)), this, 0, 0, null);
-			tick=0;
+			// int blockmeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+			// InventoryHelper.extractItems(this.getWorld().getTileEntity(xCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetX), yCoord, zCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetZ)), this, 0, 0, null);
+			tick = 0;
 			this.hasTree = hasTree();
 			if (hasTree) {
 				List<BlockCoords> leaves = getLeaves();
@@ -98,6 +104,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		}
 		return leafList;
 	}
+
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE)
@@ -109,6 +116,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		if (type == SyncType.SAVE)
 			nbt.setInteger("tick", tick);
 	}
+
 	public static class Stone extends TileEntityAssimilator {
 
 		public Stone() {
@@ -213,6 +221,16 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 			if (type != SyncType.DROP)
 				nbt.setBoolean("hasTree", hasTree);
 		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerAssimilator(player.inventory, (TileEntityAssimilator) entity);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiStoneAssimilator(player.inventory, (TileEntityAssimilator) entity);
+		}
 	}
 
 	public static class Algorithm extends TileEntityAssimilator implements ISidedInventory {
@@ -240,18 +258,28 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		}
 
 		@Override
-		public int[] getAccessibleSlotsFromSide(int side) {
+		public int[] getSlotsForFace(EnumFacing side) {
 			return new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
 		}
 
 		@Override
-		public boolean canInsertItem(int slot, ItemStack item, int side) {
+		public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
 			return true;
 		}
 
 		@Override
-		public boolean canExtractItem(int slot, ItemStack item, int side) {
+		public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
 			return true;
+		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerAlgorithmAssimilator(player, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiAlgorithmAssimilator(player, this);
 		}
 
 	}

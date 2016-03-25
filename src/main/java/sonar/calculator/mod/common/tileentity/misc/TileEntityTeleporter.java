@@ -16,17 +16,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.ITeleport;
 import sonar.calculator.mod.api.machines.TeleportLink;
+import sonar.calculator.mod.client.gui.misc.GuiTeleporter;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.calculator.mod.utils.helpers.TeleporterHelper;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntitySonar;
+import sonar.core.inventory.ContainerEmpty;
 import sonar.core.network.PacketTileSync;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ITextField;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.NBTHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 
-public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, ITextField {
+public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, ITextField, IGuiTile {
 
 	public int teleporterID;
 	public String name = "LINK NAME";
@@ -264,6 +267,16 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			this.linkID = buf.readInt();
 		}
 		this.addToFrequency();
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerEmpty(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiTeleporter(player.inventory, this);
 	}
 
 }

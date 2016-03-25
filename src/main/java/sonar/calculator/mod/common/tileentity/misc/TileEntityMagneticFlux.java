@@ -7,6 +7,7 @@ import java.util.Random;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,15 +17,18 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+import sonar.calculator.mod.client.gui.misc.GuiMagneticFlux;
+import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.IByteBufTile;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 
-public class TileEntityMagneticFlux extends TileEntityInventory implements IEntitySelector, ISidedInventory, IByteBufTile {
+public class TileEntityMagneticFlux extends TileEntityInventory implements IEntitySelector, ISidedInventory, IByteBufTile, IGuiTile {
 
 	public boolean whitelisted, exact;
 	public Random rand = new Random();
@@ -222,5 +226,33 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 			exact = buf.readBoolean();
 			break;
 		}
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerMagneticFlux(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiMagneticFlux(player.inventory, this);
+	}
+
+	@Override
+	public int[] getSlotsForFace(EnumFacing side) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

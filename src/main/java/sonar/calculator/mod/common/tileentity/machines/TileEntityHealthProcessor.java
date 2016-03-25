@@ -1,7 +1,9 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,16 +13,22 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHealthProcessor;
 import sonar.calculator.mod.api.nutrition.IHealthStore;
+import sonar.calculator.mod.client.gui.machines.GuiHealthProcessor;
+import sonar.calculator.mod.common.containers.ContainerHealthProcessor;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.inventory.SonarTileInventory;
+import sonar.core.network.sync.ISyncPart;
+import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.ISyncTile;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 
-public class TileEntityHealthProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile, IHealthProcessor {
+public class TileEntityHealthProcessor extends TileEntitySidedInventory implements IHealthProcessor, IGuiTile {
 
-	public int storedpoints, speed = 4;
+	public SyncTagType.INT storedpoints = new SyncTagType.INT(0);
+	public final int speed = 4;
 
 	public TileEntityHealthProcessor() {
 		super.input = new int[] { 0 };
@@ -39,27 +47,27 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	}
 
 	public void charge(ItemStack stack) {
-		if (!(stack == null) && this.storedpoints != 0) {
+		if (!(stack == null) && this.storedpoints.getObject() != 0) {
 			if (stack.getItem() instanceof IHealthStore) {
 				IHealthStore module = (IHealthStore) stack.getItem();
 				int health = module.getHealthPoints(stack);
 				int max = module.getMaxHealthPoints(stack);
 				if (!(health >= max) || max == -1) {
-					if (storedpoints >= speed) {
+					if (storedpoints.getObject() >= speed) {
 						if (max == -1 || max >= health + speed) {
 							module.transferHealth(speed, stack, ProcessType.ADD);
-							storedpoints = storedpoints - speed;
+							storedpoints.increaseBy(-speed);
 						} else if (max != -1) {
 							module.transferHealth(max - health, stack, ProcessType.ADD);
-							storedpoints = storedpoints - (max - health);
+							storedpoints.increaseBy(-(max-health));
 						}
-					} else if (storedpoints <= speed) {
+					} else if (storedpoints.getObject() <= speed) {
 						if (max == -1 | max >= health + speed) {
 							module.transferHealth(speed, stack, ProcessType.ADD);
-							storedpoints = 0;
+							storedpoints.setObject(0);
 						} else if (max != -1) {
 							module.transferHealth(max - health, stack, ProcessType.ADD);
-							storedpoints = storedpoints - max - health;
+							storedpoints.increaseBy(-(max-health));
 						}
 					}
 				}
@@ -70,14 +78,14 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 
 	@Override
 	public int getHealthPoints() {
-		return storedpoints;
+		return storedpoints.getObject();
 	}
 
 	private void loot(ItemStack stack) {
 		if (!(stack == null)) {
 			if (isLoot(stack)) {
 				int add = (Integer) HealthProcessorRecipes.instance().getOutput(stack);
-				storedpoints = storedpoints + add;
+				storedpoints.increaseBy(add);
 				this.slots()[0].stackSize--;
 				if (this.slots()[0].stackSize <= 0) {
 					this.slots()[0] = null;
@@ -90,11 +98,11 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 				if (health != 0) {
 					if (health >= speed) {
 						module.transferHealth(speed, stack, ProcessType.REMOVE);
-						storedpoints = storedpoints + speed;
+						storedpoints.increaseBy(speed);
 					}
 					if (health <= speed) {
 						module.transferHealth(health, stack, ProcessType.REMOVE);
-						storedpoints = storedpoints + health;
+						storedpoints.increaseBy(health);
 					}
 				}
 			}
@@ -108,18 +116,11 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 		return false;
 	}
 
-	public void readData(NBTTagCompound nbt, SyncType type) {
-		super.readData(nbt, type);
-		this.storedpoints = nbt.getInteger("Food");
-
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.addAll(Arrays.asList(storedpoints));
 	}
-
-	public void writeData(NBTTagCompound nbt, SyncType type) {
-		super.writeData(nbt, type);
-		nbt.setInteger("Food", this.storedpoints);
-
-	}
-
+	
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction){
 		return this.isItemValidForSlot(slot, stack);
@@ -128,10 +129,10 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing slots){
 		if (slot == 1) {
-			if (this.storedpoints == 0) {
+			if (this.storedpoints.getObject() == 0) {
 				return true;
 			}
-			if (!(this.storedpoints == 0)) {
+			if (!(this.storedpoints.getObject() == 0)) {
 				return false;
 			}
 		}
@@ -142,6 +143,16 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	public List<String> getWailaInfo(List<String> currenttip) {
 		currenttip.add(FontHelper.translate("points.health") + ": " + storedpoints);
 		return currenttip;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerHealthProcessor(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiHealthProcessor(player.inventory, this);
 	}
 	    
 }

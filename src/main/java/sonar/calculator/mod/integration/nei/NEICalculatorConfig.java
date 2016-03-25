@@ -9,7 +9,7 @@ import sonar.calculator.mod.client.gui.calculators.GuiCraftingCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiDynamicCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiFlawlessCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiInfoCalculator;
-import sonar.calculator.mod.client.gui.calculators.GuiPortableDynamic;
+import sonar.calculator.mod.client.gui.calculators.GuiDynamicModule;
 import sonar.calculator.mod.client.gui.calculators.GuiScientificCalculator;
 import sonar.calculator.mod.client.gui.generators.GuiConductorMast;
 import sonar.calculator.mod.client.gui.generators.GuiExtractor;
@@ -102,7 +102,7 @@ public class NEICalculatorConfig implements IConfigureNEI {
 		API.registerGuiOverlay(GuiScientificCalculator.class, "scientific");
 		API.registerGuiOverlay(GuiAtomicCalculator.class, "atomic");
 		API.registerGuiOverlay(GuiDynamicCalculator.class, "dynamic");
-		API.registerGuiOverlay(GuiPortableDynamic.class, "portable_dynamic");
+		API.registerGuiOverlay(GuiDynamicModule.class, "portable_dynamic");
 		API.registerGuiOverlay(GuiFlawlessCalculator.class, "flawless");
 
 		API.registerGuiOverlay(GuiExtractor.Starch.class, "starch");

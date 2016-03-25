@@ -13,6 +13,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 
 public class HealthProcessor extends SonarSidedBlock {
@@ -31,7 +32,7 @@ public class HealthProcessor extends SonarSidedBlock {
 			return false;
 		}
 		if (player != null && !world.isRemote) {
-			player.openGui(Calculator.instance, CalculatorGui.HealthProcessor, world, pos.getX(), pos.getY(), pos.getZ());
+			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}

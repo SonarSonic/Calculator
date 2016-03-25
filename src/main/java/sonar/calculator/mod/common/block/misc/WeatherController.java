@@ -18,6 +18,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 
 public class WeatherController extends SonarMachineBlock {
 	private IIcon[] icons = new IIcon[2];
@@ -31,7 +32,7 @@ public class WeatherController extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
-				player.openGui(Calculator.instance, CalculatorGui.WeatherController, world, x, y, z);
+				player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
 			}
 			return true;
 		}

@@ -23,36 +23,27 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 
 public class SmeltingBlock extends SonarSidedBlock {
 
 	public enum BlockTypes {
 		/** extraction chamber */
-		EXTRACTION(CalculatorGui.ExtractionChamber),
+		EXTRACTION,
 		/** restoration chamber */
-		RESTORATION(CalculatorGui.RestorationChamber),
+		RESTORATION,
 		/** reassembly chamber */
-		REASSEMBLY(CalculatorGui.ReassemblyChamber),
+		REASSEMBLY,
 		/** processing chamber */
-		PROCESSING(CalculatorGui.ProcessingChamber),
+		PROCESSING,
 		/** stone seperator */
-		STONE(CalculatorGui.StoneSeperator),
+		STONE,
 		/** algorithm seperator */
-		ALGORITHM(CalculatorGui.AlgorithmSeperator),
+		ALGORITHM,
 		/** precision chamber */
-		PRECISION(CalculatorGui.PrecisionChamber),
+		PRECISION,
 		/** reinforced furnace */
-		FURNACE(CalculatorGui.ReinforcedFurnace);
-
-		private int guiID;
-
-		BlockTypes(int guiID) {
-			this.guiID = guiID;
-		}
-
-		public int getBlockGui() {
-			return guiID;
-		}
+		FURNACE;
 
 		public boolean isOpaqueCube() {
 			if (this == STONE || this == ALGORITHM || this == FURNACE) {
@@ -136,7 +127,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 				return false;
 			} else {
 				if (!world.isRemote) {
-					player.openGui(Calculator.instance, type.getBlockGui(), world, pos.getX(), pos.getY(), pos.getZ());
+					player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 				}
 				return true;
 			}

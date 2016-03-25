@@ -1,12 +1,17 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import sonar.calculator.mod.client.gui.machines.GuiAdvancedPowerCube;
+import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
+import sonar.calculator.mod.common.containers.ContainerPowerCube;
 import sonar.core.network.sync.SyncEnergyStorage;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.SonarHelper;
 
-public class TileEntityAdvancedPowerCube extends TileEntityPowerCube  {
+public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IGuiTile {
 
 	public int energySide;
 
@@ -20,7 +25,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube  {
 		super.update();
 		this.addEnergy();
 		this.markDirty();
-		
+
 	}
 
 	@Override
@@ -38,7 +43,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube  {
 		if (SonarHelper.isEnergyHandlerFromSide(entity, dir.getOpposite())) {
 
 			if (entity != null)
-			this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(entity, dir.getOpposite(), this.storage.extractEnergy(maxTransfer, true), false));
+				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(entity, dir.getOpposite(), this.storage.extractEnergy(maxTransfer, true), false));
 		}
 	}
 
@@ -72,5 +77,10 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube  {
 			return this.storage.extractEnergy(maxExtract, simulate);
 		}
 		return 0;
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiAdvancedPowerCube(player.inventory, this);
 	}
 }

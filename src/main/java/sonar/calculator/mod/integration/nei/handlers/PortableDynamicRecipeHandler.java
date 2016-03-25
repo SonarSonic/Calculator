@@ -3,7 +3,7 @@ package sonar.calculator.mod.integration.nei.handlers;
 import java.awt.Rectangle;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
-import sonar.calculator.mod.client.gui.calculators.GuiPortableDynamic;
+import sonar.calculator.mod.client.gui.calculators.GuiDynamicModule;
 import sonar.core.utils.helpers.FontHelper;
 
 public class PortableDynamicRecipeHandler extends TemplateRecipeHandler {
@@ -16,7 +16,7 @@ public class PortableDynamicRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public Class<? extends GuiContainer> getGuiClass() {
-		return GuiPortableDynamic.class;
+		return GuiDynamicModule.class;
 	}
 
 	@Override

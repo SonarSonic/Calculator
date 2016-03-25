@@ -6,21 +6,25 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IResearchStore;
 import sonar.calculator.mod.api.items.IStability;
+import sonar.calculator.mod.client.gui.machines.GuiResearchChamber;
+import sonar.calculator.mod.common.containers.ContainerResearchChamber;
 import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator.Dynamic;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.ISyncTile;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 
-public class TileEntityResearchChamber extends TileEntityInventory implements ISyncTile {
+public class TileEntityResearchChamber extends TileEntityInventory implements ISyncTile, IGuiTile {
 
 	public int ticks;
 	public int researchSpeed = 100;
@@ -36,8 +40,6 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 	@Override
 	public void update() {
 		super.update();
-		//beginResearch();
-		//this.markDirty();
 	}
 
 	public void beginResearch() {
@@ -137,6 +139,16 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 		super.setInventorySlotContents(i, itemstack);
 		this.worldObj.markBlockForUpdate(pos);
 		this.worldObj.addBlockEvent(pos, blockType, 1, 0);
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerResearchChamber(player, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiResearchChamber(player, this);
 	}
 
 }

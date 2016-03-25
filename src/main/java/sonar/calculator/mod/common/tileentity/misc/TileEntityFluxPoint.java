@@ -1,11 +1,15 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.api.flux.IFluxPoint;
+import sonar.calculator.mod.client.gui.misc.GuiFluxPoint;
+import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 
-public class TileEntityFluxPoint extends TileEntityFluxHandler implements IFluxPoint {
+public class TileEntityFluxPoint extends TileEntityFluxHandler implements IFluxPoint, IGuiTile {
 
 	public int priority, maxTransfer = 128000;
 
@@ -34,6 +38,16 @@ public class TileEntityFluxPoint extends TileEntityFluxHandler implements IFluxP
 			nbt.setInteger("maxTransfer", maxTransfer);
 
 		}
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerFlux(player.inventory, this, false);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiFluxPoint(player.inventory, this);
 	}
 
 }

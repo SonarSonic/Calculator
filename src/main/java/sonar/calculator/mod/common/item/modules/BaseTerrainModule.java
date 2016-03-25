@@ -11,10 +11,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.common.item.calculators.SonarCalculator;
+import sonar.core.common.item.SonarEnergyItem;
+import sonar.core.common.item.SonarItem;
 import sonar.core.utils.helpers.FontHelper;
 
-public class BaseTerrainModule extends SonarCalculator {
+public class BaseTerrainModule extends SonarEnergyItem {
 
 	public Block[] replacable;
 

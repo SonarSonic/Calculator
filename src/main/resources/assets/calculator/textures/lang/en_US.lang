@@ -569,3 +569,8 @@ tile.ReinforcedDirtFence.name=Reinforced Dirt Fence
 
 tile.ReinforcedDirtBrickStairs.name=Reinforced Dirt Brick Stairs
 tile.ReinforcedDirtBrickFence.name=Reinforced Dirt Brick Fence
+
+//new
+item.WarpModule.name=Warp Module
+item.JumpModule.name=Jump Module
+tile.ModuleWorkstation.name=Module Workstation

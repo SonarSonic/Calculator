@@ -16,7 +16,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.IItemInventory;
 
-public class WIPSmeltingModule extends SonarCalculator implements IItemInventory {
+public class WIPSmeltingModule extends Sonar implements IItemInventory {
 
 	public int syncCook, syncEnergy;
 	public int requiredEnergy = 1000;

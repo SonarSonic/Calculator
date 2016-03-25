@@ -1,8 +1,12 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
+import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,22 +16,30 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IProcessMachine;
+import sonar.calculator.mod.client.gui.generators.GuiConductorMast;
+import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.inventory.SonarTileInventory;
+import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
+import sonar.core.network.sync.SyncTagType;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 
-public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine {
+public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine,IGuiTile  {
 
-	public int cookTime, lightingTicks, lightTicks;
-	public int furnaceSpeed = 50;
-	public int lightningSpeed, strikes;
-	public int random;
-	public int lastStations;
+	public SyncTagType.INT cookTime = new SyncTagType.INT(0);
+	public SyncTagType.INT lightningSpeed = new SyncTagType.INT(1);
+	public SyncTagType.INT lightTicks = new SyncTagType.INT(2);
+	public SyncTagType.INT lightingTicks = new SyncTagType.INT(3);
+	public SyncTagType.INT random = new SyncTagType.INT(4);
+
+	public int lastStations, strikes;
+	public static int furnaceSpeed = 50;
 	public final int weatherStationRF = CalculatorConfig.getInteger("Weather Station");
 	public final int strikeRF = CalculatorConfig.getInteger("Conductor Mast");
 	public Random rand = new Random();
@@ -53,35 +65,35 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	@Override
 	public void update() {
 		super.update();
-		if (this.cookTime > 0) {
-			this.cookTime++;
+		if (this.cookTime.getObject() > 0) {
+			this.cookTime.increaseBy(1);
 		}
 		if (!this.worldObj.isRemote) {
 			if (this.canCook()) {
-				if (cookTime == 0) {
-					this.cookTime++;
+				if (cookTime.getObject() == 0) {
+					this.cookTime.increaseBy(1);
 				}
 
-				if (this.cookTime == furnaceSpeed) {
-					this.cookTime = 0;
+				if (this.cookTime.getObject() == furnaceSpeed) {
+					this.cookTime.setObject(0);
 					this.cookItem();
 				}
 
 			} else {
-				this.cookTime = 0;
+				this.cookTime.setObject(0);
 			}
 		}
 		if (!this.worldObj.isRemote) {
-			if (this.storage.getMaxEnergyStored() != this.storage.getEnergyStored() && this.storage.getEnergyStored() < storage.getMaxEnergyStored() && this.lightningSpeed == 0) {
-				this.random = (int) (Math.random() * +9);
-				this.lightningSpeed = rand.nextInt(1800 - 1500) + getNextTime();
+			if (this.storage.getMaxEnergyStored() != this.storage.getEnergyStored() && this.storage.getEnergyStored() < storage.getMaxEnergyStored() && this.lightningSpeed.getObject() == 0) {
+				this.random.setObject((int) (Math.random() * +9));
+				this.lightningSpeed.setObject(rand.nextInt(1800 - 1500) + getNextTime());
 			}
 		}
-		if (this.lightningSpeed > 0) {
+		if (this.lightningSpeed.getObject() > 0) {
 
-			if (this.lightingTicks >= lightningSpeed) {
-				this.lightingTicks = 0;
-				this.lightningSpeed = 0;
+			if (this.lightingTicks.getObject() >= lightningSpeed.getObject()) {
+				this.lightingTicks.setObject(0);
+				this.lightningSpeed.setObject(0);
 				strikes = this.getStrikes();
 				if (this.worldObj.isRemote) {
 					int currentstrikes;
@@ -97,29 +109,29 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 					}
 				}
 				this.lastStations = this.getStations();
-				lightTicks++;
+				lightTicks.increaseBy(1);
 			} else {
-				this.lightingTicks++;
+				lightTicks.increaseBy(1);
 			}
 
 		}
-		if (lightTicks > 0) {
+		if (lightTicks.getObject() > 0) {
 			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes);
-			if (lightTicks < 200) {
+			if (lightTicks.getObject() < 200) {
 				if (this.storage.getEnergyStored() + add <= this.storage.getMaxEnergyStored()) {
-					lightTicks++;
+					lightTicks.increaseBy(1);
 					storage.receiveEnergy(add, false);
 
 				} else {
-					lightTicks++;
+					lightTicks.increaseBy(1);
 					storage.setEnergyStored(this.storage.getMaxEnergyStored());
 				}
 			} else {
 				if (this.storage.getEnergyStored() + add <= storage.getMaxEnergyStored()) {
-					lightTicks = 0;
+					lightTicks.setObject(0);
 					storage.receiveEnergy(add, false);
 				} else {
-					lightTicks++;
+					lightTicks.increaseBy(1);
 					storage.setEnergyStored(this.storage.getMaxEnergyStored());
 				}
 			}
@@ -156,7 +168,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			return false;
 		}
 
-		if (cookTime >= furnaceSpeed) {
+		if (cookTime.getObject() >= furnaceSpeed) {
 			return true;
 		}
 
@@ -173,7 +185,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		}
 
 		int itemEnergy = recipeEnergy(slots()[0]);
-		if (cookTime == 0) {
+		if (cookTime.getObject() == 0) {
 			if (this.storage.getEnergyStored() < itemEnergy) {
 				return false;
 			}
@@ -205,33 +217,24 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			this.cookTime = nbt.getInteger("CookTime");
-			this.lightingTicks = nbt.getInteger("Ticks");
-			this.lightTicks = nbt.getInteger("lightTicks");
-			this.lightningSpeed = nbt.getInteger("lightSpeed");
-			this.random = nbt.getInteger("rand");
-			if (type == SyncType.SAVE) {
-				this.lastStations = nbt.getInteger("lastStations");
-				this.strikes = nbt.getInteger("strikes");
-			}
+		if (type == SyncType.SAVE) {
+			this.lastStations = nbt.getInteger("lastStations");
+			this.strikes = nbt.getInteger("strikes");
 		}
+
 	}
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			nbt.setInteger("CookTime", this.cookTime);
-			nbt.setInteger("Ticks", this.lightingTicks);
-			nbt.setInteger("lightTicks", this.lightTicks);
-			nbt.setInteger("lightSpeed", this.lightningSpeed);
-			nbt.setInteger("rand", this.random);
-
-			if (type == SyncType.SAVE) {
-				nbt.setInteger("lastStations", this.lastStations);
-				nbt.setInteger("strikes", this.strikes);
-			}
+		if (type == SyncType.SAVE) {
+			nbt.setInteger("lastStations", this.lastStations);
+			nbt.setInteger("strikes", this.strikes);
 		}
+	}
+
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.addAll(Lists.newArrayList(cookTime, lightingTicks, lightTicks, lightningSpeed, random));
 	}
 
 	@Override
@@ -338,7 +341,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	@Override
 	public int getCurrentProcessTime() {
-		return cookTime;
+		return cookTime.getObject();
 	}
 
 	@Override
@@ -352,5 +355,15 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			return recipeEnergy(slots()[0]);
 		}
 		return 0;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerConductorMast(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiConductorMast(player.inventory, this);
 	}
 }

@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -9,16 +10,19 @@ import sonar.calculator.mod.api.flux.IFlux;
 import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.api.flux.IFluxPlug;
 import sonar.calculator.mod.api.flux.IFluxPoint;
+import sonar.calculator.mod.client.gui.misc.GuiFluxPlug;
+import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
 import sonar.core.network.sync.SyncEnergyStorage;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyProvider;
 
-public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPlug {
+public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPlug, IGuiTile {
 
 	public int pointCount, plugCount, currentInput, currentOutput, transfer;
 	public long bufferStorage;
@@ -403,6 +407,16 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			nbt.setInteger("energy", this.buffer.getEnergyStored());
 
 		}
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerFlux(player.inventory, this, false);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiFluxPlug(player.inventory, this);
 	}
 
 }

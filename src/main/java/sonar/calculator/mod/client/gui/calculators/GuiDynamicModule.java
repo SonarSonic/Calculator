@@ -12,15 +12,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.common.containers.ContainerPortableDynamic;
+import sonar.calculator.mod.common.containers.ContainerDynamicModule;
 import sonar.core.common.item.InventoryItem;
 
 @SideOnly(Side.CLIENT)
-public class GuiPortableDynamic extends GuiContainer {
+public class GuiDynamicModule extends GuiContainer {
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/dynamiccalculator.png");
 
-	public GuiPortableDynamic(EntityPlayer player, InventoryPlayer inv, InventoryItem calc, Map<Integer, Integer> map) {
-		super(new ContainerPortableDynamic(player, inv, calc, map));
+	public GuiDynamicModule(EntityPlayer player, InventoryPlayer inv, InventoryItem calc) {
+		super(new ContainerDynamicModule(player, inv, calc));
 	}
 
 	@Override

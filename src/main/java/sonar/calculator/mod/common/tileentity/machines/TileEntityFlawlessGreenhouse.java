@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.IFlawlessGreenhouse;
+import sonar.calculator.mod.client.gui.machines.GuiFlawlessGreenhouse;
+import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
@@ -26,12 +29,13 @@ import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.InventoryHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RenderHelper;
 
-public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implements ISidedInventory, IFlawlessGreenhouse {
+public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implements ISidedInventory, IFlawlessGreenhouse, IGuiTile {
 
 	public int plants, levelTicks, checkTicks, houseSize, growTicks, growTick;
 	public int plantsGrown;
@@ -447,5 +451,15 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	@Override
 	public int getPlantsGrown() {
 		return this.plantsGrown;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerFlawlessGreenhouse(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiFlawlessGreenhouse(player.inventory, this);
 	}
 }

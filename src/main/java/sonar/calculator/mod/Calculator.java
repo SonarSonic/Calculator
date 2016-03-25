@@ -26,6 +26,8 @@ import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
+import sonar.calculator.mod.common.item.calculators.ModuleItemRegistry;
+import sonar.calculator.mod.common.item.calculators.ModuleRegistry;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
@@ -59,10 +61,13 @@ public class Calculator {
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
 
+	public static ModuleRegistry modules = new ModuleRegistry();
+	public static ModuleItemRegistry moduleItems = new ModuleItemRegistry();
+
 	public static PlanterRegistry planters = new PlanterRegistry();
 	public static HarvesterRegistry harvesters = new HarvesterRegistry();
 	public static FertiliserRegistry fertilisers = new FertiliserRegistry();
-	
+
 	@Instance(modid)
 	public static Calculator instance;
 
@@ -80,10 +85,7 @@ public class Calculator {
 		} else {
 			logger.info("Successfully loaded with Sonar Core");
 		}
-		/*
-		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ChunkHandler());
-
-		*/
+		/*ForgeChunkManager.setForcedChunkLoadingCallback(this, new ChunkHandler()); */
 		network = NetworkRegistry.INSTANCE.newSimpleChannel(modid);
 		logger.info("Registered Network");
 
@@ -94,25 +96,24 @@ public class Calculator {
 
 		CalculatorBlocks.registerBlocks();
 		logger.info("Loaded Blocks");
-		
+
 		CalculatorItems.registerItems();
 		logger.info("Loaded Items");
 
 		calculatorProxy.registerRenderThings();
 		logger.info("Registered Renderers");
-		
+
 		EntityRegistry.registerModEntity(EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntitySoil.class, "Soil", 3, instance, 64, 10, true);
 		logger.info("Registered Entities");
-		
 
 	}
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
-		
+
 		RecipeRegistry.registerRecipes();
 		logger.info("Registered Calculator Recipes");
 
@@ -130,27 +131,25 @@ public class Calculator {
 
 		CalculatorOreDict.registerOres();
 		logger.info("Registered OreDict");
-	
-		/*
-		PlanterRegistry.registerPlanters();
-		logger.info("Registered Planters");
 
-		 */
+		/*PlanterRegistry.registerPlanters(); logger.info("Registered Planters"); */
 		GameRegistry.registerFuelHandler(new CalculatorSmelting());
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CalculatorCommon());
 		logger.info("Registered Handlers");
 
-		//MinecraftForge.EVENT_BUS.register(new CalculatorEvents());
-		//FMLCommonHandler.instance().bus().register(new CalculatorEvents());
-		//logger.info("Registered Events");
+		// MinecraftForge.EVENT_BUS.register(new CalculatorEvents());
+		// FMLCommonHandler.instance().bus().register(new CalculatorEvents());
+		// logger.info("Registered Events");
+		modules.register();
+		moduleItems.register();
+		planters.register();
+		harvesters.register();
+		fertilisers.register();
+
 	}
 
 	@EventHandler
 	public void postLoad(FMLPostInitializationEvent evt) {
-		planters.register();
-		harvesters.register();
-		fertilisers.register();		
-		
 		BlockDispenser.dispenseBehaviorRegistry.putObject(baby_grenade, new CalculatorThrow(0));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(grenade, new CalculatorThrow(1));
 		BlockDispenser.dispenseBehaviorRegistry.putObject(small_stone, new CalculatorThrow(2));
@@ -179,7 +178,7 @@ public class Calculator {
 			StorageChamberHandler.init();
 			logger.info("Registered AE2 Handler for Storage Chamber");
 		}
-		 
+
 	}
 
 	@EventHandler
@@ -202,6 +201,8 @@ public class Calculator {
 	public static Item itemEnergyModule;
 	public static Item itemLocatorModule;
 	public static Item itemStorageModule;
+	public static Item itemWarpModule;
+	public static Item itemJumpModule;
 	public static Item itemSmeltingModule;
 	public static Item circuitBoard;
 	public static Item circuitDamaged;
@@ -259,6 +260,7 @@ public class Calculator {
 	public static Block stoneAssimilator, algorithmAssimilator;
 	public static Block flawlessFurnace;
 	public static Block eternalFire;
+	public static Block moduleWorkstation;
 
 	// calculator parts
 	public static Item calculator_screen;
@@ -269,7 +271,7 @@ public class Calculator {
 	public static Item atomic_assembly;
 
 	public static Item calculator_sword;
-	
+
 	// tools
 	public static Item reinforced_axe;
 	public static Item reinforced_pickaxe;

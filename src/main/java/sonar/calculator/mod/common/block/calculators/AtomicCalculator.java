@@ -11,6 +11,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 
 public class AtomicCalculator extends SonarMachineBlock {
 
@@ -20,7 +21,7 @@ public class AtomicCalculator extends SonarMachineBlock {
 
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
-		player.openGui(Calculator.instance, CalculatorGui.AtomicCalculator, world, pos.getX(), pos.getY(), pos.getZ());
+		player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 

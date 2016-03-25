@@ -15,6 +15,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
+import sonar.core.utils.IGuiTile;
 
 public class AdvancedPowerCube extends SonarMachineBlock {
 
@@ -32,7 +33,7 @@ public class AdvancedPowerCube extends SonarMachineBlock {
 					world.markBlockRangeForRenderUpdate(pos, pos);
 				}
 			} else {
-				player.openGui(Calculator.instance, CalculatorGui.advancedCube, world, pos.getX(), pos.getY(), pos.getZ());
+				player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 

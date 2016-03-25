@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -9,22 +10,26 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.IPausable;
+import sonar.calculator.mod.client.gui.machines.GuiFlawlessFurnace;
+import sonar.calculator.mod.common.containers.ContainerFlawlessFurnace;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.RecipeHelper;
 
-public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory implements IPausable {
+public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory implements IPausable, IGuiTile {
+	
 	public SyncTagType.INT[] cookTime = new SyncTagType.INT[9];
 	public float renderTicks;
 	public double energyBuffer;
 	public boolean paused;
 	public final int speed = 100;
-	public int size = 9;
+	public final int size = 9;
 	public int maxProcess;
 
 	public TileEntityFlawlessFurnace() {
@@ -42,7 +47,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 		}
 		this.discharge(27);
 		if (!paused) {
-			for (int i = 0; i < 9; i++) {
+			for (int i = 0; i < size; i++) {
 				if (this.cookTime[i].getObject() > 0) {
 					this.cookTime[i].increaseBy(1);
 					if (!this.worldObj.isRemote) {
@@ -114,11 +119,11 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 			if (output[o] == null) {
 				return false;
 			} else {
-				if (slots()[slot + ((o + 1) * 9)] != null) {
-					if (!slots()[slot + ((o + 1) * 9)].isItemEqual(output[o])) {
+				if (slots()[slot + ((o + 1) * size)] != null) {
+					if (!slots()[slot + ((o + 1) * size)].isItemEqual(output[o])) {
 
 						return false;
-					} else if (slots()[slot + ((o + 1) * 9)].stackSize + output[o].stackSize > slots()[slot + ((o + 1) * 9)].getMaxStackSize()) {
+					} else if (slots()[slot + ((o + 1) * size)].stackSize + output[o].stackSize > slots()[slot + ((o + 1) * size)].getMaxStackSize()) {
 
 						return false;
 					}
@@ -132,14 +137,14 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 		ItemStack[] output = getOutput(false, slots()[slot]);
 		for (int o = 0; o < output.length; o++) {
 			if (output[o] != null) {
-				if (this.slots()[slot + ((o + 1) * 9)] == null) {
+				if (this.slots()[slot + ((o + 1) * size)] == null) {
 					ItemStack outputStack = output[o].copy();
 					if (output[o].getItem() == Calculator.circuitBoard) {
 						CircuitBoard.setData(outputStack);
 					}
-					this.slots()[slot + ((o + 1) * 9)] = outputStack;
-				} else if (this.slots()[slot + ((o + 1) * 9)].isItemEqual(output[o])) {
-					this.slots()[slot + ((o + 1) * 9)].stackSize += output[o].stackSize;
+					this.slots()[slot + ((o + 1) * size)] = outputStack;
+				} else if (this.slots()[slot + ((o + 1) * size)].isItemEqual(output[o])) {
+					this.slots()[slot + ((o + 1) * size)].stackSize += output[o].stackSize;
 
 				}
 			}
@@ -242,6 +247,17 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
 		return currenttip;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new ContainerFlawlessFurnace(player.inventory, this);
 	}
 
 }

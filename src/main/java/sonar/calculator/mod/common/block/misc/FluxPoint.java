@@ -23,6 +23,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.PacketTileSync;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 
 public class FluxPoint extends SonarMachineBlock {
 
@@ -46,7 +47,7 @@ public class FluxPoint extends SonarMachineBlock {
 					point.writeToNBT(tag);
 					Calculator.network.sendTo(new PacketTileSync(x, y, z, tag),(EntityPlayerMP) player);		
 					Calculator.network.sendTo(new PacketFluxNetworkList(x, y, z, FluxRegistry.getAvailableNetworks(player.getGameProfile().getName(), null)), (EntityPlayerMP) player);
-					player.openGui(Calculator.instance, CalculatorGui.FluxPoint, world, x, y, z);
+					player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
 				}
 			}
 		}

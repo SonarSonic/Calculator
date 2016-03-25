@@ -3,19 +3,23 @@ package sonar.calculator.mod.common.tileentity.generators;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.client.gui.generators.GuiCrankedGenerator;
+import sonar.calculator.mod.common.containers.ContainerCrankedGenerator;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.core.common.tileentity.TileEntityEnergy;
 import sonar.core.network.sync.SyncEnergyStorage;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyReceiver;
 
-public class TileEntityCrankedGenerator extends TileEntityEnergy {
+public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGuiTile {
 
 	protected TileEntity[] handlers = new TileEntity[6];
 	public boolean cranked;
@@ -102,5 +106,15 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy {
 	public List<String> getWailaInfo(List<String> tooltip) {
 		tooltip.add(FontHelper.translate("crank.cranked") + ": " + (this.cranked ? FontHelper.translate("locator.true") : FontHelper.translate("locator.false")));
 		return tooltip;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerCrankedGenerator(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiCrankedGenerator(player.inventory, this);
 	}
 }

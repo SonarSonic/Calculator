@@ -2,59 +2,32 @@ package sonar.calculator.mod.common.item.calculators;
 
 import java.util.List;
 
+import cofh.api.energy.IEnergyContainerItem;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.core.common.item.InventoryContainerItem;
+import sonar.calculator.mod.api.modules.IModule;
 import sonar.core.utils.helpers.FontHelper;
-import cofh.api.energy.IEnergyContainerItem;
 
-public class SonarCalculator extends InventoryContainerItem implements IEnergyContainerItem{
+public class SonarUsageModule extends SonarModule implements IEnergyContainerItem {
 
-	protected int capacity = CalculatorConfig.getInteger("Calculator");
-	protected int maxReceive = 200;
-	protected int maxExtract = 200;
-	protected int maxTransfer = 200;
+	public int storage;
 
-	public SonarCalculator() {
-		super();
-		setCreativeTab(Calculator.Calculator);
-		setMaxStackSize(1);
-	}
-
-	public ItemStack onCalculatorRightClick(ItemStack itemstack, World world, EntityPlayer player, int ID) {
-		if (!world.isRemote) {
-			System.out.print("click");
-			if (player.capabilities.isCreativeMode) {
-				player.openGui(Calculator.instance, ID, world, 0, -1000, 0);
-				return itemstack;
-			} else if (getEnergyStored(itemstack) > 1) {
-				player.openGui(Calculator.instance, ID, world, 0, -1000, 0);
-				return itemstack;
-
-			} else if ((getEnergyStored(itemstack) < 1)) {
-				FontHelper.sendMessage(FontHelper.translate("energy.notEnough"), world, player);
-				return itemstack;
-			}
-		}
-		return itemstack;
-
+	public SonarUsageModule(IModule module, int storage) {
+		super(module);
+		this.storage = storage;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		if (!CalculatorConfig.isEnabled(stack)) {
-			list.add(FontHelper.translate("calc.ban"));
-		}
-		super.addInformation(stack, player, list, par4);
 		list.add(FontHelper.translate("energy.stored") + ": " + getEnergyStored(stack) + " RF");
-
+		super.addInformation(stack, player, list, par4);
 	}
 
 	@Override
@@ -63,7 +36,7 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 			container.setTagCompound(new NBTTagCompound());
 		}
 		int energy = container.getTagCompound().getInteger("Energy");
-		int energyReceived = Math.min(this.capacity - energy, Math.min(this.maxReceive, maxReceive));
+		int energyReceived = Math.min(getMaxEnergyStored(container) - energy, Math.min(storage / 10, maxReceive));
 
 		if (!simulate) {
 			energy += energyReceived;
@@ -78,7 +51,7 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 			return 0;
 		}
 		int energy = container.getTagCompound().getInteger("Energy");
-		int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
+		int energyExtracted = Math.min(energy, Math.min(storage / 10, maxExtract));
 
 		if (!simulate) {
 			energy -= energyExtracted;
@@ -97,7 +70,7 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 
 	@Override
 	public int getMaxEnergyStored(ItemStack container) {
-		return capacity;
+		return storage;
 	}
 
 }

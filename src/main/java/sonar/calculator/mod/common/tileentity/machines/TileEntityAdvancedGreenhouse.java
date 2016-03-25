@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -16,6 +17,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.client.gui.machines.GuiAdvancedGreenhouse;
+import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.integration.planting.IHarvester;
 import sonar.calculator.mod.integration.planting.IPlanter;
@@ -24,10 +27,11 @@ import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.RenderHelper;
 
-public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implements ISidedInventory {
+public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implements ISidedInventory, IGuiTile {
 
 	public int plants, lanterns, levelTicks, checkTicks, growTicks, growTick;
 
@@ -921,6 +925,16 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
 		return false;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerAdvancedGreenhouse(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiAdvancedGreenhouse(player.inventory, this);
 	}
 
 }

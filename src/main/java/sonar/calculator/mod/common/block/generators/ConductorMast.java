@@ -25,6 +25,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.utils.ISyncTile;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.ISpecialTooltip;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
@@ -56,7 +57,7 @@ public class ConductorMast extends BlockContainer implements ISpecialTooltip, ID
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			player.openGui(Calculator.instance, CalculatorGui.ConductorMast, world, x, y, z);
+			player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
 		}
 		return true;
 	}

@@ -30,6 +30,7 @@ import sonar.calculator.mod.common.block.machines.BasicGreenhouse;
 import sonar.calculator.mod.common.block.machines.FlawlessGreenhouse;
 import sonar.calculator.mod.common.block.machines.HealthProcessor;
 import sonar.calculator.mod.common.block.machines.HungerProcessor;
+import sonar.calculator.mod.common.block.machines.ModuleWorkstation;
 import sonar.calculator.mod.common.block.machines.PowerCube;
 import sonar.calculator.mod.common.block.machines.StorageChamber;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
@@ -49,6 +50,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
@@ -122,6 +124,8 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerTileEntity(TileEntityCalculator.Atomic.class, "AtomicCalculator");
 		dynamicCalculator = registerBlock("DynamicCalculator",new DynamicCalculator().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityCalculator.Dynamic.class, "DynamicCalculator");	
+		moduleWorkstation = registerBlock("ModuleWorkstation",new ModuleWorkstation().setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityModuleWorkstation.class, "ModuleWorkstation");
 
 		// smelting
 		reinforcedFurnace = registerBlock("ReinforcedFurnace",new SmeltingBlock(BlockTypes.FURNACE).setHardness(1.0F).setResistance(20.0F));

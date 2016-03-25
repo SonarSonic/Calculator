@@ -1,29 +1,21 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
+import sonar.calculator.mod.client.gui.machines.GuiStorageChamber;
+import sonar.calculator.mod.common.containers.ContainerStorageChamber;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.ISyncTile;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 
-/** needs clean up */
-public class TileEntityStorageChamber extends TileEntitySidedInventory implements ISyncTile, ISidedInventory {
-
-	public int renderTicks;
-
-	public void update() {
-		super.update();
-		if (renderTicks != 1300) {
-			renderTicks++;
-		} else {
-			renderTicks = 0;
-		}
-	}
+public class TileEntityStorageChamber extends TileEntitySidedInventory implements ISyncTile, ISidedInventory, IGuiTile {
 
 	public TileEntityStorageChamber() {
 		// this.stored = new int[14];
@@ -376,6 +368,16 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 
 	private enum CircuitType {
 		Analysed, Stable, Damaged, Dirty;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerStorageChamber(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiStorageChamber(player.inventory, this);
 	}
 
 }

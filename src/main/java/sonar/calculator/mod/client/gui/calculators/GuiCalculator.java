@@ -11,14 +11,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerCalculator;
-import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInventory;
+import sonar.core.common.item.InventoryItem;
 import sonar.core.utils.helpers.FontHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiCalculator extends GuiContainer {
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/calculator.png");
 
-	public GuiCalculator(EntityPlayer player, InventoryPlayer inv, CalculatorInventory calculatorInventory) {
+	public GuiCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem calculatorInventory) {
 		super(new ContainerCalculator(player, inv, calculatorInventory));
 	}
 
@@ -30,9 +30,7 @@ public class GuiCalculator extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
 		Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
-
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	}
 

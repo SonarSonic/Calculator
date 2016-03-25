@@ -9,9 +9,10 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.RecipeHelper;
 
-public abstract class TileEntityAbstractProcess extends TileEntityProcess {
+public abstract class TileEntityAbstractProcess extends TileEntityProcess implements IGuiTile {
 
 	public Random rand = new Random();
 

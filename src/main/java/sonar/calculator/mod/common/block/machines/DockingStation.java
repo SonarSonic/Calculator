@@ -19,6 +19,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 
 public class DockingStation extends SonarMachineBlock {
@@ -40,7 +41,7 @@ public class DockingStation extends SonarMachineBlock {
 						if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityDockingStation) {
 							TileEntityDockingStation station = (TileEntityDockingStation) world.getTileEntity(x, y, z);
 							if (station.isCalculator(station.calcStack) != 0) {
-								player.openGui(Calculator.instance, CalculatorGui.DockingStation, world, x, y, z);
+								player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
 							} else {
 								FontHelper.sendMessage(FontHelper.translate("docking.noCalculator"), world, player);
 							}

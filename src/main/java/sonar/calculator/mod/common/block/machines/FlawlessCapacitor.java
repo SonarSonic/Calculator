@@ -15,6 +15,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 
 public class FlawlessCapacitor extends SonarMachineBlock {
@@ -37,7 +38,7 @@ public class FlawlessCapacitor extends SonarMachineBlock {
 		if (player != null) {
 			if (interact.type == BlockInteractionType.RIGHT) {
 				if (!world.isRemote) {
-					player.openGui(Calculator.instance, CalculatorGui.AtomicEnergyCube, world, x, y, z);
+					player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
 				}
 			} else {
 				TileEntity te = world.getTileEntity(x, y, z);

@@ -22,6 +22,8 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.calculator.mod.client.gui.misc.GuiFlux;
+import sonar.calculator.mod.client.gui.misc.GuiFluxController;
+import sonar.calculator.mod.common.containers.ContainerFluxController;
 import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
@@ -29,11 +31,12 @@ import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ISyncTile;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.IEnergyContainerItem;
 
-public class TileEntityFluxController extends TileEntityInventory implements IFluxController, ISyncTile, IByteBufTile {
+public class TileEntityFluxController extends TileEntityInventory implements IFluxController,IByteBufTile,IGuiTile {
 
 	private Ticket currentTicket;
 
@@ -339,6 +342,16 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 	@Override
 	public int getProtectionMode() {
 		return playerProtect;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerFluxController(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiFluxController(player.inventory, this);
 	}
 
 }

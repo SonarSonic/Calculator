@@ -13,6 +13,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.SonarHelper;
 
 public class InvisibleBlock extends Block implements IDismantleable {
@@ -52,13 +53,13 @@ public class InvisibleBlock extends Block implements IDismantleable {
 				if (type == 0) {
 					if (world.getBlock(x, y - 1, z) == Calculator.conductorMast) {
 
-						player.openGui(Calculator.instance, CalculatorGui.ConductorMast, world, x, y - 1, z);
+						player.openGui(Calculator.instance, IGuiTile.ID, world, x, y - 1, z);
 					} else if (world.getBlock(x, y - 2, z) == Calculator.conductorMast) {
 
-						player.openGui(Calculator.instance, CalculatorGui.ConductorMast, world, x, y - 2, z);
+						player.openGui(Calculator.instance, IGuiTile.ID, world, x, y - 2, z);
 					} else if (world.getBlock(x, y - 3, z) == Calculator.conductorMast) {
 
-						player.openGui(Calculator.instance, CalculatorGui.ConductorMast, world, x, y - 3, z);
+						player.openGui(Calculator.instance, IGuiTile.ID, world, x, y - 3, z);
 					}
 				}
 			}

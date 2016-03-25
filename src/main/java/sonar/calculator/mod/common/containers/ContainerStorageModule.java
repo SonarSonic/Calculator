@@ -6,7 +6,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.modules.StorageModule;
 import sonar.calculator.mod.utils.SlotPortable;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.slots.SlotLimiter;
@@ -15,7 +14,7 @@ public class ContainerStorageModule extends Container {
 	private final InventoryItem inventory;
 	private boolean isRemote;
 
-	private static final int INV_START = StorageModule.StorageInventory.size, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
+	private static final int INV_START = 54, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
 	public ContainerStorageModule(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;

@@ -20,6 +20,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 
 public class AdvancedGreenhouse extends SonarMachineBlock {
@@ -71,7 +72,7 @@ public class AdvancedGreenhouse extends SonarMachineBlock {
 			} else {
 				if (player != null) {
 					if (!world.isRemote) {
-						player.openGui(Calculator.instance, CalculatorGui.AdvancedGreenhouse, world, pos.getX(), pos.getY(), pos.getZ());
+						player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 					}
 				}
 			}

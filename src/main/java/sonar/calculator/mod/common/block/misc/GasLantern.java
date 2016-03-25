@@ -24,6 +24,7 @@ import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 
 public class GasLantern extends SonarMachineBlock {
 
@@ -49,7 +50,7 @@ public class GasLantern extends SonarMachineBlock {
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (!world.isRemote && player != null) {
-			player.openGui(Calculator.instance, CalculatorGui.Lantern, world, pos.getX(), pos.getY(), pos.getZ());
+			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}

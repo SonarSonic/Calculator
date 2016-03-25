@@ -2,20 +2,24 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.calculator.mod.client.gui.misc.GuiGasLantern;
 import sonar.calculator.mod.common.block.misc.GasLantern;
+import sonar.calculator.mod.common.containers.ContainerLantern;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.ISyncTile;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 
 import com.google.common.collect.Lists;
 
-public class TileEntityGasLantern extends TileEntityInventory implements ISyncTile {
+public class TileEntityGasLantern extends TileEntityInventory implements ISyncTile, IGuiTile {
 
 	public SyncTagType.INT burnTime = new SyncTagType.INT("burnTime");
 	public SyncTagType.INT maxBurnTime = new SyncTagType.INT("maxBurnTime");
@@ -100,5 +104,15 @@ public class TileEntityGasLantern extends TileEntityInventory implements ISyncTi
 			currenttip.add(burn);
 		}
 		return currenttip;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerLantern(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiGasLantern(player.inventory, this);
 	}
 }

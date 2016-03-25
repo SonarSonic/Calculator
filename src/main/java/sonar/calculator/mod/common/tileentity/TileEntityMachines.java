@@ -1,8 +1,13 @@
 package sonar.calculator.mod.common.tileentity;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
+import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
+import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
+import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
@@ -10,6 +15,7 @@ import sonar.calculator.mod.common.recipes.machines.ProcessingChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.RecipeHelper;
 
 public class TileEntityMachines {
@@ -31,6 +37,16 @@ public class TileEntityMachines {
 			return 1;
 		}
 
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerSmeltingBlock(player.inventory, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiSmeltingBlock.ReassemblyChamber(player.inventory, this);
+		}
+
 	}
 
 	public static class RestorationChamber extends TileEntityAbstractProcess {
@@ -47,6 +63,16 @@ public class TileEntityMachines {
 		@Override
 		public int outputSize() {
 			return 1;
+		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerSmeltingBlock(player.inventory, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiSmeltingBlock.RestorationChamber(player.inventory, this);
 		}
 	}
 
@@ -66,6 +92,16 @@ public class TileEntityMachines {
 		public int outputSize() {
 			return 1;
 		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerSmeltingBlock(player.inventory, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiSmeltingBlock.ProcessingChamber(player.inventory, this);
+		}
 	}
 
 	public static class ReinforcedFurnace extends TileEntityAbstractProcess {
@@ -82,6 +118,16 @@ public class TileEntityMachines {
 		@Override
 		public int outputSize() {
 			return 1;
+		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerSmeltingBlock(player.inventory, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiSmeltingBlock.ReinforcedFurnace(player.inventory, this);
 		}
 	}
 
@@ -101,6 +147,16 @@ public class TileEntityMachines {
 		@Override
 		public int outputSize() {
 			return 2;
+		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerDualOutputSmelting(player.inventory, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiDualOutputSmelting.AlgorithmSeperator(player.inventory, this);
 		}
 	}
 
@@ -129,6 +185,16 @@ public class TileEntityMachines {
 				outputs[1] = rand.nextInt(8 + 1) == 8 ? new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1)) : null;
 				return outputs;
 			}
+		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerDualOutputSmelting(player.inventory, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, this);
 		}
 
 	}
@@ -161,6 +227,16 @@ public class TileEntityMachines {
 				return outputs;
 			}
 		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerDualOutputSmelting(player.inventory, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, this);
+		}
 	}
 
 	public static class StoneSeperator extends TileEntityAbstractProcess {
@@ -178,6 +254,16 @@ public class TileEntityMachines {
 		@Override
 		public int outputSize() {
 			return 2;
+		}
+
+		@Override
+		public Object getGuiContainer(EntityPlayer player) {
+			return new ContainerDualOutputSmelting(player.inventory, this);
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiDualOutputSmelting.StoneSeperator(player.inventory, this);
 		}
 
 	}

@@ -7,11 +7,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import sonar.calculator.mod.common.item.calculators.CalculatorItem;
-import sonar.calculator.mod.common.item.calculators.CraftingCalc;
-import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
+import sonar.calculator.mod.api.modules.IModuleEnergy;
+import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
 import sonar.calculator.mod.common.item.calculators.InfoCalc;
-import sonar.calculator.mod.common.item.calculators.ScientificCalc;
+import sonar.calculator.mod.common.item.calculators.SonarEnergyModule;
+import sonar.calculator.mod.common.item.calculators.SonarUsageModule;
+import sonar.calculator.mod.common.item.calculators.SonarModule;
+import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
+import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
+import sonar.calculator.mod.common.item.calculators.modules.JumpModule;
+import sonar.calculator.mod.common.item.calculators.modules.WarpModule;
 import sonar.calculator.mod.common.item.misc.CalculatorScreen;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.item.misc.EndDiamond;
@@ -20,12 +25,10 @@ import sonar.calculator.mod.common.item.misc.SmallStone;
 import sonar.calculator.mod.common.item.misc.Soil;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.calculator.mod.common.item.modules.AdvancedTerrainModule;
-import sonar.calculator.mod.common.item.modules.EnergyModule;
 import sonar.calculator.mod.common.item.modules.HealthModule;
 import sonar.calculator.mod.common.item.modules.HungerModule;
 import sonar.calculator.mod.common.item.modules.LocatorModule;
 import sonar.calculator.mod.common.item.modules.NutritionModule;
-import sonar.calculator.mod.common.item.modules.StorageModule;
 import sonar.calculator.mod.common.item.modules.TerrainModule;
 import sonar.calculator.mod.common.item.tools.CalcAxe;
 import sonar.calculator.mod.common.item.tools.CalcHoe;
@@ -85,19 +88,21 @@ public class CalculatorItems extends Calculator {
 
 		// calculators
 		itemInfoCalculator = registerItem("InfoCalculator", new InfoCalc());
-		itemCalculator = registerItem("Calculator", new CalculatorItem());
-		itemCraftingCalculator = registerItem("CraftingCalculator", new CraftingCalc());
-		itemScientificCalculator = registerItem("ScientificCalculator", new ScientificCalc());
-		itemFlawlessCalculator = registerItem("FlawlessCalculator", new FlawlessCalc());
+		itemCalculator = registerItem("Calculator", new SonarUsageModule(GuiModule.calculator, 1000));
+		itemCraftingCalculator = registerItem("CraftingCalculator", new SonarUsageModule(GuiModule.crafting, 5000));
+		itemScientificCalculator = registerItem("ScientificCalculator", new SonarUsageModule(GuiModule.scientific, 2000));
+		itemFlawlessCalculator = registerItem("FlawlessCalculator", new FlawlessCalculator());
 
 		// modules
-		itemStorageModule = registerItem("StorageModule", new StorageModule());
+		itemStorageModule = registerItem("StorageModule", new SonarModule(GuiModule.storage));
+		itemWarpModule = registerItem("WarpModule", new SonarUsageModule(new WarpModule(), 10000));
+		itemJumpModule = registerItem("JumpModule", new SonarUsageModule(new JumpModule(), 10000));
 		itemHungerModule = registerItem("HungerModule", new HungerModule());
 		itemHealthModule = registerItem("HealthModule", new HealthModule());
 		itemNutritionModule = registerItem("NutritionModule", new NutritionModule());
 		itemTerrainModule = registerItem("TerrainModule", new TerrainModule());
 		itemAdvancedTerrainModule = registerItem("AdvancedTerrainModule", new AdvancedTerrainModule());
-		itemEnergyModule = registerItem("EnergyModule", new EnergyModule());
+		itemEnergyModule = registerItem("EnergyModule", new SonarEnergyModule(new EnergyModule()));
 		itemLocatorModule = registerItem("LocatorModule", new LocatorModule());
 
 		// misc

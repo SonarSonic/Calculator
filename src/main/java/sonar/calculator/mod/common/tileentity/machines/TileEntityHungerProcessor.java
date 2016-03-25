@@ -1,7 +1,9 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -12,15 +14,21 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHungerProcessor;
 import sonar.calculator.mod.api.nutrition.IHungerStore;
+import sonar.calculator.mod.client.gui.machines.GuiHungerProcessor;
+import sonar.calculator.mod.common.containers.ContainerHungerProcessor;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.inventory.SonarTileInventory;
+import sonar.core.network.sync.ISyncPart;
+import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.ISyncTile;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 
-public class TileEntityHungerProcessor extends TileEntitySidedInventory implements ISidedInventory, ISyncTile, IHungerProcessor {
+public class TileEntityHungerProcessor extends TileEntitySidedInventory implements IHungerProcessor, IGuiTile {
 
-	public int storedpoints, speed = 4;
+	public SyncTagType.INT storedpoints = new SyncTagType.INT(0);
+	public final int speed = 4;
 
 	public TileEntityHungerProcessor() {
 		super.input = new int[] { 0 };
@@ -39,27 +47,27 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	}
 
 	public void charge(ItemStack stack) {
-		if (!(stack == null) && this.storedpoints != 0) {
+		if (!(stack == null) && this.storedpoints.getObject() != 0) {
 			if (stack.getItem() instanceof IHungerStore) {
 				IHungerStore module = (IHungerStore) stack.getItem();
 				int hunger = module.getHungerPoints(stack);
 				int max = module.getMaxHungerPoints(stack);
 				if (!(hunger >= max) || max == -1) {
-					if (storedpoints >= speed) {
+					if (storedpoints.getObject() >= speed) {
 						if (max == -1 || max >= hunger + speed) {
 							module.transferHunger(speed, stack, ProcessType.ADD);
-							storedpoints = storedpoints - speed;
+							storedpoints.increaseBy(-speed);
 						} else if (max != -1) {
 							module.transferHunger(max - hunger, stack, ProcessType.ADD);
-							storedpoints = storedpoints - (max - hunger);
+							storedpoints.increaseBy(-(max - hunger));
 						}
-					} else if (storedpoints <= speed) {
+					} else if (storedpoints.getObject() <= speed) {
 						if (max == -1 | max >= hunger + speed) {
 							module.transferHunger(speed, stack, ProcessType.ADD);
-							storedpoints = 0;
+							storedpoints.setObject(0);
 						} else if (max != -1) {
 							module.transferHunger(max - hunger, stack, ProcessType.ADD);
-							storedpoints = storedpoints - max - hunger;
+							storedpoints.increaseBy(-(max - hunger));
 						}
 					}
 				}
@@ -72,7 +80,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 		if (!(stack == null)) {
 			if (stack.getItem() instanceof ItemFood) {
 				ItemFood food = (ItemFood) stack.getItem();
-				storedpoints = storedpoints + food.getHealAmount(stack);
+				storedpoints.increaseBy(food.getHealAmount(stack));
 				this.slots()[0].stackSize--;
 				if (this.slots()[0].stackSize <= 0) {
 					this.slots()[0] = null;
@@ -86,26 +94,19 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 				if (hunger != 0) {
 					if (hunger >= speed) {
 						module.transferHunger(speed, stack, ProcessType.REMOVE);
-						storedpoints = storedpoints + speed;
+						storedpoints.increaseBy(speed);
 					} else if (hunger <= speed) {
 						module.transferHunger(hunger, stack, ProcessType.REMOVE);
-						storedpoints = storedpoints + hunger;
+						storedpoints.increaseBy(hunger);
 					}
 				}
 			}
 		}
 	}
 
-	public void readData(NBTTagCompound nbt, SyncType type) {
-		super.readData(nbt, type);
-		this.storedpoints = nbt.getInteger("Food");
-
-	}
-
-	public void writeData(NBTTagCompound nbt, SyncType type) {
-		super.writeData(nbt, type);
-		nbt.setInteger("Food", this.storedpoints);
-
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.addAll(Arrays.asList(storedpoints));
 	}
 
 	@Override
@@ -116,10 +117,10 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
 		if (slot == 1) {
-			if (this.storedpoints == 0) {
+			if (this.storedpoints.getObject() == 0) {
 				return true;
 			}
-			if (!(this.storedpoints == 0)) {
+			if (!(this.storedpoints.getObject() == 0)) {
 				return false;
 			}
 		}
@@ -134,7 +135,17 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 
 	@Override
 	public int getHungerPoints() {
-		return storedpoints;
+		return storedpoints.getObject();
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerHungerProcessor(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiHungerProcessor(player.inventory, this);
 	}
 
 }

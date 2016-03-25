@@ -17,6 +17,7 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.helpers.FontHelper;
 
 public class ExtractorBlock extends SonarMachineBlock {
@@ -34,20 +35,8 @@ public class ExtractorBlock extends SonarMachineBlock {
 
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
-		if (player != null) {
-			if (!world.isRemote) {
-				switch (type) {
-				case 0:
-					player.openGui(Calculator.instance, CalculatorGui.StarchExtractor, world, pos.getX(), pos.getY(), pos.getZ());
-					break;
-				case 1:
-					player.openGui(Calculator.instance, CalculatorGui.RedstoneExtractor, world, pos.getX(), pos.getY(), pos.getZ());
-					break;
-				case 2:
-					player.openGui(Calculator.instance, CalculatorGui.GlowstoneExtractor, world, pos.getX(), pos.getY(), pos.getZ());
-					break;
-				}
-			}
+		if (player != null && !world.isRemote) {
+			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}

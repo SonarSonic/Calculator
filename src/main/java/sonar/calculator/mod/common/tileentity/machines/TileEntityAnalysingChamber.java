@@ -2,6 +2,9 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,20 +14,27 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
+import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
+import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.inventory.SonarTileInventory;
+import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
+import sonar.core.network.sync.SyncTagType;
+import sonar.core.utils.IGuiTile;
 import sonar.core.utils.IUpgradeCircuits;
 import sonar.core.utils.helpers.FontHelper;
 import sonar.core.utils.helpers.NBTHelper.SyncType;
 import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyReceiver;
 
-public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements ISidedInventory, IUpgradeCircuits, IAdditionalInventory {
+public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements IUpgradeCircuits, IAdditionalInventory, IGuiTile {
 
-	public int stable, vUpgrade, analysed;
+	public SyncTagType.INT stable = new SyncTagType.INT(0);
+	public SyncTagType.INT vUpgrade = new SyncTagType.INT(1);
+	public SyncTagType.INT analysed = new SyncTagType.INT(2);
 	public int maxTransfer = 2000;
 
 	public TileEntityAnalysingChamber() {
@@ -43,16 +53,16 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		if (this.worldObj.isRemote) {
 			return;
 		}
-		if (analysed == 1 && this.slots()[0] == null) {
-			this.analysed = 0;
-			this.stable = 0;
+		if (analysed.getObject() == 1 && this.slots()[0] == null) {
+			this.analysed.setObject(0);
+			this.stable.setObject(0);
 		}
 		if (canAnalyse()) {
 			analyse(0);
 		}
 		charge(1);
 		addEnergy();
-		stable = stable(0);
+		stable.setObject(stable(0));
 
 		this.markDirty();
 	}
@@ -72,7 +82,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			int storedEnergy = itemEnergy(slots()[slot].getTagCompound().getInteger("Energy"));
 			this.storage.receiveEnergy(storedEnergy, false);
 
-			if (vUpgrade == 0) {
+			if (vUpgrade.getObject() == 0) {
 				ItemStack item1 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item1"));
 				ItemStack item2 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item2"));
 				if (item1 != null) {
@@ -108,7 +118,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			tag.setInteger("Item6", 0);
 			tag.setInteger("Energy", 0);
 
-			analysed = 1;
+			analysed.setObject(1);
 		}
 	}
 
@@ -131,7 +141,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		}
 
 		if (slots()[0] == null) {
-			stable = 0;
+			stable.setObject(0);
 			return false;
 		}
 
@@ -165,18 +175,6 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			return 800;
 		}
 		return 0;
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-
 	}
 
 	private int stable(int par) {
@@ -243,7 +241,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public int getUpgrades(int type) {
 		switch (type) {
 		case 2:
-			return vUpgrade;
+			return vUpgrade.getObject();
 		}
 		return 0;
 	}
@@ -260,34 +258,18 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	@Override
 	public void incrementUpgrades(int type, int increment) {
 		if (type == 2) {
-			vUpgrade += increment;
+			vUpgrade.increaseBy(increment);
 		}
 	}
-
-	public void readData(NBTTagCompound nbt, SyncType type) {
-		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			this.stable = nbt.getShort("Stable");
-			this.vUpgrade = nbt.getShort("vUpgrade");
-			if (type == SyncType.SAVE)
-				this.analysed = nbt.getShort("analysed");
-		}
-	}
-
-	public void writeData(NBTTagCompound nbt, SyncType type) {
-		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			nbt.setShort("Stable", (short) this.stable);
-			nbt.setShort("vUpgrade", (short) this.vUpgrade);
-			if (type == SyncType.SAVE)
-				nbt.setShort("analysed", (short) this.analysed);
-		}
-
+	
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.addAll(Lists.newArrayList(stable, vUpgrade, analysed));
 	}
 
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
-		if (vUpgrade != 0) {
+		if (vUpgrade.getObject() != 0) {
 			currenttip.add(FontHelper.translate("circuit.void") + ": " + FontHelper.translate("circuit.installed"));
 		}
 		return currenttip;
@@ -300,6 +282,16 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			circuits[0] = new ItemStack(Calculator.voidUpgrade, 1);
 		}
 		return circuits;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player) {
+		return new ContainerAnalysingChamber(player.inventory, this);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player) {
+		return new GuiAnalysingChamber(player.inventory, this);
 	}
 
 }
