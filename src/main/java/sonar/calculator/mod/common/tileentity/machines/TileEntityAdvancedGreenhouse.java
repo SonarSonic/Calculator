@@ -15,12 +15,13 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.api.BlockCoords;
+import sonar.core.api.SonarAPI;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.InventoryHelper;
+import sonar.core.helpers.RenderHelper;
 import sonar.core.network.sync.SyncEnergyStorage;
-import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.InventoryHelper;
-import sonar.core.utils.helpers.RenderHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -111,7 +112,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		}
 		if (this.levelTicks == 20) {
 			this.levelTicks = 0;
-			InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, 0, 0, new PlantableFilter());
+			SonarAPI.getItemHelper().transferItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, ForgeDirection.getOrientation(0), ForgeDirection.getOrientation(0), new PlantableFilter());
 			gasLevels();
 		}
 	}

@@ -17,9 +17,9 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
-import sonar.core.utils.helpers.FontHelper;
 
 public class ResearchChamber extends SonarMachineBlock {
 

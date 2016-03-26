@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerCalculator;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem.CalculatorInventory;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

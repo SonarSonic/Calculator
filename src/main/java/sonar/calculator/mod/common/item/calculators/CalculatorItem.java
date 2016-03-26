@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.api.items.IResearchStore;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.IItemInventory;
-import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

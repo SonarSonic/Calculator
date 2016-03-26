@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.client.models.ModelFlawlessCapacitor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessCapacitor;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.RenderHelper;
 
 public class RenderFlawlessCapacitor extends TileEntitySpecialRenderer {
 	public ModelFlawlessCapacitor model;

@@ -16,12 +16,14 @@ import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.integration.planting.TreeHarvestRecipes;
+import sonar.core.api.ActionType;
+import sonar.core.api.BlockCoords;
+import sonar.core.api.SonarAPI;
+import sonar.core.api.StoredItemStack;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.utils.BlockCoords;
-import sonar.core.utils.helpers.InventoryHelper;
-import sonar.core.utils.helpers.ItemStackHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.SonarHelper;
+import sonar.core.helpers.ItemStackHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.SonarHelper;
 
 public abstract class TileEntityAssimilator extends TileEntityInventory {
 	public boolean hasTree;
@@ -37,9 +39,9 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		if (this.tick != tickRate) {
 			tick++;
 		} else {
-		//	int blockmeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-		//	InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetX), yCoord, zCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetZ)), this, 0, 0, null);
-			tick=0;
+			// int blockmeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+			// InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetX), yCoord, zCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetZ)), this, 0, 0, null);
+			tick = 0;
 			this.hasTree = hasTree();
 			if (hasTree) {
 				List<BlockCoords> leaves = getLeaves();
@@ -98,6 +100,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		}
 		return leafList;
 	}
+
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE)
@@ -109,6 +112,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		if (type == SyncType.SAVE)
 			nbt.setInteger("tick", tick);
 	}
+
 	public static class Stone extends TileEntityAssimilator {
 
 		public Stone() {
@@ -228,7 +232,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 				ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getX(), block.getY(), block.getZ(), randInt);
 				if (stacks != null) {
 					for (int i = 0; i < stacks.length; i++) {
-						InventoryHelper.addItems(this, ItemStackHelper.restoreItemStack(stacks[i], 1), 0, null);
+						SonarAPI.getItemHelper().addItems(this, new StoredItemStack(ItemStackHelper.restoreItemStack(stacks[i], 1)), ForgeDirection.getOrientation(0), ActionType.SIMULATE, null);
 					}
 
 					return true;

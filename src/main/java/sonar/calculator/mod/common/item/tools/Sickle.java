@@ -4,10 +4,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.integration.planting.TreeHarvestRecipes;
+import sonar.core.api.SonarAPI;
 import sonar.core.common.item.SonarItem;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.InventoryHelper;
-import sonar.core.utils.helpers.ItemStackHelper;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.InventoryHelper;
+import sonar.core.helpers.ItemStackHelper;
 
 public class Sickle extends SonarItem {
 
@@ -16,7 +17,7 @@ public class Sickle extends SonarItem {
 		if (!player.canPlayerEdit(x, y, z, par7, stack)) {
 			return false;
 		}		
-		if (!InventoryHelper.isPlayerInventoryFull(player)) {
+		if (!SonarAPI.getItemHelper().isPlayerInventoryFull(player)) {
 			ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(world, x, y, z, world.getBlockMetadata(x, y, z));
 			if (stacks != null) {
 				for (ItemStack harvest : stacks) {

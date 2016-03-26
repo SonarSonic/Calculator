@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerSmeltingModule;
 import sonar.calculator.mod.common.item.modules.WIPSmeltingModule;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class GuiSmeltingModule extends GuiContainer {
 	public static ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/reinforcedFurnace.png");

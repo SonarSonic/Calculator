@@ -3,7 +3,7 @@ package sonar.calculator.mod.client.renderers;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import sonar.calculator.mod.client.models.ModelFluxPoint;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.RenderHelper;
 
 public class RenderFluxPoint extends TileEntitySpecialRenderer {
 	public ModelFluxPoint model;

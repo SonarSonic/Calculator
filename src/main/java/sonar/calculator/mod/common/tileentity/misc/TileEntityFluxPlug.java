@@ -15,9 +15,9 @@ import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
+import sonar.core.helpers.SonarHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.network.sync.SyncEnergyStorage;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyProvider;
 
 public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPlug {

@@ -8,7 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.calculator.mod.utils.CalculatorTeleporter;
-import sonar.core.utils.helpers.SonarHelper;
+import sonar.core.helpers.SonarHelper;
 
 public class TeleporterHelper {
 

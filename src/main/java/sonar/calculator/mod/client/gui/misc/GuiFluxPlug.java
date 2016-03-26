@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPlug;
 import sonar.calculator.mod.utils.FluxNetwork;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class GuiFluxPlug extends GuiFlux {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/fluxPlug.png");

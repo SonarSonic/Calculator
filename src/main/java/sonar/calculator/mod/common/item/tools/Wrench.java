@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.api.blocks.IWrenchable;
 import sonar.core.common.item.SonarItem;
-import sonar.core.utils.helpers.SonarHelper;
+import sonar.core.helpers.SonarHelper;
 import cofh.api.block.IDismantleable;
 import cofh.api.tileentity.IReconfigurableSides;
 

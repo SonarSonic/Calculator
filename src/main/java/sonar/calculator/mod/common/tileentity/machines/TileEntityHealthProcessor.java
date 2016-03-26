@@ -10,9 +10,9 @@ import sonar.calculator.mod.api.nutrition.IHealthProcessor;
 import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.network.utils.ISyncTile;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

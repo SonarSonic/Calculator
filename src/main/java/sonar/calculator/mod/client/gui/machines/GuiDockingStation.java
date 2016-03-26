@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.containers.ContainerDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class GuiDockingStation extends GuiContainer {
 	public static final ResourceLocation calculatorTex = new ResourceLocation("Calculator:textures/gui/dockingstation/calculator.png");

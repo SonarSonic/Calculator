@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
+import sonar.core.helpers.RecipeHelper;
 import sonar.core.network.sync.SyncEnergyStorage;
-import sonar.core.utils.helpers.RecipeHelper;
 
 public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 

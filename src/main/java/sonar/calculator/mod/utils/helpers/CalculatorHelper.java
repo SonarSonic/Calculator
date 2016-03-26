@@ -10,8 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.core.energy.DischargeValues;
-import sonar.core.integration.SonarAPI;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
+import sonar.core.integration.SonarLoader;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class CalculatorHelper {
@@ -38,7 +38,7 @@ public class CalculatorHelper {
 			return true;
 		} else if (stack.getItem() instanceof IEnergyContainerItem) {
 			return true;
-		} else if (SonarAPI.ic2Loaded() && stack.getItem() instanceof IElectricItem) {
+		} else if (SonarLoader.ic2Loaded() && stack.getItem() instanceof IElectricItem) {
 			return true;
 		}
 		return false;

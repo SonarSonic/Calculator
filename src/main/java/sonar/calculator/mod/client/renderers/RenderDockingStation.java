@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.client.models.ModelDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.RenderHelper;
 
 public class RenderDockingStation extends TileEntitySpecialRenderer {
 	private static final String texture = "Calculator:textures/model/dockingstation.png";

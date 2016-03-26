@@ -29,14 +29,18 @@ import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
 import sonar.calculator.mod.integration.planting.IPlanter;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.SonarCore;
+import sonar.core.api.ActionType;
+import sonar.core.api.BlockCoords;
+import sonar.core.api.SonarAPI;
+import sonar.core.api.StoredItemStack;
 import sonar.core.common.item.SonarSeeds;
 import sonar.core.common.item.SonarSeedsFood;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
-import sonar.core.utils.BlockCoords;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.InventoryHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.InventoryHelper;
+import sonar.core.helpers.RenderHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -55,7 +59,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 	public static class PlantableFilter implements InventoryHelper.IInventoryFilter {
 
 		@Override
-		public boolean matches(ItemStack stack) {
+		public boolean allowed(ItemStack stack) {
 			return isSeed(stack);
 		}
 	}
@@ -276,11 +280,13 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 			for (ItemStack stack : array) {
 				if (stack != null) {
 					TileEntity tile = this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ));
-					ItemStack harvest = InventoryHelper.addItems(tile, stack, 0, null);
+					/*
+					ItemStack harvest = SonarAPI.getItemHelper().addItems(tile, new StoredItemStack(stack), ForgeDirection.getOrientation(0), ActionType.PERFORM, null).getFullStack();
 					if (harvest != null) {
 						EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), harvest);
 						world.spawnEntityInWorld(drop);
 					}
+					*/
 					if (!removed)
 						world.setBlockToAir(x, y, z);
 					if (this.type == 3)

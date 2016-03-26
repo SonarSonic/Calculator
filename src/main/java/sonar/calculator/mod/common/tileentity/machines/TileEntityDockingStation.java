@@ -8,9 +8,9 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.RecipeHelper;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.RecipeHelper;
+import sonar.core.helpers.RenderHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess {
 

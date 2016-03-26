@@ -5,9 +5,9 @@ import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.RecipeHelper;
 import sonar.core.integration.nei.AbstractDualOutputHandler;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.RecipeHelper;
 
 public class DualOutputHandlers {
 

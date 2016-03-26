@@ -8,7 +8,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.core.energy.DischargeValues;
-import sonar.core.integration.SonarAPI;
+import sonar.core.integration.SonarLoader;
 import sonar.core.inventory.ContainerSync;
 
 public class ContainerWeatherController extends ContainerSync {
@@ -45,11 +45,11 @@ public class ContainerWeatherController extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
+				} else if (SonarLoader.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
+				} else if (SonarLoader.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}

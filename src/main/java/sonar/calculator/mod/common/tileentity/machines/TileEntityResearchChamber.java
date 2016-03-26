@@ -16,8 +16,8 @@ import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator.Dynamic;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.network.utils.ISyncTile;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityResearchChamber extends TileEntityInventory implements ISyncTile {
 

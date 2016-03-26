@@ -8,7 +8,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
-import sonar.core.integration.SonarAPI;
+import sonar.core.integration.SonarLoader;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 import cofh.api.energy.IEnergyContainerItem;
@@ -68,11 +68,11 @@ public class ContainerAnalysingChamber extends ContainerSync {
 						return null;
 					}
 				}
-			} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
+			} else if (SonarLoader.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
 				if (!mergeItemStack(itemstack1, 1, 2, false)) {
 					return null;
 				}
-			} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
+			} else if (SonarLoader.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
 				if (!mergeItemStack(itemstack1, 1, 2, false)) {
 					return null;
 				} else if ((num >= 8) && (num < 34)) {

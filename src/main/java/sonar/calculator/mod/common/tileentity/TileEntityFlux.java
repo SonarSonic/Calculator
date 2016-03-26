@@ -19,15 +19,15 @@ import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.FluxHelper;
 import sonar.core.common.tileentity.TileEntitySonar;
-import sonar.core.integration.SonarAPI;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.SonarHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.integration.SonarLoader;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.ISyncTile;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyHandler;
 
 import com.google.common.collect.Lists;
@@ -154,7 +154,7 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 
 	public void onLoaded() {
 		if (!this.worldObj.isRemote) {
-			if (SonarAPI.ic2Loaded()) {
+			if (SonarLoader.ic2Loaded()) {
 				MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			}
 			int network = FluxRegistry.getNetwork(networkName.getObject(), playerName.getObject());
@@ -172,7 +172,7 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 	public void invalidate() {
 		super.invalidate();
 		if (!this.worldObj.isRemote) {
-			if (SonarAPI.ic2Loaded()) {
+			if (SonarLoader.ic2Loaded()) {
 				MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			}
 			this.removeFromFrequency();

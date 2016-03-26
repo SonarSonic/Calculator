@@ -13,7 +13,7 @@ import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.utils.helpers.NutritionHelper;
 import sonar.core.common.item.SonarItem;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

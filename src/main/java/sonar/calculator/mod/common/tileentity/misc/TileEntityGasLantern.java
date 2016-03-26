@@ -6,10 +6,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import sonar.calculator.mod.common.block.misc.GasLantern;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.helpers.FontHelper;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.ISyncTile;
-import sonar.core.utils.helpers.FontHelper;
 
 import com.google.common.collect.Lists;
 

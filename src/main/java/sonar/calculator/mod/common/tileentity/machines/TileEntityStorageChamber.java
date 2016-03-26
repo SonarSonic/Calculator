@@ -6,8 +6,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.network.utils.ISyncTile;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 /** needs clean up */
 public class TileEntityStorageChamber extends TileEntitySidedInventory implements ISyncTile, ISidedInventory {

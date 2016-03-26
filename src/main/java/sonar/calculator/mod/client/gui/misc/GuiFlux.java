@@ -19,9 +19,9 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.utils.FluxNetwork;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.GuiSonar;
 import sonar.core.inventory.SonarButtons;
-import sonar.core.utils.helpers.FontHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

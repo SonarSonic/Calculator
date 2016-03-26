@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.core.SonarCore;
+import sonar.core.helpers.FontHelper;
 import sonar.core.network.PacketByteBufServer;
-import sonar.core.utils.helpers.FontHelper;
 
 public class GuiWeatherController extends GuiContainer {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guiWeatherController.png");

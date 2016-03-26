@@ -11,7 +11,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.modules.WIPSmeltingModule;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.energy.DischargeValues;
-import sonar.core.integration.SonarAPI;
+import sonar.core.integration.SonarLoader;
 import sonar.core.inventory.ContainerCraftInventory;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 import sonar.core.inventory.slots.SlotLimiter;
@@ -114,11 +114,11 @@ public class ContainerSmeltingModule extends ContainerCraftInventory {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
+				} else if (SonarLoader.ic2Loaded() && itemstack1.getItem() instanceof IElectricItem) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				} else if (SonarAPI.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
+				} else if (SonarLoader.ic2Loaded() && itemstack1.getItem() instanceof ISpecialElectricItem) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}

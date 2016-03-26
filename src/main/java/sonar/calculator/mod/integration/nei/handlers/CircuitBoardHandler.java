@@ -8,7 +8,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.misc.ItemCircuit;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 

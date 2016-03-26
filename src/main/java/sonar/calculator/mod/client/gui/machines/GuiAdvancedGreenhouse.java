@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class GuiAdvancedGreenhouse extends GuiContainer {
 	DecimalFormat dec = new DecimalFormat("##.##");

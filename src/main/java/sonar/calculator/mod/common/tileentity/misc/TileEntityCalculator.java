@@ -7,8 +7,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.api.blocks.IStableBlock;
 import sonar.calculator.mod.api.blocks.IStableGlass;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.utils.FailedCoords;
-import sonar.core.utils.helpers.SonarHelper;
 
 public class TileEntityCalculator extends TileEntityInventory implements ISidedInventory {
 

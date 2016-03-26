@@ -21,7 +21,7 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.models.ModelResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.RenderHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RenderResearchChamber extends TileEntitySpecialRenderer {

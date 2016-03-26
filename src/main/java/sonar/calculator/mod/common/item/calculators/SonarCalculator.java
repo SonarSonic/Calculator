@@ -14,8 +14,8 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.core.common.item.InventoryContainerItem;
 import sonar.core.energy.SonarElectricManager;
-import sonar.core.integration.SonarAPI;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
+import sonar.core.integration.SonarLoader;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Optional.Method;
@@ -147,7 +147,7 @@ public class SonarCalculator extends InventoryContainerItem implements IEnergyCo
 	@Method(modid = "IC2")
 	@Override
 	public IElectricItemManager getManager(ItemStack itemStack) {
-		if (SonarAPI.ic2Loaded()) {
+		if (SonarLoader.ic2Loaded()) {
 			return new SonarElectricManager();
 		} else
 			return null;

@@ -14,7 +14,7 @@ import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxPoint;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.utils.FluxNetwork;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class GuiFluxPoint extends GuiFlux {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/fluxPoint.png");

@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import sonar.calculator.mod.client.gui.calculators.GuiPortableDynamic;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 public class PortableDynamicRecipeHandler extends TemplateRecipeHandler {

@@ -16,9 +16,9 @@ import sonar.calculator.mod.network.packets.PacketTeleportLinks;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.network.PacketTileSync;
 import sonar.core.utils.BlockInteraction;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class Teleporter extends SonarMachineBlock {
 

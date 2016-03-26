@@ -34,7 +34,7 @@ import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.energy.DischargeValues;
-import sonar.core.integration.SonarAPI;
+import sonar.core.integration.SonarLoader;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -90,7 +90,7 @@ public class Calculator {
 		CalculatorConfig.initConfiguration(event);
 		logger.info("Loaded Configuration");
 
-		if (SonarAPI.ic2Loaded()) {
+		if (SonarLoader.ic2Loaded()) {
 			logger.info("Integrated with 'IC2'");
 
 		} else {

@@ -10,7 +10,7 @@ import sonar.calculator.mod.common.recipes.machines.ProcessingChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
-import sonar.core.utils.helpers.RecipeHelper;
+import sonar.core.helpers.RecipeHelper;
 
 public class TileEntityMachines {
 

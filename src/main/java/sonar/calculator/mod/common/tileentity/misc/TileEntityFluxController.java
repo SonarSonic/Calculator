@@ -28,11 +28,11 @@ import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.integration.SonarAPI;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.integration.SonarLoader;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.network.utils.ISyncTile;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -72,7 +72,7 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 									if (((IEnergyContainerItem) target.getItem()).getEnergyStored(target) != ((IEnergyContainerItem) target.getItem()).getMaxEnergyStored(target)) {
 										recieve -= ((IEnergyContainerItem) target.getItem()).receiveEnergy(inv.getStackInSlot(i), recieve, simulate);
 									}
-								} else if (SonarAPI.ic2Loaded() && target.getItem() instanceof IElectricItem) {
+								} else if (SonarLoader.ic2Loaded() && target.getItem() instanceof IElectricItem) {
 									IElectricItem item = (IElectricItem) target.getItem();
 									IElectricItemManager manager = ElectricItem.manager;
 
@@ -80,7 +80,7 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 									int toTransferRF = Math.min(recieve, Math.round(itemEnergyRF));
 
 									recieve -= manager.charge(target, toTransferRF / 4, 4, false, simulate) * 4;
-								} else if (SonarAPI.ic2Loaded() && target.getItem() instanceof ISpecialElectricItem) {
+								} else if (SonarLoader.ic2Loaded() && target.getItem() instanceof ISpecialElectricItem) {
 
 									ISpecialElectricItem item = (ISpecialElectricItem) target.getItem();
 									IElectricItemManager manager = item.getManager(target);
