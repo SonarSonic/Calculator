@@ -2,7 +2,7 @@ package sonar.calculator.mod.common.recipes.machines;
 
 import net.minecraft.init.Items;
 import sonar.calculator.mod.Calculator;
-import sonar.core.utils.helpers.ValueHelper;
+import sonar.core.helpers.ValueHelper;
 
 public class StarchExtractorRecipes extends ValueHelper {
 	

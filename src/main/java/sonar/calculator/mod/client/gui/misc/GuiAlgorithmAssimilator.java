@@ -4,8 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerAlgorithmAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.GuiSonar;
-import sonar.core.utils.helpers.FontHelper;
 
 public class GuiAlgorithmAssimilator extends GuiSonar {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/assimilator.png");

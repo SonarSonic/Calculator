@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class GuiRecipeInfo extends GuiContainer {
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/clean.png");

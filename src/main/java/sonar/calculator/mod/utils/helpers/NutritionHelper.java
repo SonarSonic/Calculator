@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLeaves.LeafGrowth;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class NutritionHelper {
 

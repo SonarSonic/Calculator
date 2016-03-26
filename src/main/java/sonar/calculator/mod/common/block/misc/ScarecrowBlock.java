@@ -13,7 +13,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.core.utils.helpers.SonarHelper;
+import sonar.core.helpers.SonarHelper;
 
 public class ScarecrowBlock extends Block implements IDismantleable {
 	

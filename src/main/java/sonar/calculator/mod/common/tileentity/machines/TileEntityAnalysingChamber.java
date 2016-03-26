@@ -2,10 +2,7 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -17,18 +14,19 @@ import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
+import sonar.core.api.IUpgradeCircuits;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.IUpgradeCircuits;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyReceiver;
+
+import com.google.common.collect.Lists;
 
 public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements IUpgradeCircuits, IAdditionalInventory, IGuiTile {
 

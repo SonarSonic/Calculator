@@ -10,10 +10,10 @@ import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.machines.GuiStorageChamber;
 import sonar.calculator.mod.common.containers.ContainerStorageChamber;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityStorageChamber extends TileEntitySidedInventory implements ISyncTile, ISidedInventory, IGuiTile {
 

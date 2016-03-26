@@ -6,8 +6,8 @@ import sonar.calculator.mod.api.flux.IFluxPoint;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPoint;
 import sonar.calculator.mod.common.containers.ContainerFlux;
 import sonar.calculator.mod.common.tileentity.TileEntityFluxHandler;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityFluxPoint extends TileEntityFluxHandler implements IFluxPoint, IGuiTile {
 

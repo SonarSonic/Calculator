@@ -13,16 +13,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.FontHelper;
-
 public class AdvancedGreenhouse extends SonarMachineBlock {
 	
 	public AdvancedGreenhouse() {

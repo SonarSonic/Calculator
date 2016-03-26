@@ -4,10 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,13 +15,11 @@ import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.client.gui.machines.GuiHungerProcessor;
 import sonar.calculator.mod.common.containers.ContainerHungerProcessor;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
-import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class TileEntityHungerProcessor extends TileEntitySidedInventory implements IHungerProcessor, IGuiTile {
 

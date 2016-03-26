@@ -6,7 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import sonar.core.utils.IRegistryObject;
+import sonar.core.api.IRegistryObject;
 
 public interface IFertiliser extends IRegistryObject {
 

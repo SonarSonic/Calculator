@@ -14,7 +14,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;

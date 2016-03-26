@@ -10,7 +10,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.client.gui.generators.GuiConductorMast;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class ConductorRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {

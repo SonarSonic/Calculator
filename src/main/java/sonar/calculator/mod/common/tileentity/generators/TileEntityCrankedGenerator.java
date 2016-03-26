@@ -12,11 +12,11 @@ import sonar.calculator.mod.client.gui.generators.GuiCrankedGenerator;
 import sonar.calculator.mod.common.containers.ContainerCrankedGenerator;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.core.common.tileentity.TileEntityEnergy;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.SonarHelper;
 import cofh.api.energy.IEnergyReceiver;
 
 public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGuiTile {

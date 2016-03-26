@@ -3,13 +3,8 @@ package sonar.calculator.mod.common.item.calculators;
 import java.util.ArrayList;
 import java.util.List;
 
-import cofh.api.energy.IEnergyContainerItem;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,15 +22,14 @@ import sonar.calculator.mod.api.modules.IModuleUpdate;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
-import sonar.calculator.mod.common.item.calculators.modules.WarpModule;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.common.item.SonarItem;
-import sonar.core.inventory.ContainerCraftInventory;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.IGuiItem;
-import sonar.core.utils.helpers.FontHelper;
+import cofh.api.energy.IEnergyContainerItem;
 
 public class FlawlessCalculator extends SonarItem implements IItemInventory, IModuleProvider, IEnergyContainerItem, IFlawlessCalculator, IGuiItem {
 	public final String invTag = "inv";

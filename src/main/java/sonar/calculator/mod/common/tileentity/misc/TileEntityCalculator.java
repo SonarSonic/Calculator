@@ -12,10 +12,10 @@ import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiDynamicCalculator;
 import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
 import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
+import sonar.core.api.BlockCoords;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarTileInventory;
-import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
 

@@ -9,7 +9,7 @@ import sonar.calculator.mod.common.item.calculators.modules.GrenadeModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
 import sonar.calculator.mod.common.item.calculators.modules.JumpModule;
 import sonar.calculator.mod.common.item.calculators.modules.WarpModule;
-import sonar.core.utils.helpers.LinkedRegistryHelper;
+import sonar.core.helpers.LinkedRegistryHelper;
 
 public class ModuleItemRegistry extends LinkedRegistryHelper<String, Item> {
 

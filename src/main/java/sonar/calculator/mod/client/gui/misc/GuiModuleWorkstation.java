@@ -1,14 +1,11 @@
 package sonar.calculator.mod.client.gui.misc;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.common.containers.ContainerAlgorithmAssimilator;
 import sonar.calculator.mod.common.containers.ContainerModuleWorkstation;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.GuiSonar;
-import sonar.core.utils.helpers.FontHelper;
 
 public class GuiModuleWorkstation extends GuiSonar {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/module_workstation.png");

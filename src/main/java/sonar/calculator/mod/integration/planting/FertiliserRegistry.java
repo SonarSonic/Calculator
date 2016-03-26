@@ -1,7 +1,7 @@
 package sonar.calculator.mod.integration.planting;
 
 import sonar.calculator.mod.integration.planting.vanilla.Fertiliser;
-import sonar.core.utils.helpers.RegistryHelper;
+import sonar.core.helpers.RegistryHelper;
 
 public class FertiliserRegistry extends RegistryHelper<IFertiliser> {
 

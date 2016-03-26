@@ -18,9 +18,9 @@ import sonar.calculator.mod.client.models.ModelScarecrow;
 import sonar.calculator.mod.client.models.ModelTeleporter;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.RenderHelper;
 import sonar.core.renderers.SonarTERender;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.RenderHelper;
 
 public class RenderHandlers {
 

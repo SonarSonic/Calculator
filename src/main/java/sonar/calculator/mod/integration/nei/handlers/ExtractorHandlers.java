@@ -5,8 +5,8 @@ import sonar.calculator.mod.client.gui.generators.GuiExtractor;
 import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.ValueHelper;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.ValueHelper;
 
 public class ExtractorHandlers {
 

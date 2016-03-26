@@ -10,8 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.CalculatorItems;
-import sonar.core.utils.helpers.FontHelper;
-
+import sonar.core.helpers.FontHelper;
 public class CalcSword extends ItemSword{
 	ToolMaterial type;
 

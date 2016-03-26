@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 @SideOnly(Side.CLIENT)
 public class RenderCalculatorScreen extends TileEntitySpecialRenderer {
@@ -48,7 +48,7 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer {
 		GL11.glScalef(f1, -f1, -f1);
 		this.modelSign.renderSign();
 		GL11.glPopMatrix();
-		FontRenderer fontrenderer = this.func_147498_b();
+		FontRenderer fontrenderer = getFontRenderer();
 		f3 = 0.016666668F * f1;
 		GL11.glTranslatef(0.0F, 0.5F * f1, 0.07F * f1);
 		GL11.glScalef(f3, -f3, f3);

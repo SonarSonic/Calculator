@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class GuiResearchChamber extends GuiContainer {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/researchchamber.png");

@@ -15,17 +15,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IGreenhouse;
+import sonar.core.api.BlockCoords;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
-import sonar.core.utils.BlockCoords;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.InventoryHelper.IInventoryFilter;
+import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.RenderHelper;
 
 public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory implements IGreenhouse {
 
@@ -47,21 +49,21 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		horizontal = RenderHelper.getHorizontal(forward);
 	}
 
-	public static class PlantableFilter implements InventoryHelper.IInventoryFilter {
+	public static class PlantableFilter implements IInventoryFilter {
 
 		@Override
-		public boolean matches(ItemStack stack) {
+		public boolean allowed(ItemStack stack) {
 			return isSeed(stack);
 		}
 	}
 
-	public abstract ArrayList<BlockCoords> getPlantArea();
+	public abstract List<BlockCoords> getPlantArea();
 	
-	/*
+	
 	public static boolean isSeed(ItemStack stack) {
 		return stack != null && stack.getItem() instanceof IPlantable;
 	}
-	*/
+	
 	/*
 	public static boolean canHarvest(World world, BlockPos pos) {
 		Block block = world.getBlockState(pos).getBlock();

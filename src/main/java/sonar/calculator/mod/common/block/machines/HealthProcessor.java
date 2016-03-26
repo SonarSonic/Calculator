@@ -9,12 +9,11 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
+import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.FontHelper;
 
 public class HealthProcessor extends SonarSidedBlock {
 

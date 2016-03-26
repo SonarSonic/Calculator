@@ -14,14 +14,14 @@ import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.core.SonarCore;
+import sonar.core.api.IUpgradeCircuits;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
-import sonar.core.utils.IUpgradeCircuits;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 import com.google.common.collect.Lists;
 

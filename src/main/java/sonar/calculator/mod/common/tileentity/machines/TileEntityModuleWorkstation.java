@@ -12,10 +12,8 @@ import sonar.calculator.mod.api.modules.IModule;
 import sonar.calculator.mod.client.gui.misc.GuiModuleWorkstation;
 import sonar.calculator.mod.common.containers.ContainerModuleWorkstation;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
-import sonar.calculator.mod.common.item.calculators.ModuleItemRegistry;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.utils.IGuiTile;
 

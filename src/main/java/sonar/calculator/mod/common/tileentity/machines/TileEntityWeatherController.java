@@ -8,13 +8,11 @@ import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.utils.IByteBufTile;
-import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import cofh.api.energy.IEnergyHandler;
 
 public class TileEntityWeatherController extends TileEntityEnergyInventory implements IByteBufTile,IProcessMachine, IGuiTile {
 

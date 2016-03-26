@@ -7,8 +7,7 @@ import sonar.calculator.mod.common.item.calculators.modules.GrenadeModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
 import sonar.calculator.mod.common.item.calculators.modules.JumpModule;
 import sonar.calculator.mod.common.item.calculators.modules.WarpModule;
-import sonar.calculator.mod.integration.planting.vanilla.Fertiliser;
-import sonar.core.utils.helpers.RegistryHelper;
+import sonar.core.helpers.RegistryHelper;
 
 public class ModuleRegistry extends RegistryHelper<IModule> {
 

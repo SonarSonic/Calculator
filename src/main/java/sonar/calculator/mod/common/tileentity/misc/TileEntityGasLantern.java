@@ -10,12 +10,12 @@ import sonar.calculator.mod.client.gui.misc.GuiGasLantern;
 import sonar.calculator.mod.common.block.misc.GasLantern;
 import sonar.calculator.mod.common.containers.ContainerLantern;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.FontHelper;
 
 import com.google.common.collect.Lists;
 

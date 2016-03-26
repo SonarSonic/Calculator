@@ -16,13 +16,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.FontHelper;
 
 public class AtomicMultiplier extends SonarMachineBlock {
 
@@ -60,7 +59,7 @@ public class AtomicMultiplier extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
 		TileEntityAtomicMultiplier te = (TileEntityAtomicMultiplier) world.getTileEntity(pos);
-		if (te.active == 1) {
+		if (te.active.getObject() == 1) {
 			float x1 = pos.getX() + random.nextFloat();
 			float y1 = pos.getY() + 0.5F;
 			float z1 = pos.getZ() + random.nextFloat();

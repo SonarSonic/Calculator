@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.models.ModelCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.RenderHelper;
 
 public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 	private static final String onTexture = "Calculator:textures/model/calculatorlocatoron.png";

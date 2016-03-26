@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.client.models.ModelAnalysingChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.RenderHelper;
 
 public class RenderAnalysingChamber extends TileEntitySpecialRenderer {
 	public ModelAnalysingChamber model;

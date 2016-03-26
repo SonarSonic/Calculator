@@ -78,7 +78,6 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 9, 10, false)) {
 						return null;
 					}
-
 				}
 			} else if (itemstack1.getMaxStackSize() >= 4) {
 				if (!mergeItemStack(itemstack1, 0, 1, false)) {

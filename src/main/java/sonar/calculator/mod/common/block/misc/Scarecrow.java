@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.block.misc;
 
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,8 +10,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
-import sonar.core.utils.helpers.FontHelper;
 
 public class Scarecrow extends SonarMachineBlock {
 

@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerCrankedGenerator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenerator;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class GuiCrankedGenerator extends GuiContainer {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guicrank.png");

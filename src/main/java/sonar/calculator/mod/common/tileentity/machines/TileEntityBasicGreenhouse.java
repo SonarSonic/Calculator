@@ -7,7 +7,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -22,13 +21,14 @@ import sonar.calculator.mod.client.gui.machines.GuiBasicGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.api.BlockCoords;
+import sonar.core.api.SonarAPI;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.RenderHelper;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
-import sonar.core.utils.BlockCoords;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.RenderHelper;
 
 public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements ISidedInventory, IGuiTile {
 
@@ -114,7 +114,8 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 			levelTicks++;
 		}
 		if (this.levelTicks == 20) {
-			InventoryHelper.extractItems(this.getWorld().getTileEntity(pos.add((forward.getOpposite().getFrontOffsetX()), 0, (forward.getOpposite().getFrontOffsetZ()))), this, 0, 0, new PlantableFilter());
+			SonarAPI.getItemHelper().transferItems(this.getWorld().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, ForgeDirection.getOrientation(0), ForgeDirection.getOrientation(0), new PlantableFilter());
+
 			this.levelTicks = 0;
 			gasLevels();
 		}

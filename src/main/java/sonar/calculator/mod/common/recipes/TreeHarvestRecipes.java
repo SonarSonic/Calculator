@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLeaves.LeafGrowth;
-import sonar.core.utils.helpers.RecipeHelper;
+import sonar.core.helpers.RecipeHelper;
 
 public class TreeHarvestRecipes extends RecipeHelper {
 

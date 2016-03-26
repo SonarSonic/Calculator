@@ -12,15 +12,14 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.network.packets.PacketTeleportLinks;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.network.PacketTileSync;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 
 public class Teleporter extends SonarMachineBlock {
 

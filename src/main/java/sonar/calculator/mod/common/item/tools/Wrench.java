@@ -7,10 +7,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import sonar.calculator.mod.api.blocks.IWrenchable;
 import sonar.core.common.item.SonarItem;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.utils.IWrench;
-import sonar.core.utils.helpers.SonarHelper;
+import sonar.core.utils.IWrenchable;
+
 
 public class Wrench extends SonarItem implements IWrench {
 

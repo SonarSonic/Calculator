@@ -7,11 +7,10 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.modules.IModule;
 import sonar.calculator.mod.api.modules.IModuleClickable;
 import sonar.calculator.mod.common.entities.EntityGrenade;
+import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
-import sonar.core.utils.helpers.FontHelper;
 
 public class GrenadeModule extends ModuleBase implements IModuleClickable {
 

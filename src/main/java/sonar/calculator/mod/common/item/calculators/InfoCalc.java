@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.SonarItem;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class InfoCalc extends SonarItem {
 

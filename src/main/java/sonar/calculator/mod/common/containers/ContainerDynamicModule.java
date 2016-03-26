@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.containers;
 
-import java.util.Map;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

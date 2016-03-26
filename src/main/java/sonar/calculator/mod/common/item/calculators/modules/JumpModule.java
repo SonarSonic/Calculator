@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.modules.IModuleClickable;
 import sonar.calculator.mod.network.packets.PacketJumpModule;
+import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
-import sonar.core.utils.helpers.FontHelper;
 
 public class JumpModule extends ModuleBase implements IModuleClickable {
 

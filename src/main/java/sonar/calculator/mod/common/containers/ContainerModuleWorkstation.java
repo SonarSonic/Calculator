@@ -2,17 +2,10 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
-import sonar.calculator.mod.utils.SlotPortableCrafting;
-import sonar.calculator.mod.utils.SlotPortableResult;
-import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.ContainerSync;
-import sonar.core.inventory.slots.SlotBlockedInventory;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerModuleWorkstation extends ContainerSync {
 	private final InventoryPlayer inventory;

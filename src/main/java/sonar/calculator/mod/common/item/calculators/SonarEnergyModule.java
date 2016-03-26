@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.modules.IModuleEnergy;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class SonarEnergyModule extends SonarModule implements IEnergyContainerItem {

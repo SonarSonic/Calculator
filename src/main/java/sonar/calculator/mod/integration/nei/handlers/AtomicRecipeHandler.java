@@ -11,7 +11,7 @@ import net.minecraft.util.StatCollector;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.core.utils.helpers.RecipeHelper;
+import sonar.core.helpers.RecipeHelper;
 
 public class AtomicRecipeHandler extends TemplateRecipeHandler {
 	public class SmeltingPair extends TemplateRecipeHandler.CachedRecipe {

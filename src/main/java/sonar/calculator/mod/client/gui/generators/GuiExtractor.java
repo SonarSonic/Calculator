@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerExtractor;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public abstract class GuiExtractor extends GuiContainer {
 

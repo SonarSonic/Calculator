@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.client.models.ModelStorageChamber;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.RenderHelper;
 
 public class RenderStorageChamber extends TileEntitySpecialRenderer {
 	public ModelStorageChamber model;

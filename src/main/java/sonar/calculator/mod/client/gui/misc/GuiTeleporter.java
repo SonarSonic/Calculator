@@ -3,6 +3,8 @@ package sonar.calculator.mod.client.gui.misc;
 import java.awt.Color;
 import java.util.List;
 
+import net.java.games.input.Keyboard;
+import net.java.games.input.Mouse;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,19 +12,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.SonarCore;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerEmpty;
 import sonar.core.inventory.GuiSonar;
-import sonar.core.inventory.SonarButtons;
 import sonar.core.network.PacketByteBufServer;
 import sonar.core.network.PacketTextField;
-import sonar.core.utils.helpers.FontHelper;
 
 public class GuiTeleporter extends GuiSonar {
 	public static ResourceLocation network = new ResourceLocation("Calculator:textures/gui/teleporter.png");

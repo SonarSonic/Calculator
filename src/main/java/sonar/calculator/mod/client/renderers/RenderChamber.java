@@ -13,8 +13,8 @@ import sonar.calculator.mod.client.models.ModelProcessing;
 import sonar.calculator.mod.client.models.ModelSplit;
 import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.common.tileentity.TileEntityProcess;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.RenderHelper;
 
 public abstract class RenderChamber extends TileEntitySpecialRenderer {
 	public ModelChamber model;

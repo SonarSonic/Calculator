@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.client.models.ModelMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.RenderHelper;
 
 public class RenderMagneticFlux extends TileEntitySpecialRenderer {
 	public ModelMagneticFlux model;

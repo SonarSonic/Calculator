@@ -25,6 +25,9 @@ import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.calculator.mod.common.containers.ContainerCalculatorLocator;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
@@ -32,9 +35,6 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.SonarHelper;
 
 public class TileEntityCalculatorLocator extends TileEntityEnergyInventory implements IByteBufTile, ICalculatorLocator, IGuiTile {
 

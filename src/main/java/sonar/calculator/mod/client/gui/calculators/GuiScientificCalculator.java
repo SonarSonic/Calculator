@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiScientificCalculator extends GuiContainer {

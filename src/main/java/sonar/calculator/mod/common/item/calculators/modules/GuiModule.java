@@ -9,22 +9,21 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.modules.IModuleInventory;
 import sonar.calculator.mod.client.gui.calculators.GuiCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiCraftingCalculator;
-import sonar.calculator.mod.client.gui.calculators.GuiFlawlessCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiDynamicModule;
+import sonar.calculator.mod.client.gui.calculators.GuiFlawlessCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiScientificCalculator;
 import sonar.calculator.mod.client.gui.modules.GuiStorageModule;
 import sonar.calculator.mod.common.containers.ContainerCalculator;
 import sonar.calculator.mod.common.containers.ContainerCraftingCalculator;
-import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
 import sonar.calculator.mod.common.containers.ContainerDynamicModule;
+import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
 import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
 import sonar.calculator.mod.common.containers.ContainerStorageModule;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiItem;
-import sonar.core.utils.helpers.FontHelper;
 
 public abstract class GuiModule extends ModuleBase implements IModuleInventory, IGuiItem {
 

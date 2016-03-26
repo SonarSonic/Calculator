@@ -10,17 +10,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.IPausable;
-import sonar.calculator.mod.client.gui.machines.GuiFlawlessFurnace;
 import sonar.calculator.mod.common.containers.ContainerFlawlessFurnace;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
+import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.RecipeHelper;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.RecipeHelper;
 
 public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory implements IPausable, IGuiTile {
 	

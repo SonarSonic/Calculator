@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerFlawlessFurnace;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessFurnace;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class GuiFlawlessFurnace extends GuiContainer {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/flawlessFurnace.png");

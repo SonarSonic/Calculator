@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.core.common.item.SonarItem;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class LocatorModule extends SonarItem implements ILocatorModule {
 	

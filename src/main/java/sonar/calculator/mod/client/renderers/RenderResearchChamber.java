@@ -20,7 +20,7 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.models.ModelResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
-import sonar.core.utils.helpers.RenderHelper;
+import sonar.core.helpers.RenderHelper;
 
 public class RenderResearchChamber extends TileEntitySpecialRenderer {
 	private static final ResourceLocation texture = new ResourceLocation("Calculator:textures/model/researchchamber.png");

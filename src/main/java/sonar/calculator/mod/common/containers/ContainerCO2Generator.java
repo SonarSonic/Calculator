@@ -11,11 +11,10 @@ import sonar.core.inventory.ContainerSync;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerCO2Generator extends ContainerSync {
-	
+
 	private TileEntityCO2Generator entity;
 
-	public ContainerCO2Generator(InventoryPlayer inventory,
-			TileEntityCO2Generator entity) {
+	public ContainerCO2Generator(InventoryPlayer inventory, TileEntityCO2Generator entity) {
 		super(entity);
 		this.entity = entity;
 
@@ -24,8 +23,7 @@ public class ContainerCO2Generator extends ContainerSync {
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
@@ -33,7 +31,6 @@ public class ContainerCO2Generator extends ContainerSync {
 			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
 		}
 	}
-	 
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int id) {
@@ -47,25 +44,23 @@ public class ContainerCO2Generator extends ContainerSync {
 			if ((id != 0) && (id != 1)) {
 				if (TileEntityFurnace.getItemBurnTime(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
-
 						return null;
 					}
-				
-			} else if (DischargeValues.getValueOf(itemstack1) > 0) {
-				if (!mergeItemStack(itemstack1, 1, 2, false)) {
-					return null;
+				} else if (DischargeValues.getValueOf(itemstack1) > 0) {
+					if (!mergeItemStack(itemstack1, 1, 2, false)) {
+						return null;
+					}
+
+				} else if (itemstack1.getItem() instanceof IEnergyContainerItem) {
+					if (!mergeItemStack(itemstack1, 1, 2, false)) {
+						return null;
+					}
 				}
-			} else if (itemstack1.getItem() instanceof IEnergyContainerItem) {
-				if (!mergeItemStack(itemstack1, 1, 2, false)) {
-					return null;
-				}
-			}
 			} else if ((id >= 2) && (id < 29)) {
 				if (!mergeItemStack(itemstack1, 29, 38, false)) {
 					return null;
 				}
-			} else if ((id >= 29) && (id < 38)
-					&& (!mergeItemStack(itemstack1, 2, 29, false))) {
+			} else if ((id >= 29) && (id < 38) && (!mergeItemStack(itemstack1, 2, 29, false))) {
 				return null;
 
 			} else if (!mergeItemStack(itemstack1, 2, 38, false)) {
@@ -87,8 +82,8 @@ public class ContainerCO2Generator extends ContainerSync {
 		return itemstack;
 	}
 
-	  @Override
+	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		    return entity.isUseableByPlayer(player);
-		  }
+		return entity.isUseableByPlayer(player);
+	}
 }

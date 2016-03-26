@@ -1,16 +1,14 @@
 package sonar.calculator.mod.common.item.calculators.modules;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import sonar.calculator.mod.api.modules.IModule;
 import sonar.calculator.mod.api.modules.IModuleClickable;
+import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
-import sonar.core.utils.helpers.FontHelper;
 
 public class EnderModule extends ModuleBase implements IModuleClickable {
 

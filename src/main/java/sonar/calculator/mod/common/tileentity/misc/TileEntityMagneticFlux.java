@@ -19,14 +19,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.client.gui.misc.GuiMagneticFlux;
 import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
+import sonar.core.api.ActionType;
+import sonar.core.api.SonarAPI;
+import sonar.core.api.StoredItemStack;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.InventoryHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.SonarHelper;
 
 public class TileEntityMagneticFlux extends TileEntityInventory implements IEntitySelector, ISidedInventory, IByteBufTile, IGuiTile {
 
@@ -158,7 +160,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 			if (target instanceof IItemDuct) {
 				itemstack = ((IItemDuct) target).insertItem(EnumFacing.UP, itemstack);
 			} else {
-				itemstack = InventoryHelper.addItems(target, itemstack, 1, null);
+				itemstack = SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), ForgeDirection.getOrientation(1), ActionType.PERFORM, null).getFullStack();
 			}
 			return itemstack;
 		}

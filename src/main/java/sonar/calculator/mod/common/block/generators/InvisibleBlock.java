@@ -11,10 +11,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.SonarHelper;
 
 public class InvisibleBlock extends Block implements IDismantleable {
 

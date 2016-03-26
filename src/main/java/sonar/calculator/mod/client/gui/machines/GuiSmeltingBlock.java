@@ -5,10 +5,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.GuiSonar;
 import sonar.core.inventory.SonarButtons;
 import sonar.core.inventory.SonarButtons.SonarButton;
-import sonar.core.utils.helpers.FontHelper;
 
 public class GuiSmeltingBlock extends GuiSonar {
 

@@ -6,9 +6,9 @@ import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.core.SonarCore;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.GuiSonar;
 import sonar.core.network.PacketByteBufServer;
-import sonar.core.utils.helpers.FontHelper;
 
 public class GuiMagneticFlux extends GuiSonar {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/magnetic_flux.png");

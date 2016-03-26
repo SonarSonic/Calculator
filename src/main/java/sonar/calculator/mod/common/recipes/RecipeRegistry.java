@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.FMLLog;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorItems;
 import sonar.calculator.mod.common.block.MaterialBlock.Variants;
-import sonar.core.utils.helpers.RecipeHelper;
+import sonar.core.helpers.RecipeHelper;
 
 public class RecipeRegistry {
 

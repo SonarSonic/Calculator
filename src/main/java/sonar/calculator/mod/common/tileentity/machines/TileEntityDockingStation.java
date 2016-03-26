@@ -11,10 +11,10 @@ import sonar.calculator.mod.common.containers.ContainerDockingStation;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
+import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.RecipeHelper;
+import sonar.core.helpers.RenderHelper;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.RecipeHelper;
-import sonar.core.utils.helpers.RenderHelper;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess implements IGuiTile {
 

@@ -2,7 +2,7 @@ package sonar.calculator.mod.integration.minetweaker;
 
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.core.utils.helpers.RecipeHelper;
+import sonar.core.helpers.RecipeHelper;
 
 /**
  * Created by AEnterprise

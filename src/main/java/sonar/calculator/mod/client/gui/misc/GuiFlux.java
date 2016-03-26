@@ -3,6 +3,8 @@ package sonar.calculator.mod.client.gui.misc;
 import java.awt.Color;
 import java.util.List;
 
+import net.java.games.input.Keyboard;
+import net.java.games.input.Mouse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -13,17 +15,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.flux.IFluxController;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.utils.FluxNetwork;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.GuiSonar;
-import sonar.core.inventory.SonarButtons;
-import sonar.core.utils.helpers.FontHelper;
+
 
 public abstract class GuiFlux extends GuiSonar {
 

@@ -8,8 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.core.utils.helpers.FontHelper;
-
+import sonar.core.helpers.FontHelper;
 public class CalcShovel extends ItemSpade {
 	public CalcShovel(ToolMaterial material) {
 		super(material);

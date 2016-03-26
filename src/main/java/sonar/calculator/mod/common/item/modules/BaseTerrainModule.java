@@ -12,8 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.core.common.item.SonarEnergyItem;
-import sonar.core.common.item.SonarItem;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class BaseTerrainModule extends SonarEnergyItem {
 

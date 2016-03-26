@@ -6,8 +6,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.GuiSonar;
-import sonar.core.utils.helpers.FontHelper;
+
 
 @SideOnly(Side.CLIENT)
 public class GuiAtomicCalculator extends GuiSonar {

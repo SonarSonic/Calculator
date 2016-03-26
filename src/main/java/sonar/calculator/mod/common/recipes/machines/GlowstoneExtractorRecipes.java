@@ -1,6 +1,6 @@
 package sonar.calculator.mod.common.recipes.machines;
 
-import sonar.core.utils.helpers.ValueHelper;
+import sonar.core.helpers.ValueHelper;
 
 public class GlowstoneExtractorRecipes extends ValueHelper {
 

@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.core.SonarCore;
+import sonar.core.helpers.FontHelper;
 import sonar.core.network.PacketByteBufServer;
-import sonar.core.utils.helpers.FontHelper;
 
 public class GuiWeatherController extends GuiContainer {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guiWeatherController.png");
@@ -50,7 +50,7 @@ public class GuiWeatherController extends GuiContainer {
 			}
 			entity.type = type;
 
-			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.xCoord, entity.yCoord, entity.zCoord, 1 + type));
+			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 1 + type));
 			break;
 		case 2:
 			if (entity.data == 1) {
@@ -58,7 +58,7 @@ public class GuiWeatherController extends GuiContainer {
 			} else {
 				entity.data = 1;
 			}
-			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.xCoord, entity.yCoord, entity.zCoord, 0));
+			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 0));
 			break;
 		}
 		this.buttonList.clear();
@@ -73,7 +73,7 @@ public class GuiWeatherController extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 		FontHelper.textCentre("Buffer: " + this.entity.buffer * 100 / 100 + "%", this.xSize, 45, 0);
 		FontHelper.text(": ", 97, 24, 0);

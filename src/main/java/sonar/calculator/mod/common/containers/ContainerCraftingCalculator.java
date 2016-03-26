@@ -11,7 +11,6 @@ import net.minecraft.item.crafting.CraftingManager;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.InventoryStoredCrafting;
 import sonar.core.inventory.InventoryStoredResult;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerCraftingCalculator extends Container{
 	private final InventoryItem inventory;

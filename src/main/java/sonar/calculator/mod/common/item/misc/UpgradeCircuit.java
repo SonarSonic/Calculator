@@ -8,9 +8,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.core.api.IUpgradeCircuits;
 import sonar.core.common.item.SonarItem;
-import sonar.core.utils.IUpgradeCircuits;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
 
 public class UpgradeCircuit extends SonarItem {
 

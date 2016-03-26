@@ -1,10 +1,7 @@
 package sonar.calculator.mod.client.gui.misc;
 
-import java.util.List;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -12,10 +9,9 @@ import sonar.calculator.mod.common.containers.ContainerFluxController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityFluxController;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.core.SonarCore;
-import sonar.core.inventory.SonarButtons;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarButtons.SonarButton;
 import sonar.core.network.PacketByteBufServer;
-import sonar.core.utils.helpers.FontHelper;
 
 public class GuiFluxController extends GuiFlux {
 

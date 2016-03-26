@@ -4,9 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cofh.api.energy.IEnergyContainerItem;
 import sonar.calculator.mod.api.modules.IModule;
-import sonar.core.utils.helpers.FontHelper;
+import sonar.core.helpers.FontHelper;
+import cofh.api.energy.IEnergyContainerItem;
 
 public abstract class ModuleBase implements IModule {
 

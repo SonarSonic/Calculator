@@ -28,15 +28,14 @@ import sonar.calculator.mod.network.ChunkHandler;
 import sonar.calculator.mod.utils.FluxNetwork;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.IByteBufTile;
-import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.FontHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
 import cofh.api.energy.IEnergyContainerItem;
 
-public class TileEntityFluxController extends TileEntityInventory implements IFluxController,IByteBufTile,IGuiTile {
+public class TileEntityFluxController extends TileEntityInventory implements IFluxController, IByteBufTile, IGuiTile {
 
 	private Ticket currentTicket;
 
@@ -71,7 +70,7 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 									if (((IEnergyContainerItem) target.getItem()).getEnergyStored(target) != ((IEnergyContainerItem) target.getItem()).getMaxEnergyStored(target)) {
 										recieve -= ((IEnergyContainerItem) target.getItem()).receiveEnergy(inv.getStackInSlot(i), recieve, simulate);
 									}
-								}
+								} 
 							}
 						}
 					}

@@ -76,7 +76,7 @@ public class ContainerBasicGreenhouse extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 4, 5, false)) {
 						return null;
 					}
-				}else if (itemstack1.getItem() instanceof IPlantable) {
+				} else if (itemstack1.getItem() instanceof IPlantable) {
 					if (!mergeItemStack(itemstack1, 5, 14, false)) {
 						return null;
 					}

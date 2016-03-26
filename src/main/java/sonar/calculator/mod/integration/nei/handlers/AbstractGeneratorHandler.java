@@ -13,7 +13,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
-import sonar.core.utils.helpers.ValueHelper;
+import sonar.core.helpers.ValueHelper;
 
 public abstract class AbstractGeneratorHandler extends TemplateRecipeHandler {
 

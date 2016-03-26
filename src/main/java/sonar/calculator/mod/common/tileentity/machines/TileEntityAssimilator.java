@@ -7,7 +7,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -22,12 +21,15 @@ import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.containers.ContainerAlgorithmAssimilator;
 import sonar.calculator.mod.common.containers.ContainerAssimilator;
 import sonar.calculator.mod.common.recipes.TreeHarvestRecipes;
+import sonar.core.api.ActionType;
+import sonar.core.api.BlockCoords;
+import sonar.core.api.SonarAPI;
+import sonar.core.api.StoredItemStack;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.utils.BlockCoords;
+import sonar.core.helpers.ItemStackHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.ItemStackHelper;
-import sonar.core.utils.helpers.NBTHelper.SyncType;
-import sonar.core.utils.helpers.SonarHelper;
 
 public abstract class TileEntityAssimilator extends TileEntityInventory implements IGuiTile {
 	public boolean hasTree;
@@ -43,8 +45,6 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		if (this.tick != tickRate) {
 			tick++;
 		} else {
-			// int blockmeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-			// InventoryHelper.extractItems(this.getWorld().getTileEntity(xCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetX), yCoord, zCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetZ)), this, 0, 0, null);
 			tick = 0;
 			this.hasTree = hasTree();
 			if (hasTree) {
@@ -246,7 +246,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 				ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getZ(), randInt);
 				if (stacks != null) {
 					for (int i = 0; i < stacks.length; i++) {
-						InventoryHelper.addItems(this, ItemStackHelper.restoreItemStack(stacks[i], 1), 0, null);
+						SonarAPI.getItemHelper().addItems(this, new StoredItemStack(ItemStackHelper.restoreItemStack(stacks[i], 1)), ForgeDirection.getOrientation(0), ActionType.SIMULATE, null);
 					}
 
 					return true;

@@ -3,7 +3,7 @@ package sonar.calculator.mod.common.recipes.machines;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.core.utils.helpers.RecipeHelper;
+import sonar.core.helpers.RecipeHelper;
 
 public class ReassemblyChamberRecipes extends RecipeHelper {
 

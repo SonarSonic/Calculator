@@ -1,6 +1,5 @@
 package sonar.calculator.mod.integration.nei.handlers;
 
-
 import java.awt.Rectangle;
 
 import net.minecraft.client.gui.inventory.GuiContainer;

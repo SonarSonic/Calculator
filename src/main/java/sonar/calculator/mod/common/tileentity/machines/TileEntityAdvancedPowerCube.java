@@ -5,11 +5,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.client.gui.machines.GuiAdvancedPowerCube;
-import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
-import sonar.calculator.mod.common.containers.ContainerPowerCube;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.helpers.SonarHelper;
 
 public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IGuiTile {
 

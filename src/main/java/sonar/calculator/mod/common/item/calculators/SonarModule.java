@@ -7,7 +7,6 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
@@ -21,12 +20,12 @@ import sonar.calculator.mod.api.modules.IModuleInventory;
 import sonar.calculator.mod.api.modules.IModuleUpdate;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.common.item.SonarItem;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerCraftInventory;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.IGuiItem;
-import sonar.core.utils.helpers.FontHelper;
 
 public class SonarModule extends SonarItem implements IItemInventory, IModuleProvider, IGuiItem {
 	public IModule module;
