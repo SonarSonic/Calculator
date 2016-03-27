@@ -49,6 +49,7 @@ import sonar.calculator.mod.client.gui.misc.GuiFluxPlug;
 import sonar.calculator.mod.client.gui.misc.GuiFluxPoint;
 import sonar.calculator.mod.client.gui.misc.GuiGasLantern;
 import sonar.calculator.mod.client.gui.misc.GuiMagneticFlux;
+import sonar.calculator.mod.client.gui.misc.GuiModuleSelector;
 import sonar.calculator.mod.client.gui.misc.GuiStoneAssimilator;
 import sonar.calculator.mod.client.gui.misc.GuiTeleporter;
 import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
@@ -84,6 +85,7 @@ import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.calculator.mod.common.containers.ContainerLantern;
 import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.calculator.mod.common.containers.ContainerDynamicModule;
+import sonar.calculator.mod.common.containers.ContainerModuleSelector;
 import sonar.calculator.mod.common.containers.ContainerPowerCube;
 import sonar.calculator.mod.common.containers.ContainerResearchChamber;
 import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
@@ -128,6 +130,7 @@ import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
 import sonar.calculator.mod.network.packets.PacketFluxNetworkList;
 import sonar.calculator.mod.network.packets.PacketFluxPoint;
 import sonar.calculator.mod.network.packets.PacketJumpModule;
+import sonar.calculator.mod.network.packets.PacketModuleSelection;
 import sonar.calculator.mod.network.packets.PacketStorageChamber;
 import sonar.calculator.mod.network.packets.PacketTeleportLinks;
 import sonar.core.inventory.ContainerEmpty;
@@ -147,6 +150,7 @@ public class CalculatorCommon implements IGuiHandler {
 		Calculator.network.registerMessage(PacketTeleportLinks.Handler.class, PacketTeleportLinks.class, 4, Side.CLIENT);
 		Calculator.network.registerMessage(PacketJumpModule.Handler.class, PacketJumpModule.class, 5, Side.SERVER);
 		Calculator.network.registerMessage(PacketJumpModule.Handler.class, PacketJumpModule.class, 6, Side.CLIENT);
+		Calculator.network.registerMessage(PacketModuleSelection.Handler.class, PacketModuleSelection.class, 7, Side.SERVER);
 
 	}
 
@@ -174,6 +178,9 @@ public class CalculatorCommon implements IGuiHandler {
 				case CalculatorGui.SmeltingModule:
 					return new ContainerSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(equipped), equipped);
 				case CalculatorGui.RecipeInfo:
+					break;
+				case CalculatorGui.ModuleSelect:
+					return new ContainerModuleSelector(player,equipped);
 				}
 			}
 
@@ -194,13 +201,15 @@ public class CalculatorCommon implements IGuiHandler {
 			if (equipped != null) {
 				switch (ID) {
 				case IGuiItem.ID:
-					return ((IGuiItem) equipped.getItem()).getGuiContainer(player, equipped);
+					return ((IGuiItem) equipped.getItem()).getGuiScreen(player, equipped);
 				case CalculatorGui.InfoCalculator:
 					return new GuiInfoCalculator(player, player.inventory, world, x, y, z);
 				case CalculatorGui.SmeltingModule:
 					return new GuiSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(equipped), equipped);
 				case CalculatorGui.RecipeInfo:
 					return new GuiRecipeInfo(player, player.inventory, world, x, y, z);
+				case CalculatorGui.ModuleSelect:
+					return new GuiModuleSelector(player,equipped);
 				}
 			}
 

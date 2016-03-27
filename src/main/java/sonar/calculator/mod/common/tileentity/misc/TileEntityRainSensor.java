@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import sonar.calculator.mod.common.block.misc.RainSensor;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 
@@ -7,10 +9,11 @@ public class TileEntityRainSensor extends TileEntity implements ITickable {
 
 	public void update() {
 		if (this.worldObj != null && !this.worldObj.isRemote) {
-			int meta = this.getBlockMetadata();
-			int newMeta = this.getMeta();
-			if (newMeta != meta) {
-				this.worldObj.setBlockState(pos, this.getBlockType().getStateFromMeta(newMeta), 3);
+			IBlockState state = getWorld().getBlockState(pos);	
+			boolean meta = state.getValue(RainSensor.bool);
+			boolean current = this.worldObj.isRaining();
+			if(meta!=current){
+				this.worldObj.setBlockState(pos, state.withProperty(RainSensor.bool, current), 3);
 			}
 		}
 	}

@@ -36,7 +36,10 @@ import sonar.calculator.mod.common.block.machines.StorageChamber;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
 import sonar.calculator.mod.common.block.misc.CO2Generator;
 import sonar.calculator.mod.common.block.misc.GasLantern;
+import sonar.calculator.mod.common.block.misc.MagneticFlux;
+import sonar.calculator.mod.common.block.misc.RainSensor;
 import sonar.calculator.mod.common.block.misc.Scarecrow;
+import sonar.calculator.mod.common.block.misc.WeatherController;
 import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
@@ -53,9 +56,12 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import sonar.core.common.block.BlockBase;
 import sonar.core.common.block.SonarBlockTip;
@@ -149,22 +155,18 @@ public class CalculatorBlocks extends Calculator {
 		*/
 		atomicMultiplier = registerBlock("AtomicMultiplier",new AtomicMultiplier().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityAtomicMultiplier.class, "AtomicMultiplier");		
+
+		extractionChamber = registerBlock("ExtractionChamber",new SmeltingBlock.ChamberBlock(BlockTypes.EXTRACTION).setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityMachines.ExtractionChamber.class, "ExtractionChamber");	
+		restorationChamber = registerBlock("RestorationChamber",new SmeltingBlock.ChamberBlock(BlockTypes.RESTORATION).setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityMachines.RestorationChamber.class, "RestorationChamber");	
+		reassemblyChamber = registerBlock("ReassemblyChamber",new SmeltingBlock.ChamberBlock(BlockTypes.REASSEMBLY).setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityMachines.ReassemblyChamber.class, "ReassemblyChamber");	
+		precisionChamber = registerBlock("PrecisionChamber",new SmeltingBlock.ChamberBlock(BlockTypes.PRECISION).setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityMachines.PrecisionChamber.class, "PrecisionChamber");	
+		processingChamber = registerBlock("ProcessingChamber",new SmeltingBlock.ChamberBlock(BlockTypes.PROCESSING).setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityMachines.ProcessingChamber.class, "ProcessingChamber");	
 		/*
-		extractionChamber = new SmeltingBlock(0).setBlockName("ExtractionChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
-		GameRegistry.registerBlock(extractionChamber, SonarBlockTip.class, "ExtractionChamber");
-		GameRegistry.registerTileEntity(TileEntityMachines.ExtractionChamber.class, "ExtractionChamber");
-		restorationChamber = new SmeltingBlock(1).setBlockName("RestorationChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
-		GameRegistry.registerBlock(restorationChamber, SonarBlockTip.class, "RestorationChamber");
-		GameRegistry.registerTileEntity(TileEntityMachines.RestorationChamber.class, "RestorationChamber");
-		reassemblyChamber = new SmeltingBlock(2).setBlockName("ReassemblyChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
-		GameRegistry.registerBlock(reassemblyChamber, SonarBlockTip.class, "ReassemblyChamber");
-		GameRegistry.registerTileEntity(TileEntityMachines.ReassemblyChamber.class, "ReassemblyChamber");
-		precisionChamber = new SmeltingBlock(6).setBlockName("PrecisionChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
-		GameRegistry.registerBlock(precisionChamber, SonarBlockTip.class, "PrecisionChamber");
-		GameRegistry.registerTileEntity(TileEntityMachines.PrecisionChamber.class, "PrecisionChamber");
-		processingChamber = new SmeltingBlock(3).setBlockName("ProcessingChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
-		GameRegistry.registerBlock(processingChamber, SonarBlockTip.class, "ProcessingChamber");
-		GameRegistry.registerTileEntity(TileEntityMachines.ProcessingChamber.class, "ProcessingChamber");
 		analysingChamber = new AnalysingChamber().setUnlocalizedName("AnalysingChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
 		GameRegistry.registerBlock(analysingChamber, SonarBlockTip.class, "AnalysingChamber");
 		GameRegistry.registerTileEntity(TileEntityAnalysingChamber.class, "AnalysingChamber");
@@ -248,17 +250,15 @@ public class CalculatorBlocks extends Calculator {
 		crank = new CrankHandle().setUnlocalizedName("Crank").setCreativeTab(Calculator).setHardness(20.0F);
 		GameRegistry.registerBlock(crank, SonarBlockTip.class, "Crank");
 		GameRegistry.registerTileEntity(TileEntityCrankHandle.class, "Crank");
-		magneticFlux = new MagneticFlux().setUnlocalizedName("MagneticFlux").setCreativeTab(Calculator).setHardness(1.0F).setBlockTextureName(modid + ":" + "calculatorlocator").setResistance(20.0F);
-		GameRegistry.registerBlock(magneticFlux, SonarBlockTip.class, "MagneticFlux");
-		GameRegistry.registerTileEntity(TileEntityMagneticFlux.class, "MagneticFlux");
-		weatherController = new WeatherController().setUnlocalizedName("WeatherController").setCreativeTab(Calculator).setHardness(1.0F);
-		GameRegistry.registerBlock(weatherController, SonarBlockTip.class, "WeatherController");
+		*/
+		magneticFlux = registerBlock("MagneticFlux",new MagneticFlux().setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityMagneticFlux.class, "MagneticFlux");		
+		weatherController = registerBlock("WeatherController",new WeatherController().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityWeatherController.class, "WeatherController");
-		rainSensor = new RainSensor().setUnlocalizedName("RainSensor").setCreativeTab(Calculator).setHardness(1.0F);
-		GameRegistry.registerBlock(rainSensor, SonarBlockTip.class, "RainSensor");
+		rainSensor = registerBlock("RainSensor",new RainSensor().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityRainSensor.class, "RainSensor");
 		
-
+		/*
 		stoneAssimilator = new Assimilator(0).setBlockName("StoneAssimilator").setCreativeTab(Calculator).setHardness(1.0F).setBlockTextureName(modid + ":" + "reinforcedstone");
 		GameRegistry.registerBlock(stoneAssimilator, SonarBlockTip.class, "StoneAssimilator");
 		GameRegistry.registerTileEntity(TileEntityAssimilator.Stone.class, "StoneAssimilator");

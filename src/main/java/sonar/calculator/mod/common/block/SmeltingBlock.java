@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -92,7 +93,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
-		if(isAnimated(state, world, pos)){
+		if (isAnimated(state, world, pos)) {
 			EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
 			double d0 = (double) pos.getX() + 0.5D;
 			double d1 = (double) pos.getY() + rand.nextDouble() * 6.0D / 16.0D;
@@ -164,4 +165,21 @@ public class SmeltingBlock extends SonarSidedBlock {
 		}
 		return false;
 	}
+
+	public EnumWorldBlockLayer getBlockLayer() {
+		return !type.isOpaqueCube() ? EnumWorldBlockLayer.CUTOUT_MIPPED : super.getBlockLayer();
+	}
+
+	public static class ChamberBlock extends SmeltingBlock {
+
+		public ChamberBlock(BlockTypes type) {
+			super(type);
+		}
+
+		public boolean hasAnimatedFront() {
+			return false;
+		}
+
+	}
+
 }

@@ -21,7 +21,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.blocks.IConnectedBlock;
 import sonar.calculator.mod.api.blocks.IStableBlock;
-import sonar.core.utils.helpers.SonarHelper;
 
 public class ConnectedBlock extends Block implements IConnectedBlock, IStableBlock {
 

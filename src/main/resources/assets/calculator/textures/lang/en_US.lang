@@ -43,7 +43,7 @@ tile.CalculatorPlug.name=Calculator Plug
 tile.StarchExtractor.name=Starch Extractor
 tile.RedstoneExtractor.name=Redstone Extractor
 tile.GlowstoneExtractor.name=Glowstone Extractor
-tile.Crank.name=Crank Handle
+tile.CrankHandle.name=Crank Handle
 tile.HandCrankedGenerator.name=Hand Cranked Generator
 
 //machines

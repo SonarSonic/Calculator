@@ -1,5 +1,7 @@
 package sonar.calculator.mod.client.renderers;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -39,7 +41,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 	public abstract String getName(TileEntity entity);
 
 	@Override
-	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float f) {
+	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float partialTicks, int destroyStage) {
 		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(entity), texture);
 		model.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 		this.renderAnimation(entity, x, y, z);
@@ -53,9 +55,18 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 			}
 
 			if (target != null) {
-				GL11.glRotated(90, 1, 0, 0);
-				GL11.glTranslated(0, -0.2, -1.17);
-				RenderHelper.renderItem(entity.getWorld(), target);
+				if (!Minecraft.getMinecraft().getRenderItem().shouldRenderItemIn3D(target)) {
+					GL11.glRotated(90, 1, 0, 0);
+					GL11.glTranslated(0, -0.0, -1.17);
+					GL11.glScaled(0.5, 0.5, 0.5);
+					Minecraft.getMinecraft().getRenderItem().renderItem(target, TransformType.GROUND);
+				}else{
+					GL11.glRotated(180, 1, 0, 0);
+					GL11.glRotated(180, 0, 1, 0);
+					GL11.glScaled(0.6, 0.6, 0.6);
+					GL11.glTranslated(0, -1-0.05*14.5, 0);
+					Minecraft.getMinecraft().getRenderItem().renderItem(target, TransformType.GROUND);
+				}
 			}
 		}
 		GL11.glPopMatrix();
@@ -91,68 +102,6 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
-		/*
-		 * Tessellator tes = Tessellator.instance; GL11.glTranslated(x, y, z);
-		 * int[] sides = new int[6]; if (entity != null && entity.getWorld()
-		 * != null && entity instanceof TileEntityProcess) { TileEntityProcess
-		 * inv = (TileEntityProcess) entity; sides = inv.sides; }
-		 * 
-		 * // bottom tes.startDrawingQuads(); this.bindTexture(sides[0] != 0 ?
-		 * output : input); tes.addVertexWithUV(0, 0.0002, 0, 0, 0);
-		 * tes.addVertexWithUV(1, 0.0002, 0, 0, 1); tes.addVertexWithUV(1,
-		 * 0.0002, 1, 1, 1); tes.addVertexWithUV(0, 0.0002, 1, 1, 0);
-		 * 
-		 * tes.addVertexWithUV(0, 0.0002, 0, 0, 0); tes.addVertexWithUV(0,
-		 * 0.0002, 1, 1, 0); tes.addVertexWithUV(1, 0.0002, 1, 1, 1);
-		 * tes.addVertexWithUV(1, 0.0002, 0, 0, 1); tes.draw();
-		 * 
-		 * // top tes.startDrawingQuads(); this.bindTexture(sides[1] != 0 ?
-		 * output : input); tes.addVertexWithUV(0, 0.9998, 0, 0, 0);
-		 * tes.addVertexWithUV(1, 0.9998, 0, 0, 1); tes.addVertexWithUV(1,
-		 * 0.9998, 1, 1, 1); tes.addVertexWithUV(0, 0.9998, 1, 1, 0);
-		 * 
-		 * tes.addVertexWithUV(0, 0.9998, 0, 0, 0); tes.addVertexWithUV(0,
-		 * 0.9998, 1, 1, 0); tes.addVertexWithUV(1, 0.9998, 1, 1, 1);
-		 * tes.addVertexWithUV(1, 0.9998, 0, 0, 1); tes.draw();
-		 * 
-		 * tes.startDrawingQuads(); this.bindTexture(sides[2] != 0 ? output :
-		 * input); tes.addVertexWithUV(0, 0, 0.0002, 0, 0);
-		 * tes.addVertexWithUV(0, 1, 0.0002, 0, 1); tes.addVertexWithUV(1, 1,
-		 * 0.0002, 1, 1); tes.addVertexWithUV(1, 0, 0.0002, 1, 0);
-		 * 
-		 * tes.addVertexWithUV(0, 1, 0.0002, 0, 1); tes.addVertexWithUV(0, 0,
-		 * 0.0002, 0, 0); tes.addVertexWithUV(1, 0, 0.0002, 1, 0);
-		 * tes.addVertexWithUV(1, 1, 0.0002, 1, 1); tes.draw();
-		 * 
-		 * tes.startDrawingQuads(); this.bindTexture(sides[3] != 0 ? output :
-		 * input); tes.addVertexWithUV(0, 0, 0.9998, 0, 0);
-		 * tes.addVertexWithUV(0, 1, 0.9998, 0, 1); tes.addVertexWithUV(1, 1,
-		 * 0.9998, 1, 1); tes.addVertexWithUV(1, 0, 0.9998, 1, 0);
-		 * 
-		 * tes.addVertexWithUV(0, 1, 0.9998, 0, 1); tes.addVertexWithUV(0, 0,
-		 * 0.9998, 0, 0); tes.addVertexWithUV(1, 0, 0.9998, 1, 0);
-		 * tes.addVertexWithUV(1, 1, 0.9998, 1, 1); tes.draw();
-		 * 
-		 * tes.startDrawingQuads(); this.bindTexture(sides[4] != 0 ? output :
-		 * input); tes.addVertexWithUV(0.0002, 0, 0, 1, 1);
-		 * tes.addVertexWithUV(0.0002, 0, 1, 1, 0); tes.addVertexWithUV(0.0002,
-		 * 1, 1, 0, 0); tes.addVertexWithUV(0.0002, 1, 0, 0, 1);
-		 * 
-		 * tes.addVertexWithUV(0.0002, 0, 1, 1, 0); tes.addVertexWithUV(0.0002,
-		 * 0, 0, 1, 1); tes.addVertexWithUV(0.0002, 1, 0, 0, 1);
-		 * tes.addVertexWithUV(0.0002, 1, 1, 0, 0); tes.draw();
-		 * 
-		 * tes.startDrawingQuads(); this.bindTexture(sides[5] != 0 ? output :
-		 * input); tes.addVertexWithUV(0.9998, 0, 0, 1, 1);
-		 * tes.addVertexWithUV(0.9998, 0, 1, 1, 0); tes.addVertexWithUV(0.9998,
-		 * 1, 1, 0, 0); tes.addVertexWithUV(0.9998, 1, 0, 0, 1);
-		 * 
-		 * tes.addVertexWithUV(0.9998, 0, 1, 1, 0); tes.addVertexWithUV(0.9998,
-		 * 0, 0, 1, 1); tes.addVertexWithUV(0.9998, 1, 0, 0, 1);
-		 * tes.addVertexWithUV(0.9998, 1, 1, 0, 0); tes.draw();
-		 * 
-		 * GL11.glTranslated(-x, -y, -z);
-		 */
 	}
 
 	public static class Processing extends RenderChamber {

@@ -1,5 +1,7 @@
 package sonar.calculator.mod.client.gui.misc;
 
+import java.io.IOException;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -24,19 +26,18 @@ public class GuiMagneticFlux extends GuiSonar {
 	public void initGui() {
 		super.initGui();
 		this.buttonList.add(new GuiButton(0, guiLeft + (xSize / 2 - (80 / 2)), guiTop + 18, 80, 20, entity.whitelisted ? "Whitelist" : "Blacklist"));
-		this.buttonList.add(new GuiButton(1, guiLeft + (xSize / 2 - (80 / 2)), guiTop + 18*2, 80, 20, entity.exact ? "Exact = No" : "Exact = Yes"));
+		this.buttonList.add(new GuiButton(1, guiLeft + (xSize / 2 - (80 / 2)), guiTop + 18 * 2, 80, 20, entity.exact ? "Exact = No" : "Exact = Yes"));
 	}
 
-	protected void actionPerformed(GuiButton button) {
-		super.actionPerformed(button);
+	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button == null) {
 			return;
 		}
 		if (button instanceof GuiButton) {
-			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), button.id));		
+			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), button.id));
 			this.reset();
 		}
-		
+
 	}
 
 	@Override

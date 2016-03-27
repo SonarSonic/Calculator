@@ -1,0 +1,25 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+	        "particle":"calculator:blocks/rain_sensor_top",
+	        "top":"calculator:blocks/rain_sensor_top",
+	        "side":"calculator:blocks/rain_sensor_bottom"
+        },
+        "model":"calculator:MachineSlab",
+        "transform":"forge:default-block"
+     },
+    "variants": {
+        "inventory": [{}],
+        "active":{
+            "true":{  
+                "textures": {             
+                    "top":"calculator:blocks/rain_sensor_top_on"
+                }
+            },
+            "false":{
+                
+            }
+        }
+    }
+}

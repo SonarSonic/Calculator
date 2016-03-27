@@ -33,15 +33,10 @@ public class GrenadeModule extends ModuleBase implements IModuleClickable {
 	public void onModuleActivated(ItemStack stack, NBTTagCompound tag, World world, EntityPlayer player) {
 		if (isEnergyAvailable(stack, player, world, 10000)) {
 			if (CalculatorConfig.enableGrenades) {
-				if (tag.getBoolean("Grenade")) {
-					tag.setBoolean("Grenade", false);
-					world.playSoundAtEntity(player, "random.fizz", 0.7F, 0.8F);
-					if (!world.isRemote)
-						world.spawnEntityInWorld(new EntityGrenade(world, player));
-				} else {
-					tag.setBoolean("Grenade", true);
-					if (!world.isRemote)
-						player.addChatComponentMessage(new ChatComponentText(FontHelper.translate("calc.grenade")));
+				world.playSoundAtEntity(player, "random.fizz", 0.7F, 0.8F);
+				if (!world.isRemote) {
+					world.spawnEntityInWorld(new EntityGrenade(world, player));
+					this.extractEnergy(stack, player, 10000, false);
 				}
 			} else {
 				FontHelper.sendMessage(FontHelper.translate("calc.ban"), world, player);

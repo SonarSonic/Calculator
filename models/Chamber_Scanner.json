@@ -1,9 +1,8 @@
 {
-    "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
+
     "textures": {
-        "0": "blocks/analysis_side_slot",
-        "1": "blocks/white_chamber",
-        "2": "blocks/white_chamber_name"
+        "0": "blocks/white_chamber",
+        "1": "blocks/white_chamber_name"
     },
     "elements": [
         {
@@ -223,8 +222,8 @@
                 "east": { "texture": "#0", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
                 "south": { "texture": "#0", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
                 "west": { "texture": "#0", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
-                "up": { "texture": "#1", "uv": [ 3.0, 3.0, 13.0, 13.0 ] },
-                "down": { "texture": "#1", "uv": [ 3.0, 3.0, 13.0, 13.0 ] }
+                "up": { "texture": "#0", "uv": [ 3.0, 3.0, 13.0, 13.0 ] },
+                "down": { "texture": "#0", "uv": [ 3.0, 3.0, 13.0, 13.0 ] }
             }
         },
         {
@@ -233,12 +232,12 @@
             "to": [ 13.0, 4.0, 2.5 ], 
             "rotation": { "origin": [ 9.0, 4.0, 8.0 ], "axis": "x", "angle": 22.5 },
             "faces": {
-                "north": { "texture": "#2", "uv": [ 0.0, 0.0, 10.0, 4.0 ] },
-                "east": { "texture": "#2", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
-                "south": { "texture": "#2", "uv": [ 0.0, 5.0, 10.0, 9.0 ] },
-                "west": { "texture": "#2", "uv": [ 0.0, 0.0, 0.0, 4.0 ] },
-                "up": { "texture": "#2", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
-                "down": { "texture": "#2", "uv": [ 0.0, 0.0, 10.0, 1.0 ] }
+                "north": { "texture": "#1", "uv": [ 0.0, 0.0, 10.0, 4.0 ] },
+                "east": { "texture": "#1", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "south": { "texture": "#1", "uv": [ 0.0, 5.0, 10.0, 9.0 ] },
+                "west": { "texture": "#1", "uv": [ 0.0, 0.0, 0.0, 4.0 ] },
+                "up": { "texture": "#1", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
+                "down": { "texture": "#1", "uv": [ 0.0, 0.0, 10.0, 1.0 ] }
             }
         },
         {

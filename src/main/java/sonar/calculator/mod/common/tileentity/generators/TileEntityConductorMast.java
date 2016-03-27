@@ -30,7 +30,7 @@ import sonar.core.utils.IGuiTile;
 
 import com.google.common.collect.Lists;
 
-public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine,IGuiTile  {
+public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
 
 	public SyncTagType.INT cookTime = new SyncTagType.INT(0);
 	public SyncTagType.INT lightningSpeed = new SyncTagType.INT(1);
@@ -117,6 +117,9 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		}
 		if (lightTicks.getObject() > 0) {
 			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes);
+			if (worldObj.isThundering()) {
+				add = add * 2;
+			}
 			if (lightTicks.getObject() < 200) {
 				if (this.storage.getEnergyStored() + add <= this.storage.getMaxEnergyStored()) {
 					lightTicks.increaseBy(1);

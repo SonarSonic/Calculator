@@ -1,0 +1,21 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+	        "particle":"calculator:blocks/weather_controller",
+	        "top":"calculator:blocks/weather_controller",
+	        "side":"calculator:blocks/rain_sensor_bottom"
+        },
+        "model":"calculator:MachineSlab",
+        "transform":"forge:default-block"
+     },
+    "variants": {
+        "inventory": [{}], 
+        "facing":{  
+            "north":{},
+            "south":{},
+            "west":{},
+            "east":{}
+        }
+    }
+}

@@ -30,7 +30,7 @@ import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
 
-public class TileEntityMagneticFlux extends TileEntityInventory implements IEntitySelector, ISidedInventory, IByteBufTile, IGuiTile {
+public class TileEntityMagneticFlux extends TileEntityInventory implements ISidedInventory, IByteBufTile, IGuiTile {
 
 	public boolean whitelisted, exact;
 	public Random rand = new Random();
@@ -48,7 +48,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 
 	public void update() {
 		super.update();
-		if (this.worldObj.isBlockIndirectlyGettingPowered(pos)>0) {
+		if (this.worldObj.isBlockIndirectlyGettingPowered(pos) > 0) {
 			disabled = true;
 			return;
 		}
@@ -83,13 +83,13 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 
 	public void magnetizeItems() {
 		int range = 10;
-		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - range, zCoord - range, xCoord + range, yCoord + range, zCoord + range);
-		List<Entity> items = this.worldObj.selectEntitiesWithinAABB(EntityItem.class, aabb, null);
-		for (Entity entity : items) {
-			if (entity instanceof EntityItem && validItemStack(((EntityItem) entity).getEntityItem())) {
-				double x = xCoord + 0.5D - entity.posX;
-				double y = yCoord + 0.2D - entity.posY;
-				double z = zCoord + 0.5D - entity.posZ;
+		AxisAlignedBB aabb = AxisAlignedBB.fromBounds(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
+		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, aabb, null);
+		for (EntityItem entity : items) {
+			if (validItemStack(((EntityItem) entity).getEntityItem())) {
+				double x = pos.getX() + 0.5D - entity.posX;
+				double y = pos.getY() + 0.2D - entity.posY;
+				double z = pos.getZ() + 0.5D - entity.posZ;
 
 				double distance = Math.sqrt(x * x + y * y + z * z);
 
@@ -114,10 +114,10 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 	}
 
 	public boolean validItemStack(ItemStack stack) {
-		if (slots == null) {
+		if (slots() == null) {
 			return true;
 		}
-		for (int i = 0; i < slots.length; i++) {
+		for (int i = 0; i < slots().length; i++) {
 			if (slots()[i] != null) {
 				boolean matches = matchingStack(slots()[i], stack);
 				if (!this.whitelisted && matches) {
@@ -155,12 +155,10 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 				return null;
 			}
 			ItemStack itemstack = entity.getEntityItem();
-			int i = itemstack.stackSize;
-			TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
-			if (target instanceof IItemDuct) {
-				itemstack = ((IItemDuct) target).insertItem(EnumFacing.UP, itemstack);
-			} else {
-				itemstack = SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), ForgeDirection.getOrientation(1), ActionType.PERFORM, null).getFullStack();
+			if (itemstack != null) {
+				int i = itemstack.stackSize;
+				TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
+				itemstack = SonarAPI.getItemHelper().getStackToAdd(itemstack.stackSize, new StoredItemStack(itemstack), SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), EnumFacing.getFront(1), ActionType.PERFORM, null)).getFullStack();
 			}
 			return itemstack;
 		}
@@ -168,26 +166,17 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 	}
 
 	@Override
-	public boolean isEntityApplicable(Entity entity) {
-		if (entity instanceof EntityItem) {
-
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
+	public int[] getSlotsForFace(EnumFacing side) {
 		return new int[0];
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack item, int side) {
+	public boolean canInsertItem(int slot, ItemStack item, EnumFacing side) {
 		return false;
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack item, int side) {
+	public boolean canExtractItem(int slot, ItemStack item, EnumFacing side) {
 		return false;
 	}
 
@@ -240,21 +229,4 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements IEnti
 		return new GuiMagneticFlux(player.inventory, this);
 	}
 
-	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

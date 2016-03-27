@@ -23,12 +23,12 @@ public class GuiCrankedGenerator extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(FontHelper.translate("tile.CrankedGenerator.name"), this.xSize, 6, 0);
+		FontHelper.textCentre(FontHelper.translate("tile.HandCrankedGenerator.name"), this.xSize, 6, 0);
 		if (this.entity.cranked()) {
-			FontHelper.textCentre(FontHelper.translate(FontHelper.translate("crank.cranked") + ": " + FontHelper.translate("locator.true")), this.xSize, 25, 0);
+			FontHelper.textCentre(FontHelper.translate(FontHelper.translate("crank.cranked") + ": " + FontHelper.translate("locator.true")), this.xSize, 50, 0);
 		}
 		if (!this.entity.cranked()) {
-			FontHelper.textCentre(FontHelper.translate(FontHelper.translate("crank.cranked") + ": " + FontHelper.translate("locator.false")), this.xSize, 25, 0);
+			FontHelper.textCentre(FontHelper.translate(FontHelper.translate("crank.cranked") + ": " + FontHelper.translate("locator.false")), this.xSize, 50, 0);
 
 		}
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);

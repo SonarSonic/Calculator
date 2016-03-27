@@ -1,15 +1,20 @@
 package sonar.calculator.mod.network;
 
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import sonar.calculator.mod.BlockRenderRegister;
 import sonar.calculator.mod.ItemRenderRegister;
+import sonar.calculator.mod.client.renderers.RenderChamber;
 import sonar.calculator.mod.client.renderers.RenderCrank;
+import sonar.calculator.mod.client.renderers.RenderMagneticFlux;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
+import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 
 public class CalculatorClient extends CalculatorCommon{
 	
@@ -163,11 +168,16 @@ public class CalculatorClient extends CalculatorCommon{
 		TileEntitySpecialRenderer processing = new RenderChamber.Processing();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ProcessingChamber.class, processing);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.processingChamber), new ItemModelRender(processing, new TileEntityMachines.ProcessingChamber()));
-
-		TileEntitySpecialRenderer extraction = new RenderChamber.Extraction();
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ExtractionChamber.class, extraction);
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.extractionChamber), new ItemModelRender(extraction, new TileEntityMachines.ExtractionChamber()));
-
+		 */
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ExtractionChamber.class, new RenderChamber.Extraction());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.PrecisionChamber.class, new RenderChamber.Precision());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ReassemblyChamber.class, new RenderChamber.Removal());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.RestorationChamber.class, new RenderChamber.Removal());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.ProcessingChamber.class, new RenderChamber.Processing());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMagneticFlux.class, new RenderMagneticFlux());
+		
+		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.extractionChamber), new ItemModelRender(extraction, new TileEntityMachines.ExtractionChamber()));
+		/*
 		TileEntitySpecialRenderer precision = new RenderChamber.Precision();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachines.PrecisionChamber.class, precision);
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.precisionChamber), new ItemModelRender(precision, new TileEntityMachines.PrecisionChamber()));

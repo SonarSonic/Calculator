@@ -15,12 +15,20 @@ import sonar.core.utils.IGuiTile;
 public class MagneticFlux extends SonarMachineBlock {
 
 	public MagneticFlux() {
-		super(SonarMaterials.machine);
+		super(SonarMaterials.machine, false, true);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
 	}
 
+	public int getRenderType() {
+		return 2;
+	}
+	
 	public boolean hasSpecialRenderer() {
 		return true;
+	}
+
+	public boolean isFullCube() {
+		return false;
 	}
 
 	@Override
@@ -30,21 +38,19 @@ public class MagneticFlux extends SonarMachineBlock {
 
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
-		if (player != null) {
-			if (!world.isRemote) {
-				player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
-			}
+		if (player != null && !world.isRemote) {
+			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-		super.canPlaceBlockAt(world, x, y, z);
-		for (int Y = Math.max(y - 4, 0); Y < Math.min(256, y + 4); Y++) {
-			for (int X = x - 4; X <= x + 4; X++) {
-				for (int Z = z - 4; Z <= z + 4; Z++) {
-					if (world.getBlock(X, Y, Z) == Calculator.magneticFlux) {
+	public boolean canPlaceBlockAt(World world, BlockPos pos) {
+		super.canPlaceBlockAt(world, pos);
+		for (int Y = Math.max(pos.getY() - 4, 0); Y < Math.min(256, pos.getY() + 4); Y++) {
+			for (int X = pos.getX() - 4; X <= pos.getX() + 4; X++) {
+				for (int Z = pos.getY() - 4; Z <= pos.getY() + 4; Z++) {
+					if (world.getBlockState(new BlockPos(X, Y, Z)).getBlock() == Calculator.magneticFlux) {
 						return false;
 					}
 				}

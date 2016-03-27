@@ -22,6 +22,7 @@ import sonar.calculator.mod.api.modules.IModuleUpdate;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
+import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
@@ -132,6 +133,8 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 			if (!tag.hasNoTags() && !world.isRemote)
 				stack.setTagInfo("" + slot, tag);
 		} else if (!world.isRemote) {
+			player.openGui(Calculator.instance, CalculatorGui.ModuleSelect, world, -1000, -1000, -1000);
+			/*
 			int slot = this.getCurrentSlot(stack);
 			slot++;
 			if (!(slot < moduleCapacity)) {
@@ -142,6 +145,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 
 			IModule module = this.getCurrentModule(stack);
 			FontHelper.sendMessage("Module " + " : " + module.getClientName(), world, player);
+			*/
 		}
 		// }
 		return stack;
@@ -166,7 +170,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
 		IModule current = this.getCurrentModule(stack);
-		list.add("Module: " + current.getClientName());
+		list.add("Current Module: " + current.getClientName());
 
 		long energyStored = 0;
 		long itemsStored = 0;

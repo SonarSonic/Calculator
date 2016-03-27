@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -21,28 +22,24 @@ import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
 
 public class WeatherController extends SonarMachineBlock {
-	private IIcon[] icons = new IIcon[2];
 
 	public WeatherController() {
-		super(Material.wood);
+		super(Material.wood, false, true);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
 	}
 
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
-		if (player != null) {
-			if (!world.isRemote) {
-				player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
-			}
-			return true;
+		if (player != null && !world.isRemote) {
+			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
-		return false;
+		return true;
 	}
 
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-		super.onNeighborBlockChange(world, x, y, z, block);
+	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block block) {
+		super.onNeighborBlockChange(world, pos, state, block);
 		if (!world.isRemote) {
-			TileEntity target = world.getTileEntity(x, y, z);
+			TileEntity target = world.getTileEntity(pos);
 			if (target != null && target instanceof TileEntityWeatherController) {
 				TileEntityWeatherController controller = (TileEntityWeatherController) target;
 				controller.startProcess();
@@ -50,44 +47,32 @@ public class WeatherController extends SonarMachineBlock {
 		}
 	}
 
-	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
-	}
-
-	public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side) {
-		return 0;
-	}
-
-	public boolean canProvidePower() {
-		return false;
 	}
 
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityWeatherController();
 	}
-
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
-		return side == 1 ? this.icons[0] : this.icons[1];
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister register) {
-		this.icons[0] = register.registerIcon(Calculator.modid + ":weather_controller");
-		this.icons[1] = register.registerIcon(Calculator.modid + ":rain_sensor_bottom");
-	}
-
-	@Override
+@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
 
-	public boolean renderAsNormalBlock() {
+	public boolean isFullCube() {
 		return false;
 	}
 
 	public boolean isOpaqueCube() {
 		return false;
+	}
+
+	public int getRenderType() {
+		return 3;
+	}
+
+	public boolean canProvidePower() {
+		return true;
 	}
 
 }

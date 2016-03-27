@@ -8,14 +8,12 @@ import net.minecraft.nbt.NBTTagCompound;
 public interface IFlawlessCalculator extends IModuleProvider {
 
 	/** performs the removal of a {@link IModule}
-	 * 
 	 * @param stack the Flawless Calculator
 	 * @param slot the slot you wish to remove from
 	 * @return the item associated with the removed module with NBT set */
 	public ItemStack removeModule(ItemStack stack, int slot);
 
 	/** performs the addition of a given {@link IModule}
-	 * 
 	 * @param stack the Flawless Calculator
 	 * @param moduleTag the current module tag compound
 	 * @param module the {@link IModule} to add
@@ -23,14 +21,12 @@ public interface IFlawlessCalculator extends IModuleProvider {
 	public void addModule(ItemStack stack, NBTTagCompound moduleTag, IModule module, int slot);
 
 	/** checks if a {@link IModule} can be removed from the calculator
-	 * 
 	 * @param stack the Flawless Calculator
 	 * @param slot the slot you wish to remove to
 	 * @return if the module can be removed */
 	public boolean canRemoveModule(ItemStack stack, int slot);
 
 	/** checks if a {@link IModule} can be added to the calculator
-	 * 
 	 * @param stack the Flawless Calculator
 	 * @param module the {@link IModule} to add
 	 * @param slot the slot you wish to add to
@@ -43,4 +39,13 @@ public interface IFlawlessCalculator extends IModuleProvider {
 	 * @return */
 	public NBTTagCompound getModuleTag(ItemStack stack, int slot);
 
+	/** returns the current {@link IModule}
+	 * @param stack the Flawless Calculator
+	 * @return */
+	public IModule getCurrentModule(ItemStack stack);
+
+	/** returns the current position of the current {@link IModule} 
+	 * @param stack the Flawless Calculator
+	 * @return */
+	public int getCurrentSlot(ItemStack stack);
 }
