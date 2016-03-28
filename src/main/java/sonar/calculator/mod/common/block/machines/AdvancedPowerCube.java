@@ -12,11 +12,12 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCu
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.IGuiTile;
 
-public class AdvancedPowerCube extends SonarMachineBlock {
+public class AdvancedPowerCube extends SonarSidedBlock {
 
 	public AdvancedPowerCube() {
 		super(SonarMaterials.machine, true, true);
@@ -28,7 +29,7 @@ public class AdvancedPowerCube extends SonarMachineBlock {
 			if (interact.type == BlockInteractionType.SHIFT_RIGHT) {
 				if (world.getTileEntity(pos) instanceof TileEntityAdvancedPowerCube) {
 					TileEntityAdvancedPowerCube cube = (TileEntityAdvancedPowerCube) world.getTileEntity(pos);
-					cube.incrementEnergy(interact.side);
+					cube.getSideConfigs().increaseSide(interact.getDir());
 					world.markBlockRangeForRenderUpdate(pos, pos);
 				}
 			} else {
@@ -47,5 +48,9 @@ public class AdvancedPowerCube extends SonarMachineBlock {
 	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
+	}
+
+	public boolean hasAnimatedFront() {
+		return false;
 	}
 }

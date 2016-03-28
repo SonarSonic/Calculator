@@ -2,31 +2,39 @@ package sonar.calculator.mod.common.tileentity;
 
 import io.netty.buffer.ByteBuf;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.actors.threadpool.Arrays;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorItems;
 import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.api.machines.IProcessMachine;
-import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.core.SonarCore;
-import sonar.core.api.IUpgradeCircuits;
+import sonar.core.api.SonarAPI;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
+import sonar.core.utils.MachineSideConfig;
+import sonar.core.utils.upgrades.IUpgradableTile;
+import sonar.core.utils.upgrades.UpgradeInventory;
 
 import com.google.common.collect.Lists;
 
 /** electric smelting tile entity */
-public abstract class TileEntityProcess extends TileEntityEnergySidedInventory implements IUpgradeCircuits, IPausable, IAdditionalInventory, IProcessMachine, IByteBufTile {
+public abstract class TileEntityProcess extends TileEntityEnergySidedInventory implements IUpgradableTile, IPausable, IAdditionalInventory, IProcessMachine, IByteBufTile {
 
 	public float renderTicks;
 	public double energyBuffer;
@@ -34,8 +42,8 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public SyncTagType.BOOLEAN invertPaused = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.BOOLEAN paused = new SyncTagType.BOOLEAN(1);
 	public SyncTagType.INT cookTime = new SyncTagType.INT(2);
-	public SyncTagType.INT sUpgrade = new SyncTagType.INT(3);
-	public SyncTagType.INT eUpgrade = new SyncTagType.INT(4);
+	public UpgradeInventory upgrades = new UpgradeInventory(16, "ENERGY", "SPEED", "TRANSFER").addMaxiumum("TRANSFER", 1);
+
 	public boolean isActive = false;
 
 	public static int lowestSpeed = 4, lowestEnergy = 1000;
@@ -43,12 +51,20 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	// client
 	public int currentSpeed;
 
+	public abstract boolean canProcess();
+
+	public abstract void finishProcess();
+
 	public void update() {
 		super.update();
 		if (!worldObj.isRemote) {
+			if (upgrades.getUpgradesInstalled("TRANSFER") > 0) {
+				transferItems();
+			}
 			boolean oldPause = paused.getObject();
 			if (this.worldObj.isBlockIndirectlyGettingPowered(pos) > 0) {
 				this.paused.setObject(false);
+				this.markDirty();
 				return;
 			} else {
 				this.paused.setObject(true);
@@ -90,7 +106,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 				}
 
 			}
-			
+
 		}
 		boolean flag2 = this.isActive();
 		if (flag != flag2) {
@@ -99,6 +115,13 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
 		}
 		this.markDirty();
+	}
+
+	public void transferItems() {
+		ArrayList<EnumFacing> outputs = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
+		for (EnumFacing side : outputs) {
+			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side.getOpposite(), side, null);
+		}
 	}
 
 	public void onLoaded() {
@@ -123,9 +146,9 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public void renderTicks() {
 		if (this instanceof TileEntityMachines.PrecisionChamber || this instanceof TileEntityMachines.ExtractionChamber) {
-			this.renderTicks += (float) Math.max(1, sUpgrade.getObject()) / 50;
+			this.renderTicks += (float) Math.max(1, upgrades.getUpgradesInstalled("SPEED")) / 50;
 		} else {
-			this.renderTicks += (float) Math.max(1, sUpgrade.getObject() * 8) / 1000;
+			this.renderTicks += (float) Math.max(1, upgrades.getUpgradesInstalled("SPEED") * 8) / 1000;
 		}
 		if (this.renderTicks >= 2) {
 			this.renderTicks = 0;
@@ -137,20 +160,18 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	}
 
-	public abstract boolean canProcess();
-
-	public abstract void finishProcess();
-
 	private int roundNumber(double i) {
 		return (int) (Math.ceil(i / 10) * 10);
 	}
 
 	public int requiredEnergy() {
-		if (eUpgrade.getObject() + sUpgrade.getObject() == 0) {
+		int speed = upgrades.getUpgradesInstalled("SPEED");
+		int energy = upgrades.getUpgradesInstalled("ENERGY");
+		if (energy + speed == 0) {
 			return 1000 * 5;
 		}
-		int i = 16 - (eUpgrade.getObject() - sUpgrade.getObject());
-		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (eUpgrade.getObject() - sUpgrade.getObject()))) * 5;
+		int i = 16 - (energy - speed);
+		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (energy - speed))) * 5;
 	}
 
 	public boolean receiveClientEvent(int action, int param) {
@@ -166,6 +187,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			if (type == SyncType.SYNC) {
 				this.currentSpeed = nbt.getInteger("speed");
 			}
+			upgrades.readData(nbt, type);
 		}
 
 	}
@@ -176,12 +198,18 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			if (type == SyncType.SYNC) {
 				nbt.setInteger("speed", this.getProcessTime());
 			}
+			upgrades.writeData(nbt, type);
 		}
 	}
 
 	public void addSyncParts(List<ISyncPart> parts) {
 		super.addSyncParts(parts);
-		parts.addAll(Lists.newArrayList(paused, invertPaused, cookTime, sUpgrade, eUpgrade));
+		parts.addAll(Lists.newArrayList(paused, invertPaused, cookTime));
+	}
+
+	@Override
+	public UpgradeInventory getUpgradeInventory() {
+		return upgrades;
 	}
 
 	// IPausable
@@ -205,57 +233,6 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		return invertPaused.getObject() ? paused.getObject() : !paused.getObject();
 	}
 
-	@Override
-	public boolean canAddUpgrades() {
-		return cookTime.getObject() == 0;
-	}
-
-	@Override
-	public boolean canAddUpgrades(int type) {
-		if (type == 0) {
-			return true;
-		} else if (type == 1) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public int getUpgrades(int type) {
-		if (type == 0) {
-			return sUpgrade.getObject();
-
-		} else if (type == 1) {
-			return eUpgrade.getObject();
-		}
-		return 0;
-	}
-
-	@Override
-	public void incrementUpgrades(int type, int increment) {
-		if (type == 0) {
-			sUpgrade.increaseBy(increment);
-		} else if (type == 1) {
-			eUpgrade.increaseBy(increment);
-		}
-
-	}
-
-	@Override
-	public int getMaxUpgrades(int type) {
-		switch (type) {
-		case 0:
-			return 16;
-		case 1:
-			return 16;
-		}
-		return 1;
-	}
-
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing dir) {
-		return true;
-	}
-
 	public boolean canStack(ItemStack current, ItemStack stack) {
 		if (current == null) {
 			return true;
@@ -267,28 +244,33 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
-		if (sUpgrade.getObject() != 0) {
-			String speed = FontHelper.translate("circuit.speed") + ": " + sUpgrade;
-
-			currenttip.add(speed);
+		int speed = upgrades.getUpgradesInstalled("SPEED");
+		int energy = upgrades.getUpgradesInstalled("ENERGY");
+		if (speed != 0) {
+			currenttip.add(FontHelper.translate("circuit.speed") + ": " + speed);
 		}
-		if (eUpgrade.getObject() != 0) {
-			String energy = FontHelper.translate("circuit.energy") + ": " + eUpgrade;
-			currenttip.add(energy);
+		if (energy != 0) {
+			currenttip.add(FontHelper.translate("circuit.speed") + ": " + energy);
 		}
 		return currenttip;
 	}
 
 	@Override
 	public ItemStack[] getAdditionalStacks() {
-		ItemStack[] circuits = new ItemStack[2];
-		if (this.getUpgrades(0) != 0) {
-			circuits[0] = new ItemStack(Calculator.speedUpgrade, this.getUpgrades(0));
+		ArrayList<ItemStack> drops = upgrades.getDrops();
+		if (drops == null || drops.isEmpty()) {
+			return new ItemStack[] { null };
 		}
-		if (this.getUpgrades(1) != 0) {
-			circuits[1] = new ItemStack(Calculator.energyUpgrade, this.getUpgrades(1));
+		ItemStack[] toDrop = new ItemStack[drops.size()];
+		int pos = 0;
+		for (ItemStack drop : drops) {
+			if (drop != null) {
+				toDrop[pos] = drop;
+			}
+			pos++;
 		}
-		return circuits;
+		return toDrop;
+
 	}
 
 	@Override
@@ -298,8 +280,9 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	@Override
 	public int getProcessTime() {
-		int i = 16 - sUpgrade.getObject();
-		if (sUpgrade.getObject() == 0) {
+		int speed = upgrades.getUpgradesInstalled("SPEED");
+		int i = 16 - speed;
+		if (speed == 0) {
 			return 1000;
 		}
 		return ((8 + ((i * i) * 2 + i)));
@@ -312,6 +295,8 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	@Override
 	public void writePacket(ByteBuf buf, int id) {
+		if (id == 0) {
+		}
 		if (id == 1) {
 			invertPaused.invert();
 			invertPaused.writeToBuf(buf);
@@ -326,9 +311,16 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	@Override
 	public void readPacket(ByteBuf buf, int id) {
 		if (id == 0) {
-			for (int i = 0; i < 3; i++) {
-				if (getUpgrades(i) != 0 && UpgradeCircuit.getItem(i) != null) {
-					/* EnumFacing dir = EnumFacing.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord)); EntityItem upgrade = new EntityItem(worldObj, xCoord + dir.offsetX, yCoord + 0.5, zCoord + dir.offsetZ, new ItemStack(UpgradeCircuit.getItem(i), getUpgrades(i))); incrementUpgrades(i, -getUpgrades(i)); worldObj.spawnEntityInWorld(upgrade); */
+			ItemStack[] upgrades = getAdditionalStacks();
+			Random rand = new Random();
+			for (ItemStack stack : upgrades) {
+				if (stack != null) {
+					float f = rand.nextFloat() * 0.8F + 0.1F;
+					float f1 = rand.nextFloat() * 0.8F + 0.1F;
+					float f2 = rand.nextFloat() * 0.8F + 0.1F;
+
+					EntityItem dropStack = new EntityItem(getWorld(), pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, stack);
+					getWorld().spawnEntityInWorld(dropStack);
 				}
 			}
 		}

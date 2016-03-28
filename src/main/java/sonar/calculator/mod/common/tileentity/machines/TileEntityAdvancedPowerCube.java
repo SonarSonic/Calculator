@@ -4,14 +4,21 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import sonar.calculator.mod.client.gui.machines.GuiAdvancedPowerCube;
+import sonar.core.SonarCore;
+import sonar.core.api.SonarAPI;
 import sonar.core.helpers.SonarHelper;
+import sonar.core.network.PacketSonarSides;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.IMachineSides;
+import sonar.core.utils.MachineSideConfig;
+import sonar.core.utils.MachineSides;
 
-public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IGuiTile {
+public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IGuiTile, IMachineSides {
 
-	public int energySide;
+	public MachineSides sides = new MachineSides(MachineSideConfig.INPUT, this, MachineSideConfig.NONE);
 
 	public TileEntityAdvancedPowerCube() {
 		super.storage = new SyncEnergyStorage(100000, 64000);
@@ -26,53 +33,38 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 
 	}
 
-	@Override
-	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-		if (!(from == EnumFacing.getFront(energySide))) {
-			return this.storage.receiveEnergy(maxReceive, simulate);
-		}
-
-		return 0;
-	}
-
 	public void addEnergy() {
-		EnumFacing dir = EnumFacing.getFront(energySide);
-		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
-		if (SonarHelper.isEnergyHandlerFromSide(entity, dir.getOpposite())) {
-
-			if (entity != null)
-				this.storage.modifyEnergyStored(-SonarHelper.pushEnergy(entity, dir.getOpposite(), this.storage.extractEnergy(maxTransfer, true), false));
+		for (int i = 0; i < 6; i++) {
+			if (sides.getSideConfig(EnumFacing.getFront(i)).isOutput()) {
+				EnumFacing dir = EnumFacing.getFront(i);
+				TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
+				SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir.getOpposite(), dir);
+			}
 		}
 	}
 
-	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		this.energySide = nbt.getShort("Sides");
+		sides.readFromNBT(nbt);
+	}
+
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		sides.writeToNBT(nbt);
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setShort("Sides", (short) this.energySide);
-	}
-
-	public int side(int par) {
-		return this.energySide;
-	}
-
-	public void incrementEnergy(int par) {
-		if (par == this.energySide) {
-			energySide = -1;
-		} else {
-			energySide = par;
+	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+		if (sides.getSideConfig(from).isInput()) {
+			return storage.receiveEnergy(maxReceive, simulate);
 		}
+		return 0;
 	}
 
 	@Override
 	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-		if (from == EnumFacing.getFront(energySide)) {
-			return this.storage.extractEnergy(maxExtract, simulate);
+		if (sides.getSideConfig(from).isOutput()) {
+			return storage.extractEnergy(maxExtract, simulate);
 		}
 		return 0;
 	}
@@ -80,5 +72,10 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	@Override
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiAdvancedPowerCube(player.inventory, this);
+	}
+
+	@Override
+	public MachineSides getSideConfigs() {
+		return sides;
 	}
 }

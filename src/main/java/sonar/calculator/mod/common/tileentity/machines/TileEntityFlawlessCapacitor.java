@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.tileentity.machines;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import sonar.core.api.SonarAPI;
 import sonar.core.common.tileentity.TileEntityEnergy;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
@@ -42,10 +43,8 @@ public class TileEntityFlawlessCapacitor extends TileEntityEnergy {
 			if (output[i] == 1) {
 				EnumFacing dir = EnumFacing.getFront(i);
 				TileEntity tile = SonarHelper.getAdjacentTileEntity(this, dir);
-				if (SonarHelper.isEnergyHandlerFromSide(tile, dir)) {
-					int removed = SonarHelper.pushEnergy(tile, dir, SonarHelper.pushEnergy(tile, dir, this.storage.getEnergyStored(), true), false);
-					this.storage.extractEnergy(removed, false);
-				}
+				TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
+				SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir.getOpposite(), dir);
 			}
 		}
 

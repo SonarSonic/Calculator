@@ -18,7 +18,6 @@ import sonar.core.utils.IGuiTile;
 public class Assimilator extends SonarMachineBlock {
 
 	public int type;
-
 	public Assimilator(int type) {
 		super(SonarMaterials.machine, true, true);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - 0.0625F * 3, 1.0F);
@@ -33,9 +32,9 @@ public class Assimilator extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null && !world.isRemote) {
 			if (type == 0) {
-				player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
+				player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 			} else {
-				player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
+				player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 
 			}
 
@@ -67,8 +66,6 @@ public class Assimilator extends SonarMachineBlock {
 				}
 			}
 		}
-		// CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
 	}
 
 }

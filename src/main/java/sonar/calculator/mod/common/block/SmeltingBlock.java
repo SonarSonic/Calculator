@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.network.CalculatorGui;
@@ -25,6 +24,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.upgrades.MachineUpgrade;
 
 public class SmeltingBlock extends SonarSidedBlock {
 
@@ -122,7 +122,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
-			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof UpgradeCircuit) {
+			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof MachineUpgrade) {
 				return false;
 			} else if (player.getHeldItem() != null && player.getHeldItem().getItem() == Calculator.wrench) {
 				return false;

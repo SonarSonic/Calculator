@@ -24,7 +24,7 @@ public class GuiAnalysingChamber extends GuiContainer {
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 
-		if (this.entity.stable == 1) {
+		if (this.entity.stable.getObject() == 1) {
 			FontHelper.textCentre(FontHelper.translate("circuit.stable"), xSize, 12, 0);
 		}
 

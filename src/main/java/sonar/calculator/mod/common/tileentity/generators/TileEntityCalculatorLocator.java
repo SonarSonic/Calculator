@@ -24,6 +24,7 @@ import sonar.calculator.mod.client.gui.generators.GuiCalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.calculator.mod.common.containers.ContainerCalculatorLocator;
 import sonar.core.SonarCore;
+import sonar.core.api.SonarAPI;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
@@ -83,7 +84,8 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 			}
 		
 		this.charge(0);
-		this.addEnergy();
+		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
+		SonarAPI.getEnergyHelper().transferEnergy(this, entity, EnumFacing.UP, EnumFacing.DOWN);
 		this.markDirty();
 	}
 
@@ -151,13 +153,6 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 
 	private void timeStart() {
 		this.worldObj.setWorldTime(worldObj.getWorldTime() + 100);
-	}
-
-	private void addEnergy() {
-		TileEntity entity = this.worldObj.getTileEntity(pos.offset(EnumFacing.DOWN));
-		if (SonarHelper.isEnergyHandlerFromSide(entity, EnumFacing.DOWN)) {
-			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, EnumFacing.UP, this.storage.extractEnergy(maxTransfer, true), false), false);
-		}
 	}
 
 	public void addItem(EntityPlayer player, Item item) {

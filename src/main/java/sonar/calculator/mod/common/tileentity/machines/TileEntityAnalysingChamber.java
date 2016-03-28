@@ -14,7 +14,7 @@ import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
-import sonar.core.api.IUpgradeCircuits;
+import sonar.core.api.SonarAPI;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.SonarHelper;
@@ -24,6 +24,7 @@ import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.upgrades.IUpgradeCircuits;
 import cofh.api.energy.IEnergyReceiver;
 
 import com.google.common.collect.Lists;
@@ -59,20 +60,13 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			analyse(0);
 		}
 		charge(1);
-		addEnergy();
 		stable.setObject(stable(0));
-
+		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
+		SonarAPI.getEnergyHelper().transferEnergy(this, entity, EnumFacing.UP, EnumFacing.DOWN);
+		
 		this.markDirty();
 	}
 
-	private void addEnergy() {
-		TileEntity entity = this.worldObj.getTileEntity(pos.offset(EnumFacing.DOWN));
-		if (SonarHelper.isEnergyHandlerFromSide(entity, EnumFacing.DOWN)) {
-			if (entity instanceof IEnergyReceiver) {
-				this.storage.modifyEnergyStored(-((IEnergyReceiver) entity).receiveEnergy(EnumFacing.UP, this.storage.extractEnergy(maxTransfer, true), false));
-			}
-		}
-	}
 
 	private void analyse(int slot) {
 		if (slots()[slot].hasTagCompound()) {

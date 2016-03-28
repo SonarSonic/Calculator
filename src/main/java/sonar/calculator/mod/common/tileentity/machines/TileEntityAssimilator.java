@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.ProcessType;
@@ -17,6 +19,7 @@ import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.client.gui.misc.GuiAlgorithmAssimilator;
 import sonar.calculator.mod.client.gui.misc.GuiStoneAssimilator;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
+import sonar.calculator.mod.common.block.CalculatorLeaves.LeafGrowth;
 import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.containers.ContainerAlgorithmAssimilator;
 import sonar.calculator.mod.common.containers.ContainerAssimilator;
@@ -25,10 +28,12 @@ import sonar.core.api.ActionType;
 import sonar.core.api.BlockCoords;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.StoredItemStack;
+import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
+import sonar.core.inventory.SonarTileInventory;
 import sonar.core.utils.IGuiTile;
 
 public abstract class TileEntityAssimilator extends TileEntityInventory implements IGuiTile {
@@ -51,13 +56,8 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 				List<BlockCoords> leaves = getLeaves();
 				if (leaves != null && leaves.size() != 0) {
 					for (BlockCoords coords : leaves) {
-						Block block = coords.getBlock(worldObj);
-						int meta = worldObj.getBlockMetadata(coords.getX(), coords.getY(), coords.getZ());
-						if (meta > 2) {
-							if (harvestBlock(coords)) {
-								return;
-							}
-							/** remove energy maybe **/
+						if (harvestBlock(coords)) {
+							return;
 						}
 					}
 				}
@@ -66,10 +66,11 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 	}
 
 	public boolean hasTree() {
-		EnumFacing dir = SonarHelper.getForward(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+		EnumFacing dir = this.getWorld().getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
 		boolean flag = true;
 		for (int log = 0; log < 3; log++) {
-			if (!(this.worldObj.getBlock(this.xCoord + dir.offsetX, this.yCoord + log, this.zCoord + dir.offsetZ) instanceof CalculatorLogs)) {
+			pos.offset(dir).add(0, log, 0);
+			if (!(this.worldObj.getBlockState(pos.offset(dir).add(0, log, 0)).getBlock() instanceof CalculatorLogs)) {
 				flag = false;
 			}
 		}
@@ -77,7 +78,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		for (int X = -3; X < 3; X++) {
 			for (int Z = -3; Z < 3; Z++) {
 				for (int leaves = 1; leaves < 8; leaves++) {
-					if (!(this.worldObj.getBlock(this.xCoord + dir.offsetX + X, this.yCoord + leaves, this.zCoord + dir.offsetZ + Z) instanceof CalculatorLeaves)) {
+					if (!(this.worldObj.getBlockState(pos.offset(dir).add(X, leaves, Z)).getBlock() instanceof CalculatorLeaves)) {
 						leafCount++;
 					}
 				}
@@ -90,13 +91,14 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 	}
 
 	public List<BlockCoords> getLeaves() {
-		EnumFacing dir = SonarHelper.getForward(this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord));
+		EnumFacing dir = this.getWorld().getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
 		List<BlockCoords> leafList = new ArrayList();
 		for (int X = -2; X < 3; X++) {
 			for (int Z = -2; Z < 3; Z++) {
 				for (int leaves = 1; leaves < 8; leaves++) {
-					if ((this.worldObj.getBlock(this.xCoord + dir.offsetX + X, this.yCoord + leaves, this.zCoord + dir.offsetZ + Z) instanceof CalculatorLeaves)) {
-						leafList.add(new BlockCoords(this.xCoord + dir.offsetX + X, this.yCoord + leaves, this.zCoord + dir.offsetZ + Z));
+					BlockPos pos = this.pos.offset(dir).add(X, leaves, Z);
+					if ((this.worldObj.getBlockState(pos).getBlock() instanceof CalculatorLeaves)) {
+						leafList.add(new BlockCoords(pos));
 					}
 
 				}
@@ -120,7 +122,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 	public static class Stone extends TileEntityAssimilator {
 
 		public Stone() {
-			super.slots = new ItemStack[1];
+			super.inv = new SonarTileInventory(this, 1);
 		}
 
 		public int healthPoints, hungerPoints, speed = 4;;
@@ -134,15 +136,19 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 			chargeHealth(slots()[0]);
 		}
 
-		public boolean harvestBlock(BlockCoords block) {
-			if (block.getBlock(worldObj) == Calculator.tanzaniteLeaves) {
-				this.healthPoints++;
-				this.worldObj.setBlockMetadataWithNotify(block.getX(), block.getY(), block.getZ(), 0, 2);
-				return true;
-			} else if (block.getBlock(worldObj) == Calculator.amethystLeaves) {
-				this.hungerPoints++;
-				this.worldObj.setBlockMetadataWithNotify(block.getX(), block.getY(), block.getZ(), 0, 2);
-				return true;
+		public boolean harvestBlock(BlockCoords coords) {
+			IBlockState state = coords.getBlockState(this.worldObj);
+			LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
+			if (growth != null && (growth == LeafGrowth.MATURED || growth == LeafGrowth.READY)) {
+				if (state.getBlock() == Calculator.tanzaniteLeaves) {
+					this.healthPoints++;
+					this.worldObj.setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
+					return true;
+				} else if (state.getBlock() == Calculator.amethystLeaves) {
+					this.hungerPoints++;
+					this.worldObj.setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
+					return true;
+				}
 			}
 			return false;
 		}
@@ -224,35 +230,32 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 
 		@Override
 		public Object getGuiContainer(EntityPlayer player) {
-			return new ContainerAssimilator(player.inventory, (TileEntityAssimilator) entity);
+			return new ContainerAssimilator(player.inventory, this);
 		}
 
 		@Override
 		public Object getGuiScreen(EntityPlayer player) {
-			return new GuiStoneAssimilator(player.inventory, (TileEntityAssimilator) entity);
+			return new GuiStoneAssimilator(player.inventory, this);
 		}
 	}
 
 	public static class Algorithm extends TileEntityAssimilator implements ISidedInventory {
 
 		public Algorithm() {
-			super.slots = new ItemStack[27];
+			super.inv = new SonarTileInventory(this, 27);
 		}
 
 		public boolean harvestBlock(BlockCoords block) {
-			int meta = worldObj.getBlockMetadata(block.getX(), block.getY(), block.getZ());
-			if (meta > 2) {
-				int randInt = 3 + rand.nextInt(3);
-				ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getZ(), randInt);
+			IBlockState state = block.getBlockState(worldObj);
+			if (state.getValue(CalculatorLeaves.GROWTH).getMeta() > 2) {
+				ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getBlockPos(), rand.nextBoolean());
 				if (stacks != null) {
 					for (int i = 0; i < stacks.length; i++) {
-						SonarAPI.getItemHelper().addItems(this, new StoredItemStack(ItemStackHelper.restoreItemStack(stacks[i], 1)), ForgeDirection.getOrientation(0), ActionType.SIMULATE, null);
+						StoredItemStack stack = SonarAPI.getItemHelper().addItems(this, new StoredItemStack(ItemStackHelper.restoreItemStack(stacks[i], 1)), EnumFacing.getFront(0).getOpposite(), ActionType.PERFORM, null);
 					}
-
 					return true;
 				}
 			}
-
 			return false;
 
 		}

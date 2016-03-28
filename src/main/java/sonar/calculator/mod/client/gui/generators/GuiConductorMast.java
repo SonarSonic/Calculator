@@ -26,8 +26,8 @@ public class GuiConductorMast extends GuiContainer {
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 
 		String wait = FontHelper.translate("conductor.wait") + ": ";
-		if (!(this.entity.lightningSpeed < 600) && this.entity.lightingTicks < 500) {
-			switch (this.entity.random) {
+		if (!(this.entity.lightningSpeed.getObject() < 600) && this.entity.lightingTicks.getObject() < 500) {
+			switch (this.entity.random.getObject()) {
 			case 0:
 				String power = wait + FontHelper.translate("conductor.msg");
 				this.fontRendererObj.drawString(power, this.xSize / 2 - this.fontRendererObj.getStringWidth(power) / 2, 46, 4210752);
@@ -67,7 +67,7 @@ public class GuiConductorMast extends GuiContainer {
 			}
 
 		} else {
-			String power = wait + (this.entity.lightningSpeed / 20 - this.entity.lightingTicks / 20) + " " + FontHelper.translate("lightning.seconds");
+			String power = wait + (this.entity.lightningSpeed.getObject() / 20 - this.entity.lightingTicks.getObject() / 20) + " " + FontHelper.translate("lightning.seconds");
 			this.fontRendererObj.drawString(power, this.xSize / 2 - this.fontRendererObj.getStringWidth(power) / 2, 46, 4210752);
 		}
 
@@ -81,7 +81,7 @@ public class GuiConductorMast extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
-		int c = this.entity.cookTime * 18 / this.entity.furnaceSpeed;
+		int c = this.entity.cookTime.getObject() * 18 / this.entity.furnaceSpeed;
 		drawTexturedModalRect(this.guiLeft + 79, this.guiTop + 26, 176, 0, c, 9);
 
 		int l = this.entity.storage.getEnergyStored() * 145 / this.entity.storage.getMaxEnergyStored();

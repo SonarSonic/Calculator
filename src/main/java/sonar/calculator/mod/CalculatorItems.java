@@ -23,7 +23,6 @@ import sonar.calculator.mod.common.item.misc.EndDiamond;
 import sonar.calculator.mod.common.item.misc.Grenade;
 import sonar.calculator.mod.common.item.misc.SmallStone;
 import sonar.calculator.mod.common.item.misc.Soil;
-import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.calculator.mod.common.item.modules.AdvancedTerrainModule;
 import sonar.calculator.mod.common.item.modules.HealthModule;
 import sonar.calculator.mod.common.item.modules.HungerModule;
@@ -39,11 +38,16 @@ import sonar.core.common.block.properties.IMetaVariant;
 import sonar.core.common.item.SonarMetaItem;
 import sonar.core.common.item.SonarSeeds;
 import sonar.core.common.item.SonarSeedsFood;
+import sonar.core.utils.upgrades.MachineUpgrade;
 
 public class CalculatorItems extends Calculator {
 
 	public static ArrayList<Item> registeredItems = new ArrayList();
 
+	public enum UpgradeTypes{
+		SPEED,ENERGY,VOID, TRANSFER;
+	}
+	
 	public static final Item.ToolMaterial ReinforcedStone = EnumHelper.addToolMaterial("ReinforcedStone", 1, 250, 5.0F, 1.5F, 5);
 	public static final Item.ToolMaterial RedstoneMaterial = EnumHelper.addToolMaterial("RedstoneMaterial", 2, 800, 7.5F, 2.5F, 18);
 	public static final Item.ToolMaterial EnrichedGold = EnumHelper.addToolMaterial("EnrichedGold", 3, 1000, 8.0F, 0.0F, 20);
@@ -110,9 +114,10 @@ public class CalculatorItems extends Calculator {
 		small_stone = registerItem("SmallStone", new SmallStone());
 
 		// upgrades
-		speedUpgrade = registerItem("SpeedUpgrade", new UpgradeCircuit(0));
-		energyUpgrade = registerItem("EnergyUpgrade", new UpgradeCircuit(1));
-		voidUpgrade = registerItem("VoidUpgrade", new UpgradeCircuit(2));
+		speedUpgrade = registerItem("SpeedUpgrade", new MachineUpgrade());
+		energyUpgrade = registerItem("EnergyUpgrade", new MachineUpgrade());
+		voidUpgrade = registerItem("VoidUpgrade", new MachineUpgrade());
+		transferUpgrade = registerItem("TransferUpgrade", new MachineUpgrade());
 
 		// calculator parts
 		calculator_screen = registerItem("CalculatorScreen", new CalculatorScreen());

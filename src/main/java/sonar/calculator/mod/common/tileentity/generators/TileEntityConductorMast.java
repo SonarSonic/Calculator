@@ -19,6 +19,7 @@ import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
+import sonar.core.api.SonarAPI;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
@@ -140,19 +141,10 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			}
 		}
 
-		addEnergy();
+		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
+		SonarAPI.getEnergyHelper().transferEnergy(this, entity, EnumFacing.UP, EnumFacing.DOWN);
 		this.markDirty();
 
-	}
-
-	private void addEnergy() {
-
-		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
-
-		if (SonarHelper.isEnergyHandlerFromSide(entity, EnumFacing.DOWN.getOpposite())) {
-
-			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, EnumFacing.UP, this.storage.extractEnergy(maxTransfer, true), false), false);
-		}
 	}
 
 	private void lightningStrike(World world, int x, int y, int z) {

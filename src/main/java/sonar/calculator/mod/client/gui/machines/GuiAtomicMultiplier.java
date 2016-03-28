@@ -23,7 +23,7 @@ public class GuiAtomicMultiplier extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		if (entity.active == 1) {
+		if (entity.active.getObject() == 1) {
 			FontHelper.textCentre(FontHelper.translate("locator.active"), xSize, 3, 0);
 		} else {
 			FontHelper.textCentre(FontHelper.translate("locator.idle"), xSize, 3, 0);
@@ -43,7 +43,7 @@ public class GuiAtomicMultiplier extends GuiContainer {
 		int newEnergy = changedEnergy * 126 / 15000;
 		drawTexturedModalRect(this.guiLeft + 41, this.guiTop + 65, 0, 166, newEnergy, 10);
 
-		int c = this.entity.cookTime * 18 / this.entity.furnaceSpeed;
+		int c = this.entity.cookTime.getObject() * 18 / this.entity.furnaceSpeed;
 		drawTexturedModalRect(this.guiLeft + 79, this.guiTop + 20, 176, 0, c, 9);
 	}
 

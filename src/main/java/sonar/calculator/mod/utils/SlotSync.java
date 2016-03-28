@@ -3,7 +3,6 @@ package sonar.calculator.mod.utils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.api.items.IResearchStore;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 
 public class SlotSync extends Slot {

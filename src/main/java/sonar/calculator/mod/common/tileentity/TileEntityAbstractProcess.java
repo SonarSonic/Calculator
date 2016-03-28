@@ -29,6 +29,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		super.output = outputs;
 		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 1600);
 		super.inv= new SonarTileInventory(this, 1 + inputSize() + outputSize());
+		setEnergyMode(EnergyMode.RECIEVE);
 	}
 
 	public void update() {

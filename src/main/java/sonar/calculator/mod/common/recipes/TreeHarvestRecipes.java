@@ -29,17 +29,19 @@ public class TreeHarvestRecipes extends RecipeHelper {
 		return "Tree Harvest Recipes";
 	}
 
-	public static ItemStack[] harvestLeaves(World world, BlockPos pos, int random) {
+	public static ItemStack[] harvestLeaves(World world, BlockPos pos, boolean override) {
 		Block target = world.getBlockState(pos).getBlock();
 		if (target != null) {
 			ItemStack[] outputs = recipes.getOutput(new ItemStack(target));
 			if (outputs != null && outputs.length == 2) {
 				IBlockState state = world.getBlockState(pos);
 				LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
-				
+
 				int meta = growth.getMeta();
-				world.setBlockState(pos, state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));	
-				
+				world.setBlockState(pos, state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
+				if (override) {
+					meta = 4;
+				}
 				switch (meta) {
 				case 3:
 					return new ItemStack[] { outputs[0] };

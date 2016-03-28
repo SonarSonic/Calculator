@@ -65,6 +65,8 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+		
+		
 		int blocks = 0;
 		for (int i = 0; i < EnumFacing.VALUES.length; i++) {
 			EnumFacing dir = EnumFacing.VALUES[i];
@@ -75,16 +77,16 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 		}
 		if (blocks != 6) {
 			int randInt = 0;
-			
+			/*
 			if (leafType == 3) {
-				randInt = rand.nextInt(20);
+				randInt = rand.nextInt(10);
 			} else if (leafType < 2) {
 				randInt = rand.nextInt(8);
 			} else {
-				randInt = rand.nextInt(10);
+				randInt = rand.nextInt(9);
 			}
-			
-			if (randInt == 2) {
+			*/
+			if (randInt <= 2) {
 				LeafGrowth leaf = state.getValue(GROWTH);
 				if (leaf.canGrow()) {
 					world.setBlockState(pos, state.cycleProperty(GROWTH));

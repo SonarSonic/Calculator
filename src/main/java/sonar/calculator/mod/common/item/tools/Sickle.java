@@ -20,7 +20,7 @@ public class Sickle extends SonarItem {
 			return false;
 		}		
 		if (!SonarAPI.getItemHelper().isPlayerInventoryFull(player)) {
-			ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(world, pos, world.getBlockState(pos));
+			ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(world, pos, false);
 			if (stacks != null) {
 				for (ItemStack harvest : stacks) {
 					player.inventory.addItemStackToInventory(ItemStackHelper.restoreItemStack(harvest, 1));

@@ -49,6 +49,10 @@ public class GuiDualOutputSmelting extends GuiSonar {
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		FontHelper.textCentre(this.entity.getName(), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
+		FontHelper.text("ENERGY UPGRADES: " + entity.upgrades.getUpgradesInstalled("ENERGY"), 1, 1, 0);
+		FontHelper.text("SPEED UPGRADES: " + entity.upgrades.getUpgradesInstalled("SPEED"), 1, 16, 0);
+		FontHelper.text("REQUIRED ENERGY: " + entity.requiredEnergy(), 1, 32, 0);
+		
 		super.drawGuiContainerForegroundLayer(par1, par2);
 	}
 
@@ -58,9 +62,12 @@ public class GuiDualOutputSmelting extends GuiSonar {
 		int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
-
+		
 		if (this.entity.currentSpeed!= 0  && this.entity.cookTime.getObject() != 0) {
 			int l = this.entity.cookTime.getObject() * 23 / this.entity.currentSpeed;
+			if(l>23){
+				l=23;
+			}
 			drawTexturedModalRect(this.guiLeft + 62, this.guiTop + 24, 176, 10, l, 16);
 		}
 	}

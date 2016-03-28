@@ -47,6 +47,7 @@ import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
+import sonar.core.SonarCore;
 import sonar.core.energy.DischargeValues;
 
 @Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version)
@@ -108,7 +109,9 @@ public class Calculator {
 		EntityRegistry.registerModEntity(EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntitySoil.class, "Soil", 3, instance, 64, 10, true);
 		logger.info("Registered Entities");
-
+		
+		CalculatorIntegration.addSonarCore();
+		logger.info("Registered with SonarCore");
 	}
 
 	@EventHandler
@@ -330,6 +333,7 @@ public class Calculator {
 	public static Item energyUpgrade;
 	public static Item speedUpgrade;
 	public static Item voidUpgrade;
+	public static Item transferUpgrade;
 
 	// fuels
 	public static Item enriched_coal, purified_coal, firecoal, controlled_Fuel;

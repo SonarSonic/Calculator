@@ -25,6 +25,7 @@ import sonar.calculator.mod.common.block.generators.CrankedGenerator;
 import sonar.calculator.mod.common.block.generators.ExtractorBlock;
 import sonar.calculator.mod.common.block.machines.AdvancedGreenhouse;
 import sonar.calculator.mod.common.block.machines.AdvancedPowerCube;
+import sonar.calculator.mod.common.block.machines.Assimilator;
 import sonar.calculator.mod.common.block.machines.AtomicMultiplier;
 import sonar.calculator.mod.common.block.machines.BasicGreenhouse;
 import sonar.calculator.mod.common.block.machines.FlawlessGreenhouse;
@@ -48,6 +49,7 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenera
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCube;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
@@ -258,16 +260,11 @@ public class CalculatorBlocks extends Calculator {
 		rainSensor = registerBlock("RainSensor",new RainSensor().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityRainSensor.class, "RainSensor");
 		
-		/*
-		stoneAssimilator = new Assimilator(0).setBlockName("StoneAssimilator").setCreativeTab(Calculator).setHardness(1.0F).setBlockTextureName(modid + ":" + "reinforcedstone");
-		GameRegistry.registerBlock(stoneAssimilator, SonarBlockTip.class, "StoneAssimilator");
+		stoneAssimilator = registerBlock("StoneAssimilator",new Assimilator(0).setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityAssimilator.Stone.class, "StoneAssimilator");
-		
-		algorithmAssimilator = new Assimilator(1).setBlockName("AlgorithmAssimilator").setCreativeTab(Calculator).setHardness(1.0F).setBlockTextureName(modid + ":" + "flawless_block");
-		GameRegistry.registerBlock(algorithmAssimilator, SonarBlockTip.class, "AlgorithmAssimilator");
+		algorithmAssimilator = registerBlock("AlgorithmAssimilator",new Assimilator(1).setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityAssimilator.Algorithm.class, "AlgorithmAssimilator");
 		
-		*/
 		// misc
 
 		gas_lantern_on = registerBlock("GasLanternOn", new GasLantern(true).setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100));
