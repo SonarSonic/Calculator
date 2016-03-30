@@ -18,7 +18,6 @@ import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.BlockCoords;
 import sonar.core.api.SonarAPI;
 import sonar.core.helpers.FontHelper;
-import sonar.core.helpers.InventoryHelper;
 import sonar.core.helpers.RenderHelper;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.FailedCoords;

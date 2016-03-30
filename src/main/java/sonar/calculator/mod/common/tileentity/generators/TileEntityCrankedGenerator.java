@@ -12,8 +12,8 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.core.common.tileentity.TileEntitySender;
 import sonar.core.helpers.FontHelper;
-import sonar.core.helpers.SonarHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.network.sync.SyncEnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
 

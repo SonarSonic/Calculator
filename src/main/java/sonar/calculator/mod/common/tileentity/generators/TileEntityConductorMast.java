@@ -15,8 +15,8 @@ import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.core.common.tileentity.TileEntityInventorySender;
-import sonar.core.helpers.SonarHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.network.sync.SyncEnergyStorage;
 
 public class TileEntityConductorMast extends TileEntityInventorySender implements ISidedInventory, IProcessMachine {

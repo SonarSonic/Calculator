@@ -7,7 +7,6 @@ import sonar.calculator.mod.integration.planting.TreeHarvestRecipes;
 import sonar.core.api.SonarAPI;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
-import sonar.core.helpers.InventoryHelper;
 import sonar.core.helpers.ItemStackHelper;
 
 public class Sickle extends SonarItem {
