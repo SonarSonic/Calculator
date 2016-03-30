@@ -3,6 +3,8 @@ package sonar.calculator.mod;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import sonar.calculator.mod.common.block.MaterialBlock.Variants;
 
 public class CalculatorCrafting extends Calculator {
@@ -90,7 +92,7 @@ public class CalculatorCrafting extends Calculator {
 
 		addShapedOre(new ItemStack(dynamicCalculator, 1), new Object[] { "RSR", "MAM", "RDR", 'D', "gemDiamond", 'S', advanced_assembly, 'A', atomicCalculator, 'M', atomic_module, 'R', "calculatorReinforcedBlock" });
 
-		addShapedOre(new ItemStack(itemFlawlessCalculator, 1), new Object[] { "FSF", "DAD", "FEF", 'F', flawlessdiamond, 'D', "gemDiamond", 'E', endDiamond, 'A', atomic_assembly, 'S', calculator_screen });
+		addShapedOre(new ItemStack(itemFlawlessCalculator, 1), new Object[] { "FSF", "DAD", "FEF", 'F', flawlessdiamond, 'D', "gemDiamond", 'E', endDiamond, 'A', flawless_assembly, 'S', calculator_screen });
 
 		// modules
 		addShaped(new ItemStack(itemHungerModule, 1), new Object[] { "ADA", "BCB", "AEA", 'B', small_amethyst, 'A', shard_amethyst, 'C', Items.golden_apple, 'D', calculator_screen, 'E', redstone_ingot });
@@ -120,12 +122,12 @@ public class CalculatorCrafting extends Calculator {
 		addShapedOre(new ItemStack(extractionChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', "calculatorReinforcedBlock", 'B', weakeneddiamond, 'C', powerCube });
 		addShaped(new ItemStack(restorationChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', redstone_ingot, 'B', weakeneddiamond, 'C', extractionChamber });
 		addShaped(new ItemStack(reassemblyChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', enrichedGold, 'B', weakeneddiamond, 'C', extractionChamber });
-		addShaped(new ItemStack(precisionChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', new ItemStack(material_block, 1,  Variants.REINFORCED_IRON.getMeta()), 'B', weakeneddiamond, 'C', extractionChamber });
+		addShaped(new ItemStack(precisionChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'B', weakeneddiamond, 'C', extractionChamber });
 		addShaped(new ItemStack(reinforcedFurnace, 1), new Object[] { "AAA", "ABA", "AAA", 'A', reinforcedStoneBlock, 'B', powerCube });
 
 		// item_recipes
 		addShapedOre(new ItemStack(grenadecasing, 1), new Object[] { "   ", "R R", "RRR", 'R', "calculatorReinforcedBlock" });
-		addShaped(new ItemStack(ObsidianKey, 1), new Object[] { "  B", "BBB", "A B", 'A', purifiedObsidian, 'B', enrichedgold_ingot });
+		addShaped(new ItemStack(obsidianKey, 1), new Object[] { "  B", "BBB", "A B", 'A', purifiedObsidian, 'B', enrichedgold_ingot });
 
 		// gems
 		addShaped(new ItemStack(large_amethyst, 1), new Object[] { "AAA", "AAA", "AAA", 'A', small_amethyst });
@@ -183,11 +185,11 @@ public class CalculatorCrafting extends Calculator {
 			}
 		}
 
-		for (int i = 0; i < 16; i++) {
-			addShapeless(new ItemStack(stablestonerimmedBlock, 1, i), new Object[] { new ItemStack(stableStone, 1, i) });
-			addShapeless(new ItemStack(stablestonerimmedblackBlock, 1, i), new Object[] { new ItemStack(stablestonerimmedBlock, 1, i) });
-			addShapeless(new ItemStack(stableStone, 1, i), new Object[] { new ItemStack(stablestonerimmedblackBlock, 1, i) });
-		}
+		//for (int i = 0; i < 16; i++) {
+			//addShapeless(new ItemStack(stablestonerimmedBlock, 1), new Object[] { new ItemStack(stableStone, 1) });
+			//addShapeless(new ItemStack(stablestonerimmedblackBlock, 1), new Object[] { new ItemStack(stablestonerimmedBlock, 1) });
+			addShapeless(new ItemStack(stableStone, 1), new Object[] { new ItemStack(stablestonerimmedblackBlock, 1) });
+		//}
 
 		addShaped(new ItemStack(reinforcedStoneStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', reinforcedStoneBlock });
 		addShaped(new ItemStack(reinforcedStoneBrickStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', reinforcedStoneBrick });
@@ -201,21 +203,33 @@ public class CalculatorCrafting extends Calculator {
 	}
 
 	public static void addShaped(ItemStack result, Object... input) {
-		if (result!=null && CalculatorConfig.isEnabled(result)) {
-			//GameRegistry.addRecipe(result, input);
+		if (result != null && result.getItem()!=null && input != null) {
+			try {
+				GameRegistry.addRecipe(result, input);
+			} catch (Exception exception) {
+				logger.error("ERROR ADDING SHAPED RECIPE: " + result);
+			}
 		}
 	}
 
 	public static void addShapedOre(ItemStack result, Object... input) {
-		if (result!=null && CalculatorConfig.isEnabled(result)) {
-			//ShapedOreRecipe oreRecipe = new ShapedOreRecipe(result, input);
-			//GameRegistry.addRecipe(oreRecipe);
+		if (result != null && result.getItem()!=null && input != null) {
+			try {
+				ShapedOreRecipe oreRecipe = new ShapedOreRecipe(result, input);
+				GameRegistry.addRecipe(oreRecipe);
+			} catch (Exception exception) {
+				logger.error("ERROR ADDING SHAPED ORE RECIPE: " + result);
+			}
 		}
 	}
 
 	public static void addShapeless(ItemStack result, Object... input) {
-		if (result!=null && CalculatorConfig.isEnabled(result)) {
-			//GameRegistry.addShapelessRecipe(result, input);
+		if (result != null && result.getItem()!=null && input != null) {
+			try {
+				GameRegistry.addShapelessRecipe(result, input);
+			} catch (Exception exception) {
+				logger.error("ERROR ADDING SHAPELESS RECIPE: " + result);
+			}
 		}
 	}
 }

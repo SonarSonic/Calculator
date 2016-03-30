@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,23 +19,27 @@ import sonar.core.api.SonarAPI;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.SonarHelper;
+import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.upgrades.IUpgradeCircuits;
+import sonar.core.utils.MachineSideConfig;
+import sonar.core.utils.upgrades.IUpgradableTile;
+import sonar.core.utils.upgrades.UpgradeInventory;
 import cofh.api.energy.IEnergyReceiver;
 
 import com.google.common.collect.Lists;
 
-public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements IUpgradeCircuits, IAdditionalInventory, IGuiTile {
+public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements IUpgradableTile, IAdditionalInventory, IGuiTile {
 
 	public SyncTagType.INT stable = new SyncTagType.INT(0);
-	public SyncTagType.INT vUpgrade = new SyncTagType.INT(1);
 	public SyncTagType.INT analysed = new SyncTagType.INT(2);
 	public int maxTransfer = 2000;
+
+	public UpgradeInventory upgrades = new UpgradeInventory(1, "VOID", "TRANSFER");
 
 	public TileEntityAnalysingChamber() {
 		super.input = new int[] { 0 };
@@ -52,6 +57,9 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		if (this.worldObj.isRemote) {
 			return;
 		}
+		if (upgrades.getUpgradesInstalled("TRANSFER") > 0) {
+			transferItems();
+		}
 		if (analysed.getObject() == 1 && this.slots()[0] == null) {
 			this.analysed.setObject(0);
 			this.stable.setObject(0);
@@ -63,18 +71,32 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		stable.setObject(stable(0));
 		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
 		SonarAPI.getEnergyHelper().transferEnergy(this, entity, EnumFacing.UP, EnumFacing.DOWN);
-		
+
 		this.markDirty();
 	}
 
 
+	public void transferItems() {
+		ArrayList<EnumFacing> outputs = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
+		for (EnumFacing side : outputs) {			
+			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side.getOpposite(), side, null);
+		}
+		ArrayList<EnumFacing> inputs = sides.getSidesWithConfig(MachineSideConfig.INPUT);
+		for (EnumFacing side : inputs) {	
+			TileEntity adjacent = SonarHelper.getAdjacentTileEntity(this, side);
+			SonarAPI.getItemHelper().transferItems(this, adjacent, side.getOpposite(), side, null);
+			if(adjacent!=null && adjacent instanceof TileEntityStorageChamber){
+				SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(adjacent, side), side.getOpposite(), side, null);
+			}
+		}
+	}
+	
 	private void analyse(int slot) {
 		if (slots()[slot].hasTagCompound()) {
 			NBTTagCompound tag = slots()[slot].getTagCompound();
 			int storedEnergy = itemEnergy(slots()[slot].getTagCompound().getInteger("Energy"));
 			this.storage.receiveEnergy(storedEnergy, false);
-
-			if (vUpgrade.getObject() == 0) {
+			if (upgrades.getUpgradesInstalled("VOID") == 0) {
 				ItemStack item1 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item1"));
 				ItemStack item2 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item2"));
 				if (item1 != null) {
@@ -216,52 +238,29 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		return slot != 1;
 	}
 
-	@Override
-	public boolean canAddUpgrades() {
-		return true;
+	public void readData(NBTTagCompound nbt, SyncType type) {
+		super.readData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC)
+			upgrades.readData(nbt, type);
+
 	}
 
-	@Override
-	public boolean canAddUpgrades(int type) {
-		if (type == 2) {
-			return true;
-		}
-		return false;
+	public void writeData(NBTTagCompound nbt, SyncType type) {
+		super.writeData(nbt, type);
+		if (type == SyncType.SAVE || type == SyncType.SYNC)
+			upgrades.writeData(nbt, type);
+
 	}
 
-	@Override
-	public int getUpgrades(int type) {
-		switch (type) {
-		case 2:
-			return vUpgrade.getObject();
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxUpgrades(int type) {
-		switch (type) {
-		case 2:
-			return 1;
-		}
-		return 0;
-	}
-
-	@Override
-	public void incrementUpgrades(int type, int increment) {
-		if (type == 2) {
-			vUpgrade.increaseBy(increment);
-		}
-	}
-	
 	public void addSyncParts(List<ISyncPart> parts) {
 		super.addSyncParts(parts);
-		parts.addAll(Lists.newArrayList(stable, vUpgrade, analysed));
+		parts.addAll(Lists.newArrayList(stable, analysed));
 	}
 
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
-		if (vUpgrade.getObject() != 0) {
+		int vUpgrades = upgrades.getUpgradesInstalled("VOID");
+		if (vUpgrades != 0) {
 			currenttip.add(FontHelper.translate("circuit.void") + ": " + FontHelper.translate("circuit.installed"));
 		}
 		return currenttip;
@@ -269,11 +268,19 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 
 	@Override
 	public ItemStack[] getAdditionalStacks() {
-		ItemStack[] circuits = new ItemStack[1];
-		if (this.getUpgrades(2) != 0) {
-			circuits[0] = new ItemStack(Calculator.voidUpgrade, 1);
+		ArrayList<ItemStack> drops = upgrades.getDrops();
+		if (drops == null || drops.isEmpty()) {
+			return new ItemStack[] { null };
 		}
-		return circuits;
+		ItemStack[] toDrop = new ItemStack[drops.size()];
+		int pos = 0;
+		for (ItemStack drop : drops) {
+			if (drop != null) {
+				toDrop[pos] = drop;
+			}
+			pos++;
+		}
+		return toDrop;
 	}
 
 	@Override
@@ -284,6 +291,11 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	@Override
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiAnalysingChamber(player.inventory, this);
+	}
+
+	@Override
+	public UpgradeInventory getUpgradeInventory() {
+		return upgrades;
 	}
 
 }

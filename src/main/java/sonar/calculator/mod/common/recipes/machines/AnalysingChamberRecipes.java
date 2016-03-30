@@ -86,7 +86,7 @@ public class AnalysingChamberRecipes {
 		this.addRecipe(4, 12, new ItemStack(Calculator.flawlessGlass,1));
 		this.addRecipe(4, 13, new ItemStack(Calculator.stableStone,1));
 		this.addRecipe(4, 14, new ItemStack(Calculator.purifiedObsidian,1));
-		this.addRecipe(4, 15, new ItemStack(Calculator.ObsidianKey,1));
+		this.addRecipe(4, 15, new ItemStack(Calculator.obsidianKey,1));
 
 		this.addRecipe(5, 1, new ItemStack(Calculator.calculatorlocator,1));
 		this.addRecipe(5, 2, new ItemStack(Calculator.calculatorplug,1));

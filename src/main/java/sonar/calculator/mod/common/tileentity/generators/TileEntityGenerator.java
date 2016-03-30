@@ -123,10 +123,12 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		for (int i = 0; i < 6; i++) {
 			TileEntity te = SonarHelper.getAdjacentTileEntity(this, EnumFacing.getFront(i));
 			if (!(te instanceof TileEntityFlux)) {
+				/*
 				if (SonarHelper.isEnergyHandlerFromSide(te, EnumFacing.VALUES[(i ^ 0x1)])) {
 					this.handlers[i] = te;
 				} else
 					this.handlers[i] = null;
+					*/
 			}
 		}
 	}

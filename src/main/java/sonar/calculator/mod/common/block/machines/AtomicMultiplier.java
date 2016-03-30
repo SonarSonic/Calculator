@@ -75,6 +75,6 @@ public class AtomicMultiplier extends SonarMachineBlock {
 	}
 
 	public EnumWorldBlockLayer getBlockLayer() {
-		return Minecraft.isFancyGraphicsEnabled() ? EnumWorldBlockLayer.CUTOUT_MIPPED : EnumWorldBlockLayer.SOLID;
+		return EnumWorldBlockLayer.CUTOUT_MIPPED;
 	}
 }

@@ -314,4 +314,8 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
 		return ((IGuiItem) getCurrentModule(stack)).getGuiScreen(player, stack);
 	}
+	
+	public boolean hasEffect(ItemStack stack){
+		return true;
+	}
 }

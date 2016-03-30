@@ -7,12 +7,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import sonar.calculator.mod.api.modules.IModuleEnergy;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
 import sonar.calculator.mod.common.item.calculators.InfoCalc;
 import sonar.calculator.mod.common.item.calculators.SonarEnergyModule;
-import sonar.calculator.mod.common.item.calculators.SonarUsageModule;
 import sonar.calculator.mod.common.item.calculators.SonarModule;
+import sonar.calculator.mod.common.item.calculators.SonarUsageModule;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
 import sonar.calculator.mod.common.item.calculators.modules.JumpModule;
@@ -34,6 +33,9 @@ import sonar.calculator.mod.common.item.tools.CalcHoe;
 import sonar.calculator.mod.common.item.tools.CalcPickaxe;
 import sonar.calculator.mod.common.item.tools.CalcShovel;
 import sonar.calculator.mod.common.item.tools.CalcSword;
+import sonar.calculator.mod.common.item.tools.ObsidianKey;
+import sonar.calculator.mod.common.item.tools.Sickle;
+import sonar.calculator.mod.common.item.tools.Wrench;
 import sonar.core.common.block.properties.IMetaVariant;
 import sonar.core.common.item.SonarMetaItem;
 import sonar.core.common.item.SonarSeeds;
@@ -126,12 +128,14 @@ public class CalculatorItems extends Calculator {
 		advanced_assembly = registerItem("AdvancedAssembly", new Item());
 		atomic_module = registerItem("AtomicModule", new Item());
 		atomic_assembly = registerItem("AtomicAssembly", new Item());
+		flawless_assembly = registerItem("FlawlessAssembly", new Item());
 		atomic_binder = registerItem("AtomicBinder", new Item());
 
-		// calculator parts
-		// tools
-		/* wrench = new Wrench().setUnlocalizedName("Wrench").setCreativeTab(Calculator).setMaxStackSize(1).setTextureName(modid + ":" + "wrench"); GameRegistry.registerItem(wrench, "Wrench"); sickle = new Sickle().setUnlocalizedName("Sickle").setCreativeTab(Calculator).setTextureName(modid + ":" + "sickle").setMaxStackSize(1); GameRegistry.registerItem(sickle, "Sickle"); ObsidianKey = new ObsidianKey().setUnlocalizedName("ObsidianKey").setCreativeTab(Calculator).setTextureName(modid + ":" + "codedkey"); GameRegistry.registerItem(ObsidianKey, "ObsidianKey"); / */
-
+		//tools
+		wrench = registerItem("Wrench", new Wrench());
+		sickle = registerItem("Sickle", new Sickle());
+		obsidianKey = registerItem("ObsidianKey", new ObsidianKey());
+		
 		// swords
 		reinforced_sword = registerItem("ReinforcedSword", new CalcSword(ReinforcedStone));
 		enrichedgold_sword = registerItem("EnrichedGoldSword", new CalcSword(EnrichedGold));

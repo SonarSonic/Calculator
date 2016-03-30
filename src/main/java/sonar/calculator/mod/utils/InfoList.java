@@ -63,7 +63,7 @@ public class InfoList {
 		addRecipe("Modules", new ItemStack(Calculator.itemLocatorModule), "Activates Calculator Locator--Right click stores username");
 		addRecipe("Modules", new ItemStack(Calculator.itemNutritionModule), "Health & Hunger Modules in one!--Maintains both constantly");
 		addRecipe("Modules", new ItemStack(Calculator.itemStorageModule), "A portable double size chest");
-		addRecipe("Blocks", new ItemStack(Calculator.ObsidianKey), "See Purified Obsidian");
+		addRecipe("Blocks", new ItemStack(Calculator.obsidianKey), "See Purified Obsidian");
 		addRecipe("Machines", new ItemStack(Calculator.processingChamber), "Combines Restoration & -Reassembly Chambers");
 		addRecipe("Blocks", new ItemStack(Calculator.purifiedObsidian), "Indestructable/Security block--Only removable with Obsidian Key");
 		addRecipe("Machines", new ItemStack(Calculator.reassemblyChamber), "Reassembles Damaged Circuits");

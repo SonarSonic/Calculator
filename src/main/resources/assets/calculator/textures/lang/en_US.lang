@@ -141,7 +141,7 @@ tile.DiamondPlanks.name=Diamond Planks
 tile.DiamondStairs.name=Diamond Stairs
 
 
-tile.purifiedobsidianBlock.name=Purified Obsidian
+tile.PurifiedObsidian.name=Purified Obsidian
 
 
 item.Sickle.name=Sickle
@@ -151,63 +151,64 @@ item.Soil.name=Soil
 item.SmallStone.name=Small Stone
 
 //circuits
-item.CircuitBoard.C1.name=Circuit
-item.CircuitBoard.C2.name=Circuit
-item.CircuitBoard.C3.name=Circuit
-item.CircuitBoard.C4.name=Circuit
-item.CircuitBoard.C5.name=Circuit
-item.CircuitBoard.C6.name=Circuit
-item.CircuitBoard.C7.name=Circuit
-item.CircuitBoard.C8.name=Circuit
-item.CircuitBoard.C9.name=Circuit
-item.CircuitBoard.C10.name=Circuit
-item.CircuitBoard.C11.name=Circuit
-item.CircuitBoard.C12.name=Circuit
-item.CircuitBoard.C13.name=Circuit
-item.CircuitBoard.C14.name=Circuit
+item.CircuitBoard.1.name=Circuit
+item.CircuitBoard.2.name=Circuit
+item.CircuitBoard.3.name=Circuit
+item.CircuitBoard.4.name=Circuit
+item.CircuitBoard.5.name=Circuit
+item.CircuitBoard.6.name=Circuit
+item.CircuitBoard.7.name=Circuit
+item.CircuitBoard.8.name=Circuit
+item.CircuitBoard.9.name=Circuit
+item.CircuitBoard.10.name=Circuit
+item.CircuitBoard.11.name=Circuit
+item.CircuitBoard.12.name=Circuit
+item.CircuitBoard.13.name=Circuit
+item.CircuitBoard.14.name=Circuit
 
 //damaged circuits
-item.CircuitDamaged.C1.name=Damaged Circuit
-item.CircuitDamaged.C2.name=Damaged Circuit
-item.CircuitDamaged.C3.name=Damaged Circuit
-item.CircuitDamaged.C4.name=Damaged Circuit
-item.CircuitDamaged.C5.name=Damaged Circuit
-item.CircuitDamaged.C6.name=Damaged Circuit
-item.CircuitDamaged.C7.name=Damaged Circuit
-item.CircuitDamaged.C8.name=Damaged Circuit
-item.CircuitDamaged.C9.name=Damaged Circuit
-item.CircuitDamaged.C10.name=Damaged Circuit
-item.CircuitDamaged.C11.name=Damaged Circuit
-item.CircuitDamaged.C12.name=Damaged Circuit
-item.CircuitDamaged.C13.name=Damaged Circuit
-item.CircuitDamaged.C14.name=Damaged Circuit
+item.CircuitDamaged.1.name=Damaged Circuit
+item.CircuitDamaged.2.name=Damaged Circuit
+item.CircuitDamaged.3.name=Damaged Circuit
+item.CircuitDamaged.4.name=Damaged Circuit
+item.CircuitDamaged.5.name=Damaged Circuit
+item.CircuitDamaged.6.name=Damaged Circuit
+item.CircuitDamaged.7.name=Damaged Circuit
+item.CircuitDamaged.8.name=Damaged Circuit
+item.CircuitDamaged.9.name=Damaged Circuit
+item.CircuitDamaged.10.name=Damaged Circuit
+item.CircuitDamaged.11.name=Damaged Circuit
+item.CircuitDamaged.12.name=Damaged Circuit
+item.CircuitDamaged.13.name=Damaged Circuit
+item.CircuitDamaged.14.name=Damaged Circuit
 
 //dirty circuits
-item.CircuitDirty.C1.name=Dirty Circuit
-item.CircuitDirty.C2.name=Dirty Circuit
-item.CircuitDirty.C3.name=Dirty Circuit
-item.CircuitDirty.C4.name=Dirty Circuit
-item.CircuitDirty.C5.name=Dirty Circuit
-item.CircuitDirty.C6.name=Dirty Circuit
-item.CircuitDirty.C7.name=Dirty Circuit
-item.CircuitDirty.C8.name=Dirty Circuit
-item.CircuitDirty.C9.name=Dirty Circuit
-item.CircuitDirty.C10.name=Dirty Circuit
-item.CircuitDirty.C11.name=Dirty Circuit
-item.CircuitDirty.C12.name=Dirty Circuit
-item.CircuitDirty.C13.name=Dirty Circuit
-item.CircuitDirty.C14.name=Dirty Circuit
+item.CircuitDirty.1.name=Dirty Circuit
+item.CircuitDirty.2.name=Dirty Circuit
+item.CircuitDirty.3.name=Dirty Circuit
+item.CircuitDirty.4.name=Dirty Circuit
+item.CircuitDirty.5.name=Dirty Circuit
+item.CircuitDirty.6.name=Dirty Circuit
+item.CircuitDirty.7.name=Dirty Circuit
+item.CircuitDirty.8.name=Dirty Circuit
+item.CircuitDirty.9.name=Dirty Circuit
+item.CircuitDirty.10.name=Dirty Circuit
+item.CircuitDirty.11.name=Dirty Circuit
+item.CircuitDirty.12.name=Dirty Circuit
+item.CircuitDirty.13.name=Dirty Circuit
+item.CircuitDirty.14.name=Dirty Circuit
 
 //blocks
-tile.AmethystBlock.name=Amethyst Block
-tile.FlawlessFireBlock.name=Fire Diamond Block
-tile.EndBlock.name=End Diamond Block
-tile.FlawlessBlock.name=Flawless Diamond Block
-tile.WeakenedBlock.name=Weakened Diamond Block
-tile.EnrichedBlock.name=Enriched Gold Block
-tile.ElectricBlock.name=Electric Diamond Block
-tile.ReinforcedBlock.name=Reinforced Iron Block
-tile.TanzaniteBlock.name=Tanzanite Block
+tile.Material.0.name=Amethyst Block
+tile.Material.1.name=Tanzanite Block
+tile.Material.2.name=Enriched Gold Block
+tile.Material.3.name=Reinforced Iron Block
+tile.Material.4.name=Weakened Diamond Block
+tile.Material.5.name=Flawless Diamond Block
+tile.Material.6.name=Fire Diamond Block
+tile.Material.7.name=Electric Diamond Block
+tile.Material.8.name=End Diamond Block
+
 item.InfoCalculator.name=Info Calculator
 item.ObsidianKey.name=Obsidian Key
 
@@ -281,7 +282,7 @@ item.ElectricHoe.name=Electric Hoe
 
 //end_tools
 item.EndDiamond.name=End Diamond
-item.EndSword.name=End Forged Sword
+item.EndForgedSword.name=End Forged Sword
 item.EndForgedPickaxe.name=End Forged Pickaxe
 item.EndForgedAxe.name=End Forged Axe
 item.EndForgedShovel.name=End Forged Shovel
@@ -574,3 +575,5 @@ tile.ReinforcedDirtBrickFence.name=Reinforced Dirt Brick Fence
 item.WarpModule.name=Warp Module
 item.JumpModule.name=Jump Module
 tile.ModuleWorkstation.name=Module Workstation
+item.TransferUpgrade=Transfer Upgrade
+item.FlawlessAssembly.name=Flawless Assembly

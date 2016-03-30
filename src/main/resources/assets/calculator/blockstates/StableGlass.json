@@ -215,7 +215,7 @@
             "textures":{                               
                 "north":"calculator:blocks/connected/stablestone_glass_14",                
                 "south":"calculator:blocks/connected/stablestone_glass_12",
-                "west":"calculator:blocks/connected/stablestone_glass_3"  
+                "east":"calculator:blocks/connected/stablestone_glass_3"  
             }
         },
         "down=true,east=false,north=false,south=true,up=true,west=false": {   

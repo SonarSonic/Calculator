@@ -102,12 +102,12 @@ public class GreenhouseHelper {
 	 * @param world world object
 	 * @return if it was changed */
 	public static boolean applyFarmland(World world, BlockPos pos) {
-		Block target = world.getBlockState(pos).getBlock();
+		Block target = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
 		if (target == Blocks.dirt) {
-			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.farmland.getDefaultState());
+			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.farmland.getDefaultState(), 3);
 			return true;
 		} else if (target == Blocks.grass) {
-			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.farmland.getDefaultState());
+			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.farmland.getDefaultState(), 3);
 			return true;
 		}
 		return false;
@@ -121,12 +121,12 @@ public class GreenhouseHelper {
 	 * @param z zCoord you wish to change
 	 * @return if it was changed */
 	public static boolean applyWater(World world, BlockPos pos) {
-		Block target = world.getBlockState(pos).getBlock();
+		Block target = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
 		if (target == Blocks.dirt) {
-			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.water.getDefaultState());
+			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.water.getDefaultState(), 3);
 			return true;
 		} else if (target == Blocks.grass) {
-			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.water.getDefaultState());
+			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.water.getDefaultState(), 3);
 			return true;
 		}
 

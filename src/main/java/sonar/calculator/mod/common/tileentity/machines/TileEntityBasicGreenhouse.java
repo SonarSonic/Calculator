@@ -20,6 +20,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.machines.GuiBasicGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
+import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.PlantableFilter;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.BlockCoords;
 import sonar.core.api.SonarAPI;
@@ -64,7 +65,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 			if (!this.worldObj.isRemote) {
 				extraTicks();
 			}
-			plant();
+			plantCrops();
 			growTicks();
 			harvestCrops();
 		} else if (this.isBeingBuilt()) {
@@ -76,8 +77,8 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 		this.markDirty();
 	}
 
-	public List<BlockCoords> getPlantArea() {
-		List<BlockCoords> coords = new ArrayList();
+	public ArrayList<BlockCoords> getPlantArea() {
+		ArrayList<BlockCoords> coords = new ArrayList();
 		int fX = forward.getFrontOffsetX();
 		int fZ = forward.getFrontOffsetZ();
 		for (int Z = -1; Z <= 1; Z++) {
@@ -114,7 +115,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 			levelTicks++;
 		}
 		if (this.levelTicks == 20) {
-			SonarAPI.getItemHelper().transferItems(this.getWorld().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, ForgeDirection.getOrientation(0), ForgeDirection.getOrientation(0), new PlantableFilter());
+			SonarAPI.getItemHelper().transferItems(this.getWorld().getTileEntity(pos.offset(forward.getOpposite())), this, EnumFacing.getFront(0), EnumFacing.getFront(0), new PlantableFilter());
 
 			this.levelTicks = 0;
 			gasLevels();
@@ -150,9 +151,11 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 		}
 		if (growTick != 0 && this.growTicks >= growTick) {
 			if (this.storage.getEnergyStored() >= growthRF) {
+				/*
 				if (growCrop(1, 0)) {
 					this.storage.modifyEnergyStored(-growthRF);
 				}
+				*/
 				this.growTicks = 0;
 			}
 		} else {
@@ -326,7 +329,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 
 	/** Hoes the ground **/
 	private void addFarmland() {
-		EnumFacing forward = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
+		//EnumFacing forward = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
 
 		for (int Z = -1; Z <= 1; Z++) {
 			for (int X = -1; X <= 1; X++) {
@@ -385,20 +388,20 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 	}
 
 	public void setLog(int x, int y, int z) {
-		this.setBlockType(x, y, z, new int[] { 0 }, BlockType.LOG);
+		this.setBlockType(x, y, z, new int[] { 0 }, BlockType.LOG, -1);
 
 	}
 
 	public void setGlass(int x, int y, int z) {
-		this.setBlockType(x, y, z, new int[] { 4, 5 }, BlockType.GLASS);
+		this.setBlockType(x, y, z, new int[] { 2 }, BlockType.GLASS, -1);
 	}
 
 	public void setPlanks(int x, int y, int z) {
-		this.setBlockType(x, y, z, new int[] { 3 }, BlockType.PLANKS);
+		this.setBlockType(x, y, z, new int[] { 3 }, BlockType.PLANKS, -1);
 	}
 
 	public void setStairs(int x, int y, int z, int meta, int flag) {
-		this.setBlockType(x, y, z, new int[] { 1}, BlockType.STAIRS);
+		this.setBlockType(x, y, z, new int[] { 1}, BlockType.STAIRS, meta);
 	}
 	
 	public FailedCoords roof(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {

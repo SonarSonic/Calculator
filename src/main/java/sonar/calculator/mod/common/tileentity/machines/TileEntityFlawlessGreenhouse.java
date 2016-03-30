@@ -23,6 +23,7 @@ import sonar.calculator.mod.api.machines.IFlawlessGreenhouse;
 import sonar.calculator.mod.client.gui.machines.GuiFlawlessGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
+import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.PlantableFilter;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.BlockCoords;
@@ -59,7 +60,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			if (!this.worldObj.isRemote) {
 				extraTicks();
 			}
-			plant();
+			plantCrops();
 			grow();
 			harvestCrops();
 
@@ -82,11 +83,13 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		if (this.growTicks == growTick) {
 			for (int i = 0; i <= this.houseSize; i++) {
 				if (this.storage.getEnergyStored() >= growthRF) {
+					/*
 					if (growCrop(3, this.houseSize)) {
 						if (!this.worldObj.isRemote)
 							plantsGrown++;
 						this.storage.modifyEnergyStored(-growthRF);
 					}
+					*/
 				}
 			}
 			this.growTicks = 0;
@@ -94,8 +97,8 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	}
 
-	public List<BlockCoords> getPlantArea() {
-		List<BlockCoords> coords = new ArrayList();
+	public ArrayList<BlockCoords> getPlantArea() {
+		ArrayList<BlockCoords> coords = new ArrayList();
 
 		int hX = horizontal.getFrontOffsetX();
 		int hZ = horizontal.getFrontOffsetZ();
@@ -124,7 +127,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		}
 		if (this.levelTicks == 20) {
 			this.levelTicks = 0;
-			SonarAPI.getItemHelper().transferItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, ForgeDirection.getOrientation(0), ForgeDirection.getOrientation(0), new PlantableFilter());
+			SonarAPI.getItemHelper().transferItems(this.getWorld().getTileEntity(pos.offset(forward.getOpposite())), this, EnumFacing.getFront(0), EnumFacing.getFront(0), new PlantableFilter());
 			gasLevels();
 
 		}

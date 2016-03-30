@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
@@ -22,9 +23,9 @@ import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.upgrades.MachineUpgrade;
 
-public class AnalysingChamber extends SonarSidedBlock {
+public class FabricationChamber extends SonarSidedBlock {
 
-	public AnalysingChamber() {
+	public FabricationChamber() {
 		super(SonarMaterials.machine, true, true);
 	}
 
@@ -47,7 +48,7 @@ public class AnalysingChamber extends SonarSidedBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
-		return new TileEntityAnalysingChamber();
+		return new TileEntityFabricationChamber();
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class AnalysingChamber extends SonarSidedBlock {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add("Doesn't require power to opperate");
+		//list.add("Doesn't require power to opperate");
 	}
 
 	public boolean hasSpecialRenderer() {

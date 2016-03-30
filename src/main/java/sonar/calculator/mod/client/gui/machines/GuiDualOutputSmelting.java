@@ -49,10 +49,6 @@ public class GuiDualOutputSmelting extends GuiSonar {
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		FontHelper.textCentre(this.entity.getName(), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
-		FontHelper.text("ENERGY UPGRADES: " + entity.upgrades.getUpgradesInstalled("ENERGY"), 1, 1, 0);
-		FontHelper.text("SPEED UPGRADES: " + entity.upgrades.getUpgradesInstalled("SPEED"), 1, 16, 0);
-		FontHelper.text("REQUIRED ENERGY: " + entity.requiredEnergy(), 1, 32, 0);
-		
 		super.drawGuiContainerForegroundLayer(par1, par2);
 	}
 

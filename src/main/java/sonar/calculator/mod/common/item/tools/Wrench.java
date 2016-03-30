@@ -22,12 +22,13 @@ public class Wrench extends SonarItem implements IWrench {
 		}
 		TileEntity te = world.getTileEntity(pos);
 		Block block = world.getBlockState(pos).getBlock();
-		if (!player.isSneaking()) {
+		if (player.isSneaking()) {
 			if (block instanceof IWrenchable && ((IWrenchable) block).canDismantle(player, world, pos))
 				((IWrenchable) block).dismantleBlock(player, world, pos, true);
 		} else {
-			if (te != null && te instanceof IMachineSides)
-				((IMachineSides) te).incrSide(side);
+			if (te != null && te instanceof IMachineSides){
+				((IMachineSides) te).getSideConfigs().increaseSide(side);
+			}
 
 		}
 

@@ -78,44 +78,6 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		this.markDirty();
 	}
 
-	private void harvestCrops() {
-		if (!(this.storage.getEnergyStored() > this.growthRF)) {
-			return;
-		}
-		for (BlockCoords coord : (ArrayList<BlockCoords>) getPlantArea().clone()) {
-			if (coord.getBlock().isReplaceable(worldObj, coord.getBlockPos())) {
-				for (IHarvester harvester : Calculator.harvesters.getObjects()) {
-					IBlockState state = worldObj.getBlockState(coord.getBlockPos());
-					if(harvester.canHarvest(worldObj, coord.getBlockPos(), state)){
-						List<ItemStack> stack = harvester.getDrops(worldObj, coord.getBlockPos(), state, type);			
-						//ADD ITEMSTACKS
-					}
-				}
-			}
-		}
-	}
-
-	private void plantCrops() {
-		if (!(this.storage.getEnergyStored() > this.plantRF)) {
-			return;
-		}
-		for (BlockCoords coord : (ArrayList<BlockCoords>) getPlantArea().clone()) {
-			if (coord.getBlock().isReplaceable(worldObj, coord.getBlockPos())) {
-				for (IPlanter planter : Calculator.planters.getObjects()) {
-					for (Integer slot : getInvPlants()) {
-						ItemStack stack = slots()[slot];
-						if (stack != null && planter.canTierPlant(slots()[slot], type)) {
-							storage.extractEnergy(plantRF, false);
-							IBlockState state = planter.getPlant(stack, worldObj, coord.getBlockPos());
-							worldObj.setBlockState(coord.getBlockPos(), state, 3);
-							return;
-						}
-					}
-				}
-			}
-		}
-	}
-
 	public ArrayList<BlockCoords> getPlantArea() {
 		ArrayList<BlockCoords> coords = new ArrayList();
 		for (int Z = -3; Z <= 3; Z++) {
@@ -151,7 +113,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		}
 		if (this.levelTicks == 20) {
 			this.levelTicks = 0;
-			SonarAPI.getItemHelper().transferItems(this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ)), this, ForgeDirection.getOrientation(0), ForgeDirection.getOrientation(0), new PlantableFilter());
+			SonarAPI.getItemHelper().transferItems(this.getWorld().getTileEntity(pos.offset(forward.getOpposite())), this, EnumFacing.getFront(0), EnumFacing.getFront(0), new PlantableFilter());
 
 			gasLevels();
 		}
@@ -186,9 +148,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		}
 		if (growTick != 0 && this.growTicks >= growTick) {
 			if (this.storage.getEnergyStored() >= growthRF) {
-				if (growCrop(1, 0)) {
-					this.storage.modifyEnergyStored(-growthRF);
-				}
+				/* if (growCrop(1, 0)) { this.storage.modifyEnergyStored(-growthRF); } */
 				this.growTicks = 0;
 			}
 		} else {
@@ -359,7 +319,6 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 
 	/** Hoes the ground **/
 	private void addFarmland() {
-		EnumFacing forward = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
 		for (int Z = -3; Z <= 3; Z++) {
 			for (int X = -3; X <= 3; X++) {
 				BlockPos pos = this.pos.add((4 * forward.getFrontOffsetX()) + X, 0, (4 * forward.getFrontOffsetZ()) + Z);
@@ -400,20 +359,19 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 	}
 
 	public void setLog(int x, int y, int z) {
-		this.setBlockType(x, y, z, new int[] { 0 }, BlockType.LOG);
-
+		this.setBlockType(x, y, z, new int[] { 0 }, BlockType.LOG, -1);
 	}
 
 	public void setGlass(int x, int y, int z) {
-		this.setBlockType(x, y, z, new int[] { 4, 5 }, BlockType.GLASS);
+		this.setBlockType(x, y, z, new int[] { 4, 5 }, BlockType.GLASS, -1);
 	}
 
 	public void setPlanks(int x, int y, int z) {
-		this.setBlockType(x, y, z, new int[] { 6 }, BlockType.PLANKS);
+		this.setBlockType(x, y, z, new int[] { 6 }, BlockType.PLANKS, -1);
 	}
 
 	public void setStairs(int x, int y, int z, int meta, int flag) {
-		this.setBlockType(x, y, z, new int[] { 1, 2, 3 }, BlockType.STAIRS);
+		this.setBlockType(x, y, z, new int[] { 1, 2, 3 }, BlockType.STAIRS, meta);
 	}
 
 	public FailedCoords roof(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {
@@ -687,6 +645,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 			}
 
 		}
+
 		return new FailedCoords(true, 0, 0, 0, FontHelper.translate("locator.none"));
 
 	}
@@ -714,6 +673,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 			}
 
 		}
+
 		for (int i = 0; i <= 5; i++) {
 
 			if (i <= 4) {
@@ -776,6 +736,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 				}
 
 			}
+
 			if (i <= 2) {
 				if (getPlanks(x + (hX * 1), y + i, z + (hZ * 1))) {
 					if (!check) {

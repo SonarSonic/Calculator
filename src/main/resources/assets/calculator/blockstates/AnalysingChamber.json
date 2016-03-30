@@ -1,16 +1,16 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "textures": {
-            "particle":"calculator:model/storage_chamber_front",
-	        "north":"calculator:model/storage_chamber_front",
-	        "south":"calculator:blocks/analysis_side_slot1",
-	        "west":"calculator:blocks/analysis_side_slot1",
-	        "east":"calculator:blocks/analysis_side_slot1",
-	        "up":"calculator:blocks/analysis_side_slot1",
-	        "down":"calculator:blocks/analysis_side_slot1"
-        },     
-        "model":"calculator:StorageChamber",        
+        "textures": {              
+            "particle":"calculator:model/analysing_chamber_slot1",  
+	        "up":"calculator:model/analysing_chamber_slot1",
+	        "down":"calculator:model/analysing_chamber2_slot1",
+	        "north":"calculator:model/analysing_chamber_front_1",        
+	        "east":"calculator:model/analysing_chamber_side_1",        
+	        "south":"calculator:model/analysing_chamber_side_1",
+	        "west":"calculator:model/analysing_chamber_side_1" 
+        },    
+        "model":"calculator:AnalysingChamber",        
         "transform":"forge:default-block",
         "uvlock": true
     },
@@ -32,23 +32,23 @@
             "input":{},
             "output":{             
                "textures": {        
-                    "north":"calculator:model/storage_chamber_front_2"     
+                    "north":"calculator:model/analysing_chamber_front_2" 
                 }         
             }
         },
         "east":{
             "input":{},
             "output":{
-                 "textures": {        
-                    "east":"calculator:blocks/analysis_side_slot2"     
+                 "textures": {           
+                    "east":"calculator:model/analysing_chamber_side_2" 
                  }
             }
         },
         "south":{
             "input":{},
             "output":{
-                 "textures": {        
-                    "south":"calculator:blocks/analysis_side_slot2"     
+                 "textures": {            
+                    "south":"calculator:model/analysing_chamber_side_2"
                  }
             }
         },
@@ -56,7 +56,7 @@
             "input":{},
             "output":{
                  "textures": {        
-                    "west":"calculator:blocks/analysis_side_slot2"     
+                    "west":"calculator:model/analysing_chamber_side_2" 
                  }
             }
         },
@@ -64,7 +64,7 @@
             "input":{},
             "output":{
                  "textures": {        
-                    "up":"calculator:blocks/analysis_side_slot2"     
+                    "up":"calculator:model/analysing_chamber_slot2"
                  }
             }
         },
@@ -72,7 +72,7 @@
             "input":{},
             "output":{
                  "textures": {        
-                    "down":"calculator:blocks/analysis_side_slot2"     
+                    "down":"calculator:model/analysing_chamber2_slot2" 
                  }
             }
         }

@@ -1,6 +1,7 @@
 package sonar.calculator.mod.client.renderers;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
@@ -43,6 +44,11 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float partialTicks, int destroyStage) {
 		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(entity), texture);
+
+        if (destroyStage < 0)
+        {
+            //GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        }
 		model.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 		this.renderAnimation(entity, x, y, z);
 		if (entity != null && entity.getWorld() != null && entity instanceof TileEntityProcess) {

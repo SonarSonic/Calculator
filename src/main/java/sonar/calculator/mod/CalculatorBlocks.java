@@ -25,9 +25,11 @@ import sonar.calculator.mod.common.block.generators.CrankedGenerator;
 import sonar.calculator.mod.common.block.generators.ExtractorBlock;
 import sonar.calculator.mod.common.block.machines.AdvancedGreenhouse;
 import sonar.calculator.mod.common.block.machines.AdvancedPowerCube;
+import sonar.calculator.mod.common.block.machines.AnalysingChamber;
 import sonar.calculator.mod.common.block.machines.Assimilator;
 import sonar.calculator.mod.common.block.machines.AtomicMultiplier;
 import sonar.calculator.mod.common.block.machines.BasicGreenhouse;
+import sonar.calculator.mod.common.block.machines.FabricationChamber;
 import sonar.calculator.mod.common.block.machines.FlawlessGreenhouse;
 import sonar.calculator.mod.common.block.machines.HealthProcessor;
 import sonar.calculator.mod.common.block.machines.HungerProcessor;
@@ -49,9 +51,11 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenera
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCube;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
@@ -168,14 +172,12 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerTileEntity(TileEntityMachines.PrecisionChamber.class, "PrecisionChamber");	
 		processingChamber = registerBlock("ProcessingChamber",new SmeltingBlock.ChamberBlock(BlockTypes.PROCESSING).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityMachines.ProcessingChamber.class, "ProcessingChamber");	
-		/*
-		analysingChamber = new AnalysingChamber().setUnlocalizedName("AnalysingChamber").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
-		GameRegistry.registerBlock(analysingChamber, SonarBlockTip.class, "AnalysingChamber");
-		GameRegistry.registerTileEntity(TileEntityAnalysingChamber.class, "AnalysingChamber");
-		*/
-
+		analysingChamber = registerBlock("AnalysingChamber",new AnalysingChamber().setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityAnalysingChamber.class, "AnalysingChamber");	
 		storageChamber = registerBlock("StorageChamber",new StorageChamber().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityStorageChamber.class, "StorageChamber");
+		fabricationChamber = registerBlock("FabricationChamber",new FabricationChamber().setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityFabricationChamber.class, "FabricationChamber");
 		/*
 		researchChamber = new ResearchChamber().setUnlocalizedName("ResearchChamber").setHardness(1.0F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);
 		GameRegistry.registerBlock(researchChamber, SonarBlockTip.class, "ResearchChamber");

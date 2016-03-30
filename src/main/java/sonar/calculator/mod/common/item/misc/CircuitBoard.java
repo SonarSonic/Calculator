@@ -14,8 +14,7 @@ import sonar.core.common.item.SonarMetaItem;
 import sonar.core.helpers.FontHelper;
 
 public class CircuitBoard extends SonarMetaItem implements IStability {
-	
-	
+
 	public CircuitBoard() {
 		super(14);
 	}
@@ -93,5 +92,9 @@ public class CircuitBoard extends SonarMetaItem implements IStability {
 	@Override
 	public void onFalse(ItemStack stack) {
 		stack.getTagCompound().setInteger("Stable", 0);
+	}
+
+	public boolean hasEffect(ItemStack stack) {
+		return getStability(stack);
 	}
 }

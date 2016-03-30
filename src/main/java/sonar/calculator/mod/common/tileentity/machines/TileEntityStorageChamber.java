@@ -24,10 +24,10 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 		super.output = new int[] { 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27 };
 	}
 
-	public StorageChamberInventory getStorage(){
+	public StorageChamberInventory getStorage() {
 		return (StorageChamberInventory) inv;
 	}
-	
+
 	public static class StorageChamberInventory extends SonarTileInventory {
 
 		public static int maxSize = 5000;
@@ -283,12 +283,12 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
 
-		return ((StorageChamberInventory) inv).isInputSlot(slot) && inv.isItemValidForSlot(slot, stack);
+		return sides.getSideConfig(side).isInput() && ((StorageChamberInventory) inv).isInputSlot(slot) && inv.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
-		return ((StorageChamberInventory) inv).isOutputSlot(slot) && !((StorageChamberInventory) inv).isInputSlot(slot);
+		return sides.getSideConfig(side).isOutput() && ((StorageChamberInventory) inv).isOutputSlot(slot) && !((StorageChamberInventory) inv).isInputSlot(slot);
 	}
 
 	public static CircuitType getCircuitType(ItemStack stack) {
@@ -366,8 +366,15 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 		return 1;
 	}
 
-	private enum CircuitType {
+	public enum CircuitType {
 		Analysed, Stable, Damaged, Dirty;
+		public boolean isProcessed() {
+			return this == Analysed || this == Stable;
+		}
+
+		public boolean isStable() {
+			return this == Stable;
+		}
 	}
 
 	@Override
