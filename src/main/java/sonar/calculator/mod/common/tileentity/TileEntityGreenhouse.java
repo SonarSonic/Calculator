@@ -11,6 +11,7 @@ import net.minecraft.block.BlockPane;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockWood;
 import net.minecraft.block.IGrowable;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,7 +29,10 @@ import sonar.calculator.mod.integration.agricraft.AgriCraftAPIWrapper;
 import sonar.calculator.mod.integration.planting.IPlanter;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.api.ActionType;
 import sonar.core.api.BlockCoords;
+import sonar.core.api.SonarAPI;
+import sonar.core.api.StoredItemStack;
 import sonar.core.common.item.SonarSeeds;
 import sonar.core.common.item.SonarSeedsFood;
 import sonar.core.common.tileentity.TileEntityInventoryReceiver;
@@ -275,13 +279,13 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 			for (ItemStack stack : array) {
 				if (stack != null) {
 					TileEntity tile = this.getWorldObj().getTileEntity(xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ));
-					/*
-					ItemStack harvest = SonarAPI.getItemHelper().addItems(tile, new StoredItemStack(stack), ForgeDirection.getOrientation(0), ActionType.PERFORM, null).getFullStack();
-					if (harvest != null) {
-						EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), harvest);
+					StoredItemStack storedstack = new StoredItemStack(stack);
+					StoredItemStack harvest = SonarAPI.getItemHelper().addItems(tile, storedstack.copy(), ForgeDirection.getOrientation(0), ActionType.PERFORM, null);
+					storedstack.remove(harvest);
+					if (storedstack != null && storedstack.stored > 0) {
+						EntityItem drop = new EntityItem(world, xCoord + (getForward().getOpposite().offsetX), yCoord, zCoord + (getForward().getOpposite().offsetZ), storedstack.getFullStack());
 						world.spawnEntityInWorld(drop);
 					}
-					*/
 					if (!removed)
 						world.setBlockToAir(x, y, z);
 					if (this.type == 3)
@@ -306,11 +310,9 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 		return true;
 	}
 
-	/**
-	 * checks if crop can be planted at coords
+	/** checks if crop can be planted at coords
 	 * 
-	 * @param slot2
-	 */
+	 * @param slot2 */
 	protected boolean canPlant(World worldObj, int x, int y, int z, int slot) {
 		ItemStack stack = slots[slot];
 		if (stack == null) {
@@ -662,9 +664,7 @@ public abstract class TileEntityGreenhouse extends TileEntityInventoryReceiver i
 
 	}
 
-	/**
-	 * types Basic =1 Advanced =2 Flawless = 3
-	 **/
+	/** types Basic =1 Advanced =2 Flawless = 3 **/
 	public int getInvEmpty() {
 		if (this.type == 2) {
 			for (int j = 0; j < 9; j++) {

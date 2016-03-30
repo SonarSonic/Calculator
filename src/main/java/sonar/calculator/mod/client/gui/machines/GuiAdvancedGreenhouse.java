@@ -24,6 +24,7 @@ public class GuiAdvancedGreenhouse extends GuiContainer {
 	public GuiAdvancedGreenhouse(InventoryPlayer inventoryPlayer, TileEntityAdvancedGreenhouse entity) {
 		super(new ContainerAdvancedGreenhouse(inventoryPlayer, entity));
 		this.entity = entity;
+		this.ySize = 192;
 	}
 
 	@Override

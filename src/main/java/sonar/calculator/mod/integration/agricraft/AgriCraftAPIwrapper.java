@@ -18,6 +18,7 @@ public class AgriCraftAPIWrapper extends AgriCraftAPI {
         if (api instanceof APIv1) {
             this.api = (APIv1) api;
         }
+        
     }
 
     public boolean isOk() {
