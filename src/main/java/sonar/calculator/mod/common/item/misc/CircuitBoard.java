@@ -83,10 +83,11 @@ public class CircuitBoard extends SonarMetaItem implements IStability {
 	public boolean getStability(ItemStack stack) {
 		if (stack.hasTagCompound()) {
 			return stack.getTagCompound().getInteger("Stable") == 1;
-		} else {
-			this.setData(stack);
-			return stack.getTagCompound().getInteger("Stable") == 1;
 		}
+		// } else {
+		// this.setData(stack);
+		return false;
+		// }
 	}
 
 	@Override
