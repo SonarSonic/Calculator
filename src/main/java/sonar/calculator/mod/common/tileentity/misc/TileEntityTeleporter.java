@@ -97,9 +97,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	public void updateDimensionName(String name) {
 		if (!destinationName.equals(name)) {
 			destinationName = name;
-			NBTTagCompound syncData = new NBTTagCompound();
-			writeData(syncData, NBTHelper.SyncType.SYNC);
-			SonarCore.network.sendToAllAround(new PacketTileSync(pos, syncData), new TargetPoint(worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 32));
+			SonarCore.sendFullSyncAround(this, 64);
 		}
 	}
 
@@ -166,7 +164,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			this.teleporterID = nbt.getInteger("freq");
 			this.linkID = nbt.getInteger("linkID");
 			this.name = nbt.getString("name");
@@ -181,7 +179,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setInteger("freq", this.teleporterID);
 			nbt.setInteger("linkID", this.linkID);
 			nbt.setString("name", this.name);
@@ -255,7 +253,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 
 	@Override
 	public void writePacket(ByteBuf buf, int id) {
-		if(id==0){
+		if (id == 0) {
 			buf.writeInt(linkID);
 		}
 	}

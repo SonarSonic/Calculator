@@ -89,7 +89,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 	}
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			this.latestMax = nbt.getInteger("latestMax");
 			this.latestEnergy = nbt.getInteger("latestEnergy");
 			this.lastMax = nbt.getInteger("lastMax");
@@ -99,7 +99,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 	}
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setInteger("latestMax", this.latestMax);
 			nbt.setInteger("latestEnergy", this.latestEnergy);
 			nbt.setInteger("lastMax", this.lastMax);

@@ -136,7 +136,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			this.burnTime = nbt.getInteger("burnTime");
 			this.maxBurnTime = nbt.getInteger("maxBurnTime");
 			this.controlled = nbt.getBoolean("controlled");
@@ -147,7 +147,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setInteger("burnTime", this.burnTime);
 			nbt.setInteger("maxBurnTime", this.maxBurnTime);
 			nbt.setBoolean("controlled", this.controlled);

@@ -191,7 +191,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			for (int i = 0; i < cookTime.length; i++){
 				cookTime[i].readFromNBT(nbt, type);
 			}
@@ -202,7 +202,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			for (int i = 0; i < cookTime.length; i++){
 				cookTime[i].writeToNBT(nbt, type);
 			}

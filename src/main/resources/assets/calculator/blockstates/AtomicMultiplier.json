@@ -2,9 +2,9 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-	        "particle":"calculator:blocks/connected/stablestonerimmed",
+	        "particle":"sonarcore:blocks/connected/stablestonerimmed",
 	        "0":"calculator:model/atomic_multiplier",        
-	        "1":"calculator:blocks/connected/stablestonerimmed"
+	        "1":"sonarcore:blocks/connected/stablestonerimmed"
         },  
         "model":"calculator:AtomicMultiplier",        
         "transform":"forge:default-block"

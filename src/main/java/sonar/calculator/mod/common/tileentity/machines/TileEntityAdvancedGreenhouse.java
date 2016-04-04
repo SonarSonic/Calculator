@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -20,8 +19,6 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiAdvancedGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
-import sonar.calculator.mod.integration.planting.IHarvester;
-import sonar.calculator.mod.integration.planting.IPlanter;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.BlockCoords;
 import sonar.core.api.SonarAPI;

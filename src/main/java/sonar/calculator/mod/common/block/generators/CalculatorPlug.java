@@ -12,7 +12,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;

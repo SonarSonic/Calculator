@@ -7,7 +7,6 @@ import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.RecipeHelper;
-import sonar.core.integration.nei.AbstractDualOutputHandler;
 
 public class DualOutputHandlers {
 

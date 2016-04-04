@@ -16,7 +16,6 @@ import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.core.helpers.RecipeHelper;
-import sonar.core.utils.upgrades.UpgradeInventory;
 
 public class TileEntityMachines {
 

@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.block.machines;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -14,6 +15,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.calculator.mod.network.packets.PacketTeleportLinks;
 import sonar.calculator.mod.utils.TeleporterRegistry;
+import sonar.core.SonarCore;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.NBTHelper.SyncType;
@@ -36,13 +38,12 @@ public class Teleporter extends SonarMachineBlock {
 		if (player != null) {
 			if (!world.isRemote) {
 				NBTTagCompound tag = new NBTTagCompound();
-				TileEntity target = world.getTileEntity(x, y, z);
+				TileEntity target = world.getTileEntity(pos);
 				if (target != null && target instanceof TileEntityTeleporter) {
 					TileEntityTeleporter tele = (TileEntityTeleporter) target;
-					tele.writeData(tag, SyncType.SYNC);
-					Calculator.network.sendTo(new PacketTileSync(x, y, z, tag), (EntityPlayerMP) player);
-					Calculator.network.sendTo(new PacketTeleportLinks(x, y, z, TeleporterRegistry.getTeleportLinks(tele.teleporterID)), (EntityPlayerMP) player);
-					player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
+					tele.sendSyncPacket(player);
+					Calculator.network.sendTo(new PacketTeleportLinks(pos, TeleporterRegistry.getTeleportLinks(tele.teleporterID)), (EntityPlayerMP) player);
+					player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 				}
 			}
 		}
@@ -60,12 +61,12 @@ public class Teleporter extends SonarMachineBlock {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block oldblock, int oldMetadata) {
-		TileEntity tile = world.getTileEntity(x, y, z);
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
+		TileEntity tile = world.getTileEntity(pos);
 		if (tile != null && tile instanceof TileEntityTeleporter) {
 			TileEntityTeleporter teleporter = (TileEntityTeleporter) tile;
 			teleporter.removeFromFrequency();
 		}
-		super.breakBlock(world, x, y, z, oldblock, oldMetadata);
+		super.breakBlock(world, pos, state);
 	}
 }

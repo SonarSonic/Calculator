@@ -6,17 +6,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import sonar.calculator.mod.common.block.MaterialBlock.Variants;
+import sonar.core.SonarCore;
 
 public class CalculatorCrafting extends Calculator {
 
 	public static void addRecipes() {
 
 		// reinforced tools
-		addShapedOre(new ItemStack(reinforced_axe, 1), new Object[] { "RR ", "RS ", " S ", 'R', reinforcedStoneBlock, 'S', "stickWood" });
-		addShapedOre(new ItemStack(reinforced_pickaxe, 1), new Object[] { "RRR", " S ", " S ", 'R', reinforcedStoneBlock, 'S', "stickWood" });
-		addShapedOre(new ItemStack(reinforced_shovel, 1), new Object[] { " R ", " S ", " S ", 'R', reinforcedStoneBlock, 'S', "stickWood" });
-		addShapedOre(new ItemStack(reinforced_hoe, 1), new Object[] { "RR ", " S ", " S ", 'R', reinforcedStoneBlock, 'S', "stickWood" });
-		addShapedOre(new ItemStack(reinforced_sword, 1), new Object[] { " R ", " R ", " S ", 'R', reinforcedStoneBlock, 'S', "stickWood" });
+		addShapedOre(new ItemStack(reinforced_axe, 1), new Object[] { "RR ", "RS ", " S ", 'R', SonarCore.reinforcedStoneBlock, 'S', "stickWood" });
+		addShapedOre(new ItemStack(reinforced_pickaxe, 1), new Object[] { "RRR", " S ", " S ", 'R', SonarCore.reinforcedStoneBlock, 'S', "stickWood" });
+		addShapedOre(new ItemStack(reinforced_shovel, 1), new Object[] { " R ", " S ", " S ", 'R', SonarCore.reinforcedStoneBlock, 'S', "stickWood" });
+		addShapedOre(new ItemStack(reinforced_hoe, 1), new Object[] { "RR ", " S ", " S ", 'R', SonarCore.reinforcedStoneBlock, 'S', "stickWood" });
+		addShapedOre(new ItemStack(reinforced_sword, 1), new Object[] { " R ", " R ", " S ", 'R', SonarCore.reinforcedStoneBlock, 'S', "stickWood" });
 
 		// reinforced iron tools
 		addShapedOre(new ItemStack(reinforcediron_axe, 1), new Object[] { "RR ", "RS ", " S ", 'R', reinforcediron_ingot, 'S', "stickWood" });
@@ -101,14 +102,14 @@ public class CalculatorCrafting extends Calculator {
 		// machines
 		addShapedOre(new ItemStack(powerCube, 1), new Object[] { "AAA", "ADA", "AAA", 'A', "cobblestone", 'D', Blocks.furnace });
 		addShaped(new ItemStack(advancedPowerCube, 1), new Object[] { "AAA", "ADA", "AAA", 'A', redstone_ingot, 'D', powerCube });
-		addShaped(new ItemStack(basicGreenhouse, 1), new Object[] { "BCB", "CAC", "BCB", 'A', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'B', reinforcedStoneBlock, 'C', enrichedgold_ingot });
+		addShaped(new ItemStack(basicGreenhouse, 1), new Object[] { "BCB", "CAC", "BCB", 'A', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'B', SonarCore.reinforcedStoneBlock, 'C', enrichedgold_ingot });
 		addShaped(new ItemStack(advancedGreenhouse, 1), new Object[] { "BCB", "CAC", "BCB", 'A', basicGreenhouse, 'B', weakeneddiamond, 'C', large_tanzanite });
 		addShaped(new ItemStack(flawlessGreenhouse, 1), new Object[] { "BBB", "CAC", "BBB", 'A', atomic_assembly, 'B', flawlessGlass, 'C', advancedGreenhouse });
 		addShaped(new ItemStack(hungerProcessor, 1), new Object[] { "ABA", "BCB", "ABA", 'A', large_amethyst, 'B', redstone_ingot, 'C', advanced_assembly });
 		addShaped(new ItemStack(healthProcessor, 1), new Object[] { "ABA", "BCB", "ABA", 'A', large_tanzanite, 'B', flawlessdiamond, 'C', advanced_assembly });
 		addShaped(new ItemStack(analysingChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'B', weakeneddiamond, 'C', advanced_assembly });
-		addShaped(new ItemStack(atomicMultiplier, 1), new Object[] { "EEE", "DBD", "ACA", 'A', fluxPlug, 'B', atomic_assembly, 'C', fluxController, 'D', teleporter, 'E', calculatorplug });
-		addShapedOre(new ItemStack(fluxController, 1), new Object[] { "ABA", "A A", "ACA", 'A', reinforcedStoneBlock, 'B', endDiamond, 'C', "calculatorStableStone" });
+		//addShaped(new ItemStack(atomicMultiplier, 1), new Object[] { "EEE", "DBD", "ACA", 'A', fluxPlug, 'B', atomic_assembly, 'C', fluxController, 'D', teleporter, 'E', calculatorplug });
+		//addShapedOre(new ItemStack(fluxController, 1), new Object[] { "ABA", "A A", "ACA", 'A', reinforcedStoneBlock, 'B', endDiamond, 'C', "calculatorStableStone" });
 
 		// generators
 		addShapedOre(new ItemStack(crankHandle, 1), new Object[] { "  A", "AAA", "A  ", 'A', "stickWood" });
@@ -123,7 +124,7 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(restorationChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', redstone_ingot, 'B', weakeneddiamond, 'C', extractionChamber });
 		addShaped(new ItemStack(reassemblyChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', enrichedGold, 'B', weakeneddiamond, 'C', extractionChamber });
 		addShaped(new ItemStack(precisionChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'B', weakeneddiamond, 'C', extractionChamber });
-		addShaped(new ItemStack(reinforcedFurnace, 1), new Object[] { "AAA", "ABA", "AAA", 'A', reinforcedStoneBlock, 'B', powerCube });
+		addShaped(new ItemStack(reinforcedFurnace, 1), new Object[] { "AAA", "ABA", "AAA", 'A', SonarCore.reinforcedStoneBlock, 'B', powerCube });
 
 		// item_recipes
 		addShapedOre(new ItemStack(grenadecasing, 1), new Object[] { "   ", "R R", "RRR", 'R', "calculatorReinforcedBlock" });
@@ -169,37 +170,13 @@ public class CalculatorCrafting extends Calculator {
 		addShapedOre(new ItemStack(pearFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', pearPlanks, 'S', "stickWood" });
 		addShapedOre(new ItemStack(diamondFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', diamondPlanks, 'S', "stickWood" });
 
-		addShapeless(new ItemStack(stableGlass, 1), new Object[] { clearStableGlass });
-		addShapeless(new ItemStack(clearStableGlass, 1), new Object[] { stableGlass });
-		addShapedOre(new ItemStack(magneticFlux, 1), new Object[] { " D ", "RFR", "SSS", 'S', "calculatorStableStone", 'R', redstone_ingot, 'F', fluxPoint, 'D', firediamond });
-		addShaped(new ItemStack(dockingStation, 1), new Object[] { " R ", "APA", "RRR", 'R', reinforcedStoneBlock, 'P', powerCube, 'A', calculator_assembly });
-		addShapedOre(new ItemStack(teleporter, 2), new Object[] { "SRS", "RFR", "SDS", 'R', reinforcedStoneBlock, 'S', "calculatorStableStone", 'D', endDiamond, 'F', fluxPlug });
+		//addShapedOre(new ItemStack(magneticFlux, 1), new Object[] { " D ", "RFR", "SSS", 'S', "calculatorStableStone", 'R', redstone_ingot, 'F', fluxPoint, 'D', firediamond });
+		addShaped(new ItemStack(dockingStation, 1), new Object[] { " R ", "APA", "RRR", 'R', SonarCore.reinforcedStoneBlock, 'P', powerCube, 'A', calculator_assembly });
+		//addShapedOre(new ItemStack(teleporter, 2), new Object[] { "SRS", "RFR", "SDS", 'R', reinforcedStoneBlock, 'S', "calculatorStableStone", 'D', endDiamond, 'F', fluxPlug });
 		addShaped(new ItemStack(weatherController, 1), new Object[] { "   ", "DSD", "RRR", 'S', Items.nether_star, 'D', electricDiamond, 'R', rainSensor });
-		addShaped(new ItemStack(stoneAssimilator, 1), new Object[] { " S ", "IPI", " I ", 'P', stoneSeparator, 'I', reinforcedStoneBlock, 'S', sickle });
+		addShaped(new ItemStack(stoneAssimilator, 1), new Object[] { " S ", "IPI", " I ", 'P', stoneSeparator, 'I', SonarCore.reinforcedStoneBlock, 'S', sickle });
 		addShaped(new ItemStack(algorithmAssimilator, 1), new Object[] { " S ", "IPI", " I ", 'P', algorithmSeparator, 'I', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'S', sickle });
 
-		for (int i = 0; i < 16; i++) {
-			int meta = ~i & 15;
-			if (meta != 0) {
-				addShaped(new ItemStack(stableStone, 8, meta), new Object[] { "SSS", "SDS", "SSS", 'D', new ItemStack(Items.dye, 1, i), 'S', new ItemStack(stableStone, 1, 0) });
-			}
-		}
-
-		//for (int i = 0; i < 16; i++) {
-			//addShapeless(new ItemStack(stablestonerimmedBlock, 1), new Object[] { new ItemStack(stableStone, 1) });
-			//addShapeless(new ItemStack(stablestonerimmedblackBlock, 1), new Object[] { new ItemStack(stablestonerimmedBlock, 1) });
-			addShapeless(new ItemStack(stableStone, 1), new Object[] { new ItemStack(stablestonerimmedblackBlock, 1) });
-		//}
-
-		addShaped(new ItemStack(reinforcedStoneStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', reinforcedStoneBlock });
-		addShaped(new ItemStack(reinforcedStoneBrickStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', reinforcedStoneBrick });
-		addShaped(new ItemStack(reinforcedDirtStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', reinforcedDirtBlock });
-		addShaped(new ItemStack(reinforcedDirtBrickStairs, 4), new Object[] { "A  ", "AA ", "AAA", 'A', reinforcedDirtBrick });
-
-		addShapedOre(new ItemStack(reinforcedStoneFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforcedStoneBlock, 'S', "stickWood" });
-		addShapedOre(new ItemStack(reinforcedStoneBrickFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforcedStoneBrick, 'S', "stickWood" });
-		addShapedOre(new ItemStack(reinforcedDirtFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforcedDirtBlock, 'S', "stickWood" });
-		addShapedOre(new ItemStack(reinforcedDirtBrickFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforcedDirtBrick, 'S', "stickWood" });
 	}
 
 	public static void addShaped(ItemStack result, Object... input) {

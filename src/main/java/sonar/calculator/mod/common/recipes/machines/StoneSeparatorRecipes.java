@@ -39,5 +39,4 @@ public class StoneSeparatorRecipes extends RecipeHelper {
 	public String getRecipeID() {
 		return "StoneSeparator";
 	}
-
 }

@@ -11,7 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
@@ -20,6 +19,7 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.upgrades.MachineUpgrade;
 
 public class DockingStation extends SonarMachineBlock {
 
@@ -32,15 +32,16 @@ public class DockingStation extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (interact.type == BlockInteractionType.RIGHT) {
-				if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof UpgradeCircuit) {
+				if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof MachineUpgrade) {
 					return false;
 				}
-				if (!insertCalculator(player, world, x, y, z)) {
+				if (!insertCalculator(player, world, pos)) {
 					if (!world.isRemote) {
-						if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityDockingStation) {
-							TileEntityDockingStation station = (TileEntityDockingStation) world.getTileEntity(x, y, z);
+						TileEntity target = world.getTileEntity(pos);
+						if (target != null && target instanceof TileEntityDockingStation) {
+							TileEntityDockingStation station = (TileEntityDockingStation) target;
 							if (station.isCalculator(station.calcStack) != 0) {
-								player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
+								player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 							} else {
 								FontHelper.sendMessage(FontHelper.translate("docking.noCalculator"), world, player);
 							}
@@ -53,10 +54,11 @@ public class DockingStation extends SonarMachineBlock {
 		return true;
 	}
 
-	public boolean insertCalculator(EntityPlayer player, World world, int x, int y, int z) {
+	public boolean insertCalculator(EntityPlayer player, World world, BlockPos pos) {
 		if (player.getHeldItem() != null && TileEntityDockingStation.isCalculator(player.getHeldItem()) > 0) {
-			if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityDockingStation) {
-				TileEntityDockingStation station = (TileEntityDockingStation) world.getTileEntity(x, y, z);
+			TileEntity target = world.getTileEntity(pos);
+			if (target != null && target instanceof TileEntityDockingStation) {
+				TileEntityDockingStation station = (TileEntityDockingStation) target;
 				if (station.getStackInSlot(0) == null) {
 					station.calcStack = player.getHeldItem().copy();
 					player.getHeldItem().stackSize--;
@@ -76,45 +78,9 @@ public class DockingStation extends SonarMachineBlock {
 	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
 	}
 
 	public boolean hasSpecialRenderer() {
 		return true;
-	}
-
-	@Override
-	public void breakBlock(World world, int x, int y, int z, Block oldblock, int oldMetadata) {
-
-		TileEntityDockingStation entity = (TileEntityDockingStation) world.getTileEntity(x, y, z);
-
-		ItemStack itemstack = entity.calcStack;
-
-		if (itemstack != null) {
-			float f = this.rand.nextFloat() * 0.8F + 0.1F;
-			float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
-			float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
-
-			while (itemstack.stackSize > 0) {
-				int j = this.rand.nextInt(21) + 10;
-
-				if (j > itemstack.stackSize) {
-					j = itemstack.stackSize;
-				}
-
-				itemstack.stackSize -= j;
-
-				EntityItem item = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j, itemstack.getItemDamage()));
-
-				if (itemstack.hasTagCompound()) {
-					item.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-				}
-
-				world.spawnEntityInWorld(item);
-			}
-		}
-
-		super.breakBlock(world, x, y, z, oldblock, oldMetadata);
-
 	}
 }

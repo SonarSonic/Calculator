@@ -8,7 +8,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.core.common.item.SonarItem;
-import sonar.core.helpers.SonarHelper;
 import sonar.core.utils.IMachineSides;
 import sonar.core.utils.IWrench;
 import sonar.core.utils.IWrenchable;

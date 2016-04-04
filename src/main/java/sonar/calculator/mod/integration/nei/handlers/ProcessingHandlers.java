@@ -9,7 +9,6 @@ import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.RecipeHelper;
-import sonar.core.integration.nei.AbstractProcessorHandler;
 
 public class ProcessingHandlers {
 

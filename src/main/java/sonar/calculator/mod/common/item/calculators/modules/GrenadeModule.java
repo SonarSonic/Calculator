@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.modules.IModuleClickable;

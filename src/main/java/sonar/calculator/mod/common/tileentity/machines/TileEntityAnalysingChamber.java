@@ -17,9 +17,10 @@ import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.core.api.SonarAPI;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
+import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.FontHelper;
-import sonar.core.helpers.SonarHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
@@ -29,7 +30,6 @@ import sonar.core.utils.IGuiTile;
 import sonar.core.utils.MachineSideConfig;
 import sonar.core.utils.upgrades.IUpgradableTile;
 import sonar.core.utils.upgrades.UpgradeInventory;
-import cofh.api.energy.IEnergyReceiver;
 
 import com.google.common.collect.Lists;
 
@@ -45,8 +45,16 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		super.input = new int[] { 0 };
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
 		super.storage = new SyncEnergyStorage(1000000, 64000);
-		super.inv = new SonarTileInventory(this, 8);
+		super.inv = new SonarTileInventory(this, 8){
+			public void setInventorySlotContents(int i, ItemStack itemstack) {
+				super.setInventorySlotContents(i, itemstack);
+				if(i==0){
+					worldObj.markBlockForUpdate(pos);
+				}
+			}
+		};
 		super.maxTransfer = 2000;
+		super.energyMode = EnergyMode.SEND;
 
 	}
 
@@ -69,70 +77,74 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		}
 		charge(1);
 		stable.setObject(stable(0));
-		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
-		SonarAPI.getEnergyHelper().transferEnergy(this, entity, EnumFacing.UP, EnumFacing.DOWN);
-
+		this.addEnergy(EnumFacing.VALUES);
 		this.markDirty();
 	}
 
-
 	public void transferItems() {
 		ArrayList<EnumFacing> outputs = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
-		for (EnumFacing side : outputs) {			
+		for (EnumFacing side : outputs) {
 			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side.getOpposite(), side, null);
 		}
 		ArrayList<EnumFacing> inputs = sides.getSidesWithConfig(MachineSideConfig.INPUT);
-		for (EnumFacing side : inputs) {	
-			TileEntity adjacent = SonarHelper.getAdjacentTileEntity(this, side);
-			SonarAPI.getItemHelper().transferItems(this, adjacent, side.getOpposite(), side, null);
-			if(adjacent!=null && adjacent instanceof TileEntityStorageChamber){
-				SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(adjacent, side), side.getOpposite(), side, null);
+		for (EnumFacing side : inputs) {
+			int offset = 1;
+			while (offset != 64) {
+				TileEntity tile = worldObj.getTileEntity(getPos().offset(side, offset));
+				if (tile != null && tile instanceof TileEntityStorageChamber) {
+					SonarAPI.getItemHelper().transferItems(this, tile, side.getOpposite(), side, null);
+					offset++;
+				} else {
+					break;
+				}
 			}
 		}
 	}
-	
+
 	private void analyse(int slot) {
 		if (slots()[slot].hasTagCompound()) {
 			NBTTagCompound tag = slots()[slot].getTagCompound();
-			int storedEnergy = itemEnergy(slots()[slot].getTagCompound().getInteger("Energy"));
-			this.storage.receiveEnergy(storedEnergy, false);
-			if (upgrades.getUpgradesInstalled("VOID") == 0) {
-				ItemStack item1 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item1"));
-				ItemStack item2 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item2"));
-				if (item1 != null) {
-					add(item1, 2);
+			if (!tag.getBoolean("Analysed")) {
+				int storedEnergy = itemEnergy(slots()[slot].getTagCompound().getInteger("Energy"));
+				this.storage.receiveEnergy(storedEnergy, false);
+				if (upgrades.getUpgradesInstalled("VOID") == 0) {
+					ItemStack item1 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item1"));
+					ItemStack item2 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item2"));
+					if (item1 != null) {
+						add(item1, 2);
+					}
+					if (item2 == null) {
+						add(item2, 3);
+					}
 				}
-				if (item2 == null) {
-					add(item2, 3);
+				ItemStack item3 = AnalysingChamberRecipes.instance().getResult(2, tag.getInteger("Item3"));
+				ItemStack item4 = AnalysingChamberRecipes.instance().getResult(3, tag.getInteger("Item4"));
+				ItemStack item5 = AnalysingChamberRecipes.instance().getResult(4, tag.getInteger("Item5"));
+				ItemStack item6 = AnalysingChamberRecipes.instance().getResult(5, tag.getInteger("Item6"));
+
+				if (item3 != null) {
+					add(item3, 4);
 				}
-			}
-			ItemStack item3 = AnalysingChamberRecipes.instance().getResult(2, tag.getInteger("Item3"));
-			ItemStack item4 = AnalysingChamberRecipes.instance().getResult(3, tag.getInteger("Item4"));
-			ItemStack item5 = AnalysingChamberRecipes.instance().getResult(4, tag.getInteger("Item5"));
-			ItemStack item6 = AnalysingChamberRecipes.instance().getResult(5, tag.getInteger("Item6"));
+				if (item4 != null) {
+					add(item4, 5);
+				}
+				if (item5 != null) {
+					add(item5, 6);
+				}
+				if (item6 != null) {
+					add(item6, 7);
+				}
+				tag.removeTag("Item1");
+				tag.removeTag("Item2");
+				tag.removeTag("Item3");
+				tag.removeTag("Item4");
+				tag.removeTag("Item5");
+				tag.removeTag("Item6");
+				tag.removeTag("Energy");
+				tag.setBoolean("Analysed", true);
 
-			if (item3 != null) {
-				add(item3, 4);
+				analysed.setObject(1);
 			}
-			if (item4 != null) {
-				add(item4, 5);
-			}
-			if (item5 != null) {
-				add(item5, 6);
-			}
-			if (item6 != null) {
-				add(item6, 7);
-			}
-
-			tag.setInteger("Item1", 0);
-			tag.setInteger("Item2", 0);
-			tag.setInteger("Item3", 0);
-			tag.setInteger("Item4", 0);
-			tag.setInteger("Item5", 0);
-			tag.setInteger("Item6", 0);
-			tag.setInteger("Energy", 0);
-
-			analysed.setObject(1);
 		}
 	}
 
@@ -240,14 +252,14 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC)
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE))
 			upgrades.readData(nbt, type);
 
 	}
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC)
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE))
 			upgrades.writeData(nbt, type);
 
 	}

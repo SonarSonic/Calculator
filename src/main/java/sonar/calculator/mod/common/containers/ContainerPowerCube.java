@@ -45,11 +45,11 @@ public class ContainerPowerCube extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 0, 2, false)) {
 						return null;
 					}
-				}else if (DischargeValues.getValueOf(itemstack1) > 0) {
+				} else if (DischargeValues.getValueOf(itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				}else if ((p_82846_2_ >= 3) && (p_82846_2_ < 30)) {
+				} else if ((p_82846_2_ >= 3) && (p_82846_2_ < 30)) {
 					if (!mergeItemStack(itemstack1, 29, 38, false)) {
 						return null;
 					}

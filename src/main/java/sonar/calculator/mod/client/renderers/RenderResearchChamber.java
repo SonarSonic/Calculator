@@ -2,6 +2,7 @@ package sonar.calculator.mod.client.renderers;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -20,7 +21,6 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.models.ModelResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
-import sonar.core.helpers.RenderHelper;
 
 public class RenderResearchChamber extends TileEntitySpecialRenderer {
 	private static final ResourceLocation texture = new ResourceLocation("Calculator:textures/model/researchchamber.png");

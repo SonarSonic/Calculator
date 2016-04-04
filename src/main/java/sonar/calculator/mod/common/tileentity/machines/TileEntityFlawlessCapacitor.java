@@ -25,14 +25,14 @@ public class TileEntityFlawlessCapacitor extends TileEntityEnergy {
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			this.output = nbt.getIntArray("outputs");
 		}
 	}
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setIntArray("outputs", output);
 
 		}
@@ -44,7 +44,7 @@ public class TileEntityFlawlessCapacitor extends TileEntityEnergy {
 				EnumFacing dir = EnumFacing.getFront(i);
 				TileEntity tile = SonarHelper.getAdjacentTileEntity(this, dir);
 				TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
-				SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir.getOpposite(), dir);
+				SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir.getOpposite(), dir, Integer.MAX_VALUE);
 			}
 		}
 

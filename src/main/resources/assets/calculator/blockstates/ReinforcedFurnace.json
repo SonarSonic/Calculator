@@ -32,7 +32,7 @@
             "input":{},
             "output":{             
                "textures": {        
-                    "north":"calculator:blocks/stoneseperator_still_front2"     
+                    "north":"calculator:blocks/reinforced_furnace2"     
                 }         
             },
             "input_animate":{

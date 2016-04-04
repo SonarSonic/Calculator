@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
-import sonar.core.integration.SonarLoader;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class CalculatorHelper {

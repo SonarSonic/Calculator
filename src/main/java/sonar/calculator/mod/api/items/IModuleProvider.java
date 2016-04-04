@@ -2,8 +2,8 @@ package sonar.calculator.mod.api.items;
 
 import java.util.ArrayList;
 
-import sonar.calculator.mod.api.modules.IModule;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.api.modules.IModule;
 
 /**implemented on Items which contain modules*/
 public interface IModuleProvider {

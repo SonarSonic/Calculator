@@ -8,8 +8,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import sonar.calculator.mod.api.blocks.IStableBlock;
 import sonar.calculator.mod.api.modules.IModuleClickable;
+import sonar.core.api.IStableBlock;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
 

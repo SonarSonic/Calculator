@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCube;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.BlockInteraction;

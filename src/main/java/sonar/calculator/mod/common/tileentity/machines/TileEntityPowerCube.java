@@ -15,15 +15,17 @@ public class TileEntityPowerCube extends TileEntityEnergyInventory implements IG
 		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 200);
 		super.inv = new SonarTileInventory(this, 2);
 		super.energyMode = EnergyMode.RECIEVE;
-		super.maxTransfer = 1;
+		super.maxTransfer = 4;
 	}
 
 	@Override
 	public void update() {
 		super.update();
+		if (this.isClient()) {
+			return;
+		}
 		charge(0);
 		discharge(1);		
-		this.markDirty();
 	}
 
 	@Override

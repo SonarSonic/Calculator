@@ -6,7 +6,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;

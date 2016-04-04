@@ -4,20 +4,17 @@ import gnu.trove.map.hash.THashMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fml.common.FMLLog;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorItems;
 import sonar.calculator.mod.common.block.MaterialBlock.Variants;
+import sonar.core.SonarCore;
 import sonar.core.helpers.RecipeHelper;
 
 public class RecipeRegistry {
@@ -109,13 +106,13 @@ public class RecipeRegistry {
 	}
 	private static void addStandardRecipes() {
 		registerCalculatorRecipe(Calculator.baby_grenade, Calculator.grenadecasing, Blocks.tnt, false);
-		registerCalculatorRecipe(Calculator.reinforcedStoneBlock, "cobblestone", "plankWood", false);
-		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedStoneBlock,4), "cobblestone", "logWood", false);
+		registerCalculatorRecipe(SonarCore.reinforcedStoneBlock, "cobblestone", "plankWood", false);
+		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock,4), "cobblestone", "logWood", false);
 
 		registerCalculatorRecipe(Calculator.wrench, Calculator.reinforced_sword, Calculator.reinforced_pickaxe, false);
-		registerCalculatorRecipe(Calculator.reinforcedDirtBlock, Blocks.dirt, "plankWood", false);
+		registerCalculatorRecipe(SonarCore.reinforcedDirtBlock, Blocks.dirt, "plankWood", false);
 		registerCalculatorRecipe(new ItemStack(Calculator.enrichedGold, 4), "ingotGold", "dustRedstone", false);
-		registerCalculatorRecipe(Calculator.reinforcediron_ingot, "ingotIron", Calculator.reinforcedStoneBlock, false);
+		registerCalculatorRecipe(Calculator.reinforcediron_ingot, "ingotIron", SonarCore.reinforcedStoneBlock, false);
 		registerCalculatorRecipe(Calculator.enriched_coal, Items.coal, "dustRedstone", false);
 		registerCalculatorRecipe(Calculator.broccoliSeeds, Items.wheat_seeds, Items.pumpkin_seeds, false);
 		registerCalculatorRecipe(Calculator.sickle, Calculator.reinforced_shovel, Calculator.reinforced_axe, false);
@@ -124,10 +121,10 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(Calculator.gas_lantern_off, Calculator.basic_lantern, Calculator.basic_lantern, false);
 		registerCalculatorRecipe(Calculator.prunaeSeeds, Calculator.enriched_coal, Items.wheat_seeds, false);
 		registerCalculatorRecipe(Calculator.enriched_coal, Calculator.coal_dust, Calculator.coal_dust, false);
-		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedStoneBrick, 2), Calculator.reinforcedStoneBlock, Calculator.reinforcedStoneBlock, false);
-		registerCalculatorRecipe(new ItemStack(Calculator.stableGlass, 2), "blockGlass", "blockGlass", false);
-		registerCalculatorRecipe(new ItemStack(Calculator.stableStone, 2), Calculator.reinforcedStoneBrick, Calculator.reinforcedStoneBrick, false);
-		registerCalculatorRecipe(new ItemStack(Calculator.reinforcedDirtBrick, 2), Calculator.reinforcedDirtBlock, Calculator.reinforcedDirtBlock, false);
+		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBrick, 2), SonarCore.reinforcedStoneBlock, SonarCore.reinforcedStoneBlock, false);
+		registerCalculatorRecipe(new ItemStack(SonarCore.stableGlass, 2), "blockGlass", "blockGlass", false);
+		registerCalculatorRecipe(new ItemStack(SonarCore.stableStone, 2), SonarCore.reinforcedStoneBrick, SonarCore.reinforcedStoneBrick, false);
+		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBrick, 2), SonarCore.reinforcedDirtBlock, SonarCore.reinforcedDirtBlock, false);
 		registerCalculatorRecipe(Calculator.rainSensor, Blocks.daylight_detector, Items.bucket, false);
 		
 		//registerCalculatorRecipe(Calculator.researchChamber, Calculator.reinforced_iron_block, Calculator.powerCube, false);
@@ -545,8 +542,8 @@ public class RecipeRegistry {
 		registerScientificRecipe(Calculator.itemCalculator, Calculator.redstone_ingot, Calculator.itemTerrainModule);
 		registerScientificRecipe(Calculator.itemEnergyModule, Calculator.small_amethyst, Calculator.starchextractor);
 		registerScientificRecipe(Calculator.powerCube, Calculator.purified_coal, Calculator.itemEnergyModule);
-		registerScientificRecipe(new ItemStack(Calculator.material_block, 1, CalculatorItems.ToolTypes.ReinforcedIron.getMeta()), Items.ender_eye, Calculator.fluxPlug);
-		registerScientificRecipe("ingotRedstone", Items.ender_pearl, Calculator.fluxPoint);
+		//registerScientificRecipe(new ItemStack(Calculator.material_block, 1, CalculatorItems.ToolTypes.ReinforcedIron.getMeta()), Items.ender_eye, Calculator.fluxPlug);
+		//registerScientificRecipe("ingotRedstone", Items.ender_pearl, Calculator.fluxPoint);
 
 	}
 
@@ -632,7 +629,7 @@ public class RecipeRegistry {
 				this.addRecipe(RecipeRegistry.unblocked.get(i));
 			}
 		}
-		
+		/*
 		public void writeToNBT(NBTTagCompound nbt, Map<Integer, Integer> unblocked, String tag) {
 			NBTTagList list = new NBTTagList();
 
@@ -731,7 +728,9 @@ public class RecipeRegistry {
 
 			return positions;
 		}
-
+		
+		*/
+		
 		@Override
 		public String getRecipeID() {
 			return "Calculator";

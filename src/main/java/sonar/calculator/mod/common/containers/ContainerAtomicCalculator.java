@@ -45,7 +45,8 @@ public class ContainerAtomicCalculator extends Container {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory iiventory) {
-		this.craftResult.setInventorySlotContents(0, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(craftMatrix.getStackInSlot(0), craftMatrix.getStackInSlot(1), craftMatrix.getStackInSlot(2)));
+		//if ((iiventory instanceof InventoryStoredResult))
+		//	iiventory.setInventorySlotContents(0, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(craftMatrix.getStackInSlot(0), craftMatrix.getStackInSlot(1), craftMatrix.getStackInSlot(2)));
 
 	}
 

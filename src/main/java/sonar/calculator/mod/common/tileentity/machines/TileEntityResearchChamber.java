@@ -107,7 +107,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type != SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC)) {
 			this.unblocked = CalculatorRecipes.instance().readFromNBT(nbt, "unblocked");
 		}
 		this.lastResearch = nbt.getInteger("Research");
@@ -118,7 +118,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type != SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC)) {
 			CalculatorRecipes.instance().writeToNBT(nbt, unblocked, "unblocked");
 		}
 		nbt.setInteger("Max", maxRecipes);

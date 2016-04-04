@@ -11,9 +11,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 
 public class RainSensor extends BlockContainer {

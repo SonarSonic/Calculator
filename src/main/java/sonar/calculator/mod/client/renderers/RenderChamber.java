@@ -1,7 +1,6 @@
 package sonar.calculator.mod.client.renderers;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;

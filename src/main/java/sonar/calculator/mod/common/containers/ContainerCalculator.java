@@ -43,7 +43,6 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 	@Override
 	public void onItemCrafted() {
 		inventory.setInventorySlotContents(2, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1)), isRemote);
-
 	}
 
 	public void removeEnergy() {

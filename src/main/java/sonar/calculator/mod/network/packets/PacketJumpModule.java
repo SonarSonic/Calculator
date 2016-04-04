@@ -1,13 +1,9 @@
 package sonar.calculator.mod.network.packets;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.Random;
 
-import cofh.api.energy.IEnergyContainerItem;
-import sonar.calculator.mod.api.items.IModuleProvider;
-import sonar.calculator.mod.common.item.calculators.modules.WarpModule;
-import sonar.core.SonarCore;
-import sonar.core.network.PacketStackUpdate;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -16,6 +12,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
+import sonar.calculator.mod.api.items.IModuleProvider;
+import sonar.core.SonarCore;
+import cofh.api.energy.IEnergyContainerItem;
 
 public class PacketJumpModule implements IMessage {
 

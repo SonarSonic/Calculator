@@ -11,12 +11,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.common.item.calculators.SonarCalculator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.common.item.SonarEnergyItem;
 import sonar.core.inventory.IItemInventory;
 
-public class WIPSmeltingModule extends Sonar implements IItemInventory {
+public class WIPSmeltingModule extends SonarEnergyItem implements IItemInventory {
 
 	public int syncCook, syncEnergy;
 	public int requiredEnergy = 1000;
@@ -160,7 +160,7 @@ public class WIPSmeltingModule extends Sonar implements IItemInventory {
 	}
 
 	public ItemStack recipe(ItemStack stack) {
-		return FurnaceRecipes.smelting().getSmeltingResult(stack);
+		return FurnaceRecipes.instance().getSmeltingResult(stack);
 	}
 
 	@Override

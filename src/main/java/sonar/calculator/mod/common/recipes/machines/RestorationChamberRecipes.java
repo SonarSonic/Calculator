@@ -33,7 +33,6 @@ public class RestorationChamberRecipes extends RecipeHelper {
 		addCircuit(Calculator.circuitDirty, Calculator.circuitBoard, 11);
 		addCircuit(Calculator.circuitDirty, Calculator.circuitBoard, 12);
 		addCircuit(Calculator.circuitDirty, Calculator.circuitBoard, 13);
-		addCircuit(Calculator.circuitDirty, Calculator.circuitBoard, 14);
 	}
 
 	public void addCircuit(Item input, Item output, int par) {

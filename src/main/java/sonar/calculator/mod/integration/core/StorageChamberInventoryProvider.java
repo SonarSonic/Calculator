@@ -9,7 +9,6 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.core.api.ActionType;
 import sonar.core.api.InventoryHandler;
 import sonar.core.api.StoredItemStack;
-import sonar.core.api.InventoryHandler.StorageSize;
 
 public class StorageChamberInventoryProvider extends InventoryHandler {
 
@@ -47,8 +46,7 @@ public class StorageChamberInventoryProvider extends InventoryHandler {
 
 	@Override
 	public StorageSize getItems(List<StoredItemStack> storedStacks, TileEntity tile, EnumFacing dir) {
-
-		TileEntityStorageChamber chamber = (TileEntityStorageChamber) tile;
+		TileEntityStorageChamber chamber = (TileEntityStorageChamber) tile;		
 		TileEntityStorageChamber.StorageChamberInventory inv = chamber.getStorage();
 		if (chamber != null) {
 			if (inv.getSavedStack() != null) {

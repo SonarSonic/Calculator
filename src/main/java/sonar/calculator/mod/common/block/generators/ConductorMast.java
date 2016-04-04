@@ -31,7 +31,7 @@ import sonar.core.utils.ISpecialTooltip;
 
 import com.google.common.collect.Lists;
 
-public class ConductorMast extends BlockContainer implements ISpecialTooltip, IDismantleable {
+public class ConductorMast extends BlockContainer implements ISpecialTooltip {
 
 	private Random rand = new Random();
 

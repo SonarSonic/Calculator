@@ -9,6 +9,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.core.SonarCore;
 
 public class AnalysingChamberRecipes {
 	private static final AnalysingChamberRecipes chanceRecipes = new AnalysingChamberRecipes();
@@ -26,8 +27,8 @@ public class AnalysingChamberRecipes {
 
 	private AnalysingChamberRecipes() {
 		this.addRecipe(1, 1, new ItemStack(Calculator.itemCalculator, 1));
-		this.addRecipe(1, 2, new ItemStack(Calculator.reinforcedDirtBlock,1));
-		this.addRecipe(1, 3, new ItemStack(Calculator.reinforcedStoneBlock,1));
+		this.addRecipe(1, 2, new ItemStack(SonarCore.reinforcedDirtBlock,1));
+		this.addRecipe(1, 3, new ItemStack(SonarCore.reinforcedStoneBlock,1));
 		this.addRecipe(1, 4, new ItemStack(Calculator.small_stone,1));
 		this.addRecipe(1, 5, new ItemStack(Calculator.soil,1));
 		this.addRecipe(1, 6, new ItemStack(Calculator.powerCube,1));
@@ -84,7 +85,7 @@ public class AnalysingChamberRecipes {
 		this.addRecipe(4, 10, new ItemStack(Items.ender_pearl,1));
 		this.addRecipe(4, 11, new ItemStack(Calculator.fiddledewFruit,1));
 		this.addRecipe(4, 12, new ItemStack(Calculator.flawlessGlass,1));
-		this.addRecipe(4, 13, new ItemStack(Calculator.stableStone,1));
+		this.addRecipe(4, 13, new ItemStack(SonarCore.stableStone,1));
 		this.addRecipe(4, 14, new ItemStack(Calculator.purifiedObsidian,1));
 		this.addRecipe(4, 15, new ItemStack(Calculator.obsidianKey,1));
 

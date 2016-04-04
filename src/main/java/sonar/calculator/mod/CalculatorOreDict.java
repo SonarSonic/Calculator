@@ -1,5 +1,6 @@
 package sonar.calculator.mod;
 
+import sonar.core.SonarCore;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,7 @@ public class CalculatorOreDict extends Calculator {
 		}
 
 		//for (int i = 0; i < 16; i++) {
-			registerOre("calculatorStableStone", new ItemStack(stableStone, 1));
+			registerOre("calculatorStableStone", new ItemStack(SonarCore.stableStone, 1));
 			//registerOre("calculatorStableStone", new ItemStack(stablestonerimmedBlock, 1, i));
 			//registerOre("calculatorStableStone", new ItemStack(stablestonerimmedblackBlock, 1, i));
 		//}
@@ -63,16 +64,16 @@ public class CalculatorOreDict extends Calculator {
 		registerOre("treeSapling", PearSapling);
 
 		// blocks
-		registerOre("calculatorReinforcedBlock", reinforcedStoneBlock);
-		registerOre("calculatorReinforcedBlock", reinforcedDirtBlock);
-		registerOre("blockGlass", stableGlass);
-		registerOre("blockGlass", clearStableGlass);
-		registerOre("reinforcedStone", reinforcedStoneBlock);
-		registerOre("strongStone", reinforcedStoneBlock);
-		registerOre("hardStone", reinforcedStoneBlock);
-		registerOre("reinforcedDirt", reinforcedDirtBlock);
-		registerOre("strongDirt", reinforcedDirtBlock);
-		registerOre("hardDirt", reinforcedDirtBlock);
+		registerOre("calculatorReinforcedBlock", SonarCore.reinforcedStoneBlock);
+		registerOre("calculatorReinforcedBlock", SonarCore.reinforcedDirtBlock);
+		registerOre("blockGlass", SonarCore.stableGlass);
+		registerOre("blockGlass", SonarCore.clearStableGlass);
+		registerOre("reinforcedStone", SonarCore.reinforcedStoneBlock);
+		registerOre("strongStone", SonarCore.reinforcedStoneBlock);
+		registerOre("hardStone", SonarCore.reinforcedStoneBlock);
+		registerOre("reinforcedDirt", SonarCore.reinforcedDirtBlock);
+		registerOre("strongDirt", SonarCore.reinforcedDirtBlock);
+		registerOre("hardDirt", SonarCore.reinforcedDirtBlock);
 	}
 
 	public static void registerOre(String string, Item item) {

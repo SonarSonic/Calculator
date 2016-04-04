@@ -1,15 +1,14 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import sonar.calculator.mod.client.gui.machines.GuiAdvancedPowerCube;
-import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.network.PacketSonarSides;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.IMachineSides;
@@ -28,18 +27,22 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 
 	public void update() {
 		super.update();
+		if (this.isClient()) {
+			return;
+		}
 		this.addEnergy();
 		this.markDirty();
-
 	}
 
 	public void addEnergy() {
-		for (int i = 0; i < 6; i++) {
-			if (sides.getSideConfig(EnumFacing.getFront(i)).isOutput()) {
-				EnumFacing dir = EnumFacing.getFront(i);
-				TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
-				SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir.getOpposite(), dir);
-			}
+		ArrayList<EnumFacing> facing = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
+		if (facing.isEmpty()) {
+			return;
+		}
+		int transfer = maxTransfer / facing.size();
+		for (EnumFacing dir : facing) {
+			TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
+			SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir.getOpposite(), dir, transfer);
 		}
 	}
 

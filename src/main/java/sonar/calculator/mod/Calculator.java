@@ -4,9 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -42,17 +40,12 @@ import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
-import sonar.calculator.mod.integration.ae2.StorageChamberHandler;
 import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
 import sonar.calculator.mod.integration.planting.FertiliserRegistry;
 import sonar.calculator.mod.integration.planting.HarvesterRegistry;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.network.CalculatorCommon;
-import sonar.calculator.mod.network.ChunkHandler;
-import sonar.calculator.mod.utils.FluxRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
-import sonar.core.SonarCore;
-import sonar.core.energy.DischargeValues;
 
 @Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version)
 public class Calculator {
@@ -90,7 +83,6 @@ public class Calculator {
 		} else {
 			logger.info("Successfully loaded with Sonar Core");
 		}
-		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ChunkHandler());
 		network = NetworkRegistry.INSTANCE.newSimpleChannel(modid);
 		logger.info("Registered Network");
 
@@ -172,17 +164,16 @@ public class Calculator {
 		if (Loader.isModLoaded("MineTweaker3")) {
 			MinetweakerIntegration.integrate();
 		}
-
+		/*
 		if (Loader.isModLoaded("appliedenergistics2")) {
 			StorageChamberHandler.init();
 			logger.info("Registered AE2 Handler for Storage Chamber");
 		}
-
+		 */
 	}
 
 	@EventHandler
-	public void loadFluxNetwork(FMLServerStoppingEvent event) {
-		FluxRegistry.removeAll();
+	public void onServerStopping(FMLServerStoppingEvent event) {
 		TeleporterRegistry.removeAll();
 		RecipeRegistry.clearRecipes();
 	}
@@ -208,7 +199,6 @@ public class Calculator {
 	//public static Block manipulationChamber;
 	public static Block hungerProcessor, healthProcessor;
 	public static Block basicGreenhouse, advancedGreenhouse, flawlessGreenhouse, CO2Generator;
-	public static Block fluxPlug, fluxPoint, fluxController;
 	public static Block scarecrow,scarecrowBlock;
 	public static Block gas_lantern_on,gas_lantern_off,basic_lantern;
 	public static Block starchextractor,redstoneextractor,glowstoneextractor;
@@ -271,11 +261,8 @@ public class Calculator {
 	public static Item pear, rotten_pear;
 	public static Item soil, small_stone;
 
-	// common blocks
-	public static Block reinforcedStoneBlock, reinforcedStoneBrick, reinforcedDirtBlock, reinforcedDirtBrick, purifiedObsidian, stableStone, stablestonerimmedBlock, stablestonerimmedblackBlock, stableGlass, clearStableGlass, flawlessGlass;
-	public static Block reinforcedStoneStairs, reinforcedStoneBrickStairs, reinforcedDirtStairs, reinforcedDirtBrickStairs;
-	public static Block reinforcedStoneFence, reinforcedStoneBrickFence, reinforcedDirtFence, reinforcedDirtBrickFence;
-
+	public static Block flawlessGlass, purifiedObsidian;
+	
 	// trees
 	public static Block amethystLeaves, tanzaniteLeaves, pearLeaves, diamondLeaves;
 	public static Block amethystLog, tanzaniteLog, pearLog, diamondLog;

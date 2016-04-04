@@ -49,43 +49,43 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		super.storage = new SyncEnergyStorage(25000000, 64000);
 		super.inv = new SonarTileInventory(this, 2);
 		super.maxTransfer = 100000;
+		super.energyMode = EnergyMode.SEND;
 	}
 
 	@Override
 	public void update() {
 		super.update();
-			boolean flag = active.getObject();
-			boolean invert = false;
-			if (canGenerate()) {
+		boolean flag = active.getObject();
+		boolean invert = false;
+		if (canGenerate()) {
 
-				if (!worldObj.isRemote) {
+			if (!worldObj.isRemote) {
 				beginGeneration();
-				}
-				if (!active.getObject()) {
-					invert = true;
-				}
-			} else if (active.getObject()) {
+			}
+			if (!active.getObject()) {
 				invert = true;
 			}
-			if (invert) {
-				this.active.invert();
-				SonarCore.sendPacketAround(this, 128, 0);
-			}
+		} else if (active.getObject()) {
+			invert = true;
+		}
+		if (invert) {
+			this.active.invert();
+			SonarCore.sendPacketAround(this, 128, 0);
+		}
 
-			if (!(this.sizeTicks >= 25)) {
-				sizeTicks++;
-			} else {
-				this.sizeTicks = 0;
-				this.createStructure();
-				this.getStability();
-			}
-			if(flag!=active.getObject()){
-				SonarCore.sendPacketAround(this, 64, 0);
-			}
-		
+		if (!(this.sizeTicks >= 25)) {
+			sizeTicks++;
+		} else {
+			this.sizeTicks = 0;
+			this.createStructure();
+			this.getStability();
+		}
+		if (flag != active.getObject()) {
+			SonarCore.sendPacketAround(this, 64, 0);
+		}
+
 		this.charge(0);
-		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
-		SonarAPI.getEnergyHelper().transferEnergy(this, entity, EnumFacing.UP, EnumFacing.DOWN);
+		this.addEnergy(EnumFacing.DOWN);
 		this.markDirty();
 	}
 
@@ -308,7 +308,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 
 	public void addSyncParts(List<ISyncPart> parts) {
 		super.addSyncParts(parts);
-		parts.addAll(Arrays.asList(active,size,stability,owner));
+		parts.addAll(Arrays.asList(active, size, stability, owner));
 	}
 
 	@Override

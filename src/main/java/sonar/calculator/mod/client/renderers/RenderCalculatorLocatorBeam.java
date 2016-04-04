@@ -1,7 +1,7 @@
 package sonar.calculator.mod.client.renderers;
 
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 
 public class RenderCalculatorLocatorBeam extends TileEntitySpecialRenderer<TileEntityCalculatorLocator> {
 

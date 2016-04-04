@@ -10,10 +10,12 @@ import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.IPlantable;
@@ -25,13 +27,16 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IGreenhouse;
 import sonar.calculator.mod.integration.planting.IHarvester;
 import sonar.calculator.mod.integration.planting.IPlanter;
+import sonar.core.api.ActionType;
 import sonar.core.api.BlockCoords;
+import sonar.core.api.SonarAPI;
+import sonar.core.api.StoredItemStack;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
+import sonar.core.helpers.RenderHelper;
 import sonar.core.helpers.InventoryHelper.IInventoryFilter;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.RenderHelper;
 
 public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory implements IGreenhouse {
 
@@ -66,7 +71,6 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public static boolean isSeed(ItemStack stack) {
 		return stack != null && stack.getItem() instanceof IPlantable;
 	}
-	
 
 	protected void harvestCrops() {
 		if (!(this.storage.getEnergyStored() > this.growthRF)) {
@@ -78,12 +82,33 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				for (IHarvester harvester : Calculator.harvesters.getObjects()) {
 					IBlockState state = worldObj.getBlockState(coord.getBlockPos());
 					if (harvester.canHarvest(worldObj, coord.getBlockPos(), state)) {
-						List<ItemStack> stack = harvester.getDrops(worldObj, coord.getBlockPos(), state, type);
-						// ADD ITEMSTACKS
+						List<ItemStack> stacks = harvester.getDrops(worldObj, coord.getBlockPos(), state, type);
+						if (stacks != null) {
+							addHarvestedStacks(stacks, coord);
+						}
 					}
 				}
 			}
 		}
+	}
+
+	protected void addHarvestedStacks(List<ItemStack> array, BlockCoords coord) {
+		for (ItemStack stack : array) {
+			if (stack != null) {
+				TileEntity tile = this.getWorld().getTileEntity(pos.offset(forward));
+				StoredItemStack storedstack = new StoredItemStack(stack);
+				StoredItemStack harvest = SonarAPI.getItemHelper().addItems(tile, storedstack.copy(), EnumFacing.getFront(0), ActionType.PERFORM, null);
+				storedstack.remove(harvest);
+				if (storedstack != null && storedstack.stored > 0) {
+					EntityItem drop = new EntityItem(worldObj, pos.offset(forward).getX(), pos.offset(forward).getY(), pos.offset(forward).getZ(), storedstack.getFullStack());
+					worldObj.spawnEntityInWorld(drop);
+				}
+				worldObj.setBlockToAir(coord.getBlockPos());
+				if (this.type == 3)
+					this.plantsHarvested++;
+			}
+		}
+
 	}
 
 	protected void plantCrops() {
@@ -92,7 +117,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 		for (BlockCoords coord : (ArrayList<BlockCoords>) getPlantArea().clone()) {
 			Block block = coord.getBlock(worldObj);
-			if ((block == null || block.isAir(getWorld(), pos) || block.isReplaceable(worldObj, coord.getBlockPos()))) {				
+			if ((block == null || block.isAir(getWorld(), pos) || block.isReplaceable(worldObj, coord.getBlockPos()))) {
 				for (IPlanter planter : Calculator.planters.getObjects()) {
 					for (Integer slot : getInvPlants()) {
 						ItemStack stack = slots()[slot];
@@ -113,7 +138,6 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			}
 		}
 	}
-
 
 	/* public static boolean canHarvest(World world, BlockPos pos) { Block block = world.getBlockState(pos).getBlock(); return block instanceof IGrowable; }
 	 * 
@@ -166,40 +190,6 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 	}
 
-	/* public boolean growCrop(int house, int size) { BlockPos cropPos = pos; int X = 0, Z = 0, XX = 0, ZZ = 0; int fX = forward.getFrontOffsetX(); int fZ = forward.getFrontOffsetZ(); switch (house) { case 1: cropPos.add((2 * fX), 0, (2 * fZ)); X = (0 + (int) (Math.random() * ((3 - 0) + 3))) - 2; Z = (0 + (int) (Math.random() * ((3 - 0) + 3))) - 2; break; case 2: cropPos.add((4 * fX), 0, (4 * fZ)); X = (0 + (int) (Math.random() * ((6 - 0) + 6))) - 3; Z = (0 + (int) (Math.random() * ((6 - 0) + 6))) - 3; break; case 3: int hX = RenderHelper.getHorizontal(forward).getFrontOffsetX(); int hZ = RenderHelper.getHorizontal(forward).getFrontOffsetZ(); X = fX * (0 + (int) (Math.random() * ((size - 0) + size))); Z = fZ * (0 + (int) (Math.random() * ((size - 0) + size))); XX = hX * ((1 + (int) (Math.random() * ((2 - 1) + 2)))); ZZ = hZ * ((1 + (int) (Math.random() * ((2 + 1) + 2)))); break; } return GreenhouseHelper.applyBonemeal(worldObj, cropPos.add(X + XX, 0, Z + ZZ), house == 3); }
-	 * 
-	 * public final boolean plant(ItemStack stack, int slot) { List<BlockCoords> coords = getPlantArea(); if (coords == null || coords.isEmpty()) {
-	 * 
-	 * this.planting = 0; return false; } IPlanter planter = PlanterRegistry.getPlanter(stack);
-	 * 
-	 * Block crop = planter.getCropFromStack(stack); int meta = planter.getStateFromStack(stack); if (crop == null) { this.planting = 0; return false; } for (BlockCoords crops : coords) { if (canPlant(this.worldObj, crops.getBlockPos(), slot)) {
-	 * 
-	 * this.worldObj.setBlockState(crops.getBlockPos(), crop.getDefaultState(), 1 | 2); this.slots()[slot].stackSize--; if (this.slots()[slot].stackSize <= 0) { this.slots()[slot] = null; } this.planting = 0; return true; }
-	 * 
-	 * }
-	 * 
-	 * this.planting = 0; return false;
-	 * 
-	 * }
-	 * 
-	 * public void harvest(World world, BlockPos pos) { List<ItemStack> array = new ArrayList(); IBlockState state = world.getBlockState(pos); Block block = state.getBlock(); if (!(block instanceof IGrowable)) { return; } if (!((IGrowable) block).canGrow(world, pos, state, world.isRemote)) { array = block.getDrops(world, pos, state, 0); }
-	 * 
-	 * if (array != null) { for (ItemStack stack : array) { if (stack != null) { TileEntity tile = this.getWorld().getTileEntity(pos.add((forward.getOpposite().getFrontOffsetX()), 0, (forward.getFrontOffsetZ()))); ItemStack harvest = InventoryHelper.addItems(tile, stack, 0, null); if (harvest != null) { EntityItem drop = new EntityItem(world, pos.getX() + (forward.getOpposite().getFrontOffsetX()), pos.getY(), pos.getY() + (forward.getOpposite().getFrontOffsetZ()), harvest); world.spawnEntityInWorld(drop); } world.setBlockToAir(pos); if (this.type == 3) this.plantsHarvested++; } }
-	 * 
-	 * }
-	 * 
-	 * }
-	 * 
-	 * protected boolean checkTierUsage(Item seeds) { if (seeds instanceof SonarSeeds) { SonarSeeds seed = (SonarSeeds) seeds; return seed.canTierUse(this.type); } if (seeds instanceof SonarSeedsFood) { SonarSeedsFood seed = (SonarSeedsFood) seeds; return seed.canTierUse(this.type); }
-	 * 
-	 * return true; }
-	 * 
-	 * /** checks if crop can be planted at coords
-	 * 
-	 * @param slot2 */
-	/* protected boolean canPlant(World worldObj, BlockPos pos, int slot) { ItemStack stack = slots()[slot]; if (stack == null) { return false; } if (stack.getItem() instanceof IPlantable) { IPlantable plantable = (IPlantable) stack.getItem(); Block target = plantable.getPlant(null, new BlockPos(0, 0, 0)).getBlock(); Block ground = worldObj.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock(); if (target != null) { EnumPlantType type = plantable.getPlantType(this.worldObj, new BlockPos(0, 0, 0)); if (type != null) { if (checkTierUsage(this.slots()[slot].getItem())) { if (target instanceof CalculatorCrops) { CalculatorCrops crops = (CalculatorCrops) target; if (crops.canPlaceBlockAt(worldObj, pos)) { if (ground.canSustainPlant(worldObj, pos.offset(EnumFacing.DOWN), EnumFacing.UP, plantable)) { return true; } } } else { if (type == EnumPlantType.Crop) { if (target.canPlaceBlockAt(worldObj, pos)) { if (ground.canSustainPlant(worldObj, pos.offset(EnumFacing.DOWN), EnumFacing.UP, plantable)) { return true; } } } if (type == EnumPlantType.Nether) { if (target.canPlaceBlockAt(worldObj, pos)) { return true;
-	 * 
-	 * } } } } } } } return false; } */
 	public enum BlockType {
 		LOG, GLASS, PLANKS, STAIRS;
 		public boolean checkBlock(Item item) {
@@ -586,7 +576,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SYNC || type == SyncType.SAVE) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			this.isMulti = nbt.getInteger("Multi");
 			this.wasBuilt = nbt.getInteger("wasBuilt");
 			this.carbonLevels = nbt.getInteger("Carbon");
@@ -599,7 +589,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SYNC || type == SyncType.SAVE) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setInteger("Multi", this.isMulti);
 			nbt.setInteger("wasBuilt", this.wasBuilt);
 			nbt.setInteger("Carbon", this.carbonLevels);

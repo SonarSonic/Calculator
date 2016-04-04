@@ -1,12 +1,13 @@
 package sonar.calculator.mod.network;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import sonar.calculator.mod.BlockRenderRegister;
 import sonar.calculator.mod.ItemRenderRegister;
+import sonar.calculator.mod.client.renderers.RenderAnalysingChamber;
 import sonar.calculator.mod.client.renderers.RenderChamber;
 import sonar.calculator.mod.client.renderers.RenderCrank;
+import sonar.calculator.mod.client.renderers.RenderFabricationChamber;
 import sonar.calculator.mod.client.renderers.RenderMagneticFlux;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
@@ -14,6 +15,8 @@ import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 
 public class CalculatorClient extends CalculatorCommon{
@@ -29,6 +32,8 @@ public class CalculatorClient extends CalculatorCommon{
 		RenderingRegistry.registerEntityRenderingHandler(EntitySmallStone.class, RenderThrowables.SMALL_STONE);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrankHandle.class, new RenderCrank());
 
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAnalysingChamber.class, new RenderAnalysingChamber());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFabricationChamber.class, new RenderFabricationChamber());
 		/*
 		TileEntitySpecialRenderer plug = new RenderCalculatorPlug();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalculatorPlug.class, plug);

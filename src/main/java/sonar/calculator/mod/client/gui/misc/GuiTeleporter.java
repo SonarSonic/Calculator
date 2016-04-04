@@ -3,8 +3,6 @@ package sonar.calculator.mod.client.gui.misc;
 import java.awt.Color;
 import java.util.List;
 
-import net.java.games.input.Keyboard;
-import net.java.games.input.Mouse;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -12,6 +10,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.api.machines.TeleportLink;
@@ -20,6 +20,7 @@ import sonar.core.SonarCore;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerEmpty;
 import sonar.core.inventory.GuiSonar;
+import sonar.core.inventory.SonarButtons.ImageButton;
 import sonar.core.network.PacketByteBufServer;
 import sonar.core.network.PacketTextField;
 
@@ -64,8 +65,8 @@ public class GuiTeleporter extends GuiSonar {
 		FontHelper.text("Teleporter", 16, 6, 0);
 		GL11.glPushMatrix();
 		GL11.glScaled(0.75, 0.75, 0.75);
-		FontHelper.textOffsetCentre("X: " +entity.xCoord + " Y: " +entity.yCoord + " Z: " +entity.zCoord, 57, 26, 0);
-		FontHelper.textOffsetCentre("Dimension: " + entity.dimension(), 57, 35, 0);
+		FontHelper.textOffsetCentre("X: " +entity.getPos().getX() + " Y: " +entity.getPos().getY() + " Z: " +entity.getPos().getZ(), 57, 26, 0);
+		FontHelper.textOffsetCentre("Dimension: " + entity.getCoords().getDimension(), 57, 35, 0);
 		GL11.glPopMatrix();
 		FontHelper.text("Password: ", 18, 56, 0);
 		FontHelper.text("Password: ", 97, 56, Color.GREEN.getRGB());
@@ -74,15 +75,15 @@ public class GuiTeleporter extends GuiSonar {
 	public void initGui() {
 		super.initGui();
 		Keyboard.enableRepeatEvents(true);
-		name = new GuiTextField(this.fontRendererObj, 8, 40, 70, 12);
+		name = new GuiTextField(0,this.fontRendererObj, 8, 40, 70, 12);
 		name.setMaxStringLength(10);
 		name.setText(String.valueOf(entity.name));
 
-		password = new GuiTextField(this.fontRendererObj, 8, 66, 70, 12);
+		password = new GuiTextField(1,this.fontRendererObj, 8, 66, 70, 12);
 		password.setMaxStringLength(10);
 		password.setText(String.valueOf(entity.password));
 
-		destinationPassword = new GuiTextField(this.fontRendererObj, 87, 66, 70, 12);
+		destinationPassword = new GuiTextField(2,this.fontRendererObj, 87, 66, 70, 12);
 		destinationPassword.setMaxStringLength(10);
 		destinationPassword.setText(String.valueOf(entity.linkPassword));
 
@@ -108,7 +109,6 @@ public class GuiTeleporter extends GuiSonar {
 
 	@Override
 	protected void mouseClicked(int i, int j, int k) {
-		super.mouseClicked(i, j, k);
 		name.mouseClicked(i - guiLeft, j - guiTop, k);
 		password.mouseClicked(i - guiLeft, j - guiTop, k);
 		destinationPassword.mouseClicked(i - guiLeft, j - guiTop, k);
@@ -121,7 +121,6 @@ public class GuiTeleporter extends GuiSonar {
 	}
 
 	public void handleMouseInput() {
-		super.handleMouseInput();
 		float lastScroll = currentScroll;
 		int i = Mouse.getEventDWheel();
 
@@ -188,9 +187,9 @@ public class GuiTeleporter extends GuiSonar {
 				name.textboxKeyTyped(c, i);
 				final String text = name.getText();
 				if (text.isEmpty() || text == "" || text == null) {
-					SonarCore.network.sendToServer(new PacketTextField("Unnamed", entity.xCoord, entity.yCoord, entity.zCoord, 1));
+					SonarCore.network.sendToServer(new PacketTextField("Unnamed", entity.getPos(), 1));
 				} else {
-					SonarCore.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 1));
+					SonarCore.network.sendToServer(new PacketTextField(text, entity.getPos(), 1));
 				}
 				if (text.isEmpty() || text == "" || text == null)
 					this.entity.name = "Unnamed";
@@ -206,9 +205,9 @@ public class GuiTeleporter extends GuiSonar {
 				password.textboxKeyTyped(c, i);
 				final String text = password.getText();
 				if (text.isEmpty() || text == "" || text == null) {
-					SonarCore.network.sendToServer(new PacketTextField("", entity.xCoord, entity.yCoord, entity.zCoord, 2));
+					SonarCore.network.sendToServer(new PacketTextField("", entity.getPos(), 2));
 				} else {
-					SonarCore.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 2));
+					SonarCore.network.sendToServer(new PacketTextField(text, entity.getPos(), 2));
 				}
 				if (text.isEmpty() || text == "" || text == null)
 					this.entity.password = "";
@@ -224,9 +223,9 @@ public class GuiTeleporter extends GuiSonar {
 				destinationPassword.textboxKeyTyped(c, i);
 				final String text = destinationPassword.getText();
 				if (text.isEmpty() || text == "" || text == null) {
-					SonarCore.network.sendToServer(new PacketTextField("", entity.xCoord, entity.yCoord, entity.zCoord, 3));
+					SonarCore.network.sendToServer(new PacketTextField("", entity.getPos(), 3));
 				} else {
-					SonarCore.network.sendToServer(new PacketTextField(text, entity.xCoord, entity.yCoord, entity.zCoord, 3));
+					SonarCore.network.sendToServer(new PacketTextField(text, entity.getPos(), 3));
 				}
 				if (text.isEmpty() || text == "" || text == null)
 					this.entity.linkPassword = "";
@@ -236,7 +235,7 @@ public class GuiTeleporter extends GuiSonar {
 			}
 
 		} else {
-			super.keyTyped(c, i);
+			//super.keyTyped(c, i);
 
 		}
 
@@ -259,7 +258,7 @@ public class GuiTeleporter extends GuiSonar {
 				int network = start + button.id - 10;
 				if (network < entity.links.size()) {
 					entity.linkID=entity.links.get(network).networkID;
-					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.xCoord, entity.yCoord, entity.zCoord, 0));
+					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 0));
 				}
 			}
 		}
@@ -299,7 +298,7 @@ public class GuiTeleporter extends GuiSonar {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public class NetworkButton extends SonarButtons.ImageButton {
+	public class NetworkButton extends ImageButton {
 
 		public NetworkButton(int id, int x, int y) {
 			super(id, x, y, network, 0, 190, 72, 11);

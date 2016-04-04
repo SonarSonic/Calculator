@@ -107,9 +107,9 @@ public class InfoList {
 		addRecipe("Items", new ItemStack(Calculator.cookedBroccoli), "Eat your greens cooked!");
 		addRecipe("Items", new ItemStack(Calculator.rotten_pear), "Replacement for Slime Balls");
 		addRecipe("Blocks", new ItemStack(Calculator.magneticFlux), "Magnetises items on the ground-Into a chest below");
-		addRecipe("Blocks", new ItemStack(Calculator.fluxPlug), "Adds flux to Flux Network");
-		addRecipe("Blocks", new ItemStack(Calculator.fluxPoint), "Removes flux from Flux Network");
-		addRecipe("Machines", new ItemStack(Calculator.fluxController), "Controls energy flow-in a Flux Network");
+		//addRecipe("Blocks", new ItemStack(Calculator.fluxPlug), "Adds flux to Flux Network");
+		//addRecipe("Blocks", new ItemStack(Calculator.fluxPoint), "Removes flux from Flux Network");
+		//addRecipe("Machines", new ItemStack(Calculator.fluxController), "Controls energy flow-in a Flux Network");
 		addRecipe("Machines", new ItemStack(Calculator.teleporter), "A simple teleporter -+Can be password protected");
 		addRecipe("Blocks", new ItemStack(Calculator.weatherStation), "Has the ability to-control the weather");
 		addRecipe("Items", new ItemStack(Calculator.calculator_screen), "Displays the RF stored-in machines when placed-on the side");

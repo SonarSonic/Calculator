@@ -1,8 +1,5 @@
 package sonar.calculator.mod.network.packets;
 
-import sonar.calculator.mod.api.modules.IModule;
-import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
-import sonar.core.SonarCore;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -13,6 +10,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
+import sonar.calculator.mod.api.modules.IModule;
+import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
+import sonar.core.SonarCore;
 
 public class PacketModuleSelection implements IMessage {
 

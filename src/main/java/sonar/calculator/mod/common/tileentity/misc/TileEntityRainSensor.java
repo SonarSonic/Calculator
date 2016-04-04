@@ -1,9 +1,9 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import sonar.calculator.mod.common.block.misc.RainSensor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import sonar.calculator.mod.common.block.misc.RainSensor;
 
 public class TileEntityRainSensor extends TileEntity implements ITickable {
 

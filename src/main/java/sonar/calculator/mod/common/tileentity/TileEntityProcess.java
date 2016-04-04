@@ -12,9 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.actors.threadpool.Arrays;
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorItems;
 import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.core.SonarCore;
@@ -183,8 +180,8 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			if (type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
+			if (type.isType(SyncType.DEFAULT_SYNC)) {
 				this.currentSpeed = nbt.getInteger("speed");
 			}
 			upgrades.readData(nbt, type);
@@ -194,8 +191,8 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
-			if (type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
+			if (type.isType(SyncType.DEFAULT_SYNC)) {
 				nbt.setInteger("speed", this.getProcessTime());
 			}
 			upgrades.writeData(nbt, type);

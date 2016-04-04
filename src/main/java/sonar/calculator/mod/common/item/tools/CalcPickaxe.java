@@ -2,7 +2,6 @@ package sonar.calculator.mod.common.item.tools;
 
 import java.util.Random;
 
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemPickaxe;
 
 public class CalcPickaxe extends ItemPickaxe {

@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.integration.planting.IPlanter;
-import sonar.core.api.BlockCoords;
 
 public class Planter implements IPlanter {
 

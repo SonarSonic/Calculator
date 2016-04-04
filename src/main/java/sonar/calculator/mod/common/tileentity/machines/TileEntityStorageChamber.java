@@ -209,10 +209,11 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 		}
 
 		public void decreaseStored(int slot, int decrease) {
-			if (stored[slot] == 1) {
+			stored[slot] -= decrease;
+			if (stored[slot] <= 0) {
+				stored[slot] = 0;
 				resetSavedStack(slot);
 			}
-			stored[slot] -= decrease;
 		}
 
 		public void setSavedStack(ItemStack stack) {
@@ -297,35 +298,15 @@ public class TileEntityStorageChamber extends TileEntitySidedInventory implement
 				if (stack.getItem() instanceof IStability) {
 					IStability stability = (IStability) stack.getItem();
 					if (stability.getStability(stack)) {
-						NBTTagCompound tag = new NBTTagCompound();
-						tag.setInteger("Stable", 1);
-						tag.setInteger("Item1", 0);
-						tag.setInteger("Item2", 0);
-						tag.setInteger("Item3", 0);
-						tag.setInteger("Item4", 0);
-						tag.setInteger("Item5", 0);
-						tag.setInteger("Item6", 0);
-						tag.setInteger("Energy", 0);
-						ItemStack stable = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
-						stable.setTagCompound(tag);
-						if (ItemStack.areItemStackTagsEqual(stable, stack)) {
-							return CircuitType.Stable;
+						if (stack.hasTagCompound()) {
+							if (stack.getTagCompound().getBoolean("Analysed")) {
+								return CircuitType.Stable;
+							}
 						}
 					} else if (!stack.hasTagCompound()) {
 						return CircuitType.Analysed;
 					} else if (stack.hasTagCompound()) {
-						NBTTagCompound tag = new NBTTagCompound();
-						tag.setInteger("Stable", 0);
-						tag.setInteger("Item1", 0);
-						tag.setInteger("Item2", 0);
-						tag.setInteger("Item3", 0);
-						tag.setInteger("Item4", 0);
-						tag.setInteger("Item5", 0);
-						tag.setInteger("Item6", 0);
-						tag.setInteger("Energy", 0);
-						ItemStack analysed = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
-						analysed.setTagCompound(tag);
-						if (ItemStack.areItemStackTagsEqual(analysed, stack)) {
+						if (stack.getTagCompound().getBoolean("Analysed")) {
 							return CircuitType.Analysed;
 						}
 					}

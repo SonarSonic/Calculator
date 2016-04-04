@@ -1,5 +1,5 @@
 package sonar.calculator.mod.integration.ae2;
-
+/*
 import java.lang.reflect.Constructor;
 
 import net.minecraft.item.ItemStack;
@@ -187,3 +187,4 @@ public class StorageChamberHandler {
 	}
 
 }
+*/

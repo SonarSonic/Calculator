@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -32,7 +31,6 @@ import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.utils.IGuiTile;
 

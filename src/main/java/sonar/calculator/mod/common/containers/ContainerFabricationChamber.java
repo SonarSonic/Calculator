@@ -4,12 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
-import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerFabricationChamber extends ContainerSync {
 	private TileEntityFabricationChamber entity;
@@ -18,16 +15,16 @@ public class ContainerFabricationChamber extends ContainerSync {
 		super(entity);
 		this.entity = entity;
 
-		addSlotToContainer(new SlotBlockedInventory(entity, 0, 140, 35));
+		addSlotToContainer(new SlotBlockedInventory(entity, 0, 115, 89));
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 34+ 84 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
+			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 34+ 142));
 		}
 	}
 

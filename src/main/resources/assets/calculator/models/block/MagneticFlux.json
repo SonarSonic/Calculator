@@ -4,7 +4,7 @@
         "particle":"calculator:model/magnetic_flux_base",
         "0":"calculator:model/magnetic_flux_base",
         "1":"calculator:model/magnetic_flux_top",
-        "2":"calculator:blocks/connected/stablestone"
+        "2":"sonarcore:blocks/connected/stablestone"
     },
     "elements": [
         {

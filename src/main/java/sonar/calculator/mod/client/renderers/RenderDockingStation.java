@@ -1,5 +1,6 @@
 package sonar.calculator.mod.client.renderers;
 
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
@@ -9,7 +10,6 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.client.models.ModelDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
-import sonar.core.helpers.RenderHelper;
 
 public class RenderDockingStation extends TileEntitySpecialRenderer {
 	private static final String texture = "Calculator:textures/model/dockingstation.png";

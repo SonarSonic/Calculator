@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
@@ -47,7 +46,7 @@ public class ExtractorBlock extends SonarMachineBlock {
 		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity != null && tileentity instanceof TileEntityGenerator) {
 			TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(pos);
-			generator.updateAdjacentHandlers();
+			//generator.updateAdjacentHandlers();
 		}
 	}
 
@@ -56,7 +55,7 @@ public class ExtractorBlock extends SonarMachineBlock {
 		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity != null && tileentity instanceof TileEntityGenerator) {
 			TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(pos);
-			generator.updateAdjacentHandlers();
+			//generator.updateAdjacentHandlers();
 		}
 
 	}

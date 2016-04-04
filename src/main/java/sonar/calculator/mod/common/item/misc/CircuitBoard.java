@@ -25,23 +25,13 @@ public class CircuitBoard extends SonarMetaItem implements IStability {
 		super.addInformation(stack, player, list, par4);
 		if (stack.hasTagCompound()) {
 			int stable = stack.getTagCompound().getInteger("Stable");
-			if (stable == 1) {
-				list.add(FontHelper.translate("circuit.stable"));
-			} else {
-				NBTTagCompound tag = new NBTTagCompound();
-				tag.setInteger("Stable", 0);
-				tag.setInteger("Item1", 0);
-				tag.setInteger("Item2", 0);
-				tag.setInteger("Item3", 0);
-				tag.setInteger("Item4", 0);
-				tag.setInteger("Item5", 0);
-				tag.setInteger("Item6", 0);
-				tag.setInteger("Energy", 0);
-				ItemStack analysed = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
-				analysed.setTagCompound(tag);
-				if (ItemStack.areItemStackTagsEqual(analysed, stack)) {
+			if (stack.getTagCompound().getBoolean("Analysed")) {
+				if (stable == 1) {
+					list.add(FontHelper.translate("circuit.stable"));
+				} else
 					list.add(FontHelper.translate("circuit.analysed"));
-				}
+			} else {
+				list.add(FontHelper.translate("Not analysed"));
 			}
 		}
 	}

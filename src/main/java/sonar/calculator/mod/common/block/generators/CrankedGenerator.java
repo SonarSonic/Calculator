@@ -11,7 +11,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenerator;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
@@ -40,7 +39,7 @@ public class CrankedGenerator extends SonarMachineBlock {
 		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity != null && tileentity instanceof TileEntityCrankedGenerator) {
 			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(pos);
-			generator.updateAdjacentHandlers();
+			//generator.updateAdjacentHandlers();
 		}
 	}
 	@Override
@@ -48,9 +47,8 @@ public class CrankedGenerator extends SonarMachineBlock {
 		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity != null && tileentity instanceof TileEntityCrankedGenerator) {
 			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(pos);
-			generator.updateAdjacentHandlers();
+			//generator.updateAdjacentHandlers();
 		}
-
 	}
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {

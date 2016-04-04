@@ -5,7 +5,6 @@ import io.netty.buffer.ByteBuf;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -66,7 +65,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			this.whitelisted = nbt.getBoolean("blacklisted");
 			this.exact = nbt.getBoolean("exact");
 		}
@@ -75,7 +74,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setBoolean("blacklisted", whitelisted);
 			nbt.setBoolean("exact", exact);
 		}

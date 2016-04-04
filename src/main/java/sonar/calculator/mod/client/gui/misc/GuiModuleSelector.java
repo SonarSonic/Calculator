@@ -2,7 +2,13 @@ package sonar.calculator.mod.client.gui.misc;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -14,22 +20,7 @@ import sonar.calculator.mod.api.modules.IModule;
 import sonar.calculator.mod.common.containers.ContainerModuleSelector;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.calculator.mod.network.packets.PacketModuleSelection;
-import sonar.core.SonarCore;
 import sonar.core.helpers.FontHelper;
-import sonar.core.helpers.RenderHelper;
-import sonar.core.inventory.GuiSonar;
-import sonar.core.inventory.SonarButtons;
-import sonar.core.inventory.SonarButtons.SonarButton;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class GuiModuleSelector extends GuiContainer {
 

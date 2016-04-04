@@ -20,13 +20,6 @@ item.EnergyUpgrade.name=Energy Upgrade
 item.SpeedUpgrade.name=Speed Upgrade
 item.VoidUpgrade.name=Void Upgrade
 
-//blocks
-tile.ReinforcedStoneBlock.name=Reinforced Stone
-tile.ReinforcedDirtBlock.name=Reinforced Dirt
-tile.stablestoneBlock.name=Stable Stone
-tile.stablePort.name=Stable Stone
-
-
 //items for calculators
 item.CalculatorAssembly.name=Calculator Assembly
 item.CalculatorScreen.name=Calculator Screen
@@ -505,71 +498,8 @@ docking.noCalculator=No Calculator is mounted
 tile.CalculatorTeleporter.name=Teleporter
 tile.StoneAssimilator.name=Stone Assimilator
 tile.AlgorithmAssimilator.name=Algorithm Assimilator
-
-tile.stablestoneBlock_0.name=Stable Stone
-tile.stablestoneBlock_1.name=Orange Stable Stone
-tile.stablestoneBlock_2.name=Magenta Stable Stone
-tile.stablestoneBlock_3.name=Light Blue Stable Stone
-tile.stablestoneBlock_4.name=Yellow Stable Stone
-tile.stablestoneBlock_5.name=Lime Stable Stone
-tile.stablestoneBlock_6.name=Pink Stable Stone
-tile.stablestoneBlock_7.name=Plain Stable Stone
-tile.stablestoneBlock_8.name=Light Stable Stone
-tile.stablestoneBlock_9.name=Cyan Stable Stone
-tile.stablestoneBlock_10.name=Purple Stable Stone
-tile.stablestoneBlock_11.name=Blue Stable Stone
-tile.stablestoneBlock_12.name=Brown Stable Stone
-tile.stablestoneBlock_13.name=Green Stable Stone
-tile.stablestoneBlock_14.name=Red Stable Stone
-tile.stablestoneBlock_15.name=Black Stable Stone
-
-tile.stablestonerimmedBlock_0.name=Rimmed Stable Stone
-tile.stablestonerimmedBlock_1.name=Orange Rimmed Stable Stone
-tile.stablestonerimmedBlock_2.name=Magenta Rimmed Stable Stone
-tile.stablestonerimmedBlock_3.name=Light Blue Rimmed Stable Stone
-tile.stablestonerimmedBlock_4.name=Yellow Rimmed Stable Stone
-tile.stablestonerimmedBlock_5.name=Lime Rimmed Stable Stone
-tile.stablestonerimmedBlock_6.name=Pink Rimmed Stable Stone
-tile.stablestonerimmedBlock_7.name=Plain Rimmed Stable Stone
-tile.stablestonerimmedBlock_8.name=Light Rimmed Stable Stone
-tile.stablestonerimmedBlock_9.name=Cyan Rimmed Stable Stone
-tile.stablestonerimmedBlock_10.name=Purple Rimmed Stable Stone
-tile.stablestonerimmedBlock_11.name=Blue Rimmed Stable Stone
-tile.stablestonerimmedBlock_12.name=Brown Rimmed Stable Stone
-tile.stablestonerimmedBlock_13.name=Green Rimmed Stable Stone
-tile.stablestonerimmedBlock_14.name=Red Rimmed Stable Stone
-tile.stablestonerimmedBlock_15.name=Black Rimmed Stable Stone
-
-tile.stablestonerimmedblackBlock_0.name=Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_1.name=Orange Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_2.name=Magenta Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_3.name=Light Blue Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_4.name=Yellow Rimmed Black  Stable Stone
-tile.stablestonerimmedblackBlock_5.name=Lime Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_6.name=Pink Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_7.name=Plain Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_8.name=Light Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_9.name=Cyan Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_10.name=Purple Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_11.name=Blue Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_12.name=Brown Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_13.name=Green Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_14.name=Red Rimmed Black Stable Stone
-tile.stablestonerimmedblackBlock_15.name=Black Rimmed Black Stable Stone
-
 tile.FlawlessFurnace.name=Flawless Furnace
 
-tile.ReinforcedStoneStairs.name=Reinforced Stone Stairs
-tile.ReinforcedStoneFence.name=Reinforced Stone Fence
-
-tile.ReinforcedStoneBrickStairs.name=Reinforced Stone Brick Stairs
-tile.ReinforcedStoneBrickFence.name=Reinforced Stone Brick Fence
-
-tile.ReinforcedDirtStairs.name=Reinforced Dirt Stairs
-tile.ReinforcedDirtFence.name=Reinforced Dirt Fence
-
-tile.ReinforcedDirtBrickStairs.name=Reinforced Dirt Brick Stairs
-tile.ReinforcedDirtBrickFence.name=Reinforced Dirt Brick Fence
 
 //new
 item.WarpModule.name=Warp Module

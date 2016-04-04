@@ -20,7 +20,6 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.machines.GuiBasicGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
-import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.PlantableFilter;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.BlockCoords;
 import sonar.core.api.SonarAPI;

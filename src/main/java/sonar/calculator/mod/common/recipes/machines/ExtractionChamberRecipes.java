@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.recipes.machines;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.core.helpers.RecipeHelper;
 
@@ -17,8 +18,8 @@ public class ExtractionChamberRecipes extends RecipeHelper {
 	}
 	@Override
 	public void addRecipes() {
-	    addRecipe(Blocks.dirt, new ItemStack(Calculator.soil, 1), new ItemStack(Calculator.circuitDirty));
-	    addRecipe("cobblestone", new ItemStack(Calculator.small_stone, 1), new ItemStack(Calculator.circuitDamaged));
+	    addRecipe(Blocks.dirt, new ItemStack(Calculator.soil, 1), new ItemStack(Calculator.circuitDirty, 1, OreDictionary.WILDCARD_VALUE));
+	    addRecipe("cobblestone", new ItemStack(Calculator.small_stone, 1), new ItemStack(Calculator.circuitDamaged, 1, OreDictionary.WILDCARD_VALUE));
 	}
 
 	@Override

@@ -10,14 +10,11 @@ import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.generators.GuiCrankedGenerator;
 import sonar.calculator.mod.common.containers.ContainerCrankedGenerator;
-import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.core.common.tileentity.TileEntityEnergy;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.SonarHelper;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
-import cofh.api.energy.IEnergyReceiver;
 
 public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGuiTile {
 
@@ -29,6 +26,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 	public TileEntityCrankedGenerator() {
 		super.storage = new SyncEnergyStorage(1000, 200);
 		super.maxTransfer = 32;
+		super.energyMode=EnergyMode.SEND;
 	}
 
 	@Override
@@ -39,17 +37,17 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 			TileEntityCrankHandle crank = (TileEntityCrankHandle) this.worldObj.getTileEntity(pos.offset(EnumFacing.UP));
 			if (crank.angle > 0) {
 				if (ticks == 0) {
-					this.storage.modifyEnergyStored(2);
+					this.storage.modifyEnergyStored(8);
 				}
 				ticks++;
 				if (ticks == ticksforpower) {
 					ticks = 0;
 				}
 			}
-		}
-		int maxTransfer = Math.min(this.maxTransfer, this.storage.getEnergyStored());
-		this.storage.extractEnergy(maxTransfer - this.pushEnergy(maxTransfer, false), false);
+		} 
+		addEnergy(EnumFacing.VALUES);
 	}
+
 
 	public boolean cranked() {
 		Block crank = this.worldObj.getBlockState(pos.offset(EnumFacing.UP)).getBlock();
@@ -59,37 +57,13 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 		return false;
 	}
 
-	public int pushEnergy(int recieve, boolean simulate) {
-		for (int i = 0; i < 6; i++) {
-			if (this.handlers[i] != null) {
-				if (handlers[i] instanceof IEnergyReceiver) {
-					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(EnumFacing.VALUES[(i ^ 0x1)], recieve, simulate);
-				}
-			}
-		}
-		return recieve;
-	}
-
-	public void updateAdjacentHandlers() {
-		for (int i = 0; i < 6; i++) {
-			TileEntity te = SonarHelper.getAdjacentTileEntity(this, EnumFacing.getFront(i));
-			if (!(te instanceof TileEntityFlux)) {
-				if (SonarHelper.isEnergyHandlerFromSide(te, EnumFacing.VALUES[(i ^ 0x1)])) {
-					this.handlers[i] = te;
-				} else
-					this.handlers[i] = null;
-			}
-		}
-	}
-
 	public void onLoaded() {
 		super.onLoaded();
-		this.updateAdjacentHandlers();
 	}
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
 			this.cranked = nbt.getBoolean("cranked");
 			this.ticks = nbt.getInteger("ticks");
 		}
@@ -97,7 +71,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
 			nbt.setBoolean("cranked", cranked());
 			nbt.setInteger("ticks", ticks);
 		}

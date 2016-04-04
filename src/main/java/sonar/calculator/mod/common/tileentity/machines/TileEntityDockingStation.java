@@ -14,9 +14,10 @@ import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RecipeHelper;
 import sonar.core.helpers.RenderHelper;
+import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.utils.IGuiTile;
 
-public class TileEntityDockingStation extends TileEntityAbstractProcess implements IGuiTile {
+public class TileEntityDockingStation extends TileEntityAbstractProcess implements IGuiTile, IAdditionalInventory {
 
 	public ItemStack calcStack;
 
@@ -130,14 +131,14 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			this.calcStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("calcStack"));
 		}
 	}
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			if (calcStack != null) {
 				NBTTagCompound stack = new NBTTagCompound();
 				calcStack.writeToNBT(stack);
@@ -202,4 +203,11 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		return new GuiDockingStation(player.inventory, this);
 	}
 
+	public ItemStack[] getAdditionalStacks(){
+		if(calcStack!=null){
+			return new ItemStack[]{calcStack};
+		}else{
+			return new ItemStack[0];
+		}
+	}
 }

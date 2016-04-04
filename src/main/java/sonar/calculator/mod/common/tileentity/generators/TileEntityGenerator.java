@@ -17,16 +17,13 @@ import sonar.calculator.mod.common.containers.ContainerExtractor;
 import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
-import sonar.calculator.mod.common.tileentity.TileEntityFlux;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
-import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
-import cofh.api.energy.IEnergyReceiver;
 
 import com.google.common.collect.Lists;
 
@@ -37,7 +34,6 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	public SyncTagType.INT itemLevel = new SyncTagType.INT(0);
 	public SyncTagType.INT burnTime = new SyncTagType.INT(1);
 	public SyncTagType.INT maxBurnTime = new SyncTagType.INT(2);
-	//public int itemLevel, burnTime;
 	public int levelMax = 5000;
 	public int requiredLevel = 400;
 	public int energyMultiplier;
@@ -59,8 +55,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		if (!this.worldObj.isRemote) {
 			processItemLevel();
 			generateEnergy();
-			int maxTransfer = Math.min(this.maxTransfer, this.storage.getEnergyStored());
-			this.storage.extractEnergy(maxTransfer - this.pushEnergy(maxTransfer, false), false);
+			this.addEnergy(EnumFacing.VALUES);
 		}
 		this.markDirty();
 	}
@@ -106,36 +101,6 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 			}
 		}
 
-	}
-
-	public int pushEnergy(int recieve, boolean simulate) {
-		for (int i = 0; i < 6; i++) {
-			if (this.handlers[i] != null) {
-				if (handlers[i] instanceof IEnergyReceiver) {
-					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(EnumFacing.VALUES[(i ^ 0x1)], recieve, simulate);
-				}
-			}
-		}
-		return recieve;
-	}
-
-	public void updateAdjacentHandlers() {
-		for (int i = 0; i < 6; i++) {
-			TileEntity te = SonarHelper.getAdjacentTileEntity(this, EnumFacing.getFront(i));
-			if (!(te instanceof TileEntityFlux)) {
-				/*
-				if (SonarHelper.isEnergyHandlerFromSide(te, EnumFacing.VALUES[(i ^ 0x1)])) {
-					this.handlers[i] = te;
-				} else
-					this.handlers[i] = null;
-					*/
-			}
-		}
-	}
-
-	public void onLoaded() {
-		super.onLoaded();
-		this.updateAdjacentHandlers();
 	}
 
 	public abstract int getItemValue(ItemStack stack);

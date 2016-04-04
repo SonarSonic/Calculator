@@ -11,11 +11,9 @@ import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.block.CalculatorPlanks;
 import sonar.calculator.mod.common.block.CalculatorSaplings;
-import sonar.calculator.mod.common.block.CalculatorStairs;
 import sonar.calculator.mod.common.block.MaterialBlock;
 import sonar.calculator.mod.common.block.SmeltingBlock;
 import sonar.calculator.mod.common.block.SmeltingBlock.BlockTypes;
-import sonar.calculator.mod.common.block.ConnectedBlock;
 import sonar.calculator.mod.common.block.calculators.AtomicCalculator;
 import sonar.calculator.mod.common.block.calculators.DynamicCalculator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
@@ -70,8 +68,10 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import sonar.core.common.block.BlockBase;
+import sonar.core.common.block.ConnectedBlock;
 import sonar.core.common.block.SonarBlockTip;
 import sonar.core.common.block.SonarMetaBlock;
+import sonar.core.common.block.SonarStairs;
 
 public class CalculatorBlocks extends Calculator {
 
@@ -90,28 +90,7 @@ public class CalculatorBlocks extends Calculator {
 		return block;
 	}	
 	public static void registerBlocks() {
-		
-		// common blocks
-		reinforcedStoneBlock = registerBlock("ReinforcedStoneBlock",new BlockBase(Material.rock, 2.0f, 10.0f));
-		reinforcedStoneStairs = registerBlock("ReinforcedStoneStairs",new CalculatorStairs(reinforcedStoneBlock));
-		reinforcedStoneFence = registerBlock("ReinforcedStoneFence",new BlockFence(Material.rock));
-		
-		reinforcedStoneBrick = registerBlock("ReinforcedStoneBrick",new BlockBase(Material.rock, 2.0f, 10.0f));
-		reinforcedStoneBrickStairs = registerBlock("ReinforcedStoneBrickStairs",new CalculatorStairs(reinforcedStoneBrick));
-		reinforcedStoneBrickFence = registerBlock("ReinforcedStoneBrickFence",new BlockFence(Material.rock));
-		
-		reinforcedDirtBlock = registerBlock("ReinforcedDirtBlock",new BlockBase(Material.ground, 1.0f, 4.0f));
-		reinforcedDirtStairs = registerBlock("ReinforcedDirtStairs",new CalculatorStairs(reinforcedDirtBlock));
-		reinforcedDirtFence = registerBlock("ReinforcedDirtFence",new BlockFence(Material.ground));
-		
-		
-		reinforcedDirtBrick = registerBlock("ReinforcedDirtBrick",new BlockBase(Material.ground, 1.0f, 4.0f));
-		reinforcedDirtBrickStairs = registerBlock("ReinforcedDirtBrickStairs",new CalculatorStairs(reinforcedDirtBrick));
-		reinforcedDirtBrickFence = registerBlock("ReinforcedDirtBrickFence",new BlockFence(Material.ground));
-		
-		stableStone = registerBlock("StableStone", new ConnectedBlock(Material.rock, 0));		
-		stableGlass = registerBlock("StableGlass", new ConnectedBlock.Glass(Material.glass, 1)).setLightLevel(0.625F).setHardness(0.6F);
-		clearStableGlass = registerBlock("ClearStableGlass", new ConnectedBlock.Glass(Material.glass, 2)).setLightLevel(0.625F).setHardness(0.6F);		
+			
 		flawlessGlass = registerBlock("FlawlessGlass", new ConnectedBlock.Glass(Material.glass, 3)).setLightLevel(0.625F).setHardness(0.6F);
 		purifiedObsidian = registerBlock("PurifiedObsidian", new ConnectedBlock(Material.rock, 4)).setBlockUnbreakable();
 		
@@ -197,15 +176,6 @@ public class CalculatorBlocks extends Calculator {
 		CO2Generator = registerBlock("CO2Generator",new CO2Generator().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityCO2Generator.class, "CO2Generator");
 		/*
-		fluxPlug = new FluxPlug().setUnlocalizedName("FluxPlug").setCreativeTab(Calculator).setHardness(0.2F).setResistance(20.0F).setBlockTextureName(modid + ":" + "stablestone");
-		GameRegistry.registerBlock(fluxPlug, SonarBlockTip.class, "FluxPlug");
-		GameRegistry.registerTileEntity(TileEntityFluxPlug.class, "FluxPlug");
-		fluxPoint = new FluxPoint().setUnlocalizedName("FluxPoint").setCreativeTab(Calculator).setHardness(0.2F).setResistance(20.0F).setBlockTextureName(modid + ":" + "stablestone");
-		GameRegistry.registerBlock(fluxPoint, SonarBlockTip.class, "FluxPoint");
-		GameRegistry.registerTileEntity(TileEntityFluxPoint.class, "FluxPoint");
-		fluxController = new FluxController().setUnlocalizedName("FluxController").setCreativeTab(Calculator).setResistance(20.0F).setBlockTextureName(modid + ":" + "stablestone").setHardness(1.5F).setLightLevel(0.9375F).setLightOpacity(100);
-		GameRegistry.registerBlock(fluxController, SonarBlockTip.class, "FluxController");
-		GameRegistry.registerTileEntity(TileEntityFluxController.class, "FluxController");
 		teleporter = new Teleporter().setUnlocalizedName("CalculatorTeleporter").setCreativeTab(Calculator).setHardness(1.0F).setLightLevel(0.625F).setBlockTextureName(modid + ":" + "stablestone");
 		GameRegistry.registerBlock(teleporter, SonarBlockTip.class, "CalculatorTeleporter");
 		GameRegistry.registerTileEntity(TileEntityTeleporter.class, "CalculatorTeleporter");
@@ -282,28 +252,28 @@ public class CalculatorBlocks extends Calculator {
 		// amethyst
 		amethystLog = registerBlock("AmethystLog",new CalculatorLogs());
 		amethystPlanks = registerBlock("AmethystPlanks",new CalculatorPlanks());
-		amethystStairs = registerBlock("AmethystStairs",new CalculatorStairs(amethystPlanks));
+		amethystStairs = registerBlock("AmethystStairs",new SonarStairs(amethystPlanks));
 		amethystFence = registerBlock("AmethystFence",new BlockFence(Material.wood));
 		amethystLeaves = registerBlock("AmethystLeaves",new CalculatorLeaves(0));
 		AmethystSapling = registerBlock("AmethystSapling",new CalculatorSaplings(0));
 		
 		tanzaniteLog = registerBlock("TanzaniteLog",new CalculatorLogs());
 		tanzanitePlanks = registerBlock("TanzanitePlanks",new CalculatorPlanks());
-		tanzaniteStairs = registerBlock("TanzaniteStairs",new CalculatorStairs(tanzanitePlanks));
+		tanzaniteStairs = registerBlock("TanzaniteStairs",new SonarStairs(tanzanitePlanks));
 		tanzaniteFence = registerBlock("TanzaniteFence",new BlockFence(Material.wood));
 		tanzaniteLeaves = registerBlock("TanzaniteLeaves",new CalculatorLeaves(1));
 		tanzaniteSapling = registerBlock("TanzaniteSapling",new CalculatorSaplings(1));
 		
 		pearLog = registerBlock("PearLog",new CalculatorLogs());
 		pearPlanks = registerBlock("PearPlanks",new CalculatorPlanks());
-		pearStairs = registerBlock("PearStairs",new CalculatorStairs(pearPlanks));
+		pearStairs = registerBlock("PearStairs",new SonarStairs(pearPlanks));
 		pearFence = registerBlock("PearFence",new BlockFence(Material.wood));
 		pearLeaves = registerBlock("PearLeaves",new CalculatorLeaves(2));
 		PearSapling = registerBlock("PearSapling",new CalculatorSaplings(2));
 		
 		diamondLog = registerBlock("DiamondLog",new CalculatorLogs());
 		diamondPlanks = registerBlock("DiamondPlanks",new CalculatorPlanks());
-		diamondStairs = registerBlock("DiamondStairs",new CalculatorStairs(diamondPlanks));
+		diamondStairs = registerBlock("DiamondStairs",new SonarStairs(diamondPlanks));
 		diamondFence = registerBlock("DiamondFence",new BlockFence(Material.wood));
 		diamondLeaves = registerBlock("DiamondLeaves",new CalculatorLeaves(3));
 		diamondSapling = registerBlock("DiamondSapling",new CalculatorSaplings(3));

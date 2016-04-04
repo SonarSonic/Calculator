@@ -1,9 +1,8 @@
 package sonar.calculator.mod.api.items;
 
-import sonar.calculator.mod.api.modules.IModule;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import sonar.calculator.mod.api.modules.IModule;
 
 public interface IFlawlessCalculator extends IModuleProvider {
 
