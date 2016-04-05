@@ -112,6 +112,7 @@ public class RecipeRegistry {
 
 		registerCalculatorRecipe(Calculator.wrench, Calculator.reinforced_sword, Calculator.reinforced_pickaxe, false);
 		registerCalculatorRecipe(Calculator.reinforceddirtBlock, Blocks.dirt, "plankWood", false);
+		registerCalculatorRecipe(new ItemStack(Calculator.reinforceddirtBlock,4), Blocks.dirt, "logWood", false);
 		registerCalculatorRecipe(new ItemStack(Calculator.enrichedgold, 4), "ingotGold", "dustRedstone", false);
 		registerCalculatorRecipe(Calculator.reinforcediron_ingot, "ingotIron", Calculator.reinforcedstoneBlock, false);
 		registerCalculatorRecipe(Calculator.enriched_coal, Items.coal, "dustRedstone", false);

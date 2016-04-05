@@ -57,7 +57,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "1.9.7";
+	public static final String version = "1.9.8";
 
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
@@ -185,7 +185,6 @@ public class Calculator {
 	public void loadFluxNetwork(FMLServerStoppingEvent event) {
 		FluxRegistry.removeAll();
 		TeleporterRegistry.removeAll();
-		RecipeRegistry.clearRecipes();
 	}
 
 	public static Item itemCalculator;
