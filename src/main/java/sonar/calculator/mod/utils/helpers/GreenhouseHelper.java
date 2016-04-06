@@ -10,6 +10,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.core.SonarCore;
 
 /** helps with using bonemeal on crops, growth speed and replacing blocks */
 public class GreenhouseHelper {
@@ -180,13 +181,13 @@ public class GreenhouseHelper {
 	/** @return if the give block is Stable Stone
 	 * @param block block to check */
 	public static boolean stableStone(Block block) {
-		if (block == Calculator.stableStone) {
+		if (block == SonarCore.stableStone) {
 			return false;
 		}
-		if (block == Calculator.stablestonerimmedBlock) {
+		if (block == SonarCore.stablestonerimmedBlock) {
 			return false;
 		}
-		if (block == Calculator.stablestonerimmedblackBlock) {
+		if (block == SonarCore.stablestonerimmedblackBlock) {
 			return false;
 		}
 		if (block == Calculator.flawlessGreenhouse) {

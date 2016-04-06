@@ -23,39 +23,11 @@ public class CrankedGenerator extends SonarMachineBlock {
 		super(SonarMaterials.machine, true, true);
 	}
 
-	/*
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon("Calculator:crank_side");
-		this.iconFront = iconRegister.registerIcon("Calculator:crank_front");
-		this.iconTop = iconRegister.registerIcon("Calculator:crank_top");
-	}
-	*/
-
-	@Override
-	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-		super.onBlockAdded(world, pos, state);
-		TileEntity tileentity = world.getTileEntity(pos);
-		if (tileentity != null && tileentity instanceof TileEntityCrankedGenerator) {
-			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(pos);
-			//generator.updateAdjacentHandlers();
-		}
-	}
-	@Override
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) {
-		TileEntity tileentity = world.getTileEntity(pos);
-		if (tileentity != null && tileentity instanceof TileEntityCrankedGenerator) {
-			TileEntityCrankedGenerator generator = (TileEntityCrankedGenerator) world.getTileEntity(pos);
-			//generator.updateAdjacentHandlers();
-		}
-	}
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
-		if (player != null) {
-			if (!world.isRemote) {
-				player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
-			}
+		if (!world.isRemote && player != null) {
+			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
+
 		}
 		return true;
 	}
