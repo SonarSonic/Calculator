@@ -18,13 +18,13 @@ import sonar.calculator.mod.api.modules.IModule;
 import sonar.calculator.mod.api.modules.IModuleClickable;
 import sonar.calculator.mod.api.modules.IModuleInventory;
 import sonar.calculator.mod.api.modules.IModuleUpdate;
+import sonar.core.api.utils.BlockInteraction;
+import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerCraftInventory;
 import sonar.core.inventory.IItemInventory;
-import sonar.core.utils.BlockInteraction;
-import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.IGuiItem;
 
 public class SonarModule extends SonarItem implements IItemInventory, IModuleProvider, IGuiItem {

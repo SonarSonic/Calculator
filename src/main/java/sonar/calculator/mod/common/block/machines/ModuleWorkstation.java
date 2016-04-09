@@ -10,9 +10,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
+import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
-import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
 
 public class ModuleWorkstation extends SonarMachineBlock {

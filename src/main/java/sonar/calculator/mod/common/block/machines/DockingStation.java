@@ -13,13 +13,13 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
+import sonar.core.api.utils.BlockInteraction;
+import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
-import sonar.core.utils.BlockInteraction;
-import sonar.core.utils.BlockInteractionType;
+import sonar.core.upgrades.MachineUpgrade;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.upgrades.MachineUpgrade;
 
 public class DockingStation extends SonarMachineBlock {
 

@@ -8,8 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.core.SonarCore;
+import sonar.core.client.gui.GuiSonar;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.GuiSonar;
 import sonar.core.network.PacketByteBufServer;
 
 public class GuiMagneticFlux extends GuiSonar {

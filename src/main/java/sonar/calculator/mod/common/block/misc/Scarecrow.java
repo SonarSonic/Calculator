@@ -8,9 +8,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
+import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.helpers.FontHelper;
-import sonar.core.utils.BlockInteraction;
 
 public class Scarecrow extends SonarMachineBlock {
 

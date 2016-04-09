@@ -16,10 +16,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
+import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
-import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
 
 public class AtomicMultiplier extends SonarMachineBlock {

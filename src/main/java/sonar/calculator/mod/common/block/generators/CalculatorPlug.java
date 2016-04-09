@@ -12,9 +12,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
+import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
-import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
 
 public class CalculatorPlug extends SonarMachineBlock {

@@ -7,8 +7,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.api.modules.IModuleClickable;
+import sonar.core.api.utils.BlockInteraction;
 import sonar.core.helpers.FontHelper;
-import sonar.core.utils.BlockInteraction;
 
 public class EnderModule extends ModuleBase implements IModuleClickable {
 

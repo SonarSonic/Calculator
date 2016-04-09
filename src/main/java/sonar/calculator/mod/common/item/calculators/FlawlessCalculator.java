@@ -23,12 +23,12 @@ import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
 import sonar.calculator.mod.network.CalculatorGui;
+import sonar.core.api.utils.BlockInteraction;
+import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.IItemInventory;
-import sonar.core.utils.BlockInteraction;
-import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.IGuiItem;
 import cofh.api.energy.IEnergyContainerItem;
 

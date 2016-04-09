@@ -1,6 +1,6 @@
 package sonar.calculator.mod.api.machines;
 
-import sonar.core.api.BlockCoords;
+import sonar.core.api.utils.BlockCoords;
 
 public interface ITeleport {
 

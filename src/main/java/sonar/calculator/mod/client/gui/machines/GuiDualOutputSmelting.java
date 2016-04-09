@@ -5,10 +5,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
+import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.SonarButtons;
+import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.GuiSonar;
-import sonar.core.inventory.SonarButtons;
-import sonar.core.inventory.SonarButtons.SonarButton;
 
 public class GuiDualOutputSmelting extends GuiSonar {
 	

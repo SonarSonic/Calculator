@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import sonar.core.utils.BlockInteraction;
+import sonar.core.api.utils.BlockInteraction;
 
 /**for modules which can do something on left/right click*/
 public interface IModuleClickable extends IModule {

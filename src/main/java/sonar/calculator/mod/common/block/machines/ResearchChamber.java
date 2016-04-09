@@ -15,11 +15,11 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
+import sonar.core.api.utils.BlockInteraction;
+import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
-import sonar.core.utils.BlockInteraction;
-import sonar.core.utils.BlockInteractionType;
 import sonar.core.utils.IGuiTile;
 
 public class ResearchChamber extends SonarMachineBlock {

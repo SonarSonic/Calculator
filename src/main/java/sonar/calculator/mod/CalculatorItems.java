@@ -40,7 +40,7 @@ import sonar.core.common.block.properties.IMetaVariant;
 import sonar.core.common.item.SonarMetaItem;
 import sonar.core.common.item.SonarSeeds;
 import sonar.core.common.item.SonarSeedsFood;
-import sonar.core.utils.upgrades.MachineUpgrade;
+import sonar.core.upgrades.MachineUpgrade;
 
 public class CalculatorItems extends Calculator {
 

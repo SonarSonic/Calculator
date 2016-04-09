@@ -16,6 +16,7 @@ import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.core.api.SonarAPI;
+import sonar.core.api.upgrades.IUpgradableTile;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.FontHelper;
@@ -26,10 +27,9 @@ import sonar.core.inventory.SonarTileInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
+import sonar.core.upgrades.UpgradeInventory;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.MachineSideConfig;
-import sonar.core.utils.upgrades.IUpgradableTile;
-import sonar.core.utils.upgrades.UpgradeInventory;
 
 import com.google.common.collect.Lists;
 

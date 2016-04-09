@@ -19,10 +19,10 @@ import sonar.calculator.mod.common.containers.ContainerDynamicModule;
 import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
 import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
 import sonar.calculator.mod.common.containers.ContainerStorageModule;
+import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.IItemInventory;
-import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiItem;
 
 public abstract class GuiModule extends ModuleBase implements IModuleInventory, IGuiItem {

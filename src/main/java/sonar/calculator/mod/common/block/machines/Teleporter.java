@@ -16,11 +16,11 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.calculator.mod.network.packets.PacketTeleportLinks;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.SonarCore;
+import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.network.PacketTileSync;
-import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
 
 public class Teleporter extends SonarMachineBlock {

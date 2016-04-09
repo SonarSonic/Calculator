@@ -19,11 +19,11 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.calculator.mod.common.tileentity.TileEntityMachines;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
+import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
-import sonar.core.utils.BlockInteraction;
+import sonar.core.upgrades.MachineUpgrade;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.upgrades.MachineUpgrade;
 
 public class SmeltingBlock extends SonarSidedBlock {
 

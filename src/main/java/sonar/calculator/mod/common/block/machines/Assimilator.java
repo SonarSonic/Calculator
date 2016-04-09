@@ -9,10 +9,10 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
+import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
-import sonar.core.utils.BlockInteraction;
 import sonar.core.utils.IGuiTile;
 
 public class Assimilator extends SonarMachineBlock {

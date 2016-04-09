@@ -17,10 +17,10 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.SonarCore;
+import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.SonarButtons.ImageButton;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerEmpty;
-import sonar.core.inventory.GuiSonar;
-import sonar.core.inventory.SonarButtons.ImageButton;
 import sonar.core.network.PacketByteBufServer;
 import sonar.core.network.PacketTextField;
 

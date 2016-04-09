@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.modules.IModuleClickable;
 import sonar.calculator.mod.common.entities.EntityGrenade;
+import sonar.core.api.utils.BlockInteraction;
 import sonar.core.helpers.FontHelper;
-import sonar.core.utils.BlockInteraction;
 
 public class GrenadeModule extends ModuleBase implements IModuleClickable {
 

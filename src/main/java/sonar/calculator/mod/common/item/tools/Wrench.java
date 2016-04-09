@@ -7,10 +7,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import sonar.core.api.blocks.IWrench;
+import sonar.core.api.blocks.IWrenchable;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.IMachineSides;
-import sonar.core.utils.IWrench;
-import sonar.core.utils.IWrenchable;
 
 public class Wrench extends SonarItem implements IWrench {
 
@@ -22,8 +22,8 @@ public class Wrench extends SonarItem implements IWrench {
 		TileEntity te = world.getTileEntity(pos);
 		Block block = world.getBlockState(pos).getBlock();
 		if (player.isSneaking()) {
-			if (block instanceof IWrenchable && ((IWrenchable) block).canDismantle(player, world, pos))
-				((IWrenchable) block).dismantleBlock(player, world, pos, true);
+			if (block instanceof IWrenchable && ((IWrenchable) block).canWrench(player, world, pos))
+				((IWrenchable) block).wrenchBlock(player, world, pos, true);
 		} else {
 			if (te != null && te instanceof IMachineSides){
 				((IMachineSides) te).getSideConfigs().increaseSide(side);

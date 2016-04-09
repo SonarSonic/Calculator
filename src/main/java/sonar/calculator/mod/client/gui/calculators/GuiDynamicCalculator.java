@@ -6,7 +6,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
-import sonar.core.inventory.GuiSonar;
+import sonar.core.client.gui.GuiSonar;
 
 @SideOnly(Side.CLIENT)
 public class GuiDynamicCalculator extends GuiSonar {

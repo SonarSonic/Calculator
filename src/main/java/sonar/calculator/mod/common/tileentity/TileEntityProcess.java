@@ -16,6 +16,7 @@ import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
+import sonar.core.api.upgrades.IUpgradableTile;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
@@ -24,9 +25,8 @@ import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
+import sonar.core.upgrades.UpgradeInventory;
 import sonar.core.utils.MachineSideConfig;
-import sonar.core.utils.upgrades.IUpgradableTile;
-import sonar.core.utils.upgrades.UpgradeInventory;
 
 import com.google.common.collect.Lists;
 
