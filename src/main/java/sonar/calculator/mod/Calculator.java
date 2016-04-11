@@ -1,7 +1,10 @@
 package sonar.calculator.mod;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,6 +24,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.Display;
 
 import sonar.calculator.mod.common.entities.CalculatorThrow;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
@@ -164,7 +168,8 @@ public class Calculator {
 		if (Loader.isModLoaded("MineTweaker3")) {
 			MinetweakerIntegration.integrate();
 		}
-		/*if (Loader.isModLoaded("appliedenergistics2")) { StorageChamberHandler.init(); logger.info("Registered AE2 Handler for Storage Chamber"); } */
+		/* if (Loader.isModLoaded("appliedenergistics2")) { StorageChamberHandler.init(); logger.info("Registered AE2 Handler for Storage Chamber"); } */
+
 	}
 
 	@EventHandler
