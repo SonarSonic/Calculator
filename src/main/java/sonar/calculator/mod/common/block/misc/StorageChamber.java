@@ -1,4 +1,4 @@
-package sonar.calculator.mod.common.block.machines;
+package sonar.calculator.mod.common.block.misc;
 
 import java.util.List;
 
@@ -11,12 +11,12 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.core.api.utils.BlockInteraction;
+import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
-import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
-public class StorageChamber extends SonarSidedBlock {
+public class StorageChamber extends SonarMachineBlock {
 
 	public StorageChamber() {
 		super(SonarMaterials.machine, true, true);
@@ -25,16 +25,12 @@ public class StorageChamber extends SonarSidedBlock {
 	public boolean hasAnimatedFront() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
-		if (player != null) {
-			if (!world.isRemote) {
-				player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
-			}
-
+		if (player != null && !world.isRemote) {
+			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
-
 		return true;
 	}
 

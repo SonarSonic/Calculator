@@ -14,7 +14,7 @@ import sonar.calculator.mod.common.containers.ContainerModuleWorkstation;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityModuleWorkstation extends TileEntityInventory implements IGuiTile {
@@ -23,7 +23,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 	public boolean newCalc;
 
 	public TileEntityModuleWorkstation() {
-		super.inv = new SonarTileInventory(this, 1 + FlawlessCalculator.moduleCapacity) {
+		super.inv = new SonarInventory(this, 1 + FlawlessCalculator.moduleCapacity) {
 
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
 				if (i != 16)

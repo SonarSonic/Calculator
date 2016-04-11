@@ -9,16 +9,12 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.client.models.ModelAssimilator;
 import sonar.calculator.mod.client.models.ModelConductorMast;
 import sonar.calculator.mod.client.models.ModelScarecrow;
 import sonar.calculator.mod.client.models.ModelTeleporter;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.helpers.FontHelper;
 import sonar.core.renderers.SonarTERender;
-import sonar.flux.client.ModelFluxController;
-import sonar.flux.common.tileentity.TileEntityFluxController;
 
 public class RenderHandlers {
 

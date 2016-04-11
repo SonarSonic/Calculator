@@ -31,7 +31,7 @@ import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
 
 public abstract class TileEntityAssimilator extends TileEntityInventory implements IGuiTile {
@@ -120,7 +120,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 	public static class Stone extends TileEntityAssimilator {
 
 		public Stone() {
-			super.inv = new SonarTileInventory(this, 1);
+			super.inv = new SonarInventory(this, 1);
 		}
 
 		public int healthPoints, hungerPoints, speed = 4;;
@@ -240,7 +240,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 	public static class Algorithm extends TileEntityAssimilator implements ISidedInventory {
 
 		public Algorithm() {
-			super.inv = new SonarTileInventory(this, 27);
+			super.inv = new SonarInventory(this, 27);
 		}
 
 		public boolean harvestBlock(BlockCoords block) {

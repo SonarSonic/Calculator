@@ -28,9 +28,9 @@ import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.helpers.FontHelper;
-import sonar.core.helpers.RenderHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.helpers.RenderHelper;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
@@ -42,7 +42,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	public TileEntityFlawlessGreenhouse() {
 		super.storage = new SyncEnergyStorage(500000, 64000);
-		super.inv = new SonarTileInventory(this, 10);
+		super.inv = new SonarInventory(this, 10);
 		super.type = 3;
 		super.maxLevel = 100000;
 		super.plantTick = 2;

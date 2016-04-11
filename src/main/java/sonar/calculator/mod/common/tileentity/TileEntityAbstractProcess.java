@@ -8,7 +8,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.core.helpers.RecipeHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
 
@@ -28,7 +28,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		super.input = inputs;
 		super.output = outputs;
 		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 1600);
-		super.inv= new SonarTileInventory(this, 1 + inputSize() + outputSize());
+		super.inv= new SonarInventory(this, 1 + inputSize() + outputSize());
 		setEnergyMode(EnergyMode.RECIEVE);
 	}
 

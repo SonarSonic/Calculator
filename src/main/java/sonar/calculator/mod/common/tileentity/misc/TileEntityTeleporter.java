@@ -10,7 +10,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
@@ -21,12 +20,9 @@ import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.calculator.mod.utils.helpers.TeleporterHelper;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntitySonar;
-import sonar.core.helpers.NBTHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.ContainerEmpty;
-import sonar.core.network.PacketTileSync;
 import sonar.core.network.utils.IByteBufTile;
-import sonar.core.network.utils.ITextField;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, ITextField, IGuiTile {

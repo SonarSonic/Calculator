@@ -1,10 +1,10 @@
 package sonar.calculator.mod;
 
-import sonar.core.SonarCore;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import sonar.core.SonarCore;
 
 public class CalculatorOreDict extends Calculator {
 

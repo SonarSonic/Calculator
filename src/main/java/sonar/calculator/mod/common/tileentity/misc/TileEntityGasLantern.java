@@ -11,21 +11,20 @@ import sonar.calculator.mod.common.block.misc.GasLantern;
 import sonar.calculator.mod.common.containers.ContainerLantern;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
-import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.IGuiTile;
 
 import com.google.common.collect.Lists;
 
-public class TileEntityGasLantern extends TileEntityInventory implements ISyncTile, IGuiTile {
+public class TileEntityGasLantern extends TileEntityInventory implements IGuiTile {
 
 	public SyncTagType.INT burnTime = new SyncTagType.INT("burnTime");
 	public SyncTagType.INT maxBurnTime = new SyncTagType.INT("maxBurnTime");
 	
 	public TileEntityGasLantern() {
-		super.inv = new SonarTileInventory(this, 1);
+		super.inv = new SonarInventory(this, 1);
 	}
 
 	@Override

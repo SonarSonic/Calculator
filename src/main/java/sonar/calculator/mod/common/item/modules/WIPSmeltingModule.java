@@ -1,5 +1,5 @@
 package sonar.calculator.mod.common.item.modules;
-
+/*
 import java.util.List;
 
 import net.minecraft.entity.Entity;
@@ -180,3 +180,4 @@ public class WIPSmeltingModule extends SonarEnergyItem implements IItemInventory
 		}
 	}
 }
+*/

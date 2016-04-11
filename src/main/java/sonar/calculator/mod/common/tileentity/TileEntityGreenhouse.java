@@ -34,9 +34,9 @@ import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
-import sonar.core.helpers.RenderHelper;
 import sonar.core.helpers.InventoryHelper.IInventoryFilter;
 import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.RenderHelper;
 
 public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory implements IGreenhouse {
 

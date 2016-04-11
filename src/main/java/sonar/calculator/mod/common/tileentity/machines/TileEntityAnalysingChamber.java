@@ -18,12 +18,11 @@ import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.upgrades.IUpgradableTile;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
-import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
@@ -45,7 +44,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		super.input = new int[] { 0 };
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
 		super.storage = new SyncEnergyStorage(1000000, 64000);
-		super.inv = new SonarTileInventory(this, 8){
+		super.inv = new SonarInventory(this, 8){
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
 				super.setInventorySlotContents(i, itemstack);
 				if(i==0){

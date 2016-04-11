@@ -107,9 +107,11 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		}
 		boolean flag2 = this.isActive();
 		if (flag != flag2) {
-			isActive = flag2;
-			SonarCore.sendPacketAround(this, 128, 2);
-			worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
+			if (flag && !this.canProcess() || !flag) {
+				isActive = flag2;
+				SonarCore.sendPacketAround(this, 128, 2);
+				worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
+			}
 		}
 		this.markDirty();
 	}

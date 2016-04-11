@@ -9,7 +9,7 @@ import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
@@ -25,7 +25,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 	public int requiredPower = CalculatorConfig.getInteger("Weather Controller");
 
 	public TileEntityWeatherController() {
-		super.inv = new SonarTileInventory(this, 1);
+		super.inv = new SonarInventory(this, 1);
 		super.storage = new SyncEnergyStorage(1000000, 64000);
 	}
 

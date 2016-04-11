@@ -25,7 +25,7 @@ import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.RenderHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
@@ -44,7 +44,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 	public TileEntityBasicGreenhouse() {
 
 		super.storage = new SyncEnergyStorage(350000, 800);
-		super.inv = new SonarTileInventory(this, 14);
+		super.inv = new SonarInventory(this, 14);
 		super.type = 1;
 		super.maxLevel = 100000;
 		super.plantTick = 60;

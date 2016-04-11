@@ -55,14 +55,17 @@ public class PacketJumpModule implements IMessage {
 						player.getEntityWorld().playSoundAtEntity(player, "mob.endermen.portal", 1.0F, 1.0F);
 						if (!player.capabilities.isCreativeMode)
 							item.extractEnergy(held, 1000, true);
-						// held.getTagCompound().setInteger("last", player.getAge());
 						return new PacketJumpModule(message.pos);
 					}
 				}
 
 			} else if (player != null && ctx.side == Side.CLIENT) {
-				int i = 12;
 				Random rand = new Random();
+				for (int i = 0; i < 32; ++i) {
+					player.getEntityWorld().spawnParticle(EnumParticleTypes.PORTAL, player.posX, player.posY + rand.nextDouble() * 2.0D, player.posZ, rand.nextGaussian(), 0.0D, rand.nextGaussian(), new int[0]);
+				}
+				/*
+				int i = 12;
 				for (int l = 0; l < i; ++l) {
 					double d6 = message.pos.getX() + rand.nextFloat();
 					double d1 = message.pos.getY() + 1 + rand.nextFloat();
@@ -83,7 +86,7 @@ public class PacketJumpModule implements IMessage {
 					player.getEntityWorld().spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5);
 				}
 				player.getEntityWorld().playSoundAtEntity(player, "mob.endermen.portal", 1.0F, 1.0F);
-
+	*/
 			}
 			return null;
 		}

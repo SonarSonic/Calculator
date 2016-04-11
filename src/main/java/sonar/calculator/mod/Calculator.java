@@ -164,12 +164,7 @@ public class Calculator {
 		if (Loader.isModLoaded("MineTweaker3")) {
 			MinetweakerIntegration.integrate();
 		}
-		/*
-		if (Loader.isModLoaded("appliedenergistics2")) {
-			StorageChamberHandler.init();
-			logger.info("Registered AE2 Handler for Storage Chamber");
-		}
-		 */
+		/*if (Loader.isModLoaded("appliedenergistics2")) { StorageChamberHandler.init(); logger.info("Registered AE2 Handler for Storage Chamber"); } */
 	}
 
 	@EventHandler
@@ -178,33 +173,34 @@ public class Calculator {
 		RecipeRegistry.clearRecipes();
 	}
 
-	public static Item itemCalculator,itemInfoCalculator,itemCraftingCalculator,itemScientificCalculator,itemFlawlessCalculator;
-	public static Item itemHungerModule,itemHealthModule,itemNutritionModule;
-	public static Item itemTerrainModule,itemAdvancedTerrainModule;
+	public static Item itemCalculator, itemInfoCalculator, itemCraftingCalculator, itemScientificCalculator, itemFlawlessCalculator;
+	public static Item itemHungerModule, itemHealthModule, itemNutritionModule;
+	public static Item itemTerrainModule, itemAdvancedTerrainModule;
 	public static Item itemEnergyModule;
 	public static Item itemLocatorModule;
 	public static Item itemStorageModule;
-	public static Item itemWarpModule,itemJumpModule;
+	public static Item itemWarpModule, itemJumpModule;
 	public static Item itemSmeltingModule;
-	public static Item circuitBoard,circuitDamaged,circuitDirty;
+	public static Item circuitBoard, circuitDamaged, circuitDirty;
 	public static Item wrench;
 
-	public static Block atomicCalculator,dynamicCalculator;
-	public static Block powerCube,advancedPowerCube;
+	public static Block atomicCalculator, dynamicCalculator;
+	public static Block powerCube, advancedPowerCube;
 	public static Block dockingStation;
-	public static Block reinforcedFurnace,stoneSeparator,algorithmSeparator;
+	public static Block reinforcedFurnace, reinforcedChest, stoneSeparator, algorithmSeparator;
 
 	public static Block extractionChamber, restorationChamber, reassemblyChamber, processingChamber, precisionChamber;
-	public static Block analysingChamber,storageChamber, fabricationChamber;
-	//public static Block manipulationChamber;
-	public static Block hungerProcessor, healthProcessor;
+	public static Block analysingChamber, storageChamber, fabricationChamber;
+
+	// public static Block manipulationChamber;
+	public static Block hungerProcessor, healthProcessor, amethystPiping, tanzanitePiping;
 	public static Block basicGreenhouse, advancedGreenhouse, flawlessGreenhouse, CO2Generator;
-	public static Block scarecrow,scarecrowBlock;
-	public static Block gas_lantern_on,gas_lantern_off,basic_lantern;
-	public static Block starchextractor,redstoneextractor,glowstoneextractor;
-	public static Block calculatorplug,calculatorlocator;
-	public static Block conductorMast,conductormastBlock;
-	public static Block weatherStation,weatherStationBlock;
+	public static Block scarecrow, scarecrowBlock;
+	public static Block gas_lantern_on, gas_lantern_off, basic_lantern;
+	public static Block starchextractor, redstoneextractor, glowstoneextractor;
+	public static Block calculatorplug, calculatorlocator;
+	public static Block conductorMast, conductormastBlock;
+	public static Block weatherStation, weatherStationBlock;
 	public static Block transmitter, transmitterBlock;
 	public static Block atomicMultiplier;
 	public static Block flawlessCapacitor;
@@ -227,29 +223,29 @@ public class Calculator {
 	public static Item atomic_module;
 	public static Item atomic_binder;
 	public static Item atomic_assembly;
-	public static Item flawless_assembly;	
+	public static Item flawless_assembly;
 
 	// tools
-	public static Item reinforced_axe,reinforced_pickaxe,reinforced_shovel,reinforced_hoe,reinforced_sword;	
-	public static Item redstone_axe,redstone_pickaxe,redstone_shovel,redstone_hoe,redstone_sword;	
-	public static Item enrichedgold_axe,enrichedgold_pickaxe,enrichedgold_shovel,enrichedgold_hoe,enrichedgold_sword;	
-	public static Item reinforcediron_axe,reinforcediron_pickaxe,reinforcediron_shovel,reinforcediron_hoe,reinforcediron_sword;	
-	public static Item weakeneddiamond_axe,weakeneddiamond_pickaxe,weakeneddiamond_shovel,weakeneddiamond_hoe,weakeneddiamond_sword;	
-	public static Item flawlessdiamond_axe,flawlessdiamond_pickaxe,flawlessdiamond_shovel,flawlessdiamond_hoe,flawlessdiamond_sword;
-	public static Item firediamond_axe,firediamond_pickaxe,firediamond_shovel,firediamond_hoe,firediamond_sword;	
-	public static Item electric_axe,electric_pickaxe,electric_shovel,electric_hoe,electric_sword;
-	public static Item endforged_axe,endforged_pickaxe,endforged_shovel,endforged_hoe,endforged_sword;
+	public static Item reinforced_axe, reinforced_pickaxe, reinforced_shovel, reinforced_hoe, reinforced_sword;
+	public static Item redstone_axe, redstone_pickaxe, redstone_shovel, redstone_hoe, redstone_sword;
+	public static Item enrichedgold_axe, enrichedgold_pickaxe, enrichedgold_shovel, enrichedgold_hoe, enrichedgold_sword;
+	public static Item reinforcediron_axe, reinforcediron_pickaxe, reinforcediron_shovel, reinforcediron_hoe, reinforcediron_sword;
+	public static Item weakeneddiamond_axe, weakeneddiamond_pickaxe, weakeneddiamond_shovel, weakeneddiamond_hoe, weakeneddiamond_sword;
+	public static Item flawlessdiamond_axe, flawlessdiamond_pickaxe, flawlessdiamond_shovel, flawlessdiamond_hoe, flawlessdiamond_sword;
+	public static Item firediamond_axe, firediamond_pickaxe, firediamond_shovel, firediamond_hoe, firediamond_sword;
+	public static Item electric_axe, electric_pickaxe, electric_shovel, electric_hoe, electric_sword;
+	public static Item endforged_axe, endforged_pickaxe, endforged_shovel, endforged_hoe, endforged_sword;
 
-	//upgrades
-	public static Item energyUpgrade,speedUpgrade,voidUpgrade,transferUpgrade;
-	
-	//materials
-	public static Item enriched_coal, purified_coal, firecoal, controlled_Fuel;	
+	// upgrades
+	public static Item energyUpgrade, speedUpgrade, voidUpgrade, transferUpgrade;
+
+	// materials
+	public static Item enriched_coal, purified_coal, firecoal, controlled_Fuel;
 	public static Item redstone_ingot, reinforcediron_ingot, enrichedgold_ingot, enrichedGold;
 	public static Item weakeneddiamond, flawlessdiamond, firediamond, electricDiamond, endDiamond;
 	public static Item large_amethyst, small_amethyst, shard_amethyst;
 	public static Item large_tanzanite, small_tanzanite, shard_tanzanite;
-	
+
 	// crops
 	public static Item broccoliSeeds, broccoli, cookedBroccoli;
 	public static Item prunaeSeeds, coal_dust;
@@ -262,7 +258,7 @@ public class Calculator {
 	public static Item soil, small_stone;
 
 	public static Block flawlessGlass, purifiedObsidian;
-	
+
 	// trees
 	public static Block amethystLeaves, tanzaniteLeaves, pearLeaves, diamondLeaves;
 	public static Block amethystLog, tanzaniteLog, pearLog, diamondLog;
@@ -275,4 +271,5 @@ public class Calculator {
 	public static Block material_block;
 	// tools
 	public static Item sickle, obsidianKey;
+
 }

@@ -16,7 +16,7 @@ import sonar.calculator.mod.common.containers.ContainerHealthProcessor;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
@@ -29,7 +29,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	public TileEntityHealthProcessor() {
 		super.input = new int[] { 0 };
 		super.output = new int[] { 1 };
-		super.inv = new SonarTileInventory(this, 2);
+		super.inv = new SonarInventory(this, 2);
 	}
 
 	@Override

@@ -24,12 +24,10 @@ import sonar.calculator.mod.client.gui.generators.GuiCalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.calculator.mod.common.containers.ContainerCalculatorLocator;
 import sonar.core.SonarCore;
-import sonar.core.api.SonarAPI;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
@@ -47,7 +45,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 
 	public TileEntityCalculatorLocator() {
 		super.storage = new SyncEnergyStorage(25000000, 64000);
-		super.inv = new SonarTileInventory(this, 2);
+		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 100000;
 		super.energyMode = EnergyMode.SEND;
 	}

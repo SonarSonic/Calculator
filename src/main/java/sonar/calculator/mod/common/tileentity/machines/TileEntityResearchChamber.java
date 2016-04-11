@@ -19,8 +19,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator.Dynamic;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.SonarTileInventory;
-import sonar.core.network.utils.ISyncTile;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityResearchChamber extends TileEntityInventory implements ISyncTile, IGuiTile {
@@ -33,7 +32,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IS
 	public int maxRecipes, storedRecipes;
 
 	public TileEntityResearchChamber() {
-		super.inv = new SonarTileInventory(this, 2);
+		super.inv = new SonarInventory(this, 2);
 	}
 
 	@Override

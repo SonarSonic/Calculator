@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -29,20 +30,24 @@ public class JumpModule extends ModuleBase implements IModuleClickable {
 	public void onModuleActivated(ItemStack stack, NBTTagCompound modeTag, World world, EntityPlayer player) {
 		long last = modeTag.getLong("last");
 		long current = world.getWorldTime();
-		if (current < last || (current > last + 100)) {
+		if (current < last || (current > last + 50)) {
 			if (world.isRemote) {
 				MovingObjectPosition position = player.rayTrace(500, 1);
 				BlockPos pos = position.getBlockPos();
 				if (world.isAirBlock(pos.offset(EnumFacing.UP)) && world.isAirBlock(pos.offset(EnumFacing.UP, 2))) {
 					Calculator.network.sendToServer(new PacketJumpModule(pos));
 				} else {
-					FontHelper.sendMessage("Target is blocked", world, player);
+					pos = pos.offset(position.sideHit, 1);
+					if (world.isAirBlock(pos.offset(EnumFacing.UP)) && world.isAirBlock(pos.offset(EnumFacing.UP, 2))) {
+						Calculator.network.sendToServer(new PacketJumpModule(pos));
+					} else
+						player.addChatComponentMessage(new ChatComponentText("Target is blocked"));
 				}
 			} else {
 				modeTag.setLong("last", world.getWorldTime());
 			}
 		} else if (!world.isRemote) {
-			FontHelper.sendMessage("" + "Cool Down: " + (current-last) + "%", world, player);
+			FontHelper.sendMessage("" + "Cool Down: " + (current - last)*2 + "%", world, player);
 		}
 	}
 

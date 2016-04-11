@@ -20,7 +20,7 @@ import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RenderHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
 
@@ -39,7 +39,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 
 	public TileEntityCO2Generator() {
 		super.storage = new SyncEnergyStorage(1000000, 64000);
-		super.inv = new SonarTileInventory(this, 2);
+		super.inv = new SonarInventory(this, 2);
 	}
 
 	public void validate() {

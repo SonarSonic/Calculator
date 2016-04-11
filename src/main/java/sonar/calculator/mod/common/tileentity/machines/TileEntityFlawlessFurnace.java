@@ -16,7 +16,7 @@ import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RecipeHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
@@ -32,7 +32,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	public int maxProcess;
 
 	public TileEntityFlawlessFurnace() {
-		this.inv = new SonarTileInventory(this, 28);
+		this.inv = new SonarInventory(this, 28);
 		this.storage = new SyncEnergyStorage(10000000, 64000);
 	}
 

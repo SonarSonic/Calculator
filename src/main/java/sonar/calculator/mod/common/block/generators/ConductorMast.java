@@ -25,7 +25,6 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.network.utils.ISyncTile;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.ISpecialTooltip;
 

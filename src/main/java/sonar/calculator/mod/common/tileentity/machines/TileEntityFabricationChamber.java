@@ -6,32 +6,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.animation.IAnimationProvider;
-import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import sonar.calculator.mod.client.gui.misc.GuiFabricationChamber;
 import sonar.calculator.mod.common.containers.ContainerFabricationChamber;
 import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes.CircuitStack;
-import sonar.calculator.mod.common.tileentity.TileEntityProcess;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber.CircuitType;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.ItemStackHelper;
-import sonar.core.helpers.SonarHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.MachineSideConfig;
 
 public class TileEntityFabricationChamber extends TileEntityInventory implements IGuiTile, IByteBufTile {
 
@@ -45,7 +37,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	public int currentMoveTime = 0;
 
 	public TileEntityFabricationChamber() {
-		super.inv = new SonarTileInventory(this, 1);
+		super.inv = new SonarInventory(this, 1);
 	}
 
 	public void update() {

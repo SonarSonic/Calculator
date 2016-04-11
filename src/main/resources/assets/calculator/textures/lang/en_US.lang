@@ -144,6 +144,7 @@ item.Soil.name=Soil
 item.SmallStone.name=Small Stone
 
 //circuits
+item.CircuitBoard.0.name=Circuit
 item.CircuitBoard.1.name=Circuit
 item.CircuitBoard.2.name=Circuit
 item.CircuitBoard.3.name=Circuit
@@ -160,6 +161,7 @@ item.CircuitBoard.13.name=Circuit
 item.CircuitBoard.14.name=Circuit
 
 //damaged circuits
+item.CircuitDamaged.0.name=Damaged Circuit
 item.CircuitDamaged.1.name=Damaged Circuit
 item.CircuitDamaged.2.name=Damaged Circuit
 item.CircuitDamaged.3.name=Damaged Circuit
@@ -176,6 +178,7 @@ item.CircuitDamaged.13.name=Damaged Circuit
 item.CircuitDamaged.14.name=Damaged Circuit
 
 //dirty circuits
+item.CircuitDirty.0.name=Dirty Circuit
 item.CircuitDirty.1.name=Dirty Circuit
 item.CircuitDirty.2.name=Dirty Circuit
 item.CircuitDirty.3.name=Dirty Circuit
@@ -485,5 +488,9 @@ tile.FlawlessFurnace.name=Flawless Furnace
 item.WarpModule.name=Warp Module
 item.JumpModule.name=Jump Module
 tile.ModuleWorkstation.name=Module Workstation
+tile.FabricationChamber.name=Fabrication Chamber
 item.TransferUpgrade=Transfer Upgrade
 item.FlawlessAssembly.name=Flawless Assembly
+tile.ReinforcedChest.name=Reinforced Chest
+tile.AmethystPiping.name=Amethyst Piping
+tile.TanzanitePiping.name=Tanzanite Piping

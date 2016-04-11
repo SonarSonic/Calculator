@@ -22,7 +22,6 @@ import sonar.core.client.gui.SonarButtons.ImageButton;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerEmpty;
 import sonar.core.network.PacketByteBufServer;
-import sonar.core.network.PacketTextField;
 
 public class GuiTeleporter extends GuiSonar {
 	public static ResourceLocation network = new ResourceLocation("Calculator:textures/gui/teleporter.png");

@@ -1,16 +1,15 @@
 package sonar.calculator.mod.client.renderers;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.client.models.ModelCrankHandle;
+
+import org.lwjgl.opengl.GL11;
+
 import sonar.calculator.mod.client.models.ModelFabricationArm;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.core.common.block.SonarBlock;
 
@@ -40,13 +39,13 @@ public class RenderFabricationChamber extends TileEntitySpecialRenderer<TileEnti
 			GlStateManager.rotate(0.0F, 0.0F, 1.0F, 0.0F);
 			break;
 		case 2:
-			GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
 			break;
 		case 3:
-			GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
 			break;
 		case 4:
-			GlStateManager.rotate(270.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 		}
 		int progress=tileentity.currentMoveTime;
 		float rotateR=((float)progress*25)/50;
@@ -65,7 +64,6 @@ public class RenderFabricationChamber extends TileEntitySpecialRenderer<TileEnti
 		this.model.renderTile((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F, false, false, progress);
 		GlStateManager.rotate(rotateL, 0, -1, 0);
 		GlStateManager.popMatrix();
-
 		GlStateManager.translate(0.5, 1.506, 0.5);
 		if (tileentity.selected != null) {
 			if (!Minecraft.getMinecraft().getRenderItem().shouldRenderItemIn3D(tileentity.selected )) {
@@ -81,9 +79,7 @@ public class RenderFabricationChamber extends TileEntitySpecialRenderer<TileEnti
 				GL11.glTranslated(0.84, 1.08, -0.84);
 				Minecraft.getMinecraft().getRenderItem().renderItem(tileentity.selected , TransformType.GROUND);
 			}
-		}
-		
-		
+		}		
 		GlStateManager.popMatrix();
 		GlStateManager.popMatrix();
 	}

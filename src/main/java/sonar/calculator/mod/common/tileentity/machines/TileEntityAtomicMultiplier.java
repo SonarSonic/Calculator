@@ -16,7 +16,7 @@ import sonar.calculator.mod.utils.AtomicMultiplierBlacklist;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
@@ -38,7 +38,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 	public TileEntityAtomicMultiplier() {
 		super.storage = new SyncEnergyStorage(requiredEnergy, requiredEnergy);
-		super.inv = new SonarTileInventory(this, 10);
+		super.inv = new SonarInventory(this, 10);
 	}
 
 	@Override

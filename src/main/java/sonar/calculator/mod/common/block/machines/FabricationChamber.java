@@ -8,7 +8,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -20,7 +19,6 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
-import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.upgrades.MachineUpgrade;
 import sonar.core.utils.IGuiTile;
 
@@ -28,6 +26,7 @@ public class FabricationChamber extends SonarMachineBlock {
 
 	public FabricationChamber() {
 		super(SonarMaterials.machine, true, true);
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
 	}
 
 	@Override
@@ -54,22 +53,9 @@ public class FabricationChamber extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
-		/*
-		TileEntity target = world.getTileEntity(pos);
-		if (target != null && target instanceof TileEntityFabricationChamber) {
-			TileEntityFabricationChamber chamber = (TileEntityFabricationChamber) target;
-			if (chamber.currentFabricateTime != 0) {
-				float x1 = pos.getX() + random.nextFloat();
-				float y1 = pos.getY() + 0.5F;
-				float z1 = pos.getZ() + random.nextFloat();
-
-				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D);
-				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D);
-				world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D);
-				world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D);
-			}
-		}
-		*/
+		/*TileEntity target = world.getTileEntity(pos); if (target != null && target instanceof TileEntityFabricationChamber) { TileEntityFabricationChamber chamber = (TileEntityFabricationChamber) target; if (chamber.currentFabricateTime != 0) { float x1 = pos.getX() + random.nextFloat(); float y1 = pos.getY() + 0.5F; float z1 = pos.getZ() + random.nextFloat();
+		 * 
+		 * world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D); world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D); world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D); world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D); } } */
 	}
 
 	@Override
@@ -97,7 +83,7 @@ public class FabricationChamber extends SonarMachineBlock {
 	}
 
 	public boolean isOpaqueCube() {
-		return true;
+		return false;
 	}
 
 	public EnumWorldBlockLayer getBlockLayer() {

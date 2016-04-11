@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.modules.WIPSmeltingModule;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerCraftInventory;

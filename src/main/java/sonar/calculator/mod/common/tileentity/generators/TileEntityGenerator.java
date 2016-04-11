@@ -19,7 +19,7 @@ import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
@@ -44,7 +44,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	public TileEntityGenerator() {
 		super.storage = new SyncEnergyStorage(1000000, 800);
-		super.inv = new SonarTileInventory(this, 2);
+		super.inv = new SonarInventory(this, 2);
 		super.energyMode = EnergyMode.SEND;
 		super.maxTransfer = 2000;
 	}

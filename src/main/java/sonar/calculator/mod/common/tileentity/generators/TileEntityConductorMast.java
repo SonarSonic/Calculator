@@ -19,12 +19,9 @@ import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
-import sonar.core.api.SonarAPI;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
-import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
@@ -48,7 +45,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	public TileEntityConductorMast() {
 		super.storage = new SyncEnergyStorage(5000000, 64000);
-		super.inv = new SonarTileInventory(this, 2);
+		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 5000000;
 		super.energyMode=EnergyMode.SEND;
 	}

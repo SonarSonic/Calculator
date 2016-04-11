@@ -15,7 +15,7 @@ import sonar.core.api.blocks.IStableGlass;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
 
@@ -23,7 +23,7 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 
 	public static class Dynamic extends TileEntityCalculator {
 		public Dynamic() {
-			super.inv = new SonarTileInventory(this, 10);
+			super.inv = new SonarInventory(this, 10);
 		}
 
 		public FailedCoords checkStructure() {
@@ -103,7 +103,7 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 
 	public static class Atomic extends TileEntityCalculator {
 		public Atomic() {
-			super.inv = new SonarTileInventory(this,4);
+			super.inv = new SonarInventory(this,4);
 		}
 
 		@Override

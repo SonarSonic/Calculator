@@ -9,7 +9,7 @@ import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.generators.GuiCalculatorPlug;
 import sonar.calculator.mod.common.containers.ContainerCalculatorPlug;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
@@ -21,7 +21,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 	public SyncTagType.INT stable = new SyncTagType.INT(0);
 
 	public TileEntityCalculatorPlug() {
-		super.inv = new SonarTileInventory(this, 1);
+		super.inv = new SonarInventory(this, 1);
 	}
 
 	@Override

@@ -25,7 +25,7 @@ import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.SonarTileInventory;
+import sonar.core.inventory.SonarInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
 
@@ -37,7 +37,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	public boolean disabled;
 
 	public TileEntityMagneticFlux() {
-		super.inv = new SonarTileInventory(this, 8);
+		super.inv = new SonarInventory(this, 8);
 	}
 
 	@Override

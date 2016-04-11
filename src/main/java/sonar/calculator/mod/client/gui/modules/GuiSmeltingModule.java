@@ -10,7 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerSmeltingModule;
-import sonar.calculator.mod.common.item.modules.WIPSmeltingModule;
 import sonar.core.helpers.FontHelper;
 
 public class GuiSmeltingModule extends GuiContainer {
