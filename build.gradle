@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.9.8"
-group= "sonar.calculator.mod.modid"
-archivesBaseName = "Calculator-1.7.10"
+version = "${minecraft_version}-${mod_version}"
+group= "sonar.calculator.mod"
+archivesBaseName = "Calculator"
 
 minecraft {
-    version = "1.7.10-10.13.4.1614-1.7.10"
+    version = "${minecraft_version}-${forge_version}"
     runDir = "eclipse"
 }
 

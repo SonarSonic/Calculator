@@ -37,12 +37,6 @@ public class ConnectedBlock extends Block implements IConnectedBlock {
 		this.target = block;
 		this.type = name;
 		this.hasColours = hasColours;
-		if (block == 2) {
-			setBlockUnbreakable();
-			setResistance(6000000.0F);
-			setHardness(50.0F);
-
-		}
 	}
 
 	@Override
