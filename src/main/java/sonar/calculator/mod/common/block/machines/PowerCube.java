@@ -24,10 +24,8 @@ public class PowerCube extends SonarMachineBlock {
 
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
-		if (player != null) {
-			if (!world.isRemote) {
-				FMLNetworkHandler.openGui(player, Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
-			}
+		if (player != null && !world.isRemote) {
+			FMLNetworkHandler.openGui(player, Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}

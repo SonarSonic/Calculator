@@ -5,22 +5,25 @@ import java.util.ArrayList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import sonar.calculator.mod.research.types.ResearchTypes;
+import sonar.core.api.IRegistryObject;
 import sonar.core.helpers.NBTHelper.SyncType;
 
 public abstract class Research implements IResearch {
 
 	public boolean wasAwarded = false;
-	public final String name, clientName;
+	public final ResearchTypes type;
+	public final String clientName;
 	public final Item logo;
 
-	public Research(String name, String clientName, Item logo) {
-		this.name=name;
-		this.clientName=clientName;
+	public Research(ResearchTypes type, String clientName, Item logo) {
+		this.type = type;
+		this.clientName = clientName;
 		this.logo = logo;
 	}
 
 	public String getName() {
-		return name;
+		return type.name();
 	}
 
 	public String getClientName() {
@@ -41,14 +44,14 @@ public abstract class Research implements IResearch {
 		nbt.setBoolean("wasAwarded", wasAwarded);
 	}
 
-	public ArrayList<ItemStack> getItemRewards(){
+	public ArrayList<ItemStack> getItemRewards() {
 		return new ArrayList();
 	}
 
-	public ArrayList<RecipeReward> getUnlockedRecipes(){
+	public ArrayList<RecipeReward> getUnlockedRecipes() {
 		return new ArrayList();
 	}
-	
+
 	@Override
 	public boolean wasAwarded() {
 		return wasAwarded;
@@ -57,5 +60,10 @@ public abstract class Research implements IResearch {
 	@Override
 	public void setAwarded(boolean bool) {
 		wasAwarded = bool;
+	}
+
+	@Override
+	public boolean isLoadable() {
+		return true;
 	}
 }

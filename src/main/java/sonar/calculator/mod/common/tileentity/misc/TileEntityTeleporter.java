@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -22,20 +24,24 @@ import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.ContainerEmpty;
+import sonar.core.network.sync.ISyncPart;
+import sonar.core.network.sync.SyncTagType;
+import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
 
-public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, ITextField, IGuiTile {
+public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, IGuiTile {
 
 	public int teleporterID;
-	public String name = "LINK NAME";
-	public String destinationName = "DESTINATION";
-	public String password = "";
+	public SyncTagType.STRING name = (STRING) new SyncTagType.STRING(0).setDefault("LINK NAME");
+	public SyncTagType.STRING destinationName = (STRING) new SyncTagType.STRING(1).setDefault("DESTINATION");
+	public SyncTagType.STRING password = (STRING) new SyncTagType.STRING(2).setDefault("");
+	public SyncTagType.STRING linkPassword = (STRING) new SyncTagType.STRING(3).setDefault("");
+
 	public boolean coolDown, passwordMatch;
 	public int coolDownTicks = 0;
 
 	public int linkID;
-	public String linkPassword = "";
 
 	/** client only list */
 	public List<TeleportLink> links;
@@ -76,7 +82,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 					if (TeleporterHelper.canTeleport(tile, this) && canTeleportPlayer() && tile.canTeleportPlayer()) {
 						this.passwordMatch = true;
 						TeleporterHelper.travelToDimension(this.getPlayerList(), tile);
-						updateDimensionName(tile.name);
+						updateDimensionName(tile.name.getObject());
 					} else {
 						this.passwordMatch = false;
 					}
@@ -91,8 +97,8 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	}
 
 	public void updateDimensionName(String name) {
-		if (!destinationName.equals(name)) {
-			destinationName = name;
+		if (!destinationName.getObject().equals(name)) {
+			destinationName.setObject(name);
 			SonarCore.sendFullSyncAround(this, 64);
 		}
 	}
@@ -111,7 +117,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			EnumFacing dir = dirs[i];
 			int blocks = 0;
 			for (int j = 0; j < 3; j++) {
-				if (worldObj.getBlockState(pos.add(dir.getFrontOffsetX(), -j, dir.getFrontOffsetZ())).getBlock() == Calculator.stableStone) {
+				if (worldObj.getBlockState(pos.add(dir.getFrontOffsetX(), -j, dir.getFrontOffsetZ())).getBlock() == SonarCore.stableStone) {
 					blocks++;
 				}
 			}
@@ -163,10 +169,6 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			this.teleporterID = nbt.getInteger("freq");
 			this.linkID = nbt.getInteger("linkID");
-			this.name = nbt.getString("name");
-			this.destinationName = nbt.getString("destinationName");
-			this.linkPassword = nbt.getString("linkPassword");
-			this.password = nbt.getString("password");
 			this.coolDown = nbt.getBoolean("coolDown");
 			this.passwordMatch = nbt.getBoolean("passwordMatch");
 			this.coolDownTicks = nbt.getInteger("coolDownTicks");
@@ -178,14 +180,15 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setInteger("freq", this.teleporterID);
 			nbt.setInteger("linkID", this.linkID);
-			nbt.setString("name", this.name);
-			nbt.setString("destinationName", this.destinationName);
-			nbt.setString("linkPassword", this.linkPassword);
-			nbt.setString("password", this.password);
 			nbt.setBoolean("coolDown", this.coolDown);
 			nbt.setBoolean("passwordMatch", this.passwordMatch);
 			nbt.setInteger("coolDownTicks", this.coolDownTicks);
 		}
+	}
+
+	public void addSyncParts(List<ISyncPart> parts) {
+		super.addSyncParts(parts);
+		parts.addAll(Lists.newArrayList(name, destinationName, linkPassword, password));
 	}
 
 	public void onChunkUnload() {
@@ -209,8 +212,8 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
 		currenttip.add("Link Name: " + name);
-		if (!destinationName.equals("DESTINATION")) {
-			currenttip.add("Destination: " + destinationName);
+		if (!destinationName.getObject().equals("DESTINATION")) {
+			currenttip.add("Destination: " + destinationName.getObject());
 		}
 		return currenttip;
 	}
@@ -222,18 +225,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 
 	@Override
 	public String name() {
-		return name;
-	}
-
-	@Override
-	public void textTyped(String string, int id) {
-		if (id == 1)
-			this.name = string;
-		if (id == 2)
-			this.password = string;
-		if (id == 3)
-			this.linkPassword = string;
-
+		return name.getObject();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -249,18 +241,41 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 
 	@Override
 	public void writePacket(ByteBuf buf, int id) {
-		if (id == 0) {
+		switch (id) {
+		case 0:
 			buf.writeInt(linkID);
+			break;
+		case 1:
+			name.writeToBuf(buf);
+			break;
+		case 2:
+			password.writeToBuf(buf);
+			break;
+		case 3:
+			linkPassword.writeToBuf(buf);
+			break;
 		}
 	}
 
 	@Override
 	public void readPacket(ByteBuf buf, int id) {
-		this.removeFromFrequency();
-		if (id == 0) {
+		switch (id) {
+		case 0:
+			this.removeFromFrequency();
 			this.linkID = buf.readInt();
+			this.addToFrequency();
+			break;
+		case 1:
+			name.readFromBuf(buf);
+			break;
+		case 2:
+			password.readFromBuf(buf);
+			break;
+		case 3:
+			linkPassword.readFromBuf(buf);
+			break;
 		}
-		this.addToFrequency();
+
 	}
 
 	@Override

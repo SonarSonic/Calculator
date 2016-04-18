@@ -18,4 +18,9 @@ public class GlowstoneExtractorRecipes extends ValueHelper {
 
 	}
 
+	@Override
+	public String getRecipeID() {
+		return "Glowstone Values";
+	}
+
 }

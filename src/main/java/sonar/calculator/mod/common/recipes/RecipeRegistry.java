@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.block.BlockFlower;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorItems;
 import sonar.calculator.mod.common.block.MaterialBlock.Variants;
@@ -94,21 +95,88 @@ public class RecipeRegistry {
 		}
 		flawless.add(objects);
 	}
+	
+	public enum RecipeType {
+		REINFORCED_STONE(SonarCore.reinforcedStoneBlock, SonarCore.reinforcedDirtBlock, "reinforcedStone"),
+		/**/
+		CROP(Items.wheat, Items.potato, Items.carrot, "cropWheat", "cropPotato", "cropCarrot"),
+		/**/
+		SLIMEBALL(Items.slime_ball, "slimeball"),
+		/**/
+		IRON(Blocks.iron_ore, Items.iron_ingot, "oreIron", "blockIron", "ingotIron"),
+		/**/
+		EMERALD("oreEmerald", "blockEmerald", "gemEmerald"),
+		/**/
+		FLOWER(Blocks.red_flower, Blocks.yellow_flower),
+		/**/
+		CACTUS(Blocks.cactus),
+		/**/
+		NETHER(Blocks.obsidian, Blocks.netherrack, Blocks.soul_sand),
+		/**/
+		END(Blocks.end_stone, Items.ender_pearl),
+		/**/
+		SAND(Blocks.sand, "sand"),
+		/**/
+		GRASS(Blocks.grass, "grass"),
+		/**/
+		SANDSTONE(Blocks.sandstone, Blocks.sandstone_stairs),
+		/**/
+		DIRT(Blocks.dirt, "dirt"),
+		/**/
+		STONE(Blocks.stone, "stone"),
+		/**/
+		GRAVEL(Blocks.gravel, "gravel"),
+		/**/
+		COBBLESTONE(Blocks.cobblestone, "cobblestone"),
+		/**/
+		WOOD(Blocks.log, Blocks.log2, "logWood"),
+		/**/
+		PLANKS(Blocks.planks, "plankWood", "stairWood"),
+		/**/
+		LEAVES(Blocks.leaves, Blocks.leaves2, "calculatorLeaves"),
+		/**/
+		SAPLING(Blocks.sapling, "treeSapling"),
+		/**/
+		GLASS(Blocks.glass, "blockGlass"),
+		/**/
+		GLASS_PANE(Blocks.glass_pane, "paneGlass"),
+		/**/
+		FURNACE(Blocks.furnace),
+		/**/
+		DYE(Items.dye, "dye"),
+		/**/
+		CARPET(Blocks.carpet, "carpet"),
+		/**/
+		CLAY_BLOCK(Items.clay_ball, Blocks.clay, Blocks.hardened_clay, "clay"), FOLIAGE(Blocks.double_plant, Blocks.deadbush, Blocks.vine, Blocks.waterlily),
+		/**/
+		WOOL(Blocks.wool, "wool");
 
-	public enum RecipeType {	
-		
-		REINFORCED_STONE(SonarCore.reinforcedStoneBlock, SonarCore.reinforcedDirtBlock), 		
-		CROP("cropWheat","cropPotato","cropCarrot"), 
-		SLIMEBALL("slimeball"),
-		IRON("oreIron","blockIron","ingotIron"), 
-		EMERALD("oreEmerald", "blockEmerald", "gemEmerald"), 
-		FLOWER(BlockFlower.class), 
-		CACTUS(), NETHER, END, SAND, GRASS, SANDSTONE, DIRT, STONE, GRAVEL, COBBLESTONE, WOOD, PLANKS, LEAVES, SAPLING, GLASS, GLASS_PANE, FURNACE, DYE, CARPET, CLAY_BLOCK, FOLIAGE, WOOL;
-		
 		public Object[] items;
 
 		RecipeType(Object... items) {
 			this.items = items;
+		}
+
+		public static ArrayList<RecipeType> getUnlocked(ItemStack stack) {
+			ArrayList<RecipeType> unlocked = new ArrayList<RecipeType>();
+			int[] ids = OreDictionary.getOreIDs(stack);
+			for (RecipeType type : RecipeType.values()) {
+				for (Object object : type.items) {
+					if (stack.getItem() == object || Block.getBlockFromItem(stack.getItem()) == object) {
+						unlocked.add(type);
+						break;
+					} else if (object instanceof String) {
+						int oreID = OreDictionary.getOreID((String) object);
+						for (int id : ids) {
+							if (id == oreID) {
+								unlocked.add(type);
+								break;
+							}
+						}
+					}
+				}
+			}
+			return unlocked;
 		}
 	}
 
@@ -538,10 +606,10 @@ public class RecipeRegistry {
 		registerScientificRecipe("gemDiamond", Calculator.reinforcediron_ingot, new ItemStack(Calculator.weakeneddiamond, 4));
 		registerScientificRecipe(Calculator.baby_grenade, Calculator.baby_grenade, Calculator.grenade);
 		registerScientificRecipe(Calculator.enriched_coal, Items.lava_bucket, Calculator.firecoal);
-		registerScientificRecipe(Calculator.large_amethyst, "treeSapling", Calculator.AmethystSapling);
-		registerScientificRecipe(Calculator.amethystLog, Calculator.amethystLeaves, Calculator.AmethystSapling);
-		registerScientificRecipe(Calculator.amethystLog, Calculator.small_amethyst, Calculator.AmethystSapling);
-		registerScientificRecipe(Calculator.amethystLog, Calculator.amethystLog, Calculator.AmethystSapling);
+		registerScientificRecipe(Calculator.large_amethyst, "treeSapling", Calculator.amethystSapling);
+		registerScientificRecipe(Calculator.amethystLog, Calculator.amethystLeaves, Calculator.amethystSapling);
+		registerScientificRecipe(Calculator.amethystLog, Calculator.small_amethyst, Calculator.amethystSapling);
+		registerScientificRecipe(Calculator.amethystLog, Calculator.amethystLog, Calculator.amethystSapling);
 		registerScientificRecipe(Calculator.itemCalculator, Calculator.redstone_ingot, Calculator.itemTerrainModule);
 		registerScientificRecipe(Calculator.itemEnergyModule, Calculator.small_amethyst, Calculator.starchextractor);
 		registerScientificRecipe(Calculator.powerCube, Calculator.purified_coal, Calculator.itemEnergyModule);
@@ -556,7 +624,7 @@ public class RecipeRegistry {
 		registerAtomicRecipe("gemDiamond", Items.blaze_rod, "gemDiamond", Calculator.firediamond);
 		registerAtomicRecipe(Items.blaze_rod, Calculator.flawlessdiamond, Items.blaze_rod, Calculator.firediamond);
 		registerAtomicRecipe(Blocks.end_stone, Calculator.electricDiamond, Blocks.obsidian, Calculator.endDiamond);
-		registerAtomicRecipe(Calculator.AmethystSapling, Blocks.end_stone, Calculator.tanzaniteSapling, Calculator.PearSapling);
+		registerAtomicRecipe(Calculator.amethystSapling, Blocks.end_stone, Calculator.tanzaniteSapling, Calculator.pearSapling);
 		registerAtomicRecipe(Calculator.itemScientificCalculator, Calculator.atomic_binder, "ingotRedstone", Calculator.itemAdvancedTerrainModule);
 		registerAtomicRecipe(Calculator.tanzaniteLog, Calculator.atomic_binder, Calculator.tanzaniteLeaves, Calculator.tanzaniteSapling);
 		registerAtomicRecipe(Calculator.large_tanzanite, Calculator.atomic_binder, "treeSapling", Calculator.tanzaniteSapling);
@@ -575,7 +643,7 @@ public class RecipeRegistry {
 	}
 
 	private static void addFlawlessRecipes() {
-		registerFlawlessRecipe(Calculator.PearSapling, Calculator.endDiamond, Calculator.endDiamond, Blocks.end_stone, Calculator.diamondSapling);
+		registerFlawlessRecipe(Calculator.pearSapling, Calculator.endDiamond, Calculator.endDiamond, Blocks.end_stone, Calculator.diamondSapling);
 		registerFlawlessRecipe("ingotGold", "ingotGold", "ingotGold", "ingotGold", Items.diamond);
 		registerFlawlessRecipe("gemDiamond", "gemDiamond", "gemDiamond", "gemDiamond", Items.emerald);
 		registerFlawlessRecipe("ingotIron", "ingotIron", "ingotIron", "ingotIron", Items.ender_pearl);

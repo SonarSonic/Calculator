@@ -1,12 +1,18 @@
 package sonar.calculator.mod.research;
 
-import sonar.core.helpers.LinkedRegistryHelper;
+import sonar.calculator.mod.research.types.CalculatorResearch;
+import sonar.calculator.mod.research.types.RecipeResearch;
+import sonar.core.helpers.RegistryHelper;
 
-public class ResearchRegistry extends LinkedRegistryHelper<String, IResearch> {
+public class ResearchRegistry extends RegistryHelper<IResearch> {
 
 	@Override
 	public void register() {
-		registerMap(secondary, primary);
+		registerObject(new CalculatorResearch.Basic());
+		registerObject(new CalculatorResearch.Scientific());
+		registerObject(new CalculatorResearch.Atomic());
+		registerObject(new CalculatorResearch.Flawless());
+		registerObject(new RecipeResearch());
 	}
 
 	@Override

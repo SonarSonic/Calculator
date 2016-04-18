@@ -8,7 +8,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
-import sonar.calculator.mod.common.item.calculators.InfoCalc;
+import sonar.calculator.mod.common.item.calculators.InfoCalculator;
 import sonar.calculator.mod.common.item.calculators.SonarEnergyModule;
 import sonar.calculator.mod.common.item.calculators.SonarModule;
 import sonar.calculator.mod.common.item.calculators.SonarUsageModule;
@@ -93,7 +93,7 @@ public class CalculatorItems extends Calculator {
 	public static void registerItems() {
 
 		// calculators
-		itemInfoCalculator = registerItem("InfoCalculator", new InfoCalc());
+		itemInfoCalculator = registerItem("InfoCalculator", new InfoCalculator());
 		itemCalculator = registerItem("Calculator", new SonarUsageModule(GuiModule.calculator, 1000));
 		itemCraftingCalculator = registerItem("CraftingCalculator", new SonarUsageModule(GuiModule.crafting, 5000));
 		itemScientificCalculator = registerItem("ScientificCalculator", new SonarUsageModule(GuiModule.scientific, 2000));

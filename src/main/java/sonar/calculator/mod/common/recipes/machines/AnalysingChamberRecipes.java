@@ -64,7 +64,7 @@ public class AnalysingChamberRecipes {
 		this.addRecipe(3, 1, new ItemStack(Calculator.itemEnergyModule,1));
 		this.addRecipe(3, 2, new ItemStack(Calculator.itemHealthModule, 1));
 		this.addRecipe(3, 3, new ItemStack(Calculator.itemHungerModule, 1));
-		this.addRecipe(3, 4, new ItemStack(Calculator.AmethystSapling,1));
+		this.addRecipe(3, 4, new ItemStack(Calculator.amethystSapling,1));
 		this.addRecipe(3, 5, new ItemStack(Calculator.tanzaniteSapling,1));
 		this.addRecipe(3, 6, new ItemStack(Calculator.hungerProcessor,1));
 		this.addRecipe(3, 7, new ItemStack(Calculator.healthProcessor,1));

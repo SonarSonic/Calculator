@@ -8,13 +8,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.client.gui.calculators.GuiInfoCalculator;
+import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
+import sonar.core.utils.IGuiItem;
 
-public class InfoCalc extends SonarItem {
+public class InfoCalculator extends SonarItem implements IGuiItem {
 
-	public InfoCalc() {
+	public InfoCalculator() {
 		setMaxStackSize(1);
 	}
 
@@ -22,12 +25,23 @@ public class InfoCalc extends SonarItem {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
-		list.add(FontHelper.translate("info.nei"));
 	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
-		player.openGui(Calculator.instance, CalculatorGui.InfoCalculator, world, (int) player.posX, (int) player.posY, (int) player.posZ);
+		if (world.isRemote) {
+			player.openGui(Calculator.instance, IGuiItem.ID, world, -1000, -1000, -1000);
+		}
 		return itemstack;
+	}
+
+	@Override
+	public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
+		return new ContainerInfoCalculator(player);
+	}
+
+	@Override
+	public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
+		return new GuiInfoCalculator(player);
 	}
 }

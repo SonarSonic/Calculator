@@ -29,7 +29,6 @@ public class EntityGrenade extends EntityThrowable {
 
 		} else {
 			for (int i = 0; i < 10; i++) {
-				
 				this.worldObj.spawnParticle(EnumParticleTypes.FLAME, this.posX, this.posY, this.posZ, 0.8999999761581421D, 0.8999999761581421D, 0.8999999761581421D);
 			}
 		}

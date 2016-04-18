@@ -137,7 +137,6 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 			boolean fabricated = false;
 			if (current == null) {
 				slots()[0] = selected.copy();
-				System.out.print(selected.copy());
 				fabricated = true;
 			} else if (ItemStackHelper.equalStacksRegular(current, selected) && current.stackSize + selected.stackSize <= getInventoryStackLimit() && current.stackSize + selected.stackSize <= selected.getMaxStackSize()) {
 				slots()[0].stackSize += selected.copy().stackSize;
@@ -194,7 +193,6 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		switch (id) {
 		case 0:
 			ByteBufUtils.writeItemStack(buf, selected);
-			// System.out.print(selected);
 			break;
 		case 1:
 			if (!canMove)
@@ -209,7 +207,6 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		switch (id) {
 		case 0:
 			selected = ByteBufUtils.readItemStack(buf);
-			System.out.print(selected);
 			break;
 		case 1:
 			if (!canMove)

@@ -9,17 +9,17 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 
-public class InfoList {
-	private static final InfoList infoBase = new InfoList();
+public class OLDInfoList {
+	private static final OLDInfoList infoBase = new OLDInfoList();
 
 	private Map info = new HashMap();
 	private Map infoTypes = new HashMap();
 
-	public static InfoList info() {
+	public static OLDInfoList info() {
 		return infoBase;
 	}
 
-	private InfoList() {
+	private OLDInfoList() {
 		addRecipe("Machines", new ItemStack(Calculator.powerCube), "Charges Calculators- -Uses RF or EU");
 		addRecipe("Machines", new ItemStack(Calculator.advancedPowerCube), "Charges Calculators quickly- -Uses RF or EU--Can convert EU to RF and back");
 		addRecipe("Calculators", new ItemStack(Calculator.itemCalculator), "Adds two items together.");
@@ -72,7 +72,7 @@ public class InfoList {
 		addRecipe("Generators", new ItemStack(Calculator.starchextractor), "Uses Starch to generate RF-Also Requires Fuel--Starch = Leaves,Saplings etc");
 		addRecipe("Generators", new ItemStack(Calculator.glowstoneextractor), "Uses Glowstone to generate RF-Also Requires Fuel");
 		addRecipe("Generators", new ItemStack(Calculator.redstoneextractor), "Uses Redstone to generate RF-Also Requires Fuel");
-		addRecipe("Blocks", new ItemStack(Calculator.stableStone), "Part of the Calculator Locator-Teleporting(see Flawless Calc)-Right Click to set location-Right click then teleports you-Remove to change location");
+		//addRecipe("Blocks", new ItemStack(Calculator.stableStone), "Part of the Calculator Locator-Teleporting(see Flawless Calc)-Right Click to set location-Right click then teleports you-Remove to change location");
 		addRecipe("Circuits", new ItemStack(Calculator.energyUpgrade), "Reduces energy consumption-Right click the machine-you want to upgrade--Destroy block to remove");
 		addRecipe("Circuits", new ItemStack(Calculator.speedUpgrade), "Increases speed-Right click the machine-you want to upgrade--Destroy block to remove");
 		addRecipe("Circuits", new ItemStack(Calculator.voidUpgrade), "For Analysing Chamber-Destroys useless items extracted- from circuits");

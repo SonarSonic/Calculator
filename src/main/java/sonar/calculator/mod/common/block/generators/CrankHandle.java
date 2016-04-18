@@ -77,7 +77,6 @@ public class CrankHandle extends SonarMachineBlock {
 		if (!worldIn.isRemote) {
 			IBlockState down = worldIn.getBlockState(pos.offset(EnumFacing.DOWN));
 			if (down.getBlock() == Calculator.handcrankedGenerator) {
-				System.out.print(down.getValue(FACING));
 				worldIn.setBlockState(pos, state.withProperty(FACING, down.getValue(FACING)), 3);
 			} else {
 				super.setDefaultFacing(worldIn, pos, state);

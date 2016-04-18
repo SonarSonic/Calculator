@@ -60,8 +60,8 @@ public class CalculatorOreDict extends Calculator {
 		// saplings
 		registerOre("treeSapling", tanzaniteSapling);
 		registerOre("treeSapling", diamondSapling);
-		registerOre("treeSapling", AmethystSapling);
-		registerOre("treeSapling", PearSapling);
+		registerOre("treeSapling", amethystSapling);
+		registerOre("treeSapling", pearSapling);
 
 		// blocks
 		registerOre("calculatorReinforcedBlock", SonarCore.reinforcedStoneBlock);

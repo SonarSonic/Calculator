@@ -36,4 +36,8 @@ public class HealthProcessorRecipes extends ValueHelper {
 		addRecipe(Items.golden_apple, 150);
 	}
 
+	@Override
+	public String getRecipeID() {
+		return "Health Values";
+	}
 }

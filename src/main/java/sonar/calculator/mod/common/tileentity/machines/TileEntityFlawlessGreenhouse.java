@@ -25,6 +25,7 @@ import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.helpers.FontHelper;
@@ -312,13 +313,13 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	public boolean stableStone(int x, int y, int z) {
 		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
-		if (block != null && block == Calculator.stableStone) {
+		if (block != null && block == SonarCore.stableStone) {
 			return false;
 		}
-		if (block != null && block == Calculator.stablestonerimmedBlock) {
+		if (block != null && block == SonarCore.stablestonerimmedBlock) {
 			return false;
 		}
-		if (block != null && block == Calculator.stablestonerimmedblackBlock) {
+		if (block != null && block == SonarCore.stablestonerimmedblackBlock) {
 			return false;
 		}
 		if (block != null && block == Calculator.flawlessGreenhouse) {

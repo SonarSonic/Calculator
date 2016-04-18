@@ -33,6 +33,7 @@ import sonar.calculator.mod.common.block.machines.HealthProcessor;
 import sonar.calculator.mod.common.block.machines.HungerProcessor;
 import sonar.calculator.mod.common.block.machines.ModuleWorkstation;
 import sonar.calculator.mod.common.block.machines.PowerCube;
+import sonar.calculator.mod.common.block.machines.ResearchChamber;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
 import sonar.calculator.mod.common.block.misc.CO2Generator;
 import sonar.calculator.mod.common.block.misc.GasLantern;
@@ -61,6 +62,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
@@ -154,9 +156,10 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerTileEntity(TileEntityStorageChamber.class, "StorageChamber");
 		fabricationChamber = registerBlock("FabricationChamber", new FabricationChamber().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityFabricationChamber.class, "FabricationChamber");
-		/*researchChamber = new ResearchChamber().setUnlocalizedName("ResearchChamber").setHardness(1.0F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F); GameRegistry.registerBlock(researchChamber, SonarBlockTip.class, "ResearchChamber"); GameRegistry.registerTileEntity(TileEntityResearchChamber.class, "ResearchChamber"); // manipulationChamber = new ManipulationChamber().setUnlocalizedName("ManipulationChamber").setCreativeTab(Calculator).setHardness(1.5F); // GameRegistry.registerBlock(manipulationChamber, CalcBlockItem.class, "ManipulationChamber"); // GameRegistry.registerTileEntity(TileEntityManipulationChamber.class, "ManipulationChamber"); */
+		researchChamber = registerBlock("ResearchChamber", new ResearchChamber().setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityResearchChamber.class, "ResearchChamber");
+		
 		// machines
-
 		basicGreenhouse = registerBlock("BasicGreenhouse", new BasicGreenhouse().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityBasicGreenhouse.class, "BasicGreenhouse");
 		advancedGreenhouse = registerBlock("AdvancedGreenhouse", new AdvancedGreenhouse().setHardness(1.0F).setResistance(20.0F));
@@ -213,7 +216,7 @@ public class CalculatorBlocks extends Calculator {
 		amethystStairs = registerBlock("AmethystStairs", new SonarStairs(amethystPlanks));
 		amethystFence = registerBlock("AmethystFence", new BlockFence(Material.wood));
 		amethystLeaves = registerBlock("AmethystLeaves", new CalculatorLeaves(0));
-		AmethystSapling = registerBlock("AmethystSapling", new CalculatorSaplings(0));
+		amethystSapling = registerBlock("AmethystSapling", new CalculatorSaplings(0));
 
 		tanzaniteLog = registerBlock("TanzaniteLog", new CalculatorLogs());
 		tanzanitePlanks = registerBlock("TanzanitePlanks", new CalculatorPlanks());
@@ -227,7 +230,7 @@ public class CalculatorBlocks extends Calculator {
 		pearStairs = registerBlock("PearStairs", new SonarStairs(pearPlanks));
 		pearFence = registerBlock("PearFence", new BlockFence(Material.wood));
 		pearLeaves = registerBlock("PearLeaves", new CalculatorLeaves(2));
-		PearSapling = registerBlock("PearSapling", new CalculatorSaplings(2));
+		pearSapling = registerBlock("PearSapling", new CalculatorSaplings(2));
 
 		diamondLog = registerBlock("DiamondLog", new CalculatorLogs());
 		diamondPlanks = registerBlock("DiamondPlanks", new CalculatorPlanks());

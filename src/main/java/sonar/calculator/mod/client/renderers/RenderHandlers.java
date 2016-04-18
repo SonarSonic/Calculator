@@ -18,13 +18,6 @@ import sonar.core.renderers.SonarTERender;
 
 public class RenderHandlers {
 
-	public static class AtomicMultiplier extends SonarTERender {
-		public AtomicMultiplier() {
-			super(new ModelAtomicMultiplier(), "Calculator:textures/model/atomicmultiplierNEW.png");
-		}
-
-	}
-
 	public static class ConductorMast extends SonarTERender {
 		public ConductorMast() {
 			super(new ModelConductorMast(), "Calculator:textures/model/conductormask.png");
@@ -38,23 +31,6 @@ public class RenderHandlers {
 		}
 	}
 
-	public static class StarchExtractor extends SonarTERender {
-		public StarchExtractor() {
-			super(new ModelGenerator(), "Calculator:textures/model/starchextractor.png");
-		}
-	}
-
-	public static class RedstoneExtractor extends SonarTERender {
-		public RedstoneExtractor() {
-			super(new ModelGenerator(), "Calculator:textures/model/redstoneextractor.png");
-		}
-	}
-
-	public static class GlowstoneExtractor extends SonarTERender {
-		public GlowstoneExtractor() {
-			super(new ModelGenerator(), "Calculator:textures/model/glowstoneextractor.png");
-		}
-	}
 
 	public static class Teleporter extends SonarTERender {
 		private static final ResourceLocation layer1 = new ResourceLocation("Calculator:textures/blocks/teleporter_layer1.png");
@@ -173,17 +149,4 @@ public class RenderHandlers {
 
 	}
 
-	
-
-	public static class AlgorithmAssimilator extends SonarTERender {
-		public AlgorithmAssimilator() {
-			super(new ModelAssimilator(), "Calculator:textures/model/algorithm_assimilator.png");
-		}
-	}
-
-	public static class StoneAssimilator extends SonarTERender {
-		public StoneAssimilator() {
-			super(new ModelAssimilator(), "Calculator:textures/model/stone_assimilator.png");
-		}
-	}
 }

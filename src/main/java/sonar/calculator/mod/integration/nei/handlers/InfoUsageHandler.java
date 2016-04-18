@@ -10,7 +10,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.client.gui.calculators.GuiInfoCalculator;
-import sonar.calculator.mod.utils.InfoList;
+import sonar.calculator.mod.utils.OLDInfoList;
 import sonar.core.helpers.FontHelper;
 
 public class InfoUsageHandler extends TemplateRecipeHandler {
@@ -63,7 +63,7 @@ public class InfoUsageHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<ItemStack, String> recipes = InfoList.info().getInfoList();
+		Map<ItemStack, String> recipes = OLDInfoList.info().getInfoList();
 		for (Map.Entry<ItemStack, String> recipe : recipes.entrySet()) {
 			if (NEIServerUtils.areStacksSameTypeCrafting(recipe.getKey(), ingredient)) {
 				InfoPair arecipe = new InfoPair(ingredient, recipe.getValue());
@@ -83,58 +83,58 @@ public class InfoUsageHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("Machines")) && (getClass() == InfoUsageHandler.class)) {
-			Map<ItemStack, String> Machines = InfoList.info().getInfoList();
+			Map<ItemStack, String> Machines = OLDInfoList.info().getInfoList();
 			for (Map.Entry<ItemStack, String> recipe : Machines.entrySet())
-				if (InfoList.info().getType(recipe.getKey()) == "Machines") {
+				if (OLDInfoList.info().getType(recipe.getKey()) == "Machines") {
 					this.arecipes.add(new InfoPair(recipe.getKey(), recipe.getValue()));
 					this.transferRects.clear();
 				}
 		} else if ((outputId.equals("Calculators")) && (getClass() == InfoUsageHandler.class)) {
-			Map<ItemStack, String> recipes2 = InfoList.info().getInfoList();
+			Map<ItemStack, String> recipes2 = OLDInfoList.info().getInfoList();
 			for (Map.Entry<ItemStack, String> recipe2 : recipes2.entrySet())
-				if (InfoList.info().getType(recipe2.getKey()) == "Calculators") {
+				if (OLDInfoList.info().getType(recipe2.getKey()) == "Calculators") {
 					this.arecipes.add(new InfoPair(recipe2.getKey(), recipe2.getValue()));
 					this.transferRects.clear();
 				}
 		} else if ((outputId.equals("Items")) && (getClass() == InfoUsageHandler.class)) {
-			Map<ItemStack, String> recipes3 = InfoList.info().getInfoList();
+			Map<ItemStack, String> recipes3 = OLDInfoList.info().getInfoList();
 			for (Map.Entry<ItemStack, String> recipe3 : recipes3.entrySet())
-				if (InfoList.info().getType(recipe3.getKey()) == "Items") {
+				if (OLDInfoList.info().getType(recipe3.getKey()) == "Items") {
 					this.arecipes.add(new InfoPair(recipe3.getKey(), recipe3.getValue()));
 					this.transferRects.clear();
 				}
 		} else if ((outputId.equals("Generators")) && (getClass() == InfoUsageHandler.class)) {
-			Map<ItemStack, String> recipes4 = InfoList.info().getInfoList();
+			Map<ItemStack, String> recipes4 = OLDInfoList.info().getInfoList();
 			for (Map.Entry<ItemStack, String> recipe4 : recipes4.entrySet())
-				if (InfoList.info().getType(recipe4.getKey()) == "Generators") {
+				if (OLDInfoList.info().getType(recipe4.getKey()) == "Generators") {
 					this.arecipes.add(new InfoPair(recipe4.getKey(), recipe4.getValue()));
 					this.transferRects.clear();
 				}
 		} else if ((outputId.equals("Circuits")) && (getClass() == InfoUsageHandler.class)) {
-			Map<ItemStack, String> recipes5 = InfoList.info().getInfoList();
+			Map<ItemStack, String> recipes5 = OLDInfoList.info().getInfoList();
 			for (Map.Entry<ItemStack, String> recipe5 : recipes5.entrySet())
-				if (InfoList.info().getType(recipe5.getKey()) == "Circuits") {
+				if (OLDInfoList.info().getType(recipe5.getKey()) == "Circuits") {
 					this.arecipes.add(new InfoPair(recipe5.getKey(), recipe5.getValue()));
 					this.transferRects.clear();
 				}
 		} else if ((outputId.equals("Modules")) && (getClass() == InfoUsageHandler.class)) {
-			Map<ItemStack, String> recipes5 = InfoList.info().getInfoList();
+			Map<ItemStack, String> recipes5 = OLDInfoList.info().getInfoList();
 			for (Map.Entry<ItemStack, String> recipe6 : recipes5.entrySet())
-				if (InfoList.info().getType(recipe6.getKey()) == "Modules") {
+				if (OLDInfoList.info().getType(recipe6.getKey()) == "Modules") {
 					this.arecipes.add(new InfoPair(recipe6.getKey(), recipe6.getValue()));
 					this.transferRects.clear();
 				}
 		} else if ((outputId.equals("Blocks")) && (getClass() == InfoUsageHandler.class)) {
-			Map<ItemStack, String> recipes5 = InfoList.info().getInfoList();
+			Map<ItemStack, String> recipes5 = OLDInfoList.info().getInfoList();
 			for (Map.Entry<ItemStack, String> recipe7 : recipes5.entrySet())
-				if (InfoList.info().getType(recipe7.getKey()) == "Blocks") {
+				if (OLDInfoList.info().getType(recipe7.getKey()) == "Blocks") {
 					this.arecipes.add(new InfoPair(recipe7.getKey(), recipe7.getValue()));
 					this.transferRects.clear();
 				}
 		}
 
 		else if ((outputId.equals("All")) && (getClass() == InfoUsageHandler.class)) {
-			Map<ItemStack, String> recipes5 = InfoList.info().getInfoList();
+			Map<ItemStack, String> recipes5 = OLDInfoList.info().getInfoList();
 			for (Map.Entry<ItemStack, String> recipe7 : recipes5.entrySet())
 				this.arecipes.add(new InfoPair(recipe7.getKey(), recipe7.getValue()));
 			this.transferRects.clear();
@@ -147,10 +147,10 @@ public class InfoUsageHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<ItemStack, String> recipes = InfoList.info().getInfoList();
+		Map<ItemStack, String> recipes = OLDInfoList.info().getInfoList();
 
 		for (Map.Entry<ItemStack, String> recipe : recipes.entrySet()) {
-			if (InfoList.info().getInfo(result) == recipe.getValue())
+			if (OLDInfoList.info().getInfo(result) == recipe.getValue())
 				this.arecipes.add(new InfoPair(recipe.getKey(), recipe.getValue()));
 
 			this.transferRects.clear();
@@ -161,7 +161,7 @@ public class InfoUsageHandler extends TemplateRecipeHandler {
 	public void drawExtras(int recipe) {
 		if (arecipes.get(recipe).getResult().item != null) {
 			ItemStack stack = arecipes.get(recipe).getResult().item;
-			String info = InfoList.info().getInfo(stack);
+			String info = OLDInfoList.info().getInfo(stack);
 			String[] parts = info.split("-");
 			int length = parts.length;
 

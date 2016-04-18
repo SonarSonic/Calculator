@@ -104,7 +104,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if(type.isType(SyncType.SAVE,SyncType.DEFAULT_SYNC)){
 			this.type = nbt.getInteger("type");
 			this.data = nbt.getInteger("data");
 			this.buffer = nbt.getInteger("buffer");
@@ -113,7 +113,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if (type == SyncType.SAVE || type == SyncType.SYNC) {
+		if(type.isType(SyncType.SAVE,SyncType.DEFAULT_SYNC)){
 			nbt.setInteger("type", this.type);
 			nbt.setInteger("data", data);
 			nbt.setInteger("buffer", buffer);

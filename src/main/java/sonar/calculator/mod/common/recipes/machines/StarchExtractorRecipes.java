@@ -31,5 +31,9 @@ public class StarchExtractorRecipes extends ValueHelper {
 		addRecipe("treeLeaves", 200);
 		
 	}
+	@Override
+	public String getRecipeID() {
+		return "Starch Values";
+	}
 
 }

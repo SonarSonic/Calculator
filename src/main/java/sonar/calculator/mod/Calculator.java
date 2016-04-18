@@ -49,6 +49,7 @@ import sonar.calculator.mod.integration.planting.FertiliserRegistry;
 import sonar.calculator.mod.integration.planting.HarvesterRegistry;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.network.CalculatorCommon;
+import sonar.calculator.mod.research.ResearchRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 
 @Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version)
@@ -59,10 +60,13 @@ public class Calculator {
 
 	public static final String modid = "Calculator";
 	public static final String version = "2.0.0";
-
+	
+	public static final int saveDimension = 0;
+	
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
 
+	public static ResearchRegistry research = new ResearchRegistry();
 	public static ModuleRegistry modules = new ModuleRegistry();
 	public static ModuleItemRegistry moduleItems = new ModuleItemRegistry();
 
@@ -135,6 +139,8 @@ public class Calculator {
 
 		MinecraftForge.EVENT_BUS.register(new CalculatorEvents());
 		logger.info("Registered Events");
+		
+		research.register();
 		modules.register();
 		moduleItems.register();
 		planters.register();
@@ -185,7 +191,7 @@ public class Calculator {
 	public static Item itemLocatorModule;
 	public static Item itemStorageModule;
 	public static Item itemWarpModule, itemJumpModule;
-	public static Item itemSmeltingModule;
+	//public static Item itemSmeltingModule;
 	public static Item circuitBoard, circuitDamaged, circuitDirty;
 	public static Item wrench;
 
@@ -267,7 +273,7 @@ public class Calculator {
 	// trees
 	public static Block amethystLeaves, tanzaniteLeaves, pearLeaves, diamondLeaves;
 	public static Block amethystLog, tanzaniteLog, pearLog, diamondLog;
-	public static Block AmethystSapling, tanzaniteSapling, PearSapling, diamondSapling;
+	public static Block amethystSapling, tanzaniteSapling, pearSapling, diamondSapling;
 	public static Block amethystPlanks, tanzanitePlanks, pearPlanks, diamondPlanks;
 	public static Block amethystStairs, tanzaniteStairs, pearStairs, diamondStairs;
 	public static Block amethystFence, tanzaniteFence, pearFence, diamondFence;

@@ -70,7 +70,7 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 
 		switch (type) {
 		case 0:
-			worldgenerator = new CalculatorTreeBuilder(true, Calculator.AmethystSapling, Calculator.amethystLeaves, Calculator.amethystLog);
+			worldgenerator = new CalculatorTreeBuilder(true, Calculator.amethystSapling, Calculator.amethystLeaves, Calculator.amethystLog);
 			break;
 
 		case 1:
@@ -78,7 +78,7 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 			break;
 
 		case 2:
-			worldgenerator = new CalculatorTreeBuilder(true, Calculator.PearSapling, Calculator.pearLeaves, Calculator.pearLog);
+			worldgenerator = new CalculatorTreeBuilder(true, Calculator.pearSapling, Calculator.pearLeaves, Calculator.pearLog);
 			break;
 
 		case 3:

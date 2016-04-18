@@ -1,10 +1,13 @@
-package sonar.calculator.mod.research;
+package sonar.calculator.mod.research.types;
 
 import java.util.ArrayList;
 
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.research.IResearch;
+import sonar.calculator.mod.research.Research;
+import sonar.calculator.mod.research.ResearchCategory;
 import sonar.core.helpers.NBTHelper.SyncType;
 
 public abstract class CalculatorResearch extends Research {
@@ -15,7 +18,7 @@ public abstract class CalculatorResearch extends Research {
 	public static class Basic extends CalculatorResearch {
 
 		public Basic() {
-			super(10000, "Calculator", "item.Calculator.name", Calculator.itemCalculator);
+			super(10000, ResearchTypes.CALCULATOR, "item.Calculator.name", Calculator.itemCalculator);
 		}
 
 		@Override
@@ -27,7 +30,7 @@ public abstract class CalculatorResearch extends Research {
 	public static class Scientific extends CalculatorResearch {
 
 		public Scientific() {
-			super(5000, "Scientific", "item.ScientificCalculator.name", Calculator.itemScientificCalculator);
+			super(5000, ResearchTypes.SCIENTIFIC, "item.ScientificCalculator.name", Calculator.itemScientificCalculator);
 		}
 
 		@Override
@@ -39,7 +42,7 @@ public abstract class CalculatorResearch extends Research {
 	public static class Atomic extends CalculatorResearch {
 
 		public Atomic() {
-			super(2500, "Atomic", "tile.AtomicCalculator.name", Item.getItemFromBlock(Calculator.atomicCalculator));
+			super(2500, ResearchTypes.ATOMIC, "tile.AtomicCalculator.name", Item.getItemFromBlock(Calculator.atomicCalculator));
 		}
 
 		@Override
@@ -51,7 +54,7 @@ public abstract class CalculatorResearch extends Research {
 	public static class Flawless extends CalculatorResearch {
 
 		public Flawless() {
-			super(1000, "Flawless", "item.FlawlessCalculator.name", Calculator.itemFlawlessCalculator);
+			super(1000, ResearchTypes.FLAWLESS, "item.FlawlessCalculator.name", Calculator.itemFlawlessCalculator);
 		}
 
 		@Override
@@ -60,13 +63,8 @@ public abstract class CalculatorResearch extends Research {
 		}
 	}
 
-	@Override
-	public ArrayList<IReward> getRewards() {
-		return new ArrayList();
-	}
-
-	public CalculatorResearch(long required, String name, String clientName, Item logo) {
-		super(name, clientName, logo);
+	public CalculatorResearch(long required, ResearchTypes type, String clientName, Item logo) {
+		super(type, clientName, logo);
 		this.required = required;
 	}
 

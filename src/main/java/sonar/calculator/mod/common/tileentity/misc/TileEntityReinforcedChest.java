@@ -90,7 +90,6 @@ public class TileEntityReinforcedChest extends TileEntityInventory implements IG
 	public boolean receiveClientEvent(int id, int type) {
 		if (id == 1) {
 			this.numPlayersUsing = type;
-			System.out.print("recieve: " + numPlayersUsing);
 			return true;
 		} else {
 			return super.receiveClientEvent(id, type);

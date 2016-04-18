@@ -1,52 +1,39 @@
 package sonar.calculator.mod;
 
+import net.minecraft.world.storage.MapStorage;
 import net.minecraftforge.event.entity.player.BonemealEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import sonar.calculator.mod.common.block.CalculatorSaplings;
+import sonar.calculator.mod.research.ResearchWorldData;
 
 public class CalculatorEvents {
-/*
-	@SubscribeEvent
-	public void onEntityConstructing(EntityConstructing event) {
-		if (event.entity instanceof EntityPlayer && PlayerResearch.get((EntityPlayer) event.entity) == null)
-			PlayerResearch.register((EntityPlayer) event.entity);
-
-		if (event.entity instanceof EntityPlayer && event.entity.getExtendedProperties(PlayerResearch.tagName) == null)
-			event.entity.registerExtendedProperties(PlayerResearch.tagName, new PlayerResearch((EntityPlayer) event.entity));
-	}
 
 	@SubscribeEvent
-	public void onClonePlayer(PlayerEvent.Clone event) {
-		PlayerResearch.get(event.entityPlayer).copy(PlayerResearch.get(event.original));
-	}
-
-	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-		if (event.entity instanceof EntityPlayer && !event.entity.worldObj.isRemote) {
-			// sync data packet
+	public void onWorldLoad(WorldEvent.Load event) {
+		if (event.world.provider.getDimensionId() == Calculator.saveDimension) {
+			ResearchWorldData data = (ResearchWorldData) event.world.getPerWorldStorage().loadData(ResearchWorldData.class, ResearchWorldData.tag);
 		}
 	}
-	@SubscribeEvent
-	public void CalculatorCraftingCraft(ItemCraftedEvent event) {
-		EntityPlayer player = event.player;
-		if (player != null) {
-			ItemStack item = player.getHeldItem();
 
-			if ((item != null) && (item.getItem().equals(Calculator.itemCraftingCalculator)) && ((player.openContainer instanceof ICalculatorCrafter))) {
-					((ICalculatorCrafter)player.openContainer).removeEnergy();
-			
+	@SubscribeEvent
+	public void onWorldSave(WorldEvent.Save event) {
+		if (event.world.provider.getDimensionId() == Calculator.saveDimension) {
+			MapStorage storage = event.world.getPerWorldStorage();
+			ResearchWorldData data = (ResearchWorldData) storage.loadData(ResearchWorldData.class, ResearchWorldData.tag);
+			if (data == null) {
+				storage.setData(ResearchWorldData.tag, new ResearchWorldData(ResearchWorldData.tag));
 			}
 		}
-		
 	}
-	*/
+
 	@SubscribeEvent
 	public void Amethyst(BonemealEvent event) {
 		if (event.block != null) {
-			if (event.block == Calculator.AmethystSapling) {				
+			if (event.block == Calculator.amethystSapling) {
 				if (!event.world.isRemote) {
-					((CalculatorSaplings) Calculator.AmethystSapling).generateTree(event.world, event.pos, event.block, event.world.rand);
+					((CalculatorSaplings) Calculator.amethystSapling).generateTree(event.world, event.pos, event.block, event.world.rand);
 					event.setResult(Result.ALLOW);
 				}
 			}
@@ -68,9 +55,9 @@ public class CalculatorEvents {
 	@SubscribeEvent
 	public void pear(BonemealEvent event) {
 		if (event.block != null) {
-			if (event.block == Calculator.PearSapling) {
+			if (event.block == Calculator.pearSapling) {
 				if (!event.world.isRemote) {
-					((CalculatorSaplings) Calculator.PearSapling).generateTree(event.world, event.pos, event.block, event.world.rand);
+					((CalculatorSaplings) Calculator.pearSapling).generateTree(event.world, event.pos, event.block, event.world.rand);
 					event.setResult(Result.ALLOW);
 				}
 			}

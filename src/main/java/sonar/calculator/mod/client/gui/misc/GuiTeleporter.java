@@ -1,6 +1,7 @@
 package sonar.calculator.mod.client.gui.misc;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
@@ -64,7 +65,7 @@ public class GuiTeleporter extends GuiSonar {
 		FontHelper.text("Teleporter", 16, 6, 0);
 		GL11.glPushMatrix();
 		GL11.glScaled(0.75, 0.75, 0.75);
-		FontHelper.textOffsetCentre("X: " +entity.getPos().getX() + " Y: " +entity.getPos().getY() + " Z: " +entity.getPos().getZ(), 57, 26, 0);
+		FontHelper.textOffsetCentre("X: " + entity.getPos().getX() + " Y: " + entity.getPos().getY() + " Z: " + entity.getPos().getZ(), 57, 26, 0);
 		FontHelper.textOffsetCentre("Dimension: " + entity.getCoords().getDimension(), 57, 35, 0);
 		GL11.glPopMatrix();
 		FontHelper.text("Password: ", 18, 56, 0);
@@ -74,15 +75,15 @@ public class GuiTeleporter extends GuiSonar {
 	public void initGui() {
 		super.initGui();
 		Keyboard.enableRepeatEvents(true);
-		name = new GuiTextField(0,this.fontRendererObj, 8, 40, 70, 12);
+		name = new GuiTextField(0, this.fontRendererObj, 8, 40, 70, 12);
 		name.setMaxStringLength(10);
 		name.setText(String.valueOf(entity.name));
 
-		password = new GuiTextField(1,this.fontRendererObj, 8, 66, 70, 12);
+		password = new GuiTextField(1, this.fontRendererObj, 8, 66, 70, 12);
 		password.setMaxStringLength(10);
 		password.setText(String.valueOf(entity.password));
 
-		destinationPassword = new GuiTextField(2,this.fontRendererObj, 87, 66, 70, 12);
+		destinationPassword = new GuiTextField(2, this.fontRendererObj, 87, 66, 70, 12);
 		destinationPassword.setMaxStringLength(10);
 		destinationPassword.setText(String.valueOf(entity.linkPassword));
 
@@ -178,22 +179,22 @@ public class GuiTeleporter extends GuiSonar {
 	}
 
 	@Override
-	protected void keyTyped(char c, int i) {
+	protected void keyTyped(char c, int i) throws IOException {
 		if (name.isFocused()) {
 			if (c == 13 || c == 27) {
 				name.setFocused(false);
 			} else {
 				name.textboxKeyTyped(c, i);
 				final String text = name.getText();
-				if (text.isEmpty() || text == "" || text == null) {
-					SonarCore.network.sendToServer(new PacketTextField("Unnamed", entity.getPos(), 1));
-				} else {
-					SonarCore.network.sendToServer(new PacketTextField(text, entity.getPos(), 1));
-				}
 				if (text.isEmpty() || text == "" || text == null)
-					this.entity.name = "Unnamed";
+					this.entity.name.setObject("");
 				else
-					this.entity.name = text;
+					this.entity.name.setObject(text);
+				if (text.isEmpty() || text == "" || text == null) {
+					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 1));
+				} else {
+					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 1));
+				}
 
 			}
 
@@ -203,15 +204,15 @@ public class GuiTeleporter extends GuiSonar {
 			} else {
 				password.textboxKeyTyped(c, i);
 				final String text = password.getText();
-				if (text.isEmpty() || text == "" || text == null) {
-					SonarCore.network.sendToServer(new PacketTextField("", entity.getPos(), 2));
-				} else {
-					SonarCore.network.sendToServer(new PacketTextField(text, entity.getPos(), 2));
-				}
 				if (text.isEmpty() || text == "" || text == null)
-					this.entity.password = "";
+					this.entity.password.setObject("");
 				else
-					this.entity.password = text;
+					this.entity.password.setObject(text);
+				if (text.isEmpty() || text == "" || text == null) {
+					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 2));
+				} else {
+					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 2));
+				}
 
 			}
 
@@ -221,20 +222,20 @@ public class GuiTeleporter extends GuiSonar {
 			} else {
 				destinationPassword.textboxKeyTyped(c, i);
 				final String text = destinationPassword.getText();
-				if (text.isEmpty() || text == "" || text == null) {
-					SonarCore.network.sendToServer(new PacketTextField("", entity.getPos(), 3));
-				} else {
-					SonarCore.network.sendToServer(new PacketTextField(text, entity.getPos(), 3));
-				}
 				if (text.isEmpty() || text == "" || text == null)
-					this.entity.linkPassword = "";
+					this.entity.linkPassword.setObject("");
 				else
-					this.entity.linkPassword = text;
+					this.entity.linkPassword.setObject(text);
+				if (text.isEmpty() || text == "" || text == null) {
+					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 3));
+				} else {
+					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 3));
+				}
 
 			}
 
 		} else {
-			//super.keyTyped(c, i);
+			 super.keyTyped(c, i);
 
 		}
 
@@ -256,7 +257,7 @@ public class GuiTeleporter extends GuiSonar {
 				int start = (int) (entity.links.size() * this.currentScroll);
 				int network = start + button.id - 10;
 				if (network < entity.links.size()) {
-					entity.linkID=entity.links.get(network).networkID;
+					entity.linkID = entity.links.get(network).networkID;
 					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 0));
 				}
 			}

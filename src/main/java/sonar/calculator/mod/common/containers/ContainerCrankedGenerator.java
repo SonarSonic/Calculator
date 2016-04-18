@@ -8,18 +8,16 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenera
 import sonar.core.inventory.ContainerSync;
 
 public class ContainerCrankedGenerator extends ContainerSync {
-	
+
 	private TileEntityCrankedGenerator entity;
 
-	public ContainerCrankedGenerator(InventoryPlayer inventory,
-			TileEntityCrankedGenerator entity) {
+	public ContainerCrankedGenerator(InventoryPlayer inventory, TileEntityCrankedGenerator entity) {
 		super(entity);
 		this.entity = entity;
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
@@ -27,8 +25,6 @@ public class ContainerCrankedGenerator extends ContainerSync {
 			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
 		}
 	}
-
-	
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
@@ -38,11 +34,9 @@ public class ContainerCrankedGenerator extends ContainerSync {
 		if ((slot != null) && (slot.getHasStack())) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-
 			if (itemstack1.stackSize == itemstack.stackSize) {
 				return null;
 			}
-
 			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
 		}
 

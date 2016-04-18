@@ -9,6 +9,9 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.common.containers.ContainerResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
+import sonar.calculator.mod.research.ClientResearch;
+import sonar.calculator.mod.research.types.RecipeResearch;
+import sonar.calculator.mod.research.types.ResearchTypes;
 import sonar.core.helpers.FontHelper;
 
 public class GuiResearchChamber extends GuiContainer {
@@ -24,12 +27,10 @@ public class GuiResearchChamber extends GuiContainer {
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
-		if (entity.ticks != 0 && entity.ticks!=-1) {
-			FontHelper.textCentre(("" + this.entity.ticks * 100 / this.entity.researchSpeed) + " %", xSize, 55, 0);
+		if (entity.ticks.getObject() != 0 && entity.ticks.getObject() != -1) {
+			FontHelper.textCentre(("" + this.entity.ticks.getObject() * 100 / this.entity.researchSpeed) + " %", xSize, 55, 0);
 		}
-		if(entity.maxRecipes!=0){
-			FontHelper.textCentre(FontHelper.translate("research.recipe") + ": " + entity.storedRecipes + "/" + entity.maxRecipes, xSize, 70, 0);
-		}
+		FontHelper.textCentre("" + ClientResearch.getSpecificResearch(ResearchTypes.RECIPES).getProgress() + " %", xSize, 14, 0);
 	}
 
 	@Override

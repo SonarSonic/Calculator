@@ -44,10 +44,10 @@ public class TeleporterHelper {
 
 	public static boolean canTeleport(TileEntityTeleporter target, TileEntityTeleporter current) {
 		if (!target.getCoords().equals(current.getCoords()) && target.canTeleportPlayer()) {
-			if ((target.password == null || target.password == "") || current.linkPassword.equals(target.password)) {
+			if ((target.password.getObject() == null || target.password.getObject().equals("") || current.linkPassword.getObject().equals(target.password.getObject()))) {
 				return true;
 			}
-		}		
+		}
 		return false;
 	}
 }

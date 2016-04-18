@@ -18,4 +18,9 @@ public class RedstoneExtractorRecipes extends ValueHelper {
 		addRecipe("oreRedstone", 1500);
 	}
 
+	@Override
+	public String getRecipeID() {
+		return "Redstone Values";
+	}
+
 }
