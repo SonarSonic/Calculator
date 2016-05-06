@@ -28,7 +28,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		super.input = inputs;
 		super.output = outputs;
 		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 1600);
-		super.inv= new SonarInventory(this, 1 + inputSize() + outputSize());
+		super.inv = new SonarInventory(this, 1 + inputSize() + outputSize());
 		setEnergyMode(EnergyMode.RECIEVE);
 	}
 
@@ -111,15 +111,15 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 			if (output[o] != null) {
 				if (this.slots()[o + inputSize() + 1] == null) {
 					ItemStack outputStack = output[o].copy();
-					
+
 					if (output[o].getItem() == Calculator.circuitBoard) {
 						CircuitBoard.setData(outputStack);
 					}
 					this.slots()[o + inputSize() + 1] = outputStack;
 				} else if (this.slots()[o + inputSize() + 1].isItemEqual(output[o])) {
 					this.slots()[o + inputSize() + 1].stackSize += output[o].stackSize;
-
 				}
+
 			}
 		}
 		for (int i = 0; i < inputSize(); i++) {

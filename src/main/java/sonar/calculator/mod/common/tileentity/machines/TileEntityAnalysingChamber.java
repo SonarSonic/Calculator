@@ -17,6 +17,7 @@ import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.upgrades.IUpgradableTile;
+import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
@@ -37,6 +38,8 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public SyncTagType.INT stable = new SyncTagType.INT(0);
 	public SyncTagType.INT analysed = new SyncTagType.INT(2);
 	public int maxTransfer = 2000;
+	public int transferTicks=0;
+	public final int transferTime=20;
 
 	public UpgradeInventory upgrades = new UpgradeInventory(1, "VOID", "TRANSFER");
 
@@ -44,10 +47,10 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		super.input = new int[] { 0 };
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
 		super.storage = new SyncEnergyStorage(1000000, 64000);
-		super.inv = new SonarInventory(this, 8){
+		super.inv = new SonarInventory(this, 8) {
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
 				super.setInventorySlotContents(i, itemstack);
-				if(i==0){
+				if (i == 0) {
 					worldObj.markBlockForUpdate(pos);
 				}
 			}
@@ -83,18 +86,18 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public void transferItems() {
 		ArrayList<EnumFacing> outputs = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
 		for (EnumFacing side : outputs) {
-			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side.getOpposite(), side, null);
+			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side, side.getOpposite(), null);
 		}
 		ArrayList<EnumFacing> inputs = sides.getSidesWithConfig(MachineSideConfig.INPUT);
-		for (EnumFacing side : inputs) {
-			int offset = 1;
-			while (offset != 64) {
-				TileEntity tile = worldObj.getTileEntity(getPos().offset(side, offset));
+		if (!inputs.isEmpty()) {
+			ArrayList<BlockCoords> chambers = SonarHelper.getConnectedBlocks(Calculator.storageChamber, inputs, worldObj, pos, 256);
+			for (BlockCoords chamber : chambers) {
+				TileEntity tile = chamber.getTileEntity(worldObj);
 				if (tile != null && tile instanceof TileEntityStorageChamber) {
-					SonarAPI.getItemHelper().transferItems(this, tile, side.getOpposite(), side, null);
-					offset++;
-				} else {
-					break;
+					SonarAPI.getItemHelper().transferItems(this, tile, inputs.get(0), inputs.get(0).getOpposite(), null);
+					if(this.slots()[0]==null){
+						return;
+					}
 				}
 			}
 		}

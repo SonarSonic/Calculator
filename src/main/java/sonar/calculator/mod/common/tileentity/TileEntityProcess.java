@@ -119,7 +119,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public void transferItems() {
 		ArrayList<EnumFacing> outputs = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
 		for (EnumFacing side : outputs) {
-			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side.getOpposite(), side, null);
+			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side, side.getOpposite(), null);
 		}
 	}
 
@@ -249,7 +249,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			currenttip.add(FontHelper.translate("circuit.speed") + ": " + speed);
 		}
 		if (energy != 0) {
-			currenttip.add(FontHelper.translate("circuit.speed") + ": " + energy);
+			currenttip.add(FontHelper.translate("circuit.energy") + ": " + energy);
 		}
 		return currenttip;
 	}

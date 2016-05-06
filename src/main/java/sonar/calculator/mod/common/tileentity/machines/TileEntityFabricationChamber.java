@@ -13,17 +13,26 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
+import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.misc.GuiFabricationChamber;
 import sonar.calculator.mod.common.containers.ContainerFabricationChamber;
+import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes.CircuitStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber.CircuitType;
+import sonar.core.api.SonarAPI;
+import sonar.core.api.inventories.StoredItemStack;
+import sonar.core.api.utils.ActionType;
+import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.ItemStackHelper;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.MachineSideConfig;
 
 public class TileEntityFabricationChamber extends TileEntityInventory implements IGuiTile, IByteBufTile {
 
@@ -78,16 +87,12 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 
 	public ArrayList<TileEntityStorageChamber> getChambers() {
 		ArrayList<TileEntityStorageChamber> chambers = new ArrayList<TileEntityStorageChamber>();
-		for (EnumFacing side : EnumFacing.VALUES) {
-			int offset = 1;
-			while (offset != 64) {
-				TileEntity tile = worldObj.getTileEntity(getPos().offset(side, offset));
-				if (tile != null && tile instanceof TileEntityStorageChamber) {
-					chambers.add((TileEntityStorageChamber) tile);
-				} else {
-					break;
-				}
-				offset++;
+
+		ArrayList<BlockCoords> connected = SonarHelper.getConnectedBlocks(Calculator.storageChamber, Arrays.asList(EnumFacing.VALUES), worldObj, pos, 256);
+		for (BlockCoords chamber : connected) {
+			TileEntity tile = chamber.getTileEntity(worldObj);
+			if (tile != null && tile instanceof TileEntityStorageChamber) {
+				chambers.add((TileEntityStorageChamber) tile);
 			}
 		}
 		return chambers;
@@ -97,15 +102,11 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	public ArrayList<CircuitStack> getAvailableCircuits(ArrayList<TileEntityStorageChamber> chambers) {
 		ArrayList<CircuitStack> circuits = new ArrayList<CircuitStack>();
 		for (TileEntityStorageChamber chamber : chambers) {
-			int pos = 0;
-			CircuitType type = TileEntityStorageChamber.getCircuitType(chamber.getStorage().getSavedStack());
-			if (type != null && type.isProcessed()) {
-				for (Integer stored : chamber.getStorage().stored) {
-					if (stored != 0) {
-						CircuitStack storedStack = new CircuitStack(pos, stored, type.isStable());
-						addCircuitToStack(circuits, storedStack);
-					}
-					pos++;
+			for (ArrayList<ItemStack> stack : chamber.stacks()) {
+				StoredItemStack storedstack = chamber.getTileInv().buildItemStack(stack);
+				if (storedstack != null && storedstack.getItemStack().getItem() == Calculator.circuitBoard) {
+					CircuitStack storedStack = new CircuitStack(storedstack.getItemStack().getItemDamage(), storedstack.stored, ((IStability) (storedstack.getItemStack().getItem())).getStability(storedstack.getItemStack()));
+					addCircuitToStack(circuits, storedStack);
 				}
 			}
 		}
@@ -144,20 +145,27 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 			}
 			if (fabricated) {
 				final List<CircuitStack> used = (List<CircuitStack>) Arrays.asList(requirements.clone());
+				ArrayList<StoredItemStack> stacks = new ArrayList();
+				for (CircuitStack stack : used) {
+					ItemStack item = new ItemStack(Calculator.circuitBoard, 1, stack.meta);
+					NBTTagCompound tag = new NBTTagCompound();
+					if (((CircuitBoard) item.getItem()).getStability(item)) {
+						tag.setInteger("Stable", 1);
+					} else {
+						tag.setInteger("Stable", 0);
+					}
+					tag.setBoolean("Analysed", true);
+					item.setTagCompound(tag);
+					SonarAPI.getItemHelper().addStackToList(stacks, new StoredItemStack(item).setStackSize(stack.required));
+				}
 				for (TileEntityStorageChamber chamber : chambers) {
-					CircuitType type = TileEntityStorageChamber.getCircuitType(chamber.getStorage().getSavedStack());
-					if (type != null && type.isProcessed()) {
-						int pos = 0;
-						for (CircuitStack circuit : used) {
-							if (circuit.required > 0 && (circuit.stable && type.isStable()) || (!circuit.stable && !type.isStable())) {
-								int stored = chamber.getStorage().stored[circuit.meta];
-								if (stored > 0) {
-									int remove = (int) Math.min(stored, circuit.required);
-									chamber.getStorage().decreaseStored(circuit.meta, remove);
-									// used.get(pos).required -= remove;
-								}
-							}
-							pos++;
+					if (stacks.isEmpty()) {
+						break;
+					}
+					for (StoredItemStack stack : stacks) {
+						if (stack.stored != 0) {
+							StoredItemStack remove = SonarAPI.getItemHelper().removeItems(chamber, stack.copy(), EnumFacing.DOWN, ActionType.PERFORM, null);
+							stack.stored -= remove.stored;
 						}
 					}
 				}
