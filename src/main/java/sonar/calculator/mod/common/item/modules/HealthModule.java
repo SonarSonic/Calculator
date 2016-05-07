@@ -29,7 +29,7 @@ public class HealthModule extends SonarItem implements IHealthStore {
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par, float par8, float par9, float par10) {
-		return NutritionHelper.useHealth(stack, player, world, x, y, z, par, "points");
+		return NutritionHelper.useHealth(stack, player, world, x, y, z, par);
 	}
 
 	@Override

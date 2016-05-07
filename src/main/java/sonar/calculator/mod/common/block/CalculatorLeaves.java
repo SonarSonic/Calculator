@@ -8,6 +8,7 @@ import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -49,15 +50,15 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 			int randInt = 0;
 			if (leafType == 3) {
 				randInt = rand.nextInt(20);
-			} else if (leafType<2) {
+			} else if (leafType < 2) {
 				randInt = rand.nextInt(8);
-			}else{
+			} else {
 				randInt = rand.nextInt(10);
 			}
 			if (randInt == 2) {
 				int meta = world.getBlockMetadata(x, y, z);
 				if (meta != 5) {
-					world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
+					world.setBlockMetadataWithNotify(x, y, z, meta + 2, 2);
 				}
 			}
 		}
@@ -81,7 +82,7 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 
 	@Override
 	public int quantityDropped(Random par1Random) {
-		return 1;
+		return 0;
 	}
 
 	@Override

@@ -63,10 +63,12 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 				if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel >= requiredLevel) {
 					this.maxBurnTime = TileEntityFurnace.getItemBurnTime(stack);
 					burnTime++;
-					this.slots[0].stackSize--;
+					if (this.slots[0] != null) {
+						--this.slots[0].stackSize;
 
-					if (this.slots[0].stackSize <= 0) {
-						this.slots[0] = null;
+						if (this.slots[0].stackSize == 0) {
+							this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
+						}
 					}
 				}
 			}
@@ -199,7 +201,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel*100/5000 + "%");
+			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel * 100 / 5000 + "%");
 			return currenttip;
 		}
 
@@ -220,7 +222,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel*100/5000 + "%");
+			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel * 100 / 5000 + "%");
 			return currenttip;
 		}
 	}
@@ -236,7 +238,7 @@ public abstract class TileEntityGenerator extends TileEntityInventorySender impl
 
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip) {
-			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel*100/5000 + "%");
+			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel * 100 / 5000 + "%");
 			return currenttip;
 		}
 	}

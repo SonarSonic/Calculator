@@ -6,12 +6,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.nutrition.IHealthStore;
+import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.core.helpers.FontHelper;
 
 public class NutritionHelper {
 
 	public static ItemStack chargeHunger(ItemStack stack, World world, EntityPlayer player, String tag) {
-
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
@@ -72,57 +73,52 @@ public class NutritionHelper {
 		return stack;
 	}
 
-	public static boolean useHunger(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par, String tag) {
-		if (!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.getTagCompound();
-		if (nbtData == null) {
-			stack.getTagCompound().setInteger(tag, 0);
-		}
-		int points = stack.getTagCompound().getInteger(tag);
-
+	public static boolean useHunger(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par) {
 		if (!player.canPlayerEdit(x, y, z, par, stack)) {
 			return false;
 		}
-		Block block = world.getBlock(x, y, z);
-		if (block == Calculator.amethystLeaf) {
-			int meta = world.getBlockMetadata(x, y, z);
-			if (meta > 2) {
-				points += 1;
-				if (!world.isRemote) {
-					world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+		if (stack.getItem() instanceof IHungerStore) {
+			IHungerStore store = (IHungerStore) stack.getItem();
+			int points = store.getHungerPoints(stack);
+			int max = store.getMaxHungerPoints(stack);
+			if (max != -1 && points >= max) {
+				return false;
+			}
+			Block block = world.getBlock(x, y, z);
+			if (block == Calculator.amethystLeaf) {
+				int meta = world.getBlockMetadata(x, y, z);
+				if (meta > 2) {
+					points += 1;
+					if (!world.isRemote) {
+						world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+					}
+					store.setHunger(stack, points);
 				}
-
-				nbtData.setInteger(tag, points);
 			}
 		}
 		return true;
 	}
 
-	public static boolean useHealth(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par, String tag) {
-		if (!stack.hasTagCompound()) {
-			stack.setTagCompound(new NBTTagCompound());
+	public static boolean useHealth(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par) {
+		if (!player.canPlayerEdit(x, y, z, par, stack)) {
+			return false;
 		}
-		NBTTagCompound nbtData = stack.getTagCompound();
-		if (nbtData == null) {
-			stack.getTagCompound().setInteger(tag, 0);
-		}
-
-		int points = stack.getTagCompound().getInteger(tag);
-		{
-			if (!player.canPlayerEdit(x, y, z, par, stack)) {
+		if (stack.getItem() instanceof IHealthStore) {
+			IHealthStore store = (IHealthStore) stack.getItem();
+			int points = store.getHealthPoints(stack);
+			int max = store.getMaxHealthPoints(stack);
+			if (max != -1 && points >= max) {
 				return false;
 			}
-
 			Block block = world.getBlock(x, y, z);
 			if (block == Calculator.tanzaniteLeaf) {
 				int meta = world.getBlockMetadata(x, y, z);
 				if (meta > 2) {
-					int points1 = ((points + 1));
+					points += 1;
 					if (!world.isRemote) {
 						world.setBlockMetadataWithNotify(x, y, z, 0, 2);
 					}
-					nbtData.setInteger(tag, points1);
+					store.setHealth(stack, points);
 				}
 			}
 		}

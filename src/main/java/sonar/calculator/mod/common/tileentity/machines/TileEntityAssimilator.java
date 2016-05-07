@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.ProcessType;
@@ -39,8 +41,10 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 		if (this.tick != tickRate) {
 			tick++;
 		} else {
-			// int blockmeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-			// InventoryHelper.extractItems(this.getWorldObj().getTileEntity(xCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetX), yCoord, zCoord + (SonarHelper.getForward(blockmeta).getOpposite().offsetZ)), this, 0, 0, null);
+			if (this instanceof Algorithm) {
+				ForgeDirection dir = SonarHelper.getForward(this.getBlockMetadata());
+				SonarAPI.getItemHelper().transferItems(this, this.getWorldObj().getTileEntity(xCoord + (dir.getOpposite().offsetX), yCoord, zCoord + (dir.getOpposite().offsetZ)), dir, dir.getOpposite(), null);
+			}
 			tick = 0;
 			this.hasTree = hasTree();
 			if (hasTree) {
@@ -230,13 +234,27 @@ public abstract class TileEntityAssimilator extends TileEntityInventory {
 			if (meta > 2) {
 				int randInt = 3 + rand.nextInt(3);
 				ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getX(), block.getY(), block.getZ(), randInt);
-				if (stacks != null) {
-					for (int i = 0; i < stacks.length; i++) {
-						SonarAPI.getItemHelper().addItems(this, new StoredItemStack(ItemStackHelper.restoreItemStack(stacks[i], 1)), ForgeDirection.getOrientation(0), ActionType.SIMULATE, null);
+
+				ForgeDirection forward = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+				for (ItemStack s : stacks) {
+					if (s != null) {
+						ItemStack stack = s.copy();
+						TileEntity tile = this.getWorldObj().getTileEntity(xCoord + (forward.getOpposite().offsetX), yCoord, zCoord + (forward.getOpposite().offsetZ));
+						StoredItemStack storedstack = new StoredItemStack(stack);
+						// System.out.print(storedstack.copy().getFullStack());
+						StoredItemStack harvest = SonarAPI.getItemHelper().addItems(this, storedstack.copy(), ForgeDirection.getOrientation(0), ActionType.PERFORM, null);
+						storedstack.remove(harvest);
+						if (storedstack != null && storedstack.stored > 0) {
+							EntityItem drop = new EntityItem(worldObj, xCoord + (forward.getOpposite().offsetX), yCoord, zCoord + (forward.getOpposite().offsetZ), storedstack.getFullStack());
+							worldObj.spawnEntityInWorld(drop);
+						}
 					}
 
-					return true;
+					// for (int i = 0; i < stacks.length; i++) {
+					// SonarAPI.getItemHelper().addItems(this, new StoredItemStack(ItemStackHelper.restoreItemStack(stacks[i], 1)), ForgeDirection.getOrientation(0), ActionType.PERFORM, null);
+					// }
 				}
+				return true;
 			}
 
 			return false;

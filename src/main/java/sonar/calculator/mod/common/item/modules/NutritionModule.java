@@ -99,8 +99,8 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par, float par8, float par9, float par10) {
-		NutritionHelper.useHunger(stack, player, world, x, y, z, par, "hunger");
-		NutritionHelper.useHealth(stack, player, world, x, y, z, par, "health");
+		NutritionHelper.useHunger(stack, player, world, x, y, z, par);
+		NutritionHelper.useHealth(stack, player, world, x, y, z, par);
 		return true;
 	}
 

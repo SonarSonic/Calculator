@@ -84,6 +84,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 						}
 						cookTime.setObject(0);
 						this.energyBuffer = 0;
+						SonarCore.sendPacketAround(this, 128, 2);
 					}
 				}
 			} else {
@@ -312,6 +313,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		if (id == 2) {
 			invertPaused.writeToBuf(buf);
 			paused.writeToBuf(buf);
+			cookTime.writeToBuf(buf);
 		}
 	}
 
@@ -334,6 +336,7 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		if (id == 2) {
 			invertPaused.readFromBuf(buf);
 			paused.readFromBuf(buf);
+			cookTime.readFromBuf(buf);
 		}
 	}
 }

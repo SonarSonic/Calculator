@@ -29,7 +29,7 @@ public class HungerModule extends SonarItem implements IHungerStore {
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par, float par8, float par9, float par10) {
-		return NutritionHelper.useHunger(stack, player, world, x, y, z, par, "points");
+		return NutritionHelper.useHunger(stack, player, world, x, y, z, par);
 	}
 
 	@Override

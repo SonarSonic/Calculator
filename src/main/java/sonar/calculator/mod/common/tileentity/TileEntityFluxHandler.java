@@ -51,9 +51,10 @@ public class TileEntityFluxHandler extends TileEntityFlux {
 
 	public void updateAdjacentHandlers() {
 		for (int i = 0; i < 6; i++) {
-			TileEntity te = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.getOrientation(i));
-			if (!(te instanceof TileEntityFlux)) {
-				if (SonarHelper.isEnergyHandlerFromSide(te, ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)])) {
+			ForgeDirection dir = ForgeDirection.getOrientation(i);
+			TileEntity te = SonarHelper.getAdjacentTileEntity(this, dir);
+			if (te!=null && !(te instanceof TileEntityFlux)) {
+				if (SonarHelper.isEnergyHandlerFromSide(te, dir.getOpposite())) {
 					this.handlers[i] = te;
 				} else
 					this.handlers[i] = null;

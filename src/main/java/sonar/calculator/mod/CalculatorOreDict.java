@@ -22,7 +22,7 @@ public class CalculatorOreDict extends Calculator {
 		OreDictionary.registerOre("dustEnrichedGold", enrichedgold);
 		OreDictionary.registerOre("gemDiamondFake", weakeneddiamond);
 		OreDictionary.registerOre("ingotFoolsGold", enrichedgold_ingot);
-		OreDictionary.registerOre("ingotRedstone", redstone_ingot);
+		//OreDictionary.registerOre("ingotRedstone", redstone_ingot);
 		OreDictionary.registerOre("dustFoolsGold", enrichedgold);
 		OreDictionary.registerOre("gemAmethyst", small_amethyst);
 		OreDictionary.registerOre("gemTanzanite", small_tanzanite);

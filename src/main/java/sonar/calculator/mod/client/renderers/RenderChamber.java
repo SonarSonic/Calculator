@@ -91,68 +91,6 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
-		/*
-		 * Tessellator tes = Tessellator.instance; GL11.glTranslated(x, y, z);
-		 * int[] sides = new int[6]; if (entity != null && entity.getWorldObj()
-		 * != null && entity instanceof TileEntityProcess) { TileEntityProcess
-		 * inv = (TileEntityProcess) entity; sides = inv.sides; }
-		 * 
-		 * // bottom tes.startDrawingQuads(); this.bindTexture(sides[0] != 0 ?
-		 * output : input); tes.addVertexWithUV(0, 0.0002, 0, 0, 0);
-		 * tes.addVertexWithUV(1, 0.0002, 0, 0, 1); tes.addVertexWithUV(1,
-		 * 0.0002, 1, 1, 1); tes.addVertexWithUV(0, 0.0002, 1, 1, 0);
-		 * 
-		 * tes.addVertexWithUV(0, 0.0002, 0, 0, 0); tes.addVertexWithUV(0,
-		 * 0.0002, 1, 1, 0); tes.addVertexWithUV(1, 0.0002, 1, 1, 1);
-		 * tes.addVertexWithUV(1, 0.0002, 0, 0, 1); tes.draw();
-		 * 
-		 * // top tes.startDrawingQuads(); this.bindTexture(sides[1] != 0 ?
-		 * output : input); tes.addVertexWithUV(0, 0.9998, 0, 0, 0);
-		 * tes.addVertexWithUV(1, 0.9998, 0, 0, 1); tes.addVertexWithUV(1,
-		 * 0.9998, 1, 1, 1); tes.addVertexWithUV(0, 0.9998, 1, 1, 0);
-		 * 
-		 * tes.addVertexWithUV(0, 0.9998, 0, 0, 0); tes.addVertexWithUV(0,
-		 * 0.9998, 1, 1, 0); tes.addVertexWithUV(1, 0.9998, 1, 1, 1);
-		 * tes.addVertexWithUV(1, 0.9998, 0, 0, 1); tes.draw();
-		 * 
-		 * tes.startDrawingQuads(); this.bindTexture(sides[2] != 0 ? output :
-		 * input); tes.addVertexWithUV(0, 0, 0.0002, 0, 0);
-		 * tes.addVertexWithUV(0, 1, 0.0002, 0, 1); tes.addVertexWithUV(1, 1,
-		 * 0.0002, 1, 1); tes.addVertexWithUV(1, 0, 0.0002, 1, 0);
-		 * 
-		 * tes.addVertexWithUV(0, 1, 0.0002, 0, 1); tes.addVertexWithUV(0, 0,
-		 * 0.0002, 0, 0); tes.addVertexWithUV(1, 0, 0.0002, 1, 0);
-		 * tes.addVertexWithUV(1, 1, 0.0002, 1, 1); tes.draw();
-		 * 
-		 * tes.startDrawingQuads(); this.bindTexture(sides[3] != 0 ? output :
-		 * input); tes.addVertexWithUV(0, 0, 0.9998, 0, 0);
-		 * tes.addVertexWithUV(0, 1, 0.9998, 0, 1); tes.addVertexWithUV(1, 1,
-		 * 0.9998, 1, 1); tes.addVertexWithUV(1, 0, 0.9998, 1, 0);
-		 * 
-		 * tes.addVertexWithUV(0, 1, 0.9998, 0, 1); tes.addVertexWithUV(0, 0,
-		 * 0.9998, 0, 0); tes.addVertexWithUV(1, 0, 0.9998, 1, 0);
-		 * tes.addVertexWithUV(1, 1, 0.9998, 1, 1); tes.draw();
-		 * 
-		 * tes.startDrawingQuads(); this.bindTexture(sides[4] != 0 ? output :
-		 * input); tes.addVertexWithUV(0.0002, 0, 0, 1, 1);
-		 * tes.addVertexWithUV(0.0002, 0, 1, 1, 0); tes.addVertexWithUV(0.0002,
-		 * 1, 1, 0, 0); tes.addVertexWithUV(0.0002, 1, 0, 0, 1);
-		 * 
-		 * tes.addVertexWithUV(0.0002, 0, 1, 1, 0); tes.addVertexWithUV(0.0002,
-		 * 0, 0, 1, 1); tes.addVertexWithUV(0.0002, 1, 0, 0, 1);
-		 * tes.addVertexWithUV(0.0002, 1, 1, 0, 0); tes.draw();
-		 * 
-		 * tes.startDrawingQuads(); this.bindTexture(sides[5] != 0 ? output :
-		 * input); tes.addVertexWithUV(0.9998, 0, 0, 1, 1);
-		 * tes.addVertexWithUV(0.9998, 0, 1, 1, 0); tes.addVertexWithUV(0.9998,
-		 * 1, 1, 0, 0); tes.addVertexWithUV(0.9998, 1, 0, 0, 1);
-		 * 
-		 * tes.addVertexWithUV(0.9998, 0, 1, 1, 0); tes.addVertexWithUV(0.9998,
-		 * 0, 0, 1, 1); tes.addVertexWithUV(0.9998, 1, 0, 0, 1);
-		 * tes.addVertexWithUV(0.9998, 1, 1, 0, 0); tes.draw();
-		 * 
-		 * GL11.glTranslated(-x, -y, -z);
-		 */
 	}
 
 	public static class Processing extends RenderChamber {

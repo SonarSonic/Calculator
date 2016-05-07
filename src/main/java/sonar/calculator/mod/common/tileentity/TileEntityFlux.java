@@ -124,7 +124,7 @@ public abstract class TileEntityFlux extends TileEntitySonar implements IEnergyH
 		if (handler instanceof TileEntityFlux) {
 			return false;
 		}
-		return handler instanceof IEnergyHandler ? SonarHelper.isAdjacentEnergyHandlerFromSide(this, from) : SonarHelper.isEnergyHandler(handler);
+		return SonarHelper.isAdjacentEnergyHandlerFromSide(this, from);
 	}
 
 	@Override
