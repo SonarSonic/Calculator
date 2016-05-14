@@ -10,7 +10,6 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.research.ClientResearch;
-import sonar.calculator.mod.research.types.RecipeResearch;
 import sonar.calculator.mod.research.types.ResearchTypes;
 import sonar.core.helpers.FontHelper;
 

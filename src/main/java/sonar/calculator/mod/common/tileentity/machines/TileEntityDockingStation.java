@@ -62,14 +62,6 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	}
 
 	@Override
-	public boolean canAddUpgrades(int type) {
-		if (type == 1) {
-			return false;
-		}
-		return super.canAddUpgrades(type);
-	}
-
-	@Override
 	public ItemStack[] inputStacks() {
 		int size = this.isCalculator(calcStack);
 		if (size == 0) {

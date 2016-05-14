@@ -1,7 +1,5 @@
 package sonar.calculator.mod.research.types;
 
-import java.util.ArrayList;
-
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;

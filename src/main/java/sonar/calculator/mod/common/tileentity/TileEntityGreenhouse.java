@@ -52,9 +52,9 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public EnumFacing forward = EnumFacing.NORTH;
 	public EnumFacing horizontal = EnumFacing.EAST;
 
-	public void onLoaded() {
+	public void onLoaded(){
 		super.onLoaded();
-		forward = worldObj.getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
+		forward = worldObj.getBlockState(pos).getValue(SonarBlock.FACING);
 		horizontal = RenderHelper.getHorizontal(forward);
 	}
 

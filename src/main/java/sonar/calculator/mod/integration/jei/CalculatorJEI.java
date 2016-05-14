@@ -28,7 +28,6 @@ import sonar.calculator.mod.common.containers.ContainerCraftingCalculator;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
 import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
-import sonar.calculator.mod.common.containers.ContainerHealthProcessor;
 import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;

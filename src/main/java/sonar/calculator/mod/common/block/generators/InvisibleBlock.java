@@ -1,13 +1,13 @@
 package sonar.calculator.mod.common.block.generators;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
@@ -15,7 +15,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.utils.IGuiTile;
 
-public class InvisibleBlock extends Block implements IDismantleable {
+public class InvisibleBlock extends Block {
 
 	public int type;
 
@@ -31,35 +31,13 @@ public class InvisibleBlock extends Block implements IDismantleable {
 	}
 
 	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if (player != null) {
-			if (!world.isRemote) {
-				if (type == 0) {
-					if (world.getBlock(x, y - 1, z) == Calculator.conductorMast) {
-
-						player.openGui(Calculator.instance, IGuiTile.ID, world, x, y - 1, z);
-					} else if (world.getBlock(x, y - 2, z) == Calculator.conductorMast) {
-
-						player.openGui(Calculator.instance, IGuiTile.ID, world, x, y - 2, z);
-					} else if (world.getBlock(x, y - 3, z) == Calculator.conductorMast) {
-
-						player.openGui(Calculator.instance, IGuiTile.ID, world, x, y - 3, z);
-					}
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (player != null && !world.isRemote && type == 0) {
+			for (int i = 1; i < 4; i++) {
+				BlockPos offset = pos.offset(EnumFacing.DOWN, 1);
+				if (world.getBlockState(offset).getBlock() == Calculator.conductorMast) {
+					player.openGui(Calculator.instance, IGuiTile.ID, world, offset.getX(), offset.getY(), offset.getZ());
+					break;
 				}
 			}
 		}
@@ -67,44 +45,47 @@ public class InvisibleBlock extends Block implements IDismantleable {
 	}
 
 	@Override
-	public final boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+	public final boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		if (this.type == 0) {
-			if (world.getBlock(x, y - 1, z) == Calculator.conductorMast) {
-				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(x, y - 1, z);
-				SonarHelper.dropTile(player, world.getBlock(x, y - 1, z), world, x, y - 1, z);
-			} else if (world.getBlock(x, y - 2, z) == Calculator.conductorMast) {
-				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(x, y - 2, z);
-				SonarHelper.dropTile(player, world.getBlock(x, y - 2, z), world, x, y - 2, z);
-			} else if (world.getBlock(x, y - 3, z) == Calculator.conductorMast) {
-				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(x, y - 3, z);
-				SonarHelper.dropTile(player, world.getBlock(x, y - 3, z), world, x, y - 3, z);
+			if (world.getBlockState(pos.offset(EnumFacing.DOWN, 1)).getBlock() == Calculator.conductorMast) {
+				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(pos.offset(EnumFacing.DOWN, 1));
+				SonarHelper.dropTile(player, world.getBlockState(pos.offset(EnumFacing.DOWN, 1)).getBlock(), world, pos.offset(EnumFacing.DOWN, 1));
+			} else if (world.getBlockState(pos.offset(EnumFacing.DOWN, 2)) == Calculator.conductorMast) {
+				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(pos.offset(EnumFacing.DOWN, 2));
+				SonarHelper.dropTile(player, world.getBlockState(pos.offset(EnumFacing.DOWN, 2)).getBlock(), world, pos.offset(EnumFacing.DOWN, 2));
+			} else if (world.getBlockState(pos.offset(EnumFacing.DOWN, 3)) == Calculator.conductorMast) {
+				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(pos.offset(EnumFacing.DOWN, 3));
+				SonarHelper.dropTile(player, world.getBlockState(pos.offset(EnumFacing.DOWN, 3)).getBlock(), world, pos.offset(EnumFacing.DOWN, 3));
 			}
 		} else if (this.type == 1) {
 			for (int X = -1; X < 2; X++) {
 				for (int Z = -1; Z < 2; Z++) {
-					if (world.getBlock(x + X, y - 1, z + Z) == Calculator.weatherStation) {
-						TileEntity i = world.getTileEntity(x + X, y - 1, z + Z);
-						Block bi = world.getBlock(x + X, y - 1, z + Z);
-						bi.dropBlockAsItem(world, x + X, y - 1, z + Z, world.getBlockMetadata(x + X, y - 1, z + Z), 0);
-						world.setBlockToAir(x + X, y - 1, z + Z);
+					IBlockState state = world.getBlockState(pos.add(X, -1, Z));
+					if (state == Calculator.weatherStation) {
+						TileEntity i = world.getTileEntity(pos.add(X, -1, Z));
+						Block bi = world.getBlockState(pos.add(X, -1, Z)).getBlock();
+						bi.dropBlockAsItem(world, pos.add(X, -1, Z), state, 0);
+						world.setBlockToAir(pos.add(X, -1, Z));
 					}
 				}
 			}
 		} else if (this.type == 2) {
-			if (world.getBlock(x, y - 1, z) == Calculator.transmitter) {
-				Block bi = world.getBlock(x, y - 1, z);
-				bi.dropBlockAsItem(world, x, y - 1, z, world.getBlockMetadata(x, y - 1, z), 0);
-				world.setBlockToAir(x, y - 1, z);
+			BlockPos offset = pos.offset(EnumFacing.DOWN);
+			IBlockState state = world.getBlockState(offset);
+			Block block = state.getBlock();
+			if (block == Calculator.transmitter) {
+				block.dropBlockAsItem(world, offset, state, 0);
+				world.setBlockToAir(offset);
 
 			}
 		}
-		return super.removedByPlayer(world, player, x, y, z, willHarvest);
+		return super.removedByPlayer(world, pos, player, willHarvest);
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block oldblock, int oldMetadata) {
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		if (type == 0) {
-			TileEntityConductorMast.setWeatherStationAngles(true, world, x, y, z);
+			TileEntityConductorMast.setWeatherStationAngles(true, world, pos);
 		}
 	}
 
@@ -113,20 +94,15 @@ public class InvisibleBlock extends Block implements IDismantleable {
 		return 0;
 	}
 
-	@Override
-	public Item getItem(World world, int x, int y, int z) {
-		return null;
+	public boolean isFullCube() {
+		return false;
 	}
 
-	@Override
-	public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops) {
-
-		SonarHelper.dropTile(player, world.getBlock(x, y, z), world, x, y, z);
-		return null;
+	public boolean isOpaqueCube() {
+		return false;
 	}
 
-	@Override
-	public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z) {
-		return true;
+	public int getRenderType() {
+		return 3;
 	}
 }

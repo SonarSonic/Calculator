@@ -3,11 +3,10 @@ package sonar.calculator.mod.research;
 import java.util.ArrayList;
 import java.util.List;
 
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.research.types.ResearchTypes;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.research.types.ResearchTypes;
 
 @SideOnly(Side.CLIENT)
 public class ClientResearch {

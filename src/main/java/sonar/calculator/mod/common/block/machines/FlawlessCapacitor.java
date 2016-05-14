@@ -20,16 +20,11 @@ import sonar.core.utils.IGuiTile;
 public class FlawlessCapacitor extends SonarMachineBlock {
 
 	public FlawlessCapacitor() {
-		super(SonarMaterials.machine);
+		super(SonarMaterials.machine, false, true);
 	}
 
 	public boolean hasSpecialRenderer() {
 		return true;
-	}
-
-	public IIcon getIcon(int side, int metadata) {
-		return blockIcon;
-
 	}
 
 	@Override
@@ -37,10 +32,10 @@ public class FlawlessCapacitor extends SonarMachineBlock {
 		if (player != null) {
 			if (interact.type == BlockInteractionType.RIGHT) {
 				if (!world.isRemote) {
-					player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
+					player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 				}
 			} else {
-				TileEntity te = world.getTileEntity(x, y, z);
+				TileEntity te = world.getTileEntity(pos);
 				if (te != null && te instanceof TileEntityFlawlessCapacitor) {
 					TileEntityFlawlessCapacitor cube = (TileEntityFlawlessCapacitor) te;
 					cube.incrementSide(interact.side);

@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -13,7 +12,7 @@ import sonar.calculator.mod.client.models.ModelWeatherStationBase;
 import sonar.calculator.mod.client.models.ModelWeatherStationDish;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 
-public class RenderWeatherStation extends TileEntitySpecialRenderer {
+public class RenderWeatherStation extends TileEntitySpecialRenderer<TileEntityWeatherStation> {
 	private static final ResourceLocation baseTex = new ResourceLocation("Calculator:textures/model/weatherstation_base.png");
 	private static final ResourceLocation dishTex = new ResourceLocation("Calculator:textures/model/weatherstation_dish.png");
 
@@ -26,16 +25,16 @@ public class RenderWeatherStation extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
+	public void renderTileEntityAt(TileEntityWeatherStation te, double x, double y, double z, float partialTicks, int destroyStage) {
 		int i;
 
-		if (tileentity.getWorld() == null) {
+		if (te.getWorld() == null) {
 			i = 0;
 		} else {
-			Block block = tileentity.getBlockType();
-			i = tileentity.getBlockMetadata();
+			Block block = te.getBlockType();
+			i = te.getBlockMetadata();
 			if ((block != null) && (i == 0)) {
-				i = tileentity.getBlockMetadata();
+				i = te.getBlockMetadata();
 			}
 		}
 
@@ -46,9 +45,8 @@ public class RenderWeatherStation extends TileEntitySpecialRenderer {
 		GL11.glRotatef(180.0F, 180.0F, 0.0F, 1.0F);
 
 		GL11.glRotated(-0.625, 0, 1, 0);
-		if (tileentity.getWorld() != null && tileentity instanceof TileEntityWeatherStation) {
-			TileEntityWeatherStation station = (TileEntityWeatherStation) tileentity;
-			if (station.angle == 1000) {
+		if (te.getWorld() != null) {
+			if (te.angle == 1000) {
 				int j = 0;
 				if (i == 3) {
 					j = 0;
@@ -71,7 +69,7 @@ public class RenderWeatherStation extends TileEntitySpecialRenderer {
 				this.dish.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 			} else {
 				this.base.renderBase((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-				GL11.glRotated(station.angle, 0.0F, 1.0F, 0.0F);
+				GL11.glRotated(te.angle, 0.0F, 1.0F, 0.0F);
 				this.base.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 				GL11.glTranslatef(0.0F, -0.9F, -0.84F);
 				GL11.glRotated(45, 1.0F, 0.0F, 0.0F);

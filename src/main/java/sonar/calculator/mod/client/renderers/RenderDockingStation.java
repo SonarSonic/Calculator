@@ -1,6 +1,5 @@
 package sonar.calculator.mod.client.renderers;
-
-import net.minecraft.client.renderer.RenderHelper;
+/*
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
@@ -44,3 +43,4 @@ public class RenderDockingStation extends TileEntitySpecialRenderer {
 	}
 
 }
+*/

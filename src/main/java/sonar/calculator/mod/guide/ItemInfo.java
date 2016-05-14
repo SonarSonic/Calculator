@@ -1,7 +1,5 @@
 package sonar.calculator.mod.guide;
 
-import java.util.ArrayList;
-
 import net.minecraft.item.ItemStack;
 
 public class ItemInfo implements IItemInfo {

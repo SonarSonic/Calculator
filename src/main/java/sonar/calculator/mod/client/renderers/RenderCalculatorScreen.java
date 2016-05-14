@@ -14,17 +14,17 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.helpers.FontHelper;
 
 @SideOnly(Side.CLIENT)
-public class RenderCalculatorScreen extends TileEntitySpecialRenderer {
+public class RenderCalculatorScreen extends TileEntitySpecialRenderer<TileEntityCalculatorScreen> {
 	private static final ResourceLocation tex = new ResourceLocation("Calculator:textures/model/calculatorScreen.png");
 	private final ModelSign modelSign = new ModelSign();
 
-	public void renderTileEntityAt(TileEntityCalculatorScreen screen, double x, double y, double z, float var) {
+	public void renderTileEntityAt(TileEntityCalculatorScreen te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GL11.glPushMatrix();
 
 		float f1 = 0.6666667F;
 		float f3;
 
-		int j = screen.getBlockMetadata();
+		int j = te.getBlockMetadata();
 		f3 = 0.0F;
 
 		if (j == 2) {
@@ -55,9 +55,9 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer {
 		GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
 		GL11.glDepthMask(false);
 		byte b0 = 0;
-		if (screen.getWorld() != null) {
-			String energy = "C: " + FontHelper.formatStorage(screen.latestEnergy);
-			String max = "M: " +FontHelper.formatStorage(screen.latestMax);
+		if (te.getWorld() != null) {
+			String energy = "C: " + FontHelper.formatStorage(te.latestEnergy);
+			String max = "M: " +FontHelper.formatStorage(te.latestMax);
 			fontrenderer.drawString(energy, -fontrenderer.getStringWidth(energy) / 2, -8, b0);
 			fontrenderer.drawString(max, -fontrenderer.getStringWidth(max) / 2, 4, b0);
 

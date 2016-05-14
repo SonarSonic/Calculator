@@ -1,13 +1,12 @@
 package sonar.calculator.mod.integration.minetweaker;
-
+/*
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.core.helpers.RecipeHelper;
 
-/**
- * Created by AEnterprise
- */
+* Created by AEnterprise
+ 
 @ZenClass("mods.calculator.stoneSeparator")
 public class StoneSeparatorHandler {
 
@@ -148,3 +147,4 @@ public class StoneSeparatorHandler {
 		}
 	}
 }
+*/

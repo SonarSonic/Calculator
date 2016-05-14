@@ -51,7 +51,8 @@ public class WeatherController extends SonarMachineBlock {
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityWeatherController();
 	}
-@Override
+
+	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}

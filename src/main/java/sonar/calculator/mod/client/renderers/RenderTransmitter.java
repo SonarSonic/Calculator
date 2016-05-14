@@ -4,14 +4,14 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.client.models.ModelTransmitter;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 
-public class RenderTransmitter extends TileEntitySpecialRenderer {
+public class RenderTransmitter extends TileEntitySpecialRenderer<TileEntityTransmitter> {
 	private static final ResourceLocation texture = new ResourceLocation("Calculator:textures/model/transmitter.png");
 	private static final ResourceLocation scan = new ResourceLocation("Calculator:textures/blocks/transmitter_beam.png");
 	private ModelTransmitter model;
@@ -21,21 +21,21 @@ public class RenderTransmitter extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double X, double Y, double Z, float f) {
+	public void renderTileEntityAt(TileEntityTransmitter te, double x, double y, double z, float partialTicks, int destroyStage) {
 		int i;
 
-		if (tileentity.getWorld() == null) {
+		if (te.getWorld() == null) {
 			i = 0;
 		} else {
-			Block block = tileentity.getBlockType();
-			i = tileentity.getBlockMetadata();
+			Block block = te.getBlockType();
+			i = te.getBlockMetadata();
 			if ((block != null) && (i == 0)) {
-				i = tileentity.getBlockMetadata();
+				i = te.getBlockMetadata();
 			}
 		}
 
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) X + 0.5F, (float) Y + 1.5F, (float) Z + 0.5F);
+		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		GL11.glPushMatrix();
 		GL11.glRotatef(180.0F, 180.0F, 0.0F, 1.0F);

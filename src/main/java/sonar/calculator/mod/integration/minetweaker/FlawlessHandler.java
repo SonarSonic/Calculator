@@ -1,13 +1,11 @@
 package sonar.calculator.mod.integration.minetweaker;
-
+/*
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.core.helpers.RecipeHelper;
 
-/**
- * Created by AEnterprise
- */
+* Created by AEnterprise
 
 @ZenClass("mods.calculator.flawless")
 public class FlawlessHandler {
@@ -198,5 +196,5 @@ public class FlawlessHandler {
 		}
 	}
 
-
 }
+*/

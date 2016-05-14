@@ -1,12 +1,9 @@
 package sonar.calculator.mod.research.types;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.recipes.RecipeRegistry.RecipeType;

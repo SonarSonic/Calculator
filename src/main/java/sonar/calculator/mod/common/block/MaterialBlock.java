@@ -21,11 +21,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.core.common.block.properties.IMetaRenderer;
 import sonar.core.common.block.properties.IMetaVariant;
 
-public class MaterialBlock extends Block implements IMetaRenderer<MaterialBlock.Variants> {
+public class MaterialBlock extends Block implements IMetaRenderer {
 
 	public static final PropertyEnum<Variants> VARIANTS = PropertyEnum.<Variants> create("variant", Variants.class);
 
-	public enum Variants implements IStringSerializable, IMetaVariant {
+	public static enum Variants implements IStringSerializable, IMetaVariant {
 		AMETHYST(0), TANZANITE(1), ENRICHED_GOLD(2), REINFORCED_IRON(3), WEAKENED_DIAMOND(4), FLAWLESS_DIAMOND(5), FIRE_DIAMOND(6), ELECTRIC_DIAMOND(7), END_DIAMOND(8);
 		private int meta;
 

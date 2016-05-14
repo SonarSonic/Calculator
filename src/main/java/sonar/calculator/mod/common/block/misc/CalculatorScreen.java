@@ -4,9 +4,11 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,7 +17,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.common.block.SonarMaterials;
 
-/**basically a fabrication of the BlockSign code*/
+/** basically a fabrication of the BlockSign code */
 public class CalculatorScreen extends BlockContainer {
 
 	public CalculatorScreen() {
@@ -25,15 +27,8 @@ public class CalculatorScreen extends BlockContainer {
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
 	}
 
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
-		
-		return Calculator.reinforcedStoneBlock.getBlockTextureFromSide(side);
-	}
-
-	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-
-		int l = world.getBlockMetadata(x, y, z);
+	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
+		int l = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 		float f = 0.28125F;
 		float f1 = 0.78125F;
 		float f2 = 0.0F;
@@ -59,40 +54,40 @@ public class CalculatorScreen extends BlockContainer {
 
 	}
 
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block block) {
 		boolean flag = false;
 
-		int l = world.getBlockMetadata(x, y, z);
+		int l = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 		flag = true;
 
-		if (l == 2 && world.getBlock(x, y, z + 1).getMaterial().isSolid()) {
+		if (l == 2 && world.getBlockState(pos.add(0, 0, 1)).getBlock().getMaterial().isSolid()) {
 			flag = false;
 		}
 
-		if (l == 3 && world.getBlock(x, y, z - 1).getMaterial().isSolid()) {
+		if (l == 3 && world.getBlockState(pos.add(0, 0, -1)).getBlock().getMaterial().isSolid()) {
 			flag = false;
 		}
 
-		if (l == 4 && world.getBlock(x + 1, y, z).getMaterial().isSolid()) {
+		if (l == 4 && world.getBlockState(pos.add(1, 0, 0)).getBlock().getMaterial().isSolid()) {
 			flag = false;
 		}
 
-		if (l == 5 && world.getBlock(x - 1, y, z).getMaterial().isSolid()) {
+		if (l == 5 && world.getBlockState(pos.add(-1, 0, 0)).getBlock().getMaterial().isSolid()) {
 			flag = false;
 		}
 
 		if (flag) {
-			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-			world.setBlockToAir(x, y, z);
+			this.dropBlockAsItem(world, pos, state, 0);
+			world.setBlockToAir(pos);
 		}
 
-		super.onNeighborBlockChange(world, x, y, z, block);
+		super.onNeighborBlockChange(world, pos, state, block);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
-		this.setBlockBoundsBasedOnState(world, x, y, z);
-		return super.getSelectedBoundingBoxFromPool(world, x, y, z);
+	public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos) {
+		this.setBlockBoundsBasedOnState(world, pos);
+		return super.getSelectedBoundingBox(world, pos);
 	}
 
 	@Override

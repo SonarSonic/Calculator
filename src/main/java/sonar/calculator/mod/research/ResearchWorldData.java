@@ -1,8 +1,8 @@
 package sonar.calculator.mod.research;
 
-import sonar.core.helpers.NBTHelper.SyncType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldSavedData;
+import sonar.core.helpers.NBTHelper.SyncType;
 
 public class ResearchWorldData extends WorldSavedData {
 

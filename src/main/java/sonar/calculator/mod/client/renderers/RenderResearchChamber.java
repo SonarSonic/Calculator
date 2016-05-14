@@ -1,5 +1,5 @@
 package sonar.calculator.mod.client.renderers;
-
+/*
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -21,8 +21,9 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.models.ModelResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 
-public class RenderResearchChamber extends TileEntitySpecialRenderer {
+public class RenderResearchChamber extends TileEntitySpecialRenderer<TileEntityResearchChamber> {
 	private static final ResourceLocation texture = new ResourceLocation("Calculator:textures/model/researchchamber.png");
 
 	private static final ResourceLocation scan = new ResourceLocation("Calculator:textures/blocks/scanner.png");
@@ -37,7 +38,7 @@ public class RenderResearchChamber extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double xCoord, double yCoord, double zCoord, float f) {
+	public void renderTileEntityAt(TileEntityResearchChamber te, double x, double y, double z, float partialTicks, int destroyStage) {
 		RenderHelper.beginRender(xCoord + 0.5F, yCoord + 1.5F, zCoord + 0.5F, RenderHelper.setMetaData(tileentity), texture.toString());
 
 		this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
@@ -178,3 +179,4 @@ public class RenderResearchChamber extends TileEntitySpecialRenderer {
 
 	}
 }
+*/

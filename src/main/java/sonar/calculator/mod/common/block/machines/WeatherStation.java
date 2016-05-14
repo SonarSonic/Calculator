@@ -2,11 +2,12 @@ package sonar.calculator.mod.common.block.machines;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
@@ -18,7 +19,6 @@ import sonar.core.utils.IGuiTile;
 
 public class WeatherStation extends SonarMachineBlock {
 
-
 	public WeatherStation() {
 		super(SonarMaterials.machine, false, true);
 	}
@@ -29,10 +29,8 @@ public class WeatherStation extends SonarMachineBlock {
 
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
-		if (player != null) {
-			if (!world.isRemote) {
-				player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z);
-			}
+		if (!world.isRemote && player != null) {
+			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
@@ -45,14 +43,13 @@ public class WeatherStation extends SonarMachineBlock {
 	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+	public boolean canPlaceBlockAt(World world, BlockPos pos) {
 		for (int X = -1; X <= 1; X++) {
 			for (int Z = -1; Z <= 1; Z++) {
-				if (!world.getBlock(x + X, y + 1, z + Z).isReplaceable(world, X, y, Z)) {
+				if (!world.getBlockState(pos.add(X, 1, Z)).getBlock().isReplaceable(world, pos.add(X, 1, Z))) {
 					return false;
 				}
 			}
@@ -62,23 +59,22 @@ public class WeatherStation extends SonarMachineBlock {
 	}
 
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
-		setDefaultDirection(world, x, y, z);
-		setBlocks(world, x, y, z);
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+		super.onBlockAdded(world, pos, state);
+		setBlocks(world, pos, state);
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block oldblock, int oldMetadata) {
-		super.breakBlock(world, x, y, z, oldblock, oldMetadata);
-		this.removeBlocks(world, x, y, z);
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
+		super.breakBlock(world, pos, state);
+		this.removeBlocks(world, pos, state);
 	}
 
-	private void setBlocks(World world, int x, int y, int z) {
-		world.setBlock(x, y + 1, z, Calculator.weatherStationBlock);
+	private void setBlocks(World world, BlockPos pos, IBlockState state) {
+		world.setBlockState(pos.offset(EnumFacing.UP), Calculator.weatherStationBlock.getDefaultState());
 	}
 
-	private void removeBlocks(World world, int x, int y, int z) {
-		world.setBlockToAir(x, y + 1, z);
+	private void removeBlocks(World world, BlockPos pos, IBlockState state) {
+		world.setBlockToAir(pos.offset(EnumFacing.UP));
 	}
 }

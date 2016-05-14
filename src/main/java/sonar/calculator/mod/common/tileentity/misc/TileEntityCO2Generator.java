@@ -42,15 +42,14 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		super.inv = new SonarInventory(this, 2);
 	}
 
-	public void validate() {
-		super.validate();
+	public void onLoaded(){
+		super.onLoaded();
 		forward = worldObj.getBlockState(pos).getValue(SonarBlock.FACING);
 		horizontal = RenderHelper.getHorizontal(forward);
 	}
 
 	@Override
 	public void update() {
-
 		super.update();
 		if (RenderHelper.getHorizontal(forward) != null) {
 			boolean flag1 = this.burnTime > 0;

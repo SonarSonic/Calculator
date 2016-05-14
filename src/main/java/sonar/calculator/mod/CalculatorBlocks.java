@@ -31,9 +31,7 @@ import sonar.calculator.mod.common.block.machines.FabricationChamber;
 import sonar.calculator.mod.common.block.machines.FlawlessGreenhouse;
 import sonar.calculator.mod.common.block.machines.HealthProcessor;
 import sonar.calculator.mod.common.block.machines.HungerProcessor;
-import sonar.calculator.mod.common.block.machines.ModuleWorkstation;
 import sonar.calculator.mod.common.block.machines.PowerCube;
-import sonar.calculator.mod.common.block.machines.ResearchChamber;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
 import sonar.calculator.mod.common.block.misc.CO2Generator;
 import sonar.calculator.mod.common.block.misc.GasLantern;
@@ -41,7 +39,6 @@ import sonar.calculator.mod.common.block.misc.MagneticFlux;
 import sonar.calculator.mod.common.block.misc.Piping;
 import sonar.calculator.mod.common.block.misc.RainSensor;
 import sonar.calculator.mod.common.block.misc.ReinforcedChest;
-import sonar.calculator.mod.common.block.misc.Scarecrow;
 import sonar.calculator.mod.common.block.misc.StorageChamber;
 import sonar.calculator.mod.common.block.misc.WeatherController;
 import sonar.calculator.mod.common.tileentity.TileEntityMachines;
@@ -60,9 +57,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationCham
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
@@ -71,7 +66,6 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import sonar.core.common.block.ConnectedBlock;
 import sonar.core.common.block.SonarBlockTip;
 import sonar.core.common.block.SonarMetaBlock;
@@ -110,8 +104,8 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerTileEntity(TileEntityCalculator.Atomic.class, "AtomicCalculator");
 		dynamicCalculator = registerBlock("DynamicCalculator", new DynamicCalculator().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityCalculator.Dynamic.class, "DynamicCalculator");
-		moduleWorkstation = registerBlock("ModuleWorkstation", new ModuleWorkstation().setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityModuleWorkstation.class, "ModuleWorkstation");
+		//moduleWorkstation = registerBlock("ModuleWorkstation", new ModuleWorkstation().setHardness(1.0F).setResistance(20.0F));
+		//GameRegistry.registerTileEntity(TileEntityModuleWorkstation.class, "ModuleWorkstation");
 
 		// smelting
 		reinforcedFurnace = registerBlock("ReinforcedFurnace", new SmeltingBlock(BlockTypes.FURNACE).setHardness(1.0F).setResistance(20.0F));
@@ -156,8 +150,8 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerTileEntity(TileEntityStorageChamber.class, "StorageChamber");
 		fabricationChamber = registerBlock("FabricationChamber", new FabricationChamber().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityFabricationChamber.class, "FabricationChamber");
-		researchChamber = registerBlock("ResearchChamber", new ResearchChamber().setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityResearchChamber.class, "ResearchChamber");
+		//researchChamber = registerBlock("ResearchChamber", new ResearchChamber().setHardness(1.0F).setResistance(20.0F));
+		//GameRegistry.registerTileEntity(TileEntityResearchChamber.class, "ResearchChamber");
 		
 		// machines
 		basicGreenhouse = registerBlock("BasicGreenhouse", new BasicGreenhouse().setHardness(1.0F).setResistance(20.0F));
@@ -207,8 +201,8 @@ public class CalculatorBlocks extends Calculator {
 		gas_lantern_off = registerBlock("GasLanternOff", new GasLantern(true).setHardness(0.1F));
 		basic_lantern = registerBlock("Lantern", new BasicLantern().setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100));
 		GameRegistry.registerTileEntity(TileEntityGasLantern.class, "Lantern");
-		scarecrow = registerBlock("Scarecrow", new Scarecrow().setHardness(0.5F).setResistance(24.0F));
-		GameRegistry.registerTileEntity(TileEntityScarecrow.class, "Scarecrow");
+		//scarecrow = registerBlock("Scarecrow", new Scarecrow().setHardness(0.5F).setResistance(24.0F));
+		//GameRegistry.registerTileEntity(TileEntityScarecrow.class, "Scarecrow");
 		/*scarecrowBlock = new ScarecrowBlock().setUnlocalizedName("ScarecrowBlock").setHardness(0.5F).setBlockTextureName(modid + ":" + "reinforcedstone"); GameRegistry.registerBlock(scarecrowBlock, SonarBlockTip.class, "ScarecrowBlock"); */
 		// amethyst
 		amethystLog = registerBlock("AmethystLog", new CalculatorLogs());

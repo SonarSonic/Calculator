@@ -1,10 +1,7 @@
 package sonar.calculator.mod;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,7 +21,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.Display;
 
 import sonar.calculator.mod.common.entities.CalculatorThrow;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
@@ -44,7 +40,6 @@ import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
-import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
 import sonar.calculator.mod.integration.planting.FertiliserRegistry;
 import sonar.calculator.mod.integration.planting.HarvesterRegistry;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
@@ -171,6 +166,7 @@ public class Calculator {
 		logger.info(RedstoneExtractorRecipes.instance().getRecipes().size() + " Redstone Extractor Recipes were loaded");
 		logger.info(StarchExtractorRecipes.instance().getRecipes().size() + " Starch Extractor Recipes were loaded");
 		logger.info(StoneSeparatorRecipes.instance().getRecipes().size() + " Stone Separator Recipes were loaded");
+		/*
 		if (Loader.isModLoaded("MineTweaker3")) {
 			MinetweakerIntegration.integrate();
 		}

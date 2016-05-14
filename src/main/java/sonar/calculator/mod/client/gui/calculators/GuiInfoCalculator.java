@@ -2,14 +2,10 @@ package sonar.calculator.mod.client.gui.calculators;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -19,20 +15,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.oredict.OreDictionary;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Color;
 
-import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
-import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.calculator.mod.guide.IItemInfo;
 import sonar.calculator.mod.guide.IItemInfo.Category;
 import sonar.calculator.mod.guide.InfoRegistry;
-import sonar.core.SonarCore;
 import sonar.core.helpers.FontHelper;
 
 public class GuiInfoCalculator extends GuiContainer {

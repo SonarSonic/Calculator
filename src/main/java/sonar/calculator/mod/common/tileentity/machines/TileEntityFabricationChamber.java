@@ -20,19 +20,17 @@ import sonar.calculator.mod.common.containers.ContainerFabricationChamber;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes.CircuitStack;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber.CircuitType;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.api.utils.ActionType;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.ItemStackHelper;
-import sonar.core.helpers.SonarHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
-import sonar.core.utils.MachineSideConfig;
 
 public class TileEntityFabricationChamber extends TileEntityInventory implements IGuiTile, IByteBufTile {
 

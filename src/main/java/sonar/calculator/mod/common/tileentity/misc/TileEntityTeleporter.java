@@ -4,8 +4,6 @@ import io.netty.buffer.ByteBuf;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -14,7 +12,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.ITeleport;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.client.gui.misc.GuiTeleporter;
@@ -29,6 +26,8 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
+
+import com.google.common.collect.Lists;
 
 public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, IGuiTile {
 

@@ -13,7 +13,6 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.misc.GuiModuleSelector;
-import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.calculator.mod.common.containers.ContainerModuleSelector;
 import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
 import sonar.calculator.mod.network.packets.PacketJumpModule;

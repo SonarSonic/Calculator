@@ -1,24 +1,16 @@
 package sonar.calculator.mod.common.block.machines;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.items.IStability;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 import sonar.core.api.utils.BlockInteraction;
-import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;

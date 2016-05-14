@@ -2,17 +2,14 @@ package sonar.calculator.mod.research;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map.Entry;
 
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.research.types.ResearchTypes;
-import sonar.core.api.nbt.INBTSyncable;
-import sonar.core.helpers.NBTHelper.SyncType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.world.WorldSavedData;
+import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.research.types.ResearchTypes;
+import sonar.core.helpers.NBTHelper.SyncType;
 
 public class PlayerResearchRegistry {
 

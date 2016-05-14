@@ -1,10 +1,7 @@
 package sonar.calculator.mod.guide;
 
-import java.util.ArrayList;
-
-import sonar.calculator.mod.Calculator;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import sonar.calculator.mod.Calculator;
 
 public interface IItemInfo {
 

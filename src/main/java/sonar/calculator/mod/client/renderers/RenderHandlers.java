@@ -1,19 +1,7 @@
 package sonar.calculator.mod.client.renderers;
 
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.client.models.ModelConductorMast;
 import sonar.calculator.mod.client.models.ModelScarecrow;
-import sonar.calculator.mod.client.models.ModelTeleporter;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
-import sonar.core.helpers.FontHelper;
 import sonar.core.renderers.SonarTERender;
 
 public class RenderHandlers {
@@ -31,7 +19,7 @@ public class RenderHandlers {
 		}
 	}
 
-
+	/*
 	public static class Teleporter extends SonarTERender {
 		private static final ResourceLocation layer1 = new ResourceLocation("Calculator:textures/blocks/teleporter_layer1.png");
 		private static final ResourceLocation layer2 = new ResourceLocation("Calculator:textures/blocks/teleporter_layer2.png");
@@ -146,7 +134,6 @@ public class RenderHandlers {
 			}
 
 		}
-
 	}
-
+	*/
 }

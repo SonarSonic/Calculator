@@ -10,9 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.calculators.GuiInfoCalculator;
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
-import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.SonarItem;
-import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiItem;
 
 public class InfoCalculator extends SonarItem implements IGuiItem {

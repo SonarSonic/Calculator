@@ -1,12 +1,13 @@
 package sonar.calculator.mod.client.renderers;
-
-import org.lwjgl.opengl.GL11;
-
+/*
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 
@@ -113,3 +114,4 @@ public class RenderCalculatorLocatorBeam extends TileEntitySpecialRenderer<TileE
 	}
 
 }
+*/

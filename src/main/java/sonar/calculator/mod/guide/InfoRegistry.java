@@ -5,13 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.guide.IItemInfo.Category;
-import sonar.calculator.mod.utils.OLDInfoList;
-import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.ItemStackHelper;
 
 public class InfoRegistry {

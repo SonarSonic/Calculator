@@ -8,8 +8,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessFurnace;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
@@ -19,31 +17,15 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
 public class FlawlessFurnace extends SonarMachineBlock {
-	@SideOnly(Side.CLIENT)
-	private IIcon iconFront, iconTop;
-
+	
 	public FlawlessFurnace() {
-		super(SonarMaterials.machine);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon(Calculator.modid + ":" + "flawlessFurnace_side");
-		this.iconFront = iconRegister.registerIcon(Calculator.modid + ":" + "flawlessFurnace");
-		this.iconTop = iconRegister.registerIcon(Calculator.modid + ":" + "flawlessFurnace_side");
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == metadata ? this.iconFront : side == 0 ? this.iconTop : side == 1 ? this.iconTop : (metadata == 0) && (side == 3) ? this.iconFront : this.blockIcon;
+		super(SonarMaterials.machine, true, true);
 	}
 
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null && !world.isRemote) {
-			FMLNetworkHandler.openGui(player, Calculator.instance, IGuiTile.ID, world, x, y, z);
+			FMLNetworkHandler.openGui(player, Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 
 		return true;

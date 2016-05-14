@@ -1,8 +1,8 @@
 package sonar.calculator.mod.client.renderers;
-
+/*
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -13,40 +13,21 @@ import org.lwjgl.opengl.GL11;
 
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
+import sonar.core.helpers.RenderHelper;
 
-public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
-	private static final String onTexture = "Calculator:textures/model/calculatorlocatoron.png";
-	private static final String offTexture = "Calculator:textures/model/calculatorlocatoroff.png";
+public class RenderCalculatorLocator extends TileEntitySpecialRenderer<TileEntityCalculatorLocator> {
+
 	private static final ResourceLocation beam = new ResourceLocation("Calculator:textures/blocks/locator_beam.png");
 
-	private ModelCalculatorLocator model;
-
-	public RenderCalculatorLocator() {
-		this.model = new ModelCalculatorLocator();
-	}
-
 	@Override
-	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float f) {
-
-		if (entity.getWorld() != null && entity instanceof TileEntityCalculatorLocator) {
-			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) entity;
-			if (tile.active.getObject()) {
-				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, onTexture);
-			} else {
-				RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, offTexture);
-			}
-
-		} else {
-			RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, 0, onTexture);
-		}
-		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-		RenderHelper.finishRender();
-
-		if (CalculatorConfig.beamEffect && entity.getWorld() != null && entity instanceof TileEntityCalculatorLocator) {
-			TileEntityCalculatorLocator tile = (TileEntityCalculatorLocator) entity;
-			if (tile.active.getObject()) {
-				int height = tile.beamHeight();
-				Tessellator tessellator = Tessellator.instance;
+	public void renderTileEntityAt(TileEntityCalculatorLocator te, double x, double y, double z, float partialTicks, int destroyStage) {
+		if (CalculatorConfig.beamEffect && te.getWorld() != null) {
+			if (te.active.getObject()) {
+	            Tessellator tessellator = Tessellator.getInstance();
+	            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+				
+				int height = te.beamHeight();
 				this.bindTexture(beam);
 				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
 				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0F);
@@ -56,12 +37,12 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 				GL11.glDepthMask(true);
 				OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 				GL11.glTranslated(0.0, 0.70, 0.0);
-				float f2 = (float) entity.getWorld().getTotalWorldTime() + 20;
+				float f2 = (float) te.getWorld().getTotalWorldTime() + 20;
 				float f3 = -f2 * 0.2F - (float) MathHelper.floor_float(-f2 * 0.1F);
 				byte b0 = 1;
 				double d3 = (double) f2 * 0.025D * (1.0D - (double) (b0 & 1) * 2.5D);
-				tessellator.startDrawingQuads();
-				tessellator.setColorRGBA(255, 255, 255, 32);
+				worldrenderer.startDrawingQuads();
+				worldrenderer.setColorRGBA(255, 255, 255, 32);
 				double d5 = (double) b0 * tile.size.getObject() / 20;
 				double d7 = 0.5D + Math.cos(d3 + 2.356194490192345D) * d5;
 				double d9 = 0.5D + Math.sin(d3 + 2.356194490192345D) * d5;
@@ -136,5 +117,5 @@ public class RenderCalculatorLocator extends TileEntitySpecialRenderer {
 		}
 
 	}
-
 }
+*/
