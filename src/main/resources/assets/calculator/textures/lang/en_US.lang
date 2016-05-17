@@ -490,6 +490,9 @@ item.FlawlessAssembly.name=Flawless Assembly
 tile.ReinforcedChest.name=Reinforced Chest
 tile.AmethystPiping.name=Amethyst Piping
 tile.TanzanitePiping.name=Tanzanite Piping
+tile.CreativePowerCube.name=Creative Power Cube
+
+
 
 
 info.Calculator.name=A portable device capable of adding two items together-By combining their properties it can create new items!-It requires RF to function, it can be charged in the Power Cube-It uses 1 RF per item-More Recipes can be unlocked with the Research Chamber-The Calculator is required to progress to the more powerful Scientific Calculator-Note: Calculators will keep their inventory

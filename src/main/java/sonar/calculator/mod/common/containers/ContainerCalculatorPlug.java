@@ -4,6 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.api.items.IStability;
+import sonar.calculator.mod.api.nutrition.IHealthStore;
+import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
 import sonar.core.inventory.ContainerSync;
 
@@ -32,9 +35,12 @@ public class ContainerCalculatorPlug extends ContainerSync {
 		if ((slot != null) && (slot.getHasStack())) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
+
 			if ((slotID != 0)) {
-				if (!mergeItemStack(itemstack1, 0, 1, false)) {
-					return null;
+				if (itemstack1.getItem() instanceof IStability) {
+					if (!mergeItemStack(itemstack1, 0, 1, false)) {
+						return null;
+					}
 				} else if ((slotID >= 1) && (slotID < 28)) {
 					if (!mergeItemStack(itemstack1, 28, 37, false)) {
 						return null;
@@ -45,6 +51,7 @@ public class ContainerCalculatorPlug extends ContainerSync {
 			} else if (!mergeItemStack(itemstack1, 1, 37, false)) {
 				return null;
 			}
+
 			if (itemstack1.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {

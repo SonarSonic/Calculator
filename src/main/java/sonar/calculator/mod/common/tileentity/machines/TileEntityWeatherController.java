@@ -8,6 +8,7 @@ import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncEnergyStorage;
@@ -27,6 +28,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 	public TileEntityWeatherController() {
 		super.inv = new SonarInventory(this, 1);
 		super.storage = new SyncEnergyStorage(1000000, 64000);
+		super.energyMode = EnergyMode.RECIEVE;
 	}
 
 	public void update() {

@@ -41,10 +41,8 @@ public class ContainerAssimilator extends ContainerSync {
 			if ((slotID != 0)) {
 				if (itemstack1.getItem() instanceof IHungerStore || itemstack1.getItem() instanceof IHealthStore) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
-
 						return null;
 					}
-
 				} else if ((slotID >= 1) && (slotID < 28)) {
 					if (!mergeItemStack(itemstack1, 28, 37, false)) {
 						return null;

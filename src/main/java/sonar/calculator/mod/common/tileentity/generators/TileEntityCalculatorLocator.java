@@ -56,7 +56,6 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		boolean flag = active.getObject();
 		boolean invert = false;
 		if (canGenerate()) {
-
 			if (!worldObj.isRemote) {
 				beginGeneration();
 			}
@@ -66,7 +65,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		} else if (active.getObject()) {
 			invert = true;
 		}
-		if (invert) {
+		if (!worldObj.isRemote && invert) {
 			this.active.invert();
 			SonarCore.sendPacketAround(this, 128, 0);
 		}
@@ -78,7 +77,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 			this.createStructure();
 			this.getStability();
 		}
-		if (flag != active.getObject()) {
+		if (!worldObj.isRemote && flag != active.getObject()) {
 			SonarCore.sendPacketAround(this, 64, 0);
 		}
 

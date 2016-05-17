@@ -39,6 +39,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	public TileEntityAtomicMultiplier() {
 		super.storage = new SyncEnergyStorage(requiredEnergy, requiredEnergy);
 		super.inv = new SonarInventory(this, 10);
+		super.energyMode = EnergyMode.RECIEVE;
 	}
 
 	@Override

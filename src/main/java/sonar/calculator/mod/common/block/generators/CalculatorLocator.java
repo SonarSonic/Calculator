@@ -29,9 +29,9 @@ import sonar.core.utils.IGuiTile;
 public class CalculatorLocator extends SonarMachineBlock {
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
-	
+
 	public CalculatorLocator() {
-		super(SonarMaterials.machine,false,true);
+		super(SonarMaterials.machine, false, true);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, true));
 	}
@@ -40,10 +40,10 @@ public class CalculatorLocator extends SonarMachineBlock {
 		return true;
 	}
 
-	public boolean isFullCube(){
+	public boolean isFullCube() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
@@ -57,13 +57,17 @@ public class CalculatorLocator extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
-		if (state.getValue(ACTIVE)) {
-			float x1 = pos.getX() + random.nextFloat();
-			float y1 = pos.getY() + 0.5F;
-			float z1 = pos.getZ() + random.nextFloat();			
-			
-			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
-			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
+		TileEntity target = world.getTileEntity(pos);
+		if (target != null && target instanceof TileEntityCalculatorLocator) {
+			TileEntityCalculatorLocator locator = (TileEntityCalculatorLocator) target;
+			if (locator.active.getObject()) {
+				float x1 = pos.getX() + random.nextFloat();
+				float y1 = pos.getY() + 0.5F;
+				float z1 = pos.getZ() + random.nextFloat();
+
+				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
+			}
 		}
 	}
 
@@ -126,7 +130,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity target = world.getTileEntity(pos);
-		if(target !=null && target instanceof TileEntityCalculatorLocator){
+		if (target != null && target instanceof TileEntityCalculatorLocator) {
 			TileEntityCalculatorLocator locator = (TileEntityCalculatorLocator) target;
 			return state.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, locator.active.getObject());
 		}

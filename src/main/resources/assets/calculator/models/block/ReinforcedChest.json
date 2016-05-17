@@ -1,6 +1,7 @@
 {
     "textures": {
-        "0": "calculator:model/reinforced_chest_item"
+        "0": "calculator:model/reinforced_chest_item",
+        "particle": "sonarcore:blocks/reinforcedstone"
     },
     "elements": [
         {

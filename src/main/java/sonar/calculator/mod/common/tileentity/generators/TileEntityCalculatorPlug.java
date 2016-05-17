@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,15 +10,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.generators.GuiCalculatorPlug;
 import sonar.calculator.mod.common.containers.ContainerCalculatorPlug;
+import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
+import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
 
 import com.google.common.collect.Lists;
 
-public class TileEntityCalculatorPlug extends TileEntityInventory implements IGuiTile  {
+public class TileEntityCalculatorPlug extends TileEntityInventory implements IGuiTile, IByteBufTile {
 
 	public SyncTagType.INT stable = new SyncTagType.INT(0);
 
@@ -27,15 +31,18 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 	@Override
 	public void update() {
 		super.update();
+		if (this.isClient()) {
+			return;
+		}
 		int flag = stable.getObject();
 		if (testStable()) {
 			fill(0);
 		}
 		if (flag != this.stable.getObject()) {
+			SonarCore.sendPacketAround(this, 128, 0);
 			this.worldObj.markBlockForUpdate(pos);
 			this.markDirty();
 		}
-
 	}
 
 	public boolean testStable() {
@@ -56,8 +63,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			if (this.stable.getObject() != 2) {
 				this.stable.setObject(2);
 			}
-		}
-		else if (!stability && slots()[slot].getItem() instanceof IStability) {
+		} else if (!stability && slots()[slot].getItem() instanceof IStability) {
 			stable.setObject(1);
 		} else {
 			stable.setObject(0);
@@ -90,6 +96,25 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 	@Override
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiCalculatorPlug(player.inventory, this);
+	}
+
+	@Override
+	public void writePacket(ByteBuf buf, int id) {
+		switch (id) {
+		case 0:
+			stable.writeToBuf(buf);
+			break;
+		}
+	}
+
+	@Override
+	public void readPacket(ByteBuf buf, int id) {
+		switch (id) {
+		case 0:
+			stable.readFromBuf(buf);
+			this.worldObj.markBlockForUpdate(pos);
+			break;
+		}
 	}
 
 }

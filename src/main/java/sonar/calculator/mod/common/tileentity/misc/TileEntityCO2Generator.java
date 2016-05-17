@@ -17,6 +17,7 @@ import sonar.calculator.mod.common.containers.ContainerCO2Generator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RenderHelper;
@@ -40,6 +41,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 	public TileEntityCO2Generator() {
 		super.storage = new SyncEnergyStorage(1000000, 64000);
 		super.inv = new SonarInventory(this, 2);
+		super.energyMode = EnergyMode.RECIEVE;
 	}
 
 	public void onLoaded(){

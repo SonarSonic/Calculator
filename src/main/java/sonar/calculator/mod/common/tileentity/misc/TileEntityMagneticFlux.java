@@ -157,7 +157,8 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 			if (itemstack != null) {
 				int i = itemstack.stackSize;
 				TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
-				itemstack = SonarAPI.getItemHelper().getStackToAdd(itemstack.stackSize, new StoredItemStack(itemstack), SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), EnumFacing.getFront(1), ActionType.PERFORM, null)).getFullStack();
+				if (target != null)
+					itemstack = SonarAPI.getItemHelper().getStackToAdd(itemstack.stackSize, new StoredItemStack(itemstack), SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), EnumFacing.getFront(1), ActionType.PERFORM, null)).getFullStack();
 			}
 			return itemstack;
 		}

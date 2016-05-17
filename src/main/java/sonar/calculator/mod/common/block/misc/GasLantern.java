@@ -116,9 +116,9 @@ public class GasLantern extends SonarMachineBlock {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		keepInventory = true;
 		if (active) {
-			worldIn.setBlockState(pos, Calculator.gas_lantern_on.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+			worldIn.setBlockState(pos, Calculator.gas_lantern_on.getDefaultState().withProperty(DIR, iblockstate.getValue(DIR)), 3);
 		} else {
-			worldIn.setBlockState(pos, Calculator.gas_lantern_off.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+			worldIn.setBlockState(pos, Calculator.gas_lantern_off.getDefaultState().withProperty(DIR, iblockstate.getValue(DIR)), 3);
 		}
 		keepInventory = false;
 

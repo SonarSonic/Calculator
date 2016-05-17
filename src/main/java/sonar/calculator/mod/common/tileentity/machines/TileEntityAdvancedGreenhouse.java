@@ -22,6 +22,7 @@ import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
+import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.RenderHelper;
 import sonar.core.inventory.SonarInventory;
@@ -41,9 +42,9 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 	public final int requiredBuildEnergy = (stackStairs + stackLog + stackPlanks + stackGlass) * CalculatorConfig.getInteger("Build Energy");
 
 	public TileEntityAdvancedGreenhouse() {
-
 		super.storage = new SyncEnergyStorage(350000, 1600);
 		super.inv = new SonarInventory(this, 17);
+		super.energyMode = EnergyMode.RECIEVE;
 		super.type = 2;
 		super.maxLevel = 100000;
 		super.plantTick = 10;

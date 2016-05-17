@@ -54,7 +54,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "2.0.0";
+	public static final String version = "2.0.0a";
 	
 	public static final int saveDimension = 0;
 	
@@ -222,6 +222,7 @@ public class Calculator {
 	public static Block flawlessFurnace;
 	public static Block eternalFire;
 	public static Block moduleWorkstation;
+	public static Block creativePowerCube;
 
 	// calculator parts
 	public static Item calculator_screen;

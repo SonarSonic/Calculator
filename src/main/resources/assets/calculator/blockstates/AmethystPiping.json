@@ -3,7 +3,8 @@
     "defaults": {
         "model":"calculator:PipingCentre",
         "textures": {
-            "0":"calculator:model/amethyst_piping"
+            "0":"calculator:model/amethyst_piping",
+            "particle":"calculator:blocks/amethyst_block"
         },
         "transform":"forge:default-block"
      },

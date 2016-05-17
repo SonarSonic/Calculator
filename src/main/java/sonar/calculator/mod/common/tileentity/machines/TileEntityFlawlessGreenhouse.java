@@ -28,6 +28,7 @@ import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
+import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RenderHelper;
@@ -44,6 +45,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	public TileEntityFlawlessGreenhouse() {
 		super.storage = new SyncEnergyStorage(500000, 64000);
 		super.inv = new SonarInventory(this, 10);
+		super.energyMode = EnergyMode.RECIEVE;
 		super.type = 3;
 		super.maxLevel = 100000;
 		super.plantTick = 2;
@@ -254,7 +256,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 		for (int i = 0; i <= this.houseSize; i++) {
 			for (int XZ = 0; XZ <= 3; XZ++) {
-				BlockPos pos = this.pos.add((fX * 2) + (hX * XZ) + (fX * (1 + i)), 0, (fZ * 2) + (hZ * XZ) + (fZ * (1 + i)));
+				BlockPos pos = this.pos.add((hX * XZ) + (fX * (1 + i)), 0, (hZ * XZ) + (fZ * (1 + i)));
 				if (XZ != 1 && XZ != 2) {
 					if (this.storage.getEnergyStored() >= waterRF) {
 						if (GreenhouseHelper.applyWater(worldObj, pos)) {

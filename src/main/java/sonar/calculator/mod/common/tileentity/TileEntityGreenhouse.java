@@ -54,7 +54,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 
 	public void onLoaded(){
 		super.onLoaded();
-		forward = worldObj.getBlockState(pos).getValue(SonarBlock.FACING);
+		forward = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
 		horizontal = RenderHelper.getHorizontal(forward);
 	}
 
