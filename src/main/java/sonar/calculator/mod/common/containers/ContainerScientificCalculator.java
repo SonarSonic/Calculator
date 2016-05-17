@@ -70,7 +70,7 @@ public class ContainerScientificCalculator extends Container implements ICalcula
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
 
-		if (slot != null && slot.getHasStack()) {
+		if (slot != null && slot.getHasStack() && slot.getStack() != player.getHeldItem()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 

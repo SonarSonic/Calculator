@@ -59,7 +59,7 @@ public class ContainerFlawlessCalculator extends Container implements ICalculato
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(par2);
 
-		if (slot != null && slot.getHasStack()) {
+		if (slot != null && slot.getHasStack() && slot.getStack() != par1EntityPlayer.getHeldItem()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 

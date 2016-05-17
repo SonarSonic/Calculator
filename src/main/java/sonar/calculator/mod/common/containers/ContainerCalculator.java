@@ -72,7 +72,7 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
-		if (slot != null && slot.getHasStack()) {
+		if (slot != null && slot.getHasStack() && slot.getStack() != player.getHeldItem()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
