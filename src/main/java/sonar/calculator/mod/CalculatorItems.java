@@ -51,7 +51,7 @@ public class CalculatorItems extends Calculator {
 	public static final Item.ToolMaterial FlawlessDiamond = EnumHelper.addToolMaterial("FlawlessDiamond", 3, 1800, 14.0F, 5.0F, 30);
 	public static final Item.ToolMaterial FireDiamond = EnumHelper.addToolMaterial("FireDiamond", 3, 2600, 16.0F, 7.0F, 30);
 	public static final Item.ToolMaterial ElectricDiamond = EnumHelper.addToolMaterial("ElectricDiamond", 4, 10000, 18.0F, 10.0F, 30);
-	public static final Item.ToolMaterial EndForged = EnumHelper.addToolMaterial("EndForged", 6, -1, 50F, 16.0F, 30);
+	public static final Item.ToolMaterial EndForged = EnumHelper.addToolMaterial("EndForged", 6, 2147483646, 50F, 16.0F, 30);
 
 	public static void registerItems() {
 
@@ -116,7 +116,7 @@ public class CalculatorItems extends Calculator {
 		GameRegistry.registerItem(atomic_binder, "AtomicBinder");
 
 		// tools
-		wrench = new Wrench().setUnlocalizedName("Wrench").setCreativeTab(Calculator).setMaxStackSize(1).setTextureName(modid + ":" + "wrench");
+		wrench = new Wrench().setUnlocalizedName("CalcWrench").setCreativeTab(Calculator).setMaxStackSize(1).setTextureName(modid + ":" + "wrench");
 		GameRegistry.registerItem(wrench, "Wrench");
 		sickle = new Sickle().setUnlocalizedName("Sickle").setCreativeTab(Calculator).setTextureName(modid + ":" + "sickle").setMaxStackSize(1);
 		GameRegistry.registerItem(sickle, "Sickle");

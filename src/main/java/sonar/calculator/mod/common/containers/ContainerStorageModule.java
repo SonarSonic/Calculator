@@ -56,7 +56,7 @@ public class ContainerStorageModule extends Container {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(id);
 
-		if (slot != null && slot.getHasStack()) {
+		if (slot != null && slot.getHasStack() && slot.getStack() != player.getHeldItem()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
