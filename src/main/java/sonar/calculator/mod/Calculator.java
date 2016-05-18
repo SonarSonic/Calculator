@@ -40,6 +40,7 @@ import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
+import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
 import sonar.calculator.mod.integration.planting.FertiliserRegistry;
 import sonar.calculator.mod.integration.planting.HarvesterRegistry;
 import sonar.calculator.mod.integration.planting.PlanterRegistry;
@@ -54,7 +55,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "2.0.0a";
+	public static final String version = "2.0.1a";
 	
 	public static final int saveDimension = 0;
 	
@@ -81,7 +82,7 @@ public class Calculator {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		if (!Loader.isModLoaded("SonarCore")) {
+		if (!Loader.instance().isModLoaded("SonarCore")) {
 			logger.fatal("Sonar Core is not loaded");
 		} else {
 			logger.info("Successfully loaded with Sonar Core");
@@ -166,7 +167,7 @@ public class Calculator {
 		logger.info(RedstoneExtractorRecipes.instance().getRecipes().size() + " Redstone Extractor Recipes were loaded");
 		logger.info(StarchExtractorRecipes.instance().getRecipes().size() + " Starch Extractor Recipes were loaded");
 		logger.info(StoneSeparatorRecipes.instance().getRecipes().size() + " Stone Separator Recipes were loaded");
-		/*
+		
 		if (Loader.isModLoaded("MineTweaker3")) {
 			MinetweakerIntegration.integrate();
 		}
@@ -177,7 +178,6 @@ public class Calculator {
 	@EventHandler
 	public void onServerStopping(FMLServerStoppingEvent event) {
 		TeleporterRegistry.removeAll();
-		RecipeRegistry.clearRecipes();
 	}
 
 	public static Item itemCalculator, itemInfoCalculator, itemCraftingCalculator, itemScientificCalculator, itemFlawlessCalculator;

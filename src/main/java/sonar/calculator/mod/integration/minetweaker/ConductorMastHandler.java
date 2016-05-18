@@ -1,10 +1,17 @@
 package sonar.calculator.mod.integration.minetweaker;
-/*
+
+import minetweaker.IUndoableAction;
+import minetweaker.MineTweakerAPI;
+import minetweaker.api.item.IIngredient;
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.liquid.ILiquidStack;
+import minetweaker.api.minecraft.MineTweakerMC;
+import minetweaker.api.oredict.IOreDictEntry;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.core.helpers.RecipeHelper;
-
-* Created by AEnterprise
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenClass("mods.calculator.conductorMast")
 public class ConductorMastHandler {
@@ -150,4 +157,3 @@ public class ConductorMastHandler {
 		}
 	}
 }
-*/

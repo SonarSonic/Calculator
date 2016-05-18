@@ -1,11 +1,19 @@
 package sonar.calculator.mod.integration.minetweaker;
-/*
+
+import minetweaker.IUndoableAction;
+import minetweaker.MineTweakerAPI;
+import minetweaker.api.item.IIngredient;
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.liquid.ILiquidStack;
+import minetweaker.api.minecraft.MineTweakerMC;
+import minetweaker.api.oredict.IOreDictEntry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.core.helpers.RecipeHelper;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
-* Created by AEnterprise
 
 @ZenClass("mods.calculator.flawless")
 public class FlawlessHandler {
@@ -197,4 +205,3 @@ public class FlawlessHandler {
 	}
 
 }
-*/

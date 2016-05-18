@@ -1,6 +1,7 @@
 package sonar.calculator.mod.integration.minetweaker;
-/*
-* Created by AEnterprise
+
+import minetweaker.MineTweakerAPI;
+
 public class MinetweakerIntegration {
 
 	public static void integrate() {
@@ -13,4 +14,3 @@ public class MinetweakerIntegration {
 		MineTweakerAPI.registerClass(FlawlessHandler.class);
 	}
 }
-*/
