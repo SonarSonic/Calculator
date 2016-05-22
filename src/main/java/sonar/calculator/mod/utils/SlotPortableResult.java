@@ -14,7 +14,7 @@ public class SlotPortableResult extends SlotPortable {
 	private ICalculatorCrafter container;
 
 	public SlotPortableResult(EntityPlayer player, InventoryItem inv, ICalculatorCrafter container, int[] craftSlots, int index, int x, int y, boolean isRemote) {
-		super(inv, index, x, y, isRemote);
+		super(inv, index, x, y, isRemote, null);
 		this.thePlayer = player;
 		this.craftSlots = craftSlots;
 		this.container = container;

@@ -5,6 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
@@ -23,7 +24,7 @@ public class ContainerFlawlessCalculator extends Container implements ICalculato
 		isRemote = player.getEntityWorld().isRemote;
 
 		for (int k = 0; k < 4; k++) {
-			addSlotToContainer(new SlotPortableCrafting(this, inventory, k, 17 + k * 32, 35, isRemote));
+			addSlotToContainer(new SlotPortableCrafting(this, inventory, k, 17 + k * 32, 35, isRemote, Calculator.itemFlawlessCalculator));
 		}
 		
 		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{0,1,2,3}, 4, 145, 35, isRemote));

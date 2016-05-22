@@ -7,6 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
@@ -27,17 +28,17 @@ public class ContainerPortableDynamic extends Container implements ICalculatorCr
 		this.research = map;
 		isRemote = player.getEntityWorld().isRemote;
 
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 9,isRemote));		
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 9,isRemote));		
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 9,isRemote, Calculator.itemFlawlessCalculator));		
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 9,isRemote, Calculator.itemFlawlessCalculator));		
 		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{0,1}, 2, 134, 9,isRemote));
 				
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 3, 25, 35,isRemote));		
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 4, 79, 35,isRemote));		
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 3, 25, 35,isRemote, Calculator.itemFlawlessCalculator));		
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 4, 79, 35,isRemote, Calculator.itemFlawlessCalculator));		
 		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{3,4}, 5, 134, 35,isRemote));
 
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 6, 20 + 0 * 32, 61,isRemote));
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 7, 20 + 1 * 32, 61,isRemote));
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 8, 20 + 2 * 32, 61,isRemote));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 6, 20 + 0 * 32, 61,isRemote, Calculator.itemFlawlessCalculator));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 7, 20 + 1 * 32, 61,isRemote, Calculator.itemFlawlessCalculator));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 8, 20 + 2 * 32, 61,isRemote, Calculator.itemFlawlessCalculator));
 		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{6,7,8}, 9, 134, 61,isRemote));
 		
 		for (int i = 0; i < 3; ++i) {

@@ -1,5 +1,6 @@
 package sonar.calculator.mod.utils;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.containers.ICalculatorCrafter;
 import sonar.core.common.item.InventoryItem;
@@ -8,8 +9,8 @@ public class SlotPortableCrafting extends SlotPortable {
 
 	private ICalculatorCrafter container;
 
-	public SlotPortableCrafting(ICalculatorCrafter container, InventoryItem inv, int index, int x, int y, boolean isRemote) {
-		super(inv, index, x, y, isRemote);
+	public SlotPortableCrafting(ICalculatorCrafter container, InventoryItem inv, int index, int x, int y, boolean isRemote, Item type) {
+		super(inv, index, x, y, isRemote, type);
 		this.container = container;
 	}
 
@@ -41,7 +42,6 @@ public class SlotPortableCrafting extends SlotPortable {
 	public void putStack(ItemStack stack) {
 		super.putStack(stack);
 		container.onItemCrafted();
-
 	}
 
 }

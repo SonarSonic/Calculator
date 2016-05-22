@@ -545,7 +545,7 @@ public class RecipeRegistry {
 		registerScientificRecipe(Calculator.itemEnergyModule, Calculator.small_amethyst, Calculator.starchextractor);
 		registerScientificRecipe(Calculator.powerCube, Calculator.purified_coal, Calculator.itemEnergyModule);
 		registerScientificRecipe(Calculator.reinforced_iron_block, Items.ender_eye, Calculator.fluxPlug);
-		registerScientificRecipe("ingotRedstone", Items.ender_pearl, Calculator.fluxPoint);
+		registerScientificRecipe(Calculator.redstone_ingot, Items.ender_pearl, Calculator.fluxPoint);
 
 	}
 
@@ -556,7 +556,7 @@ public class RecipeRegistry {
 		registerAtomicRecipe(Items.blaze_rod, Calculator.flawlessdiamond, Items.blaze_rod, Calculator.flawlessfirediamond);
 		registerAtomicRecipe(Blocks.end_stone, Calculator.electricdiamond, Blocks.obsidian, Calculator.enddiamond);
 		registerAtomicRecipe(Calculator.AmethystSapling, Blocks.end_stone, Calculator.tanzaniteSapling, Calculator.PearSapling);
-		registerAtomicRecipe(Calculator.itemScientificCalculator, Calculator.atomic_binder, "ingotRedstone", Calculator.itemAdvancedTerrainModule);
+		registerAtomicRecipe(Calculator.itemScientificCalculator, Calculator.atomic_binder, Calculator.redstone_ingot, Calculator.itemAdvancedTerrainModule);
 		registerAtomicRecipe(Calculator.tanzaniteLog, Calculator.atomic_binder, Calculator.tanzaniteLeaf, Calculator.tanzaniteSapling);
 		registerAtomicRecipe(Calculator.large_tanzanite, Calculator.atomic_binder, "treeSapling", Calculator.tanzaniteSapling);
 		registerAtomicRecipe(Calculator.healthprocessor, Calculator.itemEnergyModule, Calculator.hungerprocessor, Calculator.itemNutritionModule);
@@ -564,7 +564,7 @@ public class RecipeRegistry {
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 5), Calculator.atomic_binder, "dustEnrichedGold", new ItemStack(Calculator.energyUpgrade, 4));
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 6), Calculator.atomic_binder, "dustEnrichedGold", Calculator.voidUpgrade);
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 9), Calculator.redstoneextractor, Calculator.large_tanzanite, Calculator.glowstoneextractor);
-		registerAtomicRecipe("ingotRedstone", Calculator.starchextractor, "ingotRedstone", Calculator.redstoneextractor);
+		registerAtomicRecipe(Calculator.redstone_ingot, Calculator.starchextractor, Calculator.redstone_ingot, Calculator.redstoneextractor);
 		registerAtomicRecipe(Calculator.itemEnergyModule, Calculator.flawlessfirediamond, Calculator.itemEnergyModule, Calculator.conductorMast);
 		registerAtomicRecipe(Calculator.reinforced_iron_block, Blocks.chest, Calculator.reinforced_iron_block, Calculator.storageChamber);
 		registerAtomicRecipe(Calculator.reassemblyChamber, Calculator.flawlessdiamond, Calculator.restorationChamber, Calculator.processingChamber);

@@ -7,6 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.item.calculators.CalculatorItem;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
@@ -28,10 +29,10 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 		this.inventory = inventoryItem;
 		this.research = research;
 		isRemote = player.getEntityWorld().isRemote;
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, isRemote));
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, isRemote));
-		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1 }, 2, 134, 35, isRemote));
-
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, isRemote, Calculator.itemCalculator));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, isRemote, Calculator.itemCalculator));
+		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1 }, 2, 134, 35, isRemote));
+		
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
 				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
@@ -48,7 +49,6 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 	@Override
 	public void onItemCrafted() {
 		inventory.setInventorySlotContents(2, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1)), isRemote);
-
 	}
 
 	public void removeEnergy() {
@@ -72,7 +72,7 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
-		if (slot != null && slot.getHasStack()) {
+		if (slot != null && slot.getHasStack()&& slot.getStack() != player.getHeldItem()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
@@ -80,7 +80,6 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 				if (!this.mergeItemStack(itemstack1, INV_START, HOTBAR_END + 1, true)) {
 					return null;
 				}
-
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 
