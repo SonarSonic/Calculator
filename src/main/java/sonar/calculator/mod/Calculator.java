@@ -55,7 +55,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "2.0.1a";
+	public static final String version = "2.0.0";
 	
 	public static final int saveDimension = 0;
 	

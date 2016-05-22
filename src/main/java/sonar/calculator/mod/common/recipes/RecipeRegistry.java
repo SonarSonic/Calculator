@@ -50,7 +50,7 @@ public class RecipeRegistry {
 	 * @param input2 (ItemStack, ItemStack[], OreDict String, OreStack)
 	 * @param hidden Does the recipeOutput require research? (Boolean) */
 	public static void registerCalculatorRecipe(Object... objects) {
-		if (objects.length != 4) {
+		if (objects.length < 3) {
 			Calculator.logger.warn("Calculator Recipes - Invalid Recipe Size!");
 			return;
 		}
@@ -202,9 +202,11 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(new ItemStack(SonarCore.stableStone, 2), SonarCore.reinforcedStoneBrick, SonarCore.reinforcedStoneBrick);
 		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBrick, 2), SonarCore.reinforcedDirtBlock, SonarCore.reinforcedDirtBlock);
 		registerCalculatorRecipe(Calculator.rainSensor, Blocks.daylight_detector, Items.bucket);
+		
 		// registerCalculatorRecipe(Calculator.researchChamber, Calculator.reinforced_iron_block, Calculator.powerCube);
 
 		// reinforced materials
+		/*
 		RecipeType type = RecipeType.REINFORCED_STONE;
 		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 8), "cobblestone", Items.clay_ball, type);
 		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 2, 2), "stone", new ItemStack(Blocks.dirt, 1, 2), type);
@@ -469,6 +471,7 @@ public class RecipeRegistry {
 		 * 
 		 * for (int i = 0; i < 7; i++) { if (i != 6) { registerCalculatorRecipe(new ItemStack(Blocks.stone_slab, 2, i), new ItemStack(Blocks.stone_slab, 1, i + 1), new ItemStack(Blocks.stone_slab, 1, i + 1), true); } else { registerCalculatorRecipe(new ItemStack(Blocks.stone_slab, 2, i), new ItemStack(Blocks.stone_slab, 1, 0), new ItemStack(Blocks.stone_slab, 1, 0), true); } } */
 		// saplings
+		/*
 		type = RecipeType.SAPLING;
 		for (int i = 0; i < 6; i++) {
 			if (i != 5) {
@@ -597,7 +600,7 @@ public class RecipeRegistry {
 				break;
 			}
 		}
-
+	*/
 	}
 
 	private static void addScientificRecipes() {
@@ -658,13 +661,13 @@ public class RecipeRegistry {
 
 		registerFlawlessRecipe(Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_rod);
 		registerFlawlessRecipe(Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.ghast_tear);
+		
 	}
-
 	/** old versions put the output first this fixes that
 	 * 
 	 * @param objects */
 	private static void rearrangeCalculatorRecipe(Object... objects) {
-		if (objects[3] != null && objects[3] instanceof String) {
+		if (objects.length==4 && objects[3] != null && objects[3] instanceof RecipeType) {
 			String recipeID = ((String) objects[3]);
 			Object[] recipe = new Object[3];
 			recipe[0] = objects[1];
