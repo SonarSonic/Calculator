@@ -28,7 +28,7 @@ public class Wrench extends SonarItem {
 
 		} else {
 			if (block instanceof IDismantleable && ((IDismantleable) block).canDismantle(player, world, x, y, z))
-				SonarHelper.dropTile(player, block, world, x, y, z);
+				((IDismantleable) block).dismantleBlock(player, block, world, x, y, z,false);
 
 		}
 
