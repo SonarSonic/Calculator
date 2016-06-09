@@ -12,26 +12,26 @@ public class TileEntityWeatherStation extends TileEntity {
 	public double angle;
 	public boolean loaded;
 	public int x, z, ticks;
-	
-	public void updateEntity(){
+
+	public void updateEntity() {
 		super.updateEntity();
-		if(!loaded){
-			loaded=true;
+		if (!loaded) {
+			loaded = true;
 			this.setAngle();
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);	
+			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
-		if(ticks<25){
+		if (ticks < 25) {
 			ticks++;
-		}else if(ticks>=25){
-			ticks=0;
+		} else if (ticks >= 25) {
+			ticks = 0;
 			this.setAngle();
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);	
+			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);		
+		super.readFromNBT(nbt);
 		angle = nbt.getDouble("angle");
 		loaded = nbt.getBoolean("loaded");
 		x = nbt.getInteger("xMAST");
@@ -48,43 +48,43 @@ public class TileEntityWeatherStation extends TileEntity {
 		nbt.setInteger("zMAST", z);
 		nbt.setInteger("ticks", ticks);
 	}
-	
-	public void setAngle(){		
-		double distance=100;
-		boolean found = false;
-		for(int X=-10; X<=10; X++){
-			for(int Z=-10; Z<=10; Z++){		
-				if(this.worldObj.getTileEntity(xCoord+X, yCoord, zCoord+Z)!=null && this.worldObj.getTileEntity(xCoord+X, yCoord, zCoord+Z) instanceof TileEntityConductorMast){
-					double mastDist = this.worldObj.getTileEntity(xCoord+X, yCoord, zCoord+Z).getDistanceFrom(xCoord, yCoord, zCoord);
-					if(distance>mastDist){
-						distance=mastDist;
-					angle = Math.toDegrees(Math.atan2(Z, X)) -90;
-					this.x = xCoord+X;
-					this.z = zCoord+Z;
-					found=true;
+
+	public void setAngle() {
+		double distance = 0;
+		// boolean found = false;
+		TileEntityConductorMast mast = null;
+		for (int X = -10; X <= 10; X++) {
+			for (int Z = -10; Z <= 10; Z++) {
+				TileEntity target = this.worldObj.getTileEntity(xCoord + X, yCoord, zCoord + Z);
+				if (target != null && target instanceof TileEntityConductorMast) {
+					TileEntityConductorMast tile = (TileEntityConductorMast) target;
+					double mastDist = target.getDistanceFrom(xCoord, yCoord, zCoord);
+					if (distance == 0 || distance > mastDist || ((mastDist == distance && mast != null) && (mast.lastStations >= tile.lastStations))) {
+						distance = mastDist;
+						angle = Math.toDegrees(Math.atan2(Z, X)) - 90;
+						mast = tile;
 					}
-				}				
+				}
 			}
 		}
-
-		if(!found){
-		this.angle=1000;
-		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		}else{
-			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		if (mast == null) {
+			this.angle = 1000;
+		} else {
+			x = mast.xCoord;
+			z = mast.zCoord;
 		}
+		this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
 	}
-	 @SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
-	  return 65536.0D;
-	}
-	 
-	 @Override
+
 	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getRenderBoundingBox()
-	{
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB;
 	}
 }

@@ -220,4 +220,9 @@ public class TileEntityAtomicMultiplier extends TileEntityInventoryReceiver impl
 	public double getEnergyUsage() {
 		return requiredEnergy / getProcessTime();
 	}
+
+	@Override
+	public int getBaseProcessTime() {
+		return furnaceSpeed;
+	}
 }

@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.client.models.ModelChamber;
 import sonar.calculator.mod.client.models.ModelProcessing;
 import sonar.calculator.mod.client.models.ModelSplit;
-import sonar.calculator.mod.common.tileentity.TileEntityMachines;
+import sonar.calculator.mod.common.tileentity.TileEntityMachine;
 import sonar.calculator.mod.common.tileentity.TileEntityProcess;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.RenderHelper;
@@ -135,7 +135,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 
 		@Override
 		public String getName(TileEntity entity) {
-			if (entity instanceof TileEntityMachines.RestorationChamber) {
+			if (entity instanceof TileEntityMachine.RestorationChamber) {
 				return "tile.RestorationChamber.name";
 			}
 			return "tile.ReassemblyChamber.name";

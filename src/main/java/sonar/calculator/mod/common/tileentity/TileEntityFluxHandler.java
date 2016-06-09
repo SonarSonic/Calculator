@@ -14,17 +14,17 @@ public class TileEntityFluxHandler extends TileEntityFlux {
 
 	public int pullEnergy(int export, boolean simulate) {
 		for (int i = 0; i < 6; i++) {
-			if (this.handlers[i] != null) {
-				if (handlers[i] instanceof IEnergyProvider) {
-					export -= ((IEnergyProvider) this.handlers[i]).extractEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], export, simulate);
-	
-				} else if (handlers[i] instanceof IEnergySource) {
+			TileEntity target = handlers[i];
+			if (target != null) {
+				if (target instanceof IEnergyProvider) {
+					export -= ((IEnergyProvider) target).extractEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], export, simulate);
+				} else if (target instanceof IEnergySource) {
 					if (simulate) {
-						export -= ((IEnergySource) this.handlers[i]).getOfferedEnergy() * 4;
+						export -= ((IEnergySource) target).getOfferedEnergy() * 4;
 					} else {
-						int remove = (int) Math.min(((IEnergySource) this.handlers[i]).getOfferedEnergy(), export / 4);
+						int remove = (int) Math.min(((IEnergySource) target).getOfferedEnergy(), export / 4);
 						export -= remove * 4;
-						((IEnergySource) this.handlers[i]).drawEnergy(remove);
+						((IEnergySource) target).drawEnergy(remove);
 					}
 				}
 			}
@@ -34,14 +34,15 @@ public class TileEntityFluxHandler extends TileEntityFlux {
 
 	public int pushEnergy(int recieve, boolean simulate) {
 		for (int i = 0; i < 6; i++) {
-			if (this.handlers[i] != null) {
-				if (handlers[i] instanceof IEnergyReceiver) {
-					recieve -= ((IEnergyReceiver) this.handlers[i]).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve, simulate);
-				} else if (handlers[i] instanceof IEnergySink) {
+			TileEntity target = handlers[i];
+			if (target != null) {
+				if (target instanceof IEnergyReceiver) {
+					recieve -= ((IEnergyReceiver) target).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve, simulate);
+				} else if (target instanceof IEnergySink) {
 					if (simulate) {
-						recieve -= ((IEnergySink) this.handlers[i]).getDemandedEnergy() * 4;
+						recieve -= ((IEnergySink) target).getDemandedEnergy() * 4;
 					} else {
-						recieve -= (recieve - (((IEnergySink) this.handlers[i]).injectEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve / 4, 128) * 4));
+						recieve -= (recieve - (((IEnergySink) target).injectEnergy(ForgeDirection.VALID_DIRECTIONS[(i ^ 0x1)], recieve / 4, 128) * 4));
 					}
 				}
 			}
@@ -53,7 +54,7 @@ public class TileEntityFluxHandler extends TileEntityFlux {
 		for (int i = 0; i < 6; i++) {
 			ForgeDirection dir = ForgeDirection.getOrientation(i);
 			TileEntity te = SonarHelper.getAdjacentTileEntity(this, dir);
-			if (te!=null && !(te instanceof TileEntityFlux)) {
+			if (te != null && !(te instanceof TileEntityFlux)) {
 				if (SonarHelper.isEnergyHandlerFromSide(te, dir.getOpposite())) {
 					this.handlers[i] = te;
 				} else

@@ -11,31 +11,52 @@ import sonar.core.network.sync.SyncEnergyStorage;
 
 public abstract class TileEntityAbstractProcess extends TileEntityProcess {
 
+	public final int inputSize, outputSize, baseProcess, baseEnergy;
 	public Random rand = new Random();
 
-	public TileEntityAbstractProcess() {
-		int[] inputs = new int[inputSize()];
-		int[] outputs = new int[outputSize()];
-		for (int i = 0; i < inputSize(); i++) {
+	public TileEntityAbstractProcess(int inputSize, int outputSize, int baseProcess, int baseEnergy) {
+		this.inputSize = inputSize;
+		this.outputSize = outputSize;
+		this.baseProcess = baseProcess;
+		this.baseEnergy = baseEnergy;
+		
+		int[] inputs = new int[inputSize];
+		int[] outputs = new int[outputSize];
+		for (int i = 0; i < inputSize; i++) {
 			inputs[i] = i;
 		}
-		for (int o = inputSize(); o < inputSize() + outputSize(); o++) {
-			outputs[o - inputSize()] = o + 1;
+		for (int o = inputSize; o < inputSize + outputSize; o++) {
+			outputs[o - inputSize] = o + 1;
 		}
 		super.input = inputs;
 		super.output = outputs;
-		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 1600);
-		super.slots = new ItemStack[1 + inputSize() + outputSize()];
+		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 32000);
+		super.slots = new ItemStack[1 + inputSize + outputSize];
+	}
+
+
+	public int inputSize() {
+		return inputSize;
+	}
+
+	public int outputSize() {
+		return outputSize;
+	}
+
+	@Override
+	public int getBaseProcessTime() {
+		return baseProcess;
+	}
+
+	@Override
+	public int getBaseEnergyUsage() {
+		return baseEnergy;
 	}
 
 	public void updateEntity() {
 		super.updateEntity();
 		discharge(inputSize());
 	}
-
-	public abstract int inputSize();
-
-	public abstract int outputSize();
 
 	public RecipeHelper recipeHelper() {
 		return null;

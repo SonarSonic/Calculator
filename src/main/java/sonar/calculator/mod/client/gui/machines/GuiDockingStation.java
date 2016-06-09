@@ -1,9 +1,13 @@
 package sonar.calculator.mod.client.gui.machines;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -27,7 +31,7 @@ public class GuiDockingStation extends GuiContainer {
 	}
 
 	@Override
-	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+	public void drawGuiContainerForegroundLayer(int x, int y) {
 		FontHelper.textCentre(FontHelper.translate(entity.getInventoryName()), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 	}

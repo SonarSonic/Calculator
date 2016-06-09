@@ -75,9 +75,9 @@ public class CalculatorCrafting extends Calculator {
 
 		// calculator parts
 		addShapedOre(new ItemStack(calculator_screen, 1), new Object[] { "CCC", "CRC", "CCC", 'C', "cobblestone", 'R', "dustRedstone" });
-		addShaped(new ItemStack(calculator_assembly, 1), new Object[] { "BBB", "BBB", "BBB", 'B', Blocks.stone_button });
-		addShapedOre(new ItemStack(advanced_assembly, 1), new Object[] { "A A", " D ", "A A", 'D', "gemDiamond", 'A', calculator_assembly });
-		addShapedOre(new ItemStack(atomic_module, 1), new Object[] { "A A", " D ", "A A", 'D', "gemDiamond", 'A', itemScientificCalculator });
+		//addShaped(new ItemStack(calculator_assembly, 1), new Object[] { "BBB", "BBB", "BBB", 'B', Blocks.stone_button });
+		//addShapedOre(new ItemStack(advanced_assembly, 1), new Object[] { "A A", " D ", "A A", 'D', "gemDiamond", 'A', calculator_assembly });
+		//addShapedOre(new ItemStack(atomic_module, 1), new Object[] { "A A", " D ", "A A", 'D', "gemDiamond", 'A', itemScientificCalculator });
 		addShapedOre(new ItemStack(atomic_assembly, 1), new Object[] { "BAB", "AEA", "BAB", 'E', "gemEmerald", 'A', atomic_module, 'B', advanced_assembly });
 		addShapedOre(new ItemStack(atomic_binder, 8), new Object[] { " A ", "ADA", " A ", 'A', "calculatorReinforcedBlock", 'D', enrichedgold });
 
@@ -117,7 +117,7 @@ public class CalculatorCrafting extends Calculator {
 
 		// smelting
 		addShapedOre(new ItemStack(stoneSeperator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', powerCube, 'A', "calculatorReinforcedBlock", 'C', reinforcediron_ingot });
-		addShaped(new ItemStack(algorithmSeperator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', advancedPowerCube, 'A', reinforced_iron_block, 'C', flawlessdiamond });
+		//addShaped(new ItemStack(algorithmSeperator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', advancedPowerCube, 'A', reinforced_iron_block, 'C', flawlessdiamond });
 		addShapedOre(new ItemStack(extractionChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', "calculatorReinforcedBlock", 'B', weakeneddiamond, 'C', powerCube });
 		addShaped(new ItemStack(restorationChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', redstone_ingot, 'B', weakeneddiamond, 'C', extractionChamber });
 		addShaped(new ItemStack(reassemblyChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', enrichedgold, 'B', weakeneddiamond, 'C', extractionChamber });
@@ -198,7 +198,13 @@ public class CalculatorCrafting extends Calculator {
 		addShapedOre(new ItemStack(reinforcedStoneFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforcedstoneBlock, 'S', "stickWood" });
 		addShapedOre(new ItemStack(reinforcedStoneBrickFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforcedstoneBrick, 'S', "stickWood" });
 		addShapedOre(new ItemStack(reinforcedDirtFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforceddirtBlock, 'S', "stickWood" });
-		addShapedOre(new ItemStack(reinforcedDirtBrickFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforceddirtBrick, 'S', "stickWood" });
+		addShapedOre(new ItemStack(reinforcedDirtBrickFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', reinforceddirtBrick, 'S', "stickWood" });		
+		
+		addShapedOre(new ItemStack(calculator_assembly, 8), new Object[] { "CBC", "BCB", "CBC", 'C', "cobblestone", 'B', Blocks.stone_button });
+		addShapedOre(new ItemStack(advanced_assembly, 4), new Object[] { "GCG", "CIC", "GCG", 'C', calculator_assembly, 'G', enrichedgold_ingot, 'I', reinforcediron_ingot });
+		addShapedOre(new ItemStack(atomic_module, 4), new Object[] { "GCG", "CIC", "GCG", 'C', calculator_assembly, 'G', small_tanzanite, 'I', "gemDiamond" });
+		addShapedOre(new ItemStack(algorithmSeperator, 1), new Object[] { "BCB", "ADA", "BCB", 'A', stoneSeperator, 'B', reinforced_iron_block, 'C', powerCube, 'D', "gemDiamond" });
+
 	}
 
 	public static void addShaped(ItemStack result, Object... input) {

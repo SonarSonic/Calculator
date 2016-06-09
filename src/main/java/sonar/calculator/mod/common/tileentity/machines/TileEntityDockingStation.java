@@ -14,6 +14,10 @@ import sonar.core.helpers.RenderHelper;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess {
 
+	public TileEntityDockingStation() {
+		super(4, 1, 200, 10);
+	}
+
 	public ItemStack calcStack;
 
 	@Override
@@ -207,5 +211,4 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess {
 		}
 		return meta;
 	}
-
 }

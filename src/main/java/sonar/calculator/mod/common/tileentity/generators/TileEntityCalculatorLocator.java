@@ -40,7 +40,7 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	private int sizeTicks, luckTicks;
 
 	public TileEntityCalculatorLocator() {
-		super.storage = new SyncEnergyStorage(25000000, 64000);
+		super.storage = new SyncEnergyStorage(25000000, 128000);
 		super.slots = new ItemStack[2];
 		super.maxTransfer = 100000;
 	}
@@ -77,10 +77,10 @@ public class TileEntityCalculatorLocator extends TileEntityInventorySender imple
 	}
 
 	public int currentOutput() {
-		if (size.getObject() != 0 && (((int) (2 * size.getObject() + 1) * (2 * size.getObject() + 1)) - 1) != 0) {
-			int stable = (int) (stability.getObject() * 100) / ((int) (2 * size.getObject() + 1) * (2 * size.getObject() + 1));
-			return (5 + ((int) (1000 * (Math.sqrt(size.getObject() * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size.getObject()) / 2;
-
+		int size = this.size.getObject();
+		if (size != 0 && (((int) (2 * size + 1) * (2 * size + 1)) - 1) != 0) {
+			int stable = (int) (stability.getObject() * 100) / ((int) (2 * size + 1) * (2 * size + 1));
+			return (int)(((5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size))*2);
 		}
 		return 0;
 	}

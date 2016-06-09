@@ -31,8 +31,8 @@ compile files('lib/SonarCore-1.7.10-1.0.9-dev.jar')
 compile files('lib/Waila-1.5.10_1.7.10.jar')
 compile files('lib/NotEnoughItems-1.7.10-1.0.5.120-dev.jar')
 compile files('lib/MineTweaker3-1.7.10-3.0.10B.jar')
-compile files('lib/appliedenergistics2-rv3-beta-5-dev.jar')
-compile files('lib/AgriCraft-1.7.10-1.4.6-hotfix.jar')
+compile files('lib/appliedenergistics2-rv3-beta-6.jar')
+compile files('lib/AgriCraft-1.7.10-1.5.0-dev.jar')
 }
 
 processResources

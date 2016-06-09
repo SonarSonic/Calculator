@@ -12,6 +12,7 @@ import sonar.calculator.mod.api.blocks.IStableBlock;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
+import sonar.core.SonarCore;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.BlockInteraction;
@@ -34,6 +35,10 @@ public class CalculatorLocator extends SonarMachineBlock {
 	public boolean operateBlock(World world, int x, int y, int z, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
+				TileEntity locator = (TileEntity) world.getTileEntity(x, y, z);
+				if (locator != null){
+					SonarCore.sendFullSyncAround(locator, 64);
+				}
 				player.openGui(Calculator.instance, CalculatorGui.CalculatorLocator, world, x, y, z);
 			}
 		}
@@ -76,13 +81,13 @@ public class CalculatorLocator extends SonarMachineBlock {
 
 		for (int XZ = -(size); XZ <= (size); XZ++) {
 			for (int Y = -1; Y <= 0; Y++) {
-				if (!(world.getBlock(x + XZ, y + Y, z + size+1) instanceof IStableBlock)) {
+				if (!(world.getBlock(x + XZ, y + Y, z + size + 1) instanceof IStableBlock)) {
 					return false;
-				} else if (!(world.getBlock(x + XZ, y + Y, z - (size+1)) instanceof IStableBlock)) {
+				} else if (!(world.getBlock(x + XZ, y + Y, z - (size + 1)) instanceof IStableBlock)) {
 					return false;
-				} else if (!(world.getBlock(x + (size+1), y + Y, z + XZ) instanceof IStableBlock)) {
+				} else if (!(world.getBlock(x + (size + 1), y + Y, z + XZ) instanceof IStableBlock)) {
 					return false;
-				} else if (!(world.getBlock(x - (size+1), y + Y, z + XZ) instanceof IStableBlock)) {
+				} else if (!(world.getBlock(x - (size + 1), y + Y, z + XZ) instanceof IStableBlock)) {
 					return false;
 				}
 			}

@@ -23,7 +23,6 @@ import sonar.core.api.BlockCoords;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.StoredItemStack;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.helpers.ItemStackHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 

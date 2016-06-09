@@ -151,4 +151,9 @@ public class TileEntityWeatherController extends TileEntityInventoryReceiver imp
 	public double getEnergyUsage() {
 		return requiredPower/getProcessTime();
 	}
+
+	@Override
+	public int getBaseProcessTime() {
+		return getProcessTime();
+	}
 }

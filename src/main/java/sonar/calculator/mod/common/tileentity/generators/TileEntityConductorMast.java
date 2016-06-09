@@ -54,54 +54,48 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 		if (this.cookTime > 0) {
 			this.cookTime++;
 		}
-		if (!this.worldObj.isRemote) {
-			if (this.canCook()) {
+		if (isServer()) {
+			if (canCook()) {
 				if (cookTime == 0) {
-					this.cookTime++;
+					cookTime++;
 				}
-
-				if (this.cookTime == furnaceSpeed) {
-					this.cookTime = 0;
-					this.cookItem();
+				if (cookTime == furnaceSpeed) {
+					cookTime = 0;
+					cookItem();
 				}
-
 			} else {
 				this.cookTime = 0;
 			}
-		}
-		if (!this.worldObj.isRemote) {
 			if (this.storage.getMaxEnergyStored() != this.storage.getEnergyStored() && this.storage.getEnergyStored() < storage.getMaxEnergyStored() && this.lightningSpeed == 0) {
 				this.random = (int) (Math.random() * +9);
 				this.lightningSpeed = rand.nextInt(1800 - 1500) + getNextTime();
 			}
-		}
-		if (this.lightningSpeed > 0) {
-
-			if (this.lightingTicks >= lightningSpeed) {
-				this.lightingTicks = 0;
-				this.lightningSpeed = 0;
-				strikes = this.getStrikes();
-				if (this.worldObj.isRemote) {
-					int currentstrikes;
-					if (strikes > 5) {
-						currentstrikes = 5;
-					} else {
-						currentstrikes = strikes;
+			if (this.lightningSpeed > 0) {
+				if (this.lightingTicks >= lightningSpeed) {
+					this.lightingTicks = 0;
+					this.lightningSpeed = 0;
+					strikes = this.getStrikes();
+					if (this.worldObj.isRemote) {
+						int currentstrikes;
+						if (strikes > 5) {
+							currentstrikes = 5;
+						} else {
+							currentstrikes = strikes;
+						}
+						while (currentstrikes != 0) {
+							worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, xCoord, yCoord + 4, zCoord));
+							currentstrikes--;
+						}
 					}
-					while (currentstrikes != 0) {
-						worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, xCoord, yCoord + 4, zCoord));
-						currentstrikes--;
-					}
+					this.lastStations = this.getStations();
+					lightTicks++;
+				} else {
+					this.lightingTicks++;
 				}
-				this.lastStations = this.getStations();
-				lightTicks++;
-			} else {
-				this.lightingTicks++;
 			}
-
 		}
 		if (lightTicks > 0) {
-			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes);
+			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes) * 4;
 			if (lightTicks < 200) {
 				if (this.storage.getEnergyStored() + add <= this.storage.getMaxEnergyStored()) {
 					lightTicks++;
@@ -121,18 +115,13 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 				}
 			}
 		}
-
 		addEnergy();
 		this.markDirty();
-
 	}
 
 	private void addEnergy() {
-
 		TileEntity entity = SonarHelper.getAdjacentTileEntity(this, ForgeDirection.DOWN);
-
 		if (SonarHelper.isEnergyHandlerFromSide(entity, ForgeDirection.DOWN.getOpposite())) {
-
 			this.storage.extractEnergy(SonarHelper.pushEnergy(entity, ForgeDirection.UP, this.storage.extractEnergy(maxTransfer, true), false), false);
 		}
 	}
@@ -148,15 +137,12 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 		if (this.storage.getEnergyStored() == 0) {
 			return false;
 		}
-
 		if (slots[0] == null) {
 			return false;
 		}
-
 		if (cookTime >= furnaceSpeed) {
 			return true;
 		}
-
 		ItemStack itemstack = recipeOutput(slots[0]);
 		if (itemstack == null) {
 			return false;
@@ -242,8 +228,9 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 	public static void setWeatherStationAngles(boolean packet, World world, int xCoord, int yCoord, int zCoord) {
 		for (int x = -10; x <= 10; x++) {
 			for (int z = -10; z <= 10; z++) {
-				if (world.getTileEntity(xCoord + x, yCoord, zCoord + z) != null && world.getTileEntity(xCoord + x, yCoord, zCoord + z) instanceof TileEntityWeatherStation) {
-					TileEntityWeatherStation station = (TileEntityWeatherStation) world.getTileEntity(xCoord + x, yCoord, zCoord + z);
+				TileEntity target = world.getTileEntity(xCoord + x, yCoord, zCoord + z);
+				if (target != null && target instanceof TileEntityWeatherStation) {
+					TileEntityWeatherStation station = (TileEntityWeatherStation) target;
 					station.setAngle();
 					world.markBlockForUpdate(xCoord + x, yCoord, zCoord + z);
 
@@ -297,8 +284,9 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 		int transmitter = 0;
 		for (int x = -20; x <= 20; x++) {
 			for (int z = -20; z <= 20; z++) {
-				if (this.worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z) != null && this.worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z) instanceof TileEntityTransmitter) {
-					TileEntityTransmitter station = (TileEntityTransmitter) this.worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z);
+				TileEntity target = worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z);
+				if (target != null && target instanceof TileEntityTransmitter) {
+					TileEntityTransmitter station = (TileEntityTransmitter) target;
 					transmitter++;
 
 				}
@@ -346,6 +334,11 @@ public class TileEntityConductorMast extends TileEntityInventorySender implement
 			return recipeEnergy(slots[0]);
 		}
 		return 0;
+	}
+
+	@Override
+	public int getBaseProcessTime() {
+		return furnaceSpeed;
 	}
 
 }

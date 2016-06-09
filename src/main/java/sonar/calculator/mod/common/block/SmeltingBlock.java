@@ -1,23 +1,29 @@
 package sonar.calculator.mod.common.block;
 
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Random;
+
+import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.UpgradeCircuit;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
-import sonar.calculator.mod.common.tileentity.TileEntityMachines;
+import sonar.calculator.mod.common.tileentity.TileEntityMachine;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.helpers.FontHelper;
 import sonar.core.utils.BlockInteraction;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -229,21 +235,21 @@ public class SmeltingBlock extends SonarMachineBlock {
 	public TileEntity createNewTileEntity(World world, int i) {
 		switch (type) {
 		case 0:
-			return new TileEntityMachines.ExtractionChamber();
+			return new TileEntityMachine.ExtractionChamber();
 		case 1:
-			return new TileEntityMachines.RestorationChamber();
+			return new TileEntityMachine.RestorationChamber();
 		case 2:
-			return new TileEntityMachines.ReassemblyChamber();
+			return new TileEntityMachine.ReassemblyChamber();
 		case 3:
-			return new TileEntityMachines.ProcessingChamber();
+			return new TileEntityMachine.ProcessingChamber();
 		case 4:
-			return new TileEntityMachines.StoneSeperator();
+			return new TileEntityMachine.StoneSeperator();
 		case 5:
-			return new TileEntityMachines.AlgorithmSeperator();
+			return new TileEntityMachine.AlgorithmSeperator();
 		case 6:
-			return new TileEntityMachines.PrecisionChamber();
+			return new TileEntityMachine.PrecisionChamber();
 		case 7:
-			return new TileEntityMachines.ReinforcedFurnace();
+			return new TileEntityMachine.ReinforcedFurnace();
 
 		}
 		return null;
@@ -262,7 +268,50 @@ public class SmeltingBlock extends SonarMachineBlock {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
+			int energyUsage = 0;
+			int speed = 0;
 
+			switch (type) {
+			case 0:
+				energyUsage = CalculatorConfig.getInteger("Extraction Chamber" + "Energy Usage");
+				speed = CalculatorConfig.getInteger("Extraction Chamber" + "Base Speed");
+				break;
+			case 1:
+				energyUsage = CalculatorConfig.getInteger("Restoration Chamber" + "Energy Usage");
+				speed = CalculatorConfig.getInteger("Restoration Chamber" + "Base Speed");
+				break;
+			case 2:
+				energyUsage = CalculatorConfig.getInteger("Reassembly Chamber" + "Energy Usage");
+				speed = CalculatorConfig.getInteger("Reassembly Chamber" + "Base Speed");
+				break;
+			case 3:
+				energyUsage = CalculatorConfig.getInteger("Processing Chamber" + "Energy Usage");
+				speed = CalculatorConfig.getInteger("Processing Chamber" + "Base Speed");
+				break;
+			case 4:
+				energyUsage = CalculatorConfig.getInteger("Stone Seperator" + "Energy Usage");
+				speed = CalculatorConfig.getInteger("Stone Seperator" + "Base Speed");
+				break;
+			case 5:
+				energyUsage = CalculatorConfig.getInteger("Algorithm Seperator" + "Energy Usage");
+				speed = CalculatorConfig.getInteger("Algorithm Seperator" + "Base Speed");
+				break;
+			case 6:
+				energyUsage = CalculatorConfig.getInteger("Precision Chamber" + "Energy Usage");
+				speed = CalculatorConfig.getInteger("Precision Chamber" + "Base Speed");
+				break;
+			case 7:
+				energyUsage = CalculatorConfig.getInteger("Reinforced Furnace" + "Energy Usage");
+				speed = CalculatorConfig.getInteger("Reinforced Furnace" + "Base Speed");
+				break;
+			}
+			list.add(FontHelper.translate("Process Speed: ")+ EnumChatFormatting.WHITE + speed + " ticks");
+			list.add(FontHelper.translate("Energy Usage: ") + EnumChatFormatting.WHITE +  energyUsage + " RF per operation");
+			list.add(FontHelper.translate("Consumption: ")+ EnumChatFormatting.WHITE + energyUsage / speed + " RF/t");
+		}else{
+			list.add("Hold shift for more info");			
+		}
 	}
 
 }

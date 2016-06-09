@@ -11,9 +11,8 @@ import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerConductorMast extends ContainerSync {
 	private TileEntityConductorMast entity;
-	
-	public ContainerConductorMast(InventoryPlayer inventory,
-			TileEntityConductorMast entity) {
+
+	public ContainerConductorMast(InventoryPlayer inventory, TileEntityConductorMast entity) {
 		super(entity);
 		this.entity = entity;
 
@@ -22,8 +21,7 @@ public class ContainerConductorMast extends ContainerSync {
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
@@ -56,8 +54,7 @@ public class ContainerConductorMast extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 29, 38, false)) {
 						return null;
 					}
-				} else if ((num >= 29) && (num < 38)
-						&& (!mergeItemStack(itemstack1, 2, 29, false))) {
+				} else if ((num >= 29) && (num < 38) && (!mergeItemStack(itemstack1, 2, 29, false))) {
 					return null;
 				}
 			} else if (!mergeItemStack(itemstack1, 2, 38, false)) {

@@ -37,7 +37,7 @@ public class GuiFluxController extends GuiFlux {
 			FontHelper.text(FontHelper.translate(entity.blockType.getLocalizedName()), 6, 8, 0);
 			FontHelper.text("R: " + getReceiveString(entity.recieveMode), 10, 27, 0);
 			FontHelper.text("S: " + getSendString(entity.sendMode), 10, 37, 0);
-			FontHelper.text("T: " + ((entity.transmitterMode == 1) ? FontHelper.translate("network.on") : FontHelper.translate("network.off")), 10, 47, 0);
+			FontHelper.text("T: " + ((entity.transmitterMode == 1) ? FontHelper.translate("network.on") :(entity.transmitterMode == 2) ? FontHelper.translate("Hotbar") : FontHelper.translate("network.off")), 10, 47, 0);
 			FontHelper.text("P: " + getNetworkType(entity.playerProtect), 10, 57, 0);
 			FontHelper.text(FontHelper.translate("controller.name") + ": " + entity.playerName, 10, 70, 0);
 			FontHelper.text(FontHelper.translate("controller.users") + ": ", 10, 82, 0);

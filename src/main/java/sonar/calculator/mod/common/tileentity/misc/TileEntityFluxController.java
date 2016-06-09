@@ -65,7 +65,11 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 
 					if (player != null && player.inventory != null) {
 						IInventory inv = player.inventory;
-						for (int i = 0; i < inv.getSizeInventory(); i++) {
+						int size = inv.getSizeInventory();
+						if (transmitterMode == 2) {
+							size = 9;
+						}
+						for (int i = 0; i < size; i++) {
 							ItemStack target = inv.getStackInSlot(i);
 							if (target != null) {
 								if (target.getItem() instanceof IEnergyContainerItem) {
@@ -348,8 +352,8 @@ public class TileEntityFluxController extends TileEntityInventory implements IFl
 				sendMode = 0;
 			break;
 		case 5:
-			if (transmitterMode == 0)
-				transmitterMode = 1;
+			if (transmitterMode < 2)
+				transmitterMode++;
 			else
 				transmitterMode = 0;
 			break;

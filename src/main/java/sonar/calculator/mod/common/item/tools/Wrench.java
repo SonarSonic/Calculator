@@ -7,7 +7,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import sonar.calculator.mod.api.blocks.IWrenchable;
 import sonar.core.common.item.SonarItem;
-import sonar.core.helpers.SonarHelper;
 import cofh.api.block.IDismantleable;
 import cofh.api.tileentity.IReconfigurableSides;
 
@@ -28,7 +27,7 @@ public class Wrench extends SonarItem {
 
 		} else {
 			if (block instanceof IDismantleable && ((IDismantleable) block).canDismantle(player, world, x, y, z))
-				((IDismantleable) block).dismantleBlock(player, block, world, x, y, z,false);
+				((IDismantleable) block).dismantleBlock(player, world, x, y, z, false);
 
 		}
 

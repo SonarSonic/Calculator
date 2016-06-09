@@ -108,17 +108,19 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	public void modifyEnergy() {
 		energyBuffer += getEnergyUsage();
-		int energyUsage = (int) Math.round(energyBuffer);
+		//System.out.print("  " + getEnergyUsage());
+		int energyUsage = (int) Math.floor(energyBuffer);
 		if (energyBuffer - energyUsage < 0) {
 			this.energyBuffer = 0;
 		} else {
 			energyBuffer -= energyUsage;
 		}
+		//System.out.print("  " + energyUsage * this.getBaseProcessTime());
 		this.storage.modifyEnergyStored(-energyUsage);
 	}
 
 	public void renderTicks() {
-		if (this instanceof TileEntityMachines.PrecisionChamber || this instanceof TileEntityMachines.ExtractionChamber) {
+		if (this instanceof TileEntityMachine.PrecisionChamber || this instanceof TileEntityMachine.ExtractionChamber) {
 			this.renderTicks += (float) Math.max(1, sUpgrade.getObject()) / 50;
 		} else {
 			this.renderTicks += (float) Math.max(1, sUpgrade.getObject() * 8) / 1000;
@@ -142,11 +144,9 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 	}
 
 	public int requiredEnergy() {
-		if (eUpgrade.getObject() + sUpgrade.getObject() == 0) {
-			return 1000 * 5;
-		}
-		int i = 16 - (eUpgrade.getObject() - sUpgrade.getObject());
-		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (eUpgrade.getObject() - sUpgrade.getObject()))) * 5;
+		float i = (float) ((double)sUpgrade.getObject() / 17) * getBaseEnergyUsage();
+		float e = (float) ((double)eUpgrade.getObject() / 17) * getBaseEnergyUsage();
+		return (int) (getBaseEnergyUsage() + i-e);
 	}
 
 	public boolean receiveClientEvent(int action, int param) {
@@ -285,6 +285,8 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 		return circuits;
 	}
 
+	public abstract int getBaseEnergyUsage();
+
 	@Override
 	public int getCurrentProcessTime() {
 		return cookTime.getObject();
@@ -292,16 +294,20 @@ public abstract class TileEntityProcess extends TileEntitySidedInventoryReceiver
 
 	@Override
 	public int getProcessTime() {
-		int i = 16 - sUpgrade.getObject();
-		if (sUpgrade.getObject() == 0) {
-			return 1000;
+		double i = (double) (((double)sUpgrade.getObject() / 17) * getBaseProcessTime());
+		if(sUpgrade.getObject()==16){
+			return 8;
 		}
-		return ((8 + ((i * i) * 2 + i)));
+		//System.out.print(((double)sUpgrade.getObject() / 17));
+		/*
+		 * int i = 16 - sUpgrade.getObject(); if (sUpgrade.getObject() == 0) { return 1000; } return ((8 + ((i * i) * 2 + i)));
+		 */
+		return (int) Math.max(getBaseProcessTime() - i, lowestSpeed);
 	}
 
 	@Override
-	public double getEnergyUsage() {
-		return requiredEnergy() / getProcessTime();
+	public double getEnergyUsage() {		
+		return (double)requiredEnergy() / (double)getProcessTime();
 	}
 
 	@Override

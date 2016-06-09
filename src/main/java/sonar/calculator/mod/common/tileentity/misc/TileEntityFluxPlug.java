@@ -51,9 +51,10 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		export -= buffer.extractEnergy(export, simulate);
 		return export;
 	}
+
 	@Override
 	public int pullEnergy(int export, boolean simulate, boolean buffer) {
-		if(buffer){
+		if (buffer) {
 			export -= this.buffer.extractEnergy(export, simulate);
 		}
 		for (int i = 0; i < 6; i++) {
@@ -84,12 +85,13 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		int[] currentList = inputList;
 		int currentTransfer = 0;
 
-		if (controller != null && controller.getTransmitterMode() == 1) {
+		if (controller != null && controller.getTransmitterMode() != 0) {
 			TransferList push = sendEnergy(controller, currentList, controller.getRecieveMode(), true);
 			currentList = push.inputList;
-			currentTransfer += push.energy;			
+			currentTransfer += push.energy;
 		}
-		if (points != null && points.size() > 0 && currentOutput != 0  && (currentInput != 0 || bufferStorage!=0)) {
+
+		if (points != null && points.size() > 0 && currentOutput != 0 && (currentInput != 0 || bufferStorage != 0)) {
 			for (int i = 0; i < points.size(); i++) {
 				TileEntity target = FluxHelper.getTile(points.get(i));
 				if (controller == null) {
@@ -127,7 +129,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 			if (target instanceof IFluxPlug) {
 				int plugTransfer = 0;
 				int maxTransfer = Math.min(currentList[i], outputted);
-				
+
 				int output = Math.min(maxTransfer - point.pushEnergy(maxTransfer, true), maxTransfer - ((IFluxPlug) target).pullEnergy(maxTransfer, true, true));
 				plugTransfer += push(point, ((IFluxPlug) target), output, false);
 
@@ -141,15 +143,13 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		return new TransferList(currentList, currentTrans);
 	}
 
-	/**
-	 * sends energy from all available handlers to the given point
+	/** sends energy from all available handlers to the given point
 	 * 
 	 * @param point recieving transfer
 	 * @param inputList list of maximum rf/t for plugs
 	 * @param recieveMode DISTRIBUTE = 1, SURGE = 2, HYPER_SURGE = 3, GOD_MODE = 4;
 	 * @param allowDimensions is a controller present
-	 * @return
-	 */
+	 * @return */
 	public TransferList transferEnergy(IFluxPoint point, int[] inputList, int recieveMode, boolean allowDimensions) {
 		int maxOutput = Math.min(point.maxTransfer(), this.maxTransfer);
 		if (!(maxOutput > 0)) {
@@ -227,15 +227,13 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		return currentTransfer;
 	}
 
-	/**
-	 * receiving energy from nearby tiles
+	/** receiving energy from nearby tiles
 	 * 
 	 * @param point recieving transfer
 	 * @param inputList list of maximum rf/t for plugs
 	 * @param recieveMode DISTRIBUTE = 1, SURGE = 2, HYPER_SURGE = 3, GOD_MODE = 4;
 	 * @param allowDimensions is a controller present
-	 * @return
-	 */
+	 * @return */
 	public int receiveEnergy(IFluxPoint point, int input, int recieveMode, boolean allowDimensions, boolean simulate) {
 		int maxOutput = Math.min(point.maxTransfer(), this.maxTransfer);
 		if (!(maxOutput > 0)) {
@@ -292,7 +290,7 @@ public class TileEntityFluxPlug extends TileEntityFluxHandler implements IFluxPl
 		if (handler != null) {
 			if (handler instanceof IEnergyProvider) {
 				export -= ((IEnergyProvider) handler).extractEnergy(dir.getOpposite(), maxTransfer, true);
-				
+
 			} else if (handler instanceof IEnergySource) {
 				export -= ((IEnergySource) handler).getOfferedEnergy() * 4;
 			}

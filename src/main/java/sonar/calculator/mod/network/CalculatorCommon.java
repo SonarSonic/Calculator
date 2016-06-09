@@ -95,7 +95,7 @@ import sonar.calculator.mod.common.item.calculators.CraftingCalc;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalc;
 import sonar.calculator.mod.common.item.modules.StorageModule;
 import sonar.calculator.mod.common.item.modules.WIPSmeltingModule;
-import sonar.calculator.mod.common.tileentity.TileEntityMachines;
+import sonar.calculator.mod.common.tileentity.TileEntityMachine;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
@@ -159,13 +159,13 @@ public class CalculatorCommon implements IGuiHandler {
 					return new ContainerPowerCube(player.inventory, (TileEntityPowerCube) entity);
 				}
 			case CalculatorGui.StoneSeperator:
-				if ((entity instanceof TileEntityMachines.StoneSeperator)) {
-					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.StoneSeperator) entity);
+				if ((entity instanceof TileEntityMachine.StoneSeperator)) {
+					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachine.StoneSeperator) entity);
 				}
 				return null;
 			case CalculatorGui.AlgorithmSeperator:
-				if ((entity instanceof TileEntityMachines.AlgorithmSeperator)) {
-					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.AlgorithmSeperator) entity);
+				if ((entity instanceof TileEntityMachine.AlgorithmSeperator)) {
+					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachine.AlgorithmSeperator) entity);
 				}
 				return null;
 			case CalculatorGui.HungerProcessor:
@@ -193,20 +193,20 @@ public class CalculatorCommon implements IGuiHandler {
 					return new ContainerHealthProcessor(player.inventory, (TileEntityHealthProcessor) entity);
 				}
 			case CalculatorGui.RestorationChamber:
-				if ((entity instanceof TileEntityMachines.RestorationChamber)) {
-					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.RestorationChamber) entity);
+				if ((entity instanceof TileEntityMachine.RestorationChamber)) {
+					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachine.RestorationChamber) entity);
 				}
 			case CalculatorGui.ReassemblyChamber:
-				if ((entity instanceof TileEntityMachines.ReassemblyChamber)) {
-					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.ReassemblyChamber) entity);
+				if ((entity instanceof TileEntityMachine.ReassemblyChamber)) {
+					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachine.ReassemblyChamber) entity);
 				}
 			case CalculatorGui.ProcessingChamber:
-				if ((entity instanceof TileEntityMachines.ProcessingChamber)) {
-					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.ProcessingChamber) entity);
+				if ((entity instanceof TileEntityMachine.ProcessingChamber)) {
+					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachine.ProcessingChamber) entity);
 				}
 			case CalculatorGui.ExtractionChamber:
-				if ((entity instanceof TileEntityMachines.ExtractionChamber)) {
-					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.ExtractionChamber) entity);
+				if ((entity instanceof TileEntityMachine.ExtractionChamber)) {
+					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachine.ExtractionChamber) entity);
 				}
 			case CalculatorGui.AnalysingChamber:
 				if ((entity instanceof TileEntityAnalysingChamber)) {
@@ -229,8 +229,8 @@ public class CalculatorCommon implements IGuiHandler {
 					return new ContainerConductorMast(player.inventory, (TileEntityConductorMast) entity);
 				}
 			case CalculatorGui.PrecisionChamber:
-				if ((entity instanceof TileEntityMachines.PrecisionChamber)) {
-					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachines.PrecisionChamber) entity);
+				if ((entity instanceof TileEntityMachine.PrecisionChamber)) {
+					return new ContainerDualOutputSmelting(player.inventory, (TileEntityMachine.PrecisionChamber) entity);
 				}
 			case CalculatorGui.AdvancedGreenhouse:
 				if ((entity instanceof TileEntityAdvancedGreenhouse)) {
@@ -258,8 +258,8 @@ public class CalculatorCommon implements IGuiHandler {
 					return new ContainerPowerCube(player.inventory, (TileEntityAdvancedPowerCube) entity);
 				}
 			case CalculatorGui.ReinforcedFurnace:
-				if ((entity instanceof TileEntityMachines.ReinforcedFurnace)) {
-					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachines.ReinforcedFurnace) entity);
+				if ((entity instanceof TileEntityMachine.ReinforcedFurnace)) {
+					return new ContainerSmeltingBlock(player.inventory, (TileEntityMachine.ReinforcedFurnace) entity);
 				}
 			case CalculatorGui.DockingStation:
 				if ((entity instanceof TileEntityDockingStation)) {
@@ -383,14 +383,14 @@ public class CalculatorCommon implements IGuiHandler {
 				return null;
 
 			case CalculatorGui.StoneSeperator:
-				if ((entity instanceof TileEntityMachines.StoneSeperator)) {
-					return new GuiDualOutputSmelting.StoneSeperator(player.inventory, (TileEntityMachines.StoneSeperator) entity);
+				if ((entity instanceof TileEntityMachine.StoneSeperator)) {
+					return new GuiDualOutputSmelting.StoneSeperator(player.inventory, (TileEntityMachine.StoneSeperator) entity);
 				}
 				return null;
 
 			case CalculatorGui.AlgorithmSeperator:
-				if ((entity instanceof TileEntityMachines.AlgorithmSeperator)) {
-					return new GuiDualOutputSmelting.AlgorithmSeperator(player.inventory, (TileEntityMachines.AlgorithmSeperator) entity);
+				if ((entity instanceof TileEntityMachine.AlgorithmSeperator)) {
+					return new GuiDualOutputSmelting.AlgorithmSeperator(player.inventory, (TileEntityMachine.AlgorithmSeperator) entity);
 				}
 				return null;
 
@@ -425,23 +425,23 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 
 			case CalculatorGui.RestorationChamber:
-				if ((entity instanceof TileEntityMachines.RestorationChamber)) {
-					return new GuiSmeltingBlock.RestorationChamber(player.inventory, (TileEntityMachines.RestorationChamber) entity);
+				if ((entity instanceof TileEntityMachine.RestorationChamber)) {
+					return new GuiSmeltingBlock.RestorationChamber(player.inventory, (TileEntityMachine.RestorationChamber) entity);
 				}
 
 			case CalculatorGui.ReassemblyChamber:
-				if ((entity instanceof TileEntityMachines.ReassemblyChamber)) {
-					return new GuiSmeltingBlock.ReassemblyChamber(player.inventory, (TileEntityMachines.ReassemblyChamber) entity);
+				if ((entity instanceof TileEntityMachine.ReassemblyChamber)) {
+					return new GuiSmeltingBlock.ReassemblyChamber(player.inventory, (TileEntityMachine.ReassemblyChamber) entity);
 				}
 
 			case CalculatorGui.ProcessingChamber:
-				if ((entity instanceof TileEntityMachines.ProcessingChamber)) {
-					return new GuiSmeltingBlock.ProcessingChamber(player.inventory, (TileEntityMachines.ProcessingChamber) entity);
+				if ((entity instanceof TileEntityMachine.ProcessingChamber)) {
+					return new GuiSmeltingBlock.ProcessingChamber(player.inventory, (TileEntityMachine.ProcessingChamber) entity);
 				}
 
 			case CalculatorGui.ExtractionChamber:
-				if ((entity instanceof TileEntityMachines.ExtractionChamber)) {
-					return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, (TileEntityMachines.ExtractionChamber) entity);
+				if ((entity instanceof TileEntityMachine.ExtractionChamber)) {
+					return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, (TileEntityMachine.ExtractionChamber) entity);
 				}
 
 			case CalculatorGui.AnalysingChamber:
@@ -470,8 +470,8 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 
 			case CalculatorGui.PrecisionChamber:
-				if ((entity instanceof TileEntityMachines.PrecisionChamber)) {
-					return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, (TileEntityMachines.PrecisionChamber) entity);
+				if ((entity instanceof TileEntityMachine.PrecisionChamber)) {
+					return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, (TileEntityMachine.PrecisionChamber) entity);
 				}
 
 			case CalculatorGui.AdvancedGreenhouse:
@@ -504,8 +504,8 @@ public class CalculatorCommon implements IGuiHandler {
 				}
 
 			case CalculatorGui.ReinforcedFurnace:
-				if ((entity instanceof TileEntityMachines.ReinforcedFurnace)) {
-					return new GuiSmeltingBlock.ReinforcedFurnace(player.inventory, (TileEntityMachines.ReinforcedFurnace) entity);
+				if ((entity instanceof TileEntityMachine.ReinforcedFurnace)) {
+					return new GuiSmeltingBlock.ReinforcedFurnace(player.inventory, (TileEntityMachine.ReinforcedFurnace) entity);
 				}
 
 			case CalculatorGui.DockingStation:

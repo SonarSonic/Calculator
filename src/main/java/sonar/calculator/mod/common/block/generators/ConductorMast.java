@@ -20,10 +20,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.network.utils.ISyncTile;
@@ -274,12 +276,12 @@ public class ConductorMast extends BlockContainer implements ISpecialTooltip, ID
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
+		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Conductor Mast") + " RF per strike");
+		//list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Conductor Mast") + " rf/t approx");
 	}
 
 	@Override
 	public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops) {
-
 		SonarHelper.dropTile(player, world.getBlock(x, y, z), world, x, y, z);
 		return null;
 	}
