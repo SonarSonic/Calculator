@@ -44,7 +44,6 @@ public class CO2Generator extends SonarMachineBlock implements IConnectedBlock {
 	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
 	}
 
 	@Override

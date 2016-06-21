@@ -2,10 +2,13 @@ package sonar.calculator.mod.common.tileentity;
 
 import java.util.Random;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
+import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.core.helpers.RecipeHelper;
 import sonar.core.inventory.SonarInventory;
@@ -14,33 +17,48 @@ import sonar.core.utils.IGuiTile;
 
 public abstract class TileEntityAbstractProcess extends TileEntityProcess implements IGuiTile {
 
+	public final int inputSize, outputSize, baseProcess, baseEnergy;
 	public Random rand = new Random();
 
-	public TileEntityAbstractProcess() {
-		int[] inputs = new int[inputSize()];
-		int[] outputs = new int[outputSize()];
-		for (int i = 0; i < inputSize(); i++) {
+	public TileEntityAbstractProcess(int inputSize, int outputSize, int baseProcess, int baseEnergy) {
+		this.inputSize = inputSize;
+		this.outputSize = outputSize;
+		this.baseProcess = baseProcess;
+		this.baseEnergy = baseEnergy;
+		
+		int[] inputs = new int[inputSize];
+		int[] outputs = new int[outputSize];
+		for (int i = 0; i < inputSize; i++) {
 			inputs[i] = i;
 		}
-		for (int o = inputSize(); o < inputSize() + outputSize(); o++) {
-			outputs[o - inputSize()] = o + 1;
+		for (int o = inputSize; o < inputSize + outputSize; o++) {
+			outputs[o - inputSize] = o + 1;
 		}
 		super.input = inputs;
 		super.output = outputs;
-		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 1600);
-		super.inv = new SonarInventory(this, 1 + inputSize() + outputSize());
-		setEnergyMode(EnergyMode.RECIEVE);
+		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 32000);
+		super.inv = new SonarInventory(this, 1 + inputSize + outputSize);
 	}
 
-	public void update() {
-		super.update();
-		discharge(inputSize());
+
+	public int inputSize() {
+		return inputSize;
 	}
 
-	public abstract int inputSize();
+	public int outputSize() {
+		return outputSize;
+	}
 
-	public abstract int outputSize();
+	@Override
+	public int getBaseProcessTime() {
+		return baseProcess;
+	}
 
+	@Override
+	public int getBaseEnergyUsage() {
+		return baseEnergy;
+	}
+	
 	public RecipeHelper recipeHelper() {
 		return null;
 	}
@@ -164,5 +182,4 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
 		return this.isItemValidForSlot(slot, stack) && canStack(slots()[slot], stack);
 	}
-
 }

@@ -85,14 +85,11 @@ public class ContainerCraftingCalculator extends Container{
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
-
 				if (slotID >= INV_START) {
 					if (!this.mergeItemStack(itemstack1, 1, INV_START, false)) {
 						return null;
 					}
-				}
-
-				else if (slotID >= INV_START && slotID < HOTBAR_START) {
+				}else if (slotID >= INV_START && slotID < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
 						return null;
 					}

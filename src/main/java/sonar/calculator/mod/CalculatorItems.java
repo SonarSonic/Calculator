@@ -1,12 +1,18 @@
 package sonar.calculator.mod;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
 import sonar.calculator.mod.common.item.calculators.InfoCalculator;
 import sonar.calculator.mod.common.item.calculators.SonarEnergyModule;
@@ -37,6 +43,7 @@ import sonar.calculator.mod.common.item.tools.ObsidianKey;
 import sonar.calculator.mod.common.item.tools.Sickle;
 import sonar.calculator.mod.common.item.tools.Wrench;
 import sonar.core.common.block.properties.IMetaVariant;
+import sonar.core.common.item.SonarItem;
 import sonar.core.common.item.SonarMetaItem;
 import sonar.core.common.item.SonarSeeds;
 import sonar.core.common.item.SonarSeedsFood;
@@ -46,10 +53,10 @@ public class CalculatorItems extends Calculator {
 
 	public static ArrayList<Item> registeredItems = new ArrayList();
 
-	public enum UpgradeTypes{
-		SPEED,ENERGY,VOID, TRANSFER;
+	public enum UpgradeTypes {
+		SPEED, ENERGY, VOID, TRANSFER;
 	}
-	
+
 	public static final Item.ToolMaterial ReinforcedStone = EnumHelper.addToolMaterial("ReinforcedStone", 1, 250, 5.0F, 1.5F, 5);
 	public static final Item.ToolMaterial RedstoneMaterial = EnumHelper.addToolMaterial("RedstoneMaterial", 2, 800, 7.5F, 2.5F, 18);
 	public static final Item.ToolMaterial EnrichedGold = EnumHelper.addToolMaterial("EnrichedGold", 3, 1000, 8.0F, 0.0F, 20);
@@ -101,8 +108,8 @@ public class CalculatorItems extends Calculator {
 
 		// modules
 		itemStorageModule = registerItem("StorageModule", new SonarModule(GuiModule.storage));
-		itemWarpModule = registerItem("WarpModule", new SonarUsageModule(new WarpModule(), 10000));
-		itemJumpModule = registerItem("JumpModule", new SonarUsageModule(new JumpModule(), 10000));
+		itemWarpModule = registerItem("WarpModule", new SonarUsageModule(new WarpModule(), 10000).setNew());
+		itemJumpModule = registerItem("JumpModule", new SonarUsageModule(new JumpModule(), 10000).setNew());
 		itemHungerModule = registerItem("HungerModule", new HungerModule());
 		itemHealthModule = registerItem("HealthModule", new HealthModule());
 		itemNutritionModule = registerItem("NutritionModule", new NutritionModule());
@@ -119,7 +126,7 @@ public class CalculatorItems extends Calculator {
 		speedUpgrade = registerItem("SpeedUpgrade", new MachineUpgrade());
 		energyUpgrade = registerItem("EnergyUpgrade", new MachineUpgrade());
 		voidUpgrade = registerItem("VoidUpgrade", new MachineUpgrade());
-		transferUpgrade = registerItem("TransferUpgrade", new MachineUpgrade());
+		transferUpgrade = registerItem("TransferUpgrade", new MachineUpgrade().setNew());
 
 		// calculator parts
 		calculator_screen = registerItem("CalculatorScreen", new CalculatorScreen());
@@ -128,14 +135,14 @@ public class CalculatorItems extends Calculator {
 		advanced_assembly = registerItem("AdvancedAssembly", new Item());
 		atomic_module = registerItem("AtomicModule", new Item());
 		atomic_assembly = registerItem("AtomicAssembly", new Item());
-		flawless_assembly = registerItem("FlawlessAssembly", new Item());
+		flawless_assembly = registerItem("FlawlessAssembly", new SonarItem().setNew());
 		atomic_binder = registerItem("AtomicBinder", new Item());
 
-		//tools
+		// tools
 		wrench = registerItem("Wrench", new Wrench());
 		sickle = registerItem("Sickle", new Sickle());
 		obsidianKey = registerItem("ObsidianKey", new ObsidianKey());
-		
+
 		// swords
 		reinforced_sword = registerItem("ReinforcedSword", new CalcSword(ReinforcedStone));
 		enrichedgold_sword = registerItem("EnrichedGoldSword", new CalcSword(EnrichedGold));

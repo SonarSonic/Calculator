@@ -27,7 +27,7 @@ public class ContainerStorageModule extends Container {
         {
             for (k = 0; k < 9; ++k)
             {
-                this.addSlotToContainer(new SlotPortable(inventory, k + j * 9, 8 + k * 18, 18 + j * 18, isRemote));
+                this.addSlotToContainer(new SlotPortable(inventory, k + j * 9, 8 + k * 18, 18 + j * 18, isRemote, Calculator.itemStorageModule));
             }
         }
 

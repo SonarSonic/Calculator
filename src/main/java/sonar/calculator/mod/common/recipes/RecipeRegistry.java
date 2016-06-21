@@ -95,7 +95,7 @@ public class RecipeRegistry {
 		}
 		flawless.add(objects);
 	}
-	
+
 	public enum RecipeType {
 		REINFORCED_STONE(SonarCore.reinforcedStoneBlock, SonarCore.reinforcedDirtBlock, "reinforcedStone"),
 		/**/
@@ -187,6 +187,7 @@ public class RecipeRegistry {
 
 		registerCalculatorRecipe(Calculator.wrench, Calculator.reinforced_sword, Calculator.reinforced_pickaxe);
 		registerCalculatorRecipe(SonarCore.reinforcedDirtBlock, Blocks.dirt, "plankWood");
+		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 4), Blocks.dirt, "logWood");
 		registerCalculatorRecipe(new ItemStack(Calculator.enrichedGold, 4), "ingotGold", "dustRedstone");
 		registerCalculatorRecipe(Calculator.reinforcediron_ingot, "ingotIron", SonarCore.reinforcedStoneBlock);
 		registerCalculatorRecipe(Calculator.enriched_coal, Items.coal, "dustRedstone");
@@ -202,405 +203,79 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(new ItemStack(SonarCore.stableStone, 2), SonarCore.reinforcedStoneBrick, SonarCore.reinforcedStoneBrick);
 		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBrick, 2), SonarCore.reinforcedDirtBlock, SonarCore.reinforcedDirtBlock);
 		registerCalculatorRecipe(Calculator.rainSensor, Blocks.daylight_detector, Items.bucket);
-		
+
 		// registerCalculatorRecipe(Calculator.researchChamber, Calculator.reinforced_iron_block, Calculator.powerCube);
 
 		// reinforced materials
-		/*
-		RecipeType type = RecipeType.REINFORCED_STONE;
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 8), "cobblestone", Items.clay_ball, type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 2, 2), "stone", new ItemStack(Blocks.dirt, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 1, 2), "cobblestone", new ItemStack(Blocks.dirt, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 4), new ItemStack(Blocks.grass, 1), Blocks.log, type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 4), new ItemStack(Blocks.grass, 1), Blocks.log2, type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 1), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.planks, 1), type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 1), Blocks.dirt, "plankWood", type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 4), Blocks.dirt, "logWood", type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 1), "cobblestone", "plankWood", type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 4), "cobblestone", "logWood", type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 6), "stone", "logWood", type);
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 2), "stone", "plankWood", type);
-
-		// furnace
-		type = RecipeType.FURNACE;
-		registerCalculatorRecipe(Calculator.powerCube, Blocks.furnace, "stone", type);
-		registerCalculatorRecipe(Calculator.powerCube, Blocks.furnace, "cobblestone", type);
-		registerCalculatorRecipe(Calculator.powerCube, Blocks.furnace, SonarCore.reinforcedStoneBlock, type);
-		registerCalculatorRecipe(Calculator.stoneSeparator, Blocks.furnace, Blocks.furnace, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.furnace, 1), Blocks.crafting_table, "stone", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.furnace, 1), Blocks.crafting_table, "cobblestone", type);
-		registerCalculatorRecipe(Items.brewing_stand, Items.blaze_powder, Blocks.furnace, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.crafting_table, 2), Blocks.furnace, new ItemStack(Blocks.planks, 1), type);
-
-		// cobblestone
-		type = RecipeType.COBBLESTONE;
-		registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 4), "stone", "treeSapling", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 2), "stone", "treeLeaves", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 2), "cobblestone", "treeSapling", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 1), "cobblestone", "treeLeaves", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 2), Blocks.vine, "cobblestone", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 4), Blocks.vine, "stone", type);
-
-		// stone
-		type = RecipeType.STONE;
-		registerCalculatorRecipe(new ItemStack(Blocks.stonebrick, 1, 2), "cobblestone", "stone", type);
-		registerCalculatorRecipe(Blocks.stone, "cobblestone", "cobblestone", type);
-		registerCalculatorRecipe(Blocks.stone, Calculator.small_stone, type);
-		registerCalculatorRecipe(Blocks.stone, Blocks.gravel, Blocks.gravel, type);
-
-		// dirt
-		type = RecipeType.DIRT;
-		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1), Calculator.soil, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1), Blocks.gravel, "sand", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1), "sand", "sand", RecipeType.DIRT);
-		registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1, 2), new ItemStack(Blocks.grass, 1), Blocks.dirt, type);
-		// registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1, 2), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.red_mushroom_block, 1, 5), type);
-		// registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1, 2), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.brown_mushroom_block, 1, 5), type);
-		registerCalculatorRecipe(Blocks.mycelium, new ItemStack(Blocks.dirt, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.mycelium, 2), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.dirt, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.mycelium, 2), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.grass, 1), type);
-		registerCalculatorRecipe(Blocks.dirt, Blocks.sand, Calculator.soil, type);
-
-		// sand
-		type = RecipeType.SAND;
-		registerCalculatorRecipe(Blocks.sand, Blocks.gravel, new ItemStack(Blocks.grass, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sand, 1), "cobblestone", Blocks.gravel, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sand, 2), "stone", Blocks.gravel, type);
-		registerCalculatorRecipe(Blocks.sand, Blocks.gravel, Blocks.dirt, type);
-
-		// gravel
-		type = RecipeType.GRAVEL;
-		registerCalculatorRecipe(Blocks.gravel, Blocks.sand, new ItemStack(Blocks.grass, 1), type);
-		registerCalculatorRecipe(Blocks.gravel, new ItemStack(Blocks.grass, 1), "cobblestone", type);
-		registerCalculatorRecipe(Blocks.gravel, "cobblestone", Blocks.dirt, type);
-		registerCalculatorRecipe(Blocks.gravel, "stone", Blocks.dirt, type);
-		registerCalculatorRecipe(Blocks.gravel, Blocks.sand, Blocks.dirt, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.gravel, 2), "stone", Blocks.sand, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.gravel, 1), "cobblestone", Blocks.sand, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.gravel, 2), Blocks.dirt, Blocks.dirt, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.gravel, 3), "stone", new ItemStack(Blocks.grass, 1), type);
-		registerCalculatorRecipe(Blocks.gravel, Blocks.dirt, Calculator.small_stone, type);
-
-		// sandstone
-		type = RecipeType.SANDSTONE;
-		registerCalculatorRecipe(new ItemStack(Blocks.sandstone, 1, 2), "stone", Blocks.sandstone, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sandstone, 1, 1), "cobblestone", Blocks.sandstone, type);
-
-		// grass
-		type = RecipeType.GRASS;
-		registerCalculatorRecipe(new ItemStack(Blocks.grass, 2), Items.wheat_seeds, Blocks.dirt, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.grass, 2), Items.pumpkin_seeds, Blocks.dirt, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.grass, 4), Calculator.broccoliSeeds, Blocks.dirt, type);
-		registerCalculatorRecipe(Blocks.grass, Blocks.dirt, Calculator.soil, type);
-		registerCalculatorRecipe(Blocks.grass, Blocks.dirt, new ItemStack(Blocks.tallgrass, 1, 1), type);
-
-		// glass
-		type = RecipeType.GLASS;
-		registerCalculatorRecipe(new ItemStack(Blocks.stained_glass, 1, 8), "stone", Blocks.glass, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.stained_glass, 1, 7), "cobblestone", Blocks.glass, type);
-
-		// glass_pane
-		type = RecipeType.GLASS_PANE;
-		registerCalculatorRecipe(new ItemStack(Blocks.stained_glass_pane, 1, 8), "stone", Blocks.glass_pane, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.stained_glass_pane, 1, 7), "cobblestone", Blocks.glass_pane, type);
-
-		// cactus
-		type = RecipeType.CACTUS;
-		registerCalculatorRecipe(Blocks.cactus, "sand", "treeSapling", type);
-		registerCalculatorRecipe(Blocks.cactus, "sand", Items.wheat_seeds, type);
-		registerCalculatorRecipe(Blocks.cactus, "sand", "treeLeaves", type);
-
-		// nether
-		type = RecipeType.NETHER;
-		registerCalculatorRecipe(new ItemStack(Blocks.netherrack, 64), Blocks.obsidian, "stone", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.netherrack, 32), Blocks.obsidian, "cobblestone", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.netherrack, 32), Blocks.soul_sand, "stone", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.netherrack, 16), Blocks.soul_sand, "cobblestone", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.soul_sand, 64), Blocks.netherrack, Items.ghast_tear, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.soul_sand, 32), "sand", Items.ghast_tear, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.obsidian, 16), Items.magma_cream, "stone", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.netherrack, 32), Items.blaze_rod, "stone", type);
-		registerCalculatorRecipe(new ItemStack(Items.nether_wart, 1), Items.reeds, Blocks.obsidian, type);
-		registerCalculatorRecipe(Items.ghast_tear, Items.blaze_rod, Items.ender_eye, type);
-		registerCalculatorRecipe(new ItemStack(Items.blaze_powder, 16), Items.blaze_rod, Items.ghast_tear, type);
-		registerCalculatorRecipe(new ItemStack(Items.netherbrick, 4), Items.brick, Items.brick, type);
-		registerCalculatorRecipe(new ItemStack(Items.brick, 1), Items.netherbrick, Items.netherbrick, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 8, 0), Blocks.obsidian, Blocks.obsidian, type);
-		registerCalculatorRecipe(new ItemStack(Items.blaze_rod, 8), Items.ghast_tear, Items.ghast_tear, type);
-		registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), Items.blaze_powder, type);
-		registerCalculatorRecipe(new ItemStack(Items.fire_charge, 4), Items.snowball, Items.blaze_powder, type);
-
-		// buckets
-		registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), new ItemStack(Items.dye, 1, 14), RecipeType.DYE);
-		registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), new ItemStack(Blocks.stained_hardened_clay, 1, 1), RecipeType.CLAY_BLOCK);
-		registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), new ItemStack(Blocks.wool, 1, 1), RecipeType.WOOL);
-		registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), new ItemStack(Blocks.stained_glass, 1, 1), RecipeType.GLASS);
-		registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), new ItemStack(Blocks.red_flower, 1, 5), RecipeType.FLOWER);
-
-		// irons
-		type = RecipeType.IRON;
-		registerCalculatorRecipe(new ItemStack(Blocks.anvil, 1), Blocks.iron_block, Blocks.iron_block, type);
-		registerCalculatorRecipe(new ItemStack(Items.minecart, 1), "ingotIron", "ingotIron", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.rail, 4), Blocks.ladder, "stone", type);
-		registerCalculatorRecipe(new ItemStack(Blocks.rail, 4), Blocks.ladder, "cobblestone", type);
-		registerCalculatorRecipe(new ItemStack(Items.iron_ingot, 8), Items.ender_pearl, Items.ender_pearl, type);
-		registerCalculatorRecipe(new ItemStack(Calculator.itemCalculator, 1), "ingotIron", "dustRedstone", type);
-		registerCalculatorRecipe(new ItemStack(Items.bone, 16), Items.skull, "ingotIron", type);
-		registerCalculatorRecipe(new ItemStack(Items.rotten_flesh, 16), new ItemStack(Items.skull, 1, 2), "ingotIron", type);
-		registerCalculatorRecipe(new ItemStack(Items.gunpowder, 16), new ItemStack(Items.skull, 1, 4), "ingotIron", type);
-
-		// emerald
-		type = RecipeType.EMERALD;
-		registerCalculatorRecipe(new ItemStack(Items.gold_ingot, 8), "gemEmerald", "gemEmerald", type);
-		registerCalculatorRecipe(new ItemStack(Calculator.weakeneddiamond, 6), "gemEmerald", new ItemStack(Items.dye, 1, 4), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.obsidian, 32), "gemEmerald", "stone", type);
-
-		// misc
-		registerCalculatorRecipe(new ItemStack(Calculator.enrichedgold_ingot, 2), Calculator.reinforcediron_ingot, new ItemStack(Items.dye, 1, 11), RecipeType.DYE);
-		registerCalculatorRecipe(new ItemStack(Calculator.calculator_assembly, 8), "ingotIron", Blocks.stone_button, RecipeType.STONE);
-		registerCalculatorRecipe(new ItemStack(Calculator.calculator_screen, 8), Calculator.redstone_ingot, "cobblestone", RecipeType.COBBLESTONE);
-		registerCalculatorRecipe(Blocks.vine, new ItemStack(Blocks.tallgrass, 1, 1), new ItemStack(Blocks.tallgrass, 1, 1), RecipeType.FOLIAGE);
-		registerCalculatorRecipe(new ItemStack(Blocks.piston, 1), new ItemStack(Calculator.reinforcediron_ingot, 1), "logWood", RecipeType.WOOD);
-		registerCalculatorRecipe(new ItemStack(Blocks.noteblock, 8), new ItemStack(Calculator.redstone_ingot, 1), "logWood", RecipeType.WOOD);
-		registerCalculatorRecipe(new ItemStack(Blocks.noteblock, 2), new ItemStack(Calculator.redstone_ingot, 1), "plankWood", RecipeType.PLANKS);
-		registerCalculatorRecipe(Items.clay_ball, Calculator.soil, Calculator.small_stone, RecipeType.CLAY_BLOCK);
-
-		// slime ball
-		type = RecipeType.SLIMEBALL;
-		registerCalculatorRecipe(new ItemStack(Items.leather, 2), Items.rotten_flesh, "slimeball", type);
-		registerCalculatorRecipe(Items.slime_ball, Items.clay_ball, Items.rotten_flesh, type);
-		registerCalculatorRecipe(Items.slime_ball, Calculator.pear, Items.clay_ball, type);
-		registerCalculatorRecipe(new ItemStack(Items.slime_ball, 2), Calculator.rotten_pear, Calculator.rotten_pear, type);
-		registerCalculatorRecipe(new ItemStack(Calculator.rotten_pear, 2), "slimeball", "slimeball", type);
-		registerCalculatorRecipe(Blocks.sticky_piston, Blocks.piston, Calculator.rotten_pear, type);
-
-		// crops
-		type = RecipeType.CROP;
-		registerCalculatorRecipe(Items.melon_seeds, Items.pumpkin_seeds, Items.pumpkin_seeds, type);
-		registerCalculatorRecipe(new ItemStack(Items.pumpkin_seeds, 2), Items.melon_seeds, Items.melon_seeds, type);
-		registerCalculatorRecipe(new ItemStack(Items.wheat, 8), new ItemStack(Blocks.tallgrass, 1, 1), "treeSapling", type);
-		registerCalculatorRecipe(new ItemStack(Items.wheat_seeds, 1), new ItemStack(Blocks.vine), "treeSapling", type);
-		registerCalculatorRecipe(Items.pumpkin_seeds, "cropCarrot", "cropPotato", type);
-
-		// end
-		type = RecipeType.END;
-		registerCalculatorRecipe(new ItemStack(Blocks.ender_chest, 1), Blocks.end_stone, Items.ender_eye, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.ender_chest, 16), Blocks.chest, Items.nether_star, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.end_stone, 16), Items.ender_eye, "stone", type);
-		registerCalculatorRecipe(Blocks.end_stone, Blocks.obsidian, Blocks.soul_sand, type);
-		registerCalculatorRecipe(new ItemStack(Blocks.end_portal_frame, 3), Blocks.enchanting_table, Items.ender_eye, type);
-
-		// registerCalculatorRecipe(Blocks.fence, "stickWood", "stickWood", true);
-
-		type = RecipeType.WOOD;
-
-		for (int i = 0; i < 6; i++) {
-			if (i != 3 && i != 4 && i != 5) {
-				registerCalculatorRecipe(new ItemStack(Blocks.log, 2, i), new ItemStack(Blocks.log, 1, i + 1), new ItemStack(Blocks.log, 1, i + 1), type);
-			}
-			if (i == 3) {
-				registerCalculatorRecipe(new ItemStack(Blocks.log, 2, i), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.log2, 1, 0), type);
-			} else if (i == 4) {
-				registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 0), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.log2, 1, 1), type);
-			} else if (i == 5) {
-				registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 1), new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.log, 1, 0), type);
-			}
-		}
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 0), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.log, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 1), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.log, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 1), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.log, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 1), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.log, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 0), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.log, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 0), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.log, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 2), new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.log, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 2), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.log, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 2), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.log2, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 3), new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.log, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 3), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.log, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 3), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.log, 1, 0), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 0), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.log2, 1, 0), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 0), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.log, 1, 0), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 1), new ItemStack(Blocks.log, 1, 1), new ItemStack(Blocks.log, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 1), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.log, 1, 0), type);
-
-		// special log recipes
-
-		for (int i = 0; i < 4; i++) {
-			registerCalculatorRecipe(new ItemStack(Blocks.log, 1, i), new ItemStack(Blocks.sapling, 1, i), Blocks.dirt, type);
-			registerCalculatorRecipe(new ItemStack(Blocks.log, 1, i), new ItemStack(Blocks.sapling, 1, i), new ItemStack(Blocks.grass, 1), type);
-			registerCalculatorRecipe(new ItemStack(Blocks.log, 4, i), new ItemStack(Blocks.sapling, 1, i), new ItemStack(Blocks.planks, 1, i), type);
-			registerCalculatorRecipe(new ItemStack(Blocks.log, 8, i), new ItemStack(Blocks.sapling, 1, i), new ItemStack(Blocks.log, 1, i), type);
-			registerCalculatorRecipe(new ItemStack(Blocks.log, 4, i), new ItemStack(Blocks.sapling, 1, i), new ItemStack(Blocks.leaves, 1, i), type);
-		}
-
-		for (int i = 0; i < 2; i++) {
-			registerCalculatorRecipe(new ItemStack(Blocks.log2, 1, i), new ItemStack(Blocks.sapling, 1, i + 4), Blocks.dirt, type);
-			registerCalculatorRecipe(new ItemStack(Blocks.log2, 1, i), new ItemStack(Blocks.sapling, 1, i + 4), new ItemStack(Blocks.grass, 1), type);
-			registerCalculatorRecipe(new ItemStack(Blocks.log2, 4, i), new ItemStack(Blocks.sapling, 1, i + 4), new ItemStack(Blocks.leaves2, 1, i), type);
-			registerCalculatorRecipe(new ItemStack(Blocks.log2, 4, i), new ItemStack(Blocks.sapling, 1, i + 4), new ItemStack(Blocks.planks, 1, i + 4), type);
-			registerCalculatorRecipe(new ItemStack(Blocks.log2, 4, i), new ItemStack(Blocks.sapling, 1, i + 4), new ItemStack(Blocks.planks, 1, i + 4), type);
-			registerCalculatorRecipe(new ItemStack(Blocks.log2, 8, i), new ItemStack(Blocks.sapling, 1, i + 4), new ItemStack(Blocks.log2, 1, i), type);
-
-		}
-		type = RecipeType.PLANKS;
-
-		for (int i = 0; i < 6; i++) {
-			if (i != 5) {
-				registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, i), new ItemStack(Blocks.planks, 1, i + 1), new ItemStack(Blocks.planks, 1, i + 1), type);
-			} else {
-				registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, i), new ItemStack(Blocks.planks, 1, 0), new ItemStack(Blocks.planks, 1, 0), type);
-			}
-		}
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 0), new ItemStack(Blocks.planks, 1, 2), new ItemStack(Blocks.planks, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 0), new ItemStack(Blocks.planks, 1, 5), new ItemStack(Blocks.planks, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 1), new ItemStack(Blocks.planks, 1, 2), new ItemStack(Blocks.planks, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 1), new ItemStack(Blocks.planks, 1, 5), new ItemStack(Blocks.planks, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 3), new ItemStack(Blocks.planks, 1, 4), new ItemStack(Blocks.planks, 1, 0), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 1), new ItemStack(Blocks.planks, 1, 5), new ItemStack(Blocks.planks, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 2), new ItemStack(Blocks.planks, 1, 0), new ItemStack(Blocks.planks, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 2), new ItemStack(Blocks.planks, 1, 4), new ItemStack(Blocks.planks, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 2), new ItemStack(Blocks.planks, 1, 4), new ItemStack(Blocks.planks, 1, 5), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 3), new ItemStack(Blocks.planks, 1, 0), new ItemStack(Blocks.planks, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 3), new ItemStack(Blocks.planks, 1, 4), new ItemStack(Blocks.planks, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 4), new ItemStack(Blocks.planks, 1, 2), new ItemStack(Blocks.planks, 1, 4), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 4), new ItemStack(Blocks.planks, 1, 2), new ItemStack(Blocks.planks, 1, 0), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 5), new ItemStack(Blocks.planks, 1, 1), new ItemStack(Blocks.planks, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 5), new ItemStack(Blocks.planks, 1, 5), new ItemStack(Blocks.planks, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 5), new ItemStack(Blocks.planks, 1), type);
-		/* for (int i = 0; i < 6; i++) { if (i != 5) { registerCalculatorRecipe(new ItemStack(Blocks.wooden_slab, 2, i), new ItemStack(Blocks.wooden_slab, 1, i + 1), new ItemStack(Blocks.wooden_slab, 1, i + 1), true); } else { registerCalculatorRecipe(new ItemStack(Blocks.wooden_slab, 2, i), new ItemStack(Blocks.wooden_slab, 1, 0), new ItemStack(Blocks.wooden_slab, 1, 0), true); } }
+		/*RecipeType type = RecipeType.REINFORCED_STONE; registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 8), "cobblestone", Items.clay_ball, type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 2, 2), "stone", new ItemStack(Blocks.dirt, 1, 2), type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 1, 2), "cobblestone", new ItemStack(Blocks.dirt, 1, 2), type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 4), new ItemStack(Blocks.grass, 1), Blocks.log, type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 4), new ItemStack(Blocks.grass, 1), Blocks.log2, type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 1), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.planks, 1), type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 1), Blocks.dirt, "plankWood", type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 4), Blocks.dirt, "logWood", type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 1), "cobblestone", "plankWood", type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 4), "cobblestone", "logWood", type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 6), "stone", "logWood", type); registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 2), "stone", "plankWood", type);
+		 * 
+		 * // furnace type = RecipeType.FURNACE; registerCalculatorRecipe(Calculator.powerCube, Blocks.furnace, "stone", type); registerCalculatorRecipe(Calculator.powerCube, Blocks.furnace, "cobblestone", type); registerCalculatorRecipe(Calculator.powerCube, Blocks.furnace, SonarCore.reinforcedStoneBlock, type); registerCalculatorRecipe(Calculator.stoneSeparator, Blocks.furnace, Blocks.furnace, type); registerCalculatorRecipe(new ItemStack(Blocks.furnace, 1), Blocks.crafting_table, "stone", type); registerCalculatorRecipe(new ItemStack(Blocks.furnace, 1), Blocks.crafting_table, "cobblestone", type); registerCalculatorRecipe(Items.brewing_stand, Items.blaze_powder, Blocks.furnace, type); registerCalculatorRecipe(new ItemStack(Blocks.crafting_table, 2), Blocks.furnace, new ItemStack(Blocks.planks, 1), type);
+		 * 
+		 * // cobblestone type = RecipeType.COBBLESTONE; registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 4), "stone", "treeSapling", type); registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 2), "stone", "treeLeaves", type); registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 2), "cobblestone", "treeSapling", type); registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 1), "cobblestone", "treeLeaves", type); registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 2), Blocks.vine, "cobblestone", type); registerCalculatorRecipe(new ItemStack(Blocks.mossy_cobblestone, 4), Blocks.vine, "stone", type);
+		 * 
+		 * // stone type = RecipeType.STONE; registerCalculatorRecipe(new ItemStack(Blocks.stonebrick, 1, 2), "cobblestone", "stone", type); registerCalculatorRecipe(Blocks.stone, "cobblestone", "cobblestone", type); registerCalculatorRecipe(Blocks.stone, Calculator.small_stone, type); registerCalculatorRecipe(Blocks.stone, Blocks.gravel, Blocks.gravel, type);
+		 * 
+		 * // dirt type = RecipeType.DIRT; registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1), Calculator.soil, type); registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1), Blocks.gravel, "sand", type); registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1), "sand", "sand", RecipeType.DIRT); registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1, 2), new ItemStack(Blocks.grass, 1), Blocks.dirt, type); // registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1, 2), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.red_mushroom_block, 1, 5), type); // registerCalculatorRecipe(new ItemStack(Blocks.dirt, 1, 2), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.brown_mushroom_block, 1, 5), type); registerCalculatorRecipe(Blocks.mycelium, new ItemStack(Blocks.dirt, 1, 2), type); registerCalculatorRecipe(new ItemStack(Blocks.mycelium, 2), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.dirt, 1, 2), type); registerCalculatorRecipe(new ItemStack(Blocks.mycelium, 2), new ItemStack(Blocks.grass, 1), new ItemStack(Blocks.grass, 1), type); registerCalculatorRecipe(Blocks.dirt, Blocks.sand, Calculator.soil, type);
+		 * 
+		 * // sand type = RecipeType.SAND; registerCalculatorRecipe(Blocks.sand, Blocks.gravel, new ItemStack(Blocks.grass, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.sand, 1), "cobblestone", Blocks.gravel, type); registerCalculatorRecipe(new ItemStack(Blocks.sand, 2), "stone", Blocks.gravel, type); registerCalculatorRecipe(Blocks.sand, Blocks.gravel, Blocks.dirt, type);
+		 * 
+		 * // gravel type = RecipeType.GRAVEL; registerCalculatorRecipe(Blocks.gravel, Blocks.sand, new ItemStack(Blocks.grass, 1), type); registerCalculatorRecipe(Blocks.gravel, new ItemStack(Blocks.grass, 1), "cobblestone", type); registerCalculatorRecipe(Blocks.gravel, "cobblestone", Blocks.dirt, type); registerCalculatorRecipe(Blocks.gravel, "stone", Blocks.dirt, type); registerCalculatorRecipe(Blocks.gravel, Blocks.sand, Blocks.dirt, type); registerCalculatorRecipe(new ItemStack(Blocks.gravel, 2), "stone", Blocks.sand, type); registerCalculatorRecipe(new ItemStack(Blocks.gravel, 1), "cobblestone", Blocks.sand, type); registerCalculatorRecipe(new ItemStack(Blocks.gravel, 2), Blocks.dirt, Blocks.dirt, type); registerCalculatorRecipe(new ItemStack(Blocks.gravel, 3), "stone", new ItemStack(Blocks.grass, 1), type); registerCalculatorRecipe(Blocks.gravel, Blocks.dirt, Calculator.small_stone, type);
+		 * 
+		 * // sandstone type = RecipeType.SANDSTONE; registerCalculatorRecipe(new ItemStack(Blocks.sandstone, 1, 2), "stone", Blocks.sandstone, type); registerCalculatorRecipe(new ItemStack(Blocks.sandstone, 1, 1), "cobblestone", Blocks.sandstone, type);
+		 * 
+		 * // grass type = RecipeType.GRASS; registerCalculatorRecipe(new ItemStack(Blocks.grass, 2), Items.wheat_seeds, Blocks.dirt, type); registerCalculatorRecipe(new ItemStack(Blocks.grass, 2), Items.pumpkin_seeds, Blocks.dirt, type); registerCalculatorRecipe(new ItemStack(Blocks.grass, 4), Calculator.broccoliSeeds, Blocks.dirt, type); registerCalculatorRecipe(Blocks.grass, Blocks.dirt, Calculator.soil, type); registerCalculatorRecipe(Blocks.grass, Blocks.dirt, new ItemStack(Blocks.tallgrass, 1, 1), type);
+		 * 
+		 * // glass type = RecipeType.GLASS; registerCalculatorRecipe(new ItemStack(Blocks.stained_glass, 1, 8), "stone", Blocks.glass, type); registerCalculatorRecipe(new ItemStack(Blocks.stained_glass, 1, 7), "cobblestone", Blocks.glass, type);
+		 * 
+		 * // glass_pane type = RecipeType.GLASS_PANE; registerCalculatorRecipe(new ItemStack(Blocks.stained_glass_pane, 1, 8), "stone", Blocks.glass_pane, type); registerCalculatorRecipe(new ItemStack(Blocks.stained_glass_pane, 1, 7), "cobblestone", Blocks.glass_pane, type);
+		 * 
+		 * // cactus type = RecipeType.CACTUS; registerCalculatorRecipe(Blocks.cactus, "sand", "treeSapling", type); registerCalculatorRecipe(Blocks.cactus, "sand", Items.wheat_seeds, type); registerCalculatorRecipe(Blocks.cactus, "sand", "treeLeaves", type);
+		 * 
+		 * // nether type = RecipeType.NETHER; registerCalculatorRecipe(new ItemStack(Blocks.netherrack, 64), Blocks.obsidian, "stone", type); registerCalculatorRecipe(new ItemStack(Blocks.netherrack, 32), Blocks.obsidian, "cobblestone", type); registerCalculatorRecipe(new ItemStack(Blocks.netherrack, 32), Blocks.soul_sand, "stone", type); registerCalculatorRecipe(new ItemStack(Blocks.netherrack, 16), Blocks.soul_sand, "cobblestone", type); registerCalculatorRecipe(new ItemStack(Blocks.soul_sand, 64), Blocks.netherrack, Items.ghast_tear, type); registerCalculatorRecipe(new ItemStack(Blocks.soul_sand, 32), "sand", Items.ghast_tear, type); registerCalculatorRecipe(new ItemStack(Blocks.obsidian, 16), Items.magma_cream, "stone", type); registerCalculatorRecipe(new ItemStack(Blocks.netherrack, 32), Items.blaze_rod, "stone", type); registerCalculatorRecipe(new ItemStack(Items.nether_wart, 1), Items.reeds, Blocks.obsidian, type); registerCalculatorRecipe(Items.ghast_tear, Items.blaze_rod, Items.ender_eye, type); registerCalculatorRecipe(new ItemStack(Items.blaze_powder, 16), Items.blaze_rod, Items.ghast_tear, type); registerCalculatorRecipe(new ItemStack(Items.netherbrick, 4), Items.brick, Items.brick, type); registerCalculatorRecipe(new ItemStack(Items.brick, 1), Items.netherbrick, Items.netherbrick, type); registerCalculatorRecipe(new ItemStack(Blocks.log, 8, 0), Blocks.obsidian, Blocks.obsidian, type); registerCalculatorRecipe(new ItemStack(Items.blaze_rod, 8), Items.ghast_tear, Items.ghast_tear, type); registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), Items.blaze_powder, type); registerCalculatorRecipe(new ItemStack(Items.fire_charge, 4), Items.snowball, Items.blaze_powder, type);
+		 * 
+		 * // buckets registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), new ItemStack(Items.dye, 1, 14), RecipeType.DYE); registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), new ItemStack(Blocks.stained_hardened_clay, 1, 1), RecipeType.CLAY_BLOCK); registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), new ItemStack(Blocks.wool, 1, 1), RecipeType.WOOL); registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), new ItemStack(Blocks.stained_glass, 1, 1), RecipeType.GLASS); registerCalculatorRecipe(Items.lava_bucket, Items.water_bucket.setContainerItem(null), new ItemStack(Blocks.red_flower, 1, 5), RecipeType.FLOWER);
+		 * 
+		 * // irons type = RecipeType.IRON; registerCalculatorRecipe(new ItemStack(Blocks.anvil, 1), Blocks.iron_block, Blocks.iron_block, type); registerCalculatorRecipe(new ItemStack(Items.minecart, 1), "ingotIron", "ingotIron", type); registerCalculatorRecipe(new ItemStack(Blocks.rail, 4), Blocks.ladder, "stone", type); registerCalculatorRecipe(new ItemStack(Blocks.rail, 4), Blocks.ladder, "cobblestone", type); registerCalculatorRecipe(new ItemStack(Items.iron_ingot, 8), Items.ender_pearl, Items.ender_pearl, type); registerCalculatorRecipe(new ItemStack(Calculator.itemCalculator, 1), "ingotIron", "dustRedstone", type); registerCalculatorRecipe(new ItemStack(Items.bone, 16), Items.skull, "ingotIron", type); registerCalculatorRecipe(new ItemStack(Items.rotten_flesh, 16), new ItemStack(Items.skull, 1, 2), "ingotIron", type); registerCalculatorRecipe(new ItemStack(Items.gunpowder, 16), new ItemStack(Items.skull, 1, 4), "ingotIron", type);
+		 * 
+		 * // emerald type = RecipeType.EMERALD; registerCalculatorRecipe(new ItemStack(Items.gold_ingot, 8), "gemEmerald", "gemEmerald", type); registerCalculatorRecipe(new ItemStack(Calculator.weakeneddiamond, 6), "gemEmerald", new ItemStack(Items.dye, 1, 4), type); registerCalculatorRecipe(new ItemStack(Blocks.obsidian, 32), "gemEmerald", "stone", type);
+		 * 
+		 * // misc registerCalculatorRecipe(new ItemStack(Calculator.enrichedgold_ingot, 2), Calculator.reinforcediron_ingot, new ItemStack(Items.dye, 1, 11), RecipeType.DYE); registerCalculatorRecipe(new ItemStack(Calculator.calculator_assembly, 8), "ingotIron", Blocks.stone_button, RecipeType.STONE); registerCalculatorRecipe(new ItemStack(Calculator.calculator_screen, 8), Calculator.redstone_ingot, "cobblestone", RecipeType.COBBLESTONE); registerCalculatorRecipe(Blocks.vine, new ItemStack(Blocks.tallgrass, 1, 1), new ItemStack(Blocks.tallgrass, 1, 1), RecipeType.FOLIAGE); registerCalculatorRecipe(new ItemStack(Blocks.piston, 1), new ItemStack(Calculator.reinforcediron_ingot, 1), "logWood", RecipeType.WOOD); registerCalculatorRecipe(new ItemStack(Blocks.noteblock, 8), new ItemStack(Calculator.redstone_ingot, 1), "logWood", RecipeType.WOOD); registerCalculatorRecipe(new ItemStack(Blocks.noteblock, 2), new ItemStack(Calculator.redstone_ingot, 1), "plankWood", RecipeType.PLANKS); registerCalculatorRecipe(Items.clay_ball, Calculator.soil, Calculator.small_stone, RecipeType.CLAY_BLOCK);
+		 * 
+		 * // slime ball type = RecipeType.SLIMEBALL; registerCalculatorRecipe(new ItemStack(Items.leather, 2), Items.rotten_flesh, "slimeball", type); registerCalculatorRecipe(Items.slime_ball, Items.clay_ball, Items.rotten_flesh, type); registerCalculatorRecipe(Items.slime_ball, Calculator.pear, Items.clay_ball, type); registerCalculatorRecipe(new ItemStack(Items.slime_ball, 2), Calculator.rotten_pear, Calculator.rotten_pear, type); registerCalculatorRecipe(new ItemStack(Calculator.rotten_pear, 2), "slimeball", "slimeball", type); registerCalculatorRecipe(Blocks.sticky_piston, Blocks.piston, Calculator.rotten_pear, type);
+		 * 
+		 * // crops type = RecipeType.CROP; registerCalculatorRecipe(Items.melon_seeds, Items.pumpkin_seeds, Items.pumpkin_seeds, type); registerCalculatorRecipe(new ItemStack(Items.pumpkin_seeds, 2), Items.melon_seeds, Items.melon_seeds, type); registerCalculatorRecipe(new ItemStack(Items.wheat, 8), new ItemStack(Blocks.tallgrass, 1, 1), "treeSapling", type); registerCalculatorRecipe(new ItemStack(Items.wheat_seeds, 1), new ItemStack(Blocks.vine), "treeSapling", type); registerCalculatorRecipe(Items.pumpkin_seeds, "cropCarrot", "cropPotato", type);
+		 * 
+		 * // end type = RecipeType.END; registerCalculatorRecipe(new ItemStack(Blocks.ender_chest, 1), Blocks.end_stone, Items.ender_eye, type); registerCalculatorRecipe(new ItemStack(Blocks.ender_chest, 16), Blocks.chest, Items.nether_star, type); registerCalculatorRecipe(new ItemStack(Blocks.end_stone, 16), Items.ender_eye, "stone", type); registerCalculatorRecipe(Blocks.end_stone, Blocks.obsidian, Blocks.soul_sand, type); registerCalculatorRecipe(new ItemStack(Blocks.end_portal_frame, 3), Blocks.enchanting_table, Items.ender_eye, type);
+		 * 
+		 * // registerCalculatorRecipe(Blocks.fence, "stickWood", "stickWood", true);
+		 * 
+		 * type = RecipeType.WOOD;
+		 * 
+		 * for (int i = 0; i < 6; i++) { if (i != 3 && i != 4 && i != 5) { registerCalculatorRecipe(new ItemStack(Blocks.log, 2, i), new ItemStack(Blocks.log, 1, i + 1), new ItemStack(Blocks.log, 1, i + 1), type); } if (i == 3) { registerCalculatorRecipe(new ItemStack(Blocks.log, 2, i), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.log2, 1, 0), type); } else if (i == 4) { registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 0), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.log2, 1, 1), type); } else if (i == 5) { registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 1), new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.log, 1, 0), type); } } registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 0), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.log, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 1), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.log, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 1), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.log, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 1), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.log, 1, 2), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 0), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.log, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 0), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.log, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 2), new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.log, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 2), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.log, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 2), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.log2, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 3), new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.log, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 3), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.log, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 2, 3), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.log, 1, 0), type); registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 0), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.log2, 1, 0), type); registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 0), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.log, 1, 0), type); registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 1), new ItemStack(Blocks.log, 1, 1), new ItemStack(Blocks.log, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.log2, 2, 1), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.log, 1, 0), type);
+		 * 
+		 * // special log recipes
+		 * 
+		 * for (int i = 0; i < 4; i++) { registerCalculatorRecipe(new ItemStack(Blocks.log, 1, i), new ItemStack(Blocks.sapling, 1, i), Blocks.dirt, type); registerCalculatorRecipe(new ItemStack(Blocks.log, 1, i), new ItemStack(Blocks.sapling, 1, i), new ItemStack(Blocks.grass, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 4, i), new ItemStack(Blocks.sapling, 1, i), new ItemStack(Blocks.planks, 1, i), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 8, i), new ItemStack(Blocks.sapling, 1, i), new ItemStack(Blocks.log, 1, i), type); registerCalculatorRecipe(new ItemStack(Blocks.log, 4, i), new ItemStack(Blocks.sapling, 1, i), new ItemStack(Blocks.leaves, 1, i), type); }
+		 * 
+		 * for (int i = 0; i < 2; i++) { registerCalculatorRecipe(new ItemStack(Blocks.log2, 1, i), new ItemStack(Blocks.sapling, 1, i + 4), Blocks.dirt, type); registerCalculatorRecipe(new ItemStack(Blocks.log2, 1, i), new ItemStack(Blocks.sapling, 1, i + 4), new ItemStack(Blocks.grass, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.log2, 4, i), new ItemStack(Blocks.sapling, 1, i + 4), new ItemStack(Blocks.leaves2, 1, i), type); registerCalculatorRecipe(new ItemStack(Blocks.log2, 4, i), new ItemStack(Blocks.sapling, 1, i + 4), new ItemStack(Blocks.planks, 1, i + 4), type); registerCalculatorRecipe(new ItemStack(Blocks.log2, 4, i), new ItemStack(Blocks.sapling, 1, i + 4), new ItemStack(Blocks.planks, 1, i + 4), type); registerCalculatorRecipe(new ItemStack(Blocks.log2, 8, i), new ItemStack(Blocks.sapling, 1, i + 4), new ItemStack(Blocks.log2, 1, i), type);
+		 * 
+		 * } type = RecipeType.PLANKS;
+		 * 
+		 * for (int i = 0; i < 6; i++) { if (i != 5) { registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, i), new ItemStack(Blocks.planks, 1, i + 1), new ItemStack(Blocks.planks, 1, i + 1), type); } else { registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, i), new ItemStack(Blocks.planks, 1, 0), new ItemStack(Blocks.planks, 1, 0), type); } } registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 0), new ItemStack(Blocks.planks, 1, 2), new ItemStack(Blocks.planks, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 0), new ItemStack(Blocks.planks, 1, 5), new ItemStack(Blocks.planks, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 1), new ItemStack(Blocks.planks, 1, 2), new ItemStack(Blocks.planks, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 1), new ItemStack(Blocks.planks, 1, 5), new ItemStack(Blocks.planks, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 3), new ItemStack(Blocks.planks, 1, 4), new ItemStack(Blocks.planks, 1, 0), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 1), new ItemStack(Blocks.planks, 1, 5), new ItemStack(Blocks.planks, 1, 2), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 2), new ItemStack(Blocks.planks, 1, 0), new ItemStack(Blocks.planks, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 2), new ItemStack(Blocks.planks, 1, 4), new ItemStack(Blocks.planks, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 2), new ItemStack(Blocks.planks, 1, 4), new ItemStack(Blocks.planks, 1, 5), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 3), new ItemStack(Blocks.planks, 1, 0), new ItemStack(Blocks.planks, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 3), new ItemStack(Blocks.planks, 1, 4), new ItemStack(Blocks.planks, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 4), new ItemStack(Blocks.planks, 1, 2), new ItemStack(Blocks.planks, 1, 4), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 4), new ItemStack(Blocks.planks, 1, 2), new ItemStack(Blocks.planks, 1, 0), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 5), new ItemStack(Blocks.planks, 1, 1), new ItemStack(Blocks.planks, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 5), new ItemStack(Blocks.planks, 1, 5), new ItemStack(Blocks.planks, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.planks, 2, 5), new ItemStack(Blocks.planks, 1), type); /* for (int i = 0; i < 6; i++) { if (i != 5) { registerCalculatorRecipe(new ItemStack(Blocks.wooden_slab, 2, i), new ItemStack(Blocks.wooden_slab, 1, i + 1), new ItemStack(Blocks.wooden_slab, 1, i + 1), true); } else { registerCalculatorRecipe(new ItemStack(Blocks.wooden_slab, 2, i), new ItemStack(Blocks.wooden_slab, 1, 0), new ItemStack(Blocks.wooden_slab, 1, 0), true); } }
 		 * 
 		 * for (int i = 0; i < 7; i++) { if (i != 6) { registerCalculatorRecipe(new ItemStack(Blocks.stone_slab, 2, i), new ItemStack(Blocks.stone_slab, 1, i + 1), new ItemStack(Blocks.stone_slab, 1, i + 1), true); } else { registerCalculatorRecipe(new ItemStack(Blocks.stone_slab, 2, i), new ItemStack(Blocks.stone_slab, 1, 0), new ItemStack(Blocks.stone_slab, 1, 0), true); } } */
 		// saplings
-		/*
-		type = RecipeType.SAPLING;
-		for (int i = 0; i < 6; i++) {
-			if (i != 5) {
-				registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, i), new ItemStack(Blocks.sapling, 1, i + 1), new ItemStack(Blocks.sapling, 1, i + 1), type);
-			} else {
-				registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, i), new ItemStack(Blocks.sapling, 1, 0), new ItemStack(Blocks.sapling, 1, 0), type);
-			}
-		}
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 0), new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.sapling, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 0), new ItemStack(Blocks.sapling, 1, 5), new ItemStack(Blocks.sapling, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 1), new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.sapling, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 1), new ItemStack(Blocks.sapling, 1, 5), new ItemStack(Blocks.sapling, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 3), new ItemStack(Blocks.sapling, 1, 4), new ItemStack(Blocks.sapling, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 1), new ItemStack(Blocks.sapling, 1, 5), new ItemStack(Blocks.sapling, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 2), new ItemStack(Blocks.sapling, 1, 0), new ItemStack(Blocks.sapling, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 2), new ItemStack(Blocks.sapling, 1, 4), new ItemStack(Blocks.sapling, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 2), new ItemStack(Blocks.sapling, 1, 4), new ItemStack(Blocks.sapling, 1, 5), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 3), new ItemStack(Blocks.sapling, 1, 0), new ItemStack(Blocks.sapling, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 3), new ItemStack(Blocks.sapling, 1, 4), new ItemStack(Blocks.sapling, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 4), new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.sapling, 1, 4), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 4), new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.sapling, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 5), new ItemStack(Blocks.sapling, 1, 1), new ItemStack(Blocks.sapling, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 5), new ItemStack(Blocks.sapling, 1, 5), new ItemStack(Blocks.sapling, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 0), new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.leaves, 1, 0), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 1), new ItemStack(Blocks.log, 1, 1), new ItemStack(Blocks.leaves, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.leaves, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 3), new ItemStack(Blocks.log, 1, 3), new ItemStack(Blocks.leaves, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 4), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.leaves2, 1, 0), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 5), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.leaves2, 1, 1), type);
-
-		// leaves
-		type = RecipeType.LEAVES;
-		for (int i = 0; i < 6; i++) {
-			if (i != 3 && i != 4 && i != 5) {
-				registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, i), new ItemStack(Blocks.leaves, 1, i + 1), new ItemStack(Blocks.leaves, 1, i + 1), type);
-			}
-			if (i == 3) {
-				registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, i), new ItemStack(Blocks.leaves2, 1), new ItemStack(Blocks.leaves2, 1), type);
-			} else if (i == 4) {
-				registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2), new ItemStack(Blocks.leaves2, 1, 1), new ItemStack(Blocks.leaves2, 1, 1), type);
-			} else if (i == 5) {
-				registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2, 1), new ItemStack(Blocks.leaves, 1), new ItemStack(Blocks.leaves, 1), type);
-			}
-		}
-
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 0), new ItemStack(Blocks.leaves, 1, 2), new ItemStack(Blocks.leaves, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 0), new ItemStack(Blocks.leaves2, 1, 1), new ItemStack(Blocks.leaves, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 1), new ItemStack(Blocks.leaves, 1, 2), new ItemStack(Blocks.leaves, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 1), new ItemStack(Blocks.leaves2, 1, 1), new ItemStack(Blocks.leaves, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 1), new ItemStack(Blocks.leaves2, 1, 1), new ItemStack(Blocks.leaves, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 2), new ItemStack(Blocks.leaves, 1), new ItemStack(Blocks.leaves, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 2), new ItemStack(Blocks.leaves2, 1), new ItemStack(Blocks.leaves, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 2), new ItemStack(Blocks.leaves2, 1), new ItemStack(Blocks.leaves2, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 3), new ItemStack(Blocks.leaves, 1), new ItemStack(Blocks.leaves, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 3), new ItemStack(Blocks.leaves2), new ItemStack(Blocks.leaves, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 3), new ItemStack(Blocks.leaves2), new ItemStack(Blocks.leaves, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2), new ItemStack(Blocks.leaves, 1, 2), new ItemStack(Blocks.leaves2, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2), new ItemStack(Blocks.leaves, 1, 2), new ItemStack(Blocks.leaves, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2), new ItemStack(Blocks.leaves, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2, 1), new ItemStack(Blocks.leaves, 1, 1), new ItemStack(Blocks.leaves, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2, 1), new ItemStack(Blocks.leaves2, 1, 1), new ItemStack(Blocks.leaves, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2, 1), new ItemStack(Blocks.leaves, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 0), Blocks.vine, new ItemStack(Blocks.leaves, 1, 0), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 1), Blocks.vine, new ItemStack(Blocks.leaves, 1, 1), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 2), Blocks.vine, new ItemStack(Blocks.leaves, 1, 2), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 3), Blocks.vine, new ItemStack(Blocks.leaves, 1, 3), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 4, 0), Blocks.vine, new ItemStack(Blocks.leaves2, 1, 0), type);
-		registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 4, 1), Blocks.vine, new ItemStack(Blocks.leaves2, 1, 1), type);
-		registerCalculatorRecipe(Items.bed, "treeLeaves", new ItemStack(Blocks.planks, 1), type);
-
-		//
-
-		for (int i = 0; i < 9; i++) {
-			switch (i) {
-			case 8:
-				registerCalculatorRecipe(new ItemStack(Blocks.red_flower, 2, i), new ItemStack(Blocks.red_flower, 1, 0), new ItemStack(Blocks.red_flower, 1, 0), RecipeType.FLOWER);
-				break;
-			default:
-				registerCalculatorRecipe(new ItemStack(Blocks.red_flower, 2, i), new ItemStack(Blocks.red_flower, 1, i + 1), new ItemStack(Blocks.red_flower, 1, i + 1), RecipeType.FLOWER);
-				break;
-			}
-		}
-		for (int i = 0; i < 16; i++) {
-			switch (i) {
-			case 15:
-				registerCalculatorRecipe(new ItemStack(Items.dye, 2, i), new ItemStack(Items.dye, 1, 0), new ItemStack(Items.dye, 1, 0), RecipeType.DYE);
-				registerCalculatorRecipe(new ItemStack(Blocks.carpet, 2, i), new ItemStack(Blocks.carpet, 1, 0), new ItemStack(Blocks.carpet, 1, 0), RecipeType.CARPET);
-				registerCalculatorRecipe(new ItemStack(Blocks.stained_hardened_clay, 2, i), new ItemStack(Blocks.stained_hardened_clay, 1, 0), new ItemStack(Blocks.stained_hardened_clay, 1, 0), RecipeType.CLAY_BLOCK);
-				registerCalculatorRecipe(new ItemStack(Blocks.stained_glass_pane, 2, i), new ItemStack(Blocks.stained_glass_pane, 1, 0), new ItemStack(Blocks.stained_glass_pane, 1, 0), RecipeType.GLASS_PANE);
-				registerCalculatorRecipe(new ItemStack(Blocks.stained_glass, 2, i), new ItemStack(Blocks.stained_glass, 1, 0), new ItemStack(Blocks.stained_glass, 1, 0), RecipeType.GLASS);
-				registerCalculatorRecipe(new ItemStack(Blocks.wool, 2, i), new ItemStack(Blocks.wool, 1, 0), new ItemStack(Blocks.wool, 1, 0), RecipeType.WOOL);
-				break;
-			default:
-				registerCalculatorRecipe(new ItemStack(Items.dye, 2, i), new ItemStack(Items.dye, 1, i + 1), new ItemStack(Items.dye, 1, i + 1), RecipeType.DYE);
-				registerCalculatorRecipe(new ItemStack(Blocks.carpet, 2, i), new ItemStack(Blocks.carpet, 1, i + 1), new ItemStack(Blocks.carpet, 1, i + 1), RecipeType.CARPET);
-				registerCalculatorRecipe(new ItemStack(Blocks.stained_hardened_clay, 2, i), new ItemStack(Blocks.stained_hardened_clay, 1, i + 1), new ItemStack(Blocks.stained_hardened_clay, 1, i + 1), RecipeType.CLAY_BLOCK);
-				registerCalculatorRecipe(new ItemStack(Blocks.stained_glass_pane, 2, i), new ItemStack(Blocks.stained_glass_pane, 1, i + 1), new ItemStack(Blocks.stained_glass_pane, 1, i + 1), RecipeType.GLASS_PANE);
-				registerCalculatorRecipe(new ItemStack(Blocks.stained_glass, 2, i), new ItemStack(Blocks.stained_glass, 1, i + 1), new ItemStack(Blocks.stained_glass, 1, i + 1), RecipeType.GLASS);
-				registerCalculatorRecipe(new ItemStack(Blocks.wool, 2, i), new ItemStack(Blocks.wool, 1, i + 1), new ItemStack(Blocks.wool, 1, i + 1), RecipeType.WOOL);
-
-				break;
-			}
-		}
-		// foliage
-		type = RecipeType.FOLIAGE;
-		registerCalculatorRecipe(new ItemStack(Items.reeds, 1), new ItemStack(Blocks.grass, 1), "treeSapling", type);
-		for (int i = 0; i < 9; i++) {
-			registerCalculatorRecipe(new ItemStack(Blocks.vine, 16), new ItemStack(Blocks.red_flower, 1, i), "treeSapling", type);
-		}
-		for (int i = 0; i < 6; i++) {
-			switch (i) {
-			default:
-				registerCalculatorRecipe(new ItemStack(Blocks.double_plant, 2, i), new ItemStack(Blocks.double_plant, 1, i + 1), new ItemStack(Blocks.double_plant, 1, i + 1), type);
-				break;
-			case 1:
-				registerCalculatorRecipe(new ItemStack(Blocks.double_plant, 2, i), new ItemStack(Blocks.tallgrass, 1, 1), new ItemStack(Blocks.tallgrass, 1, 1), type);
-				break;
-			case 2:
-				registerCalculatorRecipe(new ItemStack(Blocks.tallgrass, 2, 1), new ItemStack(Blocks.tallgrass, 1, 2), new ItemStack(Blocks.tallgrass, 1, 2), type);
-				break;
-			case 3:
-				registerCalculatorRecipe(new ItemStack(Blocks.tallgrass, 2, 2), new ItemStack(Blocks.double_plant, 1, i + 1), new ItemStack(Blocks.double_plant, 1, i + 1), type);
-				break;
-			case 5:
-				registerCalculatorRecipe(new ItemStack(Blocks.double_plant, 2, i), new ItemStack(Blocks.double_plant, 1, 0), new ItemStack(Blocks.double_plant, 1, 0), type);
-				break;
-			}
-		}
-	*/
+		/*type = RecipeType.SAPLING; for (int i = 0; i < 6; i++) { if (i != 5) { registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, i), new ItemStack(Blocks.sapling, 1, i + 1), new ItemStack(Blocks.sapling, 1, i + 1), type); } else { registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, i), new ItemStack(Blocks.sapling, 1, 0), new ItemStack(Blocks.sapling, 1, 0), type); } } registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 0), new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.sapling, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 0), new ItemStack(Blocks.sapling, 1, 5), new ItemStack(Blocks.sapling, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 1), new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.sapling, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 1), new ItemStack(Blocks.sapling, 1, 5), new ItemStack(Blocks.sapling, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 3), new ItemStack(Blocks.sapling, 1, 4), new ItemStack(Blocks.sapling, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 1), new ItemStack(Blocks.sapling, 1, 5), new ItemStack(Blocks.sapling, 1, 2), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 2), new ItemStack(Blocks.sapling, 1, 0), new ItemStack(Blocks.sapling, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 2), new ItemStack(Blocks.sapling, 1, 4), new ItemStack(Blocks.sapling, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 2), new ItemStack(Blocks.sapling, 1, 4), new ItemStack(Blocks.sapling, 1, 5), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 3), new ItemStack(Blocks.sapling, 1, 0), new ItemStack(Blocks.sapling, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 3), new ItemStack(Blocks.sapling, 1, 4), new ItemStack(Blocks.sapling, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 4), new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.sapling, 1, 4), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 4), new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.sapling, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 5), new ItemStack(Blocks.sapling, 1, 1), new ItemStack(Blocks.sapling, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 2, 5), new ItemStack(Blocks.sapling, 1, 5), new ItemStack(Blocks.sapling, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 0), new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.leaves, 1, 0), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 1), new ItemStack(Blocks.log, 1, 1), new ItemStack(Blocks.leaves, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 2), new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.leaves, 1, 2), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 3), new ItemStack(Blocks.log, 1, 3), new ItemStack(Blocks.leaves, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 4), new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.leaves2, 1, 0), type); registerCalculatorRecipe(new ItemStack(Blocks.sapling, 1, 5), new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.leaves2, 1, 1), type);
+		 * 
+		 * // leaves type = RecipeType.LEAVES; for (int i = 0; i < 6; i++) { if (i != 3 && i != 4 && i != 5) { registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, i), new ItemStack(Blocks.leaves, 1, i + 1), new ItemStack(Blocks.leaves, 1, i + 1), type); } if (i == 3) { registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, i), new ItemStack(Blocks.leaves2, 1), new ItemStack(Blocks.leaves2, 1), type); } else if (i == 4) { registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2), new ItemStack(Blocks.leaves2, 1, 1), new ItemStack(Blocks.leaves2, 1, 1), type); } else if (i == 5) { registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2, 1), new ItemStack(Blocks.leaves, 1), new ItemStack(Blocks.leaves, 1), type); } }
+		 * 
+		 * registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 0), new ItemStack(Blocks.leaves, 1, 2), new ItemStack(Blocks.leaves, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 0), new ItemStack(Blocks.leaves2, 1, 1), new ItemStack(Blocks.leaves, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 1), new ItemStack(Blocks.leaves, 1, 2), new ItemStack(Blocks.leaves, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 1), new ItemStack(Blocks.leaves2, 1, 1), new ItemStack(Blocks.leaves, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 1), new ItemStack(Blocks.leaves2, 1, 1), new ItemStack(Blocks.leaves, 1, 2), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 2), new ItemStack(Blocks.leaves, 1), new ItemStack(Blocks.leaves, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 2), new ItemStack(Blocks.leaves2, 1), new ItemStack(Blocks.leaves, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 2), new ItemStack(Blocks.leaves2, 1), new ItemStack(Blocks.leaves2, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 3), new ItemStack(Blocks.leaves, 1), new ItemStack(Blocks.leaves, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 3), new ItemStack(Blocks.leaves2), new ItemStack(Blocks.leaves, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 2, 3), new ItemStack(Blocks.leaves2), new ItemStack(Blocks.leaves, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2), new ItemStack(Blocks.leaves, 1, 2), new ItemStack(Blocks.leaves2, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2), new ItemStack(Blocks.leaves, 1, 2), new ItemStack(Blocks.leaves, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2), new ItemStack(Blocks.leaves, 1, 2), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2, 1), new ItemStack(Blocks.leaves, 1, 1), new ItemStack(Blocks.leaves, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2, 1), new ItemStack(Blocks.leaves2, 1, 1), new ItemStack(Blocks.leaves, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 2, 1), new ItemStack(Blocks.leaves, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 0), Blocks.vine, new ItemStack(Blocks.leaves, 1, 0), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 1), Blocks.vine, new ItemStack(Blocks.leaves, 1, 1), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 2), Blocks.vine, new ItemStack(Blocks.leaves, 1, 2), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves, 4, 3), Blocks.vine, new ItemStack(Blocks.leaves, 1, 3), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 4, 0), Blocks.vine, new ItemStack(Blocks.leaves2, 1, 0), type); registerCalculatorRecipe(new ItemStack(Blocks.leaves2, 4, 1), Blocks.vine, new ItemStack(Blocks.leaves2, 1, 1), type); registerCalculatorRecipe(Items.bed, "treeLeaves", new ItemStack(Blocks.planks, 1), type);
+		 * 
+		 * //
+		 * 
+		 * for (int i = 0; i < 9; i++) { switch (i) { case 8: registerCalculatorRecipe(new ItemStack(Blocks.red_flower, 2, i), new ItemStack(Blocks.red_flower, 1, 0), new ItemStack(Blocks.red_flower, 1, 0), RecipeType.FLOWER); break; default: registerCalculatorRecipe(new ItemStack(Blocks.red_flower, 2, i), new ItemStack(Blocks.red_flower, 1, i + 1), new ItemStack(Blocks.red_flower, 1, i + 1), RecipeType.FLOWER); break; } } for (int i = 0; i < 16; i++) { switch (i) { case 15: registerCalculatorRecipe(new ItemStack(Items.dye, 2, i), new ItemStack(Items.dye, 1, 0), new ItemStack(Items.dye, 1, 0), RecipeType.DYE); registerCalculatorRecipe(new ItemStack(Blocks.carpet, 2, i), new ItemStack(Blocks.carpet, 1, 0), new ItemStack(Blocks.carpet, 1, 0), RecipeType.CARPET); registerCalculatorRecipe(new ItemStack(Blocks.stained_hardened_clay, 2, i), new ItemStack(Blocks.stained_hardened_clay, 1, 0), new ItemStack(Blocks.stained_hardened_clay, 1, 0), RecipeType.CLAY_BLOCK); registerCalculatorRecipe(new ItemStack(Blocks.stained_glass_pane, 2, i), new ItemStack(Blocks.stained_glass_pane, 1, 0), new ItemStack(Blocks.stained_glass_pane, 1, 0), RecipeType.GLASS_PANE); registerCalculatorRecipe(new ItemStack(Blocks.stained_glass, 2, i), new ItemStack(Blocks.stained_glass, 1, 0), new ItemStack(Blocks.stained_glass, 1, 0), RecipeType.GLASS); registerCalculatorRecipe(new ItemStack(Blocks.wool, 2, i), new ItemStack(Blocks.wool, 1, 0), new ItemStack(Blocks.wool, 1, 0), RecipeType.WOOL); break; default: registerCalculatorRecipe(new ItemStack(Items.dye, 2, i), new ItemStack(Items.dye, 1, i + 1), new ItemStack(Items.dye, 1, i + 1), RecipeType.DYE); registerCalculatorRecipe(new ItemStack(Blocks.carpet, 2, i), new ItemStack(Blocks.carpet, 1, i + 1), new ItemStack(Blocks.carpet, 1, i + 1), RecipeType.CARPET); registerCalculatorRecipe(new ItemStack(Blocks.stained_hardened_clay, 2, i), new ItemStack(Blocks.stained_hardened_clay, 1, i + 1), new ItemStack(Blocks.stained_hardened_clay, 1, i + 1), RecipeType.CLAY_BLOCK); registerCalculatorRecipe(new ItemStack(Blocks.stained_glass_pane, 2, i), new ItemStack(Blocks.stained_glass_pane, 1, i + 1), new ItemStack(Blocks.stained_glass_pane, 1, i + 1), RecipeType.GLASS_PANE); registerCalculatorRecipe(new ItemStack(Blocks.stained_glass, 2, i), new ItemStack(Blocks.stained_glass, 1, i + 1), new ItemStack(Blocks.stained_glass, 1, i + 1), RecipeType.GLASS); registerCalculatorRecipe(new ItemStack(Blocks.wool, 2, i), new ItemStack(Blocks.wool, 1, i + 1), new ItemStack(Blocks.wool, 1, i + 1), RecipeType.WOOL);
+		 * 
+		 * break; } } // foliage type = RecipeType.FOLIAGE; registerCalculatorRecipe(new ItemStack(Items.reeds, 1), new ItemStack(Blocks.grass, 1), "treeSapling", type); for (int i = 0; i < 9; i++) { registerCalculatorRecipe(new ItemStack(Blocks.vine, 16), new ItemStack(Blocks.red_flower, 1, i), "treeSapling", type); } for (int i = 0; i < 6; i++) { switch (i) { default: registerCalculatorRecipe(new ItemStack(Blocks.double_plant, 2, i), new ItemStack(Blocks.double_plant, 1, i + 1), new ItemStack(Blocks.double_plant, 1, i + 1), type); break; case 1: registerCalculatorRecipe(new ItemStack(Blocks.double_plant, 2, i), new ItemStack(Blocks.tallgrass, 1, 1), new ItemStack(Blocks.tallgrass, 1, 1), type); break; case 2: registerCalculatorRecipe(new ItemStack(Blocks.tallgrass, 2, 1), new ItemStack(Blocks.tallgrass, 1, 2), new ItemStack(Blocks.tallgrass, 1, 2), type); break; case 3: registerCalculatorRecipe(new ItemStack(Blocks.tallgrass, 2, 2), new ItemStack(Blocks.double_plant, 1, i + 1), new ItemStack(Blocks.double_plant, 1, i + 1), type); break; case 5: registerCalculatorRecipe(new ItemStack(Blocks.double_plant, 2, i), new ItemStack(Blocks.double_plant, 1, 0), new ItemStack(Blocks.double_plant, 1, 0), type); break; } } */
 	}
 
 	private static void addScientificRecipes() {
@@ -617,7 +292,7 @@ public class RecipeRegistry {
 		registerScientificRecipe(Calculator.itemEnergyModule, Calculator.small_amethyst, Calculator.starchextractor);
 		registerScientificRecipe(Calculator.powerCube, Calculator.purified_coal, Calculator.itemEnergyModule);
 		// registerScientificRecipe(new ItemStack(Calculator.material_block, 1, CalculatorItems.ToolTypes.ReinforcedIron.getMeta()), Items.ender_eye, Calculator.fluxPlug);
-		// registerScientificRecipe("ingotRedstone", Items.ender_pearl, Calculator.fluxPoint);
+		//registerScientificRecipe(Calculator.redstone_ingot, Items.ender_pearl, Calculator.fluxPoint);
 
 	}
 
@@ -628,7 +303,7 @@ public class RecipeRegistry {
 		registerAtomicRecipe(Items.blaze_rod, Calculator.flawlessdiamond, Items.blaze_rod, Calculator.firediamond);
 		registerAtomicRecipe(Blocks.end_stone, Calculator.electricDiamond, Blocks.obsidian, Calculator.endDiamond);
 		registerAtomicRecipe(Calculator.amethystSapling, Blocks.end_stone, Calculator.tanzaniteSapling, Calculator.pearSapling);
-		registerAtomicRecipe(Calculator.itemScientificCalculator, Calculator.atomic_binder, "ingotRedstone", Calculator.itemAdvancedTerrainModule);
+		registerAtomicRecipe(Calculator.itemScientificCalculator, Calculator.atomic_binder, Calculator.redstone_ingot, Calculator.itemAdvancedTerrainModule);
 		registerAtomicRecipe(Calculator.tanzaniteLog, Calculator.atomic_binder, Calculator.tanzaniteLeaves, Calculator.tanzaniteSapling);
 		registerAtomicRecipe(Calculator.large_tanzanite, Calculator.atomic_binder, "treeSapling", Calculator.tanzaniteSapling);
 		registerAtomicRecipe(Calculator.healthProcessor, Calculator.itemEnergyModule, Calculator.hungerProcessor, Calculator.itemNutritionModule);
@@ -636,7 +311,7 @@ public class RecipeRegistry {
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 5), Calculator.atomic_binder, "dustEnrichedGold", new ItemStack(Calculator.energyUpgrade, 4));
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 6), Calculator.atomic_binder, "dustEnrichedGold", Calculator.voidUpgrade);
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 9), Calculator.redstoneextractor, Calculator.large_tanzanite, Calculator.glowstoneextractor);
-		registerAtomicRecipe("ingotRedstone", Calculator.starchextractor, "ingotRedstone", Calculator.redstoneextractor);
+		registerAtomicRecipe(Calculator.redstone_ingot, Calculator.starchextractor, Calculator.redstone_ingot, Calculator.redstoneextractor);
 		registerAtomicRecipe(Calculator.itemEnergyModule, Calculator.firediamond, Calculator.itemEnergyModule, Calculator.conductorMast);
 		registerAtomicRecipe(new ItemStack(Calculator.material_block, 1, Variants.REINFORCED_IRON.getMeta()), Calculator.reinforcedChest, new ItemStack(Calculator.material_block, 1, Variants.REINFORCED_IRON.getMeta()), Calculator.storageChamber);
 		registerAtomicRecipe(Calculator.reassemblyChamber, Calculator.flawlessdiamond, Calculator.restorationChamber, Calculator.processingChamber);
@@ -661,13 +336,14 @@ public class RecipeRegistry {
 
 		registerFlawlessRecipe(Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_rod);
 		registerFlawlessRecipe(Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.ghast_tear);
-		
+
 	}
+
 	/** old versions put the output first this fixes that
 	 * 
 	 * @param objects */
 	private static void rearrangeCalculatorRecipe(Object... objects) {
-		if (objects.length==4 && objects[3] != null && objects[3] instanceof RecipeType) {
+		if (objects.length == 4 && objects[3] != null && objects[3] instanceof RecipeType) {
 			String recipeID = ((String) objects[3]);
 			Object[] recipe = new Object[3];
 			recipe[0] = objects[1];

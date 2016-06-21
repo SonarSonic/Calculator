@@ -40,9 +40,11 @@ import sonar.calculator.mod.common.block.misc.MagneticFlux;
 import sonar.calculator.mod.common.block.misc.Piping;
 import sonar.calculator.mod.common.block.misc.RainSensor;
 import sonar.calculator.mod.common.block.misc.ReinforcedChest;
+import sonar.calculator.mod.common.block.misc.Scarecrow;
+import sonar.calculator.mod.common.block.misc.ScarecrowBlock;
 import sonar.calculator.mod.common.block.misc.StorageChamber;
 import sonar.calculator.mod.common.block.misc.WeatherController;
-import sonar.calculator.mod.common.tileentity.TileEntityMachines;
+import sonar.calculator.mod.common.tileentity.TileEntityMachine;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
@@ -68,6 +70,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import sonar.core.common.block.ConnectedBlock;
 import sonar.core.common.block.SonarBlockTip;
 import sonar.core.common.block.SonarMetaBlock;
@@ -97,7 +100,7 @@ public class CalculatorBlocks extends Calculator {
 	public static void registerBlocks() {
 
 		flawlessGlass = registerBlock("FlawlessGlass", new ConnectedBlock.Glass(Material.glass, 3)).setLightLevel(0.625F).setHardness(0.6F);
-		purifiedObsidian = registerBlock("PurifiedObsidian", new ConnectedBlock(Material.rock, 4)).setBlockUnbreakable();
+		purifiedObsidian = registerBlock("PurifiedObsidian", new ConnectedBlock(Material.rock, 4)).setBlockUnbreakable().setResistance(6000000.0F);
 
 		/* stablestonerimmedBlock = new ConnectedBlock.StableRimmed().setUnlocalizedName("stablestonerimmedBlock").setCreativeTab(Calculator).setHardness(2.0F); GameRegistry.registerBlock(stablestonerimmedBlock, ItemMetaBlock.class, "stablestonerimmedBlock"); stablestonerimmedblackBlock = new ConnectedBlock.StableBlackRimmed().setUnlocalizedName("stablestonerimmedblackBlock").setCreativeTab(Calculator).setHardness(2.0F); GameRegistry.registerBlock(stablestonerimmedblackBlock, ItemMetaBlock.class, "stablestonerimmedblackBlock"); stableglassBlock = new ConnectedBlock.StableGlass("stablestone_glass", 3).setBlockName("StableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F); GameRegistry.registerBlock(stableglassBlock, SonarBlockTip.class, "StableGlass"); clearstableglassBlock = new ConnectedBlock.StableGlass("stablestone_clear", 4).setBlockName("ClearStableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F); GameRegistry.registerBlock(clearstableglassBlock, SonarBlockTip.class, "ClearStableGlass"); flawlessGlass = new ConnectedBlock(Material.glass, "flawlessglass", 1, false).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F); GameRegistry.registerBlock(flawlessGlass, SonarBlockTip.class, "FlawlessGlass"); */
 		// calculators
@@ -116,7 +119,7 @@ public class CalculatorBlocks extends Calculator {
 
 		// smelting
 		reinforcedFurnace = registerBlock("ReinforcedFurnace", new SmeltingBlock(BlockTypes.FURNACE).setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityMachines.ReinforcedFurnace.class, "ReinforcedFurnace");
+		GameRegistry.registerTileEntity(TileEntityMachine.ReinforcedFurnace.class, "ReinforcedFurnace");
 		reinforcedChest = registerBlock("ReinforcedChest", new ReinforcedChest().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityReinforcedChest.class, "ReinforcedChest");
 		// flawlessFurnace = new FlawlessFurnace().setUnlocalizedName("FlawlessFurnace").setCreativeTab(Calculator).setHardness(1.0F).setResistance(20.0F);
@@ -124,9 +127,9 @@ public class CalculatorBlocks extends Calculator {
 		// GameRegistry.registerTileEntity(TileEntityFlawlessFurnace.class, "FlawlessFurnace");
 
 		stoneSeparator = registerBlock("StoneSeparator", new SmeltingBlock(BlockTypes.STONE).setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityMachines.StoneSeperator.class, "StoneSeparator");
+		GameRegistry.registerTileEntity(TileEntityMachine.StoneSeperator.class, "StoneSeparator");
 		algorithmSeparator = registerBlock("AlgorithmSeparator", new SmeltingBlock(BlockTypes.ALGORITHM).setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityMachines.AlgorithmSeperator.class, "AlgorithmSeparator");
+		GameRegistry.registerTileEntity(TileEntityMachine.AlgorithmSeperator.class, "AlgorithmSeparator");
 		hungerProcessor = registerBlock("HungerProcessor", new HungerProcessor().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityHungerProcessor.class, "HungerProcessor");
 		healthProcessor = registerBlock("HealthProcessor", new HealthProcessor().setHardness(1.0F).setResistance(20.0F));
@@ -142,15 +145,15 @@ public class CalculatorBlocks extends Calculator {
 		GameRegistry.registerTileEntity(TileEntityAtomicMultiplier.class, "AtomicMultiplier");
 
 		extractionChamber = registerBlock("ExtractionChamber", new SmeltingBlock.ChamberBlock(BlockTypes.EXTRACTION).setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityMachines.ExtractionChamber.class, "ExtractionChamber");
+		GameRegistry.registerTileEntity(TileEntityMachine.ExtractionChamber.class, "ExtractionChamber");
 		restorationChamber = registerBlock("RestorationChamber", new SmeltingBlock.ChamberBlock(BlockTypes.RESTORATION).setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityMachines.RestorationChamber.class, "RestorationChamber");
+		GameRegistry.registerTileEntity(TileEntityMachine.RestorationChamber.class, "RestorationChamber");
 		reassemblyChamber = registerBlock("ReassemblyChamber", new SmeltingBlock.ChamberBlock(BlockTypes.REASSEMBLY).setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityMachines.ReassemblyChamber.class, "ReassemblyChamber");
+		GameRegistry.registerTileEntity(TileEntityMachine.ReassemblyChamber.class, "ReassemblyChamber");
 		precisionChamber = registerBlock("PrecisionChamber", new SmeltingBlock.ChamberBlock(BlockTypes.PRECISION).setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityMachines.PrecisionChamber.class, "PrecisionChamber");
+		GameRegistry.registerTileEntity(TileEntityMachine.PrecisionChamber.class, "PrecisionChamber");
 		processingChamber = registerBlock("ProcessingChamber", new SmeltingBlock.ChamberBlock(BlockTypes.PROCESSING).setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityMachines.ProcessingChamber.class, "ProcessingChamber");
+		GameRegistry.registerTileEntity(TileEntityMachine.ProcessingChamber.class, "ProcessingChamber");
 		analysingChamber = registerBlock("AnalysingChamber", new AnalysingChamber().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityAnalysingChamber.class, "AnalysingChamber");
 		storageChamber = registerBlock("StorageChamber", new StorageChamber().setHardness(1.0F).setResistance(20.0F));
@@ -208,9 +211,10 @@ public class CalculatorBlocks extends Calculator {
 		gas_lantern_on = addRegisteredBlock(GameRegistry.registerBlock(new GasLantern(true).setHardness(0.1F).setUnlocalizedName("GasLanternOn"), SonarBlockTip.class, "GasLanternOn"));
 		basic_lantern = registerBlock("Lantern", new BasicLantern().setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100));
 		GameRegistry.registerTileEntity(TileEntityGasLantern.class, "Lantern");
-		// scarecrow = registerBlock("Scarecrow", new Scarecrow().setHardness(0.5F).setResistance(24.0F));
-		// GameRegistry.registerTileEntity(TileEntityScarecrow.class, "Scarecrow");
-		/* scarecrowBlock = new ScarecrowBlock().setUnlocalizedName("ScarecrowBlock").setHardness(0.5F).setBlockTextureName(modid + ":" + "reinforcedstone"); GameRegistry.registerBlock(scarecrowBlock, SonarBlockTip.class, "ScarecrowBlock"); */
+		scarecrow = registerBlock("Scarecrow", new Scarecrow().setHardness(0.5F).setResistance(24.0F));
+		GameRegistry.registerTileEntity(TileEntityScarecrow.class, "Scarecrow");
+		scarecrowBlock = new ScarecrowBlock().setUnlocalizedName("ScarecrowBlock").setHardness(0.5F);
+		GameRegistry.registerBlock(scarecrowBlock, SonarBlockTip.class, "ScarecrowBlock");
 		// amethyst
 		amethystLog = registerBlock("AmethystLog", new CalculatorLogs());
 		amethystPlanks = registerBlock("AmethystPlanks", new CalculatorPlanks());

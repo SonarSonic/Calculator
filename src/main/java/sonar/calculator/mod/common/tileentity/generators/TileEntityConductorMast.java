@@ -47,7 +47,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		super.storage = new SyncEnergyStorage(5000000, 64000);
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 5000000;
-		super.energyMode=EnergyMode.SEND;
+		super.energyMode = EnergyMode.SEND;
 	}
 
 	public ItemStack recipeOutput(ItemStack stack) {
@@ -68,58 +68,48 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		if (this.cookTime.getObject() > 0) {
 			this.cookTime.increaseBy(1);
 		}
-		if (!this.worldObj.isRemote) {
-			if (this.canCook()) {
+		if (isServer()) {
+			if (canCook()) {
 				if (cookTime.getObject() == 0) {
-					this.cookTime.increaseBy(1);
+					cookTime.increaseBy(1);
 				}
-
-				if (this.cookTime.getObject() == furnaceSpeed) {
-					this.cookTime.setObject(0);
-					this.cookItem();
+				if (cookTime.getObject() == furnaceSpeed) {
+					cookTime.setObject(0);
+					cookItem();
 				}
-
 			} else {
-				this.cookTime.setObject(0);
+				cookTime.setObject(0);
 			}
-		}
-		if (!this.worldObj.isRemote) {
 			if (this.storage.getMaxEnergyStored() != this.storage.getEnergyStored() && this.storage.getEnergyStored() < storage.getMaxEnergyStored() && this.lightningSpeed.getObject() == 0) {
 				this.random.setObject((int) (Math.random() * +9));
 				this.lightningSpeed.setObject(rand.nextInt(1800 - 1500) + getNextTime());
 			}
-		}
-		if (this.lightningSpeed.getObject() > 0) {
-
-			if (this.lightingTicks.getObject() >= lightningSpeed.getObject()) {
-				this.lightingTicks.setObject(0);
-				this.lightningSpeed.setObject(0);
-				strikes = this.getStrikes();
-				if (this.worldObj.isRemote) {
-					int currentstrikes;
-					if (strikes > 5) {
-						currentstrikes = 5;
-					} else {
-						currentstrikes = strikes;
+			if (this.lightningSpeed.getObject() > 0) {
+				if (this.lightingTicks.getObject() >= lightningSpeed.getObject()) {
+					lightingTicks.setObject(0);
+					lightningSpeed.setObject(0);
+					strikes = this.getStrikes();
+					if (this.worldObj.isRemote) {
+						int currentstrikes;
+						if (strikes > 5) {
+							currentstrikes = 5;
+						} else {
+							currentstrikes = strikes;
+						}
+						while (currentstrikes != 0) {
+							worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, pos.getX(), pos.getY() + 4, pos.getZ()));
+							currentstrikes--;
+						}
 					}
-					while (currentstrikes != 0) {
-
-						worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, pos.getX(), pos.getY() + 4, pos.getZ()));
-						currentstrikes--;
-					}
+					this.lastStations = this.getStations();
+					lightTicks.increaseBy(1);
+				} else {
+					lightingTicks.increaseBy(1);
 				}
-				this.lastStations = this.getStations();
-				lightTicks.increaseBy(1);
-			} else {
-				lightTicks.increaseBy(1);
 			}
-
 		}
 		if (lightTicks.getObject() > 0) {
-			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes);
-			if (worldObj.isThundering()) {
-				add = add * 2;
-			}
+			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes) * 4;
 			if (lightTicks.getObject() < 200) {
 				if (this.storage.getEnergyStored() + add <= this.storage.getMaxEnergyStored()) {
 					lightTicks.increaseBy(1);
@@ -139,9 +129,8 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 				}
 			}
 		}
-		this.addEnergy(EnumFacing.DOWN);
+		addEnergy();
 		this.markDirty();
-
 	}
 
 	private void lightningStrike(World world, int x, int y, int z) {
@@ -240,13 +229,11 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	public static void setWeatherStationAngles(boolean packet, World world, BlockPos pos) {
 		for (int x = -10; x <= 10; x++) {
 			for (int z = -10; z <= 10; z++) {
-				BlockPos currentPos = pos.add(x, 0, z);
-				TileEntity target = world.getTileEntity(currentPos);
+				TileEntity target = world.getTileEntity(pos.add(x, 0, z));
 				if (target != null && target instanceof TileEntityWeatherStation) {
 					TileEntityWeatherStation station = (TileEntityWeatherStation) target;
 					station.setAngle();
-					world.markBlockForUpdate(currentPos);
-
+					world.markBlockForUpdate(pos.add(x, 0, z));
 				}
 			}
 		}
@@ -357,5 +344,10 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	@Override
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiConductorMast(player.inventory, this);
+	}
+
+	@Override
+	public int getBaseProcessTime() {
+		return furnaceSpeed;
 	}
 }

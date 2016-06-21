@@ -100,6 +100,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 				if (cookTime.getObject() != 0) {
 					cookTime.setObject(0);
 					this.energyBuffer = 0;
+					SonarCore.sendPacketAround(this, 128, 2);
 				}
 
 			}
@@ -144,7 +145,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	}
 
 	public void renderTicks() {
-		if (this instanceof TileEntityMachines.PrecisionChamber || this instanceof TileEntityMachines.ExtractionChamber) {
+		if (this instanceof TileEntityMachine.PrecisionChamber || this instanceof TileEntityMachine.ExtractionChamber) {
 			this.renderTicks += (float) Math.max(1, upgrades.getUpgradesInstalled("SPEED")) / 50;
 		} else {
 			this.renderTicks += (float) Math.max(1, upgrades.getUpgradesInstalled("SPEED") * 8) / 1000;
@@ -165,12 +166,10 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public int requiredEnergy() {
 		int speed = upgrades.getUpgradesInstalled("SPEED");
-		int energy = upgrades.getUpgradesInstalled("ENERGY");
-		if (energy + speed == 0) {
-			return 1000 * 5;
-		}
-		int i = 16 - (energy - speed);
-		return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (energy - speed))) * 5;
+		int energy = upgrades.getUpgradesInstalled("ENERGY"); /* if (energy + speed == 0) { return 1000 * 5; } int i = 16 - (energy - speed); return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (energy - speed))) * 5; */
+		float i = (float) ((double) speed / 17) * getBaseEnergyUsage();
+		float e = (float) ((double) energy / 17) * getBaseEnergyUsage();
+		return (int) (getBaseEnergyUsage() + i - e);
 	}
 
 	public boolean receiveClientEvent(int action, int param) {
@@ -272,6 +271,8 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	}
 
+	public abstract int getBaseEnergyUsage();
+
 	@Override
 	public int getCurrentProcessTime() {
 		return cookTime.getObject();
@@ -280,16 +281,17 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	@Override
 	public int getProcessTime() {
 		int speed = upgrades.getUpgradesInstalled("SPEED");
-		int i = 16 - speed;
-		if (speed == 0) {
-			return 1000;
+		int energy = upgrades.getUpgradesInstalled("ENERGY");
+		double i = (double) (((double) speed / 17) * getBaseProcessTime());
+		if (speed == 16) {
+			return 8;
 		}
-		return ((8 + ((i * i) * 2 + i)));
+		return (int) Math.max(getBaseProcessTime() - i, lowestSpeed);
 	}
 
 	@Override
 	public double getEnergyUsage() {
-		return requiredEnergy() / getProcessTime();
+		return (double) requiredEnergy() / (double) getProcessTime();
 	}
 
 	@Override
@@ -303,6 +305,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		if (id == 2) {
 			invertPaused.writeToBuf(buf);
 			paused.writeToBuf(buf);
+			cookTime.writeToBuf(buf);
 			buf.writeBoolean(isActive);
 		}
 	}
@@ -330,6 +333,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		if (id == 2) {
 			invertPaused.readFromBuf(buf);
 			paused.readFromBuf(buf);
+			cookTime.readFromBuf(buf);
 			isActive = buf.readBoolean();
 		}
 	}

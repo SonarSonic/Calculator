@@ -19,9 +19,10 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
 
-public abstract class TileEntityCalculator extends TileEntityInventory implements ISidedInventory,IGuiTile {
+public abstract class TileEntityCalculator extends TileEntityInventory implements ISidedInventory, IGuiTile {
 
 	public static class Dynamic extends TileEntityCalculator {
+		
 		public Dynamic() {
 			super.inv = new SonarInventory(this, 10);
 		}
@@ -102,8 +103,9 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 	}
 
 	public static class Atomic extends TileEntityCalculator {
+		
 		public Atomic() {
-			super.inv = new SonarInventory(this,4);
+			super.inv = new SonarInventory(this, 4);
 		}
 
 		@Override
@@ -113,7 +115,7 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 
 		@Override
 		public Object getGuiScreen(EntityPlayer player) {
-			return new GuiAtomicCalculator(player, (TileEntityCalculator.Atomic) this);
+			return new GuiAtomicCalculator(player, this);
 		}
 	}
 

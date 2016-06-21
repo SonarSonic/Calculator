@@ -1,18 +1,26 @@
 package sonar.calculator.mod.common.block.misc;
 
+import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.nutrition.IHealthProcessor;
 import sonar.calculator.mod.api.nutrition.IHungerProcessor;
 import sonar.core.common.block.ConnectedBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.helpers.FontHelper;
+import sonar.core.utils.ISpecialTooltip;
 
-public class Piping extends ConnectedBlock {
+public class Piping extends ConnectedBlock implements ISpecialTooltip {
 
 	public Piping(Material material, int target) {
 		super(material, target);
@@ -122,7 +130,14 @@ public class Piping extends ConnectedBlock {
 		return getCollisionBoundingBox(world, pos, world.getBlockState(pos));
 	}
 	*/
-
+	@Override
+	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+		list.add("W.I.P");
+	}
+	
+	@Override
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {}
+	
 	public static class Amethyst extends Piping {
 
 		public Amethyst() {
@@ -154,4 +169,5 @@ public class Piping extends ConnectedBlock {
 			return super.checkBlockInDirection(world, x, y, z, dir);
 		}
 	}
+
 }

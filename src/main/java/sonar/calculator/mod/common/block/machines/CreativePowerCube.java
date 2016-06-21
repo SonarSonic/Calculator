@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import sonar.calculator.mod.Calculator;
@@ -28,7 +29,7 @@ public class CreativePowerCube extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null && !world.isRemote) {
 			FontHelper.sendMessage("Transfers: " + Integer.MAX_VALUE + " RF/t", world, player);
-			//FMLNetworkHandler.openGui(player, Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
+			// FMLNetworkHandler.openGui(player, Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
@@ -39,7 +40,11 @@ public class CreativePowerCube extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		//CalculatorHelper.addEnergytoToolTip(stack, player, list);
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {		
+	}
+
+	@Override
+	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "New Feature!");
 	}
 }

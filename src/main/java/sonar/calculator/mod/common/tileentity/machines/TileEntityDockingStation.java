@@ -19,6 +19,10 @@ import sonar.core.utils.IGuiTile;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess implements IGuiTile, IAdditionalInventory {
 
+	public TileEntityDockingStation() {
+		super(4, 1, 200, 10);
+	}
+
 	public ItemStack calcStack;
 
 	@Override

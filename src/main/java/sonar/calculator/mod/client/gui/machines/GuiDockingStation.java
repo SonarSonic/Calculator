@@ -27,7 +27,7 @@ public class GuiDockingStation extends GuiContainer {
 	}
 
 	@Override
-	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+	public void drawGuiContainerForegroundLayer(int x, int y) {
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 	}

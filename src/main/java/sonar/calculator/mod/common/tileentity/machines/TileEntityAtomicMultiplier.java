@@ -231,4 +231,9 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		return new GuiAtomicMultiplier(player.inventory, this);
 	}
 
+	@Override
+	public int getBaseProcessTime() {
+		return furnaceSpeed;
+	}
+
 }

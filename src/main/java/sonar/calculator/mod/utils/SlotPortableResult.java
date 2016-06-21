@@ -1,6 +1,7 @@
 package sonar.calculator.mod.utils;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
@@ -13,8 +14,8 @@ public class SlotPortableResult extends SlotPortable {
 	private int[] craftSlots;
 	private ICalculatorCrafter container;
 
-	public SlotPortableResult(EntityPlayer player, InventoryItem inv, ICalculatorCrafter container, int[] craftSlots, int index, int x, int y, boolean isRemote) {
-		super(inv, index, x, y, isRemote);
+	public SlotPortableResult(EntityPlayer player, IInventory inv, ICalculatorCrafter container, int[] craftSlots, int index, int x, int y, boolean isRemote) {
+		super(inv, index, x, y, isRemote, null);
 		this.thePlayer = player;
 		this.craftSlots = craftSlots;
 		this.container = container;
@@ -56,7 +57,7 @@ public class SlotPortableResult extends SlotPortable {
 
 					if (!this.thePlayer.inventory.addItemStackToInventory(itemstack2)) {
 						if (this.invItem.getStackInSlot(craftSlots[i]) == null) {
-							this.invItem.setInventorySlotContents(craftSlots[i], itemstack2, isRemote);
+							this.invItem.setInventorySlotContents(craftSlots[i], itemstack2);
 						} else {
 							this.thePlayer.dropPlayerItemWithRandomChoice(itemstack2, false);
 						}
@@ -72,14 +73,14 @@ public class SlotPortableResult extends SlotPortable {
 
 			if (invItem.getStackInSlot(slot).stackSize <= size) {
 				itemstack = invItem.getStackInSlot(slot);
-				invItem.setInventorySlotContents(slot, null, isRemote);
+				invItem.setInventorySlotContents(slot, null);
 				container.onItemCrafted();
 				return itemstack;
 			} else {
 				itemstack = invItem.getStackInSlot(slot).splitStack(size);
 
 				if (invItem.getStackInSlot(slot).stackSize == 0) {
-					invItem.setInventorySlotContents(slot, null, isRemote);
+					invItem.setInventorySlotContents(slot, null);
 				}
 
 				container.onItemCrafted();

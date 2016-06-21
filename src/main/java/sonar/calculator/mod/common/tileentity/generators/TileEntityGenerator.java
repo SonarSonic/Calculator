@@ -27,7 +27,7 @@ import sonar.core.utils.IGuiTile;
 
 import com.google.common.collect.Lists;
 
-public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory,IGuiTile  {
+public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile {
 
 	protected TileEntity[] handlers = new TileEntity[6];
 
@@ -66,19 +66,26 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 			if (burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
 				if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel.getObject() >= requiredLevel) {
 					this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(stack));
-					burnTime.increaseBy(1);;
+					burnTime.increaseBy(1);					
 					this.slots()[0].stackSize--;
-
-					if (this.slots()[0].stackSize <= 0) {
-						this.slots()[0] = null;
+					if (this.slots()[0] != null) {
+						--this.slots()[0].stackSize;
+						if (this.slots()[0].stackSize <= 0) {
+							this.slots()[0] = null;
+							if (this.slots()[0].stackSize == 0) {
+								this.slots()[0] = this.slots()[0].getItem().getContainerItem(this.slots()[0]);
+							}
+						}
 					}
+
 				}
 			}
 
 		}
 		if (burnTime.getObject() > 0 && !(burnTime.getObject() == maxBurnTime.getObject())) {
 			this.storage.receiveEnergy(energyMultiplier, false);
-			burnTime.increaseBy(1);;
+			burnTime.increaseBy(1);
+			;
 		}
 		if (maxBurnTime.getObject() != 0 && burnTime.getObject() == maxBurnTime.getObject()) {
 			this.storage.receiveEnergy(energyMultiplier, false);
@@ -109,7 +116,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		super.addSyncParts(parts);
 		parts.addAll(Lists.newArrayList(itemLevel, burnTime, maxBurnTime));
 	}
-	
+
 	public void addItem(int add) {
 		itemLevel.increaseBy(add);
 	}
@@ -163,7 +170,6 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		public int getItemValue(ItemStack stack) {
 			return (Integer) StarchExtractorRecipes.instance().getOutput(stack);
 		}
-
 
 		@Override
 		public Object getGuiScreen(EntityPlayer player) {

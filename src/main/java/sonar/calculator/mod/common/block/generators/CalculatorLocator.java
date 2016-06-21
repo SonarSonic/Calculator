@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
+import sonar.core.SonarCore;
 import sonar.core.api.blocks.IStableBlock;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
@@ -48,6 +49,10 @@ public class CalculatorLocator extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
 		if (player != null) {
 			if (!world.isRemote) {
+				TileEntity locator = (TileEntity) world.getTileEntity(pos);
+				if (locator != null){
+					SonarCore.sendFullSyncAround(locator, 64);
+				}
 				player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
@@ -125,7 +130,6 @@ public class CalculatorLocator extends SonarMachineBlock {
 	@Override
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
 	}
 
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {

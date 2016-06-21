@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import sonar.calculator.mod.client.gui.machines.GuiAdvancedPowerCube;
+import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
 import sonar.core.api.SonarAPI;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.network.sync.SyncEnergyStorage;
@@ -74,7 +74,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 
 	@Override
 	public Object getGuiScreen(EntityPlayer player) {
-		return new GuiAdvancedPowerCube(player.inventory, this);
+		return new GuiPowerCube(player.inventory, this);
 	}
 
 	@Override

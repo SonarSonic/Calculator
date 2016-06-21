@@ -5,6 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
@@ -23,8 +24,8 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 		this.player = player;
 		this.inventory = inventoryItem;
 		isRemote = player.getEntityWorld().isRemote;
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, isRemote));
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, isRemote));
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, isRemote, Calculator.itemCalculator));
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, isRemote, Calculator.itemCalculator));
 		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1 }, 2, 134, 35, isRemote));
 
 		for (int i = 0; i < 3; ++i) {
@@ -69,15 +70,12 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-
 			if (slotID < INV_START) {
 				if (!this.mergeItemStack(itemstack1, INV_START, HOTBAR_END + 1, true)) {
 					return null;
 				}
-
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
-
 				if (slotID >= INV_START) {
 					if (!this.mergeItemStack(itemstack1, 0, INV_START - 1, false)) {
 						return null;
@@ -92,7 +90,6 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 					}
 				}
 			}
-
 			if (itemstack1.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {

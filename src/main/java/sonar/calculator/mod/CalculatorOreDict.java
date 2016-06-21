@@ -25,7 +25,7 @@ public class CalculatorOreDict extends Calculator {
 		registerOre("dustEnrichedGold", enrichedGold);
 		registerOre("gemDiamondFake", weakeneddiamond);
 		registerOre("ingotFoolsGold", enrichedgold_ingot);
-		registerOre("ingotRedstone", redstone_ingot);
+		//registerOre("ingotRedstone", redstone_ingot);
 		registerOre("dustFoolsGold", enrichedGold);
 		registerOre("gemAmethyst", small_amethyst);
 		registerOre("gemTanzanite", small_tanzanite);

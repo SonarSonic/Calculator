@@ -24,11 +24,11 @@ public class Wrench extends SonarItem implements IWrench {
 		if (player.isSneaking()) {
 			if (block instanceof IWrenchable && ((IWrenchable) block).canWrench(player, world, pos))
 				((IWrenchable) block).wrenchBlock(player, world, pos, true);
+			//DISMANTLE needs to be added again.
 		} else {
-			if (te != null && te instanceof IMachineSides){
+			if (te != null && te instanceof IMachineSides) {
 				((IMachineSides) te).getSideConfigs().increaseSide(side);
 			}
-
 		}
 
 		return true;

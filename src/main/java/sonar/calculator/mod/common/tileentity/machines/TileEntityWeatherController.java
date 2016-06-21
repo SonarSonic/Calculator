@@ -164,4 +164,9 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiWeatherController(player.inventory, this);
 	}
+
+	@Override
+	public int getBaseProcessTime() {
+		return getProcessTime();
+	}
 }

@@ -1,11 +1,17 @@
 package sonar.calculator.mod.client.gui.machines;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonar.CircuitButton;
+import sonar.core.client.gui.GuiSonar.PauseButton;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
@@ -40,6 +46,14 @@ public class GuiSmeltingBlock extends GuiSonar {
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		FontHelper.textCentre(this.entity.getName(), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
+		if ((x > guiLeft + 130 && x < guiLeft + 144) && (y > guiTop + 60 && y < guiTop + 74)) {
+			ArrayList list = new ArrayList();
+	        DecimalFormat df = new DecimalFormat("#.##");
+			list.add(EnumChatFormatting.BLUE + "" + EnumChatFormatting.UNDERLINE + "Machine Stats");
+			list.add("Usage: " + df.format(entity.getEnergyUsage())+ " rf/t");
+			list.add("Speed: " + entity.getProcessTime() + " ticks");
+			this.drawSpecialToolTip(list, x, y, fontRendererObj);
+		}
 		super.drawGuiContainerForegroundLayer(x, y);
 	}
 

@@ -5,6 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
@@ -23,8 +24,8 @@ public class ContainerScientificCalculator extends Container implements ICalcula
 		this.player = player;
 		isRemote = player.getEntityWorld().isRemote;
 
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, isRemote));
-		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, isRemote));
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, isRemote, Calculator.itemScientificCalculator));
+		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, isRemote, Calculator.itemScientificCalculator));
 		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1 }, 2, 134, 35, isRemote));
 
 		for (int i = 0; i < 3; ++i) {

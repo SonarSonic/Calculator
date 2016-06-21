@@ -9,7 +9,12 @@
         "transform":"forge:default-block"
      },
     "variants": {
-        "inventory": [{}],
+        "inventory": [{            
+                 "submodel": {
+                    "down": { "model": "calculator:PipingConnection"},                    
+                    "up": { "model": "calculator:PipingConnection", "x": 180}
+                  }
+                }],
          "north":{
             "true":{
                  "submodel": {

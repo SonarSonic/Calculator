@@ -60,7 +60,6 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 			}
 		}
 		this.magnetizeItems();
-
 	}
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
@@ -69,7 +68,6 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 			this.whitelisted = nbt.getBoolean("blacklisted");
 			this.exact = nbt.getBoolean("exact");
 		}
-
 	}
 
 	public void writeData(NBTTagCompound nbt, SyncType type) {
@@ -91,7 +89,6 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 				double z = pos.getZ() + 0.5D - entity.posZ;
 
 				double distance = Math.sqrt(x * x + y * y + z * z);
-
 				if (distance < 1.5) {
 					ItemStack itemstack = addToInventory((EntityItem) entity);
 					if (itemstack == null || itemstack.stackSize <= 0) {
@@ -140,11 +137,8 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 					}
 				}
 			}
-
 		}
-
 		return stack.getItem() == stack2.getItem() && (exact || stack.getItemDamage() == stack2.getItemDamage()) && (exact || ItemStack.areItemStackTagsEqual(stack, stack2));
-
 	}
 
 	public ItemStack addToInventory(EntityItem item) {

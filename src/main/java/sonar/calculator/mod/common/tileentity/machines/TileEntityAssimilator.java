@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
@@ -29,7 +31,6 @@ import sonar.core.api.utils.ActionType;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.helpers.ItemStackHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
@@ -48,6 +49,10 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		if (this.tick != tickRate) {
 			tick++;
 		} else {
+			if (this instanceof Algorithm) {
+				EnumFacing dir = EnumFacing.getFront(this.getBlockMetadata());
+				SonarAPI.getItemHelper().transferItems(this, this.getWorld().getTileEntity(pos.offset(dir.getOpposite())), dir, dir.getOpposite(), null);
+			}
 			tick = 0;
 			this.hasTree = hasTree();
 			if (hasTree) {
@@ -247,12 +252,22 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 			IBlockState state = block.getBlockState(worldObj);
 			if (state.getValue(CalculatorLeaves.GROWTH).getMeta() > 2) {
 				ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getBlockPos(), rand.nextBoolean());
-				if (stacks != null) {
-					for (int i = 0; i < stacks.length; i++) {
-						StoredItemStack stack = SonarAPI.getItemHelper().addItems(this, new StoredItemStack(ItemStackHelper.restoreItemStack(stacks[i], 1)), EnumFacing.getFront(0).getOpposite(), ActionType.PERFORM, null);
+				EnumFacing forward = EnumFacing.getFront(getBlockMetadata());
+				for (ItemStack s : stacks) {
+					if (s != null) {
+						ItemStack stack = s.copy();
+						TileEntity tile = this.getWorld().getTileEntity(pos.offset(forward.getOpposite()));
+						StoredItemStack storedstack = new StoredItemStack(stack);
+						StoredItemStack harvest = SonarAPI.getItemHelper().addItems(this, storedstack.copy(), EnumFacing.DOWN, ActionType.PERFORM, null);
+						storedstack.remove(harvest);
+						if (storedstack != null && storedstack.stored > 0) {
+							BlockPos pos = this.pos.offset(forward.getOpposite());
+							EntityItem drop = new EntityItem(worldObj, pos.getX(), pos.getY(), pos.getZ(), storedstack.getFullStack());
+							worldObj.spawnEntityInWorld(drop);
+						}
 					}
-					return true;
 				}
+				return true;
 			}
 			return false;
 

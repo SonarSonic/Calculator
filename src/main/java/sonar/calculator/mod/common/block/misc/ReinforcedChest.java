@@ -1,18 +1,23 @@
 package sonar.calculator.mod.common.block.misc;
 
+import java.util.List;
+
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.ISpecialTooltip;
 
-public class ReinforcedChest extends BlockChest {
+public class ReinforcedChest extends BlockChest implements ISpecialTooltip {
 
 	public ReinforcedChest() {
 		super(0);
@@ -38,5 +43,14 @@ public class ReinforcedChest extends BlockChest {
 
 	private boolean isDoubleChest(World worldIn, BlockPos pos) {
 		return false;
+	}
+	
+	@Override
+	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "New Feature!");
+	}
+
+	@Override
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {		
 	}
 }

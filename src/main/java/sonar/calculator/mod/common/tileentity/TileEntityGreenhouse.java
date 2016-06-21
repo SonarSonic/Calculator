@@ -138,18 +138,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			}
 		}
 	}
-
-	/* public static boolean canHarvest(World world, BlockPos pos) { Block block = world.getBlockState(pos).getBlock(); return block instanceof IGrowable; }
-	 * 
-	 * public void harvestCrops() { if (!this.worldObj.isRemote) { List<BlockCoords> coords = getPlantArea(); if (coords == null || coords.isEmpty()) { return; } for (BlockCoords crops : coords) { if (canHarvest(worldObj, crops.getBlockPos())) { harvest(worldObj, crops.getBlockPos()); } } } }
-	 * 
-	 * public void plant() { if (this.plantTicks >= 0 && this.plantTicks != this.plantTick) { this.plantTicks++; } if (this.plantTicks >= this.plantTick) { if (this.storage.getEnergyStored() >= plantRF) { if (plantAction()) { this.planting = 0; this.storage.extractEnergy(plantRF, false); } this.plantTicks = 0; } } }
-	 * 
-	 * public boolean plantAction() { List<Integer> plants = getInvPlants(); if (plants != null && !plants.isEmpty() && this.planting == 0) { for (int i = 0; i < plants.size(); i++) { this.planting = 1; if (plant(slots()[plants.get(i)], plants.get(i))) { planting = 0; return true; } planting = 0; }
-	 * 
-	 * } return false; }
-	 * 
-	 * /** checks plant slots for plants */
+	
 	public List<Integer> getInvPlants() {
 		List<Integer> plants = new ArrayList();
 
@@ -543,11 +532,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		return 0;
 
 	}
-
-	// public EnumFacing forward {
-	// return EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
-	// }
-
+	
 	/** types Basic =1 Advanced =2 Flawless = 3 **/
 	public int getInvEmpty() {
 		if (this.type == 2) {

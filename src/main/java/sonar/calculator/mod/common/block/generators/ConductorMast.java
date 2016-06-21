@@ -13,11 +13,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.ISpecialTooltip;
 
@@ -90,7 +92,7 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
+		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Conductor Mast") + " RF per strike");
 	}	
 
 	public boolean isFullCube() {
