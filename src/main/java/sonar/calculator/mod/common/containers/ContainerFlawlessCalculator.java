@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -103,10 +104,10 @@ public class ContainerFlawlessCalculator extends Container implements ICalculato
 	}
 
 	@Override
-	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player) {
-		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItem()) {
+    public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player){
+		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
 			return null;
 		}
-		return super.slotClick(slot, button, flag, player);
+		return super.slotClick(slot, drag, click, player);
 	}
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import sonar.calculator.mod.api.machines.ITeleport;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
@@ -56,7 +57,7 @@ public class TeleporterRegistry {
 		if (teleport == null) {
 			return null;
 		}
-		MinecraftServer server = MinecraftServer.getServer();
+		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		World world = server.worldServerForDimension(teleport.teleporterID());
 		if (world != null) {
 			TileEntity target = world.getTileEntity(teleport.getCoords().getBlockPos());

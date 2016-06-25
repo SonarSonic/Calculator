@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 public class CalculatorPlanks extends Block {
 
 	public CalculatorPlanks() {
-		super(Material.wood);
+		super(Material.WOOD);
 		setHarvestLevel("axe", 0);
 		setHardness(0.7F);
 	}

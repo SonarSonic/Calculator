@@ -6,14 +6,16 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -42,12 +44,12 @@ public class GasLantern extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean isFullCube() {
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (!world.isRemote && player != null) {
 			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
@@ -56,7 +58,7 @@ public class GasLantern extends SonarMachineBlock {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
 		if (state.getBlock() == Calculator.gas_lantern_on) {
 			float x1 = pos.getX() + random.nextFloat();
 			float y1 = pos.getY() + 0.5F;
@@ -72,22 +74,10 @@ public class GasLantern extends SonarMachineBlock {
 		}
 		world.removeTileEntity(pos);
 	}
-	/*
-	@Override
-	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-		super.onBlockAdded(world, pos, state);
-		setDefaultFacing(world, pos, state);
-	}
 
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) {
-		super.onNeighborChange(world, pos, neighbour);
-		try {
-			//setDefaultFacing((World) world, pos, world.getBlockState(pos));
-		} catch (ClassCastException exception) {
-			Calculator.logger.error("Lantern: Tried to cast IBlockAccess to World");
-		}
-	}
-	*/
+	/* @Override public void onBlockAdded(World world, BlockPos pos, IBlockState state) { super.onBlockAdded(world, pos, state); setDefaultFacing(world, pos, state); }
+	 * 
+	 * public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) { super.onNeighborChange(world, pos, neighbour); try { //setDefaultFacing((World) world, pos, world.getBlockState(pos)); } catch (ClassCastException exception) { Calculator.logger.error("Lantern: Tried to cast IBlockAccess to World"); } } */
 	private EnumFacing getDefaultFacing(IBlockAccess world, BlockPos pos, IBlockState state) {
 		if (world != null) {
 			Iterator<EnumFacing> iterator = EnumFacing.Plane.VERTICAL.iterator();
@@ -102,8 +92,9 @@ public class GasLantern extends SonarMachineBlock {
 					}
 				}
 				EnumFacing facing = iterator.next();
-				Block block = world.getBlockState(pos.offset(facing)).getBlock();
-				if (block.isFullBlock()) {
+				IBlockState stateOff = world.getBlockState(pos.offset(facing));
+				Block block = stateOff.getBlock();
+				if (block.isFullBlock(stateOff)) {
 					return facing;
 				}
 			} while (iterator.hasNext() || !vertical);
@@ -128,19 +119,18 @@ public class GasLantern extends SonarMachineBlock {
 		}
 	}
 
-	/* @Override public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) { int metadata = world.getBlockMetadata(x, y, z); EnumFacing dir = EnumFacing.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
-	 * 
-	 * setBlockBounds(0.3F + (dir.offsetX * 0.32F), 0.0F + getY(metadata), 0.3F + (dir.offsetZ * 0.32F), 0.7F + (dir.offsetX * 0.32F), 0.7F + getY(metadata), 0.7F + (dir.offsetZ * 0.32F));
-	 * 
-	 * }
-	 * 
-	 * @Override public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axis, List list, Entity entity) { int metadata = world.getBlockMetadata(x, y, z); EnumFacing dir = EnumFacing.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
-	 * 
-	 * this.setBlockBounds(0.3F + (dir.offsetX * 0.32F), 0.0F + getY(metadata), 0.3F + (dir.offsetZ * 0.32F), 0.7F + (dir.offsetX * 0.32F), 0.7F + getY(metadata), 0.7F + (dir.offsetZ * 0.32F)); super.addCollisionBoxesToList(world, x, y, z, axis, list, entity);
-	 * 
-	 * } */
-	public float getY(int meta) {
-		if (meta == 0) {
+	@Deprecated
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
+		if (customBB != null) {
+			return customBB;
+		}
+		
+		EnumFacing dir = getDefaultFacing(world, pos, state);	
+		return new AxisAlignedBB(0.3F + (dir.getFrontOffsetX() * 0.32F), 0.0F + getY(dir), 0.3F + (dir.getFrontOffsetZ() * 0.32F), 0.7F + (dir.getFrontOffsetX() * 0.32F), 0.7F + getY(dir), 0.7F + (dir.getFrontOffsetZ() * 0.32F));
+	}
+
+	public float getY(EnumFacing meta) {
+		if (meta == EnumFacing.DOWN) {
 			return 0.0F;
 		} else {
 			return 0.1F;
@@ -168,7 +158,6 @@ public class GasLantern extends SonarMachineBlock {
 			enumfacing = EnumFacing.NORTH;
 		}
 		return this.getDefaultState().withProperty(DIR, enumfacing);
-
 	}
 
 	public int getMetaFromState(IBlockState state) {
@@ -179,7 +168,7 @@ public class GasLantern extends SonarMachineBlock {
 		return state.withProperty(DIR, getDefaultFacing(world, pos, state));
 	}
 
-	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { DIR });
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] { DIR });
 	}
 }

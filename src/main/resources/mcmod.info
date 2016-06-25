@@ -6,8 +6,8 @@
 Change the way you craft, change the way you play, change the way you think. 
 
 Thank you for trying Calculator!",
-"version": "2.0.1a",
-"mcversion": "1.8.9",
+"version": "${version}",
+"mcversion": "${mcversion}",
 "updateUrl": "http://minecraft.curseforge.com/mc-mods/225104-calculator/files/latest",
 "authors": ["Ollie Lansdell"],
 "credits": "Created by Ollie Lansdell",

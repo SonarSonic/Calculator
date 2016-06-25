@@ -1,18 +1,12 @@
 package sonar.calculator.mod;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
 import sonar.calculator.mod.common.item.calculators.InfoCalculator;
 import sonar.calculator.mod.common.item.calculators.SonarEnergyModule;
@@ -218,9 +212,9 @@ public class CalculatorItems extends Calculator {
 		shard_tanzanite = registerItem("ShardTanzanite", new Item());
 
 		// seeds
-		broccoliSeeds = registerItem("BroccoliSeeds", new SonarSeeds(cropBroccoliPlant, Blocks.farmland, 0));
-		prunaeSeeds = registerItem("PrunaeSeeds", new SonarSeeds(cropPrunaePlant, Blocks.farmland, 2));
-		fiddledewFruit = registerItem("FiddledewFruit", new SonarSeedsFood(16, 0.6F, cropFiddledewPlant, Blocks.farmland, 3));
+		broccoliSeeds = registerItem("BroccoliSeeds", new SonarSeeds(cropBroccoliPlant, Blocks.FARMLAND, 0));
+		prunaeSeeds = registerItem("PrunaeSeeds", new SonarSeeds(cropPrunaePlant, Blocks.FARMLAND, 2));
+		fiddledewFruit = registerItem("FiddledewFruit", new SonarSeedsFood(16, 0.6F, cropFiddledewPlant, Blocks.FARMLAND, 3));
 
 		// food
 		broccoli = registerItem("Broccoli", new ItemFood(1, 0.2F, false));

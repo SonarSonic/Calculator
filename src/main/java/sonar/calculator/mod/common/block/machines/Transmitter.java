@@ -7,9 +7,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -32,7 +33,7 @@ public class Transmitter extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		return false;
 	}
 
@@ -57,7 +58,7 @@ public class Transmitter extends SonarMachineBlock {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
 		float x1 = pos.getX() + random.nextFloat();
 		float y1 = pos.getY() + 0.5F;
 		float z1 = pos.getZ() + random.nextFloat();

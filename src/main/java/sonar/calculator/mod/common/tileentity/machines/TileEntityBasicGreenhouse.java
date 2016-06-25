@@ -10,8 +10,8 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,7 +23,6 @@ import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
-import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.RenderHelper;
 import sonar.core.inventory.SonarInventory;
@@ -114,7 +113,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 			levelTicks++;
 		}
 		if (this.levelTicks == 20) {
-			SonarAPI.getItemHelper().transferItems(this.getWorld().getTileEntity(pos.offset(forward.getOpposite())), this, EnumFacing.getFront(0), EnumFacing.getFront(0), new PlantableFilter());
+			SonarAPI.getItemHelper().transferItems(getWorld().getTileEntity(pos.offset(forward.getOpposite())), this, EnumFacing.getFront(0), EnumFacing.getFront(0), new PlantableFilter());
 
 			this.levelTicks = 0;
 			gasLevels();
@@ -368,10 +367,8 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-
 		NBTTagList list = new NBTTagList();
 		nbt.setInteger("Multi", this.isMulti);
 		nbt.setInteger("planting", this.planting);
@@ -384,6 +381,7 @@ public class TileEntityBasicGreenhouse extends TileEntityGreenhouse implements I
 		nbt.setInteger("Grow", this.growTicks);
 		nbt.setInteger("GrowTick", this.growTick);
 		nbt.setInteger("wasBuilt", this.wasBuilt);
+		return nbt;
 	}
 
 	public void setLog(int x, int y, int z) {

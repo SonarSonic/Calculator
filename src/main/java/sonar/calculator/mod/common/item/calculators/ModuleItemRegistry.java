@@ -22,7 +22,7 @@ public class ModuleItemRegistry extends LinkedRegistryHelper<String, Item> {
 		registerMap(GuiModule.scientific.getName(), Calculator.itemScientificCalculator);
 		registerMap(new EnergyModule().getName(), Calculator.itemEnergyModule);
 		registerMap(new GrenadeModule().getName(), Calculator.grenade);
-		registerMap(new EnderModule().getName(), Items.ender_pearl);
+		registerMap(new EnderModule().getName(), Items.ENDER_PEARL);
 		registerMap(new WarpModule().getName(), Calculator.itemWarpModule);
 		registerMap(new JumpModule().getName(), Calculator.itemJumpModule);
 	}

@@ -11,7 +11,7 @@ import sonar.core.inventory.slots.SlotBlockedInventory;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerDualOutputSmelting extends ContainerSync {
-	
+
 	public TileEntityAbstractProcess entity;
 	public int lastCookTime;
 	public int lastFurnaceSpeed;
@@ -27,8 +27,7 @@ public class ContainerDualOutputSmelting extends ContainerSync {
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
@@ -36,54 +35,26 @@ public class ContainerDualOutputSmelting extends ContainerSync {
 			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
 		}
 	}
-	/*
-	@Override
-	public void addCraftingToCrafters(ICrafting icrafting) {
-		super.addCraftingToCrafters(icrafting);
 
-		icrafting.sendProgressBarUpdate(this, 0, this.entity.cookTime);
-		icrafting.sendProgressBarUpdate(this, 1, this.entity.currentSpeed);
-	}
-
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		for (int i = 0; i < this.crafters.size(); i++) {
-			ICrafting icrafting = (ICrafting) this.crafters.get(i);
-
-			if (this.lastCookTime != this.entity.cookTime) {
-				icrafting.sendProgressBarUpdate(this, 0, this.entity.cookTime);
-			}
-			if (this.lastFurnaceSpeed != this.entity.currentSpeed) {
-				icrafting.sendProgressBarUpdate(this, 1, this.entity.currentSpeed);
-			}
-			
-		}
-		for(int i = 0; i <syncData.length; i++){
-			if (syncData[i] != entity.getSyncData(i) && crafters != null) {
-				for (Object o : crafters)
-					if (o != null && o instanceof EntityPlayerMP)
-						Calculator.network.sendTo(new PacketTileSync(entity.xCoord, entity.yCoord, entity.zCoord, i, entity), (EntityPlayerMP) o);
-			}
-			syncData[i] = entity.storage.getEnergyStored();
-				
-		}
-		
-		this.lastCookTime = this.entity.cookTime;
-		this.lastFurnaceSpeed = this.entity.currentSpeed;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(int slot, int value) {
-		super.updateProgressBar(slot, value);
-		if (slot == 0)
-			this.entity.cookTime = value;
-		if (slot == 1)
-			this.entity.currentSpeed = value;
-
-	}
-*/
+	/*@Override public void addCraftingToCrafters(ICrafting icrafting) { super.addCraftingToCrafters(icrafting);
+	 * 
+	 * icrafting.sendProgressBarUpdate(this, 0, this.entity.cookTime); icrafting.sendProgressBarUpdate(this, 1, this.entity.currentSpeed); }
+	 * 
+	 * @Override public void detectAndSendChanges() { super.detectAndSendChanges(); for (int i = 0; i < this.crafters.size(); i++) { ICrafting icrafting = (ICrafting) this.crafters.get(i);
+	 * 
+	 * if (this.lastCookTime != this.entity.cookTime) { icrafting.sendProgressBarUpdate(this, 0, this.entity.cookTime); } if (this.lastFurnaceSpeed != this.entity.currentSpeed) { icrafting.sendProgressBarUpdate(this, 1, this.entity.currentSpeed); }
+	 * 
+	 * } for(int i = 0; i <syncData.length; i++){ if (syncData[i] != entity.getSyncData(i) && crafters != null) { for (Object o : crafters) if (o != null && o instanceof EntityPlayerMP) Calculator.network.sendTo(new PacketTileSync(entity.xCoord, entity.yCoord, entity.zCoord, i, entity), (EntityPlayerMP) o); } syncData[i] = entity.storage.getEnergyStored();
+	 * 
+	 * }
+	 * 
+	 * this.lastCookTime = this.entity.cookTime; this.lastFurnaceSpeed = this.entity.currentSpeed; }
+	 * 
+	 * @Override
+	 * 
+	 * @SideOnly(Side.CLIENT) public void updateProgressBar(int slot, int value) { super.updateProgressBar(slot, value); if (slot == 0) this.entity.cookTime = value; if (slot == 1) this.entity.currentSpeed = value;
+	 * 
+	 * } */
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
 		ItemStack itemstack = null;
@@ -112,12 +83,11 @@ public class ContainerDualOutputSmelting extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
-				}else if ((id >= 4) && (id < 30)) {
+				} else if ((id >= 4) && (id < 30)) {
 					if (!mergeItemStack(itemstack1, 30, 39, false)) {
 						return null;
 					}
-				} else if ((id >= 30) && (id < 39)
-						&& (!mergeItemStack(itemstack1, 4, 30, false))) {
+				} else if ((id >= 30) && (id < 39) && (!mergeItemStack(itemstack1, 4, 30, false))) {
 					return null;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
@@ -141,10 +111,9 @@ public class ContainerDualOutputSmelting extends ContainerSync {
 		return itemstack;
 	}
 
-	
-	  @Override
+	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		    return entity.isUseableByPlayer(player);
-		  }
+		return entity.isUseableByPlayer(player);
+	}
 
 }

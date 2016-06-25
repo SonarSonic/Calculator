@@ -3,8 +3,8 @@ package sonar.calculator.mod.integration.planting.vanilla;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
@@ -40,7 +40,7 @@ public class Planter implements IPlanter {
 	public IBlockState getPlant(ItemStack stack, World world, BlockPos pos) {
 		IPlantable plant = (IPlantable) stack.getItem();
 		Block base = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
-		if (base != null && base.canSustainPlant(world, pos, EnumFacing.UP, plant)) {
+		if (base != null && base.canSustainPlant(base.getDefaultState(), world, pos, EnumFacing.UP, plant)) {
 			return plant.getPlant(world, pos);
 		}else{
 			return null;

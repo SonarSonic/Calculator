@@ -22,20 +22,20 @@ public class PrecisionChamberRecipes extends RecipeHelper {
 	@Override
 	public void addRecipes() {
 		addRecipe("cobblestone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, OreDictionary.WILDCARD_VALUE));
-		addRecipe(Blocks.dirt, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, OreDictionary.WILDCARD_VALUE));
+		addRecipe(Blocks.DIRT, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, OreDictionary.WILDCARD_VALUE));
 		addRecipe("stone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 0));
 		addRecipe("sand", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 1));
-		addRecipe(Blocks.stonebrick, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 2));
+		addRecipe(Blocks.STONEBRICK, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 2));
 		addRecipe("reinforcedStone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 3));
-		addRecipe(Blocks.soul_sand, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 4));
-		addRecipe(Blocks.obsidian, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 5));
-		addRecipe(Blocks.gravel, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 6));
+		addRecipe(Blocks.SOUL_SAND, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 4));
+		addRecipe(Blocks.OBSIDIAN, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 5));
+		addRecipe(Blocks.GRAVEL, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 6));
 		addRecipe("treeLeaves", new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 7));
 		addRecipe("gemLapis", new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 8));
-		addRecipe(Blocks.nether_brick, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 9));
+		addRecipe(Blocks.NETHER_BRICK, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 9));
 		addRecipe(SonarCore.reinforcedDirtBlock, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 10));
 		addRecipe("sandstone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 11));
-		addRecipe(Blocks.clay, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 12));
+		addRecipe(Blocks.CLAY, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 12));
 		addRecipe("dustRedstone", new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 13));
 
 	}

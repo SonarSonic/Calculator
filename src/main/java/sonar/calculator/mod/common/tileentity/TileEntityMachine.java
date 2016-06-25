@@ -168,7 +168,7 @@ public class TileEntityMachine {
 				return recipeHelper().getOutput(stacks);
 			} else {
 				ItemStack[] outputs = recipeHelper().getOutput(stacks);
-				if (recipeHelper().containsStack(new ItemStack(Blocks.cobblestone, 1), stacks, false) != -1 || recipeHelper().containsStack(new ItemStack(Blocks.dirt, 1), stacks, false) != -1) {
+				if (recipeHelper().containsStack(new ItemStack(Blocks.COBBLESTONE, 1), stacks, false) != -1 || recipeHelper().containsStack(new ItemStack(Blocks.DIRT, 1), stacks, false) != -1) {
 					outputs[1] = new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1));
 				}
 				return outputs;

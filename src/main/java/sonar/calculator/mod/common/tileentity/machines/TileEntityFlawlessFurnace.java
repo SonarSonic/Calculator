@@ -9,10 +9,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.machines.IPausable;
 import sonar.calculator.mod.common.containers.ContainerFlawlessFurnace;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
+import sonar.core.api.machines.IPausable;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RecipeHelper;
@@ -184,7 +184,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1) {
-			this.worldObj.markBlockForUpdate(pos);
+			markBlockForUpdate();
 		}
 		return true;
 	}
@@ -219,7 +219,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	@Override
 	public void onPause() {
 		paused = !paused;
-		this.worldObj.markBlockForUpdate(pos);
+		markBlockForUpdate();
 		this.worldObj.addBlockEvent(pos, blockType, 1, 1);
 	}
 
@@ -250,7 +250,6 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 
 	@Override
 	public Object getGuiContainer(EntityPlayer player) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

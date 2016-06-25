@@ -70,11 +70,6 @@ public class ContainerAssimilator extends ContainerSync {
 	}
 
 	@Override
-	public ItemStack slotClick(int par, int par1, int par2, EntityPlayer player) {
-		return super.slotClick(par, par1, par2, player);
-	}
-
-	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return entity.isUseableByPlayer(player);
 	}

@@ -34,10 +34,11 @@ public class TileEntityCrankHandle extends TileEntitySonar {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("angle", this.angle);
 		nbt.setBoolean("cranked", this.cranked);
+		return nbt;
 	}
 
 }

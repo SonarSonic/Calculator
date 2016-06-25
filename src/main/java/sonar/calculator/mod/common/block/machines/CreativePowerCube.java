@@ -2,22 +2,19 @@ package sonar.calculator.mod.common.block.machines;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityCreativePowerCube;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
-import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
-import sonar.core.utils.IGuiTile;
 
 public class CreativePowerCube extends SonarMachineBlock {
 
@@ -26,10 +23,9 @@ public class CreativePowerCube extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null && !world.isRemote) {
 			FontHelper.sendMessage("Transfers: " + Integer.MAX_VALUE + " RF/t", world, player);
-			// FMLNetworkHandler.openGui(player, Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
@@ -40,11 +36,11 @@ public class CreativePowerCube extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {		
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 	}
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "New Feature!");
+		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Feature!");
 	}
 }

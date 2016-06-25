@@ -2,16 +2,16 @@ package sonar.calculator.mod.common.block;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenBigTree;
 import net.minecraft.world.gen.feature.WorldGenTrees;
@@ -29,17 +29,17 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 		this.type=i;
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, Integer.valueOf(0)));
 		float f = 0.4F;
-		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
 	}
 
+			
 	@Override
-	public boolean canPlaceBlockOn(Block block) {
-		return type == 3 ? block == Calculator.material_block: super.canPlaceBlockOn(block);
+	public boolean canPlaceTorchOnTop(IBlockState block, IBlockAccess world, BlockPos pos) {
+		return type == 3 ? block == Calculator.material_block: super.canPlaceTorchOnTop(block, world, pos);
 	}
 
 	@Override
 	public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
-		return type == 3 ? canPlaceBlockOn(world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock()) : super.canBlockStay(world, pos, state);
+		return type == 3 ? canPlaceTorchOnTop(world.getBlockState(pos.offset(EnumFacing.DOWN)), world, pos) : super.canBlockStay(world, pos, state);
 	}
 
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
@@ -86,7 +86,7 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 			break;
 		}
 
-		IBlockState iblockstate2 = Blocks.air.getDefaultState();
+		IBlockState iblockstate2 = Blocks.AIR.getDefaultState();
 
 		if (flag) {
 			worldIn.setBlockState(pos.add(i, 0, j), iblockstate2, 4);
@@ -133,7 +133,7 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 		return state.getValue(STAGE).intValue();
 	}
 
-	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { STAGE });
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] { STAGE });
 	}
 }

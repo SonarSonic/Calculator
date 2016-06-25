@@ -4,8 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiDynamicCalculator;
 import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
@@ -53,10 +53,10 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 					BlockPos current = pos.add(X, 0, Z);
 					if (X == 3 || Z == 3 || X == -3 || Z == -3) {
 						if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableBlock)) {
-							return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimensionId()), "stable");
+							return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimension()), "stable");
 						}
 					} else if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableGlass)) {
-						return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimensionId()), "glass");
+						return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimension()), "glass");
 					}
 
 				}
@@ -74,15 +74,15 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 							if (!this.pos.equals(current)) {
 								if (X == 3 && Z == 3 || X == -3 && Z == -3 || X == -3 && Z == 3 || X == 3 && Z == -3) {
 									if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableBlock)) {
-										return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimensionId()), "stable");
+										return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimension()), "stable");
 									}
 								} else if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableGlass)) {
 
-									return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimensionId()), "glass");
+									return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimension()), "glass");
 								}
 							}
-						} else if (!(this.worldObj.getBlockState(current).getBlock() == Blocks.air)) {
-							return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimensionId()), "air");
+						} else if (!(this.worldObj.getBlockState(current).getBlock() == Blocks.AIR)) {
+							return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimension()), "air");
 						}
 
 					}

@@ -5,6 +5,9 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -13,13 +16,13 @@ import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 
 public class LocatorModule extends SonarItem implements ILocatorModule {
-	
+
 	public LocatorModule() {
 		setMaxStackSize(1);
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
 			nbtData = new NBTTagCompound();
@@ -34,7 +37,7 @@ public class LocatorModule extends SonarItem implements ILocatorModule {
 			}
 		}
 
-		return stack;
+		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
 	@Override

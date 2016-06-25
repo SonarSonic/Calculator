@@ -55,7 +55,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "2.0.1";
+	public static final String version = "3.0.0";
 	
 	public static final int saveDimension = 0;
 	
@@ -147,10 +147,10 @@ public class Calculator {
 
 	@EventHandler
 	public void postLoad(FMLPostInitializationEvent evt) {
-		BlockDispenser.dispenseBehaviorRegistry.putObject(baby_grenade, new CalculatorThrow(0));
-		BlockDispenser.dispenseBehaviorRegistry.putObject(grenade, new CalculatorThrow(1));
-		BlockDispenser.dispenseBehaviorRegistry.putObject(small_stone, new CalculatorThrow(2));
-		BlockDispenser.dispenseBehaviorRegistry.putObject(soil, new CalculatorThrow(3));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(baby_grenade, new CalculatorThrow(0));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(grenade, new CalculatorThrow(1));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(small_stone, new CalculatorThrow(2));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(soil, new CalculatorThrow(3));
 		logger.info(RecipeRegistry.getUnblockedSize() + " Standard Calculator Recipes were loaded");
 		logger.info(RecipeRegistry.getBlockedSize() + " Hidden Calculator Recipes were loaded");
 		logger.info(RecipeRegistry.getScientificSize() + " Scientific Recipes were loaded");

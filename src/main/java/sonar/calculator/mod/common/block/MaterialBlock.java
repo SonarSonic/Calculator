@@ -7,14 +7,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -60,13 +60,13 @@ public class MaterialBlock extends Block implements IMetaRenderer {
 	}
 
 	public MaterialBlock() {
-		super(Material.rock);
+		super(Material.ROCK);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
-		super.randomDisplayTick(world, pos, state, rand);
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
+		super.randomDisplayTick(state, world, pos, rand);
 		if (state.getValue(VARIANTS) == Variants.END_DIAMOND) {
 			for (int l = 0; l < 3; ++l) {
 				double d6 = pos.getX() + rand.nextFloat();
@@ -108,8 +108,8 @@ public class MaterialBlock extends Block implements IMetaRenderer {
 		return ((Variants) state.getValue(VARIANTS)).getMeta();
 	}
 
-	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { VARIANTS });
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] { VARIANTS });
 	}
 
 }

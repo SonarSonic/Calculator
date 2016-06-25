@@ -57,25 +57,25 @@ public class GuiAdvancedGreenhouse extends GuiContainer {
 			this.drawTexturedModalRect(this.guiLeft + 137, this.guiTop + 11 + 66 - o, 218, 66 - o, 28, 66);
 		}
 		if (entity.slots()[1] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.oak_stairs, 64), this.guiLeft + 12 - 4, this.guiTop + 33 + 3);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS, 64), this.guiLeft + 12 - 4, this.guiTop + 33 + 3);
 		}
 		if (entity.slots()[2] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.oak_stairs, 64), this.guiLeft + 30 - 4, this.guiTop + 33 + 3);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS, 64), this.guiLeft + 30 - 4, this.guiTop + 33 + 3);
 		}
 		if (entity.slots()[3] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.oak_stairs, 52), this.guiLeft + 48 - 4, this.guiTop + 33 + 3);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS, 52), this.guiLeft + 48 - 4, this.guiTop + 33 + 3);
 		}
 		if (entity.slots()[0] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.log, 30), this.guiLeft + 30 - 4, this.guiTop + 15 + 3);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.LOG, 30), this.guiLeft + 30 - 4, this.guiTop + 15 + 3);
 		}
 		if (entity.slots()[4] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.glass, 64), this.guiLeft + 12 - 4, this.guiTop + 51 + 3);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.GLASS, 64), this.guiLeft + 12 - 4, this.guiTop + 51 + 3);
 		}
 		if (entity.slots()[5] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.glass, 26), this.guiLeft + 30 - 4, this.guiTop + 51 + 3);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.GLASS, 26), this.guiLeft + 30 - 4, this.guiTop + 51 + 3);
 		}
 		if (entity.slots()[6] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.planks, 40), this.guiLeft + 48 - 4, this.guiTop + 51 + 3);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.PLANKS, 40), this.guiLeft + 48 - 4, this.guiTop + 51 + 3);
 		}
 	}
 }

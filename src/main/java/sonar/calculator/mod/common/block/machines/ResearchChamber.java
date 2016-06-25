@@ -5,7 +5,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import sonar.calculator.mod.Calculator;
@@ -28,7 +29,7 @@ public class ResearchChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null && !world.isRemote) {
 			TileEntity target = world.getTileEntity(pos);
 			if (target != null && target instanceof TileEntityResearchChamber) {
@@ -58,7 +59,7 @@ public class ResearchChamber extends SonarMachineBlock {
 
 	/* @Override public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityplayer, ItemStack itemstack) { super.onBlockPlacedBy(world, x, y, z, entityplayer, itemstack); TileEntity target = world.getTileEntity(x, y, z); if (target != null && target instanceof TileEntityResearchChamber) { TileEntityResearchChamber chamber = (TileEntityResearchChamber) target; chamber.sendResearch(); } }
 	 * 
-	 * @Override public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) { if (player != null && world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityResearchChamber) { TileEntityResearchChamber entity = (TileEntityResearchChamber) world.getTileEntity(x, y, z); if (entity.slots()[0] == null && player.getHeldItem() != null) { if ((RecipeRegistry.CalculatorRecipes.instance().validInput(player.getHeldItem()) || player.getHeldItem().getItem() == Calculator.circuitBoard && player.getHeldItem().getItem() instanceof IStability && ((IStability) player.getHeldItem().getItem()).getStability(player.getHeldItem()))) { ItemStack stack = new ItemStack(player.getHeldItem().getItem(), 1, player.getHeldItem().getItemDamage()); stack.setTagCompound(player.getHeldItem().getTagCompound()); entity.slots()[0] = stack; player.getHeldItem().stackSize--; world.markBlockForUpdate(x, y, z); world.addBlockEvent(x, y, z, entity.blockType, 1, 0); } } else if (!world.isRemote && interact.type == BlockInteractionType.SHIFT_RIGHT && entity.slots()[0] != null) { EnumFacing dir = EnumFacing.getOrientation(entity.blockMetadata);
+	 * @Override public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) { if (player != null && world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityResearchChamber) { TileEntityResearchChamber entity = (TileEntityResearchChamber) world.getTileEntity(x, y, z); if (entity.slots()[0] == null && player.getHeldItemMainhand() != null) { if ((RecipeRegistry.CalculatorRecipes.instance().validInput(player.getHeldItemMainhand()) || player.getHeldItemMainhand().getItem() == Calculator.circuitBoard && player.getHeldItemMainhand().getItem() instanceof IStability && ((IStability) player.getHeldItemMainhand().getItem()).getStability(player.getHeldItemMainhand()))) { ItemStack stack = new ItemStack(player.getHeldItemMainhand().getItem(), 1, player.getHeldItemMainhand().getItemDamage()); stack.setTagCompound(player.getHeldItemMainhand().getTagCompound()); entity.slots()[0] = stack; player.getHeldItemMainhand().stackSize--; world.markBlockForUpdate(x, y, z); world.addBlockEvent(x, y, z, entity.blockType, 1, 0); } } else if (!world.isRemote && interact.type == BlockInteractionType.SHIFT_RIGHT && entity.slots()[0] != null) { EnumFacing dir = EnumFacing.getOrientation(entity.blockMetadata);
 	 * 
 	 * EntityItem item = new EntityItem(world, x + (dir.offsetX * 2), y + 1, z + (dir.offsetZ * 2), new ItemStack(entity.slots()[0].getItem(), 1, entity.slots()[0].getItemDamage())); ItemStack itemstack = entity.slots()[0]; if (itemstack.hasTagCompound()) { item.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy()); } entity.slots()[0] = null; world.spawnEntityInWorld(item); world.markBlockForUpdate(x, y, z); world.addBlockEvent(x, y, z, entity.blockType, 1, 0); } else if (!world.isRemote) { player.openGui(Calculator.instance, IGuiTile.ID, world, x, y, z); } } return true; } */
 	@Override

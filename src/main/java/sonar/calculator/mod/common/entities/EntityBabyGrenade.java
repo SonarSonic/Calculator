@@ -3,7 +3,7 @@ package sonar.calculator.mod.common.entities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityBabyGrenade extends EntityThrowable {
@@ -20,7 +20,7 @@ public class EntityBabyGrenade extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition var1) {
+	protected void onImpact(RayTraceResult result) {
 		if (!this.worldObj.isRemote) {
 			setDead();
 			this.worldObj.createExplosion((Entity) null, this.posX, this.posY, this.posZ, 1.0F, true);

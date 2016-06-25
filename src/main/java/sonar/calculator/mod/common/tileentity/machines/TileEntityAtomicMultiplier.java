@@ -9,10 +9,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.client.gui.machines.GuiAtomicMultiplier;
 import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.utils.AtomicMultiplierBlacklist;
+import sonar.core.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
@@ -66,14 +66,14 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 				int energy = requiredEnergy / furnaceSpeed;
 				this.storage.modifyEnergyStored(-energy);
-				this.worldObj.markBlockForUpdate(pos);
+				markBlockForUpdate();
 			}
 
 		} else {
 			if (this.cookTime.getObject() != 0 || this.active.getObject() != 0) {
 				this.cookTime.setObject(0);
 				this.active.setObject(0);
-				this.worldObj.markBlockForUpdate(pos);
+				markBlockForUpdate();
 			}
 		}
 
@@ -188,7 +188,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1) {
-			this.worldObj.markBlockForUpdate(pos);
+			markBlockForUpdate();
 		}
 		return true;
 	}
@@ -197,10 +197,10 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	public List<String> getWailaInfo(List<String> currenttip) {
 		super.getWailaInfo(currenttip);
 		if (cookTime.getObject() > 0) {
-			String active = FontHelper.translate("locator.state") + ":" + FontHelper.translate("locator.active");
+			String active = FontHelper.translate("locator.state") + ": " + FontHelper.translate("locator.active");
 			currenttip.add(active);
 		} else {
-			String idle = FontHelper.translate("locator.state") + ":" + FontHelper.translate("locator.idle");
+			String idle = FontHelper.translate("locator.state") + ": " + FontHelper.translate("locator.idle");
 			currenttip.add(idle);
 		}
 		return currenttip;

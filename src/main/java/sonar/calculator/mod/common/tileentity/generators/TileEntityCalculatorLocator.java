@@ -156,8 +156,8 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		player.inventory.addItemStackToInventory(new ItemStack(item));
 	}
 
-	public void addPotion(EntityPlayer player, int potionID) {
-		player.addPotionEffect(new PotionEffect(potionID, 1000, 1));
+	public void addPotion(EntityPlayer player, String potionID) {
+		player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation(potionID), 1000, 1));
 	}
 
 	private void effectStart() {
@@ -194,10 +194,10 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 						worldObj.createExplosion(player, x, y, z, 6F, true);
 						break;
 					case 5:
-						addPotion(player, Potion.confusion.id);
+						addPotion(player, "nausea");
 						break;
 					case 6:
-						addPotion(player, Potion.blindness.id);
+						addPotion(player, "blindness");
 						break;
 					}
 				}
@@ -213,26 +213,26 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 						addItem(player, Calculator.itemCalculator);
 						break;
 					case 10:
-						addPotion(player, Potion.jump.id);
+						addPotion(player, "jump_boost");
 						break;
 					case 11:
-						addPotion(player, Potion.waterBreathing.id);
+						addPotion(player, "water_breathing");
 						break;
 					case 12:
-						addPotion(player, Potion.digSlowdown.id);
+						addPotion(player, "slowness");
 						break;
 					case 13:
-						addPotion(player, Potion.damageBoost.id);
+						addPotion(player, "strength");
 						break;
 					}
 				}
 				if (stability < 7) {
 					switch (luck) {
 					case 14:
-						addPotion(player, Potion.wither.id);
+						addPotion(player, "wither");
 						break;
 					case 15:
-						addItem(player, Items.milk_bucket);
+						addItem(player, Items.MILK_BUCKET);
 						break;
 					case 16:
 						if (luck == 16) {
@@ -357,7 +357,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	public void readPacket(ByteBuf buf, int id) {
 		if (id == 0) {
 			active.readFromBuf(buf);
-			this.worldObj.markBlockForUpdate(pos);
+			markBlockForUpdate();
 		}
 		if (id == 1) {
 			size.readFromBuf(buf);

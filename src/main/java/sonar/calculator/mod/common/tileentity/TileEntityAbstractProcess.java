@@ -2,13 +2,10 @@ package sonar.calculator.mod.common.tileentity;
 
 import java.util.Random;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
-import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.core.helpers.RecipeHelper;
 import sonar.core.inventory.SonarInventory;
@@ -40,6 +37,10 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		super.inv = new SonarInventory(this, 1 + inputSize + outputSize);
 	}
 
+	public void update(){
+		super.update();
+		discharge(inputSize);
+	}
 
 	public int inputSize() {
 		return inputSize;

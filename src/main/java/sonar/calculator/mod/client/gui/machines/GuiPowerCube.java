@@ -3,14 +3,9 @@ package sonar.calculator.mod.client.gui.machines;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
+import net.minecraft.util.text.TextFormatting;
 import sonar.calculator.mod.common.containers.ContainerPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCube;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
@@ -34,7 +29,7 @@ public class GuiPowerCube extends GuiSonar {
 		if ((x > guiLeft + 130 && x < guiLeft + 144) && (y > guiTop + 60 && y < guiTop + 74)) {
 			ArrayList list = new ArrayList();
 			DecimalFormat df = new DecimalFormat("#.##");
-			list.add(EnumChatFormatting.BLUE + "" + EnumChatFormatting.UNDERLINE + "Machine Stats");
+			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
 			list.add("Max Input: " + df.format(entity.storage.getMaxReceive()) + " rf/t");
 			list.add("Max Output: " + df.format(entity instanceof TileEntityAdvancedPowerCube ? entity.storage.getMaxExtract() : 0) + " rf/t");
 			this.drawSpecialToolTip(list, x, y, fontRendererObj);

@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry.UniqueIdentifier;
+import net.minecraft.util.ResourceLocation;
 
 public class CalculatorAPI {
 
@@ -17,7 +16,7 @@ public class CalculatorAPI {
 
 	}
 
-	private static final List<UniqueIdentifier> multiplierBlacklist = new ArrayList();
+	private static final List<ResourceLocation> multiplierBlacklist = new ArrayList();
 	private static final List<String> multiplierModBlacklist = new ArrayList();
 	private static final Map<String, List<Object[]>> recipes = new THashMap<String, List<Object[]>>();
 	public static final String VERSION = "1.8.9 - 1.2";
@@ -54,7 +53,7 @@ public class CalculatorAPI {
 
 	}
 
-	public static List<UniqueIdentifier> getItemBlackList() {
+	public static List<ResourceLocation> getItemBlackList() {
 		return multiplierBlacklist;
 	}
 
@@ -64,7 +63,7 @@ public class CalculatorAPI {
 
 	/** adds a Item/Block to Atomic Multiplier blacklist */
 	public static void addItemStackToBlackList(ItemStack stack) {
-		multiplierBlacklist.add(GameRegistry.findUniqueIdentifierFor(stack.getItem()));
+		multiplierBlacklist.add(stack.getItem().getRegistryName());
 	}
 
 	/** adds a mod to Atomic Multiplier blacklist */

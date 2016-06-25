@@ -11,8 +11,8 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
@@ -80,7 +80,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 
 	public void magnetizeItems() {
 		int range = 10;
-		AxisAlignedBB aabb = AxisAlignedBB.fromBounds(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
+		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
 		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, aabb, null);
 		for (EntityItem entity : items) {
 			if (validItemStack(((EntityItem) entity).getEntityItem())) {

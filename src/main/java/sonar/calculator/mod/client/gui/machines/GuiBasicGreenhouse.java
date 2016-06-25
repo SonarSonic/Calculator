@@ -59,16 +59,16 @@ public class GuiBasicGreenhouse extends GuiContainer {
 			this.drawTexturedModalRect(this.guiLeft + 137, this.guiTop + 11 + 66 - o, 218, 66 - o, 28, 66);
 		}
 		if (entity.slots()[0] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.log), this.guiLeft + 19, this.guiTop + 28);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.LOG), this.guiLeft + 19, this.guiTop + 28);
 		}
 		if (entity.slots()[1] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.oak_stairs), this.guiLeft + 37, this.guiTop + 28);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS), this.guiLeft + 37, this.guiTop + 28);
 		}
 		if (entity.slots()[2] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.glass), this.guiLeft + 19, this.guiTop + 46);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.GLASS), this.guiLeft + 19, this.guiTop + 46);
 		}
 		if (entity.slots()[3] == null) {
-			itemRender.renderItemIntoGUI(new ItemStack(Blocks.planks), this.guiLeft + 37, this.guiTop + 46);
+			itemRender.renderItemIntoGUI(new ItemStack(Blocks.PLANKS), this.guiLeft + 37, this.guiTop + 46);
 		}
 	}
 }

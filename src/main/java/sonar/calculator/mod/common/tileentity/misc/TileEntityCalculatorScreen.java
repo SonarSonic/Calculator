@@ -2,8 +2,8 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -39,7 +39,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 					}
 					if (current != this.lastEnergy) {
 						this.sendEnergy(current);
-						this.worldObj.markBlockForUpdate(pos);
+						markBlockForUpdate();
 					}
 				} else if (target instanceof IEnergyReceiver) {
 					IEnergyReceiver energy = (IEnergyReceiver) target;
@@ -51,7 +51,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 					}
 					if (current != this.lastEnergy) {
 						this.sendEnergy(current);
-						this.worldObj.markBlockForUpdate(pos);
+						markBlockForUpdate();
 					}
 				} else if (target instanceof IEnergyHandler) {
 					IEnergyHandler energy = (IEnergyHandler) target;
@@ -63,7 +63,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 					}
 					if (current != this.lastEnergy) {
 						this.sendEnergy(current);
-						this.worldObj.markBlockForUpdate(pos);
+						markBlockForUpdate();
 					}
 				}
 			}
@@ -76,7 +76,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 		this.lastMax = this.latestMax;
 		this.latestMax = max;
 		if (!this.worldObj.isRemote)
-			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 0, max), new TargetPoint(this.worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 64));
+			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 0, max), new TargetPoint(this.worldObj.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
 
 	}
 
@@ -85,7 +85,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 		this.lastEnergy = this.latestEnergy;
 		this.latestEnergy = energy;
 		if (!this.worldObj.isRemote)
-			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 1, energy), new TargetPoint(this.worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 64));
+			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 1, energy), new TargetPoint(this.worldObj.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
 	}
 
 	public void readData(NBTTagCompound nbt, SyncType type) {

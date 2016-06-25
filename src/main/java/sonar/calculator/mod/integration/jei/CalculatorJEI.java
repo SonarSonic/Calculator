@@ -20,6 +20,7 @@ import sonar.calculator.mod.client.gui.calculators.GuiDynamicModule;
 import sonar.calculator.mod.client.gui.calculators.GuiFlawlessCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiScientificCalculator;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
+import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting.AlgorithmSeperator;
 import sonar.calculator.mod.client.gui.machines.GuiHealthProcessor;
 import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
@@ -55,7 +56,6 @@ public class CalculatorJEI extends BlankModPlugin {
 		IItemRegistry itemRegistry = registry.getItemRegistry();
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
-
 		jeiHelpers.getNbtIgnoreList().ignoreNbtTagNames(Calculator.circuitBoard, "Energy", "Item1", "Item2", "Item3", "Item4", "Item5", "Item6", "Stable");
 
 		for (IJEIHandler handler : Handlers.values()) {
@@ -66,7 +66,6 @@ public class CalculatorJEI extends BlankModPlugin {
 		}
 
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
-
 		registry.addRecipeClickArea(GuiSmeltingBlock.ProcessingChamber.class, 77, 19, 24, 14, "ProcessingChamber");
 		registry.addRecipeClickArea(GuiSmeltingBlock.RestorationChamber.class, 77, 19, 24, 14, "RestorationChamber");
 		registry.addRecipeClickArea(GuiSmeltingBlock.ReassemblyChamber.class, 77, 19, 24, 14, "ReassemblyChamber");
@@ -79,8 +78,9 @@ public class CalculatorJEI extends BlankModPlugin {
 		registry.addRecipeClickArea(GuiDualOutputSmelting.ExtractionChamber.class, 63, 26, 24, 12, "ExtractionChamber");
 		registry.addRecipeClickArea(GuiDualOutputSmelting.PrecisionChamber.class, 63, 26, 24, 12, "PrecisionChamber");
 		registry.addRecipeClickArea(GuiDualOutputSmelting.StoneSeperator.class, 63, 26, 24, 12, "StoneSeparator");
-		registry.addRecipeClickArea(GuiDualOutputSmelting.AlgorithmSeperator.class, 63, 26, 24, 12, "AlgorithmSeparator");
 		registry.addRecipeClickArea(GuiHealthProcessor.class, 80, 40, 16, 5, "Health Values");
+		registry.addRecipeClickArea(AlgorithmSeperator.class, 63, 26, 24, 12, "Health Values");
+		
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDualOutputSmelting.class, "ExtractionChamber", 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDualOutputSmelting.class, "PrecisionChamber", 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDualOutputSmelting.class, "StoneSeparator", 0, 1, 4, 36);

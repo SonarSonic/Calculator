@@ -1,3 +1,5 @@
+Ôªø//**CALCULATOR**//
+
 //calculators
 item.Calculator.name=Calculator
 item.CraftingCalculator.name=Crafting Calculator
@@ -517,7 +519,7 @@ info.AnalysingChamber.name=Operation: A machine used for extracting energy and i
 
 info.AtomicCalculator.name=Operation: The third tier of Calculator which has the ability to combine three items together-It can create items such as Flawless Diamonds, Fire Diamonds, Tanzanite Saplings, and more-It isn't portable like the previous Calculators, however it does not require power for its operation.
 
-info.DynamicCalculator.name=Operation: Combines the first three tiers of Calculators into one place. It doesnít need power. To use different Calculator types just place the items in the correct slot.
+info.DynamicCalculator.name=Operation: Combines the first three tiers of Calculators into one place. It doesn‚Äôt need power. To use different Calculator types just place the items in the correct slot.
 
 info.InfoCalculator.name=Allows you to navigate through all the blocks and items in the mod! The blocks and items can also be viewed in categories or searched for.
 
@@ -587,7 +589,7 @@ info.AdvancedGreenhouse.name=A multiblock crop growth environment which can plan
 
 info.FlawlessGreenhouse.name=A multiblock crop growth environment which can plant/harvest/grow plants.You dictate the power of this greenhouse as the speed at which it plants, grows and harvests depends on how long you want to make it! It can be anything from 1x2 to 64x2 growing blocks-The Greenhouse doesn't automatically build itself and must be constructed by hand-Step 1: Make a row of Stable Stone 4x long into the ground and place one Flawless Greenhouse on the left and a Carbon Dioxide Generator on the right-Step 2: Place a Stable Stone block on top of both the Greenhouse and Carbon Dioxide Generator. Place a row of Quartz Slabs in a row 4x long along the top-Step 3: One block along place Flawless Glass 2x high on either side, place 4x Quartz slabs on top and then repeat until you reach your desired length-Step 4: Do the same thing you did at the other end but instead of the Greenhouse and Carbon Dioxide Generator place a Stable Stone or if you want to build a crazy greenhouse you can place a Flawless Greenhouse and Carbon Dioxide Generator in the same way to create a double ended greenhouse-Step 5: Insert Energy into Greenhouse-Step 6: The Carbon Dioxide Generator then needs to be setup...-Step 7: Place a chest/storage system behind the Greenhouse otherwise Items will start spewing on the floor! Like with the Basic & Advanced Greenhouse-Be warned this Greenhouse is rapid. Makes sure you have plenty of Storage Ready!
 
-info.CarbonDioxideGenerator.name=Works in a similar way to the Gas Lanterns and can keep the greenhouses CO2 at 100%-Unlike the gas lanterns this block requires RF/EU-You will have to find a fuel that sustains your size of greenhouse. However there is a new special type of fuel called the ìControlling Fuelî, this fuel manages its own burn time when in the Carbon Dioxide generator and keeps the Greenhouse at optimal level without using up burn time constantly. To create this fuel you will need to look into Circuit Extraction and more specifically the Precision Chamber to extract the circuits you need for the controlling fuel.
+info.CarbonDioxideGenerator.name=Works in a similar way to the Gas Lanterns and can keep the greenhouses CO2 at 100%-Unlike the gas lanterns this block requires RF/EU-You will have to find a fuel that sustains your size of greenhouse. However there is a new special type of fuel called the ‚ÄúControlling Fuel‚Äù, this fuel manages its own burn time when in the Carbon Dioxide generator and keeps the Greenhouse at optimal level without using up burn time constantly. To create this fuel you will need to look into Circuit Extraction and more specifically the Precision Chamber to extract the circuits you need for the controlling fuel.
 
 info.CrankHandle.name=Must be placed on top of the Hand Cranked Generator-See the Generator for more info.
 

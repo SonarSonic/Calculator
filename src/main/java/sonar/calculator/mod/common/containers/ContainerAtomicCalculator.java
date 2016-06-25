@@ -1,17 +1,13 @@
 package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
-import sonar.core.common.item.InventoryItem;
 import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerAtomicCalculator extends Container implements ICalculatorCrafter {
@@ -55,10 +51,10 @@ public class ContainerAtomicCalculator extends Container implements ICalculatorC
 			if (player.capabilities.isCreativeMode) {
 				return;
 			}
-			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IEnergyContainerItem) {
-				IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItem().getItem();
-				energy.extractEnergy(player.getHeldItem(), 1, false);
-				int stored = energy.getEnergyStored(player.getHeldItem()) - 1;
+			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof IEnergyContainerItem) {
+				IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItemMainhand().getItem();
+				energy.extractEnergy(player.getHeldItemMainhand(), 1, false);
+				int stored = energy.getEnergyStored(player.getHeldItemMainhand()) - 1;
 			}
 		}
 	}
@@ -110,11 +106,4 @@ public class ContainerAtomicCalculator extends Container implements ICalculatorC
 		return itemstack;
 	}
 
-	@Override
-	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player) {
-	//	if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItem()) {
-		//	return null;
-		//}
-		return super.slotClick(slot, button, flag, player);
-	}
 }

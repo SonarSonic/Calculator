@@ -2,6 +2,12 @@ package sonar.calculator.mod.common.item.misc;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
@@ -15,11 +21,11 @@ public class Grenade extends SonarItem {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		if (!player.capabilities.isCreativeMode) {
-			itemstack.stackSize -= 1;
+			stack.stackSize -= 1;
 		}
-		world.playSoundAtEntity(player, "random.fizz", 0.7F, 0.8F);
+		world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.fizz")), SoundCategory.PLAYERS, 0.7F, 0.8F);
 
 		if (!world.isRemote) {
 			switch (type) {
@@ -32,6 +38,6 @@ public class Grenade extends SonarItem {
 			}
 		}
 
-		return itemstack;
+		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 }

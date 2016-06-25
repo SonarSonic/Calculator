@@ -152,7 +152,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		return direction != EnumFacing.DOWN || slot != 1 || stack != null && stack.getItem() == Items.bucket;
+		return direction != EnumFacing.DOWN || slot != 1 || stack != null && stack.getItem() == Items.BUCKET;
 	}
 
 	public static class StarchExtractor extends TileEntityGenerator {

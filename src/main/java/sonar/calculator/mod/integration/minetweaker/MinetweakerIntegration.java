@@ -2,6 +2,7 @@ package sonar.calculator.mod.integration.minetweaker;
 
 import minetweaker.MineTweakerAPI;
 
+
 public class MinetweakerIntegration {
 
 	public static void integrate() {

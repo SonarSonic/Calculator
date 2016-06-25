@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.entities;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class CalculatorThrow extends BehaviorProjectileDispense {
@@ -15,7 +16,7 @@ public class CalculatorThrow extends BehaviorProjectileDispense {
 	}
 
 	@Override
-	protected IProjectile getProjectileEntity(World world, IPosition pos) {
+	protected IProjectile getProjectileEntity(World world, IPosition pos, ItemStack stack) {
 		switch (entity) {
 		case 0:
 			return new EntityBabyGrenade(world, pos.getX(), pos.getY(), pos.getZ());
@@ -28,5 +29,6 @@ public class CalculatorThrow extends BehaviorProjectileDispense {
 		}
 		return null;
 	}
+
 
 }

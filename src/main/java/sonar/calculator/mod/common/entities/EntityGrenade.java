@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityGrenade extends EntityThrowable {
@@ -21,7 +21,7 @@ public class EntityGrenade extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition var1) {
+	protected void onImpact(RayTraceResult result) {
 
 		if (!this.worldObj.isRemote) {
 			setDead();

@@ -6,7 +6,7 @@ import net.minecraft.block.BlockFire;
 
 public class EternalFire extends BlockFire {
 	public EternalFire() {
-		this.setBlockBounds(0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+		//this.setBlockBounds(0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 		this.setTickRandomly(false);
 	}
 

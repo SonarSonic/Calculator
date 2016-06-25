@@ -3,14 +3,9 @@ package sonar.calculator.mod.client.gui.machines;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
+import net.minecraft.util.text.TextFormatting;
 import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.core.client.gui.GuiSonar;
@@ -37,7 +32,7 @@ public class GuiAtomicMultiplier extends GuiSonar {
 		if ((x > guiLeft + 2 && x < guiLeft + 16) && (y > guiTop + 62 && y < guiTop + 76)) {
 			ArrayList list = new ArrayList();
 			DecimalFormat df = new DecimalFormat("#.##");
-			list.add(EnumChatFormatting.BLUE + "" + EnumChatFormatting.UNDERLINE + "Machine Stats");
+			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
 			list.add("Usage: " + df.format(entity.getEnergyUsage()) + " rf/t");
 			list.add("Speed: " + entity.getProcessTime() + " ticks");
 			drawSpecialToolTip(list, x, y, fontRendererObj);

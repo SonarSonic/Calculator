@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -72,16 +73,16 @@ public class ContainerMagneticFlux extends Container {
 		return itemstack;
 	}
 
-	public ItemStack slotClick(int slotID, int buttonID, int flag, EntityPlayer player) {
-		Slot targetSlot = slotID < 0 ? null : (Slot) this.inventorySlots.get(slotID);
+    public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player){
+		Slot targetSlot = slot < 0 ? null : (Slot) this.inventorySlots.get(slot);
 		if ((targetSlot instanceof SlotList)) {
-			if (buttonID == 2) {
+			if (click == ClickType.SWAP) {
 				targetSlot.putStack(null);
 			} else {
 				targetSlot.putStack(player.inventory.getItemStack() == null ? null : player.inventory.getItemStack().copy());
 			}
 			return player.inventory.getItemStack();
 		}
-		return super.slotClick(slotID, buttonID, flag, player);
+		return super.slotClick(slot, drag, click, player);
 	}
 }

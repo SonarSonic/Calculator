@@ -7,9 +7,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,11 +32,11 @@ public class FabricationChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null) {
-			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof MachineUpgrade) {
+			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof MachineUpgrade) {
 				return false;
-			} else if (player.getHeldItem() != null && player.getHeldItem().getItem() == Calculator.wrench) {
+			} else if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == Calculator.wrench) {
 				return false;
 			} else {
 				if (!world.isRemote) {
@@ -53,7 +54,7 @@ public class FabricationChamber extends SonarMachineBlock {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
 		/* TileEntity target = world.getTileEntity(pos); if (target != null && target instanceof TileEntityFabricationChamber) { TileEntityFabricationChamber chamber = (TileEntityFabricationChamber) target; if (chamber.currentFabricateTime != 0) { float x1 = pos.getX() + random.nextFloat(); float y1 = pos.getY() + 0.5F; float z1 = pos.getZ() + random.nextFloat();
 		 * 
 		 * world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D); world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D); world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D); world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D); } } */
@@ -76,7 +77,7 @@ public class FabricationChamber extends SonarMachineBlock {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "New Feature!");
+		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Feature!");
 		// list.add("Doesn't require power to opperate");
 	}
 
@@ -88,8 +89,8 @@ public class FabricationChamber extends SonarMachineBlock {
 		return false;
 	}
 
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT_MIPPED;
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 
 }

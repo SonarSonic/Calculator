@@ -6,8 +6,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
@@ -23,8 +25,8 @@ public class CrankHandle extends SonarMachineBlock {
 		setBlockBounds((float) (0.0625 * 3), 0.0F, (float) (0.0625 * 3), (float) (1 - (0.0625 * 3)), 0.625F, (float) (1 - (0.0625 * 3)));
 	}
 
-	public int getRenderType() {
-		return 2;
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.INVISIBLE;
 	}
 
 	public boolean hasSpecialRenderer() {
@@ -32,7 +34,7 @@ public class CrankHandle extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		TileEntity target = world.getTileEntity(pos);
 		if (target instanceof TileEntityCrankHandle) {
 			TileEntityCrankHandle crank = (TileEntityCrankHandle) target;
@@ -40,7 +42,7 @@ public class CrankHandle extends SonarMachineBlock {
 			if (!crank.cranked) {
 				crank.cranked = true;
 				if (rand1 < 1) {
-					spawnAsEntity(world, pos, new ItemStack(Items.stick, 2));
+					spawnAsEntity(world, pos, new ItemStack(Items.STICK, 2));
 					world.setBlockToAir(pos);
 				}
 				return true;
@@ -63,12 +65,11 @@ public class CrankHandle extends SonarMachineBlock {
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighbour) {
-		super.onNeighborBlockChange(world, pos, state, neighbour);
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor){
 		Block block = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
 		if (block != Calculator.handcrankedGenerator) {
-			world.destroyBlock(pos, true);
-			world.markBlockForUpdate(pos);
+			//world..destroyBlock(pos, true);
+			//world.markBlockForUpdate(pos);
 		}
 	}
 

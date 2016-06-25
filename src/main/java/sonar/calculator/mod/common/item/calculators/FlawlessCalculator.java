@@ -8,9 +8,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
@@ -113,7 +116,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		}
 	}
 
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		// if (!world.isRemote) {
 		// this.addModule(stack, new WarpModule(), 3);
 		NBTTagCompound tag = getTagCompound(stack);
@@ -135,24 +138,15 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 				stack.setTagInfo("" + slot, tag);
 		} else if (!world.isRemote) {
 			player.openGui(Calculator.instance, CalculatorGui.ModuleSelect, world, -1000, -1000, -1000);
-			/*
-			int slot = this.getCurrentSlot(stack);
-			slot++;
-			if (!(slot < moduleCapacity)) {
-				slot = 0;
-			}
-			tag.setInteger("slot", slot);
-			stack.setTagCompound(tag);
-
-			IModule module = this.getCurrentModule(stack);
-			FontHelper.sendMessage("Module " + " : " + module.getClientName(), world, player);
-			*/
+			/* int slot = this.getCurrentSlot(stack); slot++; if (!(slot < moduleCapacity)) { slot = 0; } tag.setInteger("slot", slot); stack.setTagCompound(tag);
+			 * 
+			 * IModule module = this.getCurrentModule(stack); FontHelper.sendMessage("Module " + " : " + module.getClientName(), world, player); */
 		}
 		// }
-		return stack;
+		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitx, float hity, float hitz) {
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		IModule module = this.getCurrentModule(stack);
 		int slot = this.getCurrentSlot(stack);
 		if (module instanceof IModuleClickable) {
@@ -160,17 +154,17 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 			if (tag == null) {
 				tag = new NBTTagCompound();
 			}
-			boolean toReturn = ((IModuleClickable) module).onBlockClicked(stack, tag, player, world, pos, new BlockInteraction(side.getIndex(), hitx, hity, hitz, BlockInteractionType.RIGHT));
+			boolean toReturn = ((IModuleClickable) module).onBlockClicked(stack, tag, player, world, pos, new BlockInteraction(side.getIndex(), hitX, hitY, hitZ, BlockInteractionType.RIGHT));
 			if (!tag.hasNoTags())
 				stack.setTagInfo("" + slot, tag);
-			return toReturn;
+			return toReturn ? EnumActionResult.SUCCESS : EnumActionResult.PASS;
 		}
-		return false;
+		return EnumActionResult.PASS;
 	}
 
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
-		list.add(EnumChatFormatting.YELLOW +"" +  EnumChatFormatting.ITALIC+ "New Interface!");
+		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Interface!");
 		IModule current = this.getCurrentModule(stack);
 		list.add("Current Module: " + current.getClientName());
 
@@ -316,8 +310,8 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
 		return ((IGuiItem) getCurrentModule(stack)).getGuiScreen(player, stack);
 	}
-	
-	public boolean hasEffect(ItemStack stack){
+
+	public boolean hasEffect(ItemStack stack) {
 		return true;
 	}
 }

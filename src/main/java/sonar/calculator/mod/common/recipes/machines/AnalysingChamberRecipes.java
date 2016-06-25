@@ -71,18 +71,18 @@ public class AnalysingChamberRecipes {
 		this.addRecipe(3, 8, new ItemStack(Calculator.large_amethyst,1));
 		this.addRecipe(3, 9, new ItemStack(Calculator.large_tanzanite,1));
 		this.addRecipe(3, 10, new ItemStack(Calculator.tanzaniteLog,1));
-		this.addRecipe(4, 11, new ItemStack(Blocks.obsidian,1));
+		this.addRecipe(4, 11, new ItemStack(Blocks.OBSIDIAN,1));
 
 		this.addRecipe(4, 1, new ItemStack(Calculator.advanced_assembly,1));
 		this.addRecipe(4, 2, new ItemStack(Calculator.algorithmSeparator,1));
 		this.addRecipe(4, 3, new ItemStack(Calculator.stoneSeparator,1));
 		this.addRecipe(4, 4, new ItemStack(Calculator.atomic_module,1));
-		this.addRecipe(4, 5, new ItemStack(Items.emerald,1));
-		this.addRecipe(4, 6, new ItemStack(Items.diamond,1));
+		this.addRecipe(4, 5, new ItemStack(Items.EMERALD,1));
+		this.addRecipe(4, 6, new ItemStack(Items.DIAMOND,1));
 		this.addRecipe(4, 7, new ItemStack(Calculator.flawlessdiamond_sword,1));
 		this.addRecipe(4, 8, new ItemStack(Calculator.electric_hoe, 1));
 		this.addRecipe(4, 9, new ItemStack(Calculator.endforged_hoe, 1));
-		this.addRecipe(4, 10, new ItemStack(Items.ender_pearl,1));
+		this.addRecipe(4, 10, new ItemStack(Items.ENDER_PEARL,1));
 		this.addRecipe(4, 11, new ItemStack(Calculator.fiddledewFruit,1));
 		this.addRecipe(4, 12, new ItemStack(Calculator.flawlessGlass,1));
 		this.addRecipe(4, 13, new ItemStack(SonarCore.stableStone,1));
@@ -94,9 +94,9 @@ public class AnalysingChamberRecipes {
 		this.addRecipe(5, 3, new ItemStack(Calculator.itemFlawlessCalculator, 1));
 		this.addRecipe(5, 4, new ItemStack(Calculator.atomic_assembly,1));
 		this.addRecipe(5, 5, new ItemStack(Calculator.atomicCalculator,1));
-		this.addRecipe(5, 6, new ItemStack(Items.ender_eye,1));
-		this.addRecipe(5, 7, new ItemStack(Items.nether_star,1));
-		this.addRecipe(5, 8, new ItemStack(Blocks.beacon,1));
+		this.addRecipe(5, 6, new ItemStack(Items.ENDER_EYE,1));
+		this.addRecipe(5, 7, new ItemStack(Items.NETHER_STAR,1));
+		this.addRecipe(5, 8, new ItemStack(Blocks.BEACON,1));
 		this.addRecipe(5, 9, new ItemStack(Calculator.endDiamond,1));
 		this.addRecipe(5, 10, new ItemStack(Calculator.flawlessGreenhouse,1));
 

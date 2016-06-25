@@ -20,11 +20,10 @@ public class AlgorithmSeparatorRecipes extends RecipeHelper {
 	public void addRecipes() {
 		addRecipe("blockLapis", Calculator.large_tanzanite, Calculator.shard_tanzanite);
 	    addRecipe("gemLapis", Calculator.small_tanzanite, Calculator.shard_tanzanite);
-	    addRecipe("gemDiamond",new ItemStack(Calculator.weakeneddiamond, 4), new ItemStack(Items.dye, 2, 4));
+	    addRecipe("gemDiamond",new ItemStack(Calculator.weakeneddiamond, 4), new ItemStack(Items.DYE, 2, 4));
 	    addRecipe("dustRedstone", new ItemStack(Calculator.redstone_ingot, 2), new ItemStack(Calculator.small_stone, 2));
-	    addRecipe(Calculator.tanzaniteLeaves,new ItemStack(Blocks.leaves,1), new ItemStack(Calculator.shard_tanzanite,2));
-	    addRecipe(Calculator.tanzaniteLog, new ItemStack(Blocks.log,1), Calculator.small_tanzanite);
-		
+	    addRecipe(Calculator.tanzaniteLeaves,new ItemStack(Blocks.LEAVES,1), new ItemStack(Calculator.shard_tanzanite,2));
+	    addRecipe(Calculator.tanzaniteLog, new ItemStack(Blocks.LOG,1), Calculator.small_tanzanite);		
 	}
 
 	@Override

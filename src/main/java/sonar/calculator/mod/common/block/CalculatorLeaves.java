@@ -5,25 +5,28 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeavesBase;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 
-public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
+public class CalculatorLeaves extends BlockLeaves implements IShearable {
 
 	int leafType;
 
@@ -53,12 +56,12 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 	}
 
 	public CalculatorLeaves(int type) {
-		super(Material.leaves, true);
+		super();
 		this.leafType = type;
 		setTickRandomly(true);
 		setHardness(0.2F);
 		setLightOpacity(1);
-		setStepSound(Block.soundTypeGrass);
+		//setStepSound(Block.soundTypeGrass);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(GROWTH, LeafGrowth.FRESH));
 
 	}
@@ -70,7 +73,7 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 		for (int i = 0; i < EnumFacing.VALUES.length; i++) {
 			EnumFacing dir = EnumFacing.VALUES[i];
 			Block block = world.getBlockState(pos.offset(dir)).getBlock();
-			if (!block.isAir(world, pos)) {
+			if (!block.isAir(state, world, pos)) {
 				blocks++;
 			}
 		}
@@ -96,25 +99,14 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 	public int tickRate(World world) {
 		return 10;
 	}
-
-	@Override
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
-		if ((world.canLightningStrike(pos.offset(EnumFacing.UP))) && (!World.doesBlockHaveSolidTopSurface(world, pos.offset(EnumFacing.DOWN))) && (random.nextInt(15) == 1)) {
-			double d0 = pos.getX() + random.nextFloat();
-			double d1 = pos.getY() - 0.05D;
-			double d2 = pos.getZ() + random.nextFloat();
-			world.spawnParticle(EnumParticleTypes.WATER_DROP, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-		}
-		super.randomDisplayTick(world, pos, state, random);
-	}
-
+	
 	@Override
 	public int quantityDropped(Random par1Random) {
 		return 0;
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
@@ -123,16 +115,16 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 	}
 
 	@Override
-	public void beginLeavesDecay(World world, BlockPos pos) {
+	public void beginLeavesDecay(IBlockState state, World world, BlockPos pos) {
 	}
 
 	@Override
-	public boolean isLeaves(IBlockAccess world, BlockPos posz) {
+	public boolean isLeaves(IBlockState state, IBlockAccess world, BlockPos posz) {
 		return true;
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
+	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return true;
 	}
 
@@ -182,11 +174,17 @@ public class CalculatorLeaves extends BlockLeavesBase implements IShearable {
 		return ((LeafGrowth) state.getValue(GROWTH)).getMeta();
 	}
 
-	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { GROWTH });
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] { GROWTH });
 	}
 
-	public EnumWorldBlockLayer getBlockLayer() {
-		return Minecraft.isFancyGraphicsEnabled() ? EnumWorldBlockLayer.CUTOUT_MIPPED : EnumWorldBlockLayer.SOLID;
+	public BlockRenderLayer getBlockLayer() {
+		return Minecraft.isFancyGraphicsEnabled() ? BlockRenderLayer.CUTOUT_MIPPED : BlockRenderLayer.SOLID;
+	}
+
+	@Override
+	public EnumType getWoodType(int meta) {
+		/**TODO**/
+		return EnumType.BIRCH;
 	}
 }

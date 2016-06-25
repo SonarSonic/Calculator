@@ -6,8 +6,11 @@ import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -44,7 +47,7 @@ public class PacketJumpModule implements IMessage {
 		public IMessage onMessage(PacketJumpModule message, MessageContext ctx) {
 			EntityPlayer player = SonarCore.proxy.getPlayerEntity(ctx);
 			if (player != null && ctx.side == Side.SERVER) {
-				ItemStack held = player.getHeldItem();
+				ItemStack held = player.getHeldItemMainhand();
 				if (message.pos.getY() <= 0) {
 					return null;
 				}
@@ -52,7 +55,7 @@ public class PacketJumpModule implements IMessage {
 					IEnergyContainerItem item = (IEnergyContainerItem) held.getItem();
 					if (player.capabilities.isCreativeMode || item.getEnergyStored(held) > 1000) {
 						player.setPositionAndUpdate(message.pos.getX() + 0.5, message.pos.getY() + 1, message.pos.getZ() + 0.5);
-						player.getEntityWorld().playSoundAtEntity(player, "mob.endermen.portal", 1.0F, 1.0F);
+						player.getEntityWorld().playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("mob.endermen.portal")), SoundCategory.HOSTILE, 1.0F, 1.0F);
 						if (!player.capabilities.isCreativeMode)
 							item.extractEnergy(held, 1000, true);
 						return new PacketJumpModule(message.pos);

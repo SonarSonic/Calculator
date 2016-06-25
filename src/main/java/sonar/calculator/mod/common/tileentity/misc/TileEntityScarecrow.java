@@ -47,8 +47,9 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("Grow", this.growTicks);
+		return nbt;
 	}
 }

@@ -1,6 +1,6 @@
 package sonar.calculator.mod.api.blocks;
 
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /** implemented on blocks which can be dropped by the Obsidian Key */

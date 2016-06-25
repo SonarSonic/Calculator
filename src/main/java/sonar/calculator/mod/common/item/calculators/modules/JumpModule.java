@@ -3,10 +3,10 @@ package sonar.calculator.mod.common.item.calculators.modules;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.modules.IModuleClickable;
@@ -32,7 +32,7 @@ public class JumpModule extends ModuleBase implements IModuleClickable {
 		long current = world.getWorldTime();
 		if (current < last || (current > last + 50)) {
 			if (world.isRemote) {
-				MovingObjectPosition position = player.rayTrace(500, 1);
+				RayTraceResult position = player.rayTrace(500, 1);
 				BlockPos pos = position.getBlockPos();
 				if (world.isAirBlock(pos.offset(EnumFacing.UP)) && world.isAirBlock(pos.offset(EnumFacing.UP, 2))) {
 					Calculator.network.sendToServer(new PacketJumpModule(pos));
@@ -41,7 +41,7 @@ public class JumpModule extends ModuleBase implements IModuleClickable {
 					if (world.isAirBlock(pos.offset(EnumFacing.UP)) && world.isAirBlock(pos.offset(EnumFacing.UP, 2))) {
 						Calculator.network.sendToServer(new PacketJumpModule(pos));
 					} else
-						player.addChatComponentMessage(new ChatComponentText("Target is blocked"));
+						player.addChatComponentMessage(new TextComponentTranslation("Target is blocked"));
 				}
 			} else {
 				modeTag.setLong("last", world.getWorldTime());

@@ -1,10 +1,12 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryLargeChest;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import sonar.calculator.mod.client.gui.misc.GuiReinforcedChest;
 import sonar.calculator.mod.common.containers.ContainerReinforcedChest;
 import sonar.core.common.tileentity.TileEntityInventory;
@@ -57,7 +59,7 @@ public class TileEntityReinforcedChest extends TileEntityInventory implements IG
 		if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
 			double d1 = (double) i + 0.5D;
 			double d2 = (double) k + 0.5D;
-			this.worldObj.playSoundEffect(d1, (double) j + 0.5D, d2, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+			this.worldObj.playSound((EntityPlayer) null, d1, (double) j + 0.5D, d2, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 		}
 
 		if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
@@ -78,7 +80,7 @@ public class TileEntityReinforcedChest extends TileEntityInventory implements IG
 			if (this.lidAngle < f3 && f2 >= f3) {
 				double d3 = (double) i + 0.5D;
 				double d0 = (double) k + 0.5D;
-				this.worldObj.playSoundEffect(d3, (double) j + 0.5D, d0, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+				this.worldObj.playSound((EntityPlayer) null, d3, (double) j + 0.5D, d0, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 			}
 
 			if (this.lidAngle < 0.0F) {

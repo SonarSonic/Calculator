@@ -7,7 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.integration.planting.IFertiliser;
 
@@ -38,7 +38,7 @@ public class Fertiliser implements IFertiliser {
 
 	@Override
 	public boolean canUseFertiliser(ItemStack fertiliser, World world, Random rand, BlockPos pos, IBlockState state) {
-		return fertiliser.getItem() == Items.dye && fertiliser.getItemDamage() ==EnumDyeColor.WHITE.getDyeDamage() && ((IGrowable) state.getBlock()).canUseBonemeal(world, rand, pos, state);
+		return fertiliser.getItem() == Items.DYE && fertiliser.getItemDamage() ==EnumDyeColor.WHITE.getDyeDamage() && ((IGrowable) state.getBlock()).canUseBonemeal(world, rand, pos, state);
 	}
 
 	@Override

@@ -8,7 +8,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
@@ -21,26 +22,23 @@ import sonar.core.utils.IGuiTile;
 public class WeatherController extends SonarMachineBlock {
 
 	public WeatherController() {
-		super(Material.wood, false, true);
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
+		super(Material.WOOD, false, true);
+		// this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null && !world.isRemote) {
 			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
 
-	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block block) {
-		super.onNeighborBlockChange(world, pos, state, block);
-		if (!world.isRemote) {
-			TileEntity target = world.getTileEntity(pos);
-			if (target != null && target instanceof TileEntityWeatherController) {
-				TileEntityWeatherController controller = (TileEntityWeatherController) target;
-				controller.startProcess();
-			}
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
+		TileEntity target = world.getTileEntity(pos);
+		if (target != null && target instanceof TileEntityWeatherController) {
+			TileEntityWeatherController controller = (TileEntityWeatherController) target;
+			controller.startProcess();
 		}
 	}
 

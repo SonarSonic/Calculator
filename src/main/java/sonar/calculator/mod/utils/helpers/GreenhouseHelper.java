@@ -6,8 +6,8 @@ import net.minecraft.block.BlockFlower;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.core.SonarCore;
@@ -104,11 +104,11 @@ public class GreenhouseHelper {
 	 * @return if it was changed */
 	public static boolean applyFarmland(World world, BlockPos pos) {
 		Block target = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
-		if (target == Blocks.dirt) {
-			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.farmland.getDefaultState(), 3);
+		if (target == Blocks.DIRT) {
+			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.FARMLAND.getDefaultState(), 3);
 			return true;
-		} else if (target == Blocks.grass) {
-			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.farmland.getDefaultState(), 3);
+		} else if (target == Blocks.GRASS) {
+			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.FARMLAND.getDefaultState(), 3);
 			return true;
 		}
 		return false;
@@ -123,11 +123,11 @@ public class GreenhouseHelper {
 	 * @return if it was changed */
 	public static boolean applyWater(World world, BlockPos pos) {
 		Block target = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
-		if (target == Blocks.dirt) {
-			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.water.getDefaultState(), 3);
+		if (target == Blocks.DIRT) {
+			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.WATER.getDefaultState(), 3);
 			return true;
-		} else if (target == Blocks.grass) {
-			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.water.getDefaultState(), 3);
+		} else if (target == Blocks.GRASS) {
+			world.setBlockState(pos.offset(EnumFacing.DOWN), Blocks.WATER.getDefaultState(), 3);
 			return true;
 		}
 
@@ -146,29 +146,29 @@ public class GreenhouseHelper {
 			return true;
 		} else if (world.isAirBlock(pos)) {
 			return true;
-		} else if (block == Blocks.air) {
+		} else if (block == Blocks.AIR) {
 			return true;
-		} else if (block == Blocks.dirt) {
+		} else if (block == Blocks.DIRT) {
 			return true;
-		} else if (block == Blocks.grass) {
+		} else if (block == Blocks.GRASS) {
 			return true;
-		} else if (block == Blocks.cobblestone) {
+		} else if (block == Blocks.COBBLESTONE) {
 			return true;
-		} else if (block == Blocks.stone) {
+		} else if (block == Blocks.STONE) {
 			return true;
 		} else if (block instanceof BlockFlower) {
 			return true;
 		} else if (block instanceof BlockDoublePlant) {
 			return true;
-		} else if (block == Blocks.snow_layer) {
+		} else if (block == Blocks.SNOW_LAYER) {
 			return true;
-		} else if (block == Blocks.netherrack) {
+		} else if (block == Blocks.NETHERRACK) {
 			return true;
-		} else if (block == Blocks.tallgrass) {
+		} else if (block == Blocks.TALLGRASS) {
 			return true;
-		} else if (block == Blocks.vine) {
+		} else if (block == Blocks.VINE) {
 			return true;
-		} else if (block == Blocks.deadbush) {
+		} else if (block == Blocks.DEADBUSH) {
 			return true;
 		}
 		if (block.isReplaceable(world, pos)) {
@@ -209,9 +209,9 @@ public class GreenhouseHelper {
 	}
 
 	public static boolean slabQuartz(World world, BlockPos pos) {
-		Block block = world.getBlockState(pos).getBlock();
-		if (block == Blocks.stone_slab) {
-			if (block.getDamageValue(world, pos) == 7) {
+		IBlockState state = world.getBlockState(pos);
+		if (state.getBlock() == Blocks.STONE_SLAB) {
+			if (state.getBlock().getMetaFromState(state) == 7) {
 				return false;
 			}
 		}

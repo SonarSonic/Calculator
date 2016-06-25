@@ -8,8 +8,8 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry.UniqueIdentifier;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.CalculatorAPI;
 
@@ -37,12 +37,12 @@ public class AtomicMultiplierBlacklist {
 				}
 			}
 		}
-		List<UniqueIdentifier> apiBlocked = CalculatorAPI.getItemBlackList();
-		for (UniqueIdentifier item : apiBlocked) {
-			if (GameRegistry.findItem(item.modId, item.name) != null) {
-				this.addBan(GameRegistry.findItem(item.modId, item.name));
-			} else if (GameRegistry.findBlock(item.modId, item.name) != null) {
-				this.addBan(GameRegistry.findBlock(item.modId, item.name));
+		List<ResourceLocation> apiBlocked = CalculatorAPI.getItemBlackList();
+		for (ResourceLocation item : apiBlocked) {			
+			if (GameRegistry.findItem(item.getResourceDomain(), item.getResourcePath()) != null) {
+				this.addBan(GameRegistry.findItem(item.getResourceDomain(), item.getResourcePath()));
+			} else if (GameRegistry.findBlock(item.getResourceDomain(), item.getResourcePath()) != null) {
+				this.addBan(GameRegistry.findBlock(item.getResourceDomain(), item.getResourcePath()));
 			}
 		}
 	}
@@ -58,7 +58,7 @@ public class AtomicMultiplierBlacklist {
 	public boolean isAllowed(Item item) {
 		List<String> apiBlocked = CalculatorAPI.getModBlackList();
 		for (String modid : apiBlocked) {
-			if (GameRegistry.findUniqueIdentifierFor(item).modId.equals(modid)) {
+			if (item.getRegistryName().getResourceDomain().equals(modid)) {
 				return false;
 			}
 		}

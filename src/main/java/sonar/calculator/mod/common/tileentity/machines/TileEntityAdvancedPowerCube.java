@@ -51,9 +51,10 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 		sides.readFromNBT(nbt);
 	}
 
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		sides.writeToNBT(nbt);
+		return nbt;
 	}
 
 	@Override

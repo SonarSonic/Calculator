@@ -2,13 +2,14 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
+import sonar.core.common.tileentity.TileEntitySonar;
 
-public class TileEntityWeatherStation extends TileEntity implements ITickable {
+public class TileEntityWeatherStation extends TileEntitySonar implements ITickable {
 
 	public double angle;
 	public boolean loaded;
@@ -18,14 +19,14 @@ public class TileEntityWeatherStation extends TileEntity implements ITickable {
 		if (!loaded) {
 			loaded = true;
 			this.setAngle();
-			this.worldObj.markBlockForUpdate(pos);
+			markBlockForUpdate();
 		}
 		if (ticks < 25) {
 			ticks++;
 		} else if (ticks >= 25) {
 			ticks = 0;
 			this.setAngle();
-			this.worldObj.markBlockForUpdate(pos);
+			markBlockForUpdate();
 		}
 	}
 
@@ -40,13 +41,14 @@ public class TileEntityWeatherStation extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setDouble("angle", angle);
 		nbt.setBoolean("loaded", loaded);
 		nbt.setInteger("xMAST", x);
 		nbt.setInteger("zMAST", z);
 		nbt.setInteger("ticks", ticks);
+		return nbt;
 	}
 
 	public void setAngle() {
@@ -72,7 +74,7 @@ public class TileEntityWeatherStation extends TileEntity implements ITickable {
 			x = mast.getPos().getX();
 			z = mast.getPos().getZ();
 		}
-		this.worldObj.markBlockForUpdate(pos);
+		markBlockForUpdate();
 
 	}
 

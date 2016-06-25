@@ -7,11 +7,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -92,7 +93,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return type != null && type.isOpaqueCube();
 	}
 
@@ -125,11 +126,11 @@ public class SmeltingBlock extends SonarSidedBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null) {
-			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof MachineUpgrade) {
+			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof MachineUpgrade) {
 				return false;
-			} else if (player.getHeldItem() != null && player.getHeldItem().getItem() == Calculator.wrench) {
+			} else if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == Calculator.wrench) {
 				return false;
 			} else {
 				if (!world.isRemote) {
@@ -198,11 +199,11 @@ public class SmeltingBlock extends SonarSidedBlock {
 				speed = CalculatorConfig.getInteger("Reinforced Furnace" + "Base Speed");
 				break;
 			}
-			list.add(FontHelper.translate("Process Speed: ") + EnumChatFormatting.WHITE + speed + " ticks");
-			list.add(FontHelper.translate("Energy Usage: ") + EnumChatFormatting.WHITE + energyUsage + " RF per operation");
-			list.add(FontHelper.translate("Consumption: ") + EnumChatFormatting.WHITE + energyUsage / speed + " RF/t");
+			list.add(FontHelper.translate("Process Speed: ") + TextFormatting.WHITE + speed + " ticks");
+			list.add(FontHelper.translate("Energy Usage: ") + TextFormatting.WHITE + energyUsage + " RF per operation");
+			list.add(FontHelper.translate("Consumption: ") + TextFormatting.WHITE + energyUsage / speed + " RF/t");
 		} else {
-			list.add("Hold shift for more info");
+			list.add("Hold" + TextFormatting.YELLOW +  " SHIFT " + TextFormatting.RESET + "for more info");
 		}
 	}
 
@@ -215,8 +216,8 @@ public class SmeltingBlock extends SonarSidedBlock {
 		return false;
 	}
 
-	public EnumWorldBlockLayer getBlockLayer() {
-		return !type.isOpaqueCube() ? EnumWorldBlockLayer.CUTOUT_MIPPED : super.getBlockLayer();
+	public BlockRenderLayer getBlockLayer() {
+		return !type.isOpaqueCube() ? BlockRenderLayer.CUTOUT_MIPPED : super.getBlockLayer();
 	}
 
 	public static class ChamberBlock extends SmeltingBlock {

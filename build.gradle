@@ -19,7 +19,7 @@ archivesBaseName = "Calculator"
 minecraft {
 version = "${forge_version}"
 runDir = "run"
-mappings = "stable_20"
+mappings = "snapshot_20160518"
 }
 repositories {
     mavenCentral()

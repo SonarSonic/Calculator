@@ -7,8 +7,8 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,9 +24,9 @@ public class CalculatorScreen extends BlockContainer {
 		super(SonarMaterials.machine);
 		float f = 0.25F;
 		float f1 = 1.0F;
-		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
+		//this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
 	}
-
+	/*
 	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
 		int l = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 		float f = 0.28125F;
@@ -54,25 +54,25 @@ public class CalculatorScreen extends BlockContainer {
 
 	}
 
-	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block block) {
+	public void onNeighborBlockChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
 		boolean flag = false;
 
 		int l = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 		flag = true;
 
-		if (l == 2 && world.getBlockState(pos.add(0, 0, 1)).getBlock().getMaterial().isSolid()) {
+		if (l == 2 && world.getBlockState(pos.add(0, 0, 1)).getMaterial().isSolid()) {
 			flag = false;
 		}
 
-		if (l == 3 && world.getBlockState(pos.add(0, 0, -1)).getBlock().getMaterial().isSolid()) {
+		if (l == 3 && world.getBlockState(pos.add(0, 0, -1)).getMaterial().isSolid()) {
 			flag = false;
 		}
 
-		if (l == 4 && world.getBlockState(pos.add(1, 0, 0)).getBlock().getMaterial().isSolid()) {
+		if (l == 4 && world.getBlockState(pos.add(1, 0, 0)).getMaterial().isSolid()) {
 			flag = false;
 		}
 
-		if (l == 5 && world.getBlockState(pos.add(-1, 0, 0)).getBlock().getMaterial().isSolid()) {
+		if (l == 5 && world.getBlockState(pos.add(-1, 0, 0)).getMaterial().isSolid()) {
 			flag = false;
 		}
 
@@ -89,7 +89,7 @@ public class CalculatorScreen extends BlockContainer {
 		this.setBlockBoundsBasedOnState(world, pos);
 		return super.getSelectedBoundingBox(world, pos);
 	}
-
+	*/
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityCalculatorScreen();

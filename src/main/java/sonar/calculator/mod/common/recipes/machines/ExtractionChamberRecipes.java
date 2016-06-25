@@ -18,7 +18,7 @@ public class ExtractionChamberRecipes extends RecipeHelper {
 	}
 	@Override
 	public void addRecipes() {
-	    addRecipe(Blocks.dirt, new ItemStack(Calculator.soil, 1), new ItemStack(Calculator.circuitDirty, 1, OreDictionary.WILDCARD_VALUE));
+	    addRecipe(Blocks.DIRT, new ItemStack(Calculator.soil, 1), new ItemStack(Calculator.circuitDirty, 1, OreDictionary.WILDCARD_VALUE));
 	    addRecipe("cobblestone", new ItemStack(Calculator.small_stone, 1), new ItemStack(Calculator.circuitDamaged, 1, OreDictionary.WILDCARD_VALUE));
 	}
 

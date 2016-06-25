@@ -27,7 +27,7 @@ public class SlotResearch extends Slot {
 				}
 			}
 			*/
-			entity.getWorld().markBlockForUpdate(entity.getPos());
+			entity.markBlockForUpdate();
 			entity.getWorld().addBlockEvent(entity.getPos(), entity.getBlockType(), 1, 0);
 
 		}
@@ -44,7 +44,7 @@ public class SlotResearch extends Slot {
 				}
 			}
 			*/
-			entity.getWorld().markBlockForUpdate(entity.getPos());
+			entity.markBlockForUpdate();
 			entity.getWorld().addBlockEvent(entity.getPos(), entity.getBlockType(), 1, 0);
 
 		}

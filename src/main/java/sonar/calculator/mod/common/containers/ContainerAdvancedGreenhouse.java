@@ -174,22 +174,22 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 				return true;
 			}
 		}
-		if (block == Blocks.stone_stairs) {
+		if (block == Blocks.STONE_STAIRS) {
 			return true;
 		}
-		if (block == Blocks.stone_brick_stairs) {
+		if (block == Blocks.STONE_BRICK_STAIRS) {
 			return true;
 		}
-		if (block == Blocks.sandstone_stairs) {
+		if (block == Blocks.SANDSTONE_STAIRS) {
 			return true;
 		}
-		if (block == Blocks.brick_stairs) {
+		if (block == Blocks.BRICK_STAIRS) {
 			return true;
 		}
-		if (block == Blocks.quartz_stairs) {
+		if (block == Blocks.QUARTZ_STAIRS) {
 			return true;
 		}
-		if (block == Blocks.nether_brick_stairs) {
+		if (block == Blocks.NETHER_BRICK_STAIRS) {
 			return true;
 		}
 

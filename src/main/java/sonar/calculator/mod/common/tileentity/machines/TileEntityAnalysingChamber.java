@@ -51,7 +51,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
 				super.setInventorySlotContents(i, itemstack);
 				if (i == 0) {
-					worldObj.markBlockForUpdate(pos);
+					markBlockForUpdate();
 				}
 			}
 		};

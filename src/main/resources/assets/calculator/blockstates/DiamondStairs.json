@@ -11,10 +11,9 @@
         "uvlock": true
     },
     "variants": { 
-        "inventory": [{
-            "transform": {
-                "gui": {"rotation": { "y": 180 }}     
-           }
+        "inventory": [{              
+            "model":"stairs",
+            "y": 0               
         }],
         "facing":{
             "east":{},

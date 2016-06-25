@@ -8,8 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.machines.ITeleport;
@@ -106,7 +106,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 		boolean flag = true;
 		for (int i = 1; i < 3; i++) {
 			Block block = worldObj.getBlockState(pos.offset(EnumFacing.DOWN, i)).getBlock();
-			if (!(block == Blocks.air || block == null)) {
+			if (!(block == Blocks.AIR || block == null)) {
 				flag = false;
 			}
 		}
@@ -130,7 +130,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	}
 
 	public List<EntityPlayer> getPlayerList() {
-		AxisAlignedBB aabb = AxisAlignedBB.fromBounds(pos.getX() - 1, pos.getY() - 2, pos.getZ() - 1, pos.getX() + 1, pos.getY() - 1, pos.getZ() + 1);
+		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - 1, pos.getY() - 2, pos.getZ() - 1, pos.getX() + 1, pos.getY() - 1, pos.getZ() + 1);
 		List<EntityPlayer> players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, aabb, null);
 		return players;
 	}

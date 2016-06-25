@@ -24,14 +24,14 @@ public class StoneSeparatorRecipes extends RecipeHelper {
 		addRecipe("oreIron", new ItemStack(Calculator.reinforcediron_ingot, 4), new ItemStack(Calculator.small_stone, 2));
 		addRecipe("blockLapis", Calculator.large_amethyst, Calculator.shard_amethyst);
 		addRecipe("gemLapis", Calculator.small_amethyst, Calculator.shard_amethyst);
-		addRecipe(new ItemStack(Blocks.log, 1, 0), new ItemStack(Blocks.planks, 4, 0), new ItemStack(Items.stick, 2, 0));
-		addRecipe(new ItemStack(Blocks.log, 1, 1), new ItemStack(Blocks.planks, 4, 1), new ItemStack(Items.stick, 2, 0));
-		addRecipe(new ItemStack(Blocks.log, 1, 2), new ItemStack(Blocks.planks, 4, 2), new ItemStack(Items.stick, 2, 0));
-		addRecipe(new ItemStack(Blocks.log, 1, 3), new ItemStack(Blocks.planks, 4, 3), new ItemStack(Items.stick, 2, 0));
-		addRecipe(new ItemStack(Blocks.log2, 1, 0), new ItemStack(Blocks.planks, 4, 4), new ItemStack(Items.stick, 2, 0));
-		addRecipe(new ItemStack(Blocks.log2, 1, 1), new ItemStack(Blocks.planks, 4, 5), new ItemStack(Items.stick, 2, 0));
-		addRecipe(Calculator.amethystLeaves, new ItemStack(Blocks.leaves, 1, 0), new ItemStack(Calculator.shard_amethyst, 2));
-		addRecipe(Calculator.amethystLog, new ItemStack(Blocks.log, 1, 0), new ItemStack(Calculator.small_amethyst, 1));
+		addRecipe(new ItemStack(Blocks.LOG, 1, 0), new ItemStack(Blocks.PLANKS, 4, 0), new ItemStack(Items.STICK, 2, 0));
+		addRecipe(new ItemStack(Blocks.LOG, 1, 1), new ItemStack(Blocks.PLANKS, 4, 1), new ItemStack(Items.STICK, 2, 0));
+		addRecipe(new ItemStack(Blocks.LOG, 1, 2), new ItemStack(Blocks.PLANKS, 4, 2), new ItemStack(Items.STICK, 2, 0));
+		addRecipe(new ItemStack(Blocks.LOG, 1, 3), new ItemStack(Blocks.PLANKS, 4, 3), new ItemStack(Items.STICK, 2, 0));
+		addRecipe(new ItemStack(Blocks.LOG2, 1, 0), new ItemStack(Blocks.PLANKS, 4, 4), new ItemStack(Items.STICK, 2, 0));
+		addRecipe(new ItemStack(Blocks.LOG2, 1, 1), new ItemStack(Blocks.PLANKS, 4, 5), new ItemStack(Items.STICK, 2, 0));
+		addRecipe(Calculator.amethystLeaves, new ItemStack(Blocks.LEAVES, 1, 0), new ItemStack(Calculator.shard_amethyst, 2));
+		addRecipe(Calculator.amethystLog, new ItemStack(Blocks.LOG, 1, 0), new ItemStack(Calculator.small_amethyst, 1));
 
 	}
 

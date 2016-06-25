@@ -73,14 +73,14 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1)
-			this.worldObj.markBlockForUpdate(pos);
+			markBlockForUpdate();
 		return true;
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		super.setInventorySlotContents(i, itemstack);
-		this.worldObj.markBlockForUpdate(pos);
+		markBlockForUpdate();
 		this.worldObj.addBlockEvent(pos, blockType, 1, 0);
 	}
 

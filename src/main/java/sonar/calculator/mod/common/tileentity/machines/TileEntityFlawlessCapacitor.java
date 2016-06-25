@@ -59,7 +59,7 @@ public class TileEntityFlawlessCapacitor extends TileEntityEnergy {
 					output[i] = 0;
 				}
 			}
-			this.worldObj.markBlockForUpdate(pos);
+			markBlockForUpdate();
 		}
 	}
 

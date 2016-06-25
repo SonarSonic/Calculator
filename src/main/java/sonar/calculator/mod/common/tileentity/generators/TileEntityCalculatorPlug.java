@@ -40,7 +40,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 		}
 		if (flag != this.stable.getObject()) {
 			SonarCore.sendPacketAround(this, 128, 0);
-			this.worldObj.markBlockForUpdate(pos);
+			markBlockForUpdate();
 			this.markDirty();
 		}
 	}
@@ -112,7 +112,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 		switch (id) {
 		case 0:
 			stable.readFromBuf(buf);
-			this.worldObj.markBlockForUpdate(pos);
+			markBlockForUpdate();
 			break;
 		}
 	}

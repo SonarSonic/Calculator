@@ -99,57 +99,57 @@ public class RecipeRegistry {
 	public enum RecipeType {
 		REINFORCED_STONE(SonarCore.reinforcedStoneBlock, SonarCore.reinforcedDirtBlock, "reinforcedStone"),
 		/**/
-		CROP(Items.wheat, Items.potato, Items.carrot, "cropWheat", "cropPotato", "cropCarrot"),
+		CROP(Items.WHEAT, Items.POTATO, Items.CARROT, "cropWheat", "cropPotato", "cropCarrot"),
 		/**/
-		SLIMEBALL(Items.slime_ball, "slimeball"),
+		SLIMEBALL(Items.SLIME_BALL, "slimeball"),
 		/**/
-		IRON(Blocks.iron_ore, Items.iron_ingot, "oreIron", "blockIron", "ingotIron"),
+		IRON(Blocks.IRON_ORE, Items.IRON_INGOT, "oreIron", "blockIron", "ingotIron"),
 		/**/
 		EMERALD("oreEmerald", "blockEmerald", "gemEmerald"),
 		/**/
-		FLOWER(Blocks.red_flower, Blocks.yellow_flower),
+		FLOWER(Blocks.RED_FLOWER, Blocks.YELLOW_FLOWER),
 		/**/
-		CACTUS(Blocks.cactus),
+		CACTUS(Blocks.CACTUS),
 		/**/
-		NETHER(Blocks.obsidian, Blocks.netherrack, Blocks.soul_sand),
+		NETHER(Blocks.OBSIDIAN, Blocks.NETHERRACK, Blocks.SOUL_SAND),
 		/**/
-		END(Blocks.end_stone, Items.ender_pearl),
+		END(Blocks.END_STONE, Items.ENDER_PEARL),
 		/**/
-		SAND(Blocks.sand, "sand"),
+		SAND(Blocks.SAND, "sand"),
 		/**/
-		GRASS(Blocks.grass, "grass"),
+		GRASS(Blocks.GRASS, "grass"),
 		/**/
-		SANDSTONE(Blocks.sandstone, Blocks.sandstone_stairs),
+		SANDSTONE(Blocks.SANDSTONE, Blocks.SANDSTONE_STAIRS),
 		/**/
-		DIRT(Blocks.dirt, "dirt"),
+		DIRT(Blocks.DIRT, "dirt"),
 		/**/
-		STONE(Blocks.stone, "stone"),
+		STONE(Blocks.STONE, "stone"),
 		/**/
-		GRAVEL(Blocks.gravel, "gravel"),
+		GRAVEL(Blocks.GRAVEL, "gravel"),
 		/**/
-		COBBLESTONE(Blocks.cobblestone, "cobblestone"),
+		COBBLESTONE(Blocks.COBBLESTONE, "cobblestone"),
 		/**/
-		WOOD(Blocks.log, Blocks.log2, "logWood"),
+		WOOD(Blocks.LOG, Blocks.LOG2, "logWood"),
 		/**/
-		PLANKS(Blocks.planks, "plankWood", "stairWood"),
+		PLANKS(Blocks.PLANKS, "plankWood", "stairWood"),
 		/**/
-		LEAVES(Blocks.leaves, Blocks.leaves2, "calculatorLeaves"),
+		LEAVES(Blocks.LEAVES, Blocks.LEAVES2, "calculatorLeaves"),
 		/**/
-		SAPLING(Blocks.sapling, "treeSapling"),
+		SAPLING(Blocks.SAPLING, "treeSapling"),
 		/**/
-		GLASS(Blocks.glass, "blockGlass"),
+		GLASS(Blocks.GLASS, "blockGlass"),
 		/**/
-		GLASS_PANE(Blocks.glass_pane, "paneGlass"),
+		GLASS_PANE(Blocks.GLASS_PANE, "paneGlass"),
 		/**/
-		FURNACE(Blocks.furnace),
+		FURNACE(Blocks.FURNACE),
 		/**/
-		DYE(Items.dye, "dye"),
+		DYE(Items.DYE, "dye"),
 		/**/
-		CARPET(Blocks.carpet, "carpet"),
+		CARPET(Blocks.CARPET, "carpet"),
 		/**/
-		CLAY_BLOCK(Items.clay_ball, Blocks.clay, Blocks.hardened_clay, "clay"), FOLIAGE(Blocks.double_plant, Blocks.deadbush, Blocks.vine, Blocks.waterlily),
+		CLAY_BLOCK(Items.CLAY_BALL, Blocks.CLAY, Blocks.HARDENED_CLAY, "clay"), FOLIAGE(Blocks.DOUBLE_PLANT, Blocks.DEADBUSH, Blocks.VINE, Blocks.WATERLILY),
 		/**/
-		WOOL(Blocks.wool, "wool");
+		WOOL(Blocks.WOOL, "wool");
 
 		public Object[] items;
 
@@ -181,28 +181,28 @@ public class RecipeRegistry {
 	}
 
 	private static void addStandardRecipes() {
-		registerCalculatorRecipe(Calculator.baby_grenade, Calculator.grenadecasing, Blocks.tnt);
+		registerCalculatorRecipe(Calculator.baby_grenade, Calculator.grenadecasing, Blocks.TNT);
 		registerCalculatorRecipe(SonarCore.reinforcedStoneBlock, "cobblestone", "plankWood");
 		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBlock, 4), "cobblestone", "logWood");
 
 		registerCalculatorRecipe(Calculator.wrench, Calculator.reinforced_sword, Calculator.reinforced_pickaxe);
-		registerCalculatorRecipe(SonarCore.reinforcedDirtBlock, Blocks.dirt, "plankWood");
-		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 4), Blocks.dirt, "logWood");
+		registerCalculatorRecipe(SonarCore.reinforcedDirtBlock, Blocks.DIRT, "plankWood");
+		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBlock, 4), Blocks.DIRT, "logWood");
 		registerCalculatorRecipe(new ItemStack(Calculator.enrichedGold, 4), "ingotGold", "dustRedstone");
 		registerCalculatorRecipe(Calculator.reinforcediron_ingot, "ingotIron", SonarCore.reinforcedStoneBlock);
-		registerCalculatorRecipe(Calculator.enriched_coal, Items.coal, "dustRedstone");
-		registerCalculatorRecipe(Calculator.broccoliSeeds, Items.wheat_seeds, Items.pumpkin_seeds);
+		registerCalculatorRecipe(Calculator.enriched_coal, Items.COAL, "dustRedstone");
+		registerCalculatorRecipe(Calculator.broccoliSeeds, Items.WHEAT_SEEDS, Items.PUMPKIN_SEEDS);
 		registerCalculatorRecipe(Calculator.sickle, Calculator.reinforced_shovel, Calculator.reinforced_axe);
-		registerCalculatorRecipe(Calculator.scarecrow, Blocks.pumpkin, Blocks.hay_block);
-		registerCalculatorRecipe(Calculator.basic_lantern, Blocks.torch, Calculator.reinforcediron_ingot);
+		registerCalculatorRecipe(Calculator.scarecrow, Blocks.PUMPKIN, Blocks.HAY_BLOCK);
+		registerCalculatorRecipe(Calculator.basic_lantern, Blocks.TORCH, Calculator.reinforcediron_ingot);
 		registerCalculatorRecipe(Calculator.gas_lantern_off, Calculator.basic_lantern, Calculator.basic_lantern);
-		registerCalculatorRecipe(Calculator.prunaeSeeds, Calculator.enriched_coal, Items.wheat_seeds);
+		registerCalculatorRecipe(Calculator.prunaeSeeds, Calculator.enriched_coal, Items.WHEAT_SEEDS);
 		registerCalculatorRecipe(Calculator.enriched_coal, Calculator.coal_dust, Calculator.coal_dust);
 		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBrick, 2), SonarCore.reinforcedStoneBlock, SonarCore.reinforcedStoneBlock);
 		registerCalculatorRecipe(new ItemStack(SonarCore.stableGlass, 2), "blockGlass", "blockGlass");
 		registerCalculatorRecipe(new ItemStack(SonarCore.stableStone, 2), SonarCore.reinforcedStoneBrick, SonarCore.reinforcedStoneBrick);
 		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBrick, 2), SonarCore.reinforcedDirtBlock, SonarCore.reinforcedDirtBlock);
-		registerCalculatorRecipe(Calculator.rainSensor, Blocks.daylight_detector, Items.bucket);
+		registerCalculatorRecipe(Calculator.rainSensor, Blocks.DAYLIGHT_DETECTOR, Items.BUCKET);
 
 		// registerCalculatorRecipe(Calculator.researchChamber, Calculator.reinforced_iron_block, Calculator.powerCube);
 
@@ -283,7 +283,7 @@ public class RecipeRegistry {
 		registerScientificRecipe("ingotIron", "dustRedstone", Calculator.redstone_ingot);
 		registerScientificRecipe("gemDiamond", Calculator.reinforcediron_ingot, new ItemStack(Calculator.weakeneddiamond, 4));
 		registerScientificRecipe(Calculator.baby_grenade, Calculator.baby_grenade, Calculator.grenade);
-		registerScientificRecipe(Calculator.enriched_coal, Items.lava_bucket, Calculator.firecoal);
+		registerScientificRecipe(Calculator.enriched_coal, Items.LAVA_BUCKET, Calculator.firecoal);
 		registerScientificRecipe(Calculator.large_amethyst, "treeSapling", Calculator.amethystSapling);
 		registerScientificRecipe(Calculator.amethystLog, Calculator.amethystLeaves, Calculator.amethystSapling);
 		registerScientificRecipe(Calculator.amethystLog, Calculator.small_amethyst, Calculator.amethystSapling);
@@ -299,10 +299,10 @@ public class RecipeRegistry {
 	private static void addAtomicRecipes() {
 		registerAtomicRecipe("ingotIron", "dustRedstone", "ingotIron", Calculator.itemScientificCalculator);
 		registerAtomicRecipe("gemDiamond", Calculator.atomic_binder, "gemDiamond", Calculator.flawlessdiamond);
-		registerAtomicRecipe("gemDiamond", Items.blaze_rod, "gemDiamond", Calculator.firediamond);
-		registerAtomicRecipe(Items.blaze_rod, Calculator.flawlessdiamond, Items.blaze_rod, Calculator.firediamond);
-		registerAtomicRecipe(Blocks.end_stone, Calculator.electricDiamond, Blocks.obsidian, Calculator.endDiamond);
-		registerAtomicRecipe(Calculator.amethystSapling, Blocks.end_stone, Calculator.tanzaniteSapling, Calculator.pearSapling);
+		registerAtomicRecipe("gemDiamond", Items.BLAZE_ROD, "gemDiamond", Calculator.firediamond);
+		registerAtomicRecipe(Items.BLAZE_ROD, Calculator.flawlessdiamond, Items.BLAZE_ROD, Calculator.firediamond);
+		registerAtomicRecipe(Blocks.END_STONE, Calculator.electricDiamond, Blocks.OBSIDIAN, Calculator.endDiamond);
+		registerAtomicRecipe(Calculator.amethystSapling, Blocks.END_STONE, Calculator.tanzaniteSapling, Calculator.pearSapling);
 		registerAtomicRecipe(Calculator.itemScientificCalculator, Calculator.atomic_binder, Calculator.redstone_ingot, Calculator.itemAdvancedTerrainModule);
 		registerAtomicRecipe(Calculator.tanzaniteLog, Calculator.atomic_binder, Calculator.tanzaniteLeaves, Calculator.tanzaniteSapling);
 		registerAtomicRecipe(Calculator.large_tanzanite, Calculator.atomic_binder, "treeSapling", Calculator.tanzaniteSapling);
@@ -315,18 +315,18 @@ public class RecipeRegistry {
 		registerAtomicRecipe(Calculator.itemEnergyModule, Calculator.firediamond, Calculator.itemEnergyModule, Calculator.conductorMast);
 		registerAtomicRecipe(new ItemStack(Calculator.material_block, 1, Variants.REINFORCED_IRON.getMeta()), Calculator.reinforcedChest, new ItemStack(Calculator.material_block, 1, Variants.REINFORCED_IRON.getMeta()), Calculator.storageChamber);
 		registerAtomicRecipe(Calculator.reassemblyChamber, Calculator.flawlessdiamond, Calculator.restorationChamber, Calculator.processingChamber);
-		registerAtomicRecipe(Calculator.reinforcediron_ingot, Blocks.chest, Calculator.reinforcediron_ingot, Calculator.itemStorageModule);
+		registerAtomicRecipe(Calculator.reinforcediron_ingot, Blocks.CHEST, Calculator.reinforcediron_ingot, Calculator.itemStorageModule);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.electricDiamond, Calculator.reinforcediron_ingot, Calculator.transmitter);
 		registerAtomicRecipe(Calculator.reinforcediron_ingot, Calculator.firediamond, Calculator.reinforcediron_ingot, new ItemStack(Calculator.weatherStation, 4));
 	}
 
 	private static void addFlawlessRecipes() {
-		registerFlawlessRecipe(Calculator.pearSapling, Calculator.endDiamond, Calculator.endDiamond, Blocks.end_stone, Calculator.diamondSapling);
-		registerFlawlessRecipe("ingotGold", "ingotGold", "ingotGold", "ingotGold", Items.diamond);
-		registerFlawlessRecipe("gemDiamond", "gemDiamond", "gemDiamond", "gemDiamond", Items.emerald);
-		registerFlawlessRecipe("ingotIron", "ingotIron", "ingotIron", "ingotIron", Items.ender_pearl);
-		registerFlawlessRecipe("logWood", "logWood", "logWood", "logWood", Blocks.obsidian);
-		registerFlawlessRecipe(Blocks.obsidian, Blocks.obsidian, Blocks.obsidian, Blocks.obsidian, Calculator.purifiedObsidian);
+		registerFlawlessRecipe(Calculator.pearSapling, Calculator.endDiamond, Calculator.endDiamond, Blocks.END_STONE, Calculator.diamondSapling);
+		registerFlawlessRecipe("ingotGold", "ingotGold", "ingotGold", "ingotGold", Items.DIAMOND);
+		registerFlawlessRecipe("gemDiamond", "gemDiamond", "gemDiamond", "gemDiamond", Items.EMERALD);
+		registerFlawlessRecipe("ingotIron", "ingotIron", "ingotIron", "ingotIron", Items.ENDER_PEARL);
+		registerFlawlessRecipe("logWood", "logWood", "logWood", "logWood", Blocks.OBSIDIAN);
+		registerFlawlessRecipe(Blocks.OBSIDIAN, Blocks.OBSIDIAN, Blocks.OBSIDIAN, Blocks.OBSIDIAN, Calculator.purifiedObsidian);
 		registerFlawlessRecipe(Calculator.broccoli, Calculator.broccoli, Calculator.broccoli, Calculator.broccoli, Calculator.fiddledewFruit);
 
 		registerFlawlessRecipe(Calculator.itemEnergyModule, Calculator.itemCalculator, Calculator.itemCalculator, Calculator.itemEnergyModule, Calculator.itemLocatorModule);
@@ -334,8 +334,8 @@ public class RecipeRegistry {
 		registerFlawlessRecipe(Calculator.circuitBoard, Calculator.enriched_coal, Calculator.enriched_coal, Calculator.circuitBoard, new ItemStack(Calculator.controlled_Fuel, 4));
 		registerFlawlessRecipe(Calculator.gas_lantern_off, new ItemStack(Calculator.circuitBoard, 1, 8), new ItemStack(Calculator.circuitBoard, 1, 8), Calculator.gas_lantern_off, Calculator.CO2Generator);
 
-		registerFlawlessRecipe(Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_rod);
-		registerFlawlessRecipe(Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.blaze_rod, Items.ghast_tear);
+		registerFlawlessRecipe(Items.BLAZE_POWDER, Items.BLAZE_POWDER, Items.BLAZE_POWDER, Items.BLAZE_POWDER, Items.BLAZE_ROD);
+		registerFlawlessRecipe(Items.BLAZE_ROD, Items.BLAZE_ROD, Items.BLAZE_ROD, Items.BLAZE_ROD, Items.GHAST_TEAR);
 
 	}
 

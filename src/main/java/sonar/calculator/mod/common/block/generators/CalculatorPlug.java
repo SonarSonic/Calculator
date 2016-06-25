@@ -2,13 +2,14 @@ package sonar.calculator.mod.common.block.generators;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
@@ -41,9 +42,9 @@ public class CalculatorPlug extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (!world.isRemote) {
-			ItemStack held = player.getHeldItem();
+			ItemStack held = player.getHeldItemMainhand();
 			if (held != null && held.getItem() instanceof IStability) {
 				TileEntity tile = world.getTileEntity(pos);
 				StoredItemStack item = new StoredItemStack(held).setStackSize(1);
@@ -71,7 +72,7 @@ public class CalculatorPlug extends SonarMachineBlock {
 		return state;
 	}
 
-	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { FACING, ACTIVE });
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] { FACING, ACTIVE });
 	}
 }

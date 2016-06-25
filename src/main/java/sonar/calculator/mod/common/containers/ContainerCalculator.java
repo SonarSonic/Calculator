@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -51,10 +52,10 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 			if (player.capabilities.isCreativeMode) {
 				return;
 			}
-			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IEnergyContainerItem) {
-				IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItem().getItem();
-				energy.extractEnergy(player.getHeldItem(), 1, false);
-				int stored = energy.getEnergyStored(player.getHeldItem()) - 1;
+			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof IEnergyContainerItem) {
+				IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItemMainhand().getItem();
+				energy.extractEnergy(player.getHeldItemMainhand(), 1, false);
+				int stored = energy.getEnergyStored(player.getHeldItemMainhand()) - 1;
 			}
 		}
 	}
@@ -107,10 +108,10 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 	}
 
 	@Override
-	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player) {
-		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItem()) {
+    public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player){
+		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
 			return null;
 		}
-		return super.slotClick(slot, button, flag, player);
+		return super.slotClick(slot, drag, click, player);
 	}
 }

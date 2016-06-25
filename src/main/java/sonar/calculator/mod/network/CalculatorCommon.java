@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -44,7 +44,7 @@ public class CalculatorCommon implements IGuiHandler {
 				return ((IGuiTile) entity).getGuiContainer(player);
 			}
 		} else {
-			ItemStack equipped = player.getHeldItem();
+			ItemStack equipped = player.getHeldItemMainhand();
 			if (equipped != null) {
 				switch (ID) {
 				case IGuiItem.ID:
@@ -71,7 +71,7 @@ public class CalculatorCommon implements IGuiHandler {
 				return ((IGuiTile) entity).getGuiScreen(player);
 			}
 		} else {
-			ItemStack equipped = player.getHeldItem();
+			ItemStack equipped = player.getHeldItemMainhand();
 			if (equipped != null) {
 				switch (ID) {
 				case IGuiItem.ID:

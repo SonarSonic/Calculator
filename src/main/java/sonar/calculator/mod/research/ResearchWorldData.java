@@ -18,8 +18,9 @@ public class ResearchWorldData extends WorldSavedData {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		PlayerResearchRegistry.writeData(nbt, SyncType.SAVE);
+		return nbt;
 	}
 
 	public boolean isDirty() {

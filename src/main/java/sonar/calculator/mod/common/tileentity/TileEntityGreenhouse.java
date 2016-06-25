@@ -16,8 +16,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,7 +31,6 @@ import sonar.core.api.SonarAPI;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.api.utils.ActionType;
 import sonar.core.api.utils.BlockCoords;
-import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.InventoryHelper.IInventoryFilter;
@@ -116,8 +115,9 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			return;
 		}
 		for (BlockCoords coord : (ArrayList<BlockCoords>) getPlantArea().clone()) {
-			Block block = coord.getBlock(worldObj);
-			if ((block == null || block.isAir(getWorld(), pos) || block.isReplaceable(worldObj, coord.getBlockPos()))) {
+			IBlockState oldState = coord.getBlockState(worldObj);
+			Block block = oldState.getBlock();
+			if ((block == null || block.isAir(oldState, getWorld(), pos) || block.isReplaceable(worldObj, coord.getBlockPos()))) {
 				for (IPlanter planter : Calculator.planters.getObjects()) {
 					for (Integer slot : getInvPlants()) {
 						ItemStack stack = slots()[slot];
@@ -298,25 +298,25 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				return true;
 			}
 		}
-		if (block == Blocks.stone_stairs) {
-			return true;
-		}
-		if (block == Blocks.stone_brick_stairs) {
-			return true;
-		}
-		if (block == Blocks.sandstone_stairs) {
-			return true;
-		}
-		if (block == Blocks.brick_stairs) {
-			return true;
-		}
-		if (block == Blocks.quartz_stairs) {
-			return true;
-		}
-		if (block == Blocks.nether_brick_stairs) {
-			return true;
-		}
 		if (block instanceof BlockStairs) {
+			return true;
+		}
+		if (block == Blocks.STONE_STAIRS) {
+			return true;
+		}
+		if (block == Blocks.STONE_BRICK_STAIRS) {
+			return true;
+		}
+		if (block == Blocks.SANDSTONE_STAIRS) {
+			return true;
+		}
+		if (block == Blocks.BRICK_STAIRS) {
+			return true;
+		}
+		if (block == Blocks.QUARTZ_STAIRS) {
+			return true;
+		}
+		if (block == Blocks.NETHER_BRICK_STAIRS) {
 			return true;
 		}
 		return false;

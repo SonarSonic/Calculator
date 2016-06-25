@@ -14,7 +14,7 @@ public class StarchExtractorRecipes extends ValueHelper {
 	@Override
 	public void addRecipes() {
 
-		addRecipe(Items.apple, 2000);
+		addRecipe(Items.APPLE, 2000);
 		addRecipe("cropPotato", 1000);
 		addRecipe("cropCarrot", 1000);
 		addRecipe("cropWheat", 800);
@@ -22,10 +22,10 @@ public class StarchExtractorRecipes extends ValueHelper {
 		addRecipe(Calculator.broccoliSeeds, 800);
 		addRecipe(Calculator.fiddledewFruit, 5000);
 		addRecipe(Calculator.prunaeSeeds, 1500);
-		addRecipe(Items.wheat_seeds, 600);
-		addRecipe(Items.melon, 1000);
-		addRecipe(Items.melon_seeds, 800);
-		addRecipe(Items.reeds, 1000);
+		addRecipe(Items.WHEAT_SEEDS, 600);
+		addRecipe(Items.MELON, 1000);
+		addRecipe(Items.MELON_SEEDS, 800);
+		addRecipe(Items.REEDS, 1000);
 		addRecipe("treeSapling", 1000);
 		addRecipe("calculatorLeaves", 2500);
 		addRecipe("treeLeaves", 200);

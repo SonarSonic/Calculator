@@ -3,8 +3,9 @@ package sonar.calculator.mod.utils.helpers;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.util.BlockPos;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
@@ -74,11 +75,11 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 			if (!flag) {
 				return false;
 			} else {
-				Block block2 = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
-
-				boolean isSoil = block2.canSustainPlant(world, pos.offset(EnumFacing.DOWN), EnumFacing.UP, sapling);
+				IBlockState state2 = world.getBlockState(pos.offset(EnumFacing.DOWN));
+				Block block2 = state2.getBlock();
+				boolean isSoil = block2.canSustainPlant(state2, world, pos.offset(EnumFacing.DOWN), EnumFacing.UP, sapling);
 				if (isSoil && pos.getY() < 256 - l - 1) {
-					block2.onPlantGrow(world, pos.offset(EnumFacing.DOWN), pos);
+					block2.onPlantGrow(state2, world, pos.offset(EnumFacing.DOWN), pos);
 					b0 = 3;
 					byte b1 = 0;
 					int l1;
@@ -97,9 +98,9 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 								int l2 = k2 - pos.getZ();
 
 								if (Math.abs(j2) != l1 || Math.abs(l2) != l1 || rand.nextInt(2) != 0 && i3 != 0) {
-									Block block1 = world.getBlockState(new BlockPos(i2, k1, k2)).getBlock();
-
-									if (block1.isAir(world, new BlockPos(i2, k1, k2)) || block1.isLeaves(world, new BlockPos(i2, k1, k2))) {
+									IBlockState state1 = world.getBlockState(new BlockPos(i2, k1, k2));
+									Block block1 = state1.getBlock();
+									if (block1.isAir(state1, world, new BlockPos(i2, k1, k2)) || block1.isLeaves(state1, world, new BlockPos(i2, k1, k2))) {
 										world.setBlockState(new BlockPos(i2, k1, k2), blockLeaves.getDefaultState());
 									}
 								}
@@ -108,9 +109,9 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 					}
 
 					for (k1 = 0; k1 < l; ++k1) {
-						block = world.getBlockState(pos.add(0, k1, 0)).getBlock();
-
-						if (block.isAir(world, pos.add(0, k1, 0)) || block.isLeaves(world, pos.add(0, k1, 0))) {
+						IBlockState offset = world.getBlockState(pos.add(0, k1, 0));
+						block = offset.getBlock();
+						if (block.isAir(offset, world, pos.add(0, k1, 0)) || block.isLeaves(offset, world, pos.add(0, k1, 0))) {
 							world.setBlockState(pos.add(0, k1, 0), blockLog.getDefaultState());
 
 						}

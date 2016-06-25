@@ -1,15 +1,17 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,7 +24,6 @@ import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
-import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.RenderHelper;
 import sonar.core.inventory.SonarInventory;
@@ -372,20 +373,35 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 		this.setBlockType(x, y, z, new int[] { 1, 2, 3 }, BlockType.STAIRS, meta);
 	}
 
-	public FailedCoords roof(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {
-
-		if (getPlanks(x + (hX * 1), y + 6, z + (hZ * 1))) {
+	public FailedCoords checkPlanks(boolean check, int x, int y, int z) {
+		if (getPlanks(x, y, z)) {
 			if (!check) {
-				setPlanks(x + (hX * 1), y + 6, z + (hZ * 1));
+				setPlanks(x, y, z);
 			}
-			return new FailedCoords(false, x + (hX * 1), y + 6, z + (hZ * 1), FontHelper.translate("greenhouse.planks"));
+			return new FailedCoords(false, x, y, z, FontHelper.translate("greenhouse.planks"));
 		}
-		if (getPlanks(x + (hoX * 1), y + 6, z + (hoZ * 1))) {
-			if (!check) {
-				setPlanks(x + (hoX * 1), y + 6, z + (hoZ * 1));
-			}
-			return new FailedCoords(false, x + (hoX * 1), y + 6, z + (hoZ * 1), FontHelper.translate("greenhouse.planks"));
+		return null;
+	}
 
+	public enum BlockTypes {
+		PLANKS;
+	}
+
+	public FailedCoords roof(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {
+		FailedCoords current = null;
+		HashMap<BlockCoords, BlockTypes> map = new HashMap();
+		map.put(new BlockCoords(x + (hX * 1), y + 6, z + (hZ * 1)), BlockTypes.PLANKS);
+		map.put(new BlockCoords(x + (hoX * 1), y + 6, z + (hoZ * 1)), BlockTypes.PLANKS);
+
+		for (Entry<BlockCoords, BlockTypes> entry : map.entrySet()) {
+			switch (entry.getValue()) {
+			case PLANKS:
+				current = checkPlanks(check, x, y, z);
+				break;
+			}
+			if (current != null) {
+				return current;
+			}
 		}
 
 		for (int i = -1; i <= 9; i++) {
@@ -396,7 +412,6 @@ public class TileEntityAdvancedGreenhouse extends TileEntityGreenhouse implement
 						setStairs(x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), type("r"), 2);
 					}
 					return new FailedCoords(false, x + (hX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i), FontHelper.translate("greenhouse.stairs"));
-
 				}
 				if (getStairs(x + (hoX * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fX * i), y + s, z + (hoZ * intValues(s, FontHelper.translate("greenhouse.stairs"))) + (fZ * i))) {
 					if (!check) {

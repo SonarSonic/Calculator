@@ -2,7 +2,7 @@ package sonar.calculator.mod.common.entities;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntitySmallStone extends EntityThrowable {
@@ -19,10 +19,10 @@ public class EntitySmallStone extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition var1) {
+	protected void onImpact(RayTraceResult result) {
 		if (!this.worldObj.isRemote) {
-			if (var1.entityHit != null) {
-				var1.entityHit.attackEntityFrom(CalculatorDamages.smallstone, 4.0F);
+			if (result.entityHit != null) {
+				result.entityHit.attackEntityFrom(CalculatorDamages.smallstone, 4.0F);
 			}
 			setDead();
 		}

@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntitySoil extends EntityThrowable {
@@ -22,14 +22,12 @@ public class EntitySoil extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition var1) {
+	protected void onImpact(RayTraceResult result) {
 		if (!this.worldObj.isRemote) {
-			if (var1.entityHit != null && var1.entityHit instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) var1.entityHit;
-				player.addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 1));
-
+			if (result.entityHit != null && result.entityHit instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) result.entityHit;
+				player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("blindness"), 100, 1));
 			}
-
 			setDead();
 		}
 	}

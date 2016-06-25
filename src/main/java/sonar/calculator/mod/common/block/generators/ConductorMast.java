@@ -8,8 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
@@ -31,7 +32,7 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 		super(SonarMaterials.machine, false, true);
 	}
 	
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (!world.isRemote) {
 			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
@@ -53,13 +54,13 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 
 	@Override
 	public boolean canPlaceBlockAt(World world, BlockPos pos) {
-		if (world.getBlockState(pos.offset(EnumFacing.UP, 1)).getBlock() != Blocks.air) {
+		if (world.getBlockState(pos.offset(EnumFacing.UP, 1)).getBlock() != Blocks.AIR) {
 			return false;
 		}
-		if (world.getBlockState(pos.offset(EnumFacing.UP, 2)).getBlock() != Blocks.air) {
+		if (world.getBlockState(pos.offset(EnumFacing.UP, 2)).getBlock() != Blocks.AIR) {
 			return false;
 		}
-		if (world.getBlockState(pos.offset(EnumFacing.UP, 3)).getBlock() != Blocks.air) {
+		if (world.getBlockState(pos.offset(EnumFacing.UP, 3)).getBlock() != Blocks.AIR) {
 			return false;
 		}
 		return true;

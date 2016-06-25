@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import sonar.calculator.mod.common.containers.ICalculatorCrafter;
-import sonar.core.common.item.InventoryItem;
 
 public class SlotPortableResult extends SlotPortable {
 	private EntityPlayer thePlayer;
@@ -51,7 +50,7 @@ public class SlotPortableResult extends SlotPortable {
 					ItemStack itemstack2 = itemstack1.getItem().getContainerItem(itemstack1);
 
 					if (itemstack2 != null && itemstack2.isItemStackDamageable() && itemstack2.getItemDamage() > itemstack2.getMaxDamage()) {
-						MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, itemstack2));
+						MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, itemstack2, player.getActiveHand()));
 						continue;
 					}
 
@@ -59,7 +58,7 @@ public class SlotPortableResult extends SlotPortable {
 						if (this.invItem.getStackInSlot(craftSlots[i]) == null) {
 							this.invItem.setInventorySlotContents(craftSlots[i], itemstack2);
 						} else {
-							this.thePlayer.dropPlayerItemWithRandomChoice(itemstack2, false);
+							this.thePlayer.dropItem(itemstack2, false);
 						}
 					}
 				}

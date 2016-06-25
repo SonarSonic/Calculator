@@ -5,14 +5,15 @@ import java.util.Random;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -46,22 +47,20 @@ public class CalculatorLocator extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, EntityPlayer player, BlockInteraction interact) {
-		if (player != null) {
-			if (!world.isRemote) {
-				TileEntity locator = (TileEntity) world.getTileEntity(pos);
-				if (locator != null){
-					SonarCore.sendFullSyncAround(locator, 64);
-				}
-				player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+		if (player != null && !world.isRemote) {
+			TileEntity locator = (TileEntity) world.getTileEntity(pos);
+			if (locator != null) {
+				SonarCore.sendFullSyncAround(locator, 64);
 			}
+			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
 		TileEntity target = world.getTileEntity(pos);
 		if (target != null && target instanceof TileEntityCalculatorLocator) {
 			TileEntityCalculatorLocator locator = (TileEntityCalculatorLocator) target;
@@ -141,7 +140,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 		return state;
 	}
 
-	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { FACING, ACTIVE });
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] { FACING, ACTIVE });
 	}
 }

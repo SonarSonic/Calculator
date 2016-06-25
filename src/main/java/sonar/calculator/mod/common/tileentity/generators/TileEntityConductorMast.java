@@ -9,16 +9,16 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.api.machines.IProcessMachine;
 import sonar.calculator.mod.client.gui.generators.GuiConductorMast;
 import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
+import sonar.core.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
@@ -97,7 +97,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 							currentstrikes = strikes;
 						}
 						while (currentstrikes != 0) {
-							worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, pos.getX(), pos.getY() + 4, pos.getZ()));
+							worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, pos.getX(), pos.getY() + 4, pos.getZ(), true));
 							currentstrikes--;
 						}
 					}
@@ -135,7 +135,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	private void lightningStrike(World world, int x, int y, int z) {
 		if (storage.getEnergyStored() < storage.getMaxEnergyStored()) {
-			world.spawnEntityInWorld(new EntityLightningBolt(world, x, y, z));
+			world.spawnEntityInWorld(new EntityLightningBolt(world, x, y, z, true));
 		}
 
 	}
@@ -233,7 +233,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 				if (target != null && target instanceof TileEntityWeatherStation) {
 					TileEntityWeatherStation station = (TileEntityWeatherStation) target;
 					station.setAngle();
-					world.markBlockForUpdate(pos.add(x, 0, z));
+					station.markBlockForUpdate();
 				}
 			}
 		}

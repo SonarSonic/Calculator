@@ -59,10 +59,8 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 
 		if (flag1 != this.burnTime.getObject() > 0) {
 			flag1 = true;
-
 			GasLantern.setState(this.isBurning(), worldObj, pos);
-			this.worldObj.markBlockForUpdate(pos);
-
+			markBlockForUpdate();
 		}
 
 		if (flag2) {

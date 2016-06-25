@@ -13,8 +13,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -379,7 +379,7 @@ public class GuiInfoCalculator extends GuiContainer {
 				this.renderItem(item, 5, 5);
 				GlStateManager.pushMatrix();
 				GlStateManager.scale(0.8, 0.8, 0.8);
-				FontHelper.text(EnumChatFormatting.UNDERLINE + item.getDisplayName(), 35, 12, 1);
+				FontHelper.text(TextFormatting.UNDERLINE + item.getDisplayName(), 35, 12, 1);
 				GlStateManager.popMatrix();
 			}
 			GlStateManager.pushMatrix();

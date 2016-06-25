@@ -12,8 +12,8 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
@@ -28,7 +28,6 @@ import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
-import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RenderHelper;
@@ -343,7 +342,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	public boolean slabQuartz(int x, int y, int z) {
 		IBlockState state = this.worldObj.getBlockState(new BlockPos(x, y, z));
-		if (state.getBlock() == Blocks.stone_slab) {
+		if (state.getBlock() == Blocks.STONE_SLAB) {
 			if (state.getBlock().getMetaFromState(state) == 7) {
 				return false;
 			}
