@@ -2,7 +2,9 @@ package sonar.calculator.mod.common.tileentity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGlass;
@@ -25,8 +27,11 @@ import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IGreenhouse;
+import sonar.calculator.mod.integration.planting.IFertiliser;
 import sonar.calculator.mod.integration.planting.IHarvester;
 import sonar.calculator.mod.integration.planting.IPlanter;
+import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.api.utils.ActionType;
@@ -36,10 +41,22 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.InventoryHelper.IInventoryFilter;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RenderHelper;
+import sonar.core.network.sync.SyncEnum;
+import sonar.core.network.sync.SyncTagType;
+import sonar.core.network.sync.SyncTagType.INT;
+import sonar.core.utils.FailedCoords;
 
 public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory implements IGreenhouse {
 
-	public int wasBuilt, isMulti, maxLevel, carbonLevels, plantTicks, planting, houseSize;
+	public enum State {
+		INCOMPLETE, BUILDING, COMPLETED, DEMOLISHING;
+	}
+
+	public SyncEnum<State> state = new SyncEnum(State.values(), 0);
+	public SyncTagType.INT carbon = (INT) new SyncTagType.INT(1).addSyncType(SyncType.DROP);
+	public SyncTagType.BOOLEAN wasBuilt = new SyncTagType.BOOLEAN(2);
+
+	public int maxLevel, plantTicks, planting, houseSize, checkTicks;
 	public int plantsHarvested, plantsGrown;
 	public int plantTick;
 	public int type;
@@ -51,10 +68,34 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public EnumFacing forward = EnumFacing.NORTH;
 	public EnumFacing horizontal = EnumFacing.EAST;
 
-	public void onLoaded(){
-		super.onLoaded();
+	public TileEntityGreenhouse() {
+		syncParts.addAll(Arrays.asList(state, carbon, wasBuilt));
+	}
+
+	public void update() {
+		super.update();
 		forward = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
 		horizontal = RenderHelper.getHorizontal(forward);
+	}
+
+	public void checkTile() {
+		if (checkTicks >= 0 && this.checkTicks != 50) {
+			checkTicks++;
+		}
+
+		if (checkTicks == 50) {
+			checkTicks = 0;
+			if (checkStructure(GreenhouseAction.CHECK).getBoolean()) {
+				if (!wasBuilt.getObject()) {
+					setGas(0);
+					wasBuilt.setObject(true);
+				}
+				state.setObject(State.COMPLETED);
+				addFarmland();
+			} else {
+				state.setObject(State.INCOMPLETE);
+			}
+		}
 	}
 
 	public static class PlantableFilter implements IInventoryFilter {
@@ -65,71 +106,114 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 	}
 
-	public abstract ArrayList<BlockCoords> getPlantArea();
+	public enum GreenhouseAction {
+		CAN_BUILD, CHECK, BUILD, DEMOLISH;
+	}
+
+	public abstract FailedCoords checkStructure(GreenhouseAction action);
+
+	public abstract ArrayList<BlockPos> getPlantArea();
+
+	public abstract void addFarmland();
 
 	public static boolean isSeed(ItemStack stack) {
 		return stack != null && stack.getItem() instanceof IPlantable;
 	}
 
+	protected void growCrops(int repeat) {
+		if (isClient()) {
+			return;
+		}
+		ArrayList<BlockPos> plantArea = (ArrayList<BlockPos>) getPlantArea().clone();
+		for (int i = 0; i < repeat; i++) {
+			if ((this.storage.getEnergyStored() > this.growthRF)) {
+				int rand = SonarCore.randInt(0, plantArea.size() - 1);
+				BlockPos pos = plantArea.get(rand);
+				IBlockState state = worldObj.getBlockState(pos);
+				Block block = state.getBlock();
+				if (block != null) {
+					for (IFertiliser fertiliser : Calculator.fertilisers.getObjects()) {
+						if (fertiliser.canFertilise(worldObj, pos, state) && fertiliser.canGrow(worldObj, pos, state, false)) {
+							fertiliser.grow(worldObj, SonarCore.rand, pos, state);
+						}
+					}
+				}
+				storage.extractEnergy(growthRF, true);
+			}
+		}
+	}
+
 	protected void harvestCrops() {
+		if (isClient()) {
+			return;
+		}
 		if (!(this.storage.getEnergyStored() > this.growthRF)) {
 			return;
 		}
-		for (BlockCoords coord : (ArrayList<BlockCoords>) getPlantArea().clone()) {
-			Block block = coord.getBlock();
-			if (block != null && block.isReplaceable(worldObj, coord.getBlockPos())) {
+		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
+			IBlockState state = worldObj.getBlockState(pos);
+			Block block = state.getBlock();
+			if (block != null) {
 				for (IHarvester harvester : Calculator.harvesters.getObjects()) {
-					IBlockState state = worldObj.getBlockState(coord.getBlockPos());
-					if (harvester.canHarvest(worldObj, coord.getBlockPos(), state)) {
-						List<ItemStack> stacks = harvester.getDrops(worldObj, coord.getBlockPos(), state, type);
+					if (harvester.canHarvest(worldObj, pos, state) && harvester.isReady(worldObj, pos, state)) {
+						List<ItemStack> stacks = harvester.getDrops(worldObj, pos, state, type);
 						if (stacks != null) {
-							addHarvestedStacks(stacks, coord);
+							addHarvestedStacks(stacks, pos, true);
 						}
+
 					}
 				}
 			}
 		}
 	}
 
-	protected void addHarvestedStacks(List<ItemStack> array, BlockCoords coord) {
-		for (ItemStack stack : array) {
-			if (stack != null) {
-				TileEntity tile = this.getWorld().getTileEntity(pos.offset(forward));
-				StoredItemStack storedstack = new StoredItemStack(stack);
-				StoredItemStack harvest = SonarAPI.getItemHelper().addItems(tile, storedstack.copy(), EnumFacing.getFront(0), ActionType.PERFORM, null);
-				storedstack.remove(harvest);
-				if (storedstack != null && storedstack.stored > 0) {
-					EntityItem drop = new EntityItem(worldObj, pos.offset(forward).getX(), pos.offset(forward).getY(), pos.offset(forward).getZ(), storedstack.getFullStack());
-					worldObj.spawnEntityInWorld(drop);
+	protected void addHarvestedStacks(List<ItemStack> array, BlockPos pos, boolean isCrops) {
+		if (!isClient()) {
+			for (ItemStack stack : array) {
+				if (stack != null) {
+					StoredItemStack storedstack = new StoredItemStack(stack.copy());
+					for (TileEntity tile : Arrays.asList(this, this.getWorld().getTileEntity(this.pos.offset(forward.getOpposite())))) {
+						StoredItemStack returned = SonarAPI.getItemHelper().addItems(tile, storedstack, isCrops ? EnumFacing.getFront(0) : EnumFacing.UP, ActionType.PERFORM, null);
+						if (returned != null)
+							storedstack.stored -= returned.getStackSize();
+						if (!isCrops) {
+							break;
+						}
+					}
+					if (storedstack != null && storedstack.stored > 0) {
+						EntityItem drop = new EntityItem(worldObj, this.pos.offset(forward.getOpposite()).getX(), this.pos.offset(forward.getOpposite()).getY(), this.pos.offset(forward.getOpposite()).getZ(), storedstack.getFullStack());
+						worldObj.spawnEntityInWorld(drop);
+					}
+
+					worldObj.setBlockToAir(pos);
+					if (isCrops && this.type == 3)
+						this.plantsHarvested++;
+
 				}
-				worldObj.setBlockToAir(coord.getBlockPos());
-				if (this.type == 3)
-					this.plantsHarvested++;
 			}
 		}
-
 	}
 
 	protected void plantCrops() {
 		if (!(this.storage.getEnergyStored() > this.plantRF)) {
 			return;
 		}
-		for (BlockCoords coord : (ArrayList<BlockCoords>) getPlantArea().clone()) {
-			IBlockState oldState = coord.getBlockState(worldObj);
+		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
+			IBlockState oldState = worldObj.getBlockState(pos);
 			Block block = oldState.getBlock();
-			if ((block == null || block.isAir(oldState, getWorld(), pos) || block.isReplaceable(worldObj, coord.getBlockPos()))) {
+			if ((block == null || block.isAir(oldState, getWorld(), pos) || block.isReplaceable(worldObj, pos))) {
 				for (IPlanter planter : Calculator.planters.getObjects()) {
 					for (Integer slot : getInvPlants()) {
 						ItemStack stack = slots()[slot];
 						if (stack != null && planter.canTierPlant(slots()[slot], type)) {
-							IBlockState state = planter.getPlant(stack, worldObj, coord.getBlockPos());
+							IBlockState state = planter.getPlant(stack, worldObj, pos);
 							if (state != null) {
 								storage.extractEnergy(plantRF, false);
 								slots()[slot].stackSize--;
 								if (slots()[slot].stackSize == 0) {
 									slots()[slot] = null;
 								}
-								worldObj.setBlockState(coord.getBlockPos(), state, 3);
+								worldObj.setBlockState(pos, state, 3);
 								return;
 							}
 						}
@@ -138,7 +222,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			}
 		}
 	}
-	
+
 	public List<Integer> getInvPlants() {
 		List<Integer> plants = new ArrayList();
 
@@ -175,263 +259,20 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	/** id = Gas to set. (Carbon=0) (Oxygen=1). set = amount to set it to **/
 	public void setGas(int set) {
 		if (set <= this.maxLevel) {
-			this.carbonLevels = set;
+			this.carbon.setObject(set);
 		}
-	}
-
-	public enum BlockType {
-		LOG, GLASS, PLANKS, STAIRS;
-		public boolean checkBlock(Item item) {
-			Block block = Block.getBlockFromItem(item);
-			if (block == null) {
-				return false;
-			}
-			switch (this) {
-			case LOG:
-				return checkLog(block);
-			case GLASS:
-				return checkGlass(block);
-			case PLANKS:
-				return checkPlanks(block);
-			case STAIRS:
-				return checkStairs(block);
-			}
-			return false;
-		}
-	}
-
-	public void setBlockType(int x, int y, int z, int[] slots, BlockType type, int meta) {
-		boolean found = false;
-		for (int i = 0; i < slots.length; i++) {
-			int slot = slots[i];
-			if (slot < slots().length) {
-				ItemStack target = slots()[slot];
-				if (target != null && type.checkBlock(target.getItem())) {
-					found = true;
-					Block block = Block.getBlockFromItem(target.getItem());
-					slots()[slot].stackSize--;
-					if (slots()[slot].stackSize == 1) {
-						slots()[slot] = null;
-					}
-					if (meta == -1) {
-						this.worldObj.setBlockState(new BlockPos(x, y, z), block.getStateFromMeta(target.getItemDamage()), 2);
-					} else {
-						this.worldObj.setBlockState(new BlockPos(x, y, z), block.getStateFromMeta(meta), 3);
-					}
-					this.storage.modifyEnergyStored(-buildRF);
-					found = true;
-					break;
-				}
-			}
-		}
-		if (!found) {
-			setIncomplete();
-		}
-	}
-
-	/** checks ore dictionary for registered logs **/
-	public static boolean checkLog(Block block) {
-
-		for (int i = 0; i < OreDictionary.getOres("logWood").size(); i++) {
-			if (OreDictionary.getOres("logWood").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("treeWood").size(); i++) {
-			if (OreDictionary.getOres("treeWood").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		if (block instanceof BlockLog) {
-			return true;
-		}
-		return false;
-	}
-
-	/** checks ore dictionary for registered glass **/
-	public static boolean checkGlass(Block block) {
-
-		for (int i = 0; i < OreDictionary.getOres("blockGlass").size(); i++) {
-			if (OreDictionary.getOres("blockGlass").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("blockGlassColorless").size(); i++) {
-			if (OreDictionary.getOres("blockGlassColorless").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("paneGlassColorless").size(); i++) {
-			if (OreDictionary.getOres("paneGlassColorless").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("paneGlass").size(); i++) {
-			if (OreDictionary.getOres("paneGlass").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		if (block instanceof BlockGlass) {
-			return true;
-		}
-		if (block instanceof BlockPane) {
-			return true;
-		}
-		return false;
-	}
-
-	/** checks ore dictionary for registered stairs **/
-	public static boolean checkStairs(Block block) {
-
-		for (int i = 0; i < OreDictionary.getOres("stairWood").size(); i++) {
-			if (OreDictionary.getOres("stairWood").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("stairStone").size(); i++) {
-			if (OreDictionary.getOres("stairStone").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("greenhouse.stairs").size(); i++) {
-			if (OreDictionary.getOres("stairs").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		if (block instanceof BlockStairs) {
-			return true;
-		}
-		if (block == Blocks.STONE_STAIRS) {
-			return true;
-		}
-		if (block == Blocks.STONE_BRICK_STAIRS) {
-			return true;
-		}
-		if (block == Blocks.SANDSTONE_STAIRS) {
-			return true;
-		}
-		if (block == Blocks.BRICK_STAIRS) {
-			return true;
-		}
-		if (block == Blocks.QUARTZ_STAIRS) {
-			return true;
-		}
-		if (block == Blocks.NETHER_BRICK_STAIRS) {
-			return true;
-		}
-		return false;
-	}
-
-	/** gets metadata for stairs **/
-	public int intValues(int par, String block) {
-		if (type == 2) {
-			if (block == FontHelper.translate("greenhouse.stairs")) {
-				switch (par) {
-				case 3:
-					return 5;
-				case 4:
-					return 4;
-				case 5:
-					return 3;
-				case 6:
-					return 2;
-				case 7:
-					return 1;
-				}
-			}
-		}
-		if (type == 1) {
-			if (block == FontHelper.translate("greenhouse.stairs")) {
-				switch (par) {
-				case 2:
-					return 3;
-				case 3:
-					return 2;
-				case 4:
-					return 1;
-				}
-			}
-		}
-		return 0;
-
-	}
-
-	/** checks ore dictionary for registered planks **/
-	public static boolean checkPlanks(Block block) {
-
-		for (int i = 0; i < OreDictionary.getOres("plankWood").size(); i++) {
-			if (OreDictionary.getOres("plankWood").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("planksWood").size(); i++) {
-			if (OreDictionary.getOres("planksWood").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		if (block instanceof BlockLog) {
-			return true;
-		}
-		return false;
 	}
 
 	public int getTier() {
 		return type;
 	}
 
-	public boolean isCompleted() {
-		if (isMulti == 2) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean isBeingBuilt() {
-		if (isMulti == -1) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean isIncomplete() {
-		if (isMulti == 0) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean wasBuilt() {
-		if (wasBuilt == 1) {
-			return true;
-		}
-		return false;
-	}
-
-	public void setCompleted() {
-		this.isMulti = 2;
-	}
-
-	public void setBeingBuilt() {
-		this.isMulti = -1;
-
-	}
-
-	public void setIncomplete() {
-		this.isMulti = 0;
-	}
-
-	public void setWasBuilt() {
-		if (!(this.wasBuilt == 1)) {
-			this.wasBuilt = 1;
-		}
-	}
-
 	public int getOxygen() {
-		return maxLevel - carbonLevels;
+		return maxLevel - carbon.getObject();
 	}
 
 	public int getCarbon() {
-		return carbonLevels;
+		return carbon.getObject();
 	}
 
 	@Override
@@ -439,36 +280,20 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		return maxLevel;
 	}
 
-	public boolean getLog(int x, int y, int z) {
-		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
-		if (block != null && !checkLog(block)) {
-			return true;
-		}
-		return false;
-	}
+	/** id = Gas to add to. (Carbon=0) (Oxygen=1). add = amount to add **/
+	public void addGas(int add) {
+		int carbonLevels = carbon.getObject();
 
-	public boolean getGlass(int x, int y, int z) {
-		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
-		if (block != null && !checkGlass(block)) {
-			return true;
+		if (carbonLevels + add < this.maxLevel && carbonLevels + add >= 0) {
+			carbon.setObject(carbonLevels + add);
+		} else {
+			if (carbonLevels + add > this.maxLevel) {
+				setGas(maxLevel);
+			}
+			if (carbonLevels + add < 0) {
+				setGas(0);
+			}
 		}
-		return false;
-	}
-
-	public boolean getPlanks(int x, int y, int z) {
-		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
-		if (block != null && !checkPlanks(block)) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean getStairs(int x, int y, int z) {
-		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
-		if (block != null && !checkStairs(block)) {
-			return true;
-		}
-		return false;
 	}
 
 	public int type(String string) {
@@ -532,61 +357,31 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		return 0;
 
 	}
-	
-	/** types Basic =1 Advanced =2 Flawless = 3 **/
-	public int getInvEmpty() {
-		if (this.type == 2) {
-			for (int j = 0; j < 9; j++) {
-				if (slots()[8 + j] == null) {
-					return 8 + j;
-				}
-			}
-		}
-		if (this.type == 1) {
-			for (int j = 0; j < 9; j++) {
-				if (slots()[5 + j] == null) {
-					return 5 + j;
-				}
-			}
-		}
-		if (this.type == 3) {
-			for (int j = 0; j < 9; j++) {
-				if (slots()[1 + j] == null) {
-					return 1 + j;
-				}
-			}
-		}
-		return -1;
-	}
 
-	public void readData(NBTTagCompound nbt, SyncType type) {
-		super.readData(nbt, type);
-		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
-			this.isMulti = nbt.getInteger("Multi");
-			this.wasBuilt = nbt.getInteger("wasBuilt");
-			this.carbonLevels = nbt.getInteger("Carbon");
-		}
-
-		if (type == SyncType.DROP) {
-			this.carbonLevels = nbt.getInteger("Carbon");
-		}
-	}
-
-	public void writeData(NBTTagCompound nbt, SyncType type) {
-		super.writeData(nbt, type);
-		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
-			nbt.setInteger("Multi", this.isMulti);
-			nbt.setInteger("wasBuilt", this.wasBuilt);
-			nbt.setInteger("Carbon", this.carbonLevels);
-		}
-		if (type == SyncType.DROP) {
-			nbt.setInteger("Carbon", this.getCarbon());
-			nbt.setInteger("Oxygen", this.getOxygen());
-		}
+	@Override
+	public State getState() {
+		return state.getObject();
 	}
 
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip) {
+		switch (state.getObject()) {
+		case BUILDING:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.building"));
+			break;
+		case INCOMPLETE:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.incomplete"));
+			break;
+		case COMPLETED:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.complete"));
+			break;
+		case DEMOLISHING:
+			currenttip.add(FontHelper.translate("locator.state") + ": " + "Demolishing");
+			break;
+		default:
+			break;
+		}
+
 		DecimalFormat dec = new DecimalFormat("##.##");
 		int oxygen = getOxygen();
 		int carbon = getCarbon();

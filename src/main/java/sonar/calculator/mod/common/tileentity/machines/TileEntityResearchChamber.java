@@ -30,6 +30,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 
 	public TileEntityResearchChamber() {
 		super.inv = new SonarInventory(this, 1);
+		syncParts.addAll(Arrays.asList(ticks, playerName));
 	}
 
 	public void update() {
@@ -65,12 +66,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 			}
 		}
 	}
-
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Arrays.asList(ticks, playerName));
-	}
-
+	
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1)
 			markBlockForUpdate();

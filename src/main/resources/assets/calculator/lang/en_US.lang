@@ -313,26 +313,16 @@ greenhouse.carbon=Carbon Stored
 greenhouse.building=Building
 greenhouse.incomplete=Incomplete
 greenhouse.complete=Complete
-greenhouse.logStack=Log Stack
-greenhouse.stairsStack=Stairs Stack
-greenhouse.glassStack=Glass Stack
-greenhouse.plankStack=Planks Stack
-greenhouse.isEmpty=is Empty
-greenhouse.noLogs=doesn't contain logs
-greenhouse.noStairs=doesn't contain stairs
-greenhouse.noGlass=doesn't contain glass
-greenhouse.noPlanks=doesn't contain planks
-greenhouse.requires=Requires
-greenhouse.moreLogs=more Logs
-greenhouse.moreStairs=more Stairs
-greenhouse.moreGlass=more Glass
-greenhouse.morePlanks=more Planks
 greenhouse.glass=Glass
 greenhouse.quartz=Quartz
 greenhouse.planks=Planks
 greenhouse.logs=Logs
 greenhouse.stairs=Stairs
 greenhouse.stable=Stable Stone
+greenhouse.requires=Requires
+greenhouse.build=Build
+greenhouse.rebuild=Rebuild
+greenhouse.demolish=Demolish
 
 
 //points

@@ -70,12 +70,13 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setBoolean("blacklisted", whitelisted);
 			nbt.setBoolean("exact", exact);
 		}
+		return nbt;
 	}
 
 	public void magnetizeItems() {

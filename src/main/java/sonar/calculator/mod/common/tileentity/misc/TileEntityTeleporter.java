@@ -18,6 +18,7 @@ import sonar.calculator.mod.client.gui.misc.GuiTeleporter;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.calculator.mod.utils.helpers.TeleporterHelper;
 import sonar.core.SonarCore;
+import sonar.core.common.block.StableStone;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.ContainerEmpty;
@@ -45,6 +46,10 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	/** client only list */
 	public List<TeleportLink> links;
 
+	public TileEntityTeleporter(){
+		syncParts.addAll(Lists.newArrayList(name, destinationName, linkPassword, password));
+	}
+	
 	public void update() {
 		super.update();
 		if (this.worldObj.isRemote) {
@@ -116,7 +121,8 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			EnumFacing dir = dirs[i];
 			int blocks = 0;
 			for (int j = 0; j < 3; j++) {
-				if (worldObj.getBlockState(pos.add(dir.getFrontOffsetX(), -j, dir.getFrontOffsetZ())).getBlock() == SonarCore.stableStone) {
+				Block block = worldObj.getBlockState(pos.add(dir.getFrontOffsetX(), -j, dir.getFrontOffsetZ())).getBlock();
+				if (block instanceof StableStone) {
 					blocks++;
 				}
 			}
@@ -174,7 +180,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setInteger("freq", this.teleporterID);
@@ -183,11 +189,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			nbt.setBoolean("passwordMatch", this.passwordMatch);
 			nbt.setInteger("coolDownTicks", this.coolDownTicks);
 		}
-	}
-
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Lists.newArrayList(name, destinationName, linkPassword, password));
+		return nbt;
 	}
 
 	public void onChunkUnload() {

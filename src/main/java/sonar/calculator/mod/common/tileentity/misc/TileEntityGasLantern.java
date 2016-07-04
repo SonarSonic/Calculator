@@ -25,6 +25,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 	
 	public TileEntityGasLantern() {
 		super.inv = new SonarInventory(this, 1);
+		syncParts.addAll(Lists.newArrayList(burnTime, maxBurnTime));
 	}
 
 	@Override
@@ -84,11 +85,6 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 			return false;
 		}
 		return true;
-	}
-
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Lists.newArrayList(burnTime, maxBurnTime));
 	}
 	
 	@SideOnly(Side.CLIENT)

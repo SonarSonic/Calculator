@@ -112,13 +112,13 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(fabricationChamber, 1), new Object[] { "   ", "C C", "ABA", 'A', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'B', storageChamber, 'C', reinforcediron_ingot });
 
 		// addShaped(new ItemStack(atomicMultiplier, 1), new Object[] { "EEE", "DBD", "ACA", 'A', fluxPlug, 'B', atomic_assembly, 'C', fluxController, 'D', teleporter, 'E', calculatorplug });
-		// addShapedOre(new ItemStack(fluxController, 1), new Object[] { "ABA", "A A", "ACA", 'A', reinforcedStoneBlock, 'B', endDiamond, 'C', "calculatorStableStone" });
+		// addShapedOre(new ItemStack(fluxController, 1), new Object[] { "ABA", "A A", "ACA", 'A', reinforcedStoneBlock, 'B', endDiamond, 'C', "sonarStableStone" });
 
 		// generators
 		addShapedOre(new ItemStack(crankHandle, 1), new Object[] { "  A", "AAA", "A  ", 'A', "stickWood" });
 		addShapedOre(new ItemStack(handcrankedGenerator, 1), new Object[] { "AAA", "CBC", "AAA", 'A', "stickWood", 'B', powerCube, 'C', "plankWood" });
-		addShapedOre(new ItemStack(calculatorlocator, 1), new Object[] { " B ", "CAC", "DDD", 'A', calculatorplug, 'B', Blocks.BEACON, 'C', atomic_assembly, 'D', "calculatorStableStone" });
-		addShapedOre(new ItemStack(calculatorplug, 1), new Object[] { " B ", "CAC", "DDD", 'A', "calculatorStableStone", 'B', itemEnergyModule, 'C', advanced_assembly, 'D', redstone_ingot });
+		addShapedOre(new ItemStack(calculatorlocator, 1), new Object[] { " B ", "CAC", "DDD", 'A', calculatorplug, 'B', Blocks.BEACON, 'C', atomic_assembly, 'D', "sonarStableStone" });
+		addShapedOre(new ItemStack(calculatorplug, 1), new Object[] { " B ", "CAC", "DDD", 'A', "sonarStableStone", 'B', itemEnergyModule, 'C', advanced_assembly, 'D', redstone_ingot });
 
 		// smelting
 		addShapedOre(new ItemStack(stoneSeparator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', powerCube, 'A', "calculatorReinforcedBlock", 'C', reinforcediron_ingot });
@@ -174,9 +174,9 @@ public class CalculatorCrafting extends Calculator {
 		addShapedOre(new ItemStack(pearFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', pearPlanks, 'S', "stickWood" });
 		addShapedOre(new ItemStack(diamondFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', diamondPlanks, 'S', "stickWood" });
 
-		// addShapedOre(new ItemStack(magneticFlux, 1), new Object[] { " D ", "RFR", "SSS", 'S', "calculatorStableStone", 'R', redstone_ingot, 'F', fluxPoint, 'D', firediamond });
+		//addShapedOre(new ItemStack(magneticFlux, 1), new Object[] { " D ", "RFR", "SSS", 'S', "sonarStableStone", 'R', redstone_ingot, 'F', fluxPoint, 'D', firediamond });
 		addShaped(new ItemStack(dockingStation, 1), new Object[] { " R ", "APA", "RRR", 'R', SonarCore.reinforcedStoneBlock, 'P', powerCube, 'A', calculator_assembly });
-		// addShapedOre(new ItemStack(teleporter, 2), new Object[] { "SRS", "RFR", "SDS", 'R', reinforcedStoneBlock, 'S', "calculatorStableStone", 'D', endDiamond, 'F', fluxPlug });
+		// addShapedOre(new ItemStack(teleporter, 2), new Object[] { "SRS", "RFR", "SDS", 'R', reinforcedStoneBlock, 'S', "sonarStableStone", 'D', endDiamond, 'F', fluxPlug });
 		addShaped(new ItemStack(weatherController, 1), new Object[] { "   ", "DSD", "RRR", 'S', Items.NETHER_STAR, 'D', electricDiamond, 'R', rainSensor });
 		addShaped(new ItemStack(stoneAssimilator, 1), new Object[] { " S ", "IPI", " I ", 'P', stoneSeparator, 'I', SonarCore.reinforcedStoneBlock, 'S', sickle });
 		addShaped(new ItemStack(algorithmAssimilator, 1), new Object[] { " S ", "IPI", " I ", 'P', algorithmSeparator, 'I', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'S', sickle });

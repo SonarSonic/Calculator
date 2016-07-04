@@ -22,8 +22,6 @@ import sonar.core.utils.IGuiTile;
 public class CO2Generator extends SonarMachineBlock implements IConnectedBlock {
 	public int[] connections = new int[] { 0, 5, 6 };
 
-	private Random rand = new Random();
-
 	public CO2Generator() {
 		super(SonarMaterials.machine, true, true);
 	}

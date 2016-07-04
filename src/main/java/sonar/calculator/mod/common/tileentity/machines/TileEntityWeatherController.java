@@ -26,7 +26,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 
 	public TileEntityWeatherController() {
 		super.inv = new SonarInventory(this, 1);
-		super.storage = new SyncEnergyStorage(1000000, 64000);
+		super.storage.setCapacity(1000000).setMaxTransfer(64000);
 		super.energyMode = EnergyMode.RECIEVE;
 	}
 
@@ -112,14 +112,14 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if(type.isType(SyncType.SAVE,SyncType.DEFAULT_SYNC)){
 			nbt.setInteger("type", this.type);
 			nbt.setInteger("data", data);
 			nbt.setInteger("buffer", buffer);
-
 		}
+		return nbt;
 	}
 
 	@Override

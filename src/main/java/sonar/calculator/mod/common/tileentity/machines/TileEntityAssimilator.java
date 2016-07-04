@@ -116,10 +116,11 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 			tick = nbt.getInteger("tick");
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE)
 			nbt.setInteger("tick", tick);
+		return nbt;
 	}
 
 	public static class Stone extends TileEntityAssimilator {
@@ -223,12 +224,13 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 				hasTree = nbt.getBoolean("hasTree");
 		}
 
-		public void writeData(NBTTagCompound nbt, SyncType type) {
+		public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 			super.writeData(nbt, type);
 			nbt.setInteger("health", healthPoints);
 			nbt.setInteger("hunger", hungerPoints);
 			if (type != SyncType.DROP)
 				nbt.setBoolean("hasTree", hasTree);
+			return nbt;
 		}
 
 		@Override
@@ -256,7 +258,6 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 				for (ItemStack s : stacks) {
 					if (s != null) {
 						ItemStack stack = s.copy();
-						TileEntity tile = this.getWorld().getTileEntity(pos.offset(forward.getOpposite()));
 						StoredItemStack storedstack = new StoredItemStack(stack);
 						StoredItemStack harvest = SonarAPI.getItemHelper().addItems(this, storedstack.copy(), EnumFacing.DOWN, ActionType.PERFORM, null);
 						storedstack.remove(harvest);

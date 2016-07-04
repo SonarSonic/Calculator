@@ -21,10 +21,10 @@ public class ContainerBasicGreenhouse extends ContainerSync {
 		super(tileentity);
 		this.entity = tileentity;
 
-		addSlotToContainer(new Slot(tileentity, 0, 19, 28));
-		addSlotToContainer(new Slot(tileentity, 1, 37, 28));
-		addSlotToContainer(new Slot(tileentity, 2, 19, 46));
-		addSlotToContainer(new Slot(tileentity, 3, 37, 46));
+		addSlotToContainer(new Slot(tileentity, 0, 19+7, 28-6));
+		addSlotToContainer(new Slot(tileentity, 1, 37+7, 28-6));
+		addSlotToContainer(new Slot(tileentity, 2, 19+7, 46-6));
+		addSlotToContainer(new Slot(tileentity, 3, 37+7, 46-6));
 
 		addSlotToContainer(new Slot(tileentity, 4, 80, 61));
 		for (int j = 0; j < 9; j++) {

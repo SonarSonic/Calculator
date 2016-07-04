@@ -132,7 +132,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			if (calcStack != null) {
@@ -141,6 +141,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 				nbt.setTag("calcStack", stack);
 			}
 		}
+		return nbt;
 	}
 
 	@Override

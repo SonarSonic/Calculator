@@ -39,8 +39,9 @@ public abstract class Research implements IResearch {
 	}
 
 	@Override
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		nbt.setBoolean("wasAwarded", wasAwarded);
+		return nbt;
 	}
 
 	public ArrayList<ItemStack> getItemRewards() {

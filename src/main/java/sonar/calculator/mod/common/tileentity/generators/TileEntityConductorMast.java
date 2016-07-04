@@ -31,11 +31,11 @@ import com.google.common.collect.Lists;
 
 public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
 
-	public SyncTagType.INT cookTime = new SyncTagType.INT(0);
-	public SyncTagType.INT lightningSpeed = new SyncTagType.INT(1);
-	public SyncTagType.INT lightTicks = new SyncTagType.INT(2);
-	public SyncTagType.INT lightingTicks = new SyncTagType.INT(3);
-	public SyncTagType.INT random = new SyncTagType.INT(4);
+	public final SyncTagType.INT cookTime = new SyncTagType.INT(0);
+	public final SyncTagType.INT lightningSpeed = new SyncTagType.INT(1);
+	public final SyncTagType.INT lightTicks = new SyncTagType.INT(2);
+	public final SyncTagType.INT lightingTicks = new SyncTagType.INT(3);
+	public final SyncTagType.INT random = new SyncTagType.INT(4);
 
 	public int lastStations, strikes;
 	public static int furnaceSpeed = 50;
@@ -44,10 +44,11 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	public Random rand = new Random();
 
 	public TileEntityConductorMast() {
-		super.storage = new SyncEnergyStorage(5000000, 64000);
+		super.storage.setCapacity(5000000).setMaxTransfer(64000);
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 5000000;
 		super.energyMode = EnergyMode.SEND;
+		syncParts.addAll(Lists.newArrayList(cookTime, lightingTicks, lightTicks, lightningSpeed, random));
 	}
 
 	public ItemStack recipeOutput(ItemStack stack) {
@@ -205,17 +206,13 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE) {
 			nbt.setInteger("lastStations", this.lastStations);
 			nbt.setInteger("strikes", this.strikes);
 		}
-	}
-
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Lists.newArrayList(cookTime, lightingTicks, lightTicks, lightningSpeed, random));
+		return nbt;
 	}
 
 	@Override

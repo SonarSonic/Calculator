@@ -200,7 +200,7 @@ public class RecipeRegistry {
 		registerCalculatorRecipe(Calculator.enriched_coal, Calculator.coal_dust, Calculator.coal_dust);
 		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedStoneBrick, 2), SonarCore.reinforcedStoneBlock, SonarCore.reinforcedStoneBlock);
 		registerCalculatorRecipe(new ItemStack(SonarCore.stableGlass, 2), "blockGlass", "blockGlass");
-		registerCalculatorRecipe(new ItemStack(SonarCore.stableStone, 2), SonarCore.reinforcedStoneBrick, SonarCore.reinforcedStoneBrick);
+		registerCalculatorRecipe(new ItemStack(SonarCore.stableStone[0], 2), SonarCore.reinforcedStoneBrick, SonarCore.reinforcedStoneBrick);
 		registerCalculatorRecipe(new ItemStack(SonarCore.reinforcedDirtBrick, 2), SonarCore.reinforcedDirtBlock, SonarCore.reinforcedDirtBlock);
 		registerCalculatorRecipe(Calculator.rainSensor, Blocks.DAYLIGHT_DETECTOR, Items.BUCKET);
 

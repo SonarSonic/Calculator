@@ -43,10 +43,11 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	private static final int[] slotsSides = new int[] { 1 };
 
 	public TileEntityGenerator() {
-		super.storage = new SyncEnergyStorage(1000000, 800);
+		super.storage.setCapacity(1000000).setMaxTransfer(800);
 		super.inv = new SonarInventory(this, 2);
 		super.energyMode = EnergyMode.SEND;
 		super.maxTransfer = 2000;
+		syncParts.addAll(Lists.newArrayList(itemLevel, burnTime, maxBurnTime));
 	}
 
 	@Override
@@ -112,10 +113,6 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	public abstract int getItemValue(ItemStack stack);
 
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Lists.newArrayList(itemLevel, burnTime, maxBurnTime));
-	}
 
 	public void addItem(int add) {
 		itemLevel.increaseBy(add);

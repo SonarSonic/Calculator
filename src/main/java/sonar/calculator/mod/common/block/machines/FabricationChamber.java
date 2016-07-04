@@ -41,10 +41,6 @@ public class FabricationChamber extends SonarMachineBlock {
 			} else {
 				if (!world.isRemote) {
 					player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
-					TileEntity target = world.getTileEntity(pos);
-					if (target != null) {
-						target.markDirty();
-					}
 				}
 				return true;
 			}

@@ -15,7 +15,7 @@ public class TileEntityFlawlessCapacitor extends TileEntityEnergy {
 	public int[] output = new int[6];
 
 	public TileEntityFlawlessCapacitor() {
-		super.storage = new SyncEnergyStorage(2000000000);
+		super.storage.setCapacity(2000000000).setMaxTransfer(128000);
 		super.energyMode = EnergyMode.SEND_RECIEVE;
 	}
 
@@ -30,12 +30,12 @@ public class TileEntityFlawlessCapacitor extends TileEntityEnergy {
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setIntArray("outputs", output);
-
 		}
+		return nbt;
 	}
 
 	public void handleEnergy() {

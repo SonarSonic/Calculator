@@ -20,7 +20,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	public MachineSides sides = new MachineSides(MachineSideConfig.INPUT, this, MachineSideConfig.NONE);
 
 	public TileEntityAdvancedPowerCube() {
-		super.storage = new SyncEnergyStorage(100000, 64000);
+		super.storage.setCapacity(100000).setMaxTransfer(64000);
 		super.maxTransfer = 100000;
 		super.energyMode = EnergyMode.SEND_RECIEVE;
 	}
@@ -31,7 +31,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 			return;
 		}
 		this.addEnergy();
-		this.markDirty();
+		//this.markDirty();
 	}
 
 	public void addEnergy() {

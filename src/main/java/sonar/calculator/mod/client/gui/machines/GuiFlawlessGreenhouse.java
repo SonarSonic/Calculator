@@ -28,8 +28,8 @@ public class GuiFlawlessGreenhouse extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		if (entity.wasBuilt()) {
-			double car = (double) this.entity.carbonLevels * 100 / this.entity.maxLevel;
+		if (entity.wasBuilt.getObject()) {
+			double car = (double) this.entity.carbon.getObject() * 100 / this.entity.maxLevel;
 			String carbon = dec.format(car) + "%";
 			FontHelper.textOffsetCentre(carbon, 61, 79, 0);
 			double oxy = (double) this.entity.getOxygen() * 100 / this.entity.maxLevel;
@@ -58,8 +58,8 @@ public class GuiFlawlessGreenhouse extends GuiContainer {
 		int e = this.entity.storage.getEnergyStored() * 46 / this.entity.storage.getMaxEnergyStored();
 		this.drawTexturedModalRect(this.guiLeft + 27, this.guiTop + 46 + 11 - e, 176, 46 - e, 14, 46);
 
-		if (entity.wasBuilt()) {
-			int c = this.entity.carbonLevels * 66 / this.entity.maxLevel;
+		if (entity.wasBuilt.getObject()) {
+			int c = this.entity.carbon.getObject() * 66 / this.entity.maxLevel;
 			this.drawTexturedModalRect(this.guiLeft + 47, this.guiTop + 11 + 66 - c, 190, 66 - c, 28, 66);
 
 			int o = this.entity.getOxygen() * 66 / this.entity.maxLevel;

@@ -51,13 +51,14 @@ public class RecipeResearch extends Research {
 	}
 
 	@Override
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		NBTTagCompound recipeList = new NBTTagCompound();
 		for (String id : recipes) {
 			recipeList.setBoolean(id, true);
 		}
 		nbt.setTag("recipeList", recipeList);
+		return nbt;
 	}
 
 	@Override

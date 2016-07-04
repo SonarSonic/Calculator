@@ -24,15 +24,14 @@ import sonar.calculator.mod.common.block.generators.CrankHandle;
 import sonar.calculator.mod.common.block.generators.CrankedGenerator;
 import sonar.calculator.mod.common.block.generators.ExtractorBlock;
 import sonar.calculator.mod.common.block.generators.InvisibleBlock;
-import sonar.calculator.mod.common.block.machines.AdvancedGreenhouse;
 import sonar.calculator.mod.common.block.machines.AdvancedPowerCube;
 import sonar.calculator.mod.common.block.machines.AnalysingChamber;
 import sonar.calculator.mod.common.block.machines.Assimilator;
 import sonar.calculator.mod.common.block.machines.AtomicMultiplier;
-import sonar.calculator.mod.common.block.machines.BasicGreenhouse;
 import sonar.calculator.mod.common.block.machines.CreativePowerCube;
 import sonar.calculator.mod.common.block.machines.FabricationChamber;
 import sonar.calculator.mod.common.block.machines.FlawlessGreenhouse;
+import sonar.calculator.mod.common.block.machines.Greenhouse;
 import sonar.calculator.mod.common.block.machines.HealthProcessor;
 import sonar.calculator.mod.common.block.machines.HungerProcessor;
 import sonar.calculator.mod.common.block.machines.PowerCube;
@@ -169,9 +168,9 @@ public class CalculatorBlocks extends Calculator {
 		// GameRegistry.registerTileEntity(TileEntityResearchChamber.class, "ResearchChamber");
 
 		// machines
-		basicGreenhouse = registerBlock("BasicGreenhouse", new BasicGreenhouse().setHardness(1.0F).setResistance(20.0F));
+		basicGreenhouse = registerBlock("BasicGreenhouse", new Greenhouse.Basic().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityBasicGreenhouse.class, "BasicGreenhouse");
-		advancedGreenhouse = registerBlock("AdvancedGreenhouse", new AdvancedGreenhouse().setHardness(1.0F).setResistance(20.0F));
+		advancedGreenhouse = registerBlock("AdvancedGreenhouse", new Greenhouse.Advanced().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityAdvancedGreenhouse.class, "AdvancedGreenhouse");
 		flawlessGreenhouse = registerBlock("FlawlessGreenhouse", new FlawlessGreenhouse().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityFlawlessGreenhouse.class, "FlawlessGreenhouse");
@@ -227,8 +226,8 @@ public class CalculatorBlocks extends Calculator {
 
 		// misc
 
-		gas_lantern_off = registerBlock("GasLanternOff", new GasLantern(true).setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100));
-		gas_lantern_on = addRegisteredBlock(GameRegistry.registerBlock(new GasLantern(true).setHardness(0.1F).setUnlocalizedName("GasLanternOn"), SonarBlockTip.class, "GasLanternOn"));
+		gas_lantern_off = registerBlock("GasLanternOff", new GasLantern(false).setHardness(0.1F).setLightOpacity(100));
+		gas_lantern_on = addRegisteredBlock(GameRegistry.registerBlock(new GasLantern(true).setHardness(0.1F).setLightLevel(0.9375F).setUnlocalizedName("GasLanternOn"), SonarBlockTip.class, "GasLanternOn"));
 		basic_lantern = registerBlock("Lantern", new BasicLantern().setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100));
 		GameRegistry.registerTileEntity(TileEntityGasLantern.class, "Lantern");
 		// scarecrow = registerBlock("Scarecrow", new Scarecrow().setHardness(0.5F).setResistance(24.0F));

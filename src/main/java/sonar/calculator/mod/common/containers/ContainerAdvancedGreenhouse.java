@@ -26,13 +26,13 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 		super(entity);
 		this.entity = entity;
 
-		addSlotToContainer(new Slot(entity, 0, 30 - 4, 15 + 3));
-		addSlotToContainer(new Slot(entity, 1, 12 - 4, 33 + 3));
-		addSlotToContainer(new Slot(entity, 2, 30 - 4, 33 + 3));
-		addSlotToContainer(new Slot(entity, 3, 48 - 4, 33 + 3));
-		addSlotToContainer(new Slot(entity, 4, 12 - 4, 51 + 3));
-		addSlotToContainer(new Slot(entity, 5, 30 - 4, 51 + 3));
-		addSlotToContainer(new Slot(entity, 6, 48 - 4, 51 + 3));
+		addSlotToContainer(new Slot(entity, 0, 35, 11));
+		addSlotToContainer(new Slot(entity, 1, 17, 29));
+		addSlotToContainer(new Slot(entity, 2, 35, 29));
+		addSlotToContainer(new Slot(entity, 3, 53, 29));
+		addSlotToContainer(new Slot(entity, 4, 17, 47));
+		addSlotToContainer(new Slot(entity, 5, 35, 47));
+		addSlotToContainer(new Slot(entity, 6, 53, 47));
 		addSlotToContainer(new Slot(entity, 7, 80, 61));
 		
 		for (int j = 0; j < 9; j++) {

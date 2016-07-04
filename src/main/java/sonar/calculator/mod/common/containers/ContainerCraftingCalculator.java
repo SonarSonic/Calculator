@@ -62,7 +62,6 @@ public class ContainerCraftingCalculator extends Container{
 			if (player.capabilities.isCreativeMode) {
 				return;
 			}
-			System.out.print("energy");
 			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof IEnergyContainerItem) {
 				IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItemMainhand().getItem();
 				energy.extractEnergy(player.getHeldItemMainhand(), 1, false);

@@ -30,6 +30,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 		super.input = new int[] { 0 };
 		super.output = new int[] { 1 };
 		super.inv = new SonarInventory(this, 2);
+		syncParts.addAll(Arrays.asList(storedpoints));
 	}
 
 	@Override
@@ -110,11 +111,6 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 			return true;
 		}
 		return false;
-	}
-
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Arrays.asList(storedpoints));
 	}
 	
 	@Override

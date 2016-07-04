@@ -10,7 +10,9 @@ import sonar.core.api.IRegistryObject;
 
 public interface IHarvester extends IRegistryObject {
 	
-	boolean canHarvest(World world, BlockPos pos, IBlockState state);
+	public boolean canHarvest(World world, BlockPos pos, IBlockState state);
+	
+	public boolean isReady(World world, BlockPos pos, IBlockState state);
 	
 	public List<ItemStack> getDrops(World world, BlockPos pos, IBlockState state, int fortune);
 }

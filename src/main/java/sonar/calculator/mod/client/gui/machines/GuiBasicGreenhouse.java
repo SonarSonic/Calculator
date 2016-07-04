@@ -3,14 +3,19 @@ package sonar.calculator.mod.client.gui.machines;
 import java.text.DecimalFormat;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.calculator.mod.client.gui.machines.GuiAdvancedGreenhouse.GreenhouseButton;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
+import sonar.core.SonarCore;
 import sonar.core.helpers.FontHelper;
 
 public class GuiBasicGreenhouse extends GuiContainer {
@@ -26,11 +31,35 @@ public class GuiBasicGreenhouse extends GuiContainer {
 		this.ySize = 192;
 	}
 
-	@Override
-	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+	public void initGui() {
+		super.initGui();
+		buttonList.add(new GreenhouseButton(0, guiLeft + 18, guiTop + 62, 14, 14, FontHelper.translate("greenhouse.build")));
+		buttonList.add(new GreenhouseButton(1, guiLeft + 36, guiTop + 62, 14, 14, FontHelper.translate("greenhouse.rebuild")));
+		buttonList.add(new GreenhouseButton(2, guiLeft + 54, guiTop + 62, 14, 14, FontHelper.translate("greenhouse.demolish")));
+	}
 
-		if (entity.wasBuilt()) {
-			double car = (double) this.entity.carbonLevels * 100 / this.entity.maxLevel;
+	@SideOnly(Side.CLIENT)
+	public class GreenhouseButton extends GuiButton {
+		public String name;
+
+		public GreenhouseButton(int id, int x, int y, int texX, int texY, String name) {
+			super(id, x, y, texX, texY, name);
+			this.name = name;
+		}
+
+		public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+		}
+	}
+	
+	protected void actionPerformed(GuiButton button) {
+		SonarCore.sendPacketToServer(entity, button.id);
+	}
+
+	@Override
+	public void drawGuiContainerForegroundLayer(int x, int y) {
+
+		if (entity.wasBuilt.getObject()) {
+			double car = (double) this.entity.carbon.getObject() * 100 / this.entity.maxLevel;
 			String carbon = dec.format(car) + "%";
 			FontHelper.textOffsetCentre(carbon, 115, 79, 2);
 			double oxy = (double) this.entity.getOxygen() * 100 / this.entity.maxLevel;
@@ -38,6 +67,12 @@ public class GuiBasicGreenhouse extends GuiContainer {
 			FontHelper.textOffsetCentre(oxygen, 151, 79, 2);
 		}
 
+		for(GuiButton b : buttonList){
+			GreenhouseButton button=(GreenhouseButton) b;
+			if(x >= button.xPosition && y >= button.yPosition && x < button.xPosition + button.width && y < button.yPosition + button.height){
+				drawCreativeTabHoveringText(FontHelper.translate(button.name), x-guiLeft, y-guiTop);
+			}
+		}
 	}
 
 	@Override
@@ -51,8 +86,8 @@ public class GuiBasicGreenhouse extends GuiContainer {
 		int e = this.entity.storage.getEnergyStored() * 46 / this.entity.storage.getMaxEnergyStored();
 		this.drawTexturedModalRect(this.guiLeft + 81, this.guiTop + 46 + 11 - e, 176, 46 - e, 14, 46);
 
-		if (entity.wasBuilt()) {
-			int c = this.entity.carbonLevels * 66 / this.entity.maxLevel;
+		if (entity.wasBuilt.getObject()) {
+			int c = this.entity.carbon.getObject() * 66 / this.entity.maxLevel;
 			this.drawTexturedModalRect(this.guiLeft + 101, this.guiTop + 11 + 66 - c, 190, 66 - c, 28, 66);
 
 			int o = this.entity.getOxygen() * 66 / this.entity.maxLevel;

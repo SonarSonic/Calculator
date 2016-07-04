@@ -18,20 +18,18 @@ import sonar.core.utils.IGuiTile;
 
 public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGuiTile {
 
-	protected TileEntity[] handlers = new TileEntity[6];
 	public boolean cranked;
 	public int ticks;
 	public int ticksforpower = 2;
 
 	public TileEntityCrankedGenerator() {
-		super.storage = new SyncEnergyStorage(1000, 200);
+		super.storage.setCapacity(1000).setMaxTransfer(200);
 		super.maxTransfer = 32;
 		super.energyMode=EnergyMode.SEND;
 	}
 
 	@Override
 	public void update() {
-
 		super.update();
 		if (cranked()) {
 			TileEntityCrankHandle crank = (TileEntityCrankHandle) this.worldObj.getTileEntity(pos.offset(EnumFacing.UP));
@@ -57,10 +55,6 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 		return false;
 	}
 
-	public void onLoaded() {
-		super.onLoaded();
-	}
-
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
@@ -69,12 +63,13 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
 			nbt.setBoolean("cranked", cranked());
 			nbt.setInteger("ticks", ticks);
 		}
+		return nbt;
 	}
 
 	public List<String> getWailaInfo(List<String> tooltip) {

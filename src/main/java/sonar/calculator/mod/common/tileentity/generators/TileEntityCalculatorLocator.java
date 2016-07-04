@@ -44,10 +44,11 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	private int sizeTicks, luckTicks;
 
 	public TileEntityCalculatorLocator() {
-		super.storage = new SyncEnergyStorage(25000000, 128000);
+		super.storage.setCapacity(25000000).setMaxTransfer(128000);
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 100000;
 		super.energyMode = EnergyMode.SEND;
+		syncParts.addAll(Arrays.asList(active, size, stability, owner));
 	}
 
 	@Override
@@ -296,18 +297,14 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE) {
 			nbt.setInteger("ticks", this.luckTicks);
 		}
+		return nbt;
 	}
-
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Arrays.asList(active, size, stability, owner));
-	}
-
+	
 	@Override
 	public boolean canConnectEnergy(EnumFacing from) {
 		if (from == EnumFacing.DOWN) {
@@ -337,8 +334,8 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		return currenttip;
 	}
 
-	public void onLoaded() {
-		super.onLoaded();
+	public void onFirstTick() {
+		super.onFirstTick();
 		createOwner();
 		createStructure();
 	}

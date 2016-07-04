@@ -93,7 +93,7 @@ public class TileEntityStorageChamber extends TileEntityInventory implements IGu
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
 			nbt.setString("circuitType", circuitType.name());
@@ -102,6 +102,7 @@ public class TileEntityStorageChamber extends TileEntityInventory implements IGu
 			inv.writeData(nbt, SyncType.SAVE);
 			nbt.setString("circuitType", circuitType.name());
 		}
+		return nbt;
 	}
 
 	public static CircuitType getCircuitType(ItemStack stack) {

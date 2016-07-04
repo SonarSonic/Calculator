@@ -33,7 +33,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 
 	public TileEntityFlawlessFurnace() {
 		this.inv = new SonarInventory(this, 28);
-		this.storage = new SyncEnergyStorage(10000000, 64000);
+		super.storage.setCapacity(10000000).setMaxTransfer(64000);
 	}
 
 	public void update() {
@@ -200,7 +200,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			for (int i = 0; i < cookTime.length; i++){
@@ -208,6 +208,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 			}
 			nbt.setBoolean("pause", this.paused);
 		}
+		return nbt;
 	}
 
 	// IPausable

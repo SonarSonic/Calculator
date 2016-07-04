@@ -42,7 +42,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	public int plantsGrown;
 
 	public TileEntityFlawlessGreenhouse() {
-		super.storage = new SyncEnergyStorage(500000, 64000);
+		super.storage.setCapacity(500000).setMaxTransfer(64000);
 		super.inv = new SonarInventory(this, 10);
 		super.energyMode = EnergyMode.RECIEVE;
 		super.type = 3;
@@ -54,10 +54,10 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	@Override
 	public void update() {
 		super.update();
-		if (!this.isBeingBuilt()) {
+		if (!(state.getObject() == State.BUILDING)) {
 			checkTile();
 		}
-		if (this.isCompleted()) {
+		if (state.getObject() == State.COMPLETED) {
 			if (!this.worldObj.isRemote) {
 				extraTicks();
 			}
@@ -67,8 +67,6 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 		}
 		discharge(0);
-
-		this.markDirty();
 	}
 
 	public void grow() {
@@ -82,37 +80,24 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			}
 		}
 		if (this.growTicks == growTick) {
-			for (int i = 0; i <= this.houseSize; i++) {
-				if (this.storage.getEnergyStored() >= growthRF) {
-					/*
-					if (growCrop(3, this.houseSize)) {
-						if (!this.worldObj.isRemote)
-							plantsGrown++;
-						this.storage.modifyEnergyStored(-growthRF);
-					}
-					*/
-				}
-			}
+			growCrops(houseSize);
 			this.growTicks = 0;
 		}
 
 	}
 
-	public ArrayList<BlockCoords> getPlantArea() {
-		ArrayList<BlockCoords> coords = new ArrayList();
+	public ArrayList<BlockPos> getPlantArea() {
+		ArrayList<BlockPos> coords = new ArrayList();
 
 		int hX = horizontal.getFrontOffsetX();
 		int hZ = horizontal.getFrontOffsetZ();
-
-		int hoX = horizontal.getOpposite().getFrontOffsetX();
-		int hoZ = horizontal.getOpposite().getFrontOffsetZ();
 
 		int fX = forward.getFrontOffsetX();
 		int fZ = forward.getFrontOffsetZ();
 
 		for (int i = 0; i <= this.houseSize; i++) {
 			for (int XZ = 1; XZ <= 2; XZ++) {
-				coords.add(new BlockCoords(pos.add((hX * XZ) + (fX * (1 + i)), 0, (hZ * XZ) + (fZ * (1 + i)))));
+				coords.add(pos.add((hX * XZ) + (fX * (1 + i)), 0, (hZ * XZ) + (fZ * (1 + i))));
 
 			}
 		}
@@ -134,7 +119,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		}
 	}
 
-	public FailedCoords isComplete() {
+	public FailedCoords checkStructure(GreenhouseAction action) {
 		if (RenderHelper.getHorizontal(forward) != null) {
 			int hX = RenderHelper.getHorizontal(forward).getFrontOffsetX();
 			int hZ = RenderHelper.getHorizontal(forward).getFrontOffsetZ();
@@ -154,27 +139,6 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			return new FailedCoords(true, BlockCoords.EMPTY, FontHelper.translate("locator.none"));
 		}
 		return new FailedCoords(false, BlockCoords.EMPTY, "Something went wrong...");
-	}
-
-	private void checkTile() {
-		if (this.checkTicks >= 0 && this.checkTicks != 50) {
-			checkTicks++;
-		}
-
-		if (this.checkTicks == 50) {
-			this.checkTicks = 0;
-			if (this.isComplete().getBoolean()) {
-				if (!this.wasBuilt()) {
-					this.setGas(0);
-					this.setWasBuilt();
-				}
-				this.setCompleted();
-				addFarmland();
-			} else {
-				this.setIncomplete();
-			}
-		}
-
 	}
 
 	/** adds gas, depends on day and night **/
@@ -224,22 +188,6 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 				}
 			}
 		}
-	}
-
-	/** id = Gas to add to. (Carbon=0) (Oxygen=1). add = amount to add **/
-	public void addGas(int add) {
-
-		if (this.carbonLevels + add < this.maxLevel && this.carbonLevels + add >= 0) {
-			this.carbonLevels = this.carbonLevels + add;
-		} else {
-			if (this.carbonLevels + add > this.maxLevel) {
-				setGas(maxLevel);
-			}
-			if (this.carbonLevels + add < 0) {
-				setGas(0);
-			}
-		}
-
 	}
 
 	/** Hoes the ground **/
@@ -292,7 +240,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setInteger("plantsHarvested", this.plantsHarvested);
@@ -308,46 +256,26 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 				nbt.setInteger("growTicks", this.growTicks);
 				nbt.setInteger("growTick", this.growTick);
 			}
-
 		}
+		return nbt;
 	}
 
 	public boolean stableStone(int x, int y, int z) {
 		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
-		if (block != null && block == SonarCore.stableStone) {
+		if (block == null)
 			return false;
-		}
-		if (block != null && block == SonarCore.stablestonerimmedBlock) {
-			return false;
-		}
-		if (block != null && block == SonarCore.stablestonerimmedblackBlock) {
-			return false;
-		}
-		if (block != null && block == Calculator.flawlessGreenhouse) {
-			return false;
-		}
-		if (block != null && block == Calculator.CO2Generator) {
-			return false;
-		}
-		return true;
+		return !GreenhouseHelper.stableStone(block);
 	}
 
 	public boolean flawlessGlass(int x, int y, int z) {
 		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
-		if (block != null && block == Calculator.flawlessGlass) {
+		if (block == null)
 			return false;
-		}
-		return true;
+		return !GreenhouseHelper.flawlessGlass(block);
 	}
 
 	public boolean slabQuartz(int x, int y, int z) {
-		IBlockState state = this.worldObj.getBlockState(new BlockPos(x, y, z));
-		if (state.getBlock() == Blocks.STONE_SLAB) {
-			if (state.getBlock().getMetaFromState(state) == 7) {
-				return false;
-			}
-		}
-		return true;
+		return !GreenhouseHelper.slabQuartz(this.worldObj, new BlockPos(x, y, z));
 	}
 
 	public FailedCoords checkSize(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {
@@ -355,11 +283,9 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		FailedCoords start = end(check, w, hX, hZ, hoX, hoZ, fX, fZ, x, y, z);
 		if (start.getBoolean()) {
 			for (int i = 1; i <= 65; i++) {
-
 				if (i == 65) {
 					FailedCoords end = end(check, w, hX, hZ, hoX, hoZ, fX, fZ, x + (fX * i), y, z + (fZ * i));
 					return end;
-
 				} else {
 					FailedCoords middle = middle(check, w, hX, hZ, hoX, hoZ, fX, fZ, x + (fX * i), y, z + (fZ * i));
 					if (!middle.getBoolean()) {
@@ -370,12 +296,10 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 							return middle;
 						}
 					}
-
 					if (middle.getBoolean()) {
 						this.houseSize++;
 					}
 				}
-
 			}
 		} else {
 			return start;

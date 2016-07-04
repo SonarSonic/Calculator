@@ -1,18 +1,10 @@
 package sonar.calculator.mod.api.machines;
 
+import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
+
 public interface IGreenhouse {
 
-	/** is the greenhouse complete */
-	public boolean isCompleted();
-
-	/** is the greenhouse being built */
-	public boolean isBeingBuilt();
-
-	/** is the greenhouse incomplete */
-	public boolean isIncomplete();
-
-	/** was the build process completed */
-	public boolean wasBuilt();
+	public State getState();
 
 	/** get the current oxygen level */
 	public int getOxygen();

@@ -38,20 +38,16 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 	public EnumFacing horizontal = EnumFacing.EAST;
 
 	public TileEntityCO2Generator() {
-		super.storage = new SyncEnergyStorage(1000000, 64000);
+		super.storage.setCapacity(1000000).setMaxTransfer(64000);
 		super.inv = new SonarInventory(this, 2);
 		super.energyMode = EnergyMode.RECIEVE;
 	}
-
-	public void onLoaded(){
-		super.onLoaded();
-		forward = worldObj.getBlockState(pos).getValue(SonarBlock.FACING);
-		horizontal = RenderHelper.getHorizontal(forward);
-	}
-
+	
 	@Override
 	public void update() {
 		super.update();
+		forward = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
+		horizontal = RenderHelper.getHorizontal(forward);
 		if (RenderHelper.getHorizontal(forward) != null) {
 			boolean flag1 = this.burnTime > 0;
 			boolean flag2 = false;
@@ -145,7 +141,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setInteger("burnTime", this.burnTime);
@@ -153,8 +149,8 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 			nbt.setBoolean("controlled", this.controlled);
 			nbt.setBoolean("control", this.control);
 			nbt.setInteger("gasAdd", this.gasAdd);
-
 		}
+		return nbt;
 	}
 
 	@Override

@@ -3,51 +3,25 @@ package sonar.calculator.mod.utils.helpers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
+import net.minecraft.block.BlockGlass;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockPane;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.core.SonarCore;
+import sonar.core.common.block.StableStone;
 
 /** helps with using bonemeal on crops, growth speed and replacing blocks */
 public class GreenhouseHelper {
-	/** @param crop you wish to grow
-	 * @return if it was grown */
-	public static boolean applyBonemeal(World world, BlockPos pos, boolean magic) {
-		//Block block = world.getBlock(x, y, z);
-		IBlockState state = world.getBlockState(pos);
-		Block block = state.getBlock();
-		if (block instanceof IGrowable) {
-			IGrowable igrowable = (IGrowable) block;
-
-			if (igrowable.canGrow(world, pos, state, world.isRemote)) {
-				if (!world.isRemote) {
-					if (igrowable.canUseBonemeal(world, world.rand, pos, state)) {
-						igrowable.grow(world, world.rand, pos, state);
-					}
-
-				}
-
-				/*
-				if (magic && !world.isRemote) {
-					if (GameRegistry.findUniqueIdentifierFor(block).modId.matches("magicalcrops")) {
-						int random = (int) (Math.random() * ((4)));
-						if (random == 3) {
-							world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) + 1, 2);
-						}
-					}
-				}
-				*/
-				return true;
-			}
-		}
-
-		return false;
-	}
-
+	
 	/** @param oxygen current Green House oxygen
 	 * @param type Greenhouse Type - 1=Basic, 2=Advanced, 3=Flawless
 	 * @return if it was grown */
@@ -144,7 +118,10 @@ public class GreenhouseHelper {
 		Block block = world.getBlockState(pos).getBlock();
 		if (block == null) {
 			return true;
-		} else if (world.isAirBlock(pos)) {
+		} 
+		if (block.isReplaceable(world, pos)) {
+			return true;
+		}else if (world.isAirBlock(pos)) {
 			return true;
 		} else if (block == Blocks.AIR) {
 			return true;
@@ -171,51 +148,158 @@ public class GreenhouseHelper {
 		} else if (block == Blocks.DEADBUSH) {
 			return true;
 		}
-		if (block.isReplaceable(world, pos)) {
-			return true;
-		}
-
 		return false;
 	}
 
 	/** @return if the give block is Stable Stone
 	 * @param block block to check */
 	public static boolean stableStone(Block block) {
-		if (block == SonarCore.stableStone) {
-			return false;
-		}
-		if (block == SonarCore.stablestonerimmedBlock) {
-			return false;
-		}
-		if (block == SonarCore.stablestonerimmedblackBlock) {
-			return false;
+		if (block instanceof StableStone) {
+			return true;
 		}
 		if (block == Calculator.flawlessGreenhouse) {
-			return false;
+			return true;
 		}
 		if (block == Calculator.CO2Generator) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	/** @return if the give block is Flawless Glass
 	 * @param block block to check */
 	public static boolean flawlessGlass(Block block) {
 		if (block == Calculator.flawlessGlass) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public static boolean slabQuartz(World world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
 		if (state.getBlock() == Blocks.STONE_SLAB) {
 			if (state.getBlock().getMetaFromState(state) == 7) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
+	/** checks ore dictionary for registered logs **/
+	public static boolean checkLog(Block block) {
+
+		for (int i = 0; i < OreDictionary.getOres("logWood").size(); i++) {
+			if (OreDictionary.getOres("logWood").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		for (int i = 0; i < OreDictionary.getOres("treeWood").size(); i++) {
+			if (OreDictionary.getOres("treeWood").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		if (block instanceof BlockLog) {
+			return true;
+		}
+		return false;
+	}
+
+	/** checks ore dictionary for registered glass **/
+	public static boolean checkGlass(Block block) {
+
+		for (int i = 0; i < OreDictionary.getOres("blockGlass").size(); i++) {
+			if (OreDictionary.getOres("blockGlass").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		for (int i = 0; i < OreDictionary.getOres("blockGlassColorless").size(); i++) {
+			if (OreDictionary.getOres("blockGlassColorless").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		for (int i = 0; i < OreDictionary.getOres("paneGlassColorless").size(); i++) {
+			if (OreDictionary.getOres("paneGlassColorless").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		for (int i = 0; i < OreDictionary.getOres("paneGlass").size(); i++) {
+			if (OreDictionary.getOres("paneGlass").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		if (block instanceof BlockGlass) {
+			return true;
+		}
+		if (block instanceof BlockPane) {
+			return true;
+		}
+		return false;
+	}
+
+	/** checks ore dictionary for registered stairs **/
+	public static boolean checkStairs(Block block) {
+
+		for (int i = 0; i < OreDictionary.getOres("stairWood").size(); i++) {
+			if (OreDictionary.getOres("stairWood").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		for (int i = 0; i < OreDictionary.getOres("stairStone").size(); i++) {
+			if (OreDictionary.getOres("stairStone").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		for (int i = 0; i < OreDictionary.getOres("greenhouse.stairs").size(); i++) {
+			if (OreDictionary.getOres("stairs").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		if (block instanceof BlockStairs) {
+			return true;
+		}
+		if (block == Blocks.STONE_STAIRS) {
+			return true;
+		}
+		if (block == Blocks.STONE_BRICK_STAIRS) {
+			return true;
+		}
+		if (block == Blocks.SANDSTONE_STAIRS) {
+			return true;
+		}
+		if (block == Blocks.BRICK_STAIRS) {
+			return true;
+		}
+		if (block == Blocks.QUARTZ_STAIRS) {
+			return true;
+		}
+		if (block == Blocks.NETHER_BRICK_STAIRS) {
+			return true;
+		}
+		return false;
+	}
+
+
+	/** checks ore dictionary for registered planks **/
+	public static boolean checkPlanks(Block block) {
+
+		for (int i = 0; i < OreDictionary.getOres("plankWood").size(); i++) {
+			if (OreDictionary.getOres("plankWood").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		for (int i = 0; i < OreDictionary.getOres("planksWood").size(); i++) {
+			if (OreDictionary.getOres("planksWood").get(i).getItem() == Item.getItemFromBlock(block)) {
+				return true;
+			}
+		}
+		if (block instanceof BlockLog) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean applyBonemeal(World worldObj, BlockPos add, boolean b) {
+		
+		return false;
+	}
 }

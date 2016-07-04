@@ -30,6 +30,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 		super.input = new int[] { 0 };
 		super.output = new int[] { 1 };
 		super.inv = new SonarInventory(this, 2);
+		syncParts.addAll(Arrays.asList(storedpoints));
 	}
 
 	@Override
@@ -99,12 +100,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 			}
 		}
 	}
-
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Arrays.asList(storedpoints));
-	}
-
+	
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
 		return this.isItemValidForSlot(slot, stack);

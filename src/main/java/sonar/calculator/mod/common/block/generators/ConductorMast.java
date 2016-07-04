@@ -26,8 +26,6 @@ import sonar.core.utils.ISpecialTooltip;
 
 public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip {
 
-	private Random rand = new Random();
-
 	public ConductorMast() {
 		super(SonarMaterials.machine, false, true);
 	}

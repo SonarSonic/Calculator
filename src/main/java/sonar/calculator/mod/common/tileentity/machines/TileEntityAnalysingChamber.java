@@ -46,7 +46,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public TileEntityAnalysingChamber() {
 		super.input = new int[] { 0 };
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
-		super.storage = new SyncEnergyStorage(1000000, 64000);
+		super.storage.setCapacity(100000).setMaxTransfer(64000);
 		super.inv = new SonarInventory(this, 8) {
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
 				super.setInventorySlotContents(i, itemstack);
@@ -57,7 +57,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		};
 		super.maxTransfer = 2000;
 		super.energyMode = EnergyMode.SEND;
-
+		syncParts.addAll(Lists.newArrayList(stable, analysed));
 	}
 
 	@Override
@@ -259,16 +259,11 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE))
 			upgrades.writeData(nbt, type);
-
-	}
-
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Lists.newArrayList(stable, analysed));
+		return nbt;
 	}
 
 	@SideOnly(Side.CLIENT)

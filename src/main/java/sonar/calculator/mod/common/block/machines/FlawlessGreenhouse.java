@@ -10,6 +10,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.api.blocks.IConnectedBlock;
@@ -35,12 +36,12 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedB
 		if (tile instanceof TileEntityFlawlessGreenhouse) {
 			TileEntityFlawlessGreenhouse house = (TileEntityFlawlessGreenhouse) tile;
 			if (interact.type == BlockInteractionType.SHIFT_RIGHT) {
-				if (!house.isBeingBuilt() && house.isIncomplete()) {
-					FailedCoords coords = house.isComplete();
+				if (house.state.getObject() == State.INCOMPLETE) {
+					FailedCoords coords = house.checkStructure(null);
 					if (!coords.getBoolean()) {
 						FontHelper.sendMessage("X: " + coords.getCoords().getX() + " Y: " + coords.getCoords().getY() + " Z: " + coords.getCoords().getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(), world, player);
 					}
-				} else if (house.isCompleted()) {
+				} else if (house.state.getObject() == State.COMPLETED) {
 					FontHelper.sendMessage(FontHelper.translate("greenhouse.complete"), world, player);
 
 				}

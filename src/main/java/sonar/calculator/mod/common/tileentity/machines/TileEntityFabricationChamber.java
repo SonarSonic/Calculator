@@ -66,7 +66,6 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 							EnumFacing face = EnumFacing.getFront(getBlockMetadata());
 							int fX = face.getFrontOffsetX();
 							int fZ = face.getFrontOffsetZ();
-						//	System.out.print(fZ);
 							//worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + fX == -1 ? 0.62 : 0.38, pos.getY() + 0.6F, pos.getZ() + (fZ == 0 ? 0.38 : 0.62), 0.0D, 0.0D, 0.0D);
 							// worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + 0.38 + (0.25 *face.getFrontOffsetZ()), pos.getY() + 0.6F, pos.getZ() + 0.38 + (0.25 *face.getFrontOffsetZ()), 0.0D, 0.0D, 0.0D);
 							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.38, pos.getY() + 0.6F, pos.getZ() + 0.38, 0.0D, 0.0D, 0.0D);
@@ -186,7 +185,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		}
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			if (selected != null) {
@@ -195,6 +194,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 				nbt.setTag("selected", tag);
 			}
 		}
+		return nbt;
 	}
 
 	@Override

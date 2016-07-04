@@ -25,7 +25,7 @@ public class CreativePowerCube extends SonarMachineBlock {
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null && !world.isRemote) {
-			FontHelper.sendMessage("Transfers: " + Integer.MAX_VALUE + " RF/t", world, player);
+			FontHelper.sendMessage("Transfers: " + FontHelper.formatOutput(Integer.MAX_VALUE), world, player);
 		}
 		return true;
 	}

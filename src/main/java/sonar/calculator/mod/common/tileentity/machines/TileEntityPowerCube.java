@@ -12,7 +12,7 @@ import sonar.core.utils.IGuiTile;
 public class TileEntityPowerCube extends TileEntityEnergyInventory implements IGuiTile {
 
 	public TileEntityPowerCube() {
-		super.storage = new SyncEnergyStorage(CalculatorConfig.getInteger("Standard Machine"), 200);
+		super.storage.setCapacity(CalculatorConfig.getInteger("Standard Machine")).setMaxTransfer(200);
 		super.inv = new SonarInventory(this, 2);
 		super.energyMode = EnergyMode.RECIEVE;
 		super.maxTransfer = 4;

@@ -14,12 +14,6 @@ public class CalculatorOreDict extends Calculator {
 			registerOre("calculatorCircuit", new ItemStack(circuitBoard, 1, i));
 		}
 
-		//for (int i = 0; i < 16; i++) {
-			registerOre("calculatorStableStone", new ItemStack(SonarCore.stableStone, 1));
-			//registerOre("calculatorStableStone", new ItemStack(stablestonerimmedBlock, 1, i));
-			//registerOre("calculatorStableStone", new ItemStack(stablestonerimmedblackBlock, 1, i));
-		//}
-
 		// dusts & ingots
 		registerOre("ingotEnrichedGold", enrichedgold_ingot);
 		registerOre("dustEnrichedGold", enrichedGold);

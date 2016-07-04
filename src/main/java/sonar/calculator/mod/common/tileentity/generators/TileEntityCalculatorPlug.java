@@ -26,6 +26,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 
 	public TileEntityCalculatorPlug() {
 		super.inv = new SonarInventory(this, 1);
+		syncParts.add(stable);
 	}
 
 	@Override
@@ -68,11 +69,6 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 		} else {
 			stable.setObject(0);
 		}
-	}
-
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Lists.newArrayList(stable));
 	}
 
 	public byte getS() {

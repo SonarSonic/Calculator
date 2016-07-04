@@ -73,9 +73,10 @@ public abstract class CalculatorResearch extends Research {
 	}
 
 	@Override
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		nbt.setLong("count", count);
+		return nbt;
 	}
 
 	@Override

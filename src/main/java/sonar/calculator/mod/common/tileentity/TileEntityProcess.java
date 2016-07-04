@@ -48,6 +48,10 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	// client
 	public int currentSpeed;
 
+	public TileEntityProcess(){
+		syncParts.addAll(Lists.newArrayList(paused, invertPaused, cookTime));
+	}
+	
 	public abstract boolean canProcess();
 
 	public abstract void finishProcess();
@@ -124,8 +128,8 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		}
 	}
 
-	public void onLoaded() {
-		super.onLoaded();
+	public void onFirstTick() {
+		super.onFirstTick();
 		if (!worldObj.isRemote) {
 			isActive = this.isActive();
 			SonarCore.sendPacketAround(this, 128, 2);
@@ -190,7 +194,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			if (type.isType(SyncType.DEFAULT_SYNC)) {
@@ -198,13 +202,8 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			}
 			upgrades.writeData(nbt, type);
 		}
+		return nbt;
 	}
-
-	public void addSyncParts(List<ISyncPart> parts) {
-		super.addSyncParts(parts);
-		parts.addAll(Lists.newArrayList(paused, invertPaused, cookTime));
-	}
-
 	@Override
 	public UpgradeInventory getUpgradeInventory() {
 		return upgrades;

@@ -98,13 +98,14 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 
 	}
 
-	public void writeData(NBTTagCompound nbt, SyncType type) {
+	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setInteger("latestMax", this.latestMax);
 			nbt.setInteger("latestEnergy", this.latestEnergy);
 			nbt.setInteger("lastMax", this.lastMax);
 			nbt.setInteger("lastEnergy", this.lastEnergy);
 		}
+		return nbt;
 	}
 
 	@SideOnly(Side.CLIENT)
