@@ -116,7 +116,7 @@ public class RenderResearchChamber extends TileEntitySpecialRenderer<TileEntityR
 				double d28 = (double) (-1.0F + f3);
 				double d29 = (double) (height) * (0.5D / d5) + d28;
 
-				EnumFacing dir = EnumFacing.getOrientation(tileentity.blockMetadata);
+				EnumFacing dir = EnumFacing.getFront(tileentity.blockMetadata);
 				double x = xCoord + dir.offsetX * +0.06;
 				double y = yCoord + 0.5;
 				double z = zCoord + dir.offsetZ * +0.06;

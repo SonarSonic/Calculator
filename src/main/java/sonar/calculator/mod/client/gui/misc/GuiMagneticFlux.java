@@ -10,7 +10,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.core.SonarCore;
 import sonar.core.client.gui.GuiSonar;
 import sonar.core.helpers.FontHelper;
-import sonar.core.network.PacketByteBufServer;
+import sonar.core.network.PacketByteBuf;
 
 public class GuiMagneticFlux extends GuiSonar {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/magnetic_flux.png");
@@ -34,7 +34,7 @@ public class GuiMagneticFlux extends GuiSonar {
 			return;
 		}
 		if (button instanceof GuiButton) {
-			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), button.id));
+			SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), button.id));
 			this.reset();
 		}
 

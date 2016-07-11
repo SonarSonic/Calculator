@@ -63,7 +63,7 @@ public class GuiAdvancedGreenhouse extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {
-		if (entity.state.getObject() != State.BUILDING) {
+		if (entity.houseState.getObject() != State.BUILDING) {
 			double car = (double) this.entity.carbon.getObject() * 100 / this.entity.maxLevel;
 			String carbon = dec.format(car) + "%";
 			FontHelper.textOffsetCentre(carbon, 115, 79, 2);

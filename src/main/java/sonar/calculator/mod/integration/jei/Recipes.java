@@ -136,4 +136,12 @@ public class Recipes {
 			GL11.glPopMatrix();
 		}
 	}
+
+	public static class Conductor extends JEIRecipe<Conductor> {
+
+		@Override
+		public Conductor getInstance(String recipeID, Object[] inputs, Object[] outputs) {
+			return new Conductor().setRecipe(recipeID, inputs, outputs);
+		}
+	}
 }

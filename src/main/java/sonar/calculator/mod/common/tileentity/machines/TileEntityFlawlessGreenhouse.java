@@ -54,10 +54,10 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	@Override
 	public void update() {
 		super.update();
-		if (!(state.getObject() == State.BUILDING)) {
+		if (!(houseState.getObject() == State.BUILDING)) {
 			checkTile();
 		}
-		if (state.getObject() == State.COMPLETED) {
+		if (houseState.getObject() == State.COMPLETED) {
 			if (!this.worldObj.isRemote) {
 				extraTicks();
 			}
@@ -366,9 +366,9 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add(FontHelper.translate("greenhouse.size") + ": " + this.houseSize);
-		return super.getWailaInfo(currenttip);
+		return super.getWailaInfo(currenttip, state);
 	}
 
 	@Override

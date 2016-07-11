@@ -8,9 +8,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
@@ -29,7 +31,7 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 	public ConductorMast() {
 		super(SonarMaterials.machine, false, true);
 	}
-	
+
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (!world.isRemote) {
 			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
@@ -91,18 +93,15 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
 		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Conductor Mast") + " RF per strike");
-	}	
-
-	public boolean isFullCube() {
-		return false;
 	}
 
-	public boolean isOpaqueCube() {
-		return false;
+	public boolean hasSpecialRenderer() {
+		return true;
 	}
 
-	public int getRenderType() {
-		return 3;
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.INVISIBLE;
 	}
 }

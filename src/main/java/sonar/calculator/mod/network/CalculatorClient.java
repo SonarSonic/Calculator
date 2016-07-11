@@ -11,6 +11,7 @@ import sonar.calculator.mod.client.renderers.RenderFabricationChamber;
 import sonar.calculator.mod.client.renderers.RenderHandlers;
 import sonar.calculator.mod.client.renderers.RenderMagneticFlux;
 import sonar.calculator.mod.client.renderers.RenderReinforcedChest;
+import sonar.calculator.mod.client.renderers.RenderWeatherStation;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
@@ -20,8 +21,11 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 
 public class CalculatorClient extends CalculatorCommon{
 	
@@ -69,12 +73,13 @@ public class CalculatorClient extends CalculatorCommon{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAtomicMultiplier.class, atomic);
 		*/
 		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.atomicMultiplier), new ItemModelRender(atomic, new TileEntityAtomicMultiplier()));
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConductorMast.class, new RenderHandlers.ConductorMast());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWeatherStation.class, new RenderWeatherStation());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScarecrow.class, new RenderHandlers.Scarecrow());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransmitter.class, new RenderHandlers.Transmitter());
+		
 		/*
-		TileEntitySpecialRenderer conductor = new RenderHandlers.ConductorMast();
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConductorMast.class, conductor);
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.conductorMast), new ItemConductorMask(conductor, new TileEntityConductorMast()));
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Calculator.conductormastBlock), new ItemConductorMask(conductor, new TileEntityConductorMast()));
-
 		TileEntitySpecialRenderer lantern = new RenderLantern();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGasLantern.class, lantern);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBasicLantern.class, lantern);

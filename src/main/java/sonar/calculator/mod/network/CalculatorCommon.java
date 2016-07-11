@@ -19,6 +19,7 @@ import sonar.calculator.mod.network.packets.PacketJumpModule;
 import sonar.calculator.mod.network.packets.PacketModuleSelection;
 import sonar.calculator.mod.network.packets.PacketPlayerResearch;
 import sonar.calculator.mod.network.packets.PacketTeleportLinks;
+import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.utils.IGuiItem;
 import sonar.core.utils.IGuiTile;
 
@@ -39,6 +40,9 @@ public class CalculatorCommon implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
 		if (entity != null) {
+			if(entity instanceof TileEntitySonar){
+				((TileEntitySonar) entity).forceNextSync();
+			}
 			switch (ID) {
 			case IGuiTile.ID:
 				return ((IGuiTile) entity).getGuiContainer(player);

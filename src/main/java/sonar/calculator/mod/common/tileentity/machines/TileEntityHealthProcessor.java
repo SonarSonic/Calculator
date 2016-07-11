@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.tileentity.machines;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -132,7 +133,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add(FontHelper.translate("points.health") + ": " + storedpoints);
 		return currenttip;
 	}

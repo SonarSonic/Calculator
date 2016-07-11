@@ -20,6 +20,10 @@ public class BaseTerrainModule extends SonarEnergyItem {
 
 	public Block[] replacable;
 
+	public BaseTerrainModule(int capacity, int maxReceive, int maxExtract){
+		super(capacity,maxReceive,maxExtract);
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {

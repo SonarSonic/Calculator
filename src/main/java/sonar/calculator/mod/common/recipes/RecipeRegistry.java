@@ -310,6 +310,7 @@ public class RecipeRegistry {
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 4), Calculator.atomic_binder, "dustEnrichedGold", new ItemStack(Calculator.speedUpgrade, 4));
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 5), Calculator.atomic_binder, "dustEnrichedGold", new ItemStack(Calculator.energyUpgrade, 4));
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 6), Calculator.atomic_binder, "dustEnrichedGold", Calculator.voidUpgrade);
+		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 7), Calculator.atomic_binder, "dustEnrichedGold", Calculator.transferUpgrade);
 		registerAtomicRecipe(new ItemStack(Calculator.circuitBoard, 1, 9), Calculator.redstoneextractor, Calculator.large_tanzanite, Calculator.glowstoneextractor);
 		registerAtomicRecipe(Calculator.redstone_ingot, Calculator.starchextractor, Calculator.redstone_ingot, Calculator.redstoneextractor);
 		registerAtomicRecipe(Calculator.itemEnergyModule, Calculator.firediamond, Calculator.itemEnergyModule, Calculator.conductorMast);

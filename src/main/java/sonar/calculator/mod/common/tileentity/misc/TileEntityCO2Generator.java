@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -178,7 +179,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		if (burnTime > 0 && maxBurn != 0 && gasAdd == 0) {
 			String burn = FontHelper.translate("co2.control");
 			currenttip.add(burn);

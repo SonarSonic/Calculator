@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.tileentity.generators;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -72,13 +73,9 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 					if (this.slots()[0] != null) {
 						--this.slots()[0].stackSize;
 						if (this.slots()[0].stackSize <= 0) {
-							this.slots()[0] = null;
-							if (this.slots()[0].stackSize == 0) {
-								this.slots()[0] = this.slots()[0].getItem().getContainerItem(this.slots()[0]);
-							}
+							this.slots()[0] = this.slots()[0].getItem().getContainerItem(this.slots()[0]);							
 						}
 					}
-
 				}
 			}
 
@@ -158,7 +155,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		}
 
 		@SideOnly(Side.CLIENT)
-		public List<String> getWailaInfo(List<String> currenttip) {
+		public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel.getObject() * 100 / 5000 + "%");
 			return currenttip;
 		}
@@ -184,7 +181,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		}
 
 		@SideOnly(Side.CLIENT)
-		public List<String> getWailaInfo(List<String> currenttip) {
+		public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel.getObject() * 100 / 5000 + "%");
 			return currenttip;
 		}
@@ -205,7 +202,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		}
 
 		@SideOnly(Side.CLIENT)
-		public List<String> getWailaInfo(List<String> currenttip) {
+		public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel.getObject() * 100 / 5000 + "%");
 			return currenttip;
 		}

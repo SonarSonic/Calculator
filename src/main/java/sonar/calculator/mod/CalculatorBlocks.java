@@ -44,6 +44,8 @@ import sonar.calculator.mod.common.block.misc.MagneticFlux;
 import sonar.calculator.mod.common.block.misc.Piping;
 import sonar.calculator.mod.common.block.misc.RainSensor;
 import sonar.calculator.mod.common.block.misc.ReinforcedChest;
+import sonar.calculator.mod.common.block.misc.Scarecrow;
+import sonar.calculator.mod.common.block.misc.ScarecrowBlock;
 import sonar.calculator.mod.common.block.misc.StorageChamber;
 import sonar.calculator.mod.common.block.misc.WeatherController;
 import sonar.calculator.mod.common.tileentity.TileEntityMachine;
@@ -75,6 +77,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import sonar.core.common.block.ConnectedBlock;
 import sonar.core.common.block.SonarBlockTip;
 import sonar.core.common.block.SonarMetaBlock;
@@ -91,6 +94,11 @@ public class CalculatorBlocks extends Calculator {
 
 	public static Block registerBlock(String name, Block block) {
 		block.setCreativeTab(Calculator);
+		GameRegistry.registerBlock(block.setUnlocalizedName(name), SonarBlockTip.class, name);
+		return addRegisteredBlock(block);
+	}
+	
+	public static Block registerBlockWithoutTab(String name, Block block) {
 		GameRegistry.registerBlock(block.setUnlocalizedName(name), SonarBlockTip.class, name);
 		return addRegisteredBlock(block);
 	}
@@ -184,22 +192,18 @@ public class CalculatorBlocks extends Calculator {
 		// energy //flawlessCapacitor = new FlawlessCapacitor().setUnlocalizedName("FlawlessCapacitor").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(6.5F).setBlockTextureName(modid + ":" + // "electric_diamond_block"); // GameRegistry.registerBlock(flawlessCapacitor,SonarBlockTip.class, "FlawlessCapacitor"); // GameRegistry.registerTileEntity(TileEntityFlawlessCapacitor.class, "FlawlessCapacitor");
 
 		// generators
-		//conductorMast = registerBlock("ConductorMast", new ConductorMast().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
-		//GameRegistry.registerTileEntity(TileEntityConductorMast.class, "ConductorMast");
-		//conductormastBlock = registerBlock("ConductorMastBlock", new InvisibleBlock(0).setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
-		
-		/*
-		weatherStation = new WeatherStation().setUnlocalizedName("WeatherStation").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);
-		GameRegistry.registerBlock(weatherStation, SonarBlockTip.class, "WeatherStation");
+		conductorMast = registerBlock("ConductorMast", new ConductorMast().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityConductorMast.class, "ConductorMast");
+		conductormastBlock = registerBlockWithoutTab("ConductorMastBlock", new InvisibleBlock(0).setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));	
+
+		weatherStation = registerBlock("WeatherStation", new WeatherStation().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityWeatherStation.class, "WeatherStation");
-		weatherStationBlock = new InvisibleBlock(1).setBlockName("WeatherStationBlock").setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);
-		GameRegistry.registerBlock(weatherStationBlock, SonarBlockTip.class, "WeatherStationBlock");
-		transmitter = new Transmitter().setUnlocalizedName("Transmitter").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);
-		GameRegistry.registerBlock(transmitter, SonarBlockTip.class, "Transmitter");
+		weatherStationBlock = registerBlockWithoutTab("WeatherStationBlock", new InvisibleBlock(1).setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
+		
+		transmitter = registerBlock("Transmitter", new Transmitter().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityTransmitter.class, "Transmitter");
-		transmitterBlock = new InvisibleBlock(2).setBlockName("TransmitterBlock").setLightLevel(0.625F).setHardness(1.0F).setBlockTextureName(modid + ":" + "stablestone").setResistance(20.0F);
-		GameRegistry.registerBlock(transmitterBlock, SonarBlockTip.class, "TransmitterBlock");
-		 */
+		transmitterBlock = registerBlockWithoutTab("TransmitterBlock", new InvisibleBlock(2).setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
+		 
 		starchextractor = registerBlock("StarchExtractor", new ExtractorBlock(0).setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityGenerator.StarchExtractor.class, "StarchExtractor");
 		redstoneextractor = registerBlock("RedstoneExtractor", new ExtractorBlock(1).setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
@@ -230,10 +234,11 @@ public class CalculatorBlocks extends Calculator {
 		gas_lantern_on = addRegisteredBlock(GameRegistry.registerBlock(new GasLantern(true).setHardness(0.1F).setLightLevel(0.9375F).setUnlocalizedName("GasLanternOn"), SonarBlockTip.class, "GasLanternOn"));
 		basic_lantern = registerBlock("Lantern", new BasicLantern().setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100));
 		GameRegistry.registerTileEntity(TileEntityGasLantern.class, "Lantern");
-		// scarecrow = registerBlock("Scarecrow", new Scarecrow().setHardness(0.5F).setResistance(24.0F));
-		// GameRegistry.registerTileEntity(TileEntityScarecrow.class, "Scarecrow");
-		// scarecrowBlock = new ScarecrowBlock().setUnlocalizedName("ScarecrowBlock").setHardness(0.5F);
-		// GameRegistry.registerBlock(scarecrowBlock, SonarBlockTip.class, "ScarecrowBlock");
+		
+		scarecrow = registerBlock("Scarecrow", new Scarecrow().setHardness(0.5F).setResistance(24.0F));
+		GameRegistry.registerTileEntity(TileEntityScarecrow.class, "Scarecrow");
+		scarecrowBlock = registerBlockWithoutTab("ScarecrowBlock", new ScarecrowBlock().setHardness(0.5F).setResistance(24.0F));
+		 
 		// amethyst
 		amethystLog = registerBlock("AmethystLog", new CalculatorLogs());
 		amethystPlanks = registerBlock("AmethystPlanks", new CalculatorPlanks());

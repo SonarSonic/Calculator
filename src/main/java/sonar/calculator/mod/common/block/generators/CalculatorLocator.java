@@ -35,7 +35,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 	public CalculatorLocator() {
 		super(SonarMaterials.machine, false, true);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, true));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, true));
 	}
 
 	public boolean hasSpecialRenderer() {
@@ -131,16 +131,21 @@ public class CalculatorLocator extends SonarMachineBlock {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
 
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		TileEntity target = world.getTileEntity(pos);
-		if (target != null && target instanceof TileEntityCalculatorLocator) {
-			TileEntityCalculatorLocator locator = (TileEntityCalculatorLocator) target;
-			return state.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, locator.active.getObject());
-		}
-		return state;
+	@SideOnly(Side.CLIENT)
+	public IBlockState getStateForEntityRender(IBlockState state) {
+		return this.getDefaultState().withProperty(ACTIVE, true);
+	}
+
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(ACTIVE, meta==1 ? true : false);
+
+	}
+
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(ACTIVE) ? 1 : 0;
 	}
 
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { FACING, ACTIVE });
+		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
 	}
 }

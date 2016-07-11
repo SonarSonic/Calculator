@@ -52,7 +52,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		INCOMPLETE, BUILDING, COMPLETED, DEMOLISHING;
 	}
 
-	public SyncEnum<State> state = new SyncEnum(State.values(), 0);
+	public SyncEnum<State> houseState = new SyncEnum(State.values(), 0);
 	public SyncTagType.INT carbon = (INT) new SyncTagType.INT(1).addSyncType(SyncType.DROP);
 	public SyncTagType.BOOLEAN wasBuilt = new SyncTagType.BOOLEAN(2);
 
@@ -69,7 +69,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public EnumFacing horizontal = EnumFacing.EAST;
 
 	public TileEntityGreenhouse() {
-		syncParts.addAll(Arrays.asList(state, carbon, wasBuilt));
+		syncParts.addAll(Arrays.asList(houseState, carbon, wasBuilt));
 	}
 
 	public void update() {
@@ -90,10 +90,10 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 					setGas(0);
 					wasBuilt.setObject(true);
 				}
-				state.setObject(State.COMPLETED);
+				houseState.setObject(State.COMPLETED);
 				addFarmland();
 			} else {
-				state.setObject(State.INCOMPLETE);
+				houseState.setObject(State.INCOMPLETE);
 			}
 		}
 	}
@@ -360,12 +360,12 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 
 	@Override
 	public State getState() {
-		return state.getObject();
+		return houseState.getObject();
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
-		switch (state.getObject()) {
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
+		switch (houseState.getObject()) {
 		case BUILDING:
 			currenttip.add(FontHelper.translate("locator.state") + ": " + FontHelper.translate("greenhouse.building"));
 			break;

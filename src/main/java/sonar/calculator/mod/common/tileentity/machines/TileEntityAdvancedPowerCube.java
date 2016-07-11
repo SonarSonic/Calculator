@@ -59,7 +59,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 
 	@Override
 	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-		if (sides.getSideConfig(from).isInput()) {
+		if (from==null || sides.getSideConfig(from).isInput()) {
 			return storage.receiveEnergy(maxReceive, simulate);
 		}
 		return 0;
@@ -67,7 +67,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 
 	@Override
 	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-		if (sides.getSideConfig(from).isOutput()) {
+		if (from==null || sides.getSideConfig(from).isOutput()) {
 			return storage.extractEnergy(maxExtract, simulate);
 		}
 		return 0;

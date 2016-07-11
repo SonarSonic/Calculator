@@ -17,20 +17,6 @@
                 "1":"calculator:model/calculator_plug_on"                    
                 }
                 }], 
-        "facing":{            
-            "north":{
-                
-            },
-            "south":{
-                
-            },
-            "west":{
-                
-            },
-            "east":{
-                
-            }
-        },
         "active":{
             "true":{
                 "textures": {

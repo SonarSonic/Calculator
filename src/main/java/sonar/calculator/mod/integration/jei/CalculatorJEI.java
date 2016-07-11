@@ -56,7 +56,7 @@ public class CalculatorJEI extends BlankModPlugin {
 		IItemRegistry itemRegistry = registry.getItemRegistry();
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
-		jeiHelpers.getNbtIgnoreList().ignoreNbtTagNames(Calculator.circuitBoard, "Energy", "Item1", "Item2", "Item3", "Item4", "Item5", "Item6", "Stable");
+		registry.getJeiHelpers().getNbtIgnoreList().ignoreNbtTagNames(Calculator.circuitBoard, "Energy", "Item1", "Item2", "Item3", "Item4", "Item5", "Item6", "Stable");
 
 		for (IJEIHandler handler : Handlers.values()) {
 			registry.addRecipes(handler.getJEIRecipes());
@@ -133,7 +133,9 @@ public class CalculatorJEI extends BlankModPlugin {
 		/**/
 		FLAWLESS(RecipeRegistry.FlawlessRecipes.instance(), "item.FlawlessCalculator.name", "flawlesscalculator", Recipes.Flawless.class),
 		/**/
-		HEALTH(HealthProcessorRecipes.instance(), "tile.HealthProcessor.name", "guicalculatorplug", Recipes.Health.class);
+		HEALTH(HealthProcessorRecipes.instance(), "tile.HealthProcessor.name", "guicalculatorplug", Recipes.Health.class),
+		/**/
+		CONDUCTOR(RecipeRegistry.ConductorMastItemRecipes.instance(),"tile.ConductorMast.name","conductorMast", Recipes.Conductor.class);
 		/**/
 		//DISCHARGE(null, "Discharge Values", "guipowercube", Recipes.Discharge.class);
 		/**/

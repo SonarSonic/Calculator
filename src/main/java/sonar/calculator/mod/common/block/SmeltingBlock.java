@@ -98,7 +98,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 		if (isAnimated(state, world, pos)) {
 			EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
 			double d0 = (double) pos.getX() + 0.5D;

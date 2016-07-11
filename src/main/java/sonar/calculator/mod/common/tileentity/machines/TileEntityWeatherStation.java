@@ -17,16 +17,15 @@ public class TileEntityWeatherStation extends TileEntitySonar implements ITickab
 
 	public void update() {
 		if (!loaded) {
+			this.setAngle();
 			loaded = true;
-			this.setAngle();
-			markBlockForUpdate();
-		}
-		if (ticks < 25) {
-			ticks++;
-		} else if (ticks >= 25) {
-			ticks = 0;
-			this.setAngle();
-			markBlockForUpdate();
+		} else {
+			if (ticks < 25) {
+				ticks++;
+			} else if (ticks >= 25) {
+				ticks = 0;
+				this.setAngle();
+			}
 		}
 	}
 
@@ -34,7 +33,6 @@ public class TileEntityWeatherStation extends TileEntitySonar implements ITickab
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		angle = nbt.getDouble("angle");
-		loaded = nbt.getBoolean("loaded");
 		x = nbt.getInteger("xMAST");
 		z = nbt.getInteger("zMAST");
 		ticks = nbt.getInteger("ticks");
@@ -44,7 +42,6 @@ public class TileEntityWeatherStation extends TileEntitySonar implements ITickab
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setDouble("angle", angle);
-		nbt.setBoolean("loaded", loaded);
 		nbt.setInteger("xMAST", x);
 		nbt.setInteger("zMAST", z);
 		nbt.setInteger("ticks", ticks);
@@ -78,14 +75,7 @@ public class TileEntityWeatherStation extends TileEntitySonar implements ITickab
 
 	}
 
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared() {
-		return 65536.0D;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getRenderBoundingBox() {
-		return INFINITE_EXTENT_AABB;
+	public boolean maxRender() {
+		return true;
 	}
 }

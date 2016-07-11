@@ -1,0 +1,24 @@
+{
+   "forge_marker": 1,
+    "defaults": {
+        "model":"builtin/generated",
+        "transform":"forge:default-item",        
+        "textures": {
+            "layer0":"blocks/planks_oak"
+         }  
+    },
+    "variants": { 
+        "inventory": [{            
+            "textures": {
+              "layer0":"calculator:items/item_scarecrow"
+            }}],
+        "normal":{
+            "model":"builtin/generated",
+            "transform":"forge:default-block",
+            "textures": {
+              "particle":"calculator:items/item_scarecrow"
+            }
+        }
+        
+    } 
+}

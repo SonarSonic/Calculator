@@ -2,6 +2,7 @@ package sonar.calculator.mod.client.renderers;
 
 import sonar.calculator.mod.client.models.ModelConductorMast;
 import sonar.calculator.mod.client.models.ModelScarecrow;
+import sonar.calculator.mod.client.models.ModelTransmitter;
 import sonar.core.renderers.SonarTERender;
 
 public class RenderHandlers {
@@ -10,7 +11,12 @@ public class RenderHandlers {
 		public ConductorMast() {
 			super(new ModelConductorMast(), "Calculator:textures/model/conductormask.png");
 		}
-
+	}
+	
+	public static class Transmitter extends SonarTERender {
+		public Transmitter() {
+			super(new ModelTransmitter(), "Calculator:textures/model/transmitter.png");
+		}
 	}
 
 	public static class Scarecrow extends SonarTERender {
@@ -19,6 +25,8 @@ public class RenderHandlers {
 		}
 	}
 
+	
+	
 	/*
 	public static class Teleporter extends SonarTERender {
 		private static final ResourceLocation layer1 = new ResourceLocation("Calculator:textures/blocks/teleporter_layer1.png");

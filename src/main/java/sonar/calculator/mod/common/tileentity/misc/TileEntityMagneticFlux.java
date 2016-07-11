@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -176,7 +177,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		if (!disabled) {
 			String active = FontHelper.translate("locator.state") + " : " + FontHelper.translate("state.on");
 			currenttip.add(active);

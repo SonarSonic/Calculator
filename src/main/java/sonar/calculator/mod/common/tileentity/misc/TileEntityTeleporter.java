@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -211,7 +212,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add("Link Name: " + name);
 		if (!destinationName.getObject().equals("DESTINATION")) {
 			currenttip.add("Destination: " + destinationName.getObject());

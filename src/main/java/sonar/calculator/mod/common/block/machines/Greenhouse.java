@@ -63,13 +63,13 @@ public abstract class Greenhouse extends SonarMachineBlock {
 			TileEntityBuildingGreenhouse house = (TileEntityBuildingGreenhouse) tile;
 			if (interact.type == BlockInteractionType.SHIFT_RIGHT) {
 				
-				if (house.state.getObject() == State.INCOMPLETE) {
+				if (house.houseState.getObject() == State.INCOMPLETE) {
 					if (!house.wasBuilt.getObject()) {
 						if (!(house.storage.getEnergyStored() >= house.requiredBuildEnergy)) {
 							FontHelper.sendMessage(FontHelper.translate("energy.notEnough"), world, player);
 							return true;
 						} else if (house.hasRequiredStacks()) {
-							if (house.state.getObject() == State.INCOMPLETE && !house.wasBuilt.getObject()) {
+							if (house.houseState.getObject() == State.INCOMPLETE && !house.wasBuilt.getObject()) {
 								FailedCoords coords = house.createBlock();
 								if (!coords.getBoolean()) {
 									FontHelper.sendMessage(FontHelper.translate("greenhouse.block") + " " + "X: " + coords.getCoords().getX() + " Y: " + coords.getCoords().getY() + " Z: " + coords.getCoords().getZ() + " - " + FontHelper.translate("greenhouse.blocking"), world, player);
@@ -90,7 +90,7 @@ public abstract class Greenhouse extends SonarMachineBlock {
 						}
 					}
 				}
-				if (house.state.getObject() == State.COMPLETED) {
+				if (house.houseState.getObject() == State.COMPLETED) {
 					FontHelper.sendMessage(new TextComponentTranslation("greenhouse.complete"), world, player);
 				}
 			} else {

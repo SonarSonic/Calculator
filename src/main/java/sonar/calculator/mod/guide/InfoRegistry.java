@@ -78,9 +78,9 @@ public class InfoRegistry {
 		addInfo(Category.Generation, new ItemStack(Calculator.starchextractor), "info.StarchExtractor.name",Calculator.redstoneextractor,Calculator.glowstoneextractor);
 		addInfo(Category.Generation, new ItemStack(Calculator.redstoneextractor), "info.RedstoneExtractor.name",Calculator.starchextractor,Calculator.glowstoneextractor);
 		addInfo(Category.Generation, new ItemStack(Calculator.glowstoneextractor), "info.GlowstoneExtractor.name",Calculator.starchextractor,Calculator.redstoneextractor);
-		addInfo(Category.Generation, new ItemStack(Calculator.conductorMast), "Conducts and stores Lightning-Can infuse items with electricity--Also it can generate RF/EU-Activated by Redstone Signal-See Transmitter & Weather - Station");
-		addInfo(Category.Generation, new ItemStack(Calculator.weatherStation), "Focuses Lightning Power-Increasing Lightning Energy--See Conductor Mast");
-		addInfo(Category.Generation, new ItemStack(Calculator.transmitter), "Can alter the Ionosphere-Increases power and frequency- of Lightning Strikes--See Conductor Mast",Calculator.conductorMast, Calculator.weatherStation);
+		addInfo(Category.Generation, new ItemStack(Calculator.conductorMast), "info.ConductorMast.name", Calculator.transmitter, Calculator.weatherStation);
+		addInfo(Category.Generation, new ItemStack(Calculator.weatherStation), "info.WeatherStation.name", Calculator.conductorMast, Calculator.transmitter);
+		addInfo(Category.Generation, new ItemStack(Calculator.transmitter), "info.Transmitter.name",Calculator.conductorMast, Calculator.weatherStation);
 		addInfo(Category.Generation, new ItemStack(Calculator.calculatorlocator), "info.CalculatorLocator.name",Calculator.calculatorplug, Calculator.itemLocatorModule);
 		addInfo(Category.Generation, new ItemStack(Calculator.calculatorplug), "info.CalculatorPlug.name",Calculator.circuitBoard,Calculator.analysingChamber, Calculator.calculatorlocator);
 

@@ -26,23 +26,24 @@ public class AtomicMultiplierBlacklist {
 	public AtomicMultiplierBlacklist() {
 		String[] blacklisted = CalculatorConfig.atomicblackList.getStringList();
 		for (int i = 0; i < blacklisted.length; i++) {
-			String[] parts = blacklisted[i].split(":");
-			Item itemBan = GameRegistry.findItem(parts[0], parts[1]);
+			String[] parts = blacklisted[i].split(":");			
+			Item itemBan = Item.REGISTRY.getObject(new ResourceLocation(parts[0], parts[1]));
 			if (itemBan != null) {
-				this.addBan(itemBan);
+				addBan(itemBan);
 			} else {
-				Block blockBan = GameRegistry.findBlock(parts[0], parts[1]);
+				Block blockBan = Block.REGISTRY.getObject(new ResourceLocation(parts[0], parts[1]));
 				if (blockBan != null) {
-					this.addBan(blockBan);
+					addBan(blockBan);
 				}
 			}
 		}
 		List<ResourceLocation> apiBlocked = CalculatorAPI.getItemBlackList();
-		for (ResourceLocation item : apiBlocked) {			
-			if (GameRegistry.findItem(item.getResourceDomain(), item.getResourcePath()) != null) {
-				this.addBan(GameRegistry.findItem(item.getResourceDomain(), item.getResourcePath()));
-			} else if (GameRegistry.findBlock(item.getResourceDomain(), item.getResourcePath()) != null) {
-				this.addBan(GameRegistry.findBlock(item.getResourceDomain(), item.getResourcePath()));
+		for (ResourceLocation item : apiBlocked) {		
+			Item itemBan; Block blockBan;
+			if ((itemBan = Item.REGISTRY.getObject(item)) != null) {
+				addBan(itemBan);
+			} else if ((blockBan = Block.REGISTRY.getObject(item)) != null) {
+				addBan(blockBan);
 			}
 		}
 	}
@@ -75,11 +76,6 @@ public class AtomicMultiplierBlacklist {
 
 		return (Boolean) entry.getValue();
 	}
-
-	private boolean func_151397_a(ItemStack p_151397_1_, ItemStack p_151397_2_) {
-		return (p_151397_2_.getItem() == p_151397_1_.getItem()) && ((p_151397_2_.getItemDamage() == 32767) || (p_151397_2_.getItemDamage() == p_151397_1_.getItemDamage()));
-	}
-
 	public Map getSmeltingList() {
 		return this.bannedList;
 	}

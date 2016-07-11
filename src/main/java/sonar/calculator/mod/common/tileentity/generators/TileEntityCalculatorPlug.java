@@ -4,14 +4,20 @@ import io.netty.buffer.ByteBuf;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.generators.GuiCalculatorPlug;
+import sonar.calculator.mod.common.block.generators.CalculatorLocator;
+import sonar.calculator.mod.common.block.generators.CalculatorPlug;
 import sonar.calculator.mod.common.containers.ContainerCalculatorPlug;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
@@ -40,10 +46,12 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			fill(0);
 		}
 		if (flag != this.stable.getObject()) {
-			SonarCore.sendPacketAround(this, 128, 0);
-			markBlockForUpdate();
-			this.markDirty();
+			worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(CalculatorPlug.ACTIVE, stable.getObject()==2), 2);
 		}
+	}
+
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return false;
 	}
 
 	public boolean testStable() {
@@ -79,8 +87,8 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
-		currenttip.add(GuiCalculatorPlug.getString(stable.getObject()));
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
+		currenttip.add(FontHelper.translate("circuit.stable") + ": " + (!state.getValue(CalculatorPlug.ACTIVE) ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
 		return currenttip;
 	}
 

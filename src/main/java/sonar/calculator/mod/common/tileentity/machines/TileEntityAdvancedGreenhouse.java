@@ -51,10 +51,10 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 		if (this.worldObj.isBlockPowered(pos)) {
 			return;
 		}
-		if (!(state.getObject() == State.BUILDING)) {
+		if (!(houseState.getObject() == State.BUILDING)) {
 			checkTile();
 		}
-		switch (state.getObject()) {
+		switch (houseState.getObject()) {
 		case COMPLETED:
 			if (!this.worldObj.isRemote) {
 				extraTicks();
@@ -66,7 +66,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 		case BUILDING:
 			if (checkStructure(GreenhouseAction.BUILD).getBoolean()) {
 				addFarmland();
-				this.state.setObject(State.COMPLETED);
+				this.houseState.setObject(State.COMPLETED);
 			}
 			break;
 		case DEMOLISHING:

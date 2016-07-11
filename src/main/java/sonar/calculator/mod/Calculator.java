@@ -55,7 +55,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "3.0.0";
+	public static final String version = "3.0.3";
 	
 	public static final int saveDimension = 0;
 	
@@ -78,7 +78,10 @@ public class Calculator {
 		public Item getTabIconItem() {
 			return itemCalculator;
 		}
-	};
+		public boolean hasSearchBar(){
+			return true;
+		}
+	}.setBackgroundImageName("item_search.png");
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

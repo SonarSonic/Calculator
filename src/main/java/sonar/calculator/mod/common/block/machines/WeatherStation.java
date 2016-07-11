@@ -6,9 +6,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
@@ -27,6 +29,11 @@ public class WeatherStation extends SonarMachineBlock {
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
+	
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.INVISIBLE;
+	}
+	
 
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
@@ -77,5 +84,10 @@ public class WeatherStation extends SonarMachineBlock {
 
 	private void removeBlocks(World world, BlockPos pos, IBlockState state) {
 		world.setBlockToAir(pos.offset(EnumFacing.UP));
+	}
+
+	@Override
+	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
 	}
 }

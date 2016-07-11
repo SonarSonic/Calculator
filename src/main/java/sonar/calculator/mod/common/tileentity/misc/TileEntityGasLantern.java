@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fml.relauncher.Side;
@@ -88,7 +89,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		if (burnTime.getObject() > 0 && maxBurnTime.getObject() != 0) {
 			String burn = FontHelper.translate("co2.burnt") + ": " + burnTime.getObject() * 100 / maxBurnTime.getObject();
 			currenttip.add(burn);

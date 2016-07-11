@@ -36,12 +36,12 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedB
 		if (tile instanceof TileEntityFlawlessGreenhouse) {
 			TileEntityFlawlessGreenhouse house = (TileEntityFlawlessGreenhouse) tile;
 			if (interact.type == BlockInteractionType.SHIFT_RIGHT) {
-				if (house.state.getObject() == State.INCOMPLETE) {
+				if (house.houseState.getObject() == State.INCOMPLETE) {
 					FailedCoords coords = house.checkStructure(null);
 					if (!coords.getBoolean()) {
 						FontHelper.sendMessage("X: " + coords.getCoords().getX() + " Y: " + coords.getCoords().getY() + " Z: " + coords.getCoords().getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(), world, player);
 					}
-				} else if (house.state.getObject() == State.COMPLETED) {
+				} else if (house.houseState.getObject() == State.COMPLETED) {
 					FontHelper.sendMessage(FontHelper.translate("greenhouse.complete"), world, player);
 
 				}

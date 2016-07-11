@@ -22,7 +22,7 @@ import sonar.core.client.gui.GuiSonar;
 import sonar.core.client.gui.SonarButtons.ImageButton;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerEmpty;
-import sonar.core.network.PacketByteBufServer;
+import sonar.core.network.PacketByteBuf;
 
 public class GuiTeleporter extends GuiSonar {
 	public static ResourceLocation network = new ResourceLocation("Calculator:textures/gui/teleporter.png");
@@ -191,9 +191,9 @@ public class GuiTeleporter extends GuiSonar {
 				else
 					this.entity.name.setObject(text);
 				if (text.isEmpty() || text == "" || text == null) {
-					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 1));
+					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 1));
 				} else {
-					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 1));
+					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 1));
 				}
 
 			}
@@ -209,9 +209,9 @@ public class GuiTeleporter extends GuiSonar {
 				else
 					this.entity.password.setObject(text);
 				if (text.isEmpty() || text == "" || text == null) {
-					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 2));
+					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 2));
 				} else {
-					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 2));
+					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 2));
 				}
 
 			}
@@ -227,9 +227,9 @@ public class GuiTeleporter extends GuiSonar {
 				else
 					this.entity.linkPassword.setObject(text);
 				if (text.isEmpty() || text == "" || text == null) {
-					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 3));
+					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 3));
 				} else {
-					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 3));
+					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 3));
 				}
 
 			}
@@ -258,7 +258,7 @@ public class GuiTeleporter extends GuiSonar {
 				int network = start + button.id - 10;
 				if (network < entity.links.size()) {
 					entity.linkID = entity.links.get(network).networkID;
-					SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 0));
+					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 0));
 				}
 			}
 		}

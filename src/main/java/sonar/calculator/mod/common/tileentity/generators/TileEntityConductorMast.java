@@ -36,19 +36,21 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	public final SyncTagType.INT lightTicks = new SyncTagType.INT(2);
 	public final SyncTagType.INT lightingTicks = new SyncTagType.INT(3);
 	public final SyncTagType.INT random = new SyncTagType.INT(4);
+	public final SyncTagType.INT rfPerStrike = new SyncTagType.INT(5);
+	public final SyncTagType.DOUBLE rfPerTick = new SyncTagType.DOUBLE(6);
 
-	public int lastStations, strikes;
+	public int lastStations, strikes, avgTicks;
 	public static int furnaceSpeed = 50;
 	public final int weatherStationRF = CalculatorConfig.getInteger("Weather Station");
 	public final int strikeRF = CalculatorConfig.getInteger("Conductor Mast");
 	public Random rand = new Random();
 
 	public TileEntityConductorMast() {
-		super.storage.setCapacity(5000000).setMaxTransfer(64000);
+		super.storage.setCapacity(50000000).setMaxTransfer(64000);
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 5000000;
 		super.energyMode = EnergyMode.SEND;
-		syncParts.addAll(Lists.newArrayList(cookTime, lightingTicks, lightTicks, lightningSpeed, random));
+		syncParts.addAll(Lists.newArrayList(cookTime, lightingTicks, lightTicks, lightningSpeed, random, rfPerStrike, rfPerTick));
 	}
 
 	public ItemStack recipeOutput(ItemStack stack) {
@@ -66,48 +68,54 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	@Override
 	public void update() {
 		super.update();
+
 		if (this.cookTime.getObject() > 0) {
 			this.cookTime.increaseBy(1);
 		}
-		if (isServer()) {
-			if (canCook()) {
-				if (cookTime.getObject() == 0) {
-					cookTime.increaseBy(1);
-				}
-				if (cookTime.getObject() == furnaceSpeed) {
-					cookTime.setObject(0);
-					cookItem();
-				}
-			} else {
+		if (canCook()) {
+			if (cookTime.getObject() == 0) {
+				cookTime.increaseBy(1);
+			}
+			if (cookTime.getObject() == furnaceSpeed) {
 				cookTime.setObject(0);
+				cookItem();
 			}
-			if (this.storage.getMaxEnergyStored() != this.storage.getEnergyStored() && this.storage.getEnergyStored() < storage.getMaxEnergyStored() && this.lightningSpeed.getObject() == 0) {
-				this.random.setObject((int) (Math.random() * +9));
-				this.lightningSpeed.setObject(rand.nextInt(1800 - 1500) + getNextTime());
-			}
-			if (this.lightningSpeed.getObject() > 0) {
-				if (this.lightingTicks.getObject() >= lightningSpeed.getObject()) {
-					lightingTicks.setObject(0);
-					lightningSpeed.setObject(0);
-					strikes = this.getStrikes();
-					if (this.worldObj.isRemote) {
-						int currentstrikes;
-						if (strikes > 5) {
-							currentstrikes = 5;
-						} else {
-							currentstrikes = strikes;
-						}
-						while (currentstrikes != 0) {
-							worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, pos.getX(), pos.getY() + 4, pos.getZ(), true));
-							currentstrikes--;
-						}
+		} else {
+			cookTime.setObject(0);
+		}
+		if (this.storage.getMaxEnergyStored() != this.storage.getEnergyStored() && this.storage.getEnergyStored() < storage.getMaxEnergyStored() && this.lightningSpeed.getObject() == 0) {
+			this.random.setObject((int) (Math.random() * +9));
+			this.lightningSpeed.setObject(rand.nextInt(1800 - 1500) + getNextTime());
+		}
+		if (this.lightningSpeed.getObject() > 0) {
+			if (this.lightingTicks.getObject() >= lightningSpeed.getObject()) {
+				int lastSpeed = lightningSpeed.getObject();
+				lightingTicks.setObject(0);
+				lightningSpeed.setObject(0);
+				strikes = this.getStrikes();
+				if (isClient()) {
+					int currentstrikes;
+					if (strikes > 5) {
+						currentstrikes = 5;
+					} else {
+						currentstrikes = strikes;
 					}
-					this.lastStations = this.getStations();
-					lightTicks.increaseBy(1);
-				} else {
-					lightingTicks.increaseBy(1);
+					while (currentstrikes != 0) {
+						worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, pos.getX(), pos.getY() + 4, pos.getZ(), true));
+						currentstrikes--;
+					}
 				}
+				this.lastStations = this.getStations();
+				lightTicks.increaseBy(1);
+				if (isServer()) {
+					rfPerStrike.setObject(((((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes) * 4) * 200);
+					rfPerTick.setObject((double) ((double) rfPerStrike.getObject() / lastSpeed));
+				}
+
+			} else {
+				lightingTicks.increaseBy(1);
 			}
+
 		}
 		if (lightTicks.getObject() > 0) {
 			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes) * 4;
@@ -130,6 +138,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 				}
 			}
 		}
+
 		addEnergy();
 		this.markDirty();
 	}
@@ -346,5 +355,9 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	@Override
 	public int getBaseProcessTime() {
 		return furnaceSpeed;
+	}
+
+	public boolean maxRender() {
+		return true;
 	}
 }

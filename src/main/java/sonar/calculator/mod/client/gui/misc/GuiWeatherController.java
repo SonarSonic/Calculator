@@ -12,7 +12,7 @@ import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.core.SonarCore;
 import sonar.core.helpers.FontHelper;
-import sonar.core.network.PacketByteBufServer;
+import sonar.core.network.PacketByteBuf;
 
 public class GuiWeatherController extends GuiContainer {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guiWeatherController.png");
@@ -50,7 +50,7 @@ public class GuiWeatherController extends GuiContainer {
 			}
 			entity.type = type;
 
-			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 1 + type));
+			SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 1 + type));
 			break;
 		case 2:
 			if (entity.data == 1) {
@@ -58,7 +58,7 @@ public class GuiWeatherController extends GuiContainer {
 			} else {
 				entity.data = 1;
 			}
-			SonarCore.network.sendToServer(new PacketByteBufServer(entity, entity.getPos(), 0));
+			SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 0));
 			break;
 		}
 		this.buttonList.clear();

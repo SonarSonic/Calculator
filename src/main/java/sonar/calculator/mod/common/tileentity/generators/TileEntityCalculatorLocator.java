@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -14,6 +15,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
@@ -22,6 +25,7 @@ import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.calculator.mod.api.machines.ICalculatorLocator;
 import sonar.calculator.mod.client.gui.generators.GuiCalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
+import sonar.calculator.mod.common.block.generators.CalculatorPlug;
 import sonar.calculator.mod.common.containers.ContainerCalculatorLocator;
 import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
@@ -42,6 +46,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	public SyncTagType.INT stability = new SyncTagType.INT(2);
 	public SyncTagType.STRING owner = (STRING) new SyncTagType.STRING(3).setDefault("None");
 	private int sizeTicks, luckTicks;
+		
 
 	public TileEntityCalculatorLocator() {
 		super.storage.setCapacity(25000000).setMaxTransfer(128000);
@@ -68,7 +73,6 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		}
 		if (!worldObj.isRemote && invert) {
 			this.active.invert();
-			SonarCore.sendPacketAround(this, 128, 0);
 		}
 
 		if (!(this.sizeTicks >= 25)) {
@@ -79,12 +83,16 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 			this.getStability();
 		}
 		if (!worldObj.isRemote && flag != active.getObject()) {
-			SonarCore.sendPacketAround(this, 64, 0);
+			worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(CalculatorLocator.ACTIVE, active.getObject()), 2);
 		}
 
 		this.charge(0);
 		this.addEnergy(EnumFacing.DOWN);
 		this.markDirty();
+	}
+
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return false;
 	}
 
 	public int currentOutput() {
@@ -286,7 +294,6 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		int size = CalculatorLocator.multiBlockStructure(getWorld(), pos);
 		if (size != this.size.getObject()) {
 			this.size.setObject(size);
-			SonarCore.sendPacketAround(this, 128, 1);
 		}
 	}
 
@@ -328,8 +335,8 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
-		currenttip.add(FontHelper.translate("locator.active") + ": " + (!active.getObject() ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
+		currenttip.add(FontHelper.translate("locator.active") + ": " + (!state.getValue(CalculatorLocator.ACTIVE) ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
 		currenttip.add(FontHelper.translate("locator.owner") + ": " + (!owner.getObject().equals("None") ? owner.getObject() : FontHelper.translate("locator.none")));
 		return currenttip;
 	}

@@ -24,7 +24,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationCham
 import sonar.core.SonarCore;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.ItemStackHelper;
-import sonar.core.network.PacketByteBufServer;
+import sonar.core.network.PacketByteBuf;
 
 public class GuiFabricationChamber extends GuiContainer {
 
@@ -138,7 +138,7 @@ public class GuiFabricationChamber extends GuiContainer {
 
 	protected void actionPerformed(GuiButton button) {
 		if(button!=null && button.id==0){
-			SonarCore.network.sendToServer(new PacketByteBufServer(chamber, chamber.getPos(), 1));
+			SonarCore.network.sendToServer(new PacketByteBuf(chamber, chamber.getPos(), 1));
 		}
 	}
 	@Override
@@ -152,7 +152,7 @@ public class GuiFabricationChamber extends GuiContainer {
 			for (int i = start; i < finish; i++) {
 				if (y > (4 + (i - start) * 18) && y < (4 + (i - start) * 18) + 18) {
 					chamber.selected = (new ArrayList<ItemStack>(recipes_reversed.values())).get(i).copy();
-					SonarCore.network.sendToServer(new PacketByteBufServer(chamber, chamber.getPos(), 0));
+					SonarCore.network.sendToServer(new PacketByteBuf(chamber, chamber.getPos(), 0));
 				}
 
 			}

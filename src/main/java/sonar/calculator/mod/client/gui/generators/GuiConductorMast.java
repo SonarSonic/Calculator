@@ -1,28 +1,34 @@
 package sonar.calculator.mod.client.gui.generators;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
 import org.lwjgl.opengl.GL11;
 
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
+import sonar.core.client.gui.GuiSonar;
 import sonar.core.helpers.FontHelper;
 
-public class GuiConductorMast extends GuiContainer {
+public class GuiConductorMast extends GuiSonar {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/conductorMast.png");
 
 	public TileEntityConductorMast entity;
 
 	public GuiConductorMast(InventoryPlayer inventoryPlayer, TileEntityConductorMast entity) {
-		super(new ContainerConductorMast(inventoryPlayer, entity));
+		super(new ContainerConductorMast(inventoryPlayer, entity), entity);
 		this.entity = entity;
 	}
 
 	@Override
-	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+	public void drawGuiContainerForegroundLayer(int x, int y) {
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 
 		String wait = FontHelper.translate("conductor.wait") + ": ";
@@ -72,20 +78,35 @@ public class GuiConductorMast extends GuiContainer {
 		}
 
 		FontHelper.textOffsetCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), 90, 66, 2);
+		if ((x > guiLeft + 2 && x < guiLeft + 16) && (y > guiTop + 62 && y < guiTop + 76)) {
+			ArrayList list = new ArrayList();
+			DecimalFormat df = new DecimalFormat("#.##");
+			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Last Strike");
+			if (entity.rfPerStrike.getObject() == 0 && entity.rfPerTick.getObject() == 0) {
+				list.add("Awaiting first strike");
+			}
+			else{
+				list.add("Total: " + FontHelper.formatStorage(entity.rfPerStrike.getObject()) + "/strike");
+				list.add("Approx: " + FontHelper.formatOutput((entity.rfPerTick.getObject()).intValue()));
+			}
+			drawSpecialToolTip(list, x, y, fontRendererObj);
+		}
+	}
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float var1, int x, int y) {
+		super.drawGuiContainerBackgroundLayer(var1, x, y);
+
+		int c = this.entity.cookTime.getObject() * 18 / this.entity.furnaceSpeed;
+		drawTexturedModalRect(this.guiLeft + 79, this.guiTop + 26, 176, 0, c, 9);
+		int changedEnergy = this.entity.storage.getEnergyStored() / 50000;
+		int newEnergy = changedEnergy * 145 / 1000;
+		drawTexturedModalRect(this.guiLeft + 22, this.guiTop + 59, 0, 166, newEnergy, 20);
 
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-
-		int c = this.entity.cookTime.getObject() * 18 / this.entity.furnaceSpeed;
-		drawTexturedModalRect(this.guiLeft + 79, this.guiTop + 26, 176, 0, c, 9);
-
-		int l = this.entity.storage.getEnergyStored() * 145 / this.entity.storage.getMaxEnergyStored();
-		drawTexturedModalRect(this.guiLeft + 22, this.guiTop + 59, 0, 166, l, 20);
-
+	public ResourceLocation getBackground() {
+		return bground;
 	}
 }

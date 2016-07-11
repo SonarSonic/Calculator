@@ -5,26 +5,35 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
+import sonar.core.api.utils.BlockInteraction;
+import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.utils.IGuiTile;
 
-public class InvisibleBlock extends Block {
+public class InvisibleBlock extends SonarBlock {
 
 	public int type;
 
 	public InvisibleBlock(int type) {
-		super(SonarMaterials.machine);
+		super(SonarMaterials.machine, false, true);
 		this.type = type;
 		if (type == 2) {
 			//this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 1.0F, 0.7F);
@@ -35,12 +44,12 @@ public class InvisibleBlock extends Block {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null && !world.isRemote && type == 0) {
 			for (int i = 1; i < 4; i++) {
-				BlockPos offset = pos.offset(EnumFacing.DOWN, 1);
+				BlockPos offset = pos.offset(EnumFacing.DOWN, i);
 				if (world.getBlockState(offset).getBlock() == Calculator.conductorMast) {
-					player.openGui(Calculator.instance, IGuiTile.ID, world, offset.getX(), offset.getY(), offset.getZ());
+					player.openGui(Calculator.instance, IGuiTile.ID, world, offset.getX(), offset.getY(), offset.getZ());					
 					break;
 				}
 			}
@@ -54,10 +63,10 @@ public class InvisibleBlock extends Block {
 			if (world.getBlockState(pos.offset(EnumFacing.DOWN, 1)).getBlock() == Calculator.conductorMast) {
 				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(pos.offset(EnumFacing.DOWN, 1));
 				SonarHelper.dropTile(player, world.getBlockState(pos.offset(EnumFacing.DOWN, 1)).getBlock(), world, pos.offset(EnumFacing.DOWN, 1));
-			} else if (world.getBlockState(pos.offset(EnumFacing.DOWN, 2)) == Calculator.conductorMast) {
+			} else if (world.getBlockState(pos.offset(EnumFacing.DOWN, 2)).getBlock() == Calculator.conductorMast) {
 				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(pos.offset(EnumFacing.DOWN, 2));
 				SonarHelper.dropTile(player, world.getBlockState(pos.offset(EnumFacing.DOWN, 2)).getBlock(), world, pos.offset(EnumFacing.DOWN, 2));
-			} else if (world.getBlockState(pos.offset(EnumFacing.DOWN, 3)) == Calculator.conductorMast) {
+			} else if (world.getBlockState(pos.offset(EnumFacing.DOWN, 3)).getBlock() == Calculator.conductorMast) {
 				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(pos.offset(EnumFacing.DOWN, 3));
 				SonarHelper.dropTile(player, world.getBlockState(pos.offset(EnumFacing.DOWN, 3)).getBlock(), world, pos.offset(EnumFacing.DOWN, 3));
 			}
@@ -92,21 +101,64 @@ public class InvisibleBlock extends Block {
 			TileEntityConductorMast.setWeatherStationAngles(true, world, pos);
 		}
 	}
+	
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player){
+    	switch(type){
+    	case 0: 
+        	return new ItemStack(Calculator.conductorMast, 1);
+    	case 1: 
+        	return new ItemStack(Calculator.weatherStation, 1);
+    	case 2: 
+        	return new ItemStack(Calculator.transmitter, 1);
+    	default:
+    		return super.getPickBlock(state, target, world, pos, player);
+    	}
+    }
 
 	@Override
-	public int quantityDropped(Random p_149745_1_) {
+	public int quantityDropped(Random rand) {
 		return 0;
 	}
 
-	public boolean isFullCube() {
+	@Override
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-
-	public boolean isOpaqueCube() {
+	
+	@Override
+	public boolean isNormalCube(IBlockState state) {
 		return false;
 	}
+	
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
+	
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.INVISIBLE;
+	}
 
-	public int getRenderType() {
-		return 3;
+	@Override
+	public boolean dropStandard(IBlockAccess world, BlockPos pos) {
+		return true;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public IBlockState getStateForEntityRender(IBlockState state) {
+		return this.getDefaultState();
+	}
+
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState();
+
+	}
+
+	public int getMetaFromState(IBlockState state) {
+		return 0;
+	}
+
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this);
 	}
 }

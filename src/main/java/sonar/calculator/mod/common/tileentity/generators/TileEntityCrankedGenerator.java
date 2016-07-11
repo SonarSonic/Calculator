@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.tileentity.generators;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -72,7 +73,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 		return nbt;
 	}
 
-	public List<String> getWailaInfo(List<String> tooltip) {
+	public List<String> getWailaInfo(List<String> tooltip, IBlockState state) {
 		tooltip.add(FontHelper.translate("crank.cranked") + ": " + (this.cranked ? FontHelper.translate("locator.true") : FontHelper.translate("locator.false")));
 		return tooltip;
 	}

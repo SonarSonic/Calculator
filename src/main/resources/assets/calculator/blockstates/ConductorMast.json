@@ -4,14 +4,14 @@
         "model":"builtin/generated",
         "transform":"forge:default-item",        
         "textures": {
-            "layer0":"blocks/planks_oak"
+            "layer0":"sonarcore:blocks/connected/stablestone"
          }  
     },
     "variants": { 
         "inventory": [{            
-	        "textures": {
-	          "layer0":"calculator:items/item_scarecrow"
-	        }}],
+            "textures": {
+              "layer0":"calculator:items/item_conductorMast"
+            }}],
         "facing":{  
             "north":{},
             "south":{},

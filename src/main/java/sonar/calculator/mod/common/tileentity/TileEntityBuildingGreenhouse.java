@@ -55,10 +55,10 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		if (this.worldObj.isBlockPowered(pos)) {
 			return;
 		}
-		if (!(state.getObject() == State.BUILDING)) {
+		if (!(houseState.getObject() == State.BUILDING)) {
 			checkTile();
 		}
-		switch (state.getObject()) {
+		switch (houseState.getObject()) {
 		case COMPLETED:
 			if (!this.worldObj.isRemote) {
 				extraTicks();
@@ -70,7 +70,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		case BUILDING:
 			if (checkStructure(GreenhouseAction.BUILD).getBoolean()) {
 				addFarmland();
-				this.state.setObject(State.COMPLETED);
+				this.houseState.setObject(State.COMPLETED);
 			}
 			break;
 		case DEMOLISHING:
@@ -192,7 +192,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			}
 		}
 		if (!found) {
-			state.setObject(State.INCOMPLETE);
+			houseState.setObject(State.INCOMPLETE);
 		}
 	}
 
@@ -254,11 +254,11 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	
 	public FailedCoords createBlock() {
 		FailedCoords coords = checkStructure(GreenhouseAction.CAN_BUILD);
-		if (!(state.getObject() == State.BUILDING)) {
+		if (!(houseState.getObject() == State.BUILDING)) {
 			if (coords.getBoolean()) {
 				if (this.storage.getEnergyStored() >= this.requiredBuildEnergy) {
 					if (this.hasRequiredStacks()) {
-						this.state.setObject(State.BUILDING);
+						this.houseState.setObject(State.BUILDING);
 					}
 				}
 			}
@@ -290,8 +290,8 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 					}
 				}
 			}
-			if (this.state.getObject() == State.DEMOLISHING) {
-				this.state.setObject(State.INCOMPLETE);
+			if (this.houseState.getObject() == State.DEMOLISHING) {
+				this.houseState.setObject(State.INCOMPLETE);
 				this.wasBuilt.setObject(false);
 			}
 		}
@@ -432,10 +432,10 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			createBlock();
 			break;
 		case 1:
-			this.state.setObject(State.BUILDING);
+			this.houseState.setObject(State.BUILDING);
 			break;
 		case 2:
-			this.state.setObject(State.DEMOLISHING);
+			this.houseState.setObject(State.DEMOLISHING);
 			break;
 		}
 	}

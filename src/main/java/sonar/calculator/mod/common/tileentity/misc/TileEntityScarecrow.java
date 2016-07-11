@@ -3,6 +3,9 @@ package sonar.calculator.mod.common.tileentity.misc;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 
@@ -51,5 +54,16 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 		super.writeToNBT(nbt);
 		nbt.setInteger("Grow", this.growTicks);
 		return nbt;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getRenderBoundingBox() {
+		return INFINITE_EXTENT_AABB;
 	}
 }

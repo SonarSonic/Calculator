@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.tileentity.machines;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,6 +19,7 @@ import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.upgrades.IUpgradableTile;
 import sonar.core.api.utils.BlockCoords;
+import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
@@ -267,7 +269,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		int vUpgrades = upgrades.getUpgradesInstalled("VOID");
 		if (vUpgrades != 0) {
 			currenttip.add(FontHelper.translate("circuit.void") + ": " + FontHelper.translate("circuit.installed"));

@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -245,7 +246,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		return currenttip;
 	}
 

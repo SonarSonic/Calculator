@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -190,8 +191,8 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
-		super.getWailaInfo(currenttip);
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
+		super.getWailaInfo(currenttip, state);
 		if (cookTime.getObject() > 0) {
 			String active = FontHelper.translate("locator.state") + ": " + FontHelper.translate("locator.active");
 			currenttip.add(active);

@@ -628,3 +628,9 @@ info.BasicLantern.name=The Calculator equivalent of a Torch!
 info.GasLantern.name=Used with Advanced/Basic Greenhouses-It creates CO2 from fuel which accelerates plant growth
 
 info.ReinforcedChest.name=A special chest which stores items in stacks of 256 rather than 64-It can store up to 6912 items.
+
+info.ConductorMast.name=A lightning conductor which can both store generate RF. It can also be used for infusing items with electricity which is needed to obtain the Electric Diamond. It can generate large amounts of RF when paired with the Transmitter and Weather Station
+
+info.WeatherStation.name=Used to generate RF when paired with the Conductor Mast and Transmitter. Focuses Lightning Strikes towards the conductor mast therefore increasing the RF generated.
+
+info.Transmitter.name=Used to generate RF when paired with the Conductor Mast and Weather Station. It can alter the Ionosphere, increasing the frequency of lightning strikes and their power.

@@ -12,6 +12,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
@@ -30,7 +32,7 @@ public class CalculatorPlug extends SonarMachineBlock {
 	public CalculatorPlug() {
 		super(SonarMaterials.machine, false, true);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(true)));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, Boolean.valueOf(true)));
 	}
 
 	public boolean hasSpecialRenderer() {
@@ -63,16 +65,21 @@ public class CalculatorPlug extends SonarMachineBlock {
 		return new TileEntityCalculatorPlug();
 	}
 
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		TileEntity target = world.getTileEntity(pos);
-		if (target != null && target instanceof TileEntityCalculatorPlug) {
-			TileEntityCalculatorPlug plug = (TileEntityCalculatorPlug) target;
-			return state.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, plug.stable.getObject() == 2);
-		}
-		return state;
+	@SideOnly(Side.CLIENT)
+	public IBlockState getStateForEntityRender(IBlockState state) {
+		return this.getDefaultState().withProperty(ACTIVE, true);
+	}
+
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(ACTIVE, meta==1 ? true : false);
+
+	}
+
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(ACTIVE) ? 1 : 0;
 	}
 
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { FACING, ACTIVE });
+		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
 	}
 }

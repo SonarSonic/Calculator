@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.tileentity.machines;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -120,7 +121,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<String> getWailaInfo(List<String> currenttip) {
+	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add(FontHelper.translate("points.hunger") + ": " + storedpoints);
 		return currenttip;
 	}

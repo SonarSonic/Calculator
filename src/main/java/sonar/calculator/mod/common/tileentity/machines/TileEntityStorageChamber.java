@@ -79,14 +79,17 @@ public class TileEntityStorageChamber extends TileEntityInventory implements IGu
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
-			circuitType = CircuitType.valueOf(nbt.getString("circuitType"));
+			if(!nbt.hasKey("key")){
+				resetCircuitType();
+			}
+			circuitType = CircuitType.values()[nbt.getInteger("type")];
 			if (circuitType == null) {
 				circuitType = CircuitType.None;
 			}
 		}
 		if (type.isType(SyncType.DROP)) {
 			inv.readData(nbt, SyncType.SAVE);
-			circuitType = CircuitType.valueOf(nbt.getString("circuitType"));
+			circuitType = CircuitType.values()[nbt.getInteger("type")];
 			if (circuitType == null) {
 				circuitType = CircuitType.None;
 			}
@@ -96,11 +99,11 @@ public class TileEntityStorageChamber extends TileEntityInventory implements IGu
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
-			nbt.setString("circuitType", circuitType.name());
+			nbt.setInteger("type", circuitType.ordinal());
 		}
 		if (type.isType(SyncType.DROP)) {
 			inv.writeData(nbt, SyncType.SAVE);
-			nbt.setString("circuitType", circuitType.name());
+			nbt.setInteger("type", circuitType.ordinal());
 		}
 		return nbt;
 	}
