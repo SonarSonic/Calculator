@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
@@ -14,16 +12,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiAdvancedGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityBuildingGreenhouse;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
-import sonar.core.api.SonarAPI;
-import sonar.core.helpers.FontHelper;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.helpers.RenderHelper;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse implements ISidedInventory, IGuiTile {

@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
+import sonar.core.api.SonarAPI;
 import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerBasicGreenhouse extends ContainerSync {
 	private TileEntityBasicGreenhouse entity;
@@ -72,7 +72,7 @@ public class ContainerBasicGreenhouse extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 4, 5, false)) {
 						return null;
 					}
-				} else if (itemstack1.getItem() instanceof IEnergyContainerItem) {
+				} else if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
 					if (!mergeItemStack(itemstack1, 4, 5, false)) {
 						return null;
 					}

@@ -1,6 +1,7 @@
 package sonar.calculator.mod.common.item.misc;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -25,17 +26,21 @@ public class Grenade extends SonarItem {
 		if (!player.capabilities.isCreativeMode) {
 			stack.stackSize -= 1;
 		}
-		world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.fizz")), SoundCategory.PLAYERS, 0.7F, 0.8F);
+		world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.tnt.primed")), SoundCategory.PLAYERS, 0.7F, 0.8F);
 
 		if (!world.isRemote) {
+
+			EntityThrowable entity = null;
 			switch (type) {
 			case 0:
-				world.spawnEntityInWorld(new EntityBabyGrenade(world, player));
+				entity = new EntityBabyGrenade(world, player);
 				break;
 			case 1:
-				world.spawnEntityInWorld(new EntityGrenade(world, player));
+				entity = new EntityGrenade(world, player);
 				break;
 			}
+			entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+            world.spawnEntityInWorld(entity);
 		}
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);

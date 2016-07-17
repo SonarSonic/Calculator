@@ -8,8 +8,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
 import sonar.core.api.SonarAPI;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.IMachineSides;
 import sonar.core.utils.MachineSideConfig;
@@ -58,19 +58,17 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	}
 
 	@Override
-	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-		if (from==null || sides.getSideConfig(from).isInput()) {
-			return storage.receiveEnergy(maxReceive, simulate);
+	public EnergyMode getModeForSide(EnumFacing side) {
+		if (side != null) {
+			if (sides.getSideConfig(side).isInput()) {
+				return EnergyMode.RECIEVE;
+			} else if (sides.getSideConfig(side).isOutput()) {
+				return EnergyMode.RECIEVE;
+			}else{
+				return EnergyMode.BLOCKED;
+			}
 		}
-		return 0;
-	}
-
-	@Override
-	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-		if (from==null || sides.getSideConfig(from).isOutput()) {
-			return storage.extractEnergy(maxExtract, simulate);
-		}
-		return 0;
+		return super.getModeForSide(side);
 	}
 
 	@Override

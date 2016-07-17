@@ -18,7 +18,6 @@ import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RecipeHelper;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 

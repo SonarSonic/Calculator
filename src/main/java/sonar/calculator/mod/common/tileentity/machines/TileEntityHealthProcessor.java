@@ -18,7 +18,6 @@ import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 

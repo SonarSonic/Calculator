@@ -6,9 +6,9 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
+import sonar.core.api.SonarAPI;
 import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerFlawlessGreenhouse extends ContainerSync {
 	
@@ -51,7 +51,7 @@ public class ContainerFlawlessGreenhouse extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}
-				}else if (itemstack1.getItem() instanceof IEnergyContainerItem) {
+				}else if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}

@@ -67,7 +67,7 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 
 	@Override
 	public void onModuleActivated(ItemStack stack, NBTTagCompound tag, World world, EntityPlayer player) {
-		if (isEnergyAvailable(stack, player, world, 1) || this == storage) {
+		if (!requiresEnergy || isEnergyAvailable(stack, player, world, 1)/* || this == storage*/) {
 			if (!world.isRemote) {
 				player.openGui(Calculator.instance, ID, world, -1000, -1000, -1000);
 			}

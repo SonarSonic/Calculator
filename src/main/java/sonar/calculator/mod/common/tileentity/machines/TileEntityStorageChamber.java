@@ -79,9 +79,11 @@ public class TileEntityStorageChamber extends TileEntityInventory implements IGu
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
+			/*
 			if(!nbt.hasKey("key")){
 				resetCircuitType();
 			}
+			*/
 			circuitType = CircuitType.values()[nbt.getInteger("type")];
 			if (circuitType == null) {
 				circuitType = CircuitType.None;

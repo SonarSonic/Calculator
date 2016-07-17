@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.modules.IModuleEnergy;
+import sonar.core.api.utils.ActionType;
 
 public class EnergyModule implements IModuleEnergy {
 
@@ -22,36 +23,36 @@ public class EnergyModule implements IModuleEnergy {
 		return "Energy Module";
 	}
 
-	public int receiveEnergy(ItemStack container, NBTTagCompound tag, int maxReceive, boolean simulate) {
-		int energy = tag.getInteger("Energy");
-		int energyReceived = Math.min(getMaxEnergyStored(container, tag) - energy, Math.min(getMaxEnergyStored(container, tag) / 10, maxReceive));
+	public long receiveEnergy(ItemStack container, NBTTagCompound tag, long maxReceive, ActionType action) {
+		long energy = tag.getLong("Energy");
+		long energyReceived = Math.min(getMaxEnergyStored(container, tag) - energy, Math.min(getMaxEnergyStored(container, tag) / 10, maxReceive));
 
-		if (!simulate) {
+		if (!action.shouldSimulate()) {
 			energy += energyReceived;
-			tag.setInteger("Energy", energy);
+			tag.setLong("Energy", energy);
 		}
 		return energyReceived;
 	}
 
-	public int extractEnergy(ItemStack container, NBTTagCompound tag, int maxExtract, boolean simulate) {
+	public long extractEnergy(ItemStack container, NBTTagCompound tag, long maxExtract, ActionType action) {
 		if ((!tag.hasKey("Energy"))) {
 			return 0;
 		}
-		int energy = tag.getInteger("Energy");
-		int energyExtracted = Math.min(energy, Math.min(getMaxEnergyStored(container, tag) / 10, maxExtract));
+		long energy = tag.getLong("Energy");
+		long energyExtracted = Math.min(energy, Math.min(getMaxEnergyStored(container, tag) / 10, maxExtract));
 
-		if (!simulate) {
+		if (!action.shouldSimulate()) {
 			energy -= energyExtracted;
-			tag.setInteger("Energy", energy);
+			tag.setLong("Energy", energy);
 		}
 		return energyExtracted;
 	}
 
-	public int getEnergyStored(ItemStack container, NBTTagCompound tag) {
-		return tag.getInteger("Energy");
+	public long getEnergyStored(ItemStack container, NBTTagCompound tag) {
+		return tag.getLong("Energy");
 	}
 
-	public int getMaxEnergyStored(ItemStack container, NBTTagCompound tag) {
+	public long getMaxEnergyStored(ItemStack container, NBTTagCompound tag) {
 		return CalculatorConfig.getInteger("Energy Module");
 	}
 

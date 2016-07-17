@@ -56,6 +56,11 @@ public class GuiFabricationChamber extends GuiContainer {
 		for (int i = 0; i < getViewableSize(); i++) {
 			drawSelectionBackground(offsetTop, i, pos);
 		}
+
+		if (chamber.currentFabricateTime != 0) {
+			int l = chamber.currentFabricateTime * 23 / chamber.fabricateTime;
+			drawTexturedModalRect(this.guiLeft + 84 + 10, this.guiTop + 89, 176, 16, l, 16);
+		}
 	}
 
 	@Override
@@ -68,7 +73,7 @@ public class GuiFabricationChamber extends GuiContainer {
 		scrollerStart = this.guiTop + 6;
 		scrollerEnd = scrollerStart + 74;
 		scrollerWidth = 10;
-		this.buttonList.add(new GuiButton(0, guiLeft+36, guiTop+87, 60, 20, "Fabricate"));
+		this.buttonList.add(new GuiButton(0, guiLeft+26, guiTop+87, 60, 20, "Fabricate"));
 	}
 
 	public int getDataPosition() {

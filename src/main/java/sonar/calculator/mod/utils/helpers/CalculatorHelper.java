@@ -7,9 +7,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
+import sonar.core.api.SonarAPI;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class CalculatorHelper {
 
@@ -33,12 +33,14 @@ public class CalculatorHelper {
 	public static boolean canProvideEnergy(ItemStack stack){
 		if (DischargeValues.getValueOf(stack) > 0) {
 			return true;
-		} else if (stack.getItem() instanceof IEnergyContainerItem) {
+		} 
+		
+		else if (SonarAPI.getEnergyHelper().canTransferEnergy(stack)!=null){
 			return true;
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Adds stored Item Level for Generators to the Tool Tip
 	 * @param stack Item that will feature list

@@ -69,8 +69,8 @@ public class RenderFabricationChamber extends TileEntitySpecialRenderer<TileEnti
 			if (!Minecraft.getMinecraft().getRenderItem().shouldRenderItemIn3D(tileentity.selected )) {
 				GL11.glRotated(90, 1, 0, 0);
 				GL11.glTranslated(0, -0.0, 0);
-				GL11.glScaled(0.5, 0.5, 0.5);
-				GL11.glTranslated(-0.98, -1, 1.05);
+				GL11.glScaled(0.7, 0.7, 0.7);
+				GL11.glTranslated(-0.72, -0.84, 0.74);
 				Minecraft.getMinecraft().getRenderItem().renderItem(tileentity.selected , TransformType.GROUND);
 			} else {
 				GL11.glRotated(180, 1, 0, 0);

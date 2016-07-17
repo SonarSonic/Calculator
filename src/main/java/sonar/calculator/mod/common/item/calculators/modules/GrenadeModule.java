@@ -1,6 +1,7 @@
 package sonar.calculator.mod.common.item.calculators.modules;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -35,9 +36,11 @@ public class GrenadeModule extends ModuleBase implements IModuleClickable {
 	public void onModuleActivated(ItemStack stack, NBTTagCompound tag, World world, EntityPlayer player) {
 		if (isEnergyAvailable(stack, player, world, 10000)) {
 			if (CalculatorConfig.enableGrenades) {
-				world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.fizz")), SoundCategory.PLAYERS, 0.7F, 0.8F);
+				world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.tnt.primed")), SoundCategory.PLAYERS, 0.7F, 0.8F);
 				if (!world.isRemote) {
-					world.spawnEntityInWorld(new EntityGrenade(world, player));
+					EntityGrenade entity = new EntityGrenade(world, player);
+					entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+		            world.spawnEntityInWorld(entity);
 					this.extractEnergy(stack, player, 10000, false);
 				}
 			} else {

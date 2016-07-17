@@ -40,12 +40,12 @@ public class SlotPortableResult extends SlotPortable {
 
 	@Override
 	public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
-		this.container.removeEnergy();
+		this.container.removeEnergy(stack!=null ? stack.stackSize : 1);
 		for (int i = 0; i < this.craftSlots.length; ++i) {
 			ItemStack itemstack1 = this.invItem.getStackInSlot(craftSlots[i]);
 
 			if (itemstack1 != null) {
-				this.decrIngredientSize(craftSlots[i], 1);
+				decrIngredientSize(craftSlots[i], 1);
 				if (itemstack1.getItem().hasContainerItem(itemstack1)) {
 					ItemStack itemstack2 = itemstack1.getItem().getContainerItem(itemstack1);
 

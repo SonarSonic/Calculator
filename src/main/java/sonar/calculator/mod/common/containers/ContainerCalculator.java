@@ -10,8 +10,9 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
+import sonar.core.api.SonarAPI;
+import sonar.core.api.utils.ActionType;
 import sonar.core.common.item.InventoryItem;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerCalculator extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
@@ -47,16 +48,12 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 		inventory.setInventorySlotContents(2, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1)), isRemote);
 	}
 
-	public void removeEnergy() {
+	public void removeEnergy(int remove) {
 		if (!this.isRemote) {
 			if (player.capabilities.isCreativeMode) {
 				return;
 			}
-			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof IEnergyContainerItem) {
-				IEnergyContainerItem energy = (IEnergyContainerItem) player.getHeldItemMainhand().getItem();
-				energy.extractEnergy(player.getHeldItemMainhand(), 1, false);
-				int stored = energy.getEnergyStored(player.getHeldItemMainhand()) - 1;
-			}
+			SonarAPI.getEnergyHelper().extractEnergy(player.getHeldItemMainhand(), remove, ActionType.PERFORM);
 		}
 	}
 

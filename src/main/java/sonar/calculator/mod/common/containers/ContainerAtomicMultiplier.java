@@ -6,10 +6,10 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
+import sonar.core.api.SonarAPI;
 import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerAtomicMultiplier extends ContainerSync {
 
@@ -74,7 +74,7 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 9, 10, false)) {
 						return null;
 					}
-				} else if (itemstack1.getItem() instanceof IEnergyContainerItem) {
+				} else if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
 					if (!mergeItemStack(itemstack1, 9, 10, false)) {
 						return null;
 					}

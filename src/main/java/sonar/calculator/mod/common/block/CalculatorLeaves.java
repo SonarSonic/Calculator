@@ -68,12 +68,12 @@ public class CalculatorLeaves extends BlockLeaves implements IShearable {
 
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-
 		int blocks = 0;
 		for (int i = 0; i < EnumFacing.VALUES.length; i++) {
 			EnumFacing dir = EnumFacing.VALUES[i];
-			Block block = world.getBlockState(pos.offset(dir)).getBlock();
-			if (!block.isAir(state, world, pos)) {
+			IBlockState neighbour = world.getBlockState(pos.offset(dir));
+			Block block = neighbour.getBlock();
+			if (!block.isAir(neighbour, world, pos)) {
 				blocks++;
 			}
 		}
@@ -97,7 +97,7 @@ public class CalculatorLeaves extends BlockLeaves implements IShearable {
 
 	@Override
 	public int tickRate(World world) {
-		return 10;
+		return 8;
 	}
 	
 	@Override

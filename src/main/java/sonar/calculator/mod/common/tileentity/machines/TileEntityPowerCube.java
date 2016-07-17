@@ -4,9 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
 import sonar.calculator.mod.common.containers.ContainerPowerCube;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityPowerCube extends TileEntityEnergyInventory implements IGuiTile {

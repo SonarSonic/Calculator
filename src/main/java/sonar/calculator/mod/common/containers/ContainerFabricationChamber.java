@@ -15,7 +15,7 @@ public class ContainerFabricationChamber extends ContainerSync {
 		super(entity);
 		this.entity = entity;
 
-		addSlotToContainer(new SlotBlockedInventory(entity, 0, 115, 89));
+		addSlotToContainer(new SlotBlockedInventory(entity, 0, 115+18, 89));
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

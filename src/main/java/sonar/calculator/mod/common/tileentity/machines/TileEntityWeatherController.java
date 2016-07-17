@@ -6,11 +6,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
 

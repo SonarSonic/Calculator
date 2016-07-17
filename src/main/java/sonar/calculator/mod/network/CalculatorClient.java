@@ -5,6 +5,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import sonar.calculator.mod.BlockRenderRegister;
 import sonar.calculator.mod.ItemRenderRegister;
 import sonar.calculator.mod.client.renderers.RenderAnalysingChamber;
+import sonar.calculator.mod.client.renderers.RenderCalculatorLocatorBeam;
 import sonar.calculator.mod.client.renderers.RenderChamber;
 import sonar.calculator.mod.client.renderers.RenderCrank;
 import sonar.calculator.mod.client.renderers.RenderFabricationChamber;
@@ -17,6 +18,7 @@ import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.calculator.mod.common.tileentity.TileEntityMachine;
+import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
@@ -44,6 +46,7 @@ public class CalculatorClient extends CalculatorCommon{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFabricationChamber.class, new RenderFabricationChamber());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityReinforcedChest.class, new RenderReinforcedChest());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConductorMast.class, new RenderHandlers.ConductorMast());
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalculatorLocator.class, new RenderCalculatorLocatorBeam());
 		/*
 		TileEntitySpecialRenderer plug = new RenderCalculatorPlug();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalculatorPlug.class, plug);

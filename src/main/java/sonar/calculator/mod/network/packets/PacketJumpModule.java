@@ -17,7 +17,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import sonar.calculator.mod.api.items.IModuleProvider;
 import sonar.core.SonarCore;
-import cofh.api.energy.IEnergyContainerItem;
+import sonar.core.api.SonarAPI;
+import sonar.core.api.utils.ActionType;
 
 public class PacketJumpModule implements IMessage {
 
@@ -51,13 +52,15 @@ public class PacketJumpModule implements IMessage {
 				if (message.pos.getY() <= 0) {
 					return null;
 				}
-				if (held != null && held.getItem() instanceof IModuleProvider && held.getItem() instanceof IEnergyContainerItem) {
-					IEnergyContainerItem item = (IEnergyContainerItem) held.getItem();
-					if (player.capabilities.isCreativeMode || item.getEnergyStored(held) > 1000) {
+				if (held != null && held.getItem() instanceof IModuleProvider && SonarAPI.getEnergyHelper().canTransferEnergy(held)!=null) {
+					//IEnergyContainerItem item = (IEnergyContainerItem) held.getItem();
+					long maxRemove = SonarAPI.getEnergyHelper().extractEnergy(held, 1000, ActionType.SIMULATE);
+					if (player.capabilities.isCreativeMode || maxRemove >= 1000) {
 						player.setPositionAndUpdate(message.pos.getX() + 0.5, message.pos.getY() + 1, message.pos.getZ() + 0.5);
 						player.getEntityWorld().playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("mob.endermen.portal")), SoundCategory.HOSTILE, 1.0F, 1.0F);
-						if (!player.capabilities.isCreativeMode)
-							item.extractEnergy(held, 1000, true);
+						if (!player.capabilities.isCreativeMode){
+							SonarAPI.getEnergyHelper().extractEnergy(held, 1000, ActionType.PERFORM);
+						}
 						return new PacketJumpModule(message.pos);
 					}
 				}

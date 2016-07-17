@@ -12,19 +12,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.generators.GuiCalculatorPlug;
-import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorPlug;
 import sonar.calculator.mod.common.containers.ContainerCalculatorPlug;
-import sonar.core.SonarCore;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
-
-import com.google.common.collect.Lists;
 
 public class TileEntityCalculatorPlug extends TileEntityInventory implements IGuiTile, IByteBufTile {
 

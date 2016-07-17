@@ -1,6 +1,5 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -18,12 +17,11 @@ import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.ISyncPart;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 
@@ -225,11 +223,14 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	}
 
 	@Override
-	public boolean canConnectEnergy(EnumFacing direction) {
-		if (direction == EnumFacing.DOWN) {
-			return true;
+	public EnergyMode getModeForSide(EnumFacing side) {
+		if(side == null){
+			return EnergyMode.SEND_RECIEVE;
 		}
-		return false;
+		if (side == EnumFacing.DOWN) {
+			return EnergyMode.SEND;
+		}
+		return EnergyMode.BLOCKED;
 	}
 
 	public static void setWeatherStationAngles(boolean packet, World world, BlockPos pos) {

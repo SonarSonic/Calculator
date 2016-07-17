@@ -10,12 +10,13 @@ import sonar.core.network.PacketTileEntityHandler;
 
 public class PacketCalculatorScreen extends PacketCoords {
 
-	public int type, energy;
+	public int type;
+	public long energy;
 
 	public PacketCalculatorScreen() {
 	}
 
-	public PacketCalculatorScreen(BlockPos pos, int type, int energy) {
+	public PacketCalculatorScreen(BlockPos pos, int type, long energy) {
 		super(pos);
 		this.type = type;
 		this.energy = energy;
@@ -25,14 +26,14 @@ public class PacketCalculatorScreen extends PacketCoords {
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
 		this.type = buf.readInt();
-		this.energy = buf.readInt();
+		this.energy = buf.readLong();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
 		buf.writeInt(type);
-		buf.writeInt(energy);
+		buf.writeLong(energy);
 	}
 
 	public static class Handler extends PacketTileEntityHandler<PacketCalculatorScreen> {

@@ -65,6 +65,11 @@ public class TileEntityMachine {
 			return new ItemStack[] { FurnaceRecipes.instance().getSmeltingResult(stacks[0]) };
 		}
 
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiSmeltingBlock.ReinforcedFurnace(player.inventory, this);
+		}
+
 	}
 
 	public static class StoneSeperator extends DualOutput {
@@ -76,6 +81,11 @@ public class TileEntityMachine {
 		@Override
 		public RecipeHelper recipeHelper() {
 			return StoneSeparatorRecipes.instance();
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiDualOutputSmelting.StoneSeperator(player.inventory, this);
 		}
 	}
 
@@ -91,6 +101,11 @@ public class TileEntityMachine {
 			return ReassemblyChamberRecipes.instance();
 		}
 
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiSmeltingBlock.ReassemblyChamber(player.inventory, this);
+		}
+
 	}
 
 	public static class RestorationChamber extends SingleOutput {
@@ -103,6 +118,11 @@ public class TileEntityMachine {
 		public RecipeHelper recipeHelper() {
 			return RestorationChamberRecipes.instance();
 		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiSmeltingBlock.RestorationChamber(player.inventory, this);
+		}
 	}
 
 	public static class ProcessingChamber extends SingleOutput {
@@ -114,6 +134,11 @@ public class TileEntityMachine {
 		@Override
 		public RecipeHelper recipeHelper() {
 			return ProcessingChamberRecipes.instance();
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiSmeltingBlock.ProcessingChamber(player.inventory, this);
 		}
 	}
 
@@ -128,6 +153,11 @@ public class TileEntityMachine {
 		public RecipeHelper recipeHelper() {
 			return AlgorithmSeparatorRecipes.instance();
 		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiDualOutputSmelting.AlgorithmSeperator(player.inventory, this);
+		}
 	}
 
 	public static class ExtractionChamber extends DualOutput {
@@ -139,6 +169,11 @@ public class TileEntityMachine {
 		@Override
 		public RecipeHelper recipeHelper() {
 			return ExtractionChamberRecipes.instance();
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, this);
 		}
 
 		public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {
@@ -161,6 +196,11 @@ public class TileEntityMachine {
 		@Override
 		public RecipeHelper recipeHelper() {
 			return PrecisionChamberRecipes.instance();
+		}
+
+		@Override
+		public Object getGuiScreen(EntityPlayer player) {
+			return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, this);
 		}
 
 		public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {

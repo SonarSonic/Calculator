@@ -2,7 +2,6 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,7 +17,6 @@ import sonar.calculator.mod.research.types.RecipeResearch;
 import sonar.calculator.mod.research.types.ResearchTypes;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 

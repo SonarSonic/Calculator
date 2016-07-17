@@ -17,17 +17,15 @@ import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
 import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
 import sonar.core.api.SonarAPI;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.upgrades.IUpgradableTile;
 import sonar.core.api.utils.BlockCoords;
-import sonar.core.common.tileentity.TileEntityEnergy.EnergyMode;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.ISyncPart;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.upgrades.UpgradeInventory;
 import sonar.core.utils.IGuiTile;
@@ -223,11 +221,14 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	}
 
 	@Override
-	public boolean canConnectEnergy(EnumFacing from) {
-		if (from == EnumFacing.DOWN) {
-			return true;
+	public EnergyMode getModeForSide(EnumFacing side) {
+		if(side == null){
+			return EnergyMode.SEND_RECIEVE;
 		}
-		return false;
+		if (side == EnumFacing.DOWN) {
+			return EnergyMode.SEND;
+		}
+		return EnergyMode.BLOCKED;
 	}
 
 	@Override

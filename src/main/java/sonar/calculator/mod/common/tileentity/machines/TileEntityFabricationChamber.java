@@ -23,6 +23,7 @@ import sonar.core.api.SonarAPI;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.api.utils.ActionType;
 import sonar.core.api.utils.BlockCoords;
+import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
@@ -63,13 +64,16 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 					currentFabricateTime++;
 					if (this.isClient()) {
 						if ((currentFabricateTime & 1) == 0 && ((currentFabricateTime / 2) & 1) == 0) {
-							EnumFacing face = EnumFacing.getFront(getBlockMetadata());
+							EnumFacing face = worldObj.getBlockState(getPos()).getValue(SonarBlock.FACING);
 							int fX = face.getFrontOffsetX();
 							int fZ = face.getFrontOffsetZ();
+							//TODO
 							//worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + fX == -1 ? 0.62 : 0.38, pos.getY() + 0.6F, pos.getZ() + (fZ == 0 ? 0.38 : 0.62), 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + 0.38 + (0.25 *face.getFrontOffsetZ()), pos.getY() + 0.6F, pos.getZ() + 0.38 + (0.25 *face.getFrontOffsetZ()), 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.38, pos.getY() + 0.6F, pos.getZ() + 0.38, 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.38, pos.getY() + 0.6F, pos.getZ() + 0.38 + 0.25, 0.0D, 0.0D, 0.0D);
+							//worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + 0.38 + (0.25 *face.getFrontOffsetZ()), pos.getY() + 0.6F, pos.getZ() + 0.38 + (0.25 *face.getFrontOffsetZ()), 0.0D, 0.0D, 0.0D);
+							//worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
+							//worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 + 0.25 * fZ, 0.0D, 0.0D, 0.0D);
+							//worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
+
 						}
 					}
 				} else {

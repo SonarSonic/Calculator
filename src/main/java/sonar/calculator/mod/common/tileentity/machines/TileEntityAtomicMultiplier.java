@@ -13,13 +13,12 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.machines.GuiAtomicMultiplier;
 import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.utils.AtomicMultiplierBlacklist;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.ISyncPart;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 

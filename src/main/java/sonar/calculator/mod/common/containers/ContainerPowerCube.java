@@ -5,9 +5,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
+import sonar.core.api.SonarAPI;
 import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerPowerCube extends ContainerSync {
 	private TileEntityPowerCube entity;
@@ -40,8 +40,7 @@ public class ContainerPowerCube extends ContainerSync {
 			itemstack = itemstack1.copy();
 
 			if ((p_82846_2_ != 1) && (p_82846_2_ != 0)) {
-
-				if (itemstack1.getItem() instanceof IEnergyContainerItem) {
+				if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
 					if (!mergeItemStack(itemstack1, 0, 2, false)) {
 						return null;
 					}

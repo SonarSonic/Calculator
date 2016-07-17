@@ -17,29 +17,32 @@ import net.minecraft.world.gen.feature.WorldGenBigTree;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.common.block.MaterialBlock.Variants;
 import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
 
 public class CalculatorSaplings extends BlockBush implements IGrowable {
-	
+
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
 
-	int type;
+	public int type;
 
 	public CalculatorSaplings(int i) {
-		this.type=i;
+		this.type = i;
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, Integer.valueOf(0)));
 		float f = 0.4F;
 	}
 
-			
-	@Override
-	public boolean canPlaceTorchOnTop(IBlockState block, IBlockAccess world, BlockPos pos) {
-		return type == 3 ? block == Calculator.material_block: super.canPlaceTorchOnTop(block, world, pos);
+	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+		IBlockState soil = worldIn.getBlockState(pos.down());
+		return type != 3 ? (super.canPlaceBlockAt(worldIn, pos) && soil.getBlock().canSustainPlant(soil, worldIn, pos.down(), net.minecraft.util.EnumFacing.UP, this)) : (soil.getBlock() == Calculator.material_block && soil.getValue(MaterialBlock.VARIANTS) == Variants.END_DIAMOND);
 	}
 
-	@Override
-	public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
-		return type == 3 ? canPlaceTorchOnTop(world.getBlockState(pos.offset(EnumFacing.DOWN)), world, pos) : super.canBlockStay(world, pos, state);
+	public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+		return type == 3 ? this.canSustainBush(worldIn.getBlockState(pos.down())) : super.canBlockStay(worldIn, pos, state);
+	}
+
+	protected boolean canSustainBush(IBlockState state) {
+		return type != 3 ? (state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.FARMLAND) : (state.getBlock() == Calculator.material_block && state.getValue(MaterialBlock.VARIANTS) == Variants.END_DIAMOND);
 	}
 
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
@@ -56,7 +59,7 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 		if (((Integer) state.getValue(STAGE)).intValue() == 0) {
 			worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
 		} else {
-			this.generateTree(worldIn, pos, state, rand);
+			generateTree(worldIn, pos, state, rand);
 		}
 	}
 

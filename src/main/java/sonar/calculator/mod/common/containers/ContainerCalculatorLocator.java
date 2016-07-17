@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.utils.SlotLocatorModule;
+import sonar.core.api.SonarAPI;
 import sonar.core.inventory.ContainerSync;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerCalculatorLocator extends ContainerSync {
 	private TileEntityCalculatorLocator entity;
@@ -41,7 +41,7 @@ public class ContainerCalculatorLocator extends ContainerSync {
 			itemstack = itemstack1.copy();
 
 			if ((id != 1) && (id != 0)) {
-				if ((itemstack1.getItem() instanceof IEnergyContainerItem)) {
+				if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}

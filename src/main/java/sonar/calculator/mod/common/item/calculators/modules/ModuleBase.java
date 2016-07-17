@@ -5,8 +5,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.api.modules.IModule;
+import sonar.core.api.SonarAPI;
+import sonar.core.api.energy.EnergyType;
+import sonar.core.api.utils.ActionType;
 import sonar.core.helpers.FontHelper;
-import cofh.api.energy.IEnergyContainerItem;
 
 public abstract class ModuleBase implements IModule {
 
@@ -27,38 +29,23 @@ public abstract class ModuleBase implements IModule {
 		return toReturn;
 	}
 
-	protected final int receiveEnergy(ItemStack container, Entity entity, int maxReceive, boolean simulate) {
-		if (container.getItem() instanceof IEnergyContainerItem) {
-			IEnergyContainerItem item = (IEnergyContainerItem) container.getItem();
-			return item.receiveEnergy(container, maxReceive, simulate);
-		}
-		return 0;
+	protected final long receiveEnergy(ItemStack container, Entity entity, long maxReceive, boolean simulate) {
+		return (int) SonarAPI.getEnergyHelper().receiveEnergy(container, maxReceive, ActionType.getTypeForAction(simulate));
 	}
 
-	protected final int extractEnergy(ItemStack container, Entity entity, int maxExtract, boolean simulate) {
+	protected final long extractEnergy(ItemStack container, Entity entity, long maxExtract, boolean simulate) {
 		if (!isCreativeMode(entity)) {
-			if (container.getItem() instanceof IEnergyContainerItem) {
-				IEnergyContainerItem item = (IEnergyContainerItem) container.getItem();
-				return item.extractEnergy(container, maxExtract, simulate);
-			}
+			return (int) SonarAPI.getEnergyHelper().extractEnergy(container, maxExtract, ActionType.getTypeForAction(simulate));
 		}
 		return 0;
 	}
 
-	protected final int getEnergyStored(ItemStack container, Entity entity) {
-		if (container.getItem() instanceof IEnergyContainerItem) {
-			IEnergyContainerItem item = (IEnergyContainerItem) container.getItem();
-			return item.getEnergyStored(container);
-		}
-		return 0;
+	protected final long getEnergyStored(ItemStack container, Entity entity) {
+		return SonarAPI.getEnergyHelper().getEnergyStored(container, EnergyType.RF).stored;
 	}
 
-	protected final int getMaxEnergyStored(ItemStack container, Entity entity) {
-		if (container.getItem() instanceof IEnergyContainerItem) {
-			IEnergyContainerItem item = (IEnergyContainerItem) container.getItem();
-			return item.getMaxEnergyStored(container);
-		}
-		return 0;
+	protected final long getMaxEnergyStored(ItemStack container, Entity entity) {
+		return SonarAPI.getEnergyHelper().getEnergyStored(container, EnergyType.RF).capacity;
 	}
 
 }

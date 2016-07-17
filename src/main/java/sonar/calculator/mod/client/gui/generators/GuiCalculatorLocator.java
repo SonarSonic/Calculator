@@ -27,7 +27,7 @@ public class GuiCalculatorLocator extends GuiContainer {
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		int size = entity.size.getObject();
 		int stability = entity.stability.getObject();
-		FontHelper.text(FontHelper.translate("locator.active") + ": " + (entity.active.getObject() ? FontHelper.formatOutput(entity.currentOutput()) : FontHelper.translate("locator.false")), 25, 10, entity.active.getObject() ? 0 : 2);
+		FontHelper.text(FontHelper.translate("locator.active") + ": " + (entity.active.getObject() ? FontHelper.formatOutput(entity.currentGen.getObject()) : FontHelper.translate("locator.false")), 25, 10, entity.active.getObject() ? 0 : 2);
 		FontHelper.text(FontHelper.translate("locator.multiblock") + ": " + (size != 0 ? FontHelper.translate("locator.true") : FontHelper.translate("locator.false")), 25, 21, size != 0 ? 0 : 2);
 		FontHelper.text(FontHelper.translate("locator.owner") + ": " + (!entity.owner.equals("None") ? entity.getOwner() : FontHelper.translate("locator.none")), 25, 32, !this.entity.owner.equals("None") ? 0 : 2);
 		FontHelper.text(FontHelper.translate("circuit.stability") + ": " + (size != 0 ? (stability == 0 || size == 0) ? 0 + "%" : String.valueOf(entity.getStabilityPercent()) + "%" : FontHelper.translate("locator.unknown")), 25, 43, !(stability == 0 || size == 0) ? 0 : 2);

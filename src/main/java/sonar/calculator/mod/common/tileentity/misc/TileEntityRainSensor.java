@@ -13,16 +13,9 @@ public class TileEntityRainSensor extends TileEntity implements ITickable {
 			boolean meta = state.getValue(RainSensor.bool);
 			boolean current = this.worldObj.isRaining();
 			if(meta!=current){
-				this.worldObj.setBlockState(pos, state.withProperty(RainSensor.bool, current), 3);
+				this.worldObj.setBlockState(pos, state.withProperty(RainSensor.bool, current), 2);
+				this.worldObj.notifyNeighborsOfStateChange(pos, blockType);
 			}
-		}
-	}
-
-	public int getMeta() {
-		if (this.worldObj.isRaining()) {
-			return 15;
-		} else {
-			return 1;
 		}
 	}
 

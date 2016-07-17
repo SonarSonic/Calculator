@@ -5,9 +5,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
-import sonar.core.energy.DischargeValues;
+import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.inventory.ContainerSync;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerSmeltingBlock extends ContainerSync {
 	private TileEntityAbstractProcess entity;
@@ -51,11 +50,7 @@ public class ContainerSmeltingBlock extends ContainerSync {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}
-				} else if (DischargeValues.getValueOf(itemstack1) > 0) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if (itemstack1.getItem() instanceof IEnergyContainerItem) {
+				} else if (CalculatorHelper.canProvideEnergy(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}

@@ -54,7 +54,7 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 		inventory.setInventorySlotContents(9, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(inventory.getStackInSlot(6), inventory.getStackInSlot(7), inventory.getStackInSlot(8)), isRemote);
 	}
 
-	public void removeEnergy() {
+	public void removeEnergy(int remove) {
 
 	}
 
@@ -132,7 +132,7 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 	}
 
 	@Override
-    public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player){
+	public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player) {
 		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
 			return null;
 		}

@@ -63,17 +63,20 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			if (upgrades.getUpgradesInstalled("TRANSFER") > 0) {
 				transferItems();
 			}
+			/*
 			boolean oldPause = paused.getObject();
-			if (this.worldObj.isBlockIndirectlyGettingPowered(pos) > 0) {
+			if (this.worldObj.getStrongPower(getPos())==15) {
 				this.paused.setObject(false);
 				this.markDirty();
 				return;
 			} else {
 				this.paused.setObject(true);
 			}
+			
 			if (oldPause != paused.getObject()) {
 				this.onPause();
 			}
+			*/
 		}
 		boolean flag = this.isActive();
 
@@ -228,7 +231,9 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	@Override
 	public boolean isPaused() {
-		return invertPaused.getObject() ? paused.getObject() : !paused.getObject();
+		//return invertPaused.getObject() ? paused.getObject() : !paused.getObject();
+		return invertPaused.getObject();
+		//return paused.getObject();
 	}
 
 	public boolean canStack(ItemStack current, ItemStack stack) {
@@ -328,7 +333,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		}
 		if (id == 1) {
 			invertPaused.readFromBuf(buf);
-			onPause();
+			//onPause();
 		}
 		if (id == 2) {
 			invertPaused.readFromBuf(buf);

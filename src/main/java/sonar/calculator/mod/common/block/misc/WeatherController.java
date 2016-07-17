@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -23,7 +24,16 @@ public class WeatherController extends SonarMachineBlock {
 
 	public WeatherController() {
 		super(Material.WOOD, false, true);
-		// this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return RainSensor.sensor;
+	}
+
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+		return RainSensor.sensor;
 	}
 
 	@Override
@@ -34,16 +44,13 @@ public class WeatherController extends SonarMachineBlock {
 		return true;
 	}
 
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-		TileEntity target = world.getTileEntity(pos);
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+		TileEntity target = worldIn.getTileEntity(pos);
 		if (target != null && target instanceof TileEntityWeatherController) {
 			TileEntityWeatherController controller = (TileEntityWeatherController) target;
 			controller.startProcess();
 		}
-	}
 
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
 	}
 
 	public TileEntity createNewTileEntity(World world, int meta) {
@@ -55,20 +62,12 @@ public class WeatherController extends SonarMachineBlock {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
 
-	public boolean isFullCube() {
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
-	}
-
-	public int getRenderType() {
-		return 3;
-	}
-
-	public boolean canProvidePower() {
-		return true;
 	}
 
 }

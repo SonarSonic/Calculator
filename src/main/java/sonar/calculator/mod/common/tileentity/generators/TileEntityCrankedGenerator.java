@@ -6,15 +6,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.generators.GuiCrankedGenerator;
 import sonar.calculator.mod.common.containers.ContainerCrankedGenerator;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.common.tileentity.TileEntityEnergy;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGuiTile {

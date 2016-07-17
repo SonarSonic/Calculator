@@ -27,6 +27,8 @@ import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
 import sonar.calculator.mod.network.CalculatorGui;
+import sonar.core.api.energy.ISonarEnergyItem;
+import sonar.core.api.utils.ActionType;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.item.InventoryItem;
@@ -36,7 +38,7 @@ import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.IGuiItem;
 import cofh.api.energy.IEnergyContainerItem;
 
-public class FlawlessCalculator extends SonarItem implements IItemInventory, IModuleProvider, IEnergyContainerItem, IFlawlessCalculator, IGuiItem {
+public class FlawlessCalculator extends SonarItem implements IItemInventory, IModuleProvider, ISonarEnergyItem, IEnergyContainerItem, IFlawlessCalculator, IGuiItem {
 	public final String invTag = "inv";
 	public final String emptyModule = "";
 	public static final int moduleCapacity = 16;
@@ -186,12 +188,12 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	}
 
 	@Override
-	public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
-		int received = maxReceive;
+	public long addEnergy(ItemStack stack, long maxReceive, ActionType action) {
+		long received = maxReceive;
 		int slot = 0;
-		for (IModule module : (ArrayList<IModule>) getModules(container).clone()) {
+		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				received -= ((IModuleEnergy) module).receiveEnergy(container, container.getSubCompound("" + slot, true), maxReceive, simulate);
+				received -= ((IModuleEnergy) module).receiveEnergy(stack, stack.getSubCompound("" + slot, true), maxReceive, action);
 			}
 			slot++;
 		}
@@ -199,42 +201,61 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	}
 
 	@Override
-	public int extractEnergy(ItemStack container, int maxReceive, boolean simulate) {
-		int extracted = maxReceive;
+	public long removeEnergy(ItemStack stack, long maxExtract, ActionType action) {
+		long extracted = maxExtract;
 		int slot = 0;
-		for (IModule module : (ArrayList<IModule>) getModules(container).clone()) {
+		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				extracted -= ((IModuleEnergy) module).extractEnergy(container, container.getSubCompound("" + slot, true), maxReceive, simulate);
+				extracted -= ((IModuleEnergy) module).extractEnergy(stack, stack.getSubCompound("" + slot, true), maxExtract, action);
 			}
 			slot++;
 		}
-		return maxReceive - extracted;
+		return maxExtract - extracted;
+	}
+
+	@Override
+	public long getEnergyLevel(ItemStack stack) {
+		long stored = 0;
+		int slot = 0;
+		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
+			if (module instanceof IModuleEnergy) {
+				stored += ((IModuleEnergy) module).getEnergyStored(stack, stack.getSubCompound("" + slot, true));
+			}
+			slot++;
+		}
+		return stored;
+	}
+
+	@Override
+	public long getFullCapacity(ItemStack stack) {
+		long stored = 0;
+		int slot = 0;
+		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
+			if (module instanceof IModuleEnergy) {
+				stored += ((IModuleEnergy) module).getMaxEnergyStored(stack, stack.getSubCompound("" + slot, true));
+			}
+			slot++;
+		}
+		return stored;
+	}
+	@Override
+	public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
+		return (int) addEnergy(container, maxReceive, ActionType.getTypeForAction(simulate));
+	}
+
+	@Override
+	public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
+		return (int) removeEnergy(container, maxExtract, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
 	public int getEnergyStored(ItemStack container) {
-		int stored = 0;
-		int slot = 0;
-		for (IModule module : (ArrayList<IModule>) getModules(container).clone()) {
-			if (module instanceof IModuleEnergy) {
-				stored += ((IModuleEnergy) module).getEnergyStored(container, container.getSubCompound("" + slot, true));
-			}
-			slot++;
-		}
-		return stored;
+		return (int)getEnergyLevel(container);
 	}
 
 	@Override
 	public int getMaxEnergyStored(ItemStack container) {
-		int stored = 0;
-		int slot = 0;
-		for (IModule module : (ArrayList<IModule>) getModules(container).clone()) {
-			if (module instanceof IModuleEnergy) {
-				stored += ((IModuleEnergy) module).getMaxEnergyStored(container, container.getSubCompound("" + slot, true));
-			}
-			slot++;
-		}
-		return stored;
+		return (int)getFullCapacity(container);
 	}
 
 	@Override
@@ -314,4 +335,5 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	public boolean hasEffect(ItemStack stack) {
 		return true;
 	}
+
 }

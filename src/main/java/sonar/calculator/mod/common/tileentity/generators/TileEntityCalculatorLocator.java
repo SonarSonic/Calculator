@@ -25,15 +25,13 @@ import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.calculator.mod.api.machines.ICalculatorLocator;
 import sonar.calculator.mod.client.gui.generators.GuiCalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
-import sonar.calculator.mod.common.block.generators.CalculatorPlug;
 import sonar.calculator.mod.common.containers.ContainerCalculatorLocator;
 import sonar.core.SonarCore;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.ISyncPart;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
@@ -45,15 +43,15 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	public SyncTagType.INT size = new SyncTagType.INT(1);
 	public SyncTagType.INT stability = new SyncTagType.INT(2);
 	public SyncTagType.STRING owner = (STRING) new SyncTagType.STRING(3).setDefault("None");
+	public SyncTagType.INT currentGen = new SyncTagType.INT(4);
 	private int sizeTicks, luckTicks;
-		
 
 	public TileEntityCalculatorLocator() {
 		super.storage.setCapacity(25000000).setMaxTransfer(128000);
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 100000;
 		super.energyMode = EnergyMode.SEND;
-		syncParts.addAll(Arrays.asList(active, size, stability, owner));
+		syncParts.addAll(Arrays.asList(active, size, stability, owner, currentGen));
 	}
 
 	@Override
@@ -71,24 +69,26 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		} else if (active.getObject()) {
 			invert = true;
 		}
-		if (!worldObj.isRemote && invert) {
-			this.active.invert();
-		}
+		if (!worldObj.isRemote) {
+			if (invert) {
+				this.active.invert();
+			}
+			if (!(this.sizeTicks >= 25)) {
+				sizeTicks++;
+			} else {
+				sizeTicks = 0;
+				createStructure();
+				getStability();
+			}
 
-		if (!(this.sizeTicks >= 25)) {
-			sizeTicks++;
-		} else {
-			this.sizeTicks = 0;
-			this.createStructure();
-			this.getStability();
+			if (flag != active.getObject()) {
+				worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(CalculatorLocator.ACTIVE, active.getObject()), 2);
+				SonarCore.sendPacketAround(this, 128, 1);
+			}
+			charge(0);
+			addEnergy(EnumFacing.DOWN);
 		}
-		if (!worldObj.isRemote && flag != active.getObject()) {
-			worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(CalculatorLocator.ACTIVE, active.getObject()), 2);
-		}
-
-		this.charge(0);
-		this.addEnergy(EnumFacing.DOWN);
-		this.markDirty();
+		//markDirty();
 	}
 
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
@@ -105,6 +105,9 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	}
 
 	public void getStability() {
+		if (worldObj.isRemote) {
+			return;
+		}
 		int currentStable = 0;
 		if (size.getObject() == 0) {
 			this.stability.setObject(0);
@@ -112,7 +115,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 
 		for (int Z = -(size.getObject()); Z <= (size.getObject()); Z++) {
 			for (int X = -(size.getObject()); X <= (size.getObject()); X++) {
-				TileEntity target = this.worldObj.getTileEntity(pos.add(X, 0, Z));
+				TileEntity target = worldObj.getTileEntity(pos.add(X, 0, Z));
 				if (target != null && target instanceof TileEntityCalculatorPlug) {
 					TileEntityCalculatorPlug plug = (TileEntityCalculatorPlug) target;
 					currentStable += plug.getS();
@@ -141,7 +144,8 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	}
 
 	public void beginGeneration() {
-		storage.modifyEnergyStored(currentOutput());
+		currentGen.setObject(currentOutput());
+		storage.modifyEnergyStored(currentGen.getObject());
 		if (!this.worldObj.isRemote) {
 			if (this.luckTicks >= 0 && this.luckTicks != 50) {
 				this.luckTicks++;
@@ -311,13 +315,16 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		}
 		return nbt;
 	}
-	
+
 	@Override
-	public boolean canConnectEnergy(EnumFacing from) {
-		if (from == EnumFacing.DOWN) {
-			return true;
+	public EnergyMode getModeForSide(EnumFacing side) {
+		if(side == null){
+			return EnergyMode.SEND_RECIEVE;
 		}
-		return false;
+		if (side == EnumFacing.DOWN) {
+			return EnergyMode.SEND;
+		}
+		return EnergyMode.BLOCKED;
 	}
 
 	public boolean maxRender() {

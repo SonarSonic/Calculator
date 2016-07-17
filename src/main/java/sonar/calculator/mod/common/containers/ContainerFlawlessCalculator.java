@@ -46,7 +46,7 @@ public class ContainerFlawlessCalculator extends Container implements ICalculato
 		this.inventory.setInventorySlotContents(4, RecipeRegistry.FlawlessRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3)), isRemote);
 	}
 
-	public void removeEnergy(){
+	public void removeEnergy(int remove){
 		
 	}
 	

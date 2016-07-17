@@ -1,15 +1,15 @@
 package sonar.calculator.mod.common.tileentity.machines;
-
+/*
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import sonar.core.api.SonarAPI;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.common.tileentity.TileEntityEnergy;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.network.sync.SyncEnergyStorage;
 
-/** WIP */
+ W.I.P
 public class TileEntityFlawlessCapacitor extends TileEntityEnergy {
 
 	public int[] output = new int[6];
@@ -63,6 +63,8 @@ public class TileEntityFlawlessCapacitor extends TileEntityEnergy {
 		}
 	}
 
+	
+	
 	@Override
 	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
 		if (output.length == 0 || output == null) {
@@ -79,3 +81,4 @@ public class TileEntityFlawlessCapacitor extends TileEntityEnergy {
 	}
 
 }
+*/

@@ -6,16 +6,15 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
+import sonar.core.api.SonarAPI;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class ContainerAnalysingChamber extends ContainerSync {
-	
+
 	private TileEntityAnalysingChamber entity;
-	
-	public ContainerAnalysingChamber(InventoryPlayer inventory,
-			TileEntityAnalysingChamber entity) {
+
+	public ContainerAnalysingChamber(InventoryPlayer inventory, TileEntityAnalysingChamber entity) {
 		super(entity);
 		this.entity = entity;
 
@@ -30,8 +29,7 @@ public class ContainerAnalysingChamber extends ContainerSync {
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
@@ -48,24 +46,22 @@ public class ContainerAnalysingChamber extends ContainerSync {
 		if ((slot != null) && (slot.getHasStack())) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (num >= 2 && num<8) {
+			if (num >= 2 && num < 8) {
 				if (!mergeItemStack(itemstack1, 8, 43, true)) {
 					return null;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
-			}
-			 else if ((num != 1) && (num != 0)) {
+			} else if ((num != 1) && (num != 0)) {
 				if (itemstack.getItem() == Calculator.circuitBoard) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}
-				}
-				else if ((itemstack.getItem() instanceof IEnergyContainerItem)) {
+				} else if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
 				}
-			}else if (!mergeItemStack(itemstack1, 8, 43, false)) {
+			} else if (!mergeItemStack(itemstack1, 8, 43, false)) {
 				return null;
 			}
 

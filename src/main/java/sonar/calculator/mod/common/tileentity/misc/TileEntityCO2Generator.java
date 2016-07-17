@@ -16,6 +16,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.misc.GuiCO2Generator;
 import sonar.calculator.mod.common.containers.ContainerCO2Generator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
+import sonar.core.api.energy.EnergyMode;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
