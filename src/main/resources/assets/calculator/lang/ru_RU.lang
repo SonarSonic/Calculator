@@ -1,0 +1,636 @@
+﻿//**CALCULATOR**//
+Russian lang file - Loading 65%
+//calculators
+item.Calculator.name=Калькулятор
+item.CraftingCalculator.name=Калькулятор крафта
+item.ScientificCalculator.name=Научный калькулятор
+item.FlawlessCalculator.name=Безупречный калькулятор
+tile.AtomicCalculator.name=Атомный калькулятор
+tile.DynamicCalculator.name=Динамический калькулятор
+//modules
+item.HungerModule.name=Модуль голода
+item.HealthModule.name=Модуль здоровья
+item.TerrainModule.name=Базовый модуль территории
+item.EnergyModule.name=Модуль энергии
+item.StorageModule.name=Модуль хранения
+item.LocatorModule.name=Модуль локации
+item.NutritionModule.nameМодуль питания
+item.AdvancedTerrainModule.name=Продвинутый модуль территории
+item.EnergyUpgrade.name=Энергическое улучшение
+item.SpeedUpgrade.name=Скоростное улучшение
+item.VoidUpgrade.name=Улучшение "Бездна"
+//items for calculators
+item.CalculatorAssembly.name=Сборка калькулятора
+item.CalculatorScreen.name=Экран калькулятора
+item.AtomicModule.name=Атомный модуль
+item.AtomicBinder.name=Атомное связующее звено
+item.AdvancedAssembly.name=Продвинутная сборка
+item.AtomicAssembly.name=Атомная сборка
+
+itemGroup.Calculator=Calculator
+
+//generators
+tile.CalculatorLocator.name=Калькулятор-Локатор
+tile.CalculatorPlug.name=Калькулятор-Стопор
+tile.StarchExtractor.name=Энергитический Экстрактор
+tile.RedstoneExtractor.name=Редстоун Экстрактор
+tile.GlowstoneExtractor.name=Глоустон Экстрактор
+tile.CrankHandle.name=Заводной механизм
+tile.HandCrankedGenerator.name=Генератор заводного механизма
+
+//machines
+tile.AtomicMultiplier.name=Атомный мультипликатор
+tile.ConductorMast.name=Мачтовый кондуктор
+tile.ConductorMastBlock.name=Мачтовый кондуктор
+tile.PowerCube.name=Энергокуб
+tile.AdvancedPowerCube.name=Продвинутый энергокуб
+tile.StoneSeparator.name=Каменный сепаратор
+tile.AlgorithmSeparator.name=Алгоритмический сепаратор
+tile.HungerProcessor.name=Процессор голода
+tile.HealthProcessor.name=Процессор здоровья
+tile.ExtractionChamber.name=Камера экстрактирования
+tile.ReassemblyChamber.name=Камера пересборщик
+tile.RestorationChamber.name=Камера восстановления
+tile.ProcessingChamber.name=Камера процессинга
+tile.AnalysingChamber.name=Камера анализирования
+tile.PrecisionChamber.name=Камера точности
+tile.StorageChamber.name=Камера хранения
+tile.ReinforcedFurnace.name=Укрепленная печка
+tile.GasLanternOn.name=Газовая лампа
+tile.GasLanternOff.name=Газовая лампа
+tile.Lantern.name=Лампа
+tile.AdvancedGreenhouse.name=Продвинутый парник
+tile.BasicGreenhouse.name=Базовый парник
+tile.FlawlessGreenhouse.name=Безупречный парник
+tile.FlawlessGlass.name=Безупречное стекло
+tile.CO2Generator.name=Углероднодиоксидный генератор
+tile.Scarecrow.name=Пугало
+tile.ScarecrowBlock.name=Пугало
+
+//gems
+item.LargeAmethyst.name=Огромный аметист
+item.SmallAmethyst.name=Аметист
+item.ShardAmethyst.name=Осколки аметиста
+item.LargeTanzanite.name=Огромный танзанит
+item.SmallTanzanite.name=Танзанит
+item.ShardTanzanite.name=Осколки танзанита
+
+//grenades
+item.Grenade.name=Граната
+item.BabyGrenade.name=Малая граната
+item.GrenadeCasing.name=Корпус гранаты
+item.DirtGrenade.name=Грязевая граната
+item.DirtGrenadeCasing.name=Корпус грязевой гранаты
+
+//fuels
+item.EnrichedCoal.name=Обогащенный угль
+item.PurifiedCoal.name=Очищенный угль
+item.FireCoal.name=Огненный уголь
+item.ControlledFuel.name=Контролируемое топливо
+
+//crops
+item.Broccoli.name=Броколли
+item.BroccoliSeeds.name=Семена броколли
+item.CookedBroccoli.name=Жаренное броколли
+item.Broccoli.name=Броколли
+tile.CropBroccoli.name=Растение брокколли
+
+item.CoalDust.name=Угленная пыль
+item.PrunaeSeeds.name=Семена чернослива (Prune?) *
+tile.CropPrunae.name=Растение чернослива  *
+
+item.FiddledewFruit.name=Fiddledew Fruit
+tile.CropFiddledew.name=Fiddledew Plant
+
+//amethyst tree
+tile.AmethystLog.name=Аметистовое дерево
+tile.AmethystLeaves.name=Аместистовая листва
+tile.AmethystSapling.name=Аметистовый саженец
+tile.AmethystPlanks.name=Доски из аметиствого дерева
+tile.AmethystStairs.name=Ступенки из аметистового дерева
+
+//tanzanite tree
+tile.TanzaniteLog.name=Танзанитовое дерево
+tile.TanzaniteLeaves.name=Танзанитовая листва
+tile.TanzaniteSapling.name=Танзанитовый саженец
+tile.TanzanitePlanks.name=Доски из танзанитного дерева
+tile.TanzaniteStairs.name=Ступенки из танзанитного дерева
+
+//pear tree
+item.Pear.name=Груша
+item.RottenPear.name=Сырая груша
+tile.PearLog.name=Дерево груши
+tile.PearLeaves.name=Листва груши
+tile.PearSapling.name=Сажанец груши
+tile.PearPlanks.name=Доски из грушевого дерева
+tile.PearStairs.name=Ступенки из грушевого дерева
+
+//diamond tree
+tile.DiamondLog.name=Алмазное дерево
+tile.DiamondLeaves.name=Алмазная листва
+tile.DiamondSapling.name=Алмазный сажанец
+tile.DiamondPlanks.name=Доски из алмазного дерева
+tile.DiamondStairs.name=Ступенки из алмазного дерева
+
+
+tile.PurifiedObsidian.name=Очищенный обсидиан
+
+
+item.Sickle.name=Серп
+item.Wrench.name=Гаечный ключ
+
+item.Soil.name=Почва
+item.SmallStone.name=Перетертый камень
+
+//circuits
+item.CircuitBoard.0.name=Схема
+item.CircuitBoard.1.name=Схема
+item.CircuitBoard.2.name=Схема
+item.CircuitBoard.3.name=Схема
+item.CircuitBoard.4.name=Схема
+item.CircuitBoard.5.name=Схема
+item.CircuitBoard.6.name=Схема
+item.CircuitBoard.7.name=Схема
+item.CircuitBoard.8.name=Схема
+item.CircuitBoard.9.name=Схема
+item.CircuitBoard.10.name=Схема
+item.CircuitBoard.11.name=Схема
+item.CircuitBoard.12.name=Схема
+item.CircuitBoard.13.name=Схема
+item.CircuitBoard.14.name=Схема
+
+//damaged circuits
+item.CircuitDamaged.0.name=Разрушенная схема
+item.CircuitDamaged.1.name=Разрушенная схема
+item.CircuitDamaged.2.name=Разрушенная схема
+item.CircuitDamaged.3.name=Разрушенная схема
+item.CircuitDamaged.4.name=Разрушенная схема
+item.CircuitDamaged.5.name=Разрушенная схема
+item.CircuitDamaged.6.name=Разрушенная схема
+item.CircuitDamaged.7.name=Разрушенная схема
+item.CircuitDamaged.8.name=Разрушенная схема
+item.CircuitDamaged.9.name=Разрушенная схема
+item.CircuitDamaged.10.name=Разрушенная схема
+item.CircuitDamaged.11.name=Разрушенная схема
+item.CircuitDamaged.12.name=Разрушенная схема
+item.CircuitDamaged.13.name=Разрушенная схема
+item.CircuitDamaged.14.name=Разрушенная схема
+
+//dirty circuits
+item.CircuitDirty.0.name=Грязная схема
+item.CircuitDirty.1.name=Грязная схема
+item.CircuitDirty.2.name=Грязная схема
+item.CircuitDirty.3.name=Грязная схема
+item.CircuitDirty.4.name=Грязная схема
+item.CircuitDirty.5.name=Грязная схема
+item.CircuitDirty.6.name=Грязная схема
+item.CircuitDirty.7.name=Грязная схема
+item.CircuitDirty.8.name=Грязная схема
+item.CircuitDirty.9.name=Грязная схема
+item.CircuitDirty.10.name=Грязная схема
+item.CircuitDirty.11.name=Грязная схема
+item.CircuitDirty.12.name=Грязная схема
+item.CircuitDirty.13.name=Грязная схема
+item.CircuitDirty.14.name=Грязная схема
+
+//blocks
+tile.Material.0.name=Блок из аметиста
+tile.Material.1.name=Блок из танзанита
+tile.Material.2.name=Блок из обогащенного золота
+tile.Material.3.name=Блок из укрепленного железа
+tile.Material.4.name=Блок из ослабленного алмаза
+tile.Material.5.name=Блок из безупречного алмаза
+tile.Material.6.name=Блок из огненного алмаза
+tile.Material.7.name=Блок из Электроалмаза
+tile.Material.8.name=Блок из алмаза Эндр
+
+item.InfoCalculator.name=Калькулятор информации
+item.ObsidianKey.name=Обсидиановый ключ
+
+//reinforcedstone_tools
+item.ReinforcedSword.name=Укрепленный меч
+item.ReinforcedPickaxe.name=Укрепленная кирка
+item.ReinforcedAxe.name=Укрепленный топор
+item.ReinforcedShovel.name=Укрепленная лопата
+item.ReinforcedHoe.name=Укрепленная мотыга
+
+//redstone_tools
+item.RedstoneSword.name=Редстоунский меч
+item.RedstonePickaxe.name=Редстоунская кирка
+item.RedstoneAxe.name=Редстоунский топор
+item.RedstoneShovel.name=Редстоунская лопата
+item.RedstoneHoe.name=Редстоунская мотыга
+item.RedstoneIngot.name=Редстоунский слиток
+
+//enrichedgold_tools
+item.EnrichedGoldSword.name=Обагащеннозолотой меч
+item.EnrichedGoldPickaxe.name=Обагащеннозолотая кирка
+item.EnrichedGoldAxe.name=Обагащеннозолотой топор
+item.EnrichedGoldShovel.name=Обагащеннозолотая лопата
+item.EnrichedGoldHoe.name=Обагащеннозолотая мотыга
+item.EnrichedGoldIngot.name= Обагащеннозолотой слиток
+item.EnrichedGold.name= Обогащенное золото
+
+
+//reinforcedstone_tools
+item.ReinforcedIronSword.name=Укрепленножелезный меч
+item.ReinforcedIronPickaxe.name=RУкрепленножелезная кирка
+item.ReinforcedIronAxe.name=Укрепленножелезный топор
+item.ReinforcedIronShovel.name=Укрепленножелезная лопата
+item.ReinforcedIronHoe.name=Укрепленножелезная мотыга
+item.ReinforcedIronIngot.name=Укрепленножелезный слиток
+
+
+
+//weakeneddiamond_tools
+item.WeakenedDiamondSword.name=Ослабленноалмазный меч
+item.WeakenedDiamondPickaxe.name=Ослабленноалмазная кирка
+item.WeakenedDiamondAxe.name=Ослабленноалмазный топор
+item.WeakenedDiamondShovel.name=Ослабленноалмазная лопата
+item.WeakenedDiamondHoe.name=Ослабленноалмазная мотыга
+item.WeakenedDiamond.name=Ослабленный алмаз
+
+//flawlessdiamond_tools
+item.FlawlessDiamondSword.name=Безупречноалмазный меч
+item.FlawlessDiamondPickaxe.name=Безупречноалмазная кирка
+item.FlawlessDiamondAxe.name=Безупречноалмазный топор
+item.FlawlessDiamondShovel.name=Безупречноалмазная лопата
+item.FlawlessDiamondHoe.name=Безупречноалмазная мотыга
+item.FlawlessDiamond.name=Безупречный алмаз
+
+//redfirediamond_tools
+item.FlawlessFireDiamond.name=Огненный алмаз
+item.FireDiamondSword.name=Огенноалмазный меч
+item.FireDiamondPickaxe.name=Огенноалмазная кирка
+item.FireDiamondAxe.name=Огенноалмазный топор
+item.FireDiamondShovel.name=Огенноалмазная лопата
+item.FireDiamondHoe.name=Огенноалмазная мотыга
+item.FireDiamond.name=Огненный алмаз
+
+//electricdiamond_tools
+item.ElectricDiamond.name=Электроалмаз
+item.ElectricSword.name=Электроалмазный меч
+item.ElectricPickaxe.name=Электроалмазная кирка
+item.ElectricAxe.name=Электроалмазный топор
+item.ElectricShovel.name=Электроалмазная лопата
+item.ElectricHoe.name=Электроалмазная мотыга
+
+//end_tools
+item.EndDiamond.name=Алмаз Эндер
+item.EndForgedSword.name=Эндкованный меч
+item.EndForgedPickaxe.name=Эндкованная кирка
+item.EndForgedAxe.name=Эндкованный топор
+item.EndForgedShovel.name=Эндкованная лопата
+item.EndForgedHoe.name=Эндкованная мотыга
+
+//achievements
+achievement.CraftCalculator="Следуйщий уровень в крафте"
+achievement.CraftCalculator.desc="Ты скрафтил первый калькулятор!"
+
+achievement.FlawlessCalculator="Безупречный крафтинг"
+achievement.FlawlessCalculator.desc="Получен безупречный калькулятор!"
+
+//energy strings
+energy.generate=Сгенирировал
+energy.lightning=Сохраненно молний (?)
+energy.notEnough=Не хватает энергии
+energy.required=Необходимая энергия
+energy.display=Энергия калькулятора
+energy.noEnergy=Энергия не хранится
+energy.stored=Энергия хранится
+
+//greenhouses
+greenhouse.block=Блоки на
+greenhouse.blocking=Заблокированно строительство
+greenhouse.equal=разровнять!
+greenhouse.construction=Строительство начилось...
+greenhouse.complete=Парник завершился
+greenhouse.size=Размер
+greenhouse.grown=Выращенный
+greenhouse.harvested=Заготовленно
+greenhouse.oxygen=Кислорода сохраненно
+greenhouse.carbon=Углерода сохраненно
+greenhouse.building=Строительство...
+greenhouse.incomplete=Незавершенно
+greenhouse.complete=Завершенно
+greenhouse.glass=Стекло
+greenhouse.quartz=Квартц
+greenhouse.planks=Доски
+greenhouse.logs=Дерева
+greenhouse.stairs=Ступеньки
+greenhouse.stable=Гладкий камень
+greenhouse.requires=Требуется:
+greenhouse.build=Строит...
+greenhouse.rebuild=Перестраивает
+greenhouse.demolish=Сносит...
+
+
+//points
+points.health=Очки здоровья
+points.hunger=Очки голода
+
+//circuits
+circuit.type=Тип
+circuit.analysed=Анализируется
+circuit.stable=Стабильный
+circuit.stability=Стабилизирован
+circuit.noStability=Не стабилизирован
+circuit.dirty=Грязнный
+circuit.damaged=Разрушенный
+circuit.stored=Схема хранения
+circuit.upgrade=Улучшенния не могут быть добавлены, пока машина работает!
+circuit.acceptedUpgrades=Схема принята
+circuit.speed=Улучшение скорости
+circuit.energy=Улучшение энергии
+circuit.void=Улучшение "пустоты"
+circuit.installed=Установлена
+
+//info
+info.type=Информация о калькуляторах
+info.all=Все
+info.blocks=О блоках
+info.calculators=Калькуляторы
+info.machines=Машины
+info.generators=Генераторы
+info.modules=Модули
+info.items=О предметах
+info.circuits=О схемах
+info.extractChance=Об экстракторах и их шансах
+
+//misc
+locator.multiblock=Мультиблок
+locator.active=Активно
+locator.idle=Незанято
+locator.owner=Владелец
+locator.true=Истинно
+locator.false=Ложно
+locator.state=Статус
+locator.unknown=Неизвестен
+locator.none=Нет
+locator.false=Ложно
+conductor.wait=Подождите...
+conductor.msg=Неизвестно
+conductor.msg1=5 биллионов дней
+conductor.msg2=Какая разница?
+conductor.msg3=Завтра
+conductor.msg4=Жди и смотри
+conductor.msg5=Не могу сказать
+conductor.msg6=Просчитываю ;)
+conductor.msg7=Я <3 математику
+conductor.msg8=Вы фейл =(
+crank.cranked=Изогнутый
+co2.control=Контроллируется
+co2.burnt=Сумма Сгоранния
+co2.burning=Не сгорается
+calc.storedstacks=Стак хранится
+calc.mode=Режим
+calc.position=Заданна позиция
+calc.stableStone=Нет гладких камней
+calc.noPosition=Нет позиций
+calc.dimension=Неверное измерение
+calc.grenade=Правой кнопкой нажми, чтобы бросить гранату!
+calc.ban=Забаненно на сервере
+flawless.mode1=Безупречный крафт
+flawless.mode2=Динамический крафт
+flawless.mode3=Нормальный крафт
+flawless.mode4=Спавн гранаты
+flawless.mode5=Спавн жемчуг энда
+flawless.mode6=Домащний телепорт
+flawless.mode=Режим измененн
+inv.full=Инвентарь полон!
+generator.starch=Энергитеческий уровень
+generator.redstone=Редстоуновский уровень
+generator.glowstone=Глоустоновский уровень
+
+//new
+planting.basic=Planted with Basic Greenhouse or Higher
+planting.advanced=Planted with Advanced Greenhouse or Higher
+planting.flawless=Planted with Flawless Greenhouse
+tile.ResearchChamber.name=Research Chamber
+tile.ManipulationChamber.name=Manipulation Chamber
+research.recipe=Recipes
+research.recipeNew=New Recipes Discovered
+research.sync=Sync
+research.stored=Stored
+item.Recipe.name=Recipe
+research.invalid=Invalid Item
+research.newRecipes=New Recipes
+
+info.standard=Standard
+info.unlocked=Unlocked
+tile.ReinforcedStoneBrick.name=Reinforced Stone Bricks
+tile.ReinforcedDirtBrick.name=Reinforced Dirt Bricks
+death.attack.stone=%1$s was hit by a Stone
+tile.Transmitter.name=Transmitter
+tile.TransmitterBlock.name=Transmitter
+tile.WeatherStation.name=Weather Station
+tile.WeatherStationBlock.name=Weather Station
+lightning.day=Day
+lightning.night=Night
+lightning.time=Time
+lightning.rain=Rain
+lightning.seconds=seconds
+buttons.circuits=Remove Circuits
+buttons.pause=Pause
+buttons.resume=Resume
+buttons.confirm=Confirm
+
+
+controller.name=Master
+controller.default=Default
+controller.users=Shared Users
+controller.receive=Receive Mode
+controller.receive.even=Even Distribution
+controller.receive.surge=Surge
+controller.receive.hyper=Hyper-Surge
+controller.receive.god=God-Mode
+controller.send=Send Mode
+controller.send.large=Largest First
+controller.send.small=Smallest First
+controller.transmitter=Transmitter Mode
+tile.RainSensor.name=Rain Sensor
+tile.WeatherController.name=Weather Controller
+tile.AmethystFence.name=Amethyst Fence
+tile.TanzaniteFence.name=Tanzanite Fence
+tile.PearFence.name=Pear Fence
+tile.DiamondFence.name=Diamond Fence
+weather.time=Time
+weather.day=Day
+weather.night=Night
+weather.rain=Rain
+weather.thunder=Thunder
+state.on=On
+state.off=Off
+tile.StableGlass.name=Stable Glass
+tile.ClearStableGlass.name=Clear Stable Glass
+tile.MagneticFlux.name=Magnetic Flux
+tile.DockingStation.name=Docking Station
+docking.noCalculator=No Calculator is mounted
+tile.CalculatorTeleporter.name=Teleporter
+tile.StoneAssimilator.name=Stone Assimilator
+tile.AlgorithmAssimilator.name=Algorithm Assimilator
+tile.FlawlessFurnace.name=Flawless Furnace
+
+
+//new
+item.WarpModule.name=Warp Module
+item.JumpModule.name=Jump Module
+tile.ModuleWorkstation.name=Module Workstation
+tile.FabricationChamber.name=Fabrication Chamber
+item.TransferUpgrade.name=Transfer Upgrade
+item.FlawlessAssembly.name=Flawless Assembly
+tile.ReinforcedChest.name=Reinforced Chest
+tile.AmethystPiping.name=Amethyst Piping
+tile.TanzanitePiping.name=Tanzanite Piping
+tile.CreativePowerCube.name=Creative Power Cube
+
+
+
+
+info.Calculator.name=A portable device capable of adding two items together-By combining their properties it can create new items!-It requires RF to function, it can be charged in the Power Cube-It uses 1 RF per item-More Recipes can be unlocked with the Research Chamber-The Calculator is required to progress to the more powerful Scientific Calculator-Note: Calculators will keep their inventory
+
+info.CraftingCalculator.name=A portable device which provides Portable Crafting-It requires RF to function, it can be charged in the Power Cube-It uses 1 RF per item-Note: Calculators will keep their inventory
+
+info.ScientificCalculator.name=A portable device capable of dividing two items together-By removing useless properties it can create new more powerful items!-It requires RF to function, it can be charged in the Power Cube-It uses 1 RF per item-More Recipes can be unlocked with the Research Chamber-The Scientific Calculator is required to progress to the more powerful Atomic Calculator-Note: Calculators will keep their inventory
+
+info.FlawlessCalculator.name=A flawless device, both in design and function-It is capable of combining up to 16 different modules together to create the perfect Calculator-You can switch between the installed modules by shift right clicking-Modules can be added and removed with the Module Workstation-The Flawless Calculator comes with some modules already installed specifically Flawless Crafting. Which is used for combining 4 items together
+
+info.PowerCube.name=Operation: A machine used for charging Calculators & Modules with RF-Energy cannot be outputted via the sides, for this you require its successor the Advanced Power Cube-Energy Storage: 50000 RF-Input Rate: 200 RF/t-Charging Speed: 4 RF/t-Configurable Sides: None
+
+info.AdvancedPowerCube.name=Operation: A machine used for charging Calculators & Modules with RF-Energy can be outputted from the sides unlike its predecessor the Power Cube. To change the output of a side shift right click it with an empty hand-The sides change colour accordingly a yellow lightning bolt means input and a white lightning bolt means output-The Advanced Power Cube can accept RF/EU so it allows conversion between the two, as seen above-Energy Storage: 100000 RF-Input Rate: 64000 RF/t-Charging Speed: 100000 RF/t-Configurable Sides: ALL
+
+info.StoneSeparator.name=Operation: RF Powered Separator with 1 input slot and 2 output slots which uses 5000 RF per item, it is essential for the extraction of Amethyst from lapis, this is essential for the creation of the Amethyst Tree-Upgradable: It is compatible with Energy & Speed Upgrades-Automation: Like most Calculator Machines it has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output: White is input and Black is Output)
+
+info.AlgorithmSeparator.name=Operation: RF Powered Separator with 1 input slot and 2 output slots which uses 5000 RF per item, it is essential for the extraction of Tanzanite from lapis, this is essential for the creation of the Tanzanite Tree-Upgradable: It is compatible with Energy & Speed Upgrades-Automation: Like most Calculator Machines it has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output: White is input and Black is Output)
+
+info.Wrench.name=Right click: allows you to change the side configuration of certain machines therefore changing the inventory slots which can be accessed-Shift Right Click: allows you to drop Calculator blocks instantly-Note: the wrench has no durability
+
+info.AnalysingChamber.name=Operation: A machine used for extracting energy and items from Circuits. It doesn't require power for this operation-Once circuits have been 'Analysed' they can be placed in the Storage Chamber-The Analysing chamber also shows if the circuit is 'Stable' or not. These Stable Circuits can be used for stabilising Calculator Plugs-Upgradable: It is compatible with Void Upgrades. These will destroy useless items and prevent you from having to sort them-Automation: Like most Calculator Machines the Analysing Chamber has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output, Green is for Circuits and Red is for the Items Extracted)
+
+info.AtomicCalculator.name=Operation: The third tier of Calculator which has the ability to combine three items together-It can create items such as Flawless Diamonds, Fire Diamonds, Tanzanite Saplings, and more-It isn't portable like the previous Calculators, however it does not require power for its operation.
+
+info.DynamicCalculator.name=Operation: Combines the first three tiers of Calculators into one place. It doesn’t need power. To use different Calculator types just place the items in the correct slot.
+
+info.InfoCalculator.name=Allows you to navigate through all the blocks and items in the mod! The blocks and items can also be viewed in categories or searched for.
+
+info.BasicTerrainModule.name=Usage: Makes landscaping easier by removing the need to take out the block you want to replace. Instead just right click and replace-It can switch stone, grass and dirt-You can change the current mode by shift clicking-It uses 1 RF per switch, it can be charged in the Power Cube.
+
+info.AdvancedTerrainModule.name=Usage: Makes landscaping easier by removing the need to take out the block you want to replace. Instead just right click and replace-It can switch stone, grass, dirt, gravel, sand and cobblestone-You can change the current mode by shift clicking-It uses 1 RF per switch, it can be charged in the Power Cube.
+
+info.StorageModule.name=A portable double sized chest. Useful for keeping loads of items in your inventory
+
+info.LocatorModule.name=It stores the username of the player who right clicks it. It's used for activating the Calculator Locator.
+
+info.JumpModule.name=Will teleport the player to the block they are looking at when right clicked, within a distance of 500 blocks-It uses 1000 RF per usage, it can be charged in the Power Cube-It has a short cool down time after each usage.
+
+info.WarpModule.name=Allows you to set a home teleport position by right clicking a piece of Stable Stone to lock onto. It uses 1000 RF per teleport.
+
+info.ModuleWorkstation.name=Allows you to configure the modules installed on a Flawless Calculator-It doesn't require power.
+
+info.CircuitBoard.name=Circuits can store Energy and Items-Items: Circuits can contain anything from 0 to 6 items. Diamonds/Emeralds/Nether Stars are among the many things which can be found in circuits. They can only be removed by an Analysing Chamber-Energy: Circuits can contain anything from 0 to 100000 RF. Can only be removed by an Analysing Chamber-Stability: Circuits can either be Stable or normal. Stable Circuits are used in Calculator Plugs
+
+info.AtomicAssembly.name=Used to craft some advanced things such as the Atomic Calculator and the Atomic Multiplier-Have fun crafting!
+
+info.EnergyUpgrade.name=Increases the energy consumption of certain machines when installed with Right Click-By shift right clicking you can see what upgrade types can be installed on a given machine-Removed by removing the machine block.
+
+info.SpeedUpgrade.name=Increases the operation speed of certain machines when installed with Right Click-By shift right clicking you can see what upgrade types can be installed on a given machine-Removed by removing the machine block.
+
+info.VoidUpgrade.name=Used with the Analysing Chamber-By shift right clicking you can see what upgrade types can be installed on a given machine-Once installed it will destroy all useless items which have been extracted from the Analysing Chamber-Removed by removing the machine block.
+
+info.TransferUpgrade.name=Allows the installed machine to have automatically export to output sides it is installed with Right Click-By shift right clicking you can see what upgrade types can be installed on a given machine-Removed by removing the machine block.
+
+info.DirtyCircuit.name=Obtained by using the Extraction Chamber or Precision Chamber-They have no use other than to get Clean/Fixed Circuits which can be obtained with the Restoration Chamber or the Processing Chamber.
+
+info.DamagedCircuit.name=Obtained by using the Extraction Chamber or Precision Chamber-They have no use other than to get Clean/Fixed Circuits which can be obtained with the Reassembly Chamber or the Processing Chamber.
+
+info.Scarecrow.name=Accelerates the growth of crops within a 3 block radius at the same level as the base block-It doesn't require anything for this opperation-It is a 'bonemeal' type rather than a 'ticker'
+
+info.AmethystSapling.name=None of the Calculator trees occur naturally, they can only be made-Used with Hunger Modules. Created using a Large Amethyst and any vanilla sapling (Note: Some mod saplings may work) in a Scientific Calculator-This process can be automated with the Stone Assimilator-It yields hunger points when right clicked with a Hunger Module or if the logs/leaves are placed in a Hunger Processor-An alternate crafting method is Amethyst Leaves and Amethyst Log in a Scientific Calculator.
+
+info.TanzaniteSapling.name=None of the Calculator trees occur naturally, they can only be made-Used with Health Modules. Created by using a Large Tanzanite, Atomic Binding, and any vanilla sapling in an Atomic Calculator-This process can be automated with the Stone Assimilator-It yields health points when right clicked with a Health Module or if the logs/leaves are placed in a Health Processor. Alternate crafting method is Tanzanite Leaves, Atomic Binding, and Tanzanite Log in an Atomic Calculator.
+
+info.PearSapling.name=None of the Calculator trees occur naturally, they can only be made-Created by using an Amethyst Sapling, End Stone, and Tanzanite Sapling in an Atomic Calculator-This process can be automated with the Algorithm Assimilator-It yields Pears or Rotten Pears when right clicked with a Sickle. Rotten Pears can be used as a replacement for Slime Balls in any recipe. There is no alternate crafting method.
+
+info.DiamondSapling.name=None of the Calculator trees occur naturally, they can only be made-It can only be planted on an End Diamond Block-Created by using a Pear Sapling, two End Diamonds, and an End Stone in a Flawless Calculator-This process can be automated with the Algorithm Assimilator-The sapling must be planted on an End Diamond Block. It yields Flawless Diamonds or Weakened Diamonds when right clicked with a sickle. There is no alternate crafting method.
+
+info.FiddledewFruit.name=The best fruit ever...it can cure 8 hearts at once-It can only be grown in a Flawless Greenhouse
+
+info.PrunaeSeeds.name=Used for growing coal dust which can then be crafted into Enriched Coal-It can only be grown in a Advanced Greenhouse
+
+info.Broccoli.name=Eat your greens!
+
+info.CookedBroccoli.name=Eat your greens cooked!
+
+info.RottenPear.name=Replacement for Slime Balls
+
+info.AmethystPiping.name=Used for transferring Hunger Points, from Amethyst Trees to Hunger Processors etc.
+
+info.TanzanitePiping.name=Used for transferring Health Points, from Tanzanite Trees to Health Processors etc.
+
+info.HungerModule.name=Stores Hunger Points, upon shift right click it will use its stored points to refill a players hunger bar to the top, while using the points that were required-You can refill the module in two ways. Either by clicking the leaves or logs of an Amethyst Tree or by using the Hunger Processor.
+
+info.HealthModule.name=Stores Health Points, upon shift right click it will use its stored points to refill a players health bar to the top, while using the points that were required-You can refill the module in two ways. Either by clicking the leaves or logs of an Tanzanite Tree or by using the Health Processor.
+
+info.NutritionModule.name=Stores both Health and Hunger Points! However, it doesn't require shift clicking as it constantly maintains the players Hunger and Health points while it is placed in your inventory-It can be refilled in the same way as the Health and Hunger Modules.
+
+info.BasicGreenhouse.name=A multiblock crop growth environment which can plant/harvest/grow plants. It requires energy for it's operation-The greenhouse will build itself-To build a greenhouse you must first find a flat area of Dirt/Grass as the top layer then you must fill the greenhouse with the required build resources-Shift clicking will build the Greenhouse or tell you of any errors such as if blocks are in the way of construction or if it is complete or not-You will also need an Input/Output chest which should be placed directly behind the Greenhouse items input/output is handled automatically-Stairs x56, Log x18, Planks x30, Glass x14
+
+info.AdvancedGreenhouse.name=A multiblock crop growth environment which can plant/harvest/grow plants. It requires energy for it's operation-The greenhouse will build itself-To build a greenhouse you must first find a flat area of Dirt/Grass as the top layer then you must fill the greenhouse with the required build resources-Shift clicking will build the Greenhouse or tell you of any errors such as if blocks are in the way of construction or if it is complete or not-You will also need an Input/Output chest which should be placed directly behind the Greenhouse items input/output is handled automatically-Stairs x183, Log x31, Planks x44, Glass x94
+
+info.FlawlessGreenhouse.name=A multiblock crop growth environment which can plant/harvest/grow plants.You dictate the power of this greenhouse as the speed at which it plants, grows and harvests depends on how long you want to make it! It can be anything from 1x2 to 64x2 growing blocks-The Greenhouse doesn't automatically build itself and must be constructed by hand-Step 1: Make a row of Stable Stone 4x long into the ground and place one Flawless Greenhouse on the left and a Carbon Dioxide Generator on the right-Step 2: Place a Stable Stone block on top of both the Greenhouse and Carbon Dioxide Generator. Place a row of Quartz Slabs in a row 4x long along the top-Step 3: One block along place Flawless Glass 2x high on either side, place 4x Quartz slabs on top and then repeat until you reach your desired length-Step 4: Do the same thing you did at the other end but instead of the Greenhouse and Carbon Dioxide Generator place a Stable Stone or if you want to build a crazy greenhouse you can place a Flawless Greenhouse and Carbon Dioxide Generator in the same way to create a double ended greenhouse-Step 5: Insert Energy into Greenhouse-Step 6: The Carbon Dioxide Generator then needs to be setup...-Step 7: Place a chest/storage system behind the Greenhouse otherwise Items will start spewing on the floor! Like with the Basic & Advanced Greenhouse-Be warned this Greenhouse is rapid. Makes sure you have plenty of Storage Ready!
+
+info.CarbonDioxideGenerator.name=Works in a similar way to the Gas Lanterns and can keep the greenhouses CO2 at 100%-Unlike the gas lanterns this block requires RF/EU-You will have to find a fuel that sustains your size of greenhouse. However there is a new special type of fuel called the “Controlling Fuel”, this fuel manages its own burn time when in the Carbon Dioxide generator and keeps the Greenhouse at optimal level without using up burn time constantly. To create this fuel you will need to look into Circuit Extraction and more specifically the Precision Chamber to extract the circuits you need for the controlling fuel.
+
+info.CrankHandle.name=Must be placed on top of the Hand Cranked Generator-See the Generator for more info.
+
+info.StarchExtractor.name=An RF Generator which runs on Items/Blocks which contain Starch, such as Leaves, Carrots and Wheat-You can view all usable items with NEI/JEI-Also requires a fuel to convert the Starch into energy-By default it generates 40 RF/t
+
+info.RedstoneExtractor.name=An RF Generator which runs on Items/Blocks which contain a Redstone value such as Redstone, Redstone Ingot and Redstone Blocks-You can view all usable items with NEI/JEI-Also requires a fuel to convert the Redstone into energy-By default it generates 80 RF/t
+
+info.GlowstoneExtractor.name=An RF Generator which runs on Items/Blocks which contain a Glowstone value such as Glowstone and Glowstone Blocks-You can view all usable items with NEI/JEI-Also requires a fuel to convert the Glowstone into energy-By default it generates 160 RF/t
+
+info.BabyGrenade.name=Usage: Be careful! Right click throws it!-Explosion Size: it has an effective radius of 1 block
+
+info.Grenade.name=Usage: Be careful! Right click throws it!-Explosion Size: it has an effective radius of 5 blocks
+
+info.CalculatorLocator.name=For massive power generation!-A variable size multiblock structure that needs multiple Calculator Plugs, a Calculator Locator, and a lot of Stable Stone. The biggest is a whopping 21x21 Calculator Plugs for a total of 440 Calculator Plugs!-When the Locator is operational it will turn from Red to Green-For power it extracts the world's own power, which can result in dangerous side effects (big explosions) To avoid these side effects the Plugs need to contain stable circuits-The more stable the Locator is, the more power it will output-At 100% stability no side effects will occur-Energy is extracted from the bottom of the Calculator Locator block (there is no Stable Stone required underneath it for the multiblock)-The Locator can only be used when it has been located, to do this you need to craft a Locator Module which involves two Energy Modules and two Calculators in a Flawless Calculator. It then needs to be right clicked and then placed in the L slot of the Calculator Locator-Calculator Locator multiblock structures can be used to charge any RF compatible tool, Calculators, and RF compatible energy storage, simply place it inside the Calculator Locator itself.
+
+info.CalculatorPlug.name=Used in conjunction with the Calculator Locator, it is required to stabilise the Locator and avoid any dangerous sound effects.
+
+info.HandCrankedGenerator.name=An RF generator perfect for those low on resources and energy. To use it you need to place a Crank Handle on top, when you right click the handle it will spin, generating power at 18 RF per turn. Eventually the crank handle will break and will need to be replaced. Energy will automatically be sent to adjacent energy blocks.
+
+info.HealthProcessor.name=Usage: For converting Monster Drops into Health Points you can view all valid items via NEI/JEI. It can transfer Health Points into Nutrition Modules & Health Modules. Points can also be removed from Modules if required-Automation: Like most Calculator Machines it has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output: White is input and Black is Output)
+
+info.HungerProcessor.name=Usage: For converting Food into Hunger Points. It can transfer Hunger Points into Nutrition Modules & Hunger Modules. Points can also be removed from Modules if required-Automation: Like most Calculator Machines it has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output: White is input and Black is Output)
+
+info.ReinforcedFurnace.name=Operation: RF Powered Furnace which uses 1000 RF per item-Upgradable: It is compatible with Energy & Speed Upgrades-Automation: Like most Calculator Machines the Reinforced Furnace has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output).
+
+info.ExtractionChamber.name=Operation: RF Powered Extractor which uses 5000 RF per item. It is used for obtaining Dirt/Damaged circuits from Dirt/Stone. It has a random probability of returning a circuit-Upgradable: It is compatible with Energy & Speed Upgrades-Automation: Like most Calculator Machines the Extraction Chamber has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output).
+
+info.ReassemblyChamber.name=Operation: RF Powered Machine which uses 5000 RF per item. It is used for fixing damaged circuits-Upgradable: It is compatible with Energy & Speed Upgrades-Automation: Like most Calculator Machines the Reassembly Chamber has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output).
+
+info.RestorationChamber.name=Operation: RF Powered Cleaning Machine which uses 5000 RF per item. It is used for cleaning dirty circuits-Upgradable: It is compatible with Energy & Speed Upgrades-Automation: Like most Calculator Machines the Restoration Chamber has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output).
+
+info.ProcessingChamber.name=Operation: RF Powered Machine which uses 1000 RF per item. It is used for fixing/cleaning damaged/dirty circuits combing the functions of the Restoration Chamber and Reassembly Chamber into one block. It is also 5x Faster and uses 5x less power-Upgradable: It is compatible with Energy & Speed Upgrades-Automation: Like most Calculator Machines the Processing Chamber has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output).
+
+info.PrecisionChamber.name=Operation: RF Powered Extractor which uses 1000 RF per item. It is a tier up from the Extraction Chamber. It is used for obtaining Dirt/Damaged circuits from Dirt/Stone. It will always return a circuit. It can also be used for obtaining specific circuits for use in crafting by using other blocks-Upgradable: It is compatible with Energy & Speed Upgrades-Automation: Like most Calculator Machines the Precision Chamber has reconfigurable sides which can be changed by right clicking the side with a Wrench. It has two configurations (Input and Output).
+
+info.StorageChamber.name=Inventories capable of storing vast amounts of Circuits!-It can store one type at a time i.e. (Stable, Circuits, Dirty, Damaged)-Note: it will only store circuits if they have been analysed in an Analysing Chamber
+
+info.FabricationChamber.name=A machine used for fabricating new electronic assemblies from circuits such as the Atomic Assembly, Atomic Module and various Upgrades-It doesn't require power for this Operation-It doesn't have an internal inventory and circuits are taken automatically from adjacent Storage Chambers, connected Storage Chambers will also be used.
+
+info.RainSensor.name=Works in a similar way to a daylight sensor-It emits a strong Redstone signal when it is raining-The texture also indicates the current state.
+
+info.MagneticFlux.name=Magnetises Items within 16 blocks and places them into the inventory below it-It must be placed 4 blocks away from any other Magnetic Flux-This can be used to automate growing seeds from AE2-It gives options for creating a Blacklist or Whitelist-You can choose to not look for exact matches, this will match items with different Metadata, NBT or by the same 
+
+info.BasicLantern.name=The Calculator equivalent of a Torch!
+
+info.GasLantern.name=Used with Advanced/Basic Greenhouses-It creates CO2 from fuel which accelerates plant growth
+
+info.ReinforcedChest.name=A special chest which stores items in stacks of 256 rather than 64-It can store up to 6912 items.
+
+info.ConductorMast.name=A lightning conductor which can both store generate RF. It can also be used for infusing items with electricity which is needed to obtain the Electric Diamond. It can generate large amounts of RF when paired with the Transmitter and Weather Station
+
+info.WeatherStation.name=Used to generate RF when paired with the Conductor Mast and Transmitter. Focuses Lightning Strikes towards the conductor mast therefore increasing the RF generated.
+
+info.Transmitter.name=Used to generate RF when paired with the Conductor Mast and Weather Station. It can alter the Ionosphere, increasing the frequency of lightning strikes and their power.
