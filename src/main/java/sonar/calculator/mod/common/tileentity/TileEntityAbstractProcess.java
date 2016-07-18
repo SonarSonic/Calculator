@@ -9,7 +9,6 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.core.helpers.RecipeHelper;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
 
 public abstract class TileEntityAbstractProcess extends TileEntityProcess implements IGuiTile {

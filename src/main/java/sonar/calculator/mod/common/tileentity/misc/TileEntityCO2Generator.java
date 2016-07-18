@@ -17,13 +17,11 @@ import sonar.calculator.mod.client.gui.misc.GuiCO2Generator;
 import sonar.calculator.mod.common.containers.ContainerCO2Generator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.api.energy.EnergyMode;
-import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.RenderHelper;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.SyncEnergyStorage;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityCO2Generator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile {
@@ -49,11 +47,11 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 	public void update() {
 		super.update();
 		forward = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
-		horizontal = RenderHelper.getHorizontal(forward);
-		if (RenderHelper.getHorizontal(forward) != null) {
+		horizontal = SonarHelper.getHorizontal(forward);
+		if (SonarHelper.getHorizontal(forward) != null) {
 			boolean flag1 = this.burnTime > 0;
 			boolean flag2 = false;
-			EnumFacing hoz = RenderHelper.getHorizontal(forward).getOpposite();
+			EnumFacing hoz = SonarHelper.getHorizontal(forward).getOpposite();
 			TileEntity tile = this.worldObj.getTileEntity(pos.add((hoz.getFrontOffsetX() * 3), 0, (hoz.getFrontOffsetZ() * 3)));
 
 			if (this.maxBurnTime == 0 && !this.worldObj.isRemote && this.slots()[0] != null) {

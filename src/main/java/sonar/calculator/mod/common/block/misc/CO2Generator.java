@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.block.misc;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

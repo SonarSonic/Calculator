@@ -23,7 +23,6 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
-import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.upgrades.UpgradeInventory;

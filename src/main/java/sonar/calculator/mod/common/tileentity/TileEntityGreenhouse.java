@@ -4,43 +4,32 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockGlass;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockPane;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IGreenhouse;
 import sonar.calculator.mod.integration.planting.IFertiliser;
 import sonar.calculator.mod.integration.planting.IHarvester;
 import sonar.calculator.mod.integration.planting.IPlanter;
-import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.api.utils.ActionType;
-import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.InventoryHelper.IInventoryFilter;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.RenderHelper;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.network.sync.SyncEnum;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.INT;
@@ -75,7 +64,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public void update() {
 		super.update();
 		forward = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
-		horizontal = RenderHelper.getHorizontal(forward);
+		horizontal = SonarHelper.getHorizontal(forward);
 	}
 
 	public void checkTile() {

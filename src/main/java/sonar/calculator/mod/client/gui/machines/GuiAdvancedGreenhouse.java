@@ -18,7 +18,6 @@ import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.core.SonarCore;
-import sonar.core.client.gui.SonarButtons.ImageButton;
 import sonar.core.helpers.FontHelper;
 
 public class GuiAdvancedGreenhouse extends GuiContainer {

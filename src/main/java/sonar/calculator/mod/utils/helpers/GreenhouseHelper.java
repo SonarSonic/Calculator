@@ -7,7 +7,6 @@ import net.minecraft.block.BlockGlass;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -16,7 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
-import sonar.core.SonarCore;
 import sonar.core.common.block.StableStone;
 
 /** helps with using bonemeal on crops, growth speed and replacing blocks */

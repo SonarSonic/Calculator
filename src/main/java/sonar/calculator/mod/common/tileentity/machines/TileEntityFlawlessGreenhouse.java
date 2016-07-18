@@ -28,7 +28,7 @@ import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.RenderHelper;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
@@ -117,12 +117,12 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	}
 
 	public FailedCoords checkStructure(GreenhouseAction action) {
-		if (RenderHelper.getHorizontal(forward) != null) {
-			int hX = RenderHelper.getHorizontal(forward).getFrontOffsetX();
-			int hZ = RenderHelper.getHorizontal(forward).getFrontOffsetZ();
+		if (SonarHelper.getHorizontal(forward) != null) {
+			int hX = SonarHelper.getHorizontal(forward).getFrontOffsetX();
+			int hZ = SonarHelper.getHorizontal(forward).getFrontOffsetZ();
 
-			int hoX = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
-			int hoZ = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
+			int hoX = SonarHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
+			int hoZ = SonarHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
 
 			int fX = forward.getFrontOffsetX();
 			int fZ = forward.getFrontOffsetZ();
@@ -155,7 +155,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	}
 
 	private int getGasAdd() {
-		TileEntity tile = this.worldObj.getTileEntity(pos.add((RenderHelper.getHorizontal(forward).getFrontOffsetX() * 3), 0, (RenderHelper.getHorizontal(forward).getFrontOffsetZ()) * 3));
+		TileEntity tile = this.worldObj.getTileEntity(pos.add((SonarHelper.getHorizontal(forward).getFrontOffsetX() * 3), 0, (SonarHelper.getHorizontal(forward).getFrontOffsetZ()) * 3));
 		if (tile != null && tile instanceof TileEntityCO2Generator) {
 			TileEntityCO2Generator generator = (TileEntityCO2Generator) tile;
 			return generator.gasAdd;
@@ -165,11 +165,11 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	/** gets plants inside greenhouse and sets it to this.plants **/
 	private void getPlants() {
-		int hX = RenderHelper.getHorizontal(forward).getFrontOffsetX();
-		int hZ = RenderHelper.getHorizontal(forward).getFrontOffsetZ();
+		int hX = SonarHelper.getHorizontal(forward).getFrontOffsetX();
+		int hZ = SonarHelper.getHorizontal(forward).getFrontOffsetZ();
 
-		int hoX = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
-		int hoZ = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
+		int hoX = SonarHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
+		int hoZ = SonarHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
 
 		int fX = forward.getFrontOffsetX();
 		int fZ = forward.getFrontOffsetZ();
@@ -189,11 +189,11 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	/** Hoes the ground **/
 	public void addFarmland() {
-		int hX = RenderHelper.getHorizontal(forward).getFrontOffsetX();
-		int hZ = RenderHelper.getHorizontal(forward).getFrontOffsetZ();
+		int hX = SonarHelper.getHorizontal(forward).getFrontOffsetX();
+		int hZ = SonarHelper.getHorizontal(forward).getFrontOffsetZ();
 
-		int hoX = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
-		int hoZ = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
+		int hoX = SonarHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
+		int hoZ = SonarHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
 
 		int fX = forward.getFrontOffsetX();
 		int fZ = forward.getFrontOffsetZ();

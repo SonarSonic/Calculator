@@ -8,8 +8,6 @@ import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
-import sonar.core.api.SonarAPI;
-import sonar.core.api.utils.ActionType;
 
 public class ContainerAtomicCalculator extends Container implements ICalculatorCrafter {
 

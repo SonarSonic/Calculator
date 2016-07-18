@@ -13,7 +13,7 @@ import sonar.calculator.mod.common.recipes.RecipeRegistry;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RecipeHelper;
-import sonar.core.helpers.RenderHelper;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.utils.IGuiTile;
 
@@ -166,13 +166,13 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 			return outputSlot;
 		}
 		if (size != 1) {
-			if (side == RenderHelper.getHorizontal(dir)) {
+			if (side == SonarHelper.getHorizontal(dir)) {
 				return new int[] { 0 };
-			} else if (side == RenderHelper.getHorizontal(dir).getOpposite()) {
+			} else if (side == SonarHelper.getHorizontal(dir).getOpposite()) {
 				return new int[] { 1 };
-			} else if ((size == 4 || size == 3) && side == RenderHelper.getHorizontal(dir).getOpposite()) {
+			} else if ((size == 4 || size == 3) && side == SonarHelper.getHorizontal(dir).getOpposite()) {
 				return new int[] { 2 };
-			} else if (size == 4 && side == RenderHelper.getHorizontal(dir).getOpposite()) {
+			} else if (size == 4 && side == SonarHelper.getHorizontal(dir).getOpposite()) {
 				return new int[] { 3 };
 			}
 		}
@@ -181,7 +181,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 
 	public int convertMeta(int meta) {
 		EnumFacing dir = EnumFacing.getFront(meta);
-		RenderHelper.getHorizontal(dir);
+		SonarHelper.getHorizontal(dir);
 		if (meta <= 1) {
 			meta = 5;
 		} else if ((meta & 5) <= 1) {

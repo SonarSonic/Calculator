@@ -2,7 +2,6 @@ package sonar.calculator.mod.common.item.calculators;
 
 import java.util.List;
 
-import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,6 +11,7 @@ import sonar.calculator.mod.api.modules.IModule;
 import sonar.core.api.energy.ISonarEnergyItem;
 import sonar.core.api.utils.ActionType;
 import sonar.core.helpers.FontHelper;
+import cofh.api.energy.IEnergyContainerItem;
 
 public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, IEnergyContainerItem {
 

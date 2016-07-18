@@ -23,7 +23,6 @@ import sonar.core.common.block.StableStone;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.ContainerEmpty;
-import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;

@@ -13,7 +13,6 @@ import sonar.calculator.mod.common.containers.ContainerLantern;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
-import sonar.core.network.sync.ISyncPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 

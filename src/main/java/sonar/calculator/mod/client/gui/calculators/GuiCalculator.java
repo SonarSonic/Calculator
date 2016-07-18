@@ -10,7 +10,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
-import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.common.containers.ContainerCalculator;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.helpers.FontHelper;

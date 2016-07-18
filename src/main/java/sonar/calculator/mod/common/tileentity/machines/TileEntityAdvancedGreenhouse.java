@@ -17,7 +17,7 @@ import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityBuildingGreenhouse;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.energy.EnergyMode;
-import sonar.core.helpers.RenderHelper;
+import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
 
@@ -159,11 +159,11 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 	public ArrayList<BlockPlace> getStructure() {
 		ArrayList<BlockPlace> blocks = new ArrayList();
 
-		int hX = RenderHelper.getHorizontal(forward).getFrontOffsetX();
-		int hZ = RenderHelper.getHorizontal(forward).getFrontOffsetZ();
+		int hX = SonarHelper.getHorizontal(forward).getFrontOffsetX();
+		int hZ = SonarHelper.getHorizontal(forward).getFrontOffsetZ();
 
-		int hoX = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
-		int hoZ = RenderHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
+		int hoX = SonarHelper.getHorizontal(forward).getOpposite().getFrontOffsetX();
+		int hoZ = SonarHelper.getHorizontal(forward).getOpposite().getFrontOffsetZ();
 
 		int fX = forward.getFrontOffsetX();
 		int fZ = forward.getFrontOffsetZ();

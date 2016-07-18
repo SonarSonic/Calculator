@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.client.models.ModelCrankHandle;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
-import sonar.core.common.block.SonarBlock;
 
 public class RenderCrank extends TileEntitySpecialRenderer<TileEntityCrankHandle> {
 	private static final ResourceLocation texture = new ResourceLocation("Calculator:textures/model/crank.png");
@@ -19,10 +18,10 @@ public class RenderCrank extends TileEntitySpecialRenderer<TileEntityCrankHandle
 
 	public void renderTileEntityAt(TileEntityCrankHandle tileentity, double x, double y, double z, float partialTicks, int destroyStage) {
 		int i;
-		if (tileentity.getWorld() == null) {
-			i = 0;
+		if (tileentity.getWorld() == null || tileentity==null) {
+			return;
 		} else {
-			i = tileentity.getWorld().getBlockState(tileentity.getPos()).getValue(SonarBlock.FACING).getIndex();
+			i = tileentity.getBlockMetadata();
 		}
 		GlStateManager.pushMatrix();
 		GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);

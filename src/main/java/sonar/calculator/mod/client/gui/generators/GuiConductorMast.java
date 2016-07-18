@@ -3,15 +3,9 @@ package sonar.calculator.mod.client.gui.generators;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-
-import org.lwjgl.opengl.GL11;
-
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.core.client.gui.GuiSonar;

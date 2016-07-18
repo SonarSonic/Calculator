@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.misc;
 
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -19,7 +17,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMachineBlock;
 
 public class RainSensor extends SonarMachineBlock {

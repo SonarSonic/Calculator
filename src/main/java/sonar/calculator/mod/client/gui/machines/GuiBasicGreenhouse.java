@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.client.gui.machines.GuiAdvancedGreenhouse.GreenhouseButton;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.core.SonarCore;
