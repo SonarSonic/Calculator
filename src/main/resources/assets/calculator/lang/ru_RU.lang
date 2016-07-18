@@ -208,199 +208,199 @@ item.InfoCalculator.name=Калькулятор информации
 item.ObsidianKey.name=Обсидиановый ключ
 
 //reinforcedstone_tools
-item.ReinforcedSword.name=Reinforced Sword
-item.ReinforcedPickaxe.name=Reinforced Pickaxe
-item.ReinforcedAxe.name=Reinforced Axe
-item.ReinforcedShovel.name=Reinforced Shovel
-item.ReinforcedHoe.name=Reinforced Hoe
+item.ReinforcedSword.name=Укрепленный меч
+item.ReinforcedPickaxe.name=Укрепленная кирка
+item.ReinforcedAxe.name=Укрепленный топор
+item.ReinforcedShovel.name=Укрепленная лопата
+item.ReinforcedHoe.name=Укрепленная мотыга
 
 //redstone_tools
-item.RedstoneSword.name=Redstone Sword
-item.RedstonePickaxe.name=Redstone Pickaxe
-item.RedstoneAxe.name=Redstone Axe
-item.RedstoneShovel.name=Redstone Shovel
-item.RedstoneHoe.name=Redstone Hoe
-item.RedstoneIngot.name=Redstone Ingot
+item.RedstoneSword.name=Редстоунский меч
+item.RedstonePickaxe.name=Редстоунская кирка
+item.RedstoneAxe.name=Редстоунский топор
+item.RedstoneShovel.name=Редстоунская лопата
+item.RedstoneHoe.name=Редстоунская мотыга
+item.RedstoneIngot.name=Редстоунский слиток
 
 //enrichedgold_tools
-item.EnrichedGoldSword.name=Enriched Gold Sword
-item.EnrichedGoldPickaxe.name=Enriched Gold Pickaxe
-item.EnrichedGoldAxe.name=Enriched Gold Axe
-item.EnrichedGoldShovel.name=Enriched Gold Shovel
-item.EnrichedGoldHoe.name=Enriched Gold Hoe
-item.EnrichedGoldIngot.name= Enriched Gold Ingot
-item.EnrichedGold.name= Enriched Gold
+item.EnrichedGoldSword.name=Обагащеннозолотой меч
+item.EnrichedGoldPickaxe.name=Обагащеннозолотая кирка
+item.EnrichedGoldAxe.name=Обагащеннозолотой топор
+item.EnrichedGoldShovel.name=Обагащеннозолотая лопата
+item.EnrichedGoldHoe.name=Обагащеннозолотая мотыга
+item.EnrichedGoldIngot.name= Обагащеннозолотой слиток
+item.EnrichedGold.name= Обогащенное золото
 
 
 //reinforcedstone_tools
-item.ReinforcedIronSword.name=Reinforced Iron Sword
-item.ReinforcedIronPickaxe.name=Reinforced Iron Pickaxe
-item.ReinforcedIronAxe.name=Reinforced Iron Axe
-item.ReinforcedIronShovel.name=Reinforced Iron Shovel
-item.ReinforcedIronHoe.name=Reinforced Iron Hoe
-item.ReinforcedIronIngot.name=Reinforced Iron Ingot
+item.ReinforcedIronSword.name=Укрепленножелезный меч
+item.ReinforcedIronPickaxe.name=RУкрепленножелезная кирка
+item.ReinforcedIronAxe.name=Укрепленножелезный топор
+item.ReinforcedIronShovel.name=Укрепленножелезная лопата
+item.ReinforcedIronHoe.name=Укрепленножелезная мотыга
+item.ReinforcedIronIngot.name=Укрепленножелезный слиток
 
 
 
 //weakeneddiamond_tools
-item.WeakenedDiamondSword.name=Weakened Diamond Sword
-item.WeakenedDiamondPickaxe.name=Weakened Diamond Pickaxe
-item.WeakenedDiamondAxe.name=Weakened Diamond Axe
-item.WeakenedDiamondShovel.name=Weakened Diamond Shovel
-item.WeakenedDiamondHoe.name=Weakened Diamond Hoe
-item.WeakenedDiamond.name=Weakened Diamond
+item.WeakenedDiamondSword.name=Ослабленноалмазный меч
+item.WeakenedDiamondPickaxe.name=Ослабленноалмазная кирка
+item.WeakenedDiamondAxe.name=Ослабленноалмазный топор
+item.WeakenedDiamondShovel.name=Ослабленноалмазная лопата
+item.WeakenedDiamondHoe.name=Ослабленноалмазная мотыга
+item.WeakenedDiamond.name=Ослабленный алмаз
 
 //flawlessdiamond_tools
-item.FlawlessDiamondSword.name=Flawless Diamond Sword
-item.FlawlessDiamondPickaxe.name=Flawless Diamond Pickaxe
-item.FlawlessDiamondAxe.name=Flawless Diamond Axe
-item.FlawlessDiamondShovel.name=Flawless Diamond Shovel
-item.FlawlessDiamondHoe.name=Flawless Diamond Hoe
-item.FlawlessDiamond.name=Flawless Diamond
+item.FlawlessDiamondSword.name=Безупречноалмазный меч
+item.FlawlessDiamondPickaxe.name=Безупречноалмазная кирка
+item.FlawlessDiamondAxe.name=Безупречноалмазный топор
+item.FlawlessDiamondShovel.name=Безупречноалмазная лопата
+item.FlawlessDiamondHoe.name=Безупречноалмазная мотыга
+item.FlawlessDiamond.name=Безупречный алмаз
 
 //redfirediamond_tools
-item.FlawlessFireDiamond.name=Fire Diamond
-item.FireDiamondSword.name=Fire Diamond Sword
-item.FireDiamondPickaxe.name=Fire Diamond Pickaxe
-item.FireDiamondAxe.name=Fire Diamond Axe
-item.FireDiamondShovel.name=Fire Diamond Shovel
-item.FireDiamondHoe.name=Fire Diamond Hoe
-item.FireDiamond.name=Fire Diamond
+item.FlawlessFireDiamond.name=Огненный алмаз
+item.FireDiamondSword.name=Огенноалмазный меч
+item.FireDiamondPickaxe.name=Огенноалмазная кирка
+item.FireDiamondAxe.name=Огенноалмазный топор
+item.FireDiamondShovel.name=Огенноалмазная лопата
+item.FireDiamondHoe.name=Огенноалмазная мотыга
+item.FireDiamond.name=Огненный алмаз
 
 //electricdiamond_tools
-item.ElectricDiamond.name=Electric Diamond
-item.ElectricSword.name=Electric Sword
-item.ElectricPickaxe.name=Electric Pickaxe
-item.ElectricAxe.name=Electric Axe
-item.ElectricShovel.name=Electric Shovel
-item.ElectricHoe.name=Electric Hoe
+item.ElectricDiamond.name=Электроалмаз
+item.ElectricSword.name=Электроалмазный меч
+item.ElectricPickaxe.name=Электроалмазная кирка
+item.ElectricAxe.name=Электроалмазный топор
+item.ElectricShovel.name=Электроалмазная лопата
+item.ElectricHoe.name=Электроалмазная мотыга
 
 //end_tools
-item.EndDiamond.name=End Diamond
-item.EndForgedSword.name=End Forged Sword
-item.EndForgedPickaxe.name=End Forged Pickaxe
-item.EndForgedAxe.name=End Forged Axe
-item.EndForgedShovel.name=End Forged Shovel
-item.EndForgedHoe.name=End Forged Hoe
+item.EndDiamond.name=Алмаз Эндер
+item.EndForgedSword.name=Эндкованный меч
+item.EndForgedPickaxe.name=Эндкованная кирка
+item.EndForgedAxe.name=Эндкованный топор
+item.EndForgedShovel.name=Эндкованная лопата
+item.EndForgedHoe.name=Эндкованная мотыга
 
 //achievements
-achievement.CraftCalculator="Next Level Crafting"
-achievement.CraftCalculator.desc="You crafted your first Calculator!"
+achievement.CraftCalculator="Следуйщий уровень в крафте"
+achievement.CraftCalculator.desc="Ты скрафтил первый калькулятор!"
 
-achievement.FlawlessCalculator="Flawless Crafting"
-achievement.FlawlessCalculator.desc="Getting a Flawless Calculator!"
+achievement.FlawlessCalculator="Безупречный крафтинг"
+achievement.FlawlessCalculator.desc="Получен безупречный калькулятор!"
 
 //energy strings
-energy.generate=Generates
-energy.lightning=Lightning Stored
-energy.notEnough=Not Enough Energy
-energy.required=Required Energy
-energy.display=Calculator Energy
-energy.noEnergy=No Energy Stored
-energy.stored=Stored Energy
+energy.generate=Сгенирировал
+energy.lightning=Сохраненно молний (?)
+energy.notEnough=Не хватает энергии
+energy.required=Необходимая энергия
+energy.display=Энергия калькулятора
+energy.noEnergy=Энергия не хранится
+energy.stored=Энергия хранится
 
 //greenhouses
-greenhouse.block=Block at
-greenhouse.blocking=Is blocking construction
-greenhouse.equal=should equal
-greenhouse.construction=Construction has begun
-greenhouse.complete=Greenhouse is complete
-greenhouse.size=Size
-greenhouse.grown=Grown
-greenhouse.harvested=Harvested
-greenhouse.oxygen=Oxygen Stored
-greenhouse.carbon=Carbon Stored
-greenhouse.building=Building
-greenhouse.incomplete=Incomplete
-greenhouse.complete=Complete
-greenhouse.glass=Glass
-greenhouse.quartz=Quartz
-greenhouse.planks=Planks
-greenhouse.logs=Logs
-greenhouse.stairs=Stairs
-greenhouse.stable=Stable Stone
-greenhouse.requires=Requires
-greenhouse.build=Build
-greenhouse.rebuild=Rebuild
-greenhouse.demolish=Demolish
+greenhouse.block=Блоки на
+greenhouse.blocking=Заблокированно строительство
+greenhouse.equal=разровнять!
+greenhouse.construction=Строительство начилось...
+greenhouse.complete=Парник завершился
+greenhouse.size=Размер
+greenhouse.grown=Выращенный
+greenhouse.harvested=Заготовленно
+greenhouse.oxygen=Кислорода сохраненно
+greenhouse.carbon=Углерода сохраненно
+greenhouse.building=Строительство...
+greenhouse.incomplete=Незавершенно
+greenhouse.complete=Завершенно
+greenhouse.glass=Стекло
+greenhouse.quartz=Квартц
+greenhouse.planks=Доски
+greenhouse.logs=Дерева
+greenhouse.stairs=Ступеньки
+greenhouse.stable=Гладкий камень
+greenhouse.requires=Требуется:
+greenhouse.build=Строит...
+greenhouse.rebuild=Перестраивает
+greenhouse.demolish=Сносит...
 
 
 //points
-points.health=Health Points
-points.hunger=Hunger Points
+points.health=Очки здоровья
+points.hunger=Очки голода
 
 //circuits
-circuit.type=Type
-circuit.analysed=Analysed
-circuit.stable=Stable
-circuit.stability=Stability
-circuit.noStability=No Stability
-circuit.dirty=Dirty
-circuit.damaged=Damaged
-circuit.stored=Stored Circuits
-circuit.upgrade=Upgrades cannot be added while the machine is opperating
-circuit.acceptedUpgrades=Accepted Circuits
-circuit.speed=Speed Upgrades
-circuit.energy=Energy Upgrades
-circuit.void=Void Upgrade
-circuit.installed=Installed
+circuit.type=Тип
+circuit.analysed=Анализируется
+circuit.stable=Стабильный
+circuit.stability=Стабилизирован
+circuit.noStability=Не стабилизирован
+circuit.dirty=Грязнный
+circuit.damaged=Разрушенный
+circuit.stored=Схема хранения
+circuit.upgrade=Улучшенния не могут быть добавлены, пока машина работает!
+circuit.acceptedUpgrades=Схема принята
+circuit.speed=Улучшение скорости
+circuit.energy=Улучшение энергии
+circuit.void=Улучшение "пустоты"
+circuit.installed=Установлена
 
 //info
-info.type=Calculator Information
-info.all=All
-info.blocks=Blocks
-info.calculators=Calculators
-info.machines=Machines
-info.generators=Generators
-info.modules=Modules
-info.items=Items
-info.circuits=Circuits
-info.extractChance=Extract Chance
+info.type=Информация о калькуляторах
+info.all=Все
+info.blocks=О блоках
+info.calculators=Калькуляторы
+info.machines=Машины
+info.generators=Генераторы
+info.modules=Модули
+info.items=О предметах
+info.circuits=О схемах
+info.extractChance=Об экстракторах и их шансах
 
 //misc
-locator.multiblock=MultiBlock
-locator.active=Active
-locator.idle=Idle
-locator.owner=Owner
-locator.true=True
-locator.false=False
-locator.state=State
-locator.unknown=Unknown
-locator.none=None
-locator.false=False
-conductor.wait=Wait Time
-conductor.msg=Unknown
-conductor.msg1=5 Billion Days
-conductor.msg2=Who Cares
-conductor.msg3=Tommorrow
-conductor.msg4=Wait and see
-conductor.msg5=Can't Tell You
-conductor.msg6=It's Calculating ;)
-conductor.msg7=I <3 Maths
-conductor.msg8=You have Failed
-crank.cranked=Cranked
-co2.control=Controlling
-co2.burnt=Amount Burnt
-co2.burning=Not Burning
-calc.storedstacks=Stored Stacks
-calc.mode=Mode
-calc.position=Position Set
-calc.stableStone=No Stable Stone
-calc.noPosition=No Position
-calc.dimension=Wrong Dimension
-calc.grenade=Right click again to throw grenade!
-calc.ban=Banned by server
-flawless.mode1=Flawless Crafting
-flawless.mode2=Dynamic Crafting
-flawless.mode3=Normal Crafting
-flawless.mode4=Spawn Grenade
-flawless.mode5=Spawn Ender Pearl
-flawless.mode6=Home Teleport
-flawless.mode=Mode Changed
-inv.full=Inventory Full!
-generator.starch=Starch Level
-generator.redstone=Redstone Level
-generator.glowstone=Glowstone Level
+locator.multiblock=Мультиблок
+locator.active=Активно
+locator.idle=Незанято
+locator.owner=Владелец
+locator.true=Истинно
+locator.false=Ложно
+locator.state=Статус
+locator.unknown=Неизвестен
+locator.none=Нет
+locator.false=Ложно
+conductor.wait=Подождите...
+conductor.msg=Неизвестно
+conductor.msg1=5 биллионов дней
+conductor.msg2=Какая разница?
+conductor.msg3=Завтра
+conductor.msg4=Жди и смотри
+conductor.msg5=Не могу сказать
+conductor.msg6=Просчитываю ;)
+conductor.msg7=Я <3 математику
+conductor.msg8=Вы фейл =(
+crank.cranked=Изогнутый
+co2.control=Контроллируется
+co2.burnt=Сумма Сгоранния
+co2.burning=Не сгорается
+calc.storedstacks=Стак хранится
+calc.mode=Режим
+calc.position=Заданна позиция
+calc.stableStone=Нет гладких камней
+calc.noPosition=Нет позиций
+calc.dimension=Неверное измерение
+calc.grenade=Правой кнопкой нажми, чтобы бросить гранату!
+calc.ban=Забаненно на сервере
+flawless.mode1=Безупречный крафт
+flawless.mode2=Динамический крафт
+flawless.mode3=Нормальный крафт
+flawless.mode4=Спавн гранаты
+flawless.mode5=Спавн жемчуг энда
+flawless.mode6=Домащний телепорт
+flawless.mode=Режим измененн
+inv.full=Инвентарь полон!
+generator.starch=Энергитеческий уровень
+generator.redstone=Редстоуновский уровень
+generator.glowstone=Глоустоновский уровень
 
 //new
 planting.basic=Planted with Basic Greenhouse or Higher
