@@ -1,5 +1,4 @@
 ﻿//**CALCULATOR**//
-Russian lang file - Loading 65%
 //calculators
 item.Calculator.name=Калькулятор
 item.CraftingCalculator.name=Калькулятор крафта
@@ -96,8 +95,8 @@ item.Broccoli.name=Броколли
 tile.CropBroccoli.name=Растение брокколли
 
 item.CoalDust.name=Угленная пыль
-item.PrunaeSeeds.name=Семена чернослива (Prune?) *
-tile.CropPrunae.name=Растение чернослива  *
+item.PrunaeSeeds.name=Семена чернослива
+tile.CropPrunae.name=Растение чернослива
 
 item.FiddledewFruit.name=Fiddledew Fruit
 tile.CropFiddledew.name=Fiddledew Plant
@@ -292,7 +291,7 @@ achievement.FlawlessCalculator.desc="Получен безупречный ка�
 
 //energy strings
 energy.generate=Сгенирировал
-energy.lightning=Сохраненно молний (?)
+energy.lightning=Сохраненно молний
 energy.notEnough=Не хватает энергии
 energy.required=Необходимая энергия
 energy.display=Энергия калькулятора
@@ -342,7 +341,7 @@ circuit.upgrade=Улучшенния не могут быть добавлены
 circuit.acceptedUpgrades=Схема принята
 circuit.speed=Улучшение скорости
 circuit.energy=Улучшение энергии
-circuit.void=Улучшение "пустоты"
+circuit.void=Улучшение 'пустоты'
 circuit.installed=Установлена
 
 //info
