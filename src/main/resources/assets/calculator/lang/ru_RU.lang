@@ -1,5 +1,5 @@
 ﻿//**CALCULATOR**//
-Russian lang file - Loading 10%
+Russian lang file - Loading 65%
 //calculators
 item.Calculator.name=Калькулятор
 item.CraftingCalculator.name=Калькулятор крафта
@@ -51,161 +51,161 @@ tile.HealthProcessor.name=Процессор здоровья
 tile.ExtractionChamber.name=Камера экстрактирования
 tile.ReassemblyChamber.name=Камера пересборщик
 tile.RestorationChamber.name=Камера восстановления
-tile.ProcessingChamber.name=Processing Chamber
-tile.AnalysingChamber.name=Analysing Chamber
-tile.PrecisionChamber.name=Precision Chamber
-tile.StorageChamber.name=Storage Chamber
-tile.ReinforcedFurnace.name=Reinforced Furnace
-tile.GasLanternOn.name=Gas Lantern
-tile.GasLanternOff.name=Gas Lantern
-tile.Lantern.name=Lantern
-tile.AdvancedGreenhouse.name=Advanced Greenhouse
-tile.BasicGreenhouse.name=Basic Greenhouse
-tile.FlawlessGreenhouse.name=Flawless Greenhouse
-tile.FlawlessGlass.name=Flawless Glass
-tile.CO2Generator.name=Carbon Dioxide Generator
-tile.Scarecrow.name=Scarecrow
-tile.ScarecrowBlock.name=Scarecrow
+tile.ProcessingChamber.name=Камера процессинга
+tile.AnalysingChamber.name=Камера анализирования
+tile.PrecisionChamber.name=Камера точности
+tile.StorageChamber.name=Камера хранения
+tile.ReinforcedFurnace.name=Укрепленная печка
+tile.GasLanternOn.name=Газовая лампа
+tile.GasLanternOff.name=Газовая лампа
+tile.Lantern.name=Лампа
+tile.AdvancedGreenhouse.name=Продвинутый парник
+tile.BasicGreenhouse.name=Базовый парник
+tile.FlawlessGreenhouse.name=Безупречный парник
+tile.FlawlessGlass.name=Безупречное стекло
+tile.CO2Generator.name=Углероднодиоксидный генератор
+tile.Scarecrow.name=Пугало
+tile.ScarecrowBlock.name=Пугало
 
 //gems
-item.LargeAmethyst.name=Large Amethyst
-item.SmallAmethyst.name=Amethyst
-item.ShardAmethyst.name=Amethyst Shard
-item.LargeTanzanite.name=Large Tanzanite
-item.SmallTanzanite.name=Tanzanite
-item.ShardTanzanite.name=Tanzanite Shard
+item.LargeAmethyst.name=Огромный аметист
+item.SmallAmethyst.name=Аметист
+item.ShardAmethyst.name=Осколки аметиста
+item.LargeTanzanite.name=Огромный танзанит
+item.SmallTanzanite.name=Танзанит
+item.ShardTanzanite.name=Осколки танзанита
 
 //grenades
-item.Grenade.name=Grenade
-item.BabyGrenade.name=Baby Grenade
-item.GrenadeCasing.name=Grenade Casing
-item.DirtGrenade.name=Dirt Grenade
-item.DirtGrenadeCasing.name=Dirt Grenade Casing
+item.Grenade.name=Граната
+item.BabyGrenade.name=Малая граната
+item.GrenadeCasing.name=Корпус гранаты
+item.DirtGrenade.name=Грязевая граната
+item.DirtGrenadeCasing.name=Корпус грязевой гранаты
 
 //fuels
-item.EnrichedCoal.name=Enriched Coal
-item.PurifiedCoal.name=Purified Coal
-item.FireCoal.name=Fire Coal
-item.ControlledFuel.name=Controlled Fuel
+item.EnrichedCoal.name=Обогащенный угль
+item.PurifiedCoal.name=Очищенный угль
+item.FireCoal.name=Огненный уголь
+item.ControlledFuel.name=Контролируемое топливо
 
 //crops
-item.Broccoli.name=Broccoli
-item.BroccoliSeeds.name=Broccoli Seeds
-item.CookedBroccoli.name=Cooked Broccoli
-item.Broccoli.name=Broccoli
-tile.CropBroccoli.name=Broccoli Plant
+item.Broccoli.name=Броколли
+item.BroccoliSeeds.name=Семена броколли
+item.CookedBroccoli.name=Жаренное броколли
+item.Broccoli.name=Броколли
+tile.CropBroccoli.name=Растение брокколли
 
-item.CoalDust.name=Coal Dust
-item.PrunaeSeeds.name=Prunae Seeds
-tile.CropPrunae.name=Prunae Plant
+item.CoalDust.name=Угленная пыль
+item.PrunaeSeeds.name=Семена чернослива (Prune?) *
+tile.CropPrunae.name=Растение чернослива  *
 
 item.FiddledewFruit.name=Fiddledew Fruit
 tile.CropFiddledew.name=Fiddledew Plant
 
 //amethyst tree
-tile.AmethystLog.name=Amethyst Wood
-tile.AmethystLeaves.name=Amethyst Leaves
-tile.AmethystSapling.name=Amethyst Sapling
-tile.AmethystPlanks.name=Amethyst Planks
-tile.AmethystStairs.name=Amethyst Stairs
+tile.AmethystLog.name=Аметистовое дерево
+tile.AmethystLeaves.name=Аместистовая листва
+tile.AmethystSapling.name=Аметистовый саженец
+tile.AmethystPlanks.name=Доски из аметиствого дерева
+tile.AmethystStairs.name=Ступенки из аметистового дерева
 
 //tanzanite tree
-tile.TanzaniteLog.name=Tanzanite Wood
-tile.TanzaniteLeaves.name=Tanzanite Leaves
-tile.TanzaniteSapling.name=Tanzanite Sapling
-tile.TanzanitePlanks.name=Tanzanite Planks
-tile.TanzaniteStairs.name=Tanzanite Stairs
+tile.TanzaniteLog.name=Танзанитовое дерево
+tile.TanzaniteLeaves.name=Танзанитовая листва
+tile.TanzaniteSapling.name=Танзанитовый саженец
+tile.TanzanitePlanks.name=Доски из танзанитного дерева
+tile.TanzaniteStairs.name=Ступенки из танзанитного дерева
 
 //pear tree
-item.Pear.name=Pear
-item.RottenPear.name=Rotten Pear
-tile.PearLog.name=Pear Wood
-tile.PearLeaves.name=Pear Leaves
-tile.PearSapling.name=Pear Sapling
-tile.PearPlanks.name=Pear Planks
-tile.PearStairs.name=Pear Stairs
+item.Pear.name=Груша
+item.RottenPear.name=Сырая груша
+tile.PearLog.name=Дерево груши
+tile.PearLeaves.name=Листва груши
+tile.PearSapling.name=Сажанец груши
+tile.PearPlanks.name=Доски из грушевого дерева
+tile.PearStairs.name=Ступенки из грушевого дерева
 
 //diamond tree
-tile.DiamondLog.name=Diamond Wood
-tile.DiamondLeaves.name=Diamond Leaves
-tile.DiamondSapling.name=Diamond Sapling
-tile.DiamondPlanks.name=Diamond Planks
-tile.DiamondStairs.name=Diamond Stairs
+tile.DiamondLog.name=Алмазное дерево
+tile.DiamondLeaves.name=Алмазная листва
+tile.DiamondSapling.name=Алмазный сажанец
+tile.DiamondPlanks.name=Доски из алмазного дерева
+tile.DiamondStairs.name=Ступенки из алмазного дерева
 
 
-tile.PurifiedObsidian.name=Purified Obsidian
+tile.PurifiedObsidian.name=Очищенный обсидиан
 
 
-item.Sickle.name=Sickle
-item.Wrench.name=Wrench
+item.Sickle.name=Серп
+item.Wrench.name=Гаечный ключ
 
-item.Soil.name=Soil
-item.SmallStone.name=Small Stone
+item.Soil.name=Почва
+item.SmallStone.name=Перетертый камень
 
 //circuits
-item.CircuitBoard.0.name=Circuit
-item.CircuitBoard.1.name=Circuit
-item.CircuitBoard.2.name=Circuit
-item.CircuitBoard.3.name=Circuit
-item.CircuitBoard.4.name=Circuit
-item.CircuitBoard.5.name=Circuit
-item.CircuitBoard.6.name=Circuit
-item.CircuitBoard.7.name=Circuit
-item.CircuitBoard.8.name=Circuit
-item.CircuitBoard.9.name=Circuit
-item.CircuitBoard.10.name=Circuit
-item.CircuitBoard.11.name=Circuit
-item.CircuitBoard.12.name=Circuit
-item.CircuitBoard.13.name=Circuit
-item.CircuitBoard.14.name=Circuit
+item.CircuitBoard.0.name=Схема
+item.CircuitBoard.1.name=Схема
+item.CircuitBoard.2.name=Схема
+item.CircuitBoard.3.name=Схема
+item.CircuitBoard.4.name=Схема
+item.CircuitBoard.5.name=Схема
+item.CircuitBoard.6.name=Схема
+item.CircuitBoard.7.name=Схема
+item.CircuitBoard.8.name=Схема
+item.CircuitBoard.9.name=Схема
+item.CircuitBoard.10.name=Схема
+item.CircuitBoard.11.name=Схема
+item.CircuitBoard.12.name=Схема
+item.CircuitBoard.13.name=Схема
+item.CircuitBoard.14.name=Схема
 
 //damaged circuits
-item.CircuitDamaged.0.name=Damaged Circuit
-item.CircuitDamaged.1.name=Damaged Circuit
-item.CircuitDamaged.2.name=Damaged Circuit
-item.CircuitDamaged.3.name=Damaged Circuit
-item.CircuitDamaged.4.name=Damaged Circuit
-item.CircuitDamaged.5.name=Damaged Circuit
-item.CircuitDamaged.6.name=Damaged Circuit
-item.CircuitDamaged.7.name=Damaged Circuit
-item.CircuitDamaged.8.name=Damaged Circuit
-item.CircuitDamaged.9.name=Damaged Circuit
-item.CircuitDamaged.10.name=Damaged Circuit
-item.CircuitDamaged.11.name=Damaged Circuit
-item.CircuitDamaged.12.name=Damaged Circuit
-item.CircuitDamaged.13.name=Damaged Circuit
-item.CircuitDamaged.14.name=Damaged Circuit
+item.CircuitDamaged.0.name=Разрушенная схема
+item.CircuitDamaged.1.name=Разрушенная схема
+item.CircuitDamaged.2.name=Разрушенная схема
+item.CircuitDamaged.3.name=Разрушенная схема
+item.CircuitDamaged.4.name=Разрушенная схема
+item.CircuitDamaged.5.name=Разрушенная схема
+item.CircuitDamaged.6.name=Разрушенная схема
+item.CircuitDamaged.7.name=Разрушенная схема
+item.CircuitDamaged.8.name=Разрушенная схема
+item.CircuitDamaged.9.name=Разрушенная схема
+item.CircuitDamaged.10.name=Разрушенная схема
+item.CircuitDamaged.11.name=Разрушенная схема
+item.CircuitDamaged.12.name=Разрушенная схема
+item.CircuitDamaged.13.name=Разрушенная схема
+item.CircuitDamaged.14.name=Разрушенная схема
 
 //dirty circuits
-item.CircuitDirty.0.name=Dirty Circuit
-item.CircuitDirty.1.name=Dirty Circuit
-item.CircuitDirty.2.name=Dirty Circuit
-item.CircuitDirty.3.name=Dirty Circuit
-item.CircuitDirty.4.name=Dirty Circuit
-item.CircuitDirty.5.name=Dirty Circuit
-item.CircuitDirty.6.name=Dirty Circuit
-item.CircuitDirty.7.name=Dirty Circuit
-item.CircuitDirty.8.name=Dirty Circuit
-item.CircuitDirty.9.name=Dirty Circuit
-item.CircuitDirty.10.name=Dirty Circuit
-item.CircuitDirty.11.name=Dirty Circuit
-item.CircuitDirty.12.name=Dirty Circuit
-item.CircuitDirty.13.name=Dirty Circuit
-item.CircuitDirty.14.name=Dirty Circuit
+item.CircuitDirty.0.name=Грязная схема
+item.CircuitDirty.1.name=Грязная схема
+item.CircuitDirty.2.name=Грязная схема
+item.CircuitDirty.3.name=Грязная схема
+item.CircuitDirty.4.name=Грязная схема
+item.CircuitDirty.5.name=Грязная схема
+item.CircuitDirty.6.name=Грязная схема
+item.CircuitDirty.7.name=Грязная схема
+item.CircuitDirty.8.name=Грязная схема
+item.CircuitDirty.9.name=Грязная схема
+item.CircuitDirty.10.name=Грязная схема
+item.CircuitDirty.11.name=Грязная схема
+item.CircuitDirty.12.name=Грязная схема
+item.CircuitDirty.13.name=Грязная схема
+item.CircuitDirty.14.name=Грязная схема
 
 //blocks
-tile.Material.0.name=Amethyst Block
-tile.Material.1.name=Tanzanite Block
-tile.Material.2.name=Enriched Gold Block
-tile.Material.3.name=Reinforced Iron Block
-tile.Material.4.name=Weakened Diamond Block
-tile.Material.5.name=Flawless Diamond Block
-tile.Material.6.name=Fire Diamond Block
-tile.Material.7.name=Electric Diamond Block
-tile.Material.8.name=End Diamond Block
+tile.Material.0.name=Блок из аметиста
+tile.Material.1.name=Блок из танзанита
+tile.Material.2.name=Блок из обогащенного золота
+tile.Material.3.name=Блок из укрепленного железа
+tile.Material.4.name=Блок из ослабленного алмаза
+tile.Material.5.name=Блок из безупречного алмаза
+tile.Material.6.name=Блок из огненного алмаза
+tile.Material.7.name=Блок из Электроалмаза
+tile.Material.8.name=Блок из алмаза Эндр
 
-item.InfoCalculator.name=Info Calculator
-item.ObsidianKey.name=Obsidian Key
+item.InfoCalculator.name=Калькулятор информации
+item.ObsidianKey.name=Обсидиановый ключ
 
 //reinforcedstone_tools
 item.ReinforcedSword.name=Reinforced Sword
