@@ -1,11 +1,10 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

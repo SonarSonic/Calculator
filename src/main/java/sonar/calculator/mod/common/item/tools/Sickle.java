@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.item.tools;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -17,12 +19,12 @@ public class Sickle extends SonarItem {
 
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-	if (!player.canPlayerEdit(pos, side, stack)) {
+		if (!player.canPlayerEdit(pos, side, stack)) {
 			return EnumActionResult.PASS;
-		}		
+		}
 		if (!SonarAPI.getItemHelper().isPlayerInventoryFull(player)) {
-			ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(world, pos, false);
-			if (stacks != null) {
+			ArrayList<ItemStack> stacks = TreeHarvestRecipes.harvestLeaves(world, pos, false);
+			if (stacks != null && !stacks.isEmpty()) {
 				for (ItemStack harvest : stacks) {
 					player.inventory.addItemStackToInventory(ItemStackHelper.restoreItemStack(harvest, 1));
 				}
@@ -31,7 +33,7 @@ public class Sickle extends SonarItem {
 		} else if (!world.isRemote) {
 			FontHelper.sendMessage(FontHelper.translate("inv.full"), world, player);
 		}
-	
+
 		return EnumActionResult.PASS;
 	}
 

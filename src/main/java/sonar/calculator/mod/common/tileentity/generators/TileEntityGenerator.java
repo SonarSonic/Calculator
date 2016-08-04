@@ -2,6 +2,8 @@ package sonar.calculator.mod.common.tileentity.generators;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -24,8 +26,6 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
-
-import com.google.common.collect.Lists;
 
 public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile {
 
@@ -66,25 +66,27 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		if (!(stack == null)) {
 			if (burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
 				if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel.getObject() >= requiredLevel) {
-					this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(stack));
-					burnTime.increaseBy(1);					
-					this.slots()[0].stackSize--;
-					if (this.slots()[0] != null) {
-						--this.slots()[0].stackSize;
-						if (this.slots()[0].stackSize <= 0) {
-							this.slots()[0] = this.slots()[0].getItem().getContainerItem(this.slots()[0]);							
+					int itemBurnTime = TileEntityFurnace.getItemBurnTime(stack);
+					if (itemBurnTime != 0) {
+						this.maxBurnTime.setObject(itemBurnTime);
+						burnTime.increaseBy(1);
+						if (this.slots()[0] != null) {
+							--this.slots()[0].stackSize;
+							if (this.slots()[0].stackSize <= 0) {
+								this.slots()[0] = this.slots()[0].getItem().getContainerItem(this.slots()[0]);
+							}
 						}
+
 					}
 				}
 			}
 
 		}
-		if (burnTime.getObject() > 0 && !(burnTime.getObject() == maxBurnTime.getObject())) {
+		if (burnTime.getObject() > 0 && !(burnTime.getObject() >= maxBurnTime.getObject())) {
 			this.storage.receiveEnergy(energyMultiplier, false);
 			burnTime.increaseBy(1);
-			;
 		}
-		if (maxBurnTime.getObject() != 0 && burnTime.getObject() == maxBurnTime.getObject()) {
+		if (maxBurnTime.getObject() != 0 && burnTime.getObject() >= maxBurnTime.getObject()) {
 			this.storage.receiveEnergy(energyMultiplier, false);
 			burnTime.setObject(0);
 			this.removeItem(requiredLevel);
@@ -108,7 +110,6 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	}
 
 	public abstract int getItemValue(ItemStack stack);
-
 
 	public void addItem(int add) {
 		itemLevel.increaseBy(add);

@@ -141,16 +141,18 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 
 		public boolean harvestBlock(BlockCoords coords) {
 			IBlockState state = coords.getBlockState(this.worldObj);
-			LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
-			if (growth != null && (growth == LeafGrowth.MATURED || growth == LeafGrowth.READY)) {
-				if (state.getBlock() == Calculator.tanzaniteLeaves) {
-					this.healthPoints++;
-					this.worldObj.setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
-					return true;
-				} else if (state.getBlock() == Calculator.amethystLeaves) {
-					this.hungerPoints++;
-					this.worldObj.setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
-					return true;
+			if (state.getBlock() == Calculator.tanzaniteLeaves || state.getBlock() == Calculator.amethystLeaves) {
+				LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
+				if (growth != null && (growth == LeafGrowth.MATURED || growth == LeafGrowth.READY)) {
+					if (state.getBlock() == Calculator.tanzaniteLeaves) {
+						this.healthPoints++;
+						this.worldObj.setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
+						return true;
+					} else if (state.getBlock() == Calculator.amethystLeaves) {
+						this.hungerPoints++;
+						this.worldObj.setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
+						return true;
+					}
 				}
 			}
 			return false;
@@ -252,18 +254,20 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		public boolean harvestBlock(BlockCoords block) {
 			IBlockState state = block.getBlockState(worldObj);
 			if (state.getValue(CalculatorLeaves.GROWTH).getMeta() > 2) {
-				ItemStack[] stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getBlockPos(), rand.nextBoolean());
+				ArrayList<ItemStack> stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getBlockPos(), rand.nextBoolean());
 				EnumFacing forward = EnumFacing.getFront(getBlockMetadata());
-				for (ItemStack s : stacks) {
-					if (s != null) {
-						ItemStack stack = s.copy();
-						StoredItemStack storedstack = new StoredItemStack(stack);
-						StoredItemStack harvest = SonarAPI.getItemHelper().addItems(this, storedstack.copy(), EnumFacing.DOWN, ActionType.PERFORM, null);
-						storedstack.remove(harvest);
-						if (storedstack != null && storedstack.stored > 0) {
-							BlockPos pos = this.pos.offset(forward.getOpposite());
-							EntityItem drop = new EntityItem(worldObj, pos.getX(), pos.getY(), pos.getZ(), storedstack.getFullStack());
-							worldObj.spawnEntityInWorld(drop);
+				if (stacks != null && !stacks.isEmpty()) {
+					for (ItemStack s : stacks) {
+						if (s != null) {
+							ItemStack stack = s.copy();
+							StoredItemStack storedstack = new StoredItemStack(stack);
+							StoredItemStack harvest = SonarAPI.getItemHelper().addItems(this, storedstack.copy(), EnumFacing.DOWN, ActionType.PERFORM, null);
+							storedstack.remove(harvest);
+							if (storedstack != null && storedstack.stored > 0) {
+								BlockPos pos = this.pos.offset(forward.getOpposite());
+								EntityItem drop = new EntityItem(worldObj, pos.getX(), pos.getY(), pos.getZ(), storedstack.getFullStack());
+								worldObj.spawnEntityInWorld(drop);
+							}
 						}
 					}
 				}

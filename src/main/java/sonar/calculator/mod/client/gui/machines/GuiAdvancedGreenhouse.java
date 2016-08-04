@@ -2,6 +2,8 @@ package sonar.calculator.mod.client.gui.machines;
 
 import java.text.DecimalFormat;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -11,9 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;

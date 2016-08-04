@@ -4,19 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.containers.ContainerFabricationChamber;
 import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes;
 import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes.CircuitStack;
@@ -123,11 +120,7 @@ public class GuiFabricationChamber extends GuiContainer {
 				for (CircuitStack circuit : requirements) {
 					int cLeft = left + ((cPos - ((cPos / 5) * 5)) * 18);
 					int cTop = top + (cPos / 5) * 18;
-					ItemStack stack = new ItemStack(Calculator.circuitBoard, (int) circuit.required, circuit.meta);
-
-					NBTTagCompound tag = new NBTTagCompound();
-					tag.setInteger("Stable", circuit.stable ? 1 : 0);
-					stack.setTagCompound(tag);
+					ItemStack stack = circuit.buildItemStack();
 					itemRender.renderItemIntoGUI(stack, cLeft, cTop);
 					itemRender.renderItemOverlayIntoGUI(fontRendererObj, stack, cLeft, cTop, "" + circuit.required);
 					cPos++;

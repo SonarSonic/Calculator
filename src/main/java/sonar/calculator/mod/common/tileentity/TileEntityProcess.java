@@ -1,11 +1,12 @@
 package sonar.calculator.mod.common.tileentity;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Lists;
+
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -24,11 +25,10 @@ import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.network.sync.SyncTagType;
+import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.upgrades.UpgradeInventory;
 import sonar.core.utils.MachineSideConfig;
-
-import com.google.common.collect.Lists;
 
 /** electric smelting tile entity */
 public abstract class TileEntityProcess extends TileEntityEnergySidedInventory implements IUpgradableTile, IPausable, IAdditionalInventory, IProcessMachine, IByteBufTile {
@@ -38,7 +38,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public SyncTagType.BOOLEAN invertPaused = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.BOOLEAN paused = new SyncTagType.BOOLEAN(1);
-	public SyncTagType.INT cookTime = new SyncTagType.INT(2);
+	public SyncTagType.INT cookTime = (INT) new SyncTagType.INT(2).removeSyncType(SyncType.DEFAULT_SYNC);
 	public UpgradeInventory upgrades = new UpgradeInventory(16, "ENERGY", "SPEED", "TRANSFER").addMaxiumum("TRANSFER", 1);
 
 	public boolean isActive = false;
@@ -48,80 +48,68 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	// client
 	public int currentSpeed;
 
-	public TileEntityProcess(){
+	public TileEntityProcess() {
 		syncParts.addAll(Lists.newArrayList(paused, invertPaused, cookTime));
 	}
-	
+
 	public abstract boolean canProcess();
 
 	public abstract void finishProcess();
 
 	public void update() {
 		super.update();
-		if (!worldObj.isRemote) {
+		if (isServer()) {
 			if (upgrades.getUpgradesInstalled("TRANSFER") > 0) {
 				transferItems();
 			}
-			/*
-			boolean oldPause = paused.getObject();
-			if (this.worldObj.getStrongPower(getPos())==15) {
-				this.paused.setObject(false);
-				this.markDirty();
-				return;
-			} else {
-				this.paused.setObject(true);
-			}
-			
-			if (oldPause != paused.getObject()) {
-				this.onPause();
-			}
-			*/
-		}
-		boolean flag = this.isActive();
-
-		if (!isPaused()) {
-			if (this.cookTime.getObject() > 0) {
-				this.cookTime.increaseBy(1);
-				if (!this.worldObj.isRemote) {
-					modifyEnergy();
-				}
-			}
-			if (this.canProcess()) {
-				this.renderTicks();
-				if (!this.worldObj.isRemote) {
-					if (cookTime.getObject() == 0) {
-						this.cookTime.increaseBy(1);
-						modifyEnergy();
-					}
+			if (!isPaused()) {
+				boolean forceUpdate = false;
+				if (canProcess()) {
 					if (this.cookTime.getObject() >= this.getProcessTime()) {
 						this.finishProcess();
-						if (canProcess()) {
-							this.cookTime.increaseBy(1);
-						}
 						cookTime.setObject(0);
 						this.energyBuffer = 0;
+						forceUpdate = true;
+					} else if (this.cookTime.getObject() > 0) {
+						this.cookTime.increaseBy(1);
+						modifyEnergy();
+					} else if (cookTime.getObject() == 0) {
+						this.cookTime.increaseBy(1);
+						modifyEnergy();
+						forceUpdate = true;
+					}
+
+				} else {
+					renderTicks = 0;
+					if (cookTime.getObject() != 0) {
+						cookTime.setObject(0);
+						this.energyBuffer = 0;
+						SonarCore.sendPacketAround(this, 128, 2);
+						forceUpdate = true;
 					}
 				}
-			} else {
-				renderTicks = 0;
-				if (cookTime.getObject() != 0) {
-					cookTime.setObject(0);
-					this.energyBuffer = 0;
+				if (forceUpdate) {
+					isActive = isActive();
 					SonarCore.sendPacketAround(this, 128, 2);
+					worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
 				}
-
 			}
-
-		}
-		boolean flag2 = this.isActive();
-		if (flag != flag2) {
-			if (flag && !this.canProcess() || !flag) {
-				isActive = flag2;
-				SonarCore.sendPacketAround(this, 128, 2);
-				worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
+		} else {
+			if (!isPaused()) {
+				if (canProcess()) {
+					renderTicks();
+					cookTime.increaseBy(1);
+				} else {
+					if (cookTime.getObject() != 0) {
+						renderTicks = 0;
+						cookTime.setObject(0);
+					}
+				}
 			}
 		}
+
 		this.markDirty();
+
 	}
 
 	public void transferItems() {
@@ -181,7 +169,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1) {
-			markBlockForUpdate();;
+			markBlockForUpdate();
 		}
 		return true;
 	}
@@ -198,6 +186,9 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	}
 
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
+		if (isServer() && forceSync) {
+			SonarCore.sendPacketAround(this, 128, 2);
+		}
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			if (type.isType(SyncType.DEFAULT_SYNC)) {
@@ -207,6 +198,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		}
 		return nbt;
 	}
+
 	@Override
 	public UpgradeInventory getUpgradeInventory() {
 		return upgrades;
@@ -310,7 +302,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			invertPaused.writeToBuf(buf);
 			paused.writeToBuf(buf);
 			cookTime.writeToBuf(buf);
-			buf.writeBoolean(isActive);
+			buf.writeBoolean(isActive());
 		}
 	}
 

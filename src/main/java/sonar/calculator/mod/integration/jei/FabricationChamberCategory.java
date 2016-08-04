@@ -1,5 +1,7 @@
 package sonar.calculator.mod.integration.jei;
 
+import java.util.List;
+
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
@@ -8,20 +10,21 @@ import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategory;
 
-public class ConductorMastCategory extends JEICategory {
+public class FabricationChamberCategory extends JEICategory {
 
 	private final IDrawable background;
 	protected final IDrawableAnimated arrow;
 
-	public ConductorMastCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public FabricationChamberCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(handler);
 		ResourceLocation location = new ResourceLocation("calculator", "textures/gui/" + handler.getTextureName() + ".png");
-		background = guiHelper.createDrawable(location, 49, 17, 80, 26);
-		IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, 176, 0, 18, 8);
+		background = guiHelper.createDrawable(location, 0, 0, 151, 55);
+		IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, 0, 56, 20, 16);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 100, IDrawableAnimated.StartDirection.LEFT, false);
 	}
 
@@ -32,15 +35,26 @@ public class ConductorMastCategory extends JEICategory {
 
 	@Override
 	public void drawAnimations(Minecraft minecraft) {
-		arrow.draw(minecraft, 30, 9);
+		arrow.draw(minecraft, 95, 20);
 	}
 
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper) {
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
-		stacks.init(0, true, 4, 4);
-		stacks.init(2, false, 58, 4);
-		stacks.setFromRecipe(0, recipeWrapper.getInputs());
-		stacks.setFromRecipe(2, recipeWrapper.getOutputs());
+		List<ItemStack> outputs = recipeWrapper.getInputs();
+		int left = 0;
+		int top = 0;
+		int cPos = 0;
+		for (ItemStack stack : outputs) {
+			int cLeft = left + ((cPos - ((cPos / 5) * 5)) * 18);
+			int cTop = top + (cPos / 5) * 18;
+			stacks.init(cPos, true, cLeft, cTop);
+			stacks.setFromRecipe(cPos, stack);
+			cPos++;
+
+		}
+		stacks.init(-1, false, 129, 20);
+		stacks.setFromRecipe(-1, recipeWrapper.getOutputs());
+
 	}
 }

@@ -1,10 +1,9 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.List;
 import java.util.Random;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;

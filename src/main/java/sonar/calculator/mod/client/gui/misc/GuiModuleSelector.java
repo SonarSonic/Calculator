@@ -3,17 +3,16 @@ package sonar.calculator.mod.client.gui.misc;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.api.modules.IModule;

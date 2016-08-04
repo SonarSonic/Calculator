@@ -1,13 +1,12 @@
 package sonar.calculator.mod.client.renderers;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 
 public class RenderAnalysingChamber extends TileEntitySpecialRenderer<TileEntityAnalysingChamber> {

@@ -50,7 +50,12 @@
                 "textures": {
                     "all":"Calculator:blocks/end_diamond_block"
                 }
-	        }      
+	        },
+            "redstone_ingot":{             
+                "textures": {
+                    "all":"Calculator:blocks/redstone_ingot_block"
+                }
+            }        
         }
     }
 }

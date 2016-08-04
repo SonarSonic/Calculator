@@ -42,6 +42,7 @@ import sonar.calculator.mod.common.block.misc.CO2Generator;
 import sonar.calculator.mod.common.block.misc.GasLantern;
 import sonar.calculator.mod.common.block.misc.MagneticFlux;
 import sonar.calculator.mod.common.block.misc.Piping;
+import sonar.calculator.mod.common.block.misc.PurifiedObsidian;
 import sonar.calculator.mod.common.block.misc.RainSensor;
 import sonar.calculator.mod.common.block.misc.ReinforcedChest;
 import sonar.calculator.mod.common.block.misc.Scarecrow;
@@ -112,8 +113,8 @@ public class CalculatorBlocks extends Calculator {
 	public static void registerBlocks() {
 
 		flawlessGlass = registerBlock("FlawlessGlass", new ConnectedBlock.Glass(Material.GLASS, 3)).setLightLevel(0.625F).setHardness(0.6F);
-		purifiedObsidian = registerBlock("PurifiedObsidian", new ConnectedBlock(Material.ROCK, 4)).setBlockUnbreakable().setResistance(6000000.0F);
-
+		purifiedObsidian = registerBlock("PurifiedObsidian", new PurifiedObsidian(Material.ROCK, 4)).setBlockUnbreakable().setResistance(6000000.0F);
+		
 		/* stablestonerimmedBlock = new ConnectedBlock.StableRimmed().setUnlocalizedName("stablestonerimmedBlock").setCreativeTab(Calculator).setHardness(2.0F); GameRegistry.registerBlock(stablestonerimmedBlock, ItemMetaBlock.class, "stablestonerimmedBlock"); stablestonerimmedblackBlock = new ConnectedBlock.StableBlackRimmed().setUnlocalizedName("stablestonerimmedblackBlock").setCreativeTab(Calculator).setHardness(2.0F); GameRegistry.registerBlock(stablestonerimmedblackBlock, ItemMetaBlock.class, "stablestonerimmedblackBlock"); stableglassBlock = new ConnectedBlock.StableGlass("stablestone_glass", 3).setBlockName("StableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F); GameRegistry.registerBlock(stableglassBlock, SonarBlockTip.class, "StableGlass"); clearstableglassBlock = new ConnectedBlock.StableGlass("stablestone_clear", 4).setBlockName("ClearStableGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F); GameRegistry.registerBlock(clearstableglassBlock, SonarBlockTip.class, "ClearStableGlass"); flawlessGlass = new ConnectedBlock(Material.glass, "flawlessglass", 1, false).setBlockName("FlawlessGlass").setCreativeTab(Calculator).setLightLevel(0.625F).setHardness(0.6F); GameRegistry.registerBlock(flawlessGlass, SonarBlockTip.class, "FlawlessGlass"); */
 		// calculators
 		powerCube = registerBlock("PowerCube", new PowerCube().setHardness(1.0F).setResistance(20.0F));

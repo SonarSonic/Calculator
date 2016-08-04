@@ -1,12 +1,12 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import cofh.api.energy.IEnergyConnection;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.ActionType;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.helpers.SonarHelper;
-import cofh.api.energy.IEnergyConnection;
 
 public class TileEntityCreativePowerCube extends TileEntitySonar implements IEnergyConnection {
 

@@ -18,9 +18,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IGreenhouse;
-import sonar.calculator.mod.integration.planting.IFertiliser;
-import sonar.calculator.mod.integration.planting.IHarvester;
-import sonar.calculator.mod.integration.planting.IPlanter;
 import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.inventories.StoredItemStack;
@@ -29,6 +26,9 @@ import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.InventoryHelper.IInventoryFilter;
 import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.integration.planting.IFertiliser;
+import sonar.core.integration.planting.IHarvester;
+import sonar.core.integration.planting.IPlanter;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.network.sync.SyncEnum;
 import sonar.core.network.sync.SyncTagType;
@@ -121,7 +121,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				IBlockState state = worldObj.getBlockState(pos);
 				Block block = state.getBlock();
 				if (block != null) {
-					for (IFertiliser fertiliser : Calculator.fertilisers.getObjects()) {
+					for (IFertiliser fertiliser : SonarCore.fertilisers.getObjects()) {
 						if (fertiliser.canFertilise(worldObj, pos, state) && fertiliser.canGrow(worldObj, pos, state, false)) {
 							fertiliser.grow(worldObj, SonarCore.rand, pos, state);
 						}
@@ -143,7 +143,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			IBlockState state = worldObj.getBlockState(pos);
 			Block block = state.getBlock();
 			if (block != null) {
-				for (IHarvester harvester : Calculator.harvesters.getObjects()) {
+				for (IHarvester harvester : SonarCore.harvesters.getObjects()) {
 					if (harvester.canHarvest(worldObj, pos, state) && harvester.isReady(worldObj, pos, state)) {
 						List<ItemStack> stacks = harvester.getDrops(worldObj, pos, state, type);
 						if (stacks != null) {
@@ -191,7 +191,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			IBlockState oldState = worldObj.getBlockState(pos);
 			Block block = oldState.getBlock();
 			if ((block == null || block.isAir(oldState, getWorld(), pos) || block.isReplaceable(worldObj, pos))) {
-				for (IPlanter planter : Calculator.planters.getObjects()) {
+				for (IPlanter planter : SonarCore.planters.getObjects()) {
 					for (Integer slot : getInvPlants()) {
 						ItemStack stack = slots()[slot];
 						if (stack != null && planter.canTierPlant(slots()[slot], type)) {

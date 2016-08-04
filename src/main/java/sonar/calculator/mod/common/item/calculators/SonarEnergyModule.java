@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.item.calculators;
 
 import java.util.List;
 
+import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -10,7 +11,6 @@ import sonar.calculator.mod.api.modules.IModuleEnergy;
 import sonar.core.api.energy.ISonarEnergyItem;
 import sonar.core.api.utils.ActionType;
 import sonar.core.helpers.FontHelper;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class SonarEnergyModule extends SonarModule implements ISonarEnergyItem, IEnergyContainerItem {
 
@@ -24,7 +24,6 @@ public class SonarEnergyModule extends SonarModule implements ISonarEnergyItem, 
 		super.addInformation(stack, player, list, par4);
 		list.add(FontHelper.translate("energy.stored") + ": " + getEnergyLevel(stack) + " RF");
 	}
-
 
 	@Override
 	public long addEnergy(ItemStack stack, long maxReceive, ActionType action) {
@@ -66,4 +65,7 @@ public class SonarEnergyModule extends SonarModule implements ISonarEnergyItem, 
 		return (int) getFullCapacity(stack);
 	}
 
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
+	}
 }

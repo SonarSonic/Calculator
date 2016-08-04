@@ -2,13 +2,12 @@ package sonar.calculator.mod.common.item.misc;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
@@ -26,7 +25,7 @@ public class Grenade extends SonarItem {
 		if (!player.capabilities.isCreativeMode) {
 			stack.stackSize -= 1;
 		}
-		world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.tnt.primed")), SoundCategory.PLAYERS, 0.7F, 0.8F);
+		world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
 		if (!world.isRemote) {
 
@@ -40,7 +39,7 @@ public class Grenade extends SonarItem {
 				break;
 			}
 			entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
-            world.spawnEntityInWorld(entity);
+			world.spawnEntityInWorld(entity);
 		}
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);

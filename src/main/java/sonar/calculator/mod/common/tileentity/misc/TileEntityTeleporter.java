@@ -1,9 +1,10 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,8 +28,6 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
-
-import com.google.common.collect.Lists;
 
 public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, IGuiTile {
 

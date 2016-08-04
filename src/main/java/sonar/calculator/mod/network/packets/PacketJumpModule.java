@@ -1,15 +1,13 @@
 package sonar.calculator.mod.network.packets;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.Random;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -57,7 +55,9 @@ public class PacketJumpModule implements IMessage {
 					long maxRemove = SonarAPI.getEnergyHelper().extractEnergy(held, 1000, ActionType.SIMULATE);
 					if (player.capabilities.isCreativeMode || maxRemove >= 1000) {
 						player.setPositionAndUpdate(message.pos.getX() + 0.5, message.pos.getY() + 1, message.pos.getZ() + 0.5);
-						player.getEntityWorld().playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("mob.endermen.portal")), SoundCategory.HOSTILE, 1.0F, 1.0F);
+
+						player.getEntityWorld().playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDEREYE_LAUNCH, SoundCategory.NEUTRAL, 0.5F, 0.8F);
+
 						if (!player.capabilities.isCreativeMode){
 							SonarAPI.getEnergyHelper().extractEnergy(held, 1000, ActionType.PERFORM);
 						}

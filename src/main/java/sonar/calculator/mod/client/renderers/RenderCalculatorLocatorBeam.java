@@ -1,19 +1,11 @@
 package sonar.calculator.mod.client.renderers;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.tileentity.TileEntityBeaconRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
-import sonar.core.helpers.RenderHelper;
 
 public class RenderCalculatorLocatorBeam extends TileEntitySpecialRenderer<TileEntityCalculatorLocator> {
 
@@ -23,8 +15,10 @@ public class RenderCalculatorLocatorBeam extends TileEntitySpecialRenderer<TileE
 	public void renderTileEntityAt(TileEntityCalculatorLocator te, double x, double y, double z, float partialTicks, int destroyStage) {
 		if (CalculatorConfig.beamEffect && te.getWorld() != null) {
 			if (te.active.getObject()) {
+				Minecraft.getMinecraft().getTextureManager().bindTexture(beam);
+				TileEntityBeaconRenderer.renderBeamSegment(x, y, z, partialTicks, 1.0F, te.getWorld().getTotalWorldTime(), te.beamHeight(), 2, new float[]{256,256,256});
+				/*
 				GL11.glPushMatrix();
-				GL11.glTranslatef((float) x, (float) y, (float) z);
 				Minecraft.getMinecraft().getTextureManager().bindTexture(beam);
 				GL11.glPushMatrix();				
 				GL11.glTranslated(x, y, z);
@@ -77,7 +71,7 @@ public class RenderCalculatorLocatorBeam extends TileEntitySpecialRenderer<TileE
 				RenderHelper.addVertexWithUV(vertex, x + d7, y + d23, z + d9, d25, d29);
 
 				tessellator.draw();
-				/*
+				
 				GL11.glTranslated(0.0, -0.70, 0.0);
 				GL11.glEnable(GL11.GL_BLEND);
 				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -109,16 +103,14 @@ public class RenderCalculatorLocatorBeam extends TileEntitySpecialRenderer<TileE
 				RenderHelper.addVertexWithUV(vertex, x + offset, y + d18, z + offset, d20, d26);
 
 				tessellator.draw();
-				*/
 				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 				GL11.glDepthMask(true);
 				GL11.glPopMatrix();
-				GL11.glPopMatrix();
+				GL11.glPopMatrix();				
+				*/
 			}
-
 		}
-
 	}
 
 }

@@ -1,11 +1,10 @@
 package sonar.calculator.mod.client.gui.machines;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.common.containers.ContainerHealthProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.core.client.gui.GuiSonar;

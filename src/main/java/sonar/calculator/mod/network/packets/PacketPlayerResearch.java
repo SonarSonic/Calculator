@@ -1,9 +1,8 @@
 package sonar.calculator.mod.network.packets;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.ArrayList;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;

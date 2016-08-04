@@ -29,7 +29,6 @@ public class SlotPortableResult extends SlotPortable {
 		if (this.getHasStack()) {
 			this.amountCrafted += Math.min(size, this.getStack().stackSize);
 		}
-
 		return super.decrStackSize(size);
 	}
 
@@ -40,7 +39,8 @@ public class SlotPortableResult extends SlotPortable {
 
 	@Override
 	public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
-		this.container.removeEnergy(stack!=null ? stack.stackSize : 1);
+		this.container.removeEnergy(amountCrafted);
+		amountCrafted=0;
 		for (int i = 0; i < this.craftSlots.length; ++i) {
 			ItemStack itemstack1 = this.invItem.getStackInSlot(craftSlots[i]);
 

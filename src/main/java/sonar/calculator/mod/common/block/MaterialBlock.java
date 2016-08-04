@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.calculator.mod.Calculator;
 import sonar.core.common.block.properties.IMetaRenderer;
 import sonar.core.common.block.properties.IMetaVariant;
 
@@ -26,7 +27,7 @@ public class MaterialBlock extends Block implements IMetaRenderer {
 	public static final PropertyEnum<Variants> VARIANTS = PropertyEnum.<Variants> create("variant", Variants.class);
 
 	public static enum Variants implements IStringSerializable, IMetaVariant {
-		AMETHYST(0), TANZANITE(1), ENRICHED_GOLD(2), REINFORCED_IRON(3), WEAKENED_DIAMOND(4), FLAWLESS_DIAMOND(5), FIRE_DIAMOND(6), ELECTRIC_DIAMOND(7), END_DIAMOND(8);
+		AMETHYST(0), TANZANITE(1), ENRICHED_GOLD(2), REINFORCED_IRON(3), WEAKENED_DIAMOND(4), FLAWLESS_DIAMOND(5), FIRE_DIAMOND(6), ELECTRIC_DIAMOND(7), END_DIAMOND(8), REDSTONE_INGOT(9);
 		private int meta;
 
 		Variants(int meta) {
@@ -41,6 +42,33 @@ public class MaterialBlock extends Block implements IMetaRenderer {
 		@Override
 		public int getMeta() {
 			return meta;
+		}
+
+		public Item getBaseItem() {
+			switch (this) {
+			case AMETHYST:
+				return Calculator.large_amethyst;
+			case ELECTRIC_DIAMOND:
+				return Calculator.electricDiamond;
+			case END_DIAMOND:
+				return Calculator.endDiamond;
+			case ENRICHED_GOLD:
+				return Calculator.enrichedgold_ingot;
+			case FIRE_DIAMOND:
+				return Calculator.firediamond;
+			case FLAWLESS_DIAMOND:
+				return Calculator.flawlessdiamond;
+			case REDSTONE_INGOT:
+				return Calculator.redstone_ingot;
+			case REINFORCED_IRON:
+				return Calculator.reinforcediron_ingot;
+			case TANZANITE:
+				return Calculator.large_tanzanite;
+			case WEAKENED_DIAMOND:
+				return Calculator.weakeneddiamond;
+			default:
+				return null;
+			}
 		}
 	}
 

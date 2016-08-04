@@ -26,7 +26,6 @@ public class ConductorMastHandler {
 		MineTweakerAPI.apply(new RemoveRecipeAction(input));
 	}
 
-
 	private static class AddRecipeAction implements IUndoableAction {
 		private Object input;
 		private ItemStack output;
@@ -56,8 +55,6 @@ public class ConductorMastHandler {
 			RecipeRegistry.ConductorMastPowerRecipes.instance().addRecipe(input, powercost);
 		}
 
-
-
 		@Override
 		public void undo() {
 			if (input == null || output == null)
@@ -86,14 +83,12 @@ public class ConductorMastHandler {
 			return null;
 		}
 
-
 	}
 
 	private static class RemoveRecipeAction implements IUndoableAction {
 		private Object input;
 		private int powercost;
 		private ItemStack output;
-
 
 		public RemoveRecipeAction(Object input) {
 			if (input instanceof IItemStack)
@@ -114,7 +109,6 @@ public class ConductorMastHandler {
 				dummyInput = (ItemStack) input;
 			if (input instanceof RecipeHelper.OreStack)
 				dummyInput = ((RecipeHelper.OreStack) input).getStacks().get(0);
-
 
 			output = RecipeRegistry.ConductorMastItemRecipes.instance().getCraftingResult(dummyInput);
 			powercost = RecipeRegistry.ConductorMastPowerRecipes.instance().getPowercost(dummyInput);

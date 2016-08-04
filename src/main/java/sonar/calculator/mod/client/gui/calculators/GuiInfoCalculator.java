@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -15,11 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.calculator.mod.guide.IItemInfo;
 import sonar.calculator.mod.guide.IItemInfo.Category;
@@ -93,15 +92,17 @@ public class GuiInfoCalculator extends GuiContainer {
 				}
 			}
 		} else {
-			IItemInfo info = infoList.get(this.currentPos);
-			int pos = 0;
-			prepareItemRender();
-			for (ItemStack stack : info.getRelatedItems()) {
-				if (stack != null) {
-					Minecraft.getMinecraft().getTextureManager().bindTexture(list);
-					drawTexturedModalRect(guiLeft + 136, guiTop + 2 + (pos * 18), 136, 2, 18, 18);
-					renderItem(stack, guiLeft + 137, guiTop + 4 + (pos * 18));
-					pos++;
+			if (currentPos < infoList.size()) {
+				IItemInfo info = infoList.get(this.currentPos);
+				int pos = 0;
+				prepareItemRender();
+				for (ItemStack stack : info.getRelatedItems()) {
+					if (stack != null) {
+						Minecraft.getMinecraft().getTextureManager().bindTexture(list);
+						drawTexturedModalRect(guiLeft + 136, guiTop + 2 + (pos * 18), 136, 2, 18, 18);
+						renderItem(stack, guiLeft + 137, guiTop + 4 + (pos * 18));
+						pos++;
+					}
 				}
 			}
 		}

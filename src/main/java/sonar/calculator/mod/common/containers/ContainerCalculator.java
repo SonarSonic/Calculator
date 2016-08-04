@@ -49,12 +49,13 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 	}
 
 	public void removeEnergy(int remove) {
-		if (!this.isRemote) {
+		//if (!this.isRemote) {
 			if (player.capabilities.isCreativeMode) {
 				return;
 			}
 			SonarAPI.getEnergyHelper().extractEnergy(player.getHeldItemMainhand(), remove, ActionType.PERFORM);
-		}
+			
+		//}
 	}
 
 	@Override

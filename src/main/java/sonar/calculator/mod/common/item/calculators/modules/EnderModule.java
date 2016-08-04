@@ -2,11 +2,10 @@ package sonar.calculator.mod.common.item.calculators.modules;
 
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.api.modules.IModuleClickable;
@@ -28,7 +27,7 @@ public class EnderModule extends ModuleBase implements IModuleClickable {
 	@Override
 	public void onModuleActivated(ItemStack stack, NBTTagCompound tag, World world, EntityPlayer player) {
 		if (this.isEnergyAvailable(stack, player, world, 1000)) {
-			world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F);
+			world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.NEUTRAL, 0.5F,0.8F);
 			if (!world.isRemote)
 				world.spawnEntityInWorld(new EntityEnderPearl(world, player));
 		}

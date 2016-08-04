@@ -2,13 +2,12 @@ package sonar.calculator.mod.client.gui.machines;
 
 import java.text.DecimalFormat;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.helpers.FontHelper;

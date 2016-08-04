@@ -33,6 +33,7 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 		addSlotToContainer(new Slot(entity, 4, 17, 47));
 		addSlotToContainer(new Slot(entity, 5, 35, 47));
 		addSlotToContainer(new Slot(entity, 6, 53, 47));
+		
 		addSlotToContainer(new Slot(entity, 7, 80, 61));
 		
 		for (int j = 0; j < 9; j++) {

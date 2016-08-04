@@ -1,14 +1,13 @@
 package sonar.calculator.mod.client.renderers;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.client.models.ModelFabricationArm;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.core.common.block.SonarBlock;

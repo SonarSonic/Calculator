@@ -1,5 +1,7 @@
 package sonar.calculator.mod.client.renderers;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -7,9 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.client.models.ModelChamber;
 import sonar.calculator.mod.client.models.ModelProcessing;
 import sonar.calculator.mod.client.models.ModelSplit;

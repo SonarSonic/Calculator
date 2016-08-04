@@ -2,6 +2,8 @@ package sonar.calculator.mod.common.tileentity.generators;
 
 import java.util.Random;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -24,8 +26,6 @@ import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
-
-import com.google.common.collect.Lists;
 
 public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
 
@@ -137,7 +137,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			}
 		}
 
-		addEnergy();
+		addEnergy(EnumFacing.DOWN);
 		this.markDirty();
 	}
 
@@ -188,7 +188,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 		ItemStack itemstack = recipeOutput(slots()[0]);
 		int energy = recipeEnergy(slots()[0]);
-		this.storage.modifyEnergyStored(-energy);
+		this.storage.extractEnergy(energy, false);
 
 		if (this.slots()[1] == null) {
 			this.slots()[1] = itemstack.copy();

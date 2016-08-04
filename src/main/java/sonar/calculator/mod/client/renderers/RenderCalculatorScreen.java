@@ -1,5 +1,7 @@
 package sonar.calculator.mod.client.renderers;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelSign;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -7,9 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.helpers.FontHelper;
 

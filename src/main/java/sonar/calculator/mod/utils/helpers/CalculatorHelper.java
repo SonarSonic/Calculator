@@ -26,7 +26,6 @@ public class CalculatorHelper {
 		int energy = stack.getTagCompound().getInteger("energy");
 		if (energy != 0) {
 			list.add(FontHelper.translate("energy.stored") + ": " + FontHelper.formatStorage(energy));
-
 		}
 	}
 	

@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockPlanks.EnumType;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -22,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import sonar.calculator.mod.Calculator;
 
-public class CalculatorLeaves extends BlockLeaves implements IShearable {
+public class CalculatorLeaves extends Block implements IShearable {
 
 	int leafType;
 
@@ -52,7 +51,7 @@ public class CalculatorLeaves extends BlockLeaves implements IShearable {
 	}
 
 	public CalculatorLeaves(int type) {
-		super();
+		super(Material.LEAVES);
 		this.leafType = type;
 		setTickRandomly(true);
 		setHardness(0.2F);
@@ -176,11 +175,10 @@ public class CalculatorLeaves extends BlockLeaves implements IShearable {
 
 	public BlockRenderLayer getBlockLayer() {
 		return Minecraft.isFancyGraphicsEnabled() ? BlockRenderLayer.CUTOUT_MIPPED : BlockRenderLayer.SOLID;
-	}
+	}	
 
-	@Override
-	public EnumType getWoodType(int meta) {
-		/**TODO**/
-		return EnumType.BIRCH;
-	}
+    public boolean isVisuallyOpaque()
+    {
+        return false;
+    }
 }

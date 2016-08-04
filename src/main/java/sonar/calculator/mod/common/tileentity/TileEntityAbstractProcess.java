@@ -71,7 +71,6 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		if (slots()[0] == null) {
 			return false;
 		}
-
 		if (cookTime.getObject() == 0) {
 			if (this.storage.getEnergyStored() < this.requiredEnergy()) {
 				return false;

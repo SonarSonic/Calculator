@@ -2,6 +2,8 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -15,8 +17,6 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
-
-import com.google.common.collect.Lists;
 
 public class TileEntityGasLantern extends TileEntityInventory implements IGuiTile {
 
@@ -51,7 +51,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 				flag2 = true;
 			}
 
-			if (burnTime == maxBurnTime) {
+			if (burnTime.getObject() >= maxBurnTime.getObject()) {
 				maxBurnTime.setObject(0);
 				burnTime.setObject(0);
 				flag2 = true;

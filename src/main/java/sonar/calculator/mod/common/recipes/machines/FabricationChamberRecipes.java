@@ -5,10 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
+import sonar.core.helpers.IRecipeHelper;
 import sonar.core.helpers.ItemStackHelper;
 
-public class FabricationChamberRecipes {
+public class FabricationChamberRecipes implements IRecipeHelper {
 
 	private static final FabricationChamberRecipes instance = new FabricationChamberRecipes();
 	protected LinkedHashMap<ItemStack, CircuitStack[]> recipes = new LinkedHashMap<ItemStack, CircuitStack[]>();
@@ -98,6 +100,19 @@ public class FabricationChamberRecipes {
 		public CircuitStack clone() {
 			return new CircuitStack(this.meta, this.required, this.stable);
 		}
+
+		public ItemStack buildItemStack() {
+			ItemStack stack = new ItemStack(Calculator.circuitBoard, (int) required, meta);
+			NBTTagCompound tag = new NBTTagCompound();
+			tag.setInteger("Stable", stable ? 1 : 0);
+			stack.setTagCompound(tag);
+			return stack;
+		}
+	}
+
+	@Override
+	public String getRecipeID() {
+		return "FabricationChamber";
 	}
 
 }

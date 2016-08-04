@@ -1,9 +1,8 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;

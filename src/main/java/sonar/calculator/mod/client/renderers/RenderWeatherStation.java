@@ -1,13 +1,12 @@
 package sonar.calculator.mod.client.renderers;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.client.models.ModelWeatherStationBase;
 import sonar.calculator.mod.client.models.ModelWeatherStationDish;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;

@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.item.calculators;
 import java.util.ArrayList;
 import java.util.List;
 
+import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -36,7 +37,6 @@ import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.IGuiItem;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class FlawlessCalculator extends SonarItem implements IItemInventory, IModuleProvider, ISonarEnergyItem, IEnergyContainerItem, IFlawlessCalculator, IGuiItem {
 	public final String invTag = "inv";
@@ -334,6 +334,10 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 
 	public boolean hasEffect(ItemStack stack) {
 		return true;
+	}
+
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
 	}
 
 }

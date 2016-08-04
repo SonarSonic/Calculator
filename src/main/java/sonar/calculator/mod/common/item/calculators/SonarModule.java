@@ -105,13 +105,17 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player, ItemStack stack) {		
-		return ((IGuiItem)module).getGuiContainer(player, stack);
+	public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
+		return ((IGuiItem) module).getGuiContainer(player, stack);
 	}
 
 	@Override
 	public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
-		return ((IGuiItem)module).getGuiScreen(player, stack);
+		return ((IGuiItem) module).getGuiScreen(player, stack);
+	}
+
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
 	}
 
 }

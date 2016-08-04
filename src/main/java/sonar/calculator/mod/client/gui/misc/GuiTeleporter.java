@@ -4,17 +4,16 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.SonarCore;

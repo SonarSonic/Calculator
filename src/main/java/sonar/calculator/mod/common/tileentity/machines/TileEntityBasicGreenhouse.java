@@ -36,6 +36,13 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 		super.maxLevel = 100000;
 		super.plantTick = 60;
 	}
+
+	@Override
+	public void update() {
+		super.update();
+		discharge(4);
+	}
+
 	
 	public ArrayList<BlockPos> getPlantArea() {
 		ArrayList<BlockPos> coords = new ArrayList();

@@ -43,36 +43,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 	@Override
 	public void update() {
 		super.update();
-		if (this.worldObj.isBlockPowered(pos)) {
-			return;
-		}
-		if (!(houseState.getObject() == State.BUILDING)) {
-			checkTile();
-		}
-		switch (houseState.getObject()) {
-		case COMPLETED:
-			if (!this.worldObj.isRemote) {
-				extraTicks();
-			}
-			plantCrops();
-			growTicks();
-			harvestCrops();
-			break;
-		case BUILDING:
-			if (checkStructure(GreenhouseAction.BUILD).getBoolean()) {
-				addFarmland();
-				this.houseState.setObject(State.COMPLETED);
-			}
-			break;
-		case DEMOLISHING:
-			checkStructure(GreenhouseAction.DEMOLISH);
-			break;
-		default:
-			break;
-		}
 		discharge(7);
-
-		this.markDirty();
 	}
 
 	public ArrayList<BlockPos> getPlantArea() {

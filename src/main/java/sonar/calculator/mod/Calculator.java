@@ -1,5 +1,8 @@
 package sonar.calculator.mod;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
@@ -18,10 +21,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import sonar.calculator.mod.common.entities.CalculatorThrow;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
@@ -41,12 +40,12 @@ import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
-import sonar.calculator.mod.integration.planting.FertiliserRegistry;
-import sonar.calculator.mod.integration.planting.HarvesterRegistry;
-import sonar.calculator.mod.integration.planting.PlanterRegistry;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.research.ResearchRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
+import sonar.core.integration.planting.FertiliserRegistry;
+import sonar.core.integration.planting.HarvesterRegistry;
+import sonar.core.integration.planting.PlanterRegistry;
 
 @Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version)
 public class Calculator {
@@ -55,7 +54,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "3.0.6";
+	public static final String version = "3.0.9";
 	
 	public static final int saveDimension = 0;
 	
@@ -65,10 +64,6 @@ public class Calculator {
 	public static ModuleRegistry modules = new ModuleRegistry();
 	public static ModuleItemRegistry moduleItems = new ModuleItemRegistry();
 
-	public static PlanterRegistry planters = new PlanterRegistry();
-	public static HarvesterRegistry harvesters = new HarvesterRegistry();
-	public static FertiliserRegistry fertilisers = new FertiliserRegistry();
-
 	@Instance(modid)
 	public static Calculator instance;
 
@@ -76,9 +71,6 @@ public class Calculator {
 		@Override
 		public Item getTabIconItem() {
 			return itemCalculator;
-		}
-		public boolean hasSearchBar(){
-			return true;
 		}
 	}.setBackgroundImageName("item_search.png");
 
@@ -141,9 +133,6 @@ public class Calculator {
 		research.register();
 		modules.register();
 		moduleItems.register();
-		planters.register();
-		harvesters.register();
-		fertilisers.register();
 
 	}
 

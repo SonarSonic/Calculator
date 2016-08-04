@@ -1,12 +1,11 @@
 package sonar.calculator.mod;
 
-import gnu.trove.map.hash.THashMap;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import gnu.trove.map.hash.THashMap;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;

@@ -30,6 +30,7 @@ public class GuiPowerCube extends GuiSonar {
 			ArrayList list = new ArrayList();
 			DecimalFormat df = new DecimalFormat("#.##");
 			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
+			list.add("Stored: " + entity.storage.getEnergyStored() + " RF");
 			list.add("Max Input: " + df.format(entity.storage.getMaxReceive()) + " rf/t");
 			list.add("Max Output: " + df.format(entity instanceof TileEntityAdvancedPowerCube ? entity.storage.getMaxExtract() : 0) + " rf/t");
 			this.drawSpecialToolTip(list, x, y, fontRendererObj);

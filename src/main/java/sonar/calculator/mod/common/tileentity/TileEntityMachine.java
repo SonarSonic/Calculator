@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
 import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
@@ -20,7 +21,7 @@ import sonar.core.helpers.RecipeHelper;
 
 public class TileEntityMachine {
 
-	public static class DualOutput extends TileEntityAbstractProcess{
+	public static class DualOutput extends TileEntityAbstractProcess {
 
 		public DualOutput(int inputSize, int outputSize, int baseProcess, int baseEnergy) {
 			super(inputSize, outputSize, baseProcess, baseEnergy);
@@ -36,8 +37,8 @@ public class TileEntityMachine {
 			return new GuiDualOutputSmelting(player.inventory, this);
 		}
 	}
-	
-	public static class SingleOutput extends TileEntityAbstractProcess{
+
+	public static class SingleOutput extends TileEntityAbstractProcess {
 
 		public SingleOutput(int inputSize, int outputSize, int baseProcess, int baseEnergy) {
 			super(inputSize, outputSize, baseProcess, baseEnergy);
@@ -53,7 +54,7 @@ public class TileEntityMachine {
 			return new GuiSmeltingBlock(player.inventory, this);
 		}
 	}
-	
+
 	public static class ReinforcedFurnace extends SingleOutput {
 
 		public ReinforcedFurnace() {
@@ -181,7 +182,9 @@ public class TileEntityMachine {
 				return recipeHelper().getOutput(stacks);
 			} else {
 				ItemStack[] outputs = recipeHelper().getOutput(stacks);
-				outputs[1] = rand.nextInt(8 + 1) == 8 ? new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1)) : null;
+				if (outputs[1].getItem()==Calculator.circuitBoard || outputs[1].getItem()==Calculator.circuitDamaged || outputs[1].getItem()==Calculator.circuitDirty) {
+					outputs[1] = rand.nextInt(8 + 1) == 8 ? new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1)) : null;
+				}
 				return outputs;
 			}
 		}

@@ -1,10 +1,9 @@
 package sonar.calculator.mod.common.tileentity;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -76,9 +75,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		default:
 			break;
 		}
-		discharge(7);
-
-		this.markDirty();
+		//this.markDirty();
 	}	
 
 	public void growTicks() {

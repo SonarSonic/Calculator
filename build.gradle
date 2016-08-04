@@ -15,6 +15,9 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 version = "${minecraft_version}-${mod_version}"
 group= "sonar.calculator.mod"
 archivesBaseName = "Calculator"
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
 
 minecraft {
 version = "${forge_version}"
