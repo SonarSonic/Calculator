@@ -47,14 +47,14 @@ import sonar.core.integration.planting.FertiliserRegistry;
 import sonar.core.integration.planting.HarvesterRegistry;
 import sonar.core.integration.planting.PlanterRegistry;
 
-@Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version)
+@Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version, dependencies = "required-after:SonarCore")
 public class Calculator {
 
 	@SidedProxy(clientSide = "sonar.calculator.mod.network.CalculatorClient", serverSide = "sonar.calculator.mod.network.CalculatorCommon")
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "3.0.9";
+	public static final String version = "3.1.0";
 	
 	public static final int saveDimension = 0;
 	
@@ -72,7 +72,7 @@ public class Calculator {
 		public Item getTabIconItem() {
 			return itemCalculator;
 		}
-	}.setBackgroundImageName("item_search.png");
+	};
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

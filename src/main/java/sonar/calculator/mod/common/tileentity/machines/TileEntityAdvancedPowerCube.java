@@ -63,7 +63,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 			if (sides.getSideConfig(side).isInput()) {
 				return EnergyMode.RECIEVE;
 			} else if (sides.getSideConfig(side).isOutput()) {
-				return EnergyMode.RECIEVE;
+				return EnergyMode.SEND;
 			}else{
 				return EnergyMode.BLOCKED;
 			}
