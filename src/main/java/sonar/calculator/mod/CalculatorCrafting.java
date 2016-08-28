@@ -123,7 +123,6 @@ public class CalculatorCrafting extends Calculator {
 
 		// smelting
 		addShapedOre(new ItemStack(stoneSeparator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', powerCube, 'A', "calculatorReinforcedBlock", 'C', reinforcediron_ingot });
-	//	addShaped(new ItemStack(algorithmSeparator, 1), new Object[] { "AAA", "BCB", "AAA", 'B', advancedPowerCube, 'A', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'C', flawlessdiamond });
 		addShapedOre(new ItemStack(extractionChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', "calculatorReinforcedBlock", 'B', weakeneddiamond, 'C', powerCube });
 		addShaped(new ItemStack(restorationChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', redstone_ingot, 'B', weakeneddiamond, 'C', extractionChamber });
 		addShaped(new ItemStack(reassemblyChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', enrichedGold, 'B', weakeneddiamond, 'C', extractionChamber });

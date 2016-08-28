@@ -92,7 +92,7 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
+		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
 		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Conductor Mast") + " RF per strike");
 	}
 

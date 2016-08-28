@@ -193,7 +193,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			for (int i = 0; i < cookTime.length; i++){
-				cookTime[i].readFromNBT(nbt, type);
+				cookTime[i].readData(nbt, type);
 			}
 			this.paused = nbt.getBoolean("pause");
 		}
@@ -204,7 +204,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			for (int i = 0; i < cookTime.length; i++){
-				cookTime[i].writeToNBT(nbt, type);
+				cookTime[i].writeData(nbt, type);
 			}
 			nbt.setBoolean("pause", this.paused);
 		}

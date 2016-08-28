@@ -3,7 +3,6 @@ package sonar.calculator.mod.common.tileentity.machines;
 import java.util.ArrayList;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
@@ -20,6 +19,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	public MachineSides sides = new MachineSides(MachineSideConfig.INPUT, this, MachineSideConfig.NONE);
 
 	public TileEntityAdvancedPowerCube() {
+		syncParts.add(sides);
 		super.storage.setCapacity(100000).setMaxTransfer(64000);
 		super.maxTransfer = 100000;
 		super.energyMode = EnergyMode.SEND_RECIEVE;
@@ -44,17 +44,6 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 			TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
 			SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir.getOpposite(), dir, transfer);
 		}
-	}
-
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		sides.readFromNBT(nbt);
-	}
-
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		sides.writeToNBT(nbt);
-		return nbt;
 	}
 
 	@Override

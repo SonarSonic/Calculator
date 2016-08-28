@@ -102,8 +102,8 @@ public class CalculatorItems extends Calculator {
 
 		// modules
 		itemStorageModule = registerItem("StorageModule", new SonarModule(GuiModule.storage));
-		itemWarpModule = registerItem("WarpModule", new SonarUsageModule(new WarpModule(), 10000).setNew());
-		itemJumpModule = registerItem("JumpModule", new SonarUsageModule(new JumpModule(), 10000).setNew());
+		itemWarpModule = registerItem("WarpModule", new SonarUsageModule(new WarpModule(), 10000));
+		itemJumpModule = registerItem("JumpModule", new SonarUsageModule(new JumpModule(), 10000));
 		itemHungerModule = registerItem("HungerModule", new HungerModule());
 		itemHealthModule = registerItem("HealthModule", new HealthModule());
 		itemNutritionModule = registerItem("NutritionModule", new NutritionModule());
@@ -120,7 +120,7 @@ public class CalculatorItems extends Calculator {
 		speedUpgrade = registerItem("SpeedUpgrade", new MachineUpgrade());
 		energyUpgrade = registerItem("EnergyUpgrade", new MachineUpgrade());
 		voidUpgrade = registerItem("VoidUpgrade", new MachineUpgrade());
-		transferUpgrade = registerItem("TransferUpgrade", new MachineUpgrade().setNew());
+		transferUpgrade = registerItem("TransferUpgrade", new MachineUpgrade());
 
 		// calculator parts
 		calculator_screen = registerItem("CalculatorScreen", new CalculatorScreen());
@@ -129,7 +129,7 @@ public class CalculatorItems extends Calculator {
 		advanced_assembly = registerItem("AdvancedAssembly", new Item());
 		atomic_module = registerItem("AtomicModule", new Item());
 		atomic_assembly = registerItem("AtomicAssembly", new Item());
-		flawless_assembly = registerItem("FlawlessAssembly", new SonarItem().setNew());
+		flawless_assembly = registerItem("FlawlessAssembly", new SonarItem());
 		atomic_binder = registerItem("AtomicBinder", new Item());
 
 		// tools

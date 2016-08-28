@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -18,30 +18,15 @@ archivesBaseName = "Calculator"
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-
 minecraft {
-version = "${forge_version}"
-runDir = "run"
-mappings = "snapshot_20160518"
-}
-repositories {
-    mavenCentral()
-    maven {
-	name = "buildcraft"
-	url = "http://mod-buildcraft.com"
-    }
-    ivy {
-        name "BuildCraft"
-        artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
-    }
+    version = "1.9.4-12.17.0.1968"
+    runDir = "run"
+    mappings = "snapshot_20160518"
+    makeObfSourceJar = false
 }
 
 dependencies {
-compile files('lib/Sonar-Core-1.8.9-2.0.0-dev.jar')
-compile files('lib/jei_1.8.9-2.28.18.186.jar')
-compile files('lib/StorageDrawers-1.8.9-2.6.4.jar')
-compile files('lib/Waila-1.6.0-B3_1.8.8.jar')
-compile files('lib/CraftTweaker-1.8.9-3.0.8.jar')
+
 }
 
 processResources
@@ -49,14 +34,14 @@ processResources
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
+
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
+        include 'mcmod.info'                
+
         expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
+    }        
+
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
 }
-

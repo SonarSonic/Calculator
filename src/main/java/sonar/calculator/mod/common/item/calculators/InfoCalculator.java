@@ -27,7 +27,6 @@ public class InfoCalculator extends SonarItem implements IGuiItem {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
-		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Interface!");
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;

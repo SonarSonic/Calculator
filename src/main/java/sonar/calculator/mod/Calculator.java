@@ -43,9 +43,6 @@ import sonar.calculator.mod.integration.minetweaker.MinetweakerIntegration;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.research.ResearchRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
-import sonar.core.integration.planting.FertiliserRegistry;
-import sonar.core.integration.planting.HarvesterRegistry;
-import sonar.core.integration.planting.PlanterRegistry;
 
 @Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version, dependencies = "required-after:SonarCore")
 public class Calculator {
@@ -54,7 +51,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "Calculator";
-	public static final String version = "3.1.0";
+	public static final String version = "3.1.2";
 	
 	public static final int saveDimension = 0;
 	

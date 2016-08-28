@@ -41,6 +41,6 @@ public class CreativePowerCube extends SonarMachineBlock {
 
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Feature!");
+		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Feature!");
 	}
 }
