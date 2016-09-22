@@ -16,14 +16,12 @@ public class CalculatorConfig extends Calculator {
 	private static final List<IntegerConfig> integerConfigs = new ArrayList();
 	private static final Map<String, Integer> integers = new THashMap<String, Integer>();
 
-	/*
-	 * public static int calculatorEnergy; public static int craftingEnergy; public static int scientificEnergy; public static int terrainEnergy; public static int advancedEnergy; public static int moduleEnergy; public static int cubeEnergy; public static int starchRF; public static int redstoneRF; public static int glowstoneRF; public static int conductorRF; public static int weatherstationRF; public static int growthRF; public static int buildRF; public static int farmlandRF; public static int waterRF; public static int plantRF;
-	 */
 	public static boolean timeEffect;
 	public static boolean beamEffect;
 	public static boolean enableWaila;
 	public static boolean enableGrenades;
 	public static boolean enableToolModels;
+	public static float locatorMultiplier;
 
 	public static Property atomicblackList;
 	public static Property blocksblackList;
@@ -85,31 +83,30 @@ public class CalculatorConfig extends Calculator {
 		addInteger("Scarecrow Tick Rate", "Scarecrow", 500, 1, 10000, false);
 		addInteger("Scarecrow Range", "Scarecrow", 3, 1, 25, false);
 		addInteger("Weather Controller", "Energy Usage", 250000, 1, 1000000, false);
-		
+
 		addInteger("Reinforced Furnace", "Energy Usage", 500, 1, 50000, true);
 		addInteger("Reinforced Furnace", "Base Speed", 200, 20, 10000, true);
-		
+
 		addInteger("Stone Seperator", "Energy Usage", 500, 1, 50000, true);
 		addInteger("Stone Seperator", "Base Speed", 200, 20, 10000, true);
-		
+
 		addInteger("Algorithm Seperator", "Energy Usage", 5000, 1, 50000, true);
-		addInteger("Algorithm Seperator", "Base Speed", 200, 20, 10000, true);	
-		
+		addInteger("Algorithm Seperator", "Base Speed", 200, 20, 10000, true);
+
 		addInteger("Extraction Chamber", "Energy Usage", 5000, 1, 50000, true);
-		addInteger("Extraction Chamber", "Base Speed", 1000, 20, 10000, true);	
-		
+		addInteger("Extraction Chamber", "Base Speed", 1000, 20, 10000, true);
+
 		addInteger("Reassembly Chamber", "Energy Usage", 1000, 1, 50000, true);
 		addInteger("Reassembly Chamber", "Base Speed", 1000, 20, 10000, true);
-		
+
 		addInteger("Restoration Chamber", "Energy Usage", 1000, 1, 50000, true);
 		addInteger("Restoration Chamber", "Base Speed", 1000, 20, 10000, true);
-		
+
 		addInteger("Precision Chamber", "Energy Usage", 5000, 1, 50000, true);
 		addInteger("Precision Chamber", "Base Speed", 500, 20, 10000, true);
-		
+
 		addInteger("Processing Chamber", "Energy Usage", 1000, 1, 50000, true);
-		addInteger("Processing Chamber", "Base Speed", 500, 20, 10000, true);		
-		
+		addInteger("Processing Chamber", "Base Speed", 500, 20, 10000, true);
 
 	}
 
@@ -129,6 +126,7 @@ public class CalculatorConfig extends Calculator {
 		enableWaila = config.getBoolean("enable Waila integration", "api", true, "Waila");
 		enableGrenades = config.getBoolean("allow grenades?", "settings", true, "Grenades");
 		enableToolModels = config.getBoolean("Enable Tool Models", "settings", true, "Tool Models");
+		locatorMultiplier = config.getFloat("Calculator Locator Multiplier", "Generation", 2F, 0.1F, 64F, "Calculator Locator Multiplier");
 
 		config.save();
 
@@ -206,29 +204,9 @@ public class CalculatorConfig extends Calculator {
 	/** @param stack the ItemStack you wish to check
 	 * @return if the Item/Block is enabled */
 	public static boolean isEnabled(ItemStack stack) {
-		/*
-		if (stack == null) {
-			return true;
-		}
-		Block block = Block.getBlockFromItem(stack.getItem());
-		Item item = stack.getItem();
-		if (block != null && item instanceof ItemBlock && GameRegistry.findUniqueIdentifierFor(block) != null) {
-			if (CalculatorConfig.isBlockEnabled(GameRegistry.findUniqueIdentifierFor(block).name)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else if (item != null && GameRegistry.findUniqueIdentifierFor(item) != null) {
-			if (CalculatorConfig.isItemEnabled(GameRegistry.findUniqueIdentifierFor(item).name)) {
-				return true;
-
-			} else {
-				return false;
-			}
-		} else {
-			return true;
-		}
-	*/
+		/* if (stack == null) { return true; } Block block = Block.getBlockFromItem(stack.getItem()); Item item = stack.getItem(); if (block != null && item instanceof ItemBlock && GameRegistry.findUniqueIdentifierFor(block) != null) { if (CalculatorConfig.isBlockEnabled(GameRegistry.findUniqueIdentifierFor(block).name)) { return true; } else { return false; } } else if (item != null && GameRegistry.findUniqueIdentifierFor(item) != null) { if (CalculatorConfig.isItemEnabled(GameRegistry.findUniqueIdentifierFor(item).name)) { return true;
+		 * 
+		 * } else { return false; } } else { return true; } */
 		return true;
 	}
 }

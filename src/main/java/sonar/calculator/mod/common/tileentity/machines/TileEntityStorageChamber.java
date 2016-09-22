@@ -9,13 +9,15 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.machines.GuiStorageChamber;
 import sonar.calculator.mod.common.containers.ContainerStorageChamber;
+import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.common.tileentity.TileEntityLargeInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.ILargeInventory;
 import sonar.core.inventory.SonarLargeInventory;
 import sonar.core.utils.IGuiTile;
 
-public class TileEntityStorageChamber extends TileEntityInventory implements IGuiTile, ILargeInventory {
+public class TileEntityStorageChamber extends TileEntityLargeInventory implements IGuiTile, ILargeInventory {
 
 	public CircuitType circuitType = CircuitType.None;
 
@@ -28,8 +30,7 @@ public class TileEntityStorageChamber extends TileEntityInventory implements IGu
 		super.inv = new SonarLargeInventory(this, 14, 1024) {
 
 			public boolean isItemValidForSlot(int slot, ItemStack item) {
-				int target = (int) Math.floor(slot / getTileInv().numStacks);
-				if (item != null && item.getItemDamage() == target) {
+				if (item != null && item.getItemDamage() == slot) {
 					CircuitType stackType = getCircuitType(item);
 					if (stackType == null) {
 						return false;
@@ -44,6 +45,7 @@ public class TileEntityStorageChamber extends TileEntityInventory implements IGu
 				return false;
 			}
 		};
+		syncParts.add(inv);
 	}
 
 	public SonarLargeInventory getTileInv() {
@@ -52,22 +54,13 @@ public class TileEntityStorageChamber extends TileEntityInventory implements IGu
 
 	public void resetCircuitType() {
 		if (isServer()) {
-			ArrayList<ItemStack>[] slots = getTileInv().slots;
-			for (ArrayList<ItemStack> list : slots) {
-				if (list != null) {
-					ItemStack stack = null;
-					for (ItemStack item : list) {
-						if (item != null && item.stackSize > 0) {
-							stack = item;
-							break;
-						}
-					}
-					if (stack != null) {
-						CircuitType type = getCircuitType(stack);
-						if (type != null && type != CircuitType.None) {
-							circuitType = type;
-							return;
-						}
+			StoredItemStack[] slots = getTileInv().slots;
+			for (StoredItemStack stack : slots) {
+				if (stack != null && stack.getStackSize() != 0) {
+					CircuitType type = getCircuitType(stack.item);
+					if (type != null && type != CircuitType.None) {
+						circuitType = type;
+						return;
 					}
 				}
 			}
@@ -79,11 +72,6 @@ public class TileEntityStorageChamber extends TileEntityInventory implements IGu
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
-			/*
-			if(!nbt.hasKey("key")){
-				resetCircuitType();
-			}
-			*/
 			circuitType = CircuitType.values()[nbt.getInteger("type")];
 			if (circuitType == null) {
 				circuitType = CircuitType.None;

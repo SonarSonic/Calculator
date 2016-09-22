@@ -98,7 +98,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		int size = this.size.getObject();
 		if (size != 0 && (((int) (2 * size + 1) * (2 * size + 1)) - 1) != 0) {
 			int stable = (int) (stability.getObject() * 100) / ((int) (2 * size + 1) * (2 * size + 1));
-			return (int) (((5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size)) * 2);
+			return (int) (((5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size)) * CalculatorConfig.locatorMultiplier);
 		}
 		return 0;
 	}

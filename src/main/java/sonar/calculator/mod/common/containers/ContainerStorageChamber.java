@@ -42,7 +42,7 @@ public class ContainerStorageChamber extends ContainerLargeInventory {
 	}
 
 	public boolean canInteractWith(EntityPlayer player) {
-		return this.entity.isUseableByPlayer(player);
+		return true;
 	}
 
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
@@ -52,20 +52,20 @@ public class ContainerStorageChamber extends ContainerLargeInventory {
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			if (slot instanceof SlotLarge) {
-				StoredItemStack stored = entity.getTileInv().buildItemStack(entity.getTileInv().slots[slotID]);
-				itemstack1 = stored.copy().setStackSize(Math.min(stored.stored, stored.getItemStack().getMaxStackSize())).getFullStack();
+				StoredItemStack stored = entity.getTileInv().getLargeStack(slotID);
+				itemstack1 = stored == null ? null : stored.copy().setStackSize(Math.min(stored.stored, stored.getItemStack().getMaxStackSize())).getFullStack();
 			}
 			itemstack = itemstack1.copy();
 			if (slotID < 14) {
 				if (!this.mergeItemStack(itemstack1, 14, this.inventorySlots.size(), true)) {
 					return null;
 				}
-				StoredItemStack stored = entity.getTileInv().buildItemStack(entity.getTileInv().slots[slotID]);
+				StoredItemStack stored = entity.getTileInv().getLargeStack(slotID);
 				stored.stored -= itemstack.stackSize - itemstack1.stackSize;
 				if (stored.stored == 0) {
-					entity.getTileInv().slots[slotID] = null;
+					entity.getTileInv().setLargeStack(slotID, null);
 				}
-				entity.getTileInv().slots[slotID] = entity.getTileInv().buildArrayList(stored);
+				entity.getTileInv().setLargeStack(slotID, stored.copy());
 				return null;
 			} else if (!this.mergeSpecial(itemstack1, 0, 14, false)) {
 				return null;
@@ -83,6 +83,6 @@ public class ContainerStorageChamber extends ContainerLargeInventory {
 
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		this.entity.closeInventory(player);
+		//this.entity.closeInventory(player);
 	}
 }

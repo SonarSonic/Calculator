@@ -60,6 +60,8 @@ public class CalculatorOreDict extends Calculator {
 		// blocks
 		registerOre("calculatorReinforcedBlock", SonarCore.reinforcedStoneBlock);
 		registerOre("calculatorReinforcedBlock", SonarCore.reinforcedDirtBlock);
+		registerOre("calculatorReinforcedStone", SonarCore.reinforcedStoneBlock);
+		registerOre("calculatorReinforcedDirt", SonarCore.reinforcedDirtBlock);
 		registerOre("blockGlass", SonarCore.stableGlass);
 		registerOre("blockGlass", SonarCore.clearStableGlass);
 		registerOre("reinforcedStone", SonarCore.reinforcedStoneBlock);

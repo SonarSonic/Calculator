@@ -66,12 +66,12 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 							EnumFacing face = worldObj.getBlockState(getPos()).getValue(SonarBlock.FACING);
 							int fX = face.getFrontOffsetX();
 							int fZ = face.getFrontOffsetZ();
-							//TODO
-							//worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + fX == -1 ? 0.62 : 0.38, pos.getY() + 0.6F, pos.getZ() + (fZ == 0 ? 0.38 : 0.62), 0.0D, 0.0D, 0.0D);
-							//worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + 0.38 + (0.25 *face.getFrontOffsetZ()), pos.getY() + 0.6F, pos.getZ() + 0.38 + (0.25 *face.getFrontOffsetZ()), 0.0D, 0.0D, 0.0D);
-							//worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
-							//worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 + 0.25 * fZ, 0.0D, 0.0D, 0.0D);
-							//worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
+							// TODO
+							// worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + fX == -1 ? 0.62 : 0.38, pos.getY() + 0.6F, pos.getZ() + (fZ == 0 ? 0.38 : 0.62), 0.0D, 0.0D, 0.0D);
+							// worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + 0.38 + (0.25 *face.getFrontOffsetZ()), pos.getY() + 0.6F, pos.getZ() + 0.38 + (0.25 *face.getFrontOffsetZ()), 0.0D, 0.0D, 0.0D);
+							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
+							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 + 0.25 * fZ, 0.0D, 0.0D, 0.0D);
+							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
 
 						}
 					}
@@ -105,8 +105,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	public ArrayList<CircuitStack> getAvailableCircuits(ArrayList<TileEntityStorageChamber> chambers) {
 		ArrayList<CircuitStack> circuits = new ArrayList<CircuitStack>();
 		for (TileEntityStorageChamber chamber : chambers) {
-			for (ArrayList<ItemStack> stack : chamber.stacks()) {
-				StoredItemStack storedstack = chamber.getTileInv().buildItemStack(stack);
+			for (StoredItemStack storedstack : chamber.getTileInv().slots) {
 				if (storedstack != null && storedstack.getItemStack().getItem() == Calculator.circuitBoard) {
 					CircuitStack storedStack = new CircuitStack(storedstack.getItemStack().getItemDamage(), storedstack.stored, ((IStability) (storedstack.getItemStack().getItem())).getStability(storedstack.getItemStack()));
 					addCircuitToStack(circuits, storedStack);

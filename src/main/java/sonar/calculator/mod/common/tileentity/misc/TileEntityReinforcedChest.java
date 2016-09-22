@@ -5,23 +5,25 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryLargeChest;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import sonar.calculator.mod.client.gui.misc.GuiReinforcedChest;
 import sonar.calculator.mod.common.containers.ContainerReinforcedChest;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.common.tileentity.TileEntityLargeInventory;
 import sonar.core.inventory.ILargeInventory;
 import sonar.core.inventory.SonarLargeInventory;
 import sonar.core.utils.IGuiTile;
 
-public class TileEntityReinforcedChest extends TileEntityInventory implements IGuiTile, ILargeInventory {
+public class TileEntityReinforcedChest extends TileEntityLargeInventory implements IGuiTile {
 	public float lidAngle;
 	public float prevLidAngle;
 	public int numPlayersUsing;
 	private int ticksSinceSync;
 
 	public TileEntityReinforcedChest() {
-		super.inv = new SonarLargeInventory(this, 27, 4);
+		super(27, 4);
 	}
 
 	public SonarLargeInventory getTileInv() {
@@ -44,10 +46,9 @@ public class TileEntityReinforcedChest extends TileEntityInventory implements IG
 			float f = 5.0F;
 
 			for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double) ((float) i - f), (double) ((float) j - f), (double) ((float) k - f), (double) ((float) (i + 1) + f), (double) ((float) (j + 1) + f), (double) ((float) (k + 1) + f)))) {
-				if (entityplayer.openContainer instanceof ContainerChest) {
-					IInventory iinventory = ((ContainerChest) entityplayer.openContainer).getLowerChestInventory();
-
-					if (iinventory == this || iinventory instanceof InventoryLargeChest && ((InventoryLargeChest) iinventory).isPartOfLargeChest(this)) {
+				if (entityplayer.openContainer instanceof ContainerReinforcedChest) {
+					ILargeInventory iinventory = ((ContainerReinforcedChest) entityplayer.openContainer).entity;
+					if (iinventory == this) {
 						++this.numPlayersUsing;
 					}
 				}
@@ -99,7 +100,7 @@ public class TileEntityReinforcedChest extends TileEntityInventory implements IG
 	}
 
 	public void openInventory(EntityPlayer player) {
-		super.openInventory(player);
+		// super.openInventory(player);
 		if (!player.isSpectator()) {
 			if (this.numPlayersUsing < 0) {
 				this.numPlayersUsing = 0;
@@ -112,7 +113,7 @@ public class TileEntityReinforcedChest extends TileEntityInventory implements IG
 	}
 
 	public void closeInventory(EntityPlayer player) {
-		super.closeInventory(player);
+		// super.closeInventory(player);
 		if (!player.isSpectator()) {
 			--this.numPlayersUsing;
 			if (this.numPlayersUsing < 0) {
@@ -133,4 +134,5 @@ public class TileEntityReinforcedChest extends TileEntityInventory implements IG
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiReinforcedChest(player, this);
 	}
+
 }

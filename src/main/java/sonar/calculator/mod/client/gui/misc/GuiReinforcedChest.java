@@ -19,7 +19,7 @@ public class GuiReinforcedChest extends GuiSonar {
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 8, 0);
+		FontHelper.textCentre(FontHelper.translate("tile.ReinforcedChest.name"), xSize, 8, 0);
 		super.drawGuiContainerForegroundLayer(par1, par2);
 	}
 
