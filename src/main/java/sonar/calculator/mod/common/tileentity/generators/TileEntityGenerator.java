@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.generators.GuiExtractor;
-import sonar.calculator.mod.common.containers.ContainerExtractor;
+import sonar.calculator.mod.common.containers.ContainerGenerator;
 import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
@@ -162,7 +162,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 		@Override
 		public int getItemValue(ItemStack stack) {
-			return (Integer) StarchExtractorRecipes.instance().getOutput(stack);
+			return StarchExtractorRecipes.instance().getValue(null, stack);
 		}
 
 		@Override
@@ -177,7 +177,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		}
 
 		public int getItemValue(ItemStack stack) {
-			return (Integer) RedstoneExtractorRecipes.instance().getOutput(stack);
+			return RedstoneExtractorRecipes.instance().getValue(null, stack);
 		}
 
 		@SideOnly(Side.CLIENT)
@@ -198,7 +198,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		}
 
 		public int getItemValue(ItemStack stack) {
-			return (Integer) GlowstoneExtractorRecipes.instance().getOutput(stack);
+			return GlowstoneExtractorRecipes.instance().getValue(null, stack);
 		}
 
 		@SideOnly(Side.CLIENT)
@@ -215,6 +215,6 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	@Override
 	public Object getGuiContainer(EntityPlayer player) {
-		return new ContainerExtractor(player.inventory, this);
+		return new ContainerGenerator(player.inventory, this);
 	}
 }

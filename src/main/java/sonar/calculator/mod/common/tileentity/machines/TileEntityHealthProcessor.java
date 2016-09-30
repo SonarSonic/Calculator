@@ -56,7 +56,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 							storedpoints.increaseBy(-speed);
 						} else if (max != -1) {
 							module.transferHealth(max - health, stack, ProcessType.ADD);
-							storedpoints.increaseBy(-(max-health));
+							storedpoints.increaseBy(-(max - health));
 						}
 					} else if (storedpoints.getObject() <= speed) {
 						if (max == -1 | max >= health + speed) {
@@ -64,7 +64,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 							storedpoints.setObject(0);
 						} else if (max != -1) {
 							module.transferHealth(max - health, stack, ProcessType.ADD);
-							storedpoints.increaseBy(-(max-health));
+							storedpoints.increaseBy(-(max - health));
 						}
 					}
 				}
@@ -80,8 +80,9 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 
 	private void loot(ItemStack stack) {
 		if (!(stack == null)) {
-			if (isLoot(stack)) {
-				int add = (Integer) HealthProcessorRecipes.instance().getOutput(stack);
+			int value = HealthProcessorRecipes.instance().getValue(null, stack);
+			if (value > 0) {
+				int add = value;
 				storedpoints.increaseBy(add);
 				this.slots()[0].stackSize--;
 				if (this.slots()[0].stackSize <= 0) {
@@ -89,7 +90,6 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 				}
 			}
 			if (stack.getItem() instanceof IHealthStore) {
-
 				IHealthStore module = (IHealthStore) stack.getItem();
 				int health = module.getHealthPoints(stack);
 				if (health != 0) {
@@ -107,19 +107,19 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	}
 
 	private boolean isLoot(ItemStack stack) {
-		if ((Integer) HealthProcessorRecipes.instance().getOutput(stack) > 0) {
+		if (HealthProcessorRecipes.instance().getValue(null, stack) > 0) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction){
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
 		return this.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing slots){
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing slots) {
 		if (slot == 1) {
 			if (this.storedpoints.getObject() == 0) {
 				return true;
@@ -146,5 +146,5 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiHealthProcessor(player.inventory, this);
 	}
-	    
+
 }

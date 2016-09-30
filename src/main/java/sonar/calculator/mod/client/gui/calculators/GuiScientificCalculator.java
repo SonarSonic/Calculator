@@ -17,8 +17,8 @@ import sonar.core.helpers.FontHelper;
 public class GuiScientificCalculator extends GuiContainer {
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/scientificcalculator.png");
 
-	public GuiScientificCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem calculatorInventory) {
-		super(new ContainerScientificCalculator(player, inv, calculatorInventory));
+	public GuiScientificCalculator(EntityPlayer player, InventoryItem calculatorInventory) {
+		super(new ContainerScientificCalculator(player, calculatorInventory));
 	}
 
 	@Override

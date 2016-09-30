@@ -8,14 +8,13 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.core.inventory.ContainerSync;
 
-public class ContainerExtractor extends ContainerSync {
+public class ContainerGenerator extends ContainerSync {
 
 	private TileEntityGenerator entity;
 
-	public ContainerExtractor(InventoryPlayer inventory, TileEntityGenerator entity) {
+	public ContainerGenerator(InventoryPlayer inventory, TileEntityGenerator entity) {
 		super(entity);
 		this.entity = entity;
-
 		addSlotToContainer(new Slot(entity, 0, 8, 38));
 		addSlotToContainer(new Slot(entity, 1, 8, 14));
 

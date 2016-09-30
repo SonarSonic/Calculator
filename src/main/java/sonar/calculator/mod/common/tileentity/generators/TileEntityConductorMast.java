@@ -17,6 +17,7 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.generators.GuiConductorMast;
 import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.ConductorMastRecipes;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.core.api.energy.EnergyMode;
@@ -25,6 +26,8 @@ import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
+import sonar.core.recipes.DefaultSonarRecipe;
+import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
@@ -37,6 +40,8 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	public final SyncTagType.INT rfPerStrike = new SyncTagType.INT(5);
 	public final SyncTagType.DOUBLE rfPerTick = new SyncTagType.DOUBLE(6);
 
+	
+	public int energyUsage;
 	public int lastStations, strikes, avgTicks;
 	public static int furnaceSpeed = 50;
 	public final int weatherStationRF = CalculatorConfig.getInteger("Weather Station");
@@ -51,12 +56,8 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		syncParts.addAll(Lists.newArrayList(cookTime, lightingTicks, lightTicks, lightningSpeed, random, rfPerStrike, rfPerTick));
 	}
 
-	public ItemStack recipeOutput(ItemStack stack) {
-		return RecipeRegistry.ConductorMastItemRecipes.instance().getCraftingResult(stack);
-	}
-
-	public int recipeEnergy(ItemStack stack) {
-		return RecipeRegistry.ConductorMastPowerRecipes.instance().getPowercost(stack);
+	public DefaultSonarRecipe.Value getRecipe(ItemStack stack) {
+		return ConductorMastRecipes.instance().getRecipeFromInputs(null, new Object[] { stack });
 	}
 
 	public void onLoaded() {
@@ -149,33 +150,29 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	}
 
 	public boolean canCook() {
-		if (this.storage.getEnergyStored() == 0) {
-			return false;
-		}
-
-		if (slots()[0] == null) {
+		if (this.storage.getEnergyStored() == 0 || slots()[0] == null) {
 			return false;
 		}
 
 		if (cookTime.getObject() >= furnaceSpeed) {
 			return true;
 		}
-
-		ItemStack itemstack = recipeOutput(slots()[0]);
-		if (itemstack == null) {
+		DefaultSonarRecipe.Value recipe = this.getRecipe(slots()[0]);
+		if (recipe == null) {
 			return false;
 		}
+		ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), 0);
 		if (slots()[1] != null) {
-			if (!slots()[1].isItemEqual(itemstack)) {
+			if (!slots()[1].isItemEqual(stack)) {
 				return false;
-			} else if (slots()[1].stackSize + itemstack.stackSize > slots()[1].getMaxStackSize()) {
+			} else if (slots()[1].stackSize + stack.stackSize > slots()[1].getMaxStackSize()) {
 				return false;
 			}
 		}
 
-		int itemEnergy = recipeEnergy(slots()[0]);
+		energyUsage = recipe.getValue();
 		if (cookTime.getObject() == 0) {
-			if (this.storage.getEnergyStored() < itemEnergy) {
+			if (this.storage.getEnergyStored() < energyUsage) {
 				return false;
 			}
 		}
@@ -185,15 +182,17 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	}
 
 	private void cookItem() {
-
-		ItemStack itemstack = recipeOutput(slots()[0]);
-		int energy = recipeEnergy(slots()[0]);
-		this.storage.extractEnergy(energy, false);
+		DefaultSonarRecipe.Value recipe = this.getRecipe(slots()[0]);
+		if (recipe == null)
+			return;
+		ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), 0);
+		energyUsage = recipe.getValue();
+		this.storage.extractEnergy(energyUsage, false);
 
 		if (this.slots()[1] == null) {
-			this.slots()[1] = itemstack.copy();
+			this.slots()[1] = stack.copy();
 
-		} else if (this.slots()[1].isItemEqual(itemstack)) {
+		} else if (this.slots()[1].isItemEqual(stack)) {
 			this.slots()[1].stackSize++;
 		}
 		this.slots()[0].stackSize--;
@@ -224,7 +223,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	@Override
 	public EnergyMode getModeForSide(EnumFacing side) {
-		if(side == null){
+		if (side == null) {
 			return EnergyMode.SEND_RECIEVE;
 		}
 		if (side == EnumFacing.DOWN) {
@@ -310,7 +309,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
 		if (slot == 0) {
-			if (stack != null && recipeOutput(stack) != null) {
+			if (stack != null && ConductorMastRecipes.instance().isValidInput(stack)) {
 				return true;
 			} else {
 				return false;
@@ -337,10 +336,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	@Override
 	public double getEnergyUsage() {
-		if (slots()[0] != null) {
-			return recipeEnergy(slots()[0]);
-		}
-		return 0;
+		return energyUsage;
 	}
 
 	@Override

@@ -22,8 +22,8 @@ public class TreeHarvestRecipes extends RecipeHelper {
 
 	@Override
 	public void addRecipes() {
-		this.addRecipe(Calculator.pearLeaves, new ItemStack(Calculator.pear, 1), new ItemStack(Calculator.rotten_pear, 1));
-		this.addRecipe(Calculator.diamondLeaves, new ItemStack(Calculator.weakeneddiamond, 1), new ItemStack(Calculator.flawlessdiamond, 1));
+		addRecipe(Calculator.pearLeaves, new ItemStack(Calculator.pear, 1), new ItemStack(Calculator.rotten_pear, 1));
+		addRecipe(Calculator.diamondLeaves, new ItemStack(Calculator.weakeneddiamond, 1), new ItemStack(Calculator.flawlessdiamond, 1));
 	}
 
 	@Override

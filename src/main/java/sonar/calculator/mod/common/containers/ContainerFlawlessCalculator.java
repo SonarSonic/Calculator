@@ -8,48 +8,52 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.FlawlessRecipes;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.ScientificRecipes;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.recipes.RecipeHelperV2;
 
 public class ContainerFlawlessCalculator extends Container implements ICalculatorCrafter {
-	private final InventoryItem inventory;
-	private boolean isRemote;
+	public final InventoryItem inventory;
+	public final EntityPlayer player;
+	public boolean isRemote;
 
 	private static final int INV_START = 5, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
-	public ContainerFlawlessCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
+	public ContainerFlawlessCalculator(EntityPlayer player, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
-
+		this.player = player;
 		isRemote = player.getEntityWorld().isRemote;
 
 		for (int k = 0; k < 4; k++) {
 			addSlotToContainer(new SlotPortableCrafting(this, inventory, k, 17 + k * 32, 35, isRemote, Calculator.itemFlawlessCalculator));
 		}
-		
-		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[]{0,1,2,3}, 4, 145, 35, isRemote));
-		
+
+		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1, 2, 3 }, 4, 145, 35, isRemote));
+
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
-				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
 		}
 		onItemCrafted();
 	}
 
 	@Override
 	public void onItemCrafted() {
-		this.inventory.setInventorySlotContents(4, RecipeRegistry.FlawlessRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3)), isRemote);
+		inventory.setInventorySlotContents(3, RecipeHelperV2.getItemStackFromList(FlawlessRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3)), 0));
 	}
 
-	public void removeEnergy(int remove){
-		
+	public void removeEnergy(int remove) {
+
 	}
-	
+
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 
@@ -73,7 +77,7 @@ public class ContainerFlawlessCalculator extends Container implements ICalculato
 			} else {
 
 				if (par2 >= INV_START) {
-					if (!this.mergeItemStack(itemstack1, 0, INV_START-1, false)) {
+					if (!this.mergeItemStack(itemstack1, 0, INV_START - 1, false)) {
 						return null;
 					}
 				} else if (par2 >= INV_START && par2 < HOTBAR_START) {
@@ -104,7 +108,7 @@ public class ContainerFlawlessCalculator extends Container implements ICalculato
 	}
 
 	@Override
-    public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player){
+	public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player) {
 		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
 			return null;
 		}

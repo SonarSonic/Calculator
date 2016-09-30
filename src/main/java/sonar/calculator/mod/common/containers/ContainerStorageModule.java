@@ -17,7 +17,7 @@ public class ContainerStorageModule extends Container {
 
 	private static final int INV_START = 54, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
-	public ContainerStorageModule(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
+	public ContainerStorageModule(EntityPlayer player, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
 		isRemote = player.getEntityWorld().isRemote;
         int i = 36;
@@ -36,13 +36,13 @@ public class ContainerStorageModule extends Container {
         {
             for (k = 0; k < 9; ++k)
             {
-                this.addSlotToContainer(new SlotLimiter(inventoryPlayer, k + j * 9 + 9, 8 + k * 18, 104 + j * 18 + i, Calculator.itemStorageModule));
+                this.addSlotToContainer(new SlotLimiter(player.inventory, k + j * 9 + 9, 8 + k * 18, 104 + j * 18 + i, Calculator.itemStorageModule));
             }
         }
 
         for (j = 0; j < 9; ++j)
         {
-            this.addSlotToContainer(new SlotLimiter(inventoryPlayer, j, 8 + j * 18, 162 + i, Calculator.itemStorageModule));
+            this.addSlotToContainer(new SlotLimiter(player.inventory, j, 8 + j * 18, 162 + i, Calculator.itemStorageModule));
         }
 	}
 

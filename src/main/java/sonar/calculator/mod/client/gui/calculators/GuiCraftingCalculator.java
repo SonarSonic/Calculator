@@ -18,8 +18,8 @@ public class GuiCraftingCalculator extends GuiContainer {
 
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/craftingcalculator.png");
 
-	public GuiCraftingCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem craftingInv) {
-		super(new ContainerCraftingCalculator(player, inv, craftingInv));
+	public GuiCraftingCalculator(EntityPlayer player, InventoryItem craftingInv) {
+		super(new ContainerCraftingCalculator(player, craftingInv));
 
 		this.xSize = 176;
 		this.ySize = 166;

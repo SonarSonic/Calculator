@@ -8,8 +8,11 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.util.ResourceLocation;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategory;
+import sonar.core.integration.jei.JEICategoryV2;
+import sonar.core.integration.jei.JEIHelper.RecipeMapper;
+import sonar.core.recipes.RecipeObjectType;
 
-public class FlawlessCalculatorCategory extends JEICategory {
+public class FlawlessCalculatorCategory extends JEICategoryV2 {
 
 	private final IDrawable background;
 
@@ -26,6 +29,14 @@ public class FlawlessCalculatorCategory extends JEICategory {
 
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper) {
+		RecipeMapper mapper = new RecipeMapper(recipeWrapper);
+		mapper.map(RecipeObjectType.INPUT, 0, 0, 0, 0);
+		mapper.map(RecipeObjectType.INPUT, 1, 1, 32, 0);
+		mapper.map(RecipeObjectType.INPUT, 2, 2, 64, 0);
+		mapper.map(RecipeObjectType.INPUT, 3, 3, 96, 0);
+		mapper.map(RecipeObjectType.OUTPUT, 0, 4, 128, 0);
+		mapper.mapTo(recipeLayout.getItemStacks());
+		/*
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 		stacks.init(0, true, 0, 0);
 		stacks.init(1, true, 32, 0);
@@ -37,5 +48,6 @@ public class FlawlessCalculatorCategory extends JEICategory {
 		stacks.setFromRecipe(2, recipeWrapper.getInputs().get(2));
 		stacks.setFromRecipe(3, recipeWrapper.getInputs().get(3));
 		stacks.setFromRecipe(4, recipeWrapper.getOutputs());
+		*/
 	}
 }

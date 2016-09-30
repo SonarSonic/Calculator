@@ -17,8 +17,8 @@ import sonar.core.helpers.FontHelper;
 public class GuiFlawlessCalculator extends GuiContainer {
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/flawlesscalculator.png");
 
-	public GuiFlawlessCalculator(EntityPlayer player, InventoryPlayer inv, InventoryItem inventoryItem) {
-		super(new ContainerFlawlessCalculator(player, inv, inventoryItem));
+	public GuiFlawlessCalculator(EntityPlayer player, InventoryItem inventoryItem) {
+		super(new ContainerFlawlessCalculator(player, inventoryItem));
 	}
 
 	@Override

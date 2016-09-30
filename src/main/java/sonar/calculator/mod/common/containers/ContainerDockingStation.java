@@ -20,7 +20,7 @@ public class ContainerDockingStation extends ContainerSync {
 	public ContainerDockingStation(InventoryPlayer inventory, TileEntityDockingStation entity) {
 		super(entity);
 		this.entity = entity;
-		INV_START=entity.isCalculator(entity.calcStack) + 2;
+		INV_START=entity.getInputStackSize(entity.calcStack) + 2;
 		addSlots(entity);
 
 		for (int i = 0; i < 3; i++) {
@@ -66,7 +66,7 @@ public class ContainerDockingStation extends ContainerSync {
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			int start = entity.isCalculator(entity.calcStack) + 2;
+			int start = entity.getInputStackSize(entity.calcStack) + 2;
 			if (id < start) {
 				if (!this.mergeItemStack(itemstack1, start, HOTBAR_END + 1, true)) {
 					return null;
@@ -75,12 +75,12 @@ public class ContainerDockingStation extends ContainerSync {
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 
-				if (id >= entity.isCalculator(entity.calcStack)) {
+				if (id >= entity.getInputStackSize(entity.calcStack)) {
 					if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
 						if (!mergeItemStack(itemstack1, start - 2, start - 1, false)) {
 							return null;
 						}
-					}else if (!this.mergeItemStack(itemstack1, 0, entity.isCalculator(entity.calcStack), false)) {
+					}else if (!this.mergeItemStack(itemstack1, 0, entity.getInputStackSize(entity.calcStack), false)) {
 						return null;
 					}
 

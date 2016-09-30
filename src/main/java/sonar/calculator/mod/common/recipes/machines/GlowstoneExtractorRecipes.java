@@ -1,12 +1,12 @@
 package sonar.calculator.mod.common.recipes.machines;
 
-import sonar.core.helpers.ValueHelper;
+import sonar.core.recipes.ValueHelperV2.SimpleValueHelper;
 
-public class GlowstoneExtractorRecipes extends ValueHelper {
+public class GlowstoneExtractorRecipes extends SimpleValueHelper {
 
 	private static final GlowstoneExtractorRecipes recipes = new GlowstoneExtractorRecipes();
 
-	public static final ValueHelper instance() {
+	public static final GlowstoneExtractorRecipes instance() {
 		return recipes;
 	}
 
@@ -15,7 +15,6 @@ public class GlowstoneExtractorRecipes extends ValueHelper {
 		addRecipe("dustGlowstone", 1000);
 		addRecipe("glowstone", 4000);
 		addRecipe("ingotGlowstone", 3000);
-
 	}
 
 	@Override

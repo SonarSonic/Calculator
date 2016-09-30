@@ -3,9 +3,9 @@ package sonar.calculator.mod.common.recipes.machines;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.core.helpers.RecipeHelper;
+import sonar.core.recipes.DefinedRecipeHelper;
 
-public class RestorationChamberRecipes extends RecipeHelper {
+public class RestorationChamberRecipes extends DefinedRecipeHelper {
 
 	private static final RestorationChamberRecipes recipes = new RestorationChamberRecipes();
 
@@ -13,7 +13,7 @@ public class RestorationChamberRecipes extends RecipeHelper {
 		super(1, 1, false);
 	}
 
-	public static final RecipeHelper instance() {
+	public static final RestorationChamberRecipes instance() {
 		return recipes;
 	}
 

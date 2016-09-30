@@ -18,8 +18,8 @@ import sonar.core.helpers.FontHelper;
 public class GuiStorageModule extends GuiContainer {
 	private static final ResourceLocation texture = new ResourceLocation("textures/gui/container/generic_54.png");
 
-	public GuiStorageModule(EntityPlayer player, InventoryPlayer inv, InventoryItem inventory) { 
-		super(new ContainerStorageModule(player, inv, inventory));
+	public GuiStorageModule(EntityPlayer player, InventoryItem inventory) { 
+		super(new ContainerStorageModule(player, inventory));
         this.ySize = 222;
     }
 	

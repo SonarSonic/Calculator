@@ -30,7 +30,8 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 		super.inv = new SonarLargeInventory(this, 14, 1024) {
 
 			public boolean isItemValidForSlot(int slot, ItemStack item) {
-				if (item != null && item.getItemDamage() == slot) {
+				int target = (int) Math.floor(slot / numStacks);
+				if (item != null && item.getItemDamage() == target) {
 					CircuitType stackType = getCircuitType(item);
 					if (stackType == null) {
 						return false;
@@ -40,6 +41,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 							return false;
 						}
 					}
+					
 					return super.isItemValidForSlot(slot, item);
 				}
 				return false;

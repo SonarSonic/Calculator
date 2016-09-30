@@ -4,12 +4,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import sonar.core.helpers.ValueHelper;
+import sonar.core.recipes.ValueHelperV2.SimpleValueHelper;
 
-public class HealthProcessorRecipes extends ValueHelper {
+public class HealthProcessorRecipes extends SimpleValueHelper {
 
 	private static final HealthProcessorRecipes recipes = new HealthProcessorRecipes();
 
-	public static final ValueHelper instance() {
+	public static final HealthProcessorRecipes instance() {
 		return recipes;
 	}
 

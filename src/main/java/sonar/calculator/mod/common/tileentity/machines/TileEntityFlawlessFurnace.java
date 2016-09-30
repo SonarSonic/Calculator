@@ -19,6 +19,7 @@ import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RecipeHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
+import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory implements IPausable, IGuiTile {
@@ -159,7 +160,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 
 	}
 
-	public RecipeHelper recipeHelper() {
+	public RecipeHelperV2 recipeHelper() {
 		return AlgorithmSeparatorRecipes.instance();
 	}
 

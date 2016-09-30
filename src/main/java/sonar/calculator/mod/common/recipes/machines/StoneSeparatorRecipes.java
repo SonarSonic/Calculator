@@ -4,9 +4,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.core.helpers.RecipeHelper;
+import sonar.core.recipes.DefinedRecipeHelper;
 
-public class StoneSeparatorRecipes extends RecipeHelper {
+public class StoneSeparatorRecipes extends DefinedRecipeHelper {
 
 	private static final StoneSeparatorRecipes recipes = new StoneSeparatorRecipes();
 
@@ -14,7 +14,7 @@ public class StoneSeparatorRecipes extends RecipeHelper {
 		super(1, 2, false);
 	}
 
-	public static final RecipeHelper instance() {
+	public static final StoneSeparatorRecipes instance() {
 		return recipes;
 	}
 

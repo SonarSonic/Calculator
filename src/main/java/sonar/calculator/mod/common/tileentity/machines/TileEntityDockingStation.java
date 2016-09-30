@@ -15,6 +15,7 @@ import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.RecipeHelper;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
+import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess implements IGuiTile, IAdditionalInventory {
@@ -35,24 +36,65 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		return 1;
 	}
 
-	public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {
-		return recipeHelper().getOutput(stacks);
+	public enum ProcessType {
+		CALCULATOR(2), SCIENTIFIC(2), ATOMIC(3), FLAWLESS(4);
+
+		public int inputStacks;
+
+		ProcessType(int inputStacks) {
+			this.inputStacks = inputStacks;
+		}
+
+		public RecipeHelperV2 getRecipeHelper() {
+			switch (this) {
+			case ATOMIC:
+				return RecipeRegistry.AtomicRecipes.instance();
+			case CALCULATOR:
+				return RecipeRegistry.CalculatorRecipes.instance();
+			case FLAWLESS:
+				return RecipeRegistry.FlawlessRecipes.instance();
+			case SCIENTIFIC:
+				return RecipeRegistry.ScientificRecipes.instance();
+			default:
+				return null;
+			}
+		}
+
+		public Item getItem() {
+			switch (this) {
+			case ATOMIC:
+				return Item.getItemFromBlock(Calculator.atomicCalculator);
+			case CALCULATOR:
+				return Calculator.itemCalculator;
+			case FLAWLESS:
+				return Calculator.itemFlawlessCalculator;
+			case SCIENTIFIC:
+				return Calculator.itemScientificCalculator;
+			default:
+				return null;
+			}
+		}
+
+		public static ProcessType getType(Item item) {
+			for (ProcessType type : values()) {
+				if (type.getItem() == item) {
+					return type;
+				}
+			}
+			return null;
+		}
 	}
 
-	public RecipeHelper recipeHelper() {
+	public static int getInputStackSize(ItemStack itemstack1) {
+		if (itemstack1 != null) {
+			return ProcessType.getType(itemstack1.getItem()).inputStacks;
+		}
+		return 0;
+	}
+
+	public RecipeHelperV2 recipeHelper() {
 		if (calcStack != null) {
-			if (calcStack.getItem() == Calculator.itemCalculator) {
-				return RecipeRegistry.CalculatorRecipes.instance();
-			}
-			if (calcStack.getItem() == Calculator.itemScientificCalculator) {
-				return RecipeRegistry.ScientificRecipes.instance();
-			}
-			if (calcStack.getItem() == Item.getItemFromBlock(Calculator.atomicCalculator)) {
-				return RecipeRegistry.AtomicRecipes.instance();
-			}
-			if (calcStack.getItem() == Calculator.itemFlawlessCalculator) {
-				return RecipeRegistry.FlawlessRecipes.instance();
-			}
+			return ProcessType.getType(calcStack.getItem()).getRecipeHelper();
 		}
 		return RecipeRegistry.CalculatorRecipes.instance();
 	}
@@ -67,7 +109,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 
 	@Override
 	public ItemStack[] inputStacks() {
-		int size = this.isCalculator(calcStack);
+		int size = getInputStackSize(calcStack);
 		if (size == 0) {
 			return null;
 		}
@@ -95,7 +137,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 				}
 			}
 		}
-		for (int i = 0; i < this.isCalculator(calcStack); i++) {
+		for (int i = 0; i < getInputStackSize(calcStack); i++) {
 			if (recipeHelper() != null) {
 				this.slots()[i].stackSize -= recipeHelper().getInputSize(i, output);
 			} else {
@@ -105,24 +147,6 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 				this.slots()[i] = null;
 			}
 		}
-	}
-
-	public static int isCalculator(ItemStack itemstack1) {
-		if (itemstack1 != null) {
-			if (itemstack1.getItem() == Calculator.itemCalculator) {
-				return 2;
-			}
-			if (itemstack1.getItem() == Calculator.itemScientificCalculator) {
-				return 2;
-			}
-			if (itemstack1.getItem() == Item.getItemFromBlock(Calculator.atomicCalculator)) {
-				return 3;
-			}
-			if (itemstack1.getItem() == Calculator.itemFlawlessCalculator) {
-				return 4;
-			}
-		}
-		return 0;
 	}
 
 	public void readData(NBTTagCompound nbt, SyncType type) {
@@ -157,7 +181,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	public int[] getSlotsForFace(EnumFacing side) {
 		int[] outputSlot = new int[] { 5 };
 		int[] emptySlot = new int[0];
-		int size = this.isCalculator(calcStack);
+		int size = this.getInputStackSize(calcStack);
 		EnumFacing dir = EnumFacing.getFront(getBlockMetadata());
 		if (dir == null || size == 0) {
 			return emptySlot;
@@ -200,10 +224,10 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		return new GuiDockingStation(player.inventory, this);
 	}
 
-	public ItemStack[] getAdditionalStacks(){
-		if(calcStack!=null){
-			return new ItemStack[]{calcStack};
-		}else{
+	public ItemStack[] getAdditionalStacks() {
+		if (calcStack != null) {
+			return new ItemStack[] { calcStack };
+		} else {
 			return new ItemStack[0];
 		}
 	}

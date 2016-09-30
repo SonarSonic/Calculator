@@ -5,9 +5,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.core.SonarCore;
-import sonar.core.helpers.RecipeHelper;
+import sonar.core.recipes.DefinedRecipeHelper;
 
-public class PrecisionChamberRecipes extends RecipeHelper {
+public class PrecisionChamberRecipes extends DefinedRecipeHelper {
 
 	private static final PrecisionChamberRecipes recipes = new PrecisionChamberRecipes();
 
@@ -15,7 +15,7 @@ public class PrecisionChamberRecipes extends RecipeHelper {
 		super(1, 2, false);
 	}
 
-	public static final RecipeHelper instance() {
+	public static final PrecisionChamberRecipes instance() {
 		return recipes;
 	}
 

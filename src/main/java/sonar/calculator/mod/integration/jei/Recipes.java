@@ -1,5 +1,7 @@
 package sonar.calculator.mod.integration.jei;
 
+import java.util.Collection;
+
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -8,121 +10,114 @@ import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
 import sonar.core.integration.jei.JEIRecipe;
+import sonar.core.integration.jei.JEIRecipeV2;
+import sonar.core.recipes.ISonarRecipe;
+import sonar.core.recipes.RecipeHelperV2;
 
 public class Recipes {
 
-	public static class Processing extends JEIRecipe<Processing> {
+	public static class Processing extends JEIRecipeV2<Processing> {
 
-		@Override
-		public Processing getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Processing().setRecipe(recipeID, inputs, outputs);
+		public Processing(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 	}
 
-	public static class Restoration extends JEIRecipe<Restoration> {
+	public static class Restoration extends JEIRecipeV2<Restoration> {
 
-		@Override
-		public Restoration getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Restoration().setRecipe(recipeID, inputs, outputs);
+		public Restoration(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 	}
 
-	public static class Reassembly extends JEIRecipe<Reassembly> {
+	public static class Reassembly extends JEIRecipeV2<Reassembly> {
 
-		@Override
-		public Reassembly getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Reassembly().setRecipe(recipeID, inputs, outputs);
+		public Reassembly(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 	}
 
-	public static class Algorithm extends JEIRecipe<Algorithm> {
+	public static class Algorithm extends JEIRecipeV2<Algorithm> {
 
-		@Override
-		public Algorithm getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Algorithm().setRecipe(recipeID, inputs, outputs);
+		public Algorithm(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 	}
 
-	public static class Stone extends JEIRecipe<Stone> {
+	public static class Stone extends JEIRecipeV2<Stone> {
 
-		@Override
-		public Stone getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Stone().setRecipe(recipeID, inputs, outputs);
+		public Stone(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 	}
 
-	public static class Extraction extends JEIRecipe<Extraction> {
+	public static class Extraction extends JEIRecipeV2<Extraction> {
 
-		@Override
-		public Extraction getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Extraction().setRecipe(recipeID, inputs, outputs);
+		public Extraction(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-			if (this.outputs.get(1) instanceof ItemStack) {
-				ItemStack stack = (ItemStack) this.outputs.get(1);
-
-				if (stack.getItem() == sonar.calculator.mod.Calculator.circuitBoard || stack.getItem() == sonar.calculator.mod.Calculator.circuitDamaged || stack.getItem() == sonar.calculator.mod.Calculator.circuitDirty) {
-					GL11.glPushMatrix();
-					GL11.glScaled(0.7, 0.7, 0.7);
-					minecraft.fontRendererObj.drawString("12.5%", 123, 39, 0);
-					GL11.glPopMatrix();
-				}
+			Collection<ItemStack> collection = (Collection<ItemStack>) this.outputs.get(1);
+			ItemStack stack = collection.iterator().next();
+			if (stack.getItem() == sonar.calculator.mod.Calculator.circuitBoard || stack.getItem() == sonar.calculator.mod.Calculator.circuitDamaged || stack.getItem() == sonar.calculator.mod.Calculator.circuitDirty) {
+				GL11.glPushMatrix();
+				GL11.glScaled(0.7, 0.7, 0.7);
+				minecraft.fontRendererObj.drawString("12.5%", 123, 39, 0);
+				GL11.glPopMatrix();
 			}
 		}
 	}
 
-	public static class Precision extends JEIRecipe<Precision> {
+	public static class Precision extends JEIRecipeV2<Precision> {
 
-		@Override
-		public Precision getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Precision().setRecipe(recipeID, inputs, outputs);
+		public Precision(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 	}
 
-	public static class Calculator extends JEIRecipe<Calculator> {
+	public static class Calculator extends JEIRecipeV2<Calculator> {
 
-		@Override
-		public Calculator getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Calculator().setRecipe(recipeID, inputs, outputs);
+		public Calculator(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
+
 	}
 
-	public static class Scientific extends JEIRecipe<Scientific> {
+	public static class Scientific extends JEIRecipeV2<Scientific> {
 
-		@Override
-		public Scientific getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Scientific().setRecipe(recipeID, inputs, outputs);
+		public Scientific(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
+
 	}
 
-	public static class Atomic extends JEIRecipe<Atomic> {
+	public static class Atomic extends JEIRecipeV2<Atomic> {
 
-		@Override
-		public Atomic getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Atomic().setRecipe(recipeID, inputs, outputs);
+		public Atomic(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
+
 	}
 
-	public static class Flawless extends JEIRecipe<Flawless> {
+	public static class Flawless extends JEIRecipeV2<Flawless> {
 
-		@Override
-		public Flawless getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Flawless().setRecipe(recipeID, inputs, outputs);
+		public Flawless(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
+
 	}
 
-	public static class Health extends JEIRecipe<Health> {
+	public static class Health extends JEIRecipeV2<Health> {
 
-		@Override
-		public Health getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Health().setRecipe(recipeID, inputs, outputs);
+		public Health(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 			GL11.glPushMatrix();
 			GL11.glScaled(0.7, 0.7, 0.7);
-			FontHelper.textCentre(" " + HealthProcessorRecipes.instance().getOutput((ItemStack) this.inputs.get(0)) + " Health Points", (int) (recipeWidth * (1.0 / 0.7)), 40, 0);
+			FontHelper.textCentre(" " + HealthProcessorRecipes.instance().getValue(null, this.inputs.get(0).iterator().next()) + " Health Points", (int) (recipeWidth * (1.0 / 0.7)), 40, 0);
 			GL11.glPopMatrix();
 		}
 	}

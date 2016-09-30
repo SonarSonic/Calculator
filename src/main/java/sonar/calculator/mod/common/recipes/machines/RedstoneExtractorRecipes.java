@@ -1,12 +1,12 @@
 package sonar.calculator.mod.common.recipes.machines;
 
-import sonar.core.helpers.ValueHelper;
+import sonar.core.recipes.ValueHelperV2.SimpleValueHelper;
 
-public class RedstoneExtractorRecipes extends ValueHelper {
+public class RedstoneExtractorRecipes extends SimpleValueHelper {
 
 	private static final RedstoneExtractorRecipes recipes = new RedstoneExtractorRecipes();
 
-	public static final ValueHelper instance() {
+	public static final RedstoneExtractorRecipes instance() {
 		return recipes;
 	}
 

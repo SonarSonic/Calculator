@@ -8,8 +8,11 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.util.ResourceLocation;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategory;
+import sonar.core.integration.jei.JEICategoryV2;
+import sonar.core.integration.jei.JEIHelper.RecipeMapper;
+import sonar.core.recipes.RecipeObjectType;
 
-public class CalculatorCategory extends JEICategory {
+public class CalculatorCategory extends JEICategoryV2 {
 
 	private final IDrawable background;
 
@@ -26,12 +29,10 @@ public class CalculatorCategory extends JEICategory {
 
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper) {
-		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-		guiItemStacks.init(0, true, 4, 4);
-		guiItemStacks.init(1, true, 58, 4);
-		guiItemStacks.init(2, false, 113, 4);
-		guiItemStacks.setFromRecipe(0, recipeWrapper.getInputs().get(0));
-		guiItemStacks.setFromRecipe(1, recipeWrapper.getInputs().get(1));
-		guiItemStacks.setFromRecipe(2, recipeWrapper.getOutputs());
+		RecipeMapper mapper = new RecipeMapper(recipeWrapper);
+		mapper.map(RecipeObjectType.INPUT, 0, 0, 4, 4);
+		mapper.map(RecipeObjectType.INPUT, 1, 1, 58, 4);
+		mapper.map(RecipeObjectType.OUTPUT, 0, 2, 113, 4);
+		mapper.mapTo(recipeLayout.getItemStacks());
 	}
 }

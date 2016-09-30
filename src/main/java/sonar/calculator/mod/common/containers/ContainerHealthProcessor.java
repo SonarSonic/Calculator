@@ -30,7 +30,7 @@ public class ContainerHealthProcessor extends ContainerSync {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int p_82846_2_) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(p_82846_2_);
 
@@ -39,7 +39,7 @@ public class ContainerHealthProcessor extends ContainerSync {
 			itemstack = itemstack1.copy();
 
 			if ((p_82846_2_ != 1) && (p_82846_2_ != 0)) {
-				if ((Integer)HealthProcessorRecipes.instance().getOutput(itemstack1) > 0) {
+				if (HealthProcessorRecipes.instance().getValue(player, itemstack1) > 0) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}
@@ -72,7 +72,7 @@ public class ContainerHealthProcessor extends ContainerSync {
 				return null;
 			}
 
-			slot.onPickupFromSlot(p_82846_1_, itemstack1);
+			slot.onPickupFromSlot(player, itemstack1);
 		}
 
 		return itemstack;

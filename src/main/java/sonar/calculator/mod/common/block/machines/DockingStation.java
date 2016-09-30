@@ -39,7 +39,7 @@ public class DockingStation extends SonarMachineBlock {
 						TileEntity target = world.getTileEntity(pos);
 						if (target != null && target instanceof TileEntityDockingStation) {
 							TileEntityDockingStation station = (TileEntityDockingStation) target;
-							if (station.isCalculator(station.calcStack) != 0) {
+							if (station.getInputStackSize(station.calcStack) != 0) {
 								player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 							} else {
 								FontHelper.sendMessage(FontHelper.translate("docking.noCalculator"), world, player);
@@ -54,7 +54,7 @@ public class DockingStation extends SonarMachineBlock {
 	}
 
 	public boolean insertCalculator(EntityPlayer player, World world, BlockPos pos) {
-		if (player.getHeldItemMainhand() != null && TileEntityDockingStation.isCalculator(player.getHeldItemMainhand()) > 0) {
+		if (player.getHeldItemMainhand() != null && TileEntityDockingStation.getInputStackSize(player.getHeldItemMainhand()) > 0) {
 			TileEntity target = world.getTileEntity(pos);
 			if (target != null && target instanceof TileEntityDockingStation) {
 				TileEntityDockingStation station = (TileEntityDockingStation) target;

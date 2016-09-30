@@ -51,7 +51,7 @@ public class SlotResearch extends Slot {
 	}
 
 	public boolean isItemValid(ItemStack stack) {
-		return RecipeRegistry.CalculatorRecipes.instance().validInput(stack);
+		return RecipeRegistry.CalculatorRecipes.instance().isValidInput(stack);
 	}
 
 }

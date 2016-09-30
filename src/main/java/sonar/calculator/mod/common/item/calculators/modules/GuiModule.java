@@ -87,12 +87,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 
 		@Override
 		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
-			return new ContainerCalculator(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new ContainerCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
 		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
-			return new GuiCalculator(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new GuiCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 	}
 
@@ -104,12 +104,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 
 		@Override
 		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
-			return new ContainerScientificCalculator(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new ContainerScientificCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
 		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
-			return new GuiScientificCalculator(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new GuiScientificCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 	}
 
@@ -121,12 +121,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 
 		@Override
 		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
-			return new ContainerFlawlessCalculator(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new ContainerFlawlessCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
 		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
-			return new GuiFlawlessCalculator(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new GuiFlawlessCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 	}
 
@@ -138,12 +138,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 
 		@Override
 		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
-			return new ContainerDynamicModule(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new ContainerDynamicModule(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
 		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
-			return new GuiDynamicModule(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new GuiDynamicModule(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 	}
 
@@ -155,12 +155,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 
 		@Override
 		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
-			return new ContainerCraftingCalculator(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new ContainerCraftingCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
 		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
-			return new GuiCraftingCalculator(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new GuiCraftingCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 	}
 
@@ -172,12 +172,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 
 		@Override
 		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
-			return new ContainerStorageModule(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new ContainerStorageModule(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
 		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
-			return new GuiStorageModule(player, player.inventory, ((IItemInventory) stack.getItem()).getInventory(stack));
+			return new GuiStorageModule(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override

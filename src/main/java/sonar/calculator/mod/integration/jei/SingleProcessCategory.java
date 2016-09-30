@@ -11,8 +11,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategory;
+import sonar.core.integration.jei.JEICategoryV2;
+import sonar.core.integration.jei.JEIHelper.RecipeMapper;
+import sonar.core.recipes.RecipeObjectType;
 
-public class SingleProcessCategory extends JEICategory {
+public class SingleProcessCategory extends JEICategoryV2 {
 
 	private final IDrawable background;
 	protected final IDrawableAnimated arrow;
@@ -37,10 +40,16 @@ public class SingleProcessCategory extends JEICategory {
 
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper) {
+		RecipeMapper mapper = new RecipeMapper(recipeWrapper);
+		mapper.map(RecipeObjectType.INPUT, 0, 0, 4, 4);
+		mapper.map(RecipeObjectType.OUTPUT, 0, 2, 58, 4);
+		mapper.mapTo(recipeLayout.getItemStacks());
+		/*		
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 		stacks.init(0, true, 4, 4);
 		stacks.init(2, false, 58, 4);
 		stacks.setFromRecipe(0, recipeWrapper.getInputs());
 		stacks.setFromRecipe(2, recipeWrapper.getOutputs());
+		*/
 	}
 }

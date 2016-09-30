@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.ConductorMastRecipes;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;
@@ -48,7 +48,7 @@ public class ContainerConductorMast extends ContainerSync {
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (num != 0) {
-				if (RecipeRegistry.ConductorMastItemRecipes.instance().getCraftingResult(itemstack1) != null) {
+				if (ConductorMastRecipes.instance().isValidInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}

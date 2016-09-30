@@ -5,9 +5,12 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.AtomicRecipes;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.ScientificRecipes;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
+import sonar.core.recipes.RecipeHelperV2;
 
 public class ContainerAtomicCalculator extends Container implements ICalculatorCrafter {
 
@@ -20,7 +23,7 @@ public class ContainerAtomicCalculator extends Container implements ICalculatorC
 		this.player = player;
 		this.atomic = atomic;
 		isRemote = player.getEntityWorld().isRemote;
-		
+
 		for (int k = 0; k < 3; k++) {
 			addSlotToContainer(new SlotPortableCrafting(this, atomic, k, 20 + k * 32, 35, isRemote, null));
 		}
@@ -41,8 +44,7 @@ public class ContainerAtomicCalculator extends Container implements ICalculatorC
 
 	@Override
 	public void onItemCrafted() {
-		//if (!isRemote)
-			atomic.setInventorySlotContents(3, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(atomic.getStackInSlot(0), atomic.getStackInSlot(1), atomic.getStackInSlot(2)));
+		atomic.setInventorySlotContents(3, RecipeHelperV2.getItemStackFromList(AtomicRecipes.instance().getOutputs(player, atomic.getStackInSlot(0), atomic.getStackInSlot(1), atomic.getStackInSlot(2)), 0));
 	}
 
 	public void removeEnergy(int remove) {
@@ -50,7 +52,7 @@ public class ContainerAtomicCalculator extends Container implements ICalculatorC
 			if (player.capabilities.isCreativeMode) {
 				return;
 			}
-			//SonarAPI.getEnergyHelper().extractEnergy(player.getHeldItemMainhand(), 1, ActionType.PERFORM);
+			// SonarAPI.getEnergyHelper().extractEnergy(player.getHeldItemMainhand(), 1, ActionType.PERFORM);
 		}
 	}
 

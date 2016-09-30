@@ -8,11 +8,15 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.ActionType;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.recipes.ISonarRecipe;
+import sonar.core.recipes.ISonarRecipeItem;
+import sonar.core.recipes.RecipeHelperV2;
 
 public class ContainerCalculator extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
@@ -22,7 +26,7 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 
 	private EntityPlayer player;
 
-	public ContainerCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
+	public ContainerCalculator(EntityPlayer player, InventoryItem inventoryItem) {
 		this.player = player;
 		this.inventory = inventoryItem;
 		isRemote = player.getEntityWorld().isRemote;
@@ -32,12 +36,12 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
-				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
 		}
 
 		this.onItemCrafted();
@@ -45,17 +49,17 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 
 	@Override
 	public void onItemCrafted() {
-		inventory.setInventorySlotContents(2, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1)), isRemote);
+		inventory.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(CalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1)), 0), isRemote);
 	}
 
 	public void removeEnergy(int remove) {
-		//if (!this.isRemote) {
-			if (player.capabilities.isCreativeMode) {
-				return;
-			}
-			SonarAPI.getEnergyHelper().extractEnergy(player.getHeldItemMainhand(), remove, ActionType.PERFORM);
-			
-		//}
+		// if (!this.isRemote) {
+		if (player.capabilities.isCreativeMode) {
+			return;
+		}
+		SonarAPI.getEnergyHelper().extractEnergy(player.getHeldItemMainhand(), remove, ActionType.PERFORM);
+
+		// }
 	}
 
 	@Override
@@ -106,7 +110,7 @@ public class ContainerCalculator extends Container implements ICalculatorCrafter
 	}
 
 	@Override
-    public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player){
+	public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player) {
 		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
 			return null;
 		}

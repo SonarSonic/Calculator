@@ -16,8 +16,8 @@ import sonar.core.common.item.InventoryItem;
 public class GuiDynamicModule extends GuiContainer {
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/dynamiccalculator.png");
 
-	public GuiDynamicModule(EntityPlayer player, InventoryPlayer inv, InventoryItem calc) {
-		super(new ContainerDynamicModule(player, inv, calc));
+	public GuiDynamicModule(EntityPlayer player, InventoryItem calc) {
+		super(new ContainerDynamicModule(player, calc));
 	}
 
 	@Override

@@ -66,7 +66,7 @@ public class ContainerFlawlessFurnace extends ContainerSync {
 			} else {
 
 				if (slotID >= INV_START) {
-					if (entity.recipeHelper().validInput(itemstack1)) {
+					if (entity.recipeHelper().isValidInput(itemstack1)) {
 						if (!this.mergeItemStack(itemstack1, 0, INV_START - 18 + 1, false)) {
 							return null;
 						}

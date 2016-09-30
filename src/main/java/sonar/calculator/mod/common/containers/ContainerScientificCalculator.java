@@ -7,12 +7,13 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.ScientificRecipes;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.ActionType;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.recipes.RecipeHelperV2;
 
 public class ContainerScientificCalculator extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
@@ -21,7 +22,7 @@ public class ContainerScientificCalculator extends Container implements ICalcula
 	private static final int INV_START = 3, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 	private EntityPlayer player;
 
-	public ContainerScientificCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
+	public ContainerScientificCalculator(EntityPlayer player, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
 		this.player = player;
 		isRemote = player.getEntityWorld().isRemote;
@@ -32,12 +33,12 @@ public class ContainerScientificCalculator extends Container implements ICalcula
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
-				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
 		}
 
 		this.onItemCrafted();
@@ -45,7 +46,7 @@ public class ContainerScientificCalculator extends Container implements ICalcula
 
 	@Override
 	public void onItemCrafted() {
-		inventory.setInventorySlotContents(2, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1)), isRemote);
+		inventory.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(ScientificRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1)), 0), isRemote);
 
 	}
 

@@ -8,18 +8,24 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.AtomicRecipes;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.RecipeRegistry.ScientificRecipes;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.common.item.InventoryItem;
+import sonar.core.recipes.RecipeHelperV2;
 
 public class ContainerDynamicModule extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
+	public EntityPlayer player;
 	private boolean isRemote;
 
 	private static final int INV_START = 10, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
-	public ContainerDynamicModule(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
+	public ContainerDynamicModule(EntityPlayer player, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
+		this.player = player;
 		isRemote = player.getEntityWorld().isRemote;
 
 		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 9, isRemote, Calculator.itemFlawlessCalculator));
@@ -49,9 +55,9 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 
 	@Override
 	public void onItemCrafted() {
-		inventory.setInventorySlotContents(2, RecipeRegistry.CalculatorRecipes.instance().getCraftingResult(inventory.getStackInSlot(0), inventory.getStackInSlot(1)), isRemote);
-		inventory.setInventorySlotContents(5, RecipeRegistry.ScientificRecipes.instance().getCraftingResult(inventory.getStackInSlot(3), inventory.getStackInSlot(4)), isRemote);
-		inventory.setInventorySlotContents(9, RecipeRegistry.AtomicRecipes.instance().getCraftingResult(inventory.getStackInSlot(6), inventory.getStackInSlot(7), inventory.getStackInSlot(8)), isRemote);
+		inventory.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(CalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1)), 0));
+		inventory.setInventorySlotContents(5, RecipeHelperV2.getItemStackFromList(ScientificRecipes.instance().getOutputs(player, inventory.getStackInSlot(3), inventory.getStackInSlot(4)), 0));
+		inventory.setInventorySlotContents(9, RecipeHelperV2.getItemStackFromList(AtomicRecipes.instance().getOutputs(player, inventory.getStackInSlot(6), inventory.getStackInSlot(7), inventory.getStackInSlot(8)), 0));
 	}
 
 	public void removeEnergy(int remove) {

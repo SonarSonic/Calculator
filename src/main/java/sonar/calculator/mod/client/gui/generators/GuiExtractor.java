@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.common.containers.ContainerExtractor;
+import sonar.calculator.mod.common.containers.ContainerGenerator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.core.helpers.FontHelper;
 
@@ -15,7 +15,7 @@ public abstract class GuiExtractor extends GuiContainer {
 	public TileEntityGenerator entity;
 
 	public GuiExtractor(InventoryPlayer inventoryPlayer, TileEntityGenerator entity) {
-		super(new ContainerExtractor(inventoryPlayer, entity));
+		super(new ContainerGenerator(inventoryPlayer, entity));
 		this.entity = entity;
 	}
 

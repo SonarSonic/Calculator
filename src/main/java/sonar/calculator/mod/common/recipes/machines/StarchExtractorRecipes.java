@@ -3,17 +3,18 @@ package sonar.calculator.mod.common.recipes.machines;
 import net.minecraft.init.Items;
 import sonar.calculator.mod.Calculator;
 import sonar.core.helpers.ValueHelper;
+import sonar.core.recipes.ValueHelperV2.SimpleValueHelper;
 
-public class StarchExtractorRecipes extends ValueHelper {
-	
+public class StarchExtractorRecipes extends SimpleValueHelper {
+
 	private static final StarchExtractorRecipes recipes = new StarchExtractorRecipes();
 
-	public static final ValueHelper instance() {
+	public static final StarchExtractorRecipes instance() {
 		return recipes;
-	}	
+	}
+
 	@Override
 	public void addRecipes() {
-
 		addRecipe(Items.APPLE, 2000);
 		addRecipe("cropPotato", 1000);
 		addRecipe("cropCarrot", 1000);
@@ -29,8 +30,9 @@ public class StarchExtractorRecipes extends ValueHelper {
 		addRecipe("treeSapling", 1000);
 		addRecipe("calculatorLeaves", 2500);
 		addRecipe("treeLeaves", 200);
-		
+
 	}
+
 	@Override
 	public String getRecipeID() {
 		return "Starch Values";

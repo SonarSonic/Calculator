@@ -23,7 +23,7 @@ public class ContainerCraftingCalculator extends Container{
 	public InventoryStoredResult craftResult;
 	public EntityPlayer player;
 
-	public ContainerCraftingCalculator(EntityPlayer player, InventoryPlayer inventoryPlayer, InventoryItem inventoryItem) {
+	public ContainerCraftingCalculator(EntityPlayer player, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
 		isRemote = player.getEntityWorld().isRemote;
 		craftMatrix = new InventoryStoredCrafting(this, 3, 3, inventory);
@@ -40,12 +40,12 @@ public class ContainerCraftingCalculator extends Container{
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
-				this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
 		}
 
 		this.onCraftMatrixChanged(null);
