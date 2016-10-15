@@ -1,9 +1,9 @@
-####Please fill out the details below before contributing
+Please fill out the details below before contributing
 
- * Forge Version:
+ * Forge Version: 
  * Calculator Version: 
  * SonarCore Version: 
  * Multiplayer or Singleplayer: 
  * Crash Report Link: 
- * Affected Features:
- * Description
+ * Affected Features: 
+ * Description: 
