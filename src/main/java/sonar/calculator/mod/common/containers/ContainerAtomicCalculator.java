@@ -4,9 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.AtomicRecipes;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.ScientificRecipes;
+import sonar.calculator.mod.common.recipes.AtomicCalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
@@ -44,7 +42,7 @@ public class ContainerAtomicCalculator extends Container implements ICalculatorC
 
 	@Override
 	public void onItemCrafted() {
-		atomic.setInventorySlotContents(3, RecipeHelperV2.getItemStackFromList(AtomicRecipes.instance().getOutputs(player, atomic.getStackInSlot(0), atomic.getStackInSlot(1), atomic.getStackInSlot(2)), 0));
+		atomic.setInventorySlotContents(3, RecipeHelperV2.getItemStackFromList(AtomicCalculatorRecipes.instance().getOutputs(player, atomic.getStackInSlot(0), atomic.getStackInSlot(1), atomic.getStackInSlot(2)), 0));
 	}
 
 	public void removeEnergy(int remove) {

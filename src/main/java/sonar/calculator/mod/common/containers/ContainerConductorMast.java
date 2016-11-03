@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.ConductorMastRecipes;
+import sonar.calculator.mod.common.recipes.ConductorMastRecipes;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;

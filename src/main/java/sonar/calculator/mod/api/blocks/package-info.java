@@ -1,4 +1,4 @@
-@API(apiVersion = CalculatorAPI.VERSION, owner = "Calculator", provides = "CalculatorAPI")
+@API(apiVersion = CalculatorAPI.VERSION, owner = CalculatorAPI.MODID, provides = CalculatorAPI.NAME)
 package sonar.calculator.mod.api.blocks;
 
 import net.minecraftforge.fml.common.API;

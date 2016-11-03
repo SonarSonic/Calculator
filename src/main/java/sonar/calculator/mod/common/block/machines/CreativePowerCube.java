@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityCreativePowerCube;
 import sonar.core.api.utils.BlockInteraction;

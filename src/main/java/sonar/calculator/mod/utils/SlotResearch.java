@@ -3,7 +3,7 @@ package sonar.calculator.mod.utils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.CalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
 
 public class SlotResearch extends Slot {
@@ -51,7 +51,7 @@ public class SlotResearch extends Slot {
 	}
 
 	public boolean isItemValid(ItemStack stack) {
-		return RecipeRegistry.CalculatorRecipes.instance().isValidInput(stack);
+		return CalculatorRecipes.instance().isValidInput(stack);
 	}
 
 }

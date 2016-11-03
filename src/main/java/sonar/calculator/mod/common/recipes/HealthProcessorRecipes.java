@@ -1,9 +1,8 @@
-package sonar.calculator.mod.common.recipes.machines;
+package sonar.calculator.mod.common.recipes;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import sonar.core.helpers.ValueHelper;
 import sonar.core.recipes.ValueHelperV2.SimpleValueHelper;
 
 public class HealthProcessorRecipes extends SimpleValueHelper {

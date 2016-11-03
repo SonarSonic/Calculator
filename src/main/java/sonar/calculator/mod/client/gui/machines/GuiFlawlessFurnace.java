@@ -1,5 +1,5 @@
 package sonar.calculator.mod.client.gui.machines;
-
+/*
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -47,3 +47,4 @@ public class GuiFlawlessFurnace extends GuiContainer {
 		 drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 142, 176, 4, length, 10);
 	}
 }
+*/

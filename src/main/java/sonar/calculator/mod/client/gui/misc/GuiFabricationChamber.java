@@ -1,27 +1,31 @@
 package sonar.calculator.mod.client.gui.misc;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import sonar.calculator.mod.common.containers.ContainerFabricationChamber;
-import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes.CircuitStack;
+import sonar.calculator.mod.common.recipes.FabricationChamberRecipes;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.core.SonarCore;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.network.PacketByteBuf;
+import sonar.core.network.utils.ByteBufWritable;
+import sonar.core.recipes.ISonarRecipe;
+import sonar.core.recipes.ISonarRecipeObject;
+import sonar.core.recipes.RecipeHelperV2;
 
 public class GuiFabricationChamber extends GuiContainer {
 
@@ -33,8 +37,7 @@ public class GuiFabricationChamber extends GuiContainer {
 	private boolean wasClicking;
 	public int scrollerLeft, scrollerStart, scrollerEnd, scrollerWidth;
 	public int currentSlot = -1;
-	public final LinkedHashMap<ItemStack, CircuitStack[]> recipes = FabricationChamberRecipes.getInstance().getRecipes();
-	public final LinkedHashMap<CircuitStack[], ItemStack> recipes_reversed = FabricationChamberRecipes.getInstance().getRecipesReversed();
+	public final List<ISonarRecipe> recipes = FabricationChamberRecipes.instance().getRecipes();
 
 	public GuiFabricationChamber(InventoryPlayer player, TileEntityFabricationChamber chamber) {
 		super(new ContainerFabricationChamber(player, chamber));
@@ -54,8 +57,8 @@ public class GuiFabricationChamber extends GuiContainer {
 			drawSelectionBackground(offsetTop, i, pos);
 		}
 
-		if (chamber.currentFabricateTime != 0) {
-			int l = chamber.currentFabricateTime * 23 / chamber.fabricateTime;
+		if (chamber.currentFabricateTime.getObject() != 0) {
+			int l = chamber.currentFabricateTime.getObject() * 23 / chamber.fabricateTime;
 			drawTexturedModalRect(this.guiLeft + 84 + 10, this.guiTop + 89, 176, 16, l, 16);
 		}
 	}
@@ -70,7 +73,7 @@ public class GuiFabricationChamber extends GuiContainer {
 		scrollerStart = this.guiTop + 6;
 		scrollerEnd = scrollerStart + 74;
 		scrollerWidth = 10;
-		this.buttonList.add(new GuiButton(0, guiLeft+26, guiTop+87, 60, 20, "Fabricate"));
+		this.buttonList.add(new GuiButton(0, guiLeft + 26, guiTop + 87, 60, 20, "Fabricate"));
 	}
 
 	public int getDataPosition() {
@@ -80,7 +83,7 @@ public class GuiFabricationChamber extends GuiContainer {
 		int start = (int) (recipes.size() * this.currentScroll);
 		int finish = Math.min(start + getViewableSize(), recipes.size());
 		for (int i = start; i < finish; i++) {
-			ItemStack stack = (new ArrayList<ItemStack>(recipes_reversed.values())).get(i);
+			ItemStack stack = RecipeHelperV2.getItemStackFromList(FabricationChamberRecipes.instance().getRecipes().get(i).outputs(), 0);
 			if (stack != null && ItemStackHelper.equalStacksRegular(chamber.selected, stack)) {
 				return i - start;
 			}
@@ -96,7 +99,7 @@ public class GuiFabricationChamber extends GuiContainer {
 		int finish = Math.min(start + this.getViewableSize(), recipes.size());
 		int pos = this.getDataPosition();
 		for (int i = start; i < finish; i++) {
-			ItemStack stack = (new ArrayList<ItemStack>(recipes_reversed.values())).get(i);
+			ItemStack stack = RecipeHelperV2.getItemStackFromList(FabricationChamberRecipes.instance().getRecipes().get(i).outputs(), 0);
 			if (stack != null) {
 				itemRender.renderItemIntoGUI(stack, 7, 7 + ((i - start) * 18));
 				GL11.glPushMatrix();
@@ -110,19 +113,19 @@ public class GuiFabricationChamber extends GuiContainer {
 			}
 		}
 		if (chamber.selected != null) {
-			CircuitStack[] requirements = FabricationChamberRecipes.getInstance().getRequirements(chamber.selected);
-			if (requirements != null) {
+			ISonarRecipe recipe = FabricationChamberRecipes.instance().getRecipeFromOutputs(null, new Object[] { chamber.selected });
+			if (recipe != null) {
 				GL11.glPushMatrix();
 				GL11.glScaled(0.8, 0.8, 0.8);
 				int left = 124;
 				int top = 24;
 				int cPos = 0;
-				for (CircuitStack circuit : requirements) {
+				for (ISonarRecipeObject circuit : recipe.inputs()) {
 					int cLeft = left + ((cPos - ((cPos / 5) * 5)) * 18);
 					int cTop = top + (cPos / 5) * 18;
-					ItemStack stack = circuit.buildItemStack();
+					ItemStack stack = (ItemStack) circuit.getValue();
 					itemRender.renderItemIntoGUI(stack, cLeft, cTop);
-					itemRender.renderItemOverlayIntoGUI(fontRendererObj, stack, cLeft, cTop, "" + circuit.required);
+					itemRender.renderItemOverlayIntoGUI(fontRendererObj, stack, cLeft, cTop, null);
 					cPos++;
 				}
 				GL11.glPopMatrix();
@@ -135,10 +138,11 @@ public class GuiFabricationChamber extends GuiContainer {
 	}
 
 	protected void actionPerformed(GuiButton button) {
-		if(button!=null && button.id==0){
+		if (button != null && button.id == 0) {
 			SonarCore.network.sendToServer(new PacketByteBuf(chamber, chamber.getPos(), 1));
 		}
 	}
+
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -149,10 +153,16 @@ public class GuiFabricationChamber extends GuiContainer {
 			int finish = Math.min(start + this.getViewableSize(), recipes.size());
 			for (int i = start; i < finish; i++) {
 				if (y > (4 + (i - start) * 18) && y < (4 + (i - start) * 18) + 18) {
-					chamber.selected = (new ArrayList<ItemStack>(recipes_reversed.values())).get(i).copy();
-					SonarCore.network.sendToServer(new PacketByteBuf(chamber, chamber.getPos(), 0));
+					ItemStack stack = RecipeHelperV2.getItemStackFromList(FabricationChamberRecipes.instance().getRecipes().get(i).outputs(), 0);
+					if (stack != null) {
+						SonarCore.network.sendToServer(new PacketByteBuf(chamber, chamber.getPos(), 0, new ByteBufWritable(true) {
+							@Override
+							public void writeToBuf(ByteBuf buf) {
+								ByteBufUtils.writeItemStack(buf, stack);
+							}
+						}));
+					}
 				}
-
 			}
 		}
 	}

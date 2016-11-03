@@ -1,24 +1,38 @@
-package sonar.calculator.mod.common.recipes.machines;
+package sonar.calculator.mod.common.recipes;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.core.recipes.DefinedRecipeHelper;
 
-public class RestorationChamberRecipes extends DefinedRecipeHelper {
+public class ProcessingChamberRecipes extends DefinedRecipeHelper {
 
-	private static final RestorationChamberRecipes recipes = new RestorationChamberRecipes();
+	private static final ProcessingChamberRecipes recipes = new ProcessingChamberRecipes();
 
-	public RestorationChamberRecipes() {
+	public ProcessingChamberRecipes() {
 		super(1, 1, false);
 	}
 
-	public static final RestorationChamberRecipes instance() {
+	public static final ProcessingChamberRecipes instance() {
 		return recipes;
 	}
 
 	@Override
 	public void addRecipes() {
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 0);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 1);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 2);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 3);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 4);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 5);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 6);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 7);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 8);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 9);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 10);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 11);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 12);
+		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 13);
 		addCircuit(Calculator.circuitDirty, Calculator.circuitBoard, 0);
 		addCircuit(Calculator.circuitDirty, Calculator.circuitBoard, 1);
 		addCircuit(Calculator.circuitDirty, Calculator.circuitBoard, 2);
@@ -41,6 +55,6 @@ public class RestorationChamberRecipes extends DefinedRecipeHelper {
 
 	@Override
 	public String getRecipeID() {
-		return "RestorationChamber";
+		return "ProcessingChamber";
 	}
 }

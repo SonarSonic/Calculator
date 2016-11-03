@@ -13,14 +13,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sonar.core.integration.jei.IJEIHandler;
-import sonar.core.integration.jei.JEICategory;
+import sonar.core.integration.jei.JEICategoryV2;
 
-public class FabricationChamberCategory extends JEICategory {
+public class FabricationCategory extends JEICategoryV2 {
 
 	private final IDrawable background;
 	protected final IDrawableAnimated arrow;
 
-	public FabricationChamberCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public FabricationCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(handler);
 		ResourceLocation location = new ResourceLocation("calculator", "textures/gui/" + handler.getTextureName() + ".png");
 		background = guiHelper.createDrawable(location, 0, 0, 151, 55);
@@ -45,13 +45,12 @@ public class FabricationChamberCategory extends JEICategory {
 		int left = 0;
 		int top = 0;
 		int cPos = 0;
-		for (ItemStack stack : outputs) {
+		for (Object stack : outputs) {
 			int cLeft = left + ((cPos - ((cPos / 5) * 5)) * 18);
 			int cTop = top + (cPos / 5) * 18;
 			stacks.init(cPos, true, cLeft, cTop);
 			stacks.setFromRecipe(cPos, stack);
 			cPos++;
-
 		}
 		stacks.init(-1, false, 129, 20);
 		stacks.setFromRecipe(-1, recipeWrapper.getOutputs());

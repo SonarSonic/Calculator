@@ -17,7 +17,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
-import sonar.calculator.mod.common.recipes.machines.AnalysingChamberRecipes;
+import sonar.calculator.mod.common.recipes.AnalysingChamberRecipes;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.upgrades.IUpgradableTile;
@@ -29,6 +29,7 @@ import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
+import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.upgrades.UpgradeInventory;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.MachineSideConfig;
@@ -38,11 +39,14 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public SyncTagType.INT stable = new SyncTagType.INT(0);
 	public SyncTagType.INT analysed = new SyncTagType.INT(2);
 	public int maxTransfer = 2000;
-	public int transferTicks=0;
-	public final int transferTime=20;
+	public int transferTicks = 0;
+	public final int transferTime = 20;
+	public final int[] itemSlots = new int[] { 2, 3, 4, 5, 6, 7 };
 
 	public UpgradeInventory upgrades = new UpgradeInventory(1, "VOID", "TRANSFER");
-
+	{
+		
+	}
 	public TileEntityAnalysingChamber() {
 		super.input = new int[] { 0 };
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
@@ -95,7 +99,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 				TileEntity tile = chamber.getTileEntity(worldObj);
 				if (tile != null && tile instanceof TileEntityStorageChamber) {
 					SonarAPI.getItemHelper().transferItems(this, tile, inputs.get(0), inputs.get(0).getOpposite(), null);
-					if(this.slots()[0]==null){
+					if (this.slots()[0] == null) {
 						return;
 					}
 				}
@@ -109,42 +113,14 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			if (!tag.getBoolean("Analysed")) {
 				int storedEnergy = itemEnergy(slots()[slot].getTagCompound().getInteger("Energy"));
 				this.storage.receiveEnergy(storedEnergy, false);
-				if (upgrades.getUpgradesInstalled("VOID") == 0) {
-					ItemStack item1 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item1"));
-					ItemStack item2 = AnalysingChamberRecipes.instance().getResult(1, tag.getInteger("Item2"));
-					if (item1 != null) {
-						add(item1, 2);
+				for (int i = 1; i < 7; i++) {
+					if (i > 2 || upgrades.getUpgradesInstalled("VOID") == 0) {
+						add(RecipeHelperV2.getItemStackFromList(AnalysingChamberRecipes.instance().getOutputs(null, new Object[] { i, tag.getInteger("Item" + i) }), 0), i + 1);
 					}
-					if (item2 == null) {
-						add(item2, 3);
-					}
+					tag.removeTag("Item" + i);
 				}
-				ItemStack item3 = AnalysingChamberRecipes.instance().getResult(2, tag.getInteger("Item3"));
-				ItemStack item4 = AnalysingChamberRecipes.instance().getResult(3, tag.getInteger("Item4"));
-				ItemStack item5 = AnalysingChamberRecipes.instance().getResult(4, tag.getInteger("Item5"));
-				ItemStack item6 = AnalysingChamberRecipes.instance().getResult(5, tag.getInteger("Item6"));
-
-				if (item3 != null) {
-					add(item3, 4);
-				}
-				if (item4 != null) {
-					add(item4, 5);
-				}
-				if (item5 != null) {
-					add(item5, 6);
-				}
-				if (item6 != null) {
-					add(item6, 7);
-				}
-				tag.removeTag("Item1");
-				tag.removeTag("Item2");
-				tag.removeTag("Item3");
-				tag.removeTag("Item4");
-				tag.removeTag("Item5");
-				tag.removeTag("Item6");
 				tag.removeTag("Energy");
 				tag.setBoolean("Analysed", true);
-
 				analysed.setObject(1);
 			}
 		}
@@ -152,27 +128,23 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 
 	private void add(ItemStack item, int slotID) {
 		if (item != null) {
-			if (this.canAnalyse()) {
-				this.slots()[slotID] = new ItemStack(item.getItem(), 1, item.getItemDamage());
-			}
+			slots()[slotID] = new ItemStack(item.getItem(), 1, item.getItemDamage());
 		}
-
 	}
 
 	private boolean canAnalyse() {
-		if (slots()[0] != null) {
-			if (slots()[0].getItem() == Calculator.circuitBoard) {
-				if (this.slots()[2] == null && this.slots()[3] == null && this.slots()[4] == null && this.slots()[5] == null && this.slots()[6] == null && this.slots()[7] == null) {
-					return true;
+		if (slots()[0] != null && slots()[0].getItem() == Calculator.circuitBoard) {
+			for (int slot : itemSlots) {
+				if (slots()[slot] != null) {
+					return false;
 				}
 			}
+			return true;
 		}
-
 		if (slots()[0] == null) {
 			stable.setObject(0);
 			return false;
 		}
-
 		return false;
 	}
 
@@ -222,7 +194,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 
 	@Override
 	public EnergyMode getModeForSide(EnumFacing side) {
-		if(side == null){
+		if (side == null) {
 			return EnergyMode.SEND_RECIEVE;
 		}
 		if (side == EnumFacing.DOWN) {

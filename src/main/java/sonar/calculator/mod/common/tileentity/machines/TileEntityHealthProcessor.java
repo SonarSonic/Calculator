@@ -14,7 +14,7 @@ import sonar.calculator.mod.api.nutrition.IHealthProcessor;
 import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.client.gui.machines.GuiHealthProcessor;
 import sonar.calculator.mod.common.containers.ContainerHealthProcessor;
-import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
+import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
 import sonar.core.common.tileentity.TileEntitySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;

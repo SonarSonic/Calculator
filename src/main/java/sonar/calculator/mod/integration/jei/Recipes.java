@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
+import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
 import sonar.core.integration.jei.JEIRecipe;
@@ -117,7 +117,41 @@ public class Recipes {
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 			GL11.glPushMatrix();
 			GL11.glScaled(0.7, 0.7, 0.7);
+
 			FontHelper.textCentre(" " + HealthProcessorRecipes.instance().getValue(null, this.inputs.get(0).iterator().next()) + " Health Points", (int) (recipeWidth * (1.0 / 0.7)), 40, 0);
+			GL11.glPopMatrix();
+		}
+	}
+
+	public static class Analysing extends JEIRecipeV2<Analysing> {
+
+		public Analysing(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
+		}
+
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+			int outputPos = recipe.inputs().get(0).getStackSize();
+			GL11.glPushMatrix();
+			GL11.glScaled(0.7, 0.7, 0.7);
+			double chance = 0;
+			switch (outputPos) {
+			case 1:
+				chance = 6;
+				break;
+			case 2:
+				chance = 0.2;
+				break;
+			case 3:
+				chance = 0.1;
+				break;
+			case 4:
+				chance = 0.02;
+				break;
+			case 5:
+				chance = 0.01;
+				break;
+			}
+			FontHelper.textCentre(FontHelper.translate("info.extractChance") + " = " + chance + " %", (int) (recipeWidth * (1.0 / 0.7)), 40, 0);
 			GL11.glPopMatrix();
 		}
 	}
@@ -137,24 +171,24 @@ public class Recipes {
 		}
 	}
 
-	public static class Conductor extends JEIRecipe<Conductor> {
+	public static class Conductor extends JEIRecipeV2<Conductor> {
 
-		@Override
-		public Conductor getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Conductor().setRecipe(recipeID, inputs, outputs);
+		public Conductor(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 	}
 
-	public static class Fabrication extends JEIRecipe<Fabrication> {
+	public static class Fabrication extends JEIRecipeV2<Fabrication> {
 
-		@Override
-		public Fabrication getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Fabrication().setRecipe(recipeID, inputs, outputs);
-		}
-
-		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-
+		public Fabrication(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 	}
 
+	public static class Harvest extends JEIRecipeV2<Harvest> {
+
+		public Harvest(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
+		}
+	}
 }

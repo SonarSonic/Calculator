@@ -1,13 +1,12 @@
 package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.ScientificRecipes;
+import sonar.calculator.mod.common.recipes.ScientificRecipes;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.api.SonarAPI;

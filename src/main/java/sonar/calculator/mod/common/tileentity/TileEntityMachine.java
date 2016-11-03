@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.tileentity;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import sonar.calculator.mod.Calculator;
@@ -10,14 +9,15 @@ import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
 import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
-import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
-import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.ProcessingChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
-import sonar.core.helpers.RecipeHelper;
+import sonar.calculator.mod.common.item.misc.CircuitBoard;
+import sonar.calculator.mod.common.recipes.AlgorithmSeparatorRecipes;
+import sonar.calculator.mod.common.recipes.ExtractionChamberRecipes;
+import sonar.calculator.mod.common.recipes.PrecisionChamberRecipes;
+import sonar.calculator.mod.common.recipes.ProcessingChamberRecipes;
+import sonar.calculator.mod.common.recipes.ReassemblyChamberRecipes;
+import sonar.calculator.mod.common.recipes.RestorationChamberRecipes;
+import sonar.calculator.mod.common.recipes.StoneSeparatorRecipes;
+import sonar.core.helpers.ItemStackHelper;
 import sonar.core.recipes.RecipeHelperV2;
 
 public class TileEntityMachine {
@@ -39,7 +39,7 @@ public class TileEntityMachine {
 		}
 	}
 
-	public static class SingleOutput extends TileEntityAbstractProcess {
+	public abstract static class SingleOutput extends TileEntityAbstractProcess {
 
 		public SingleOutput(int inputSize, int outputSize, int baseProcess, int baseEnergy) {
 			super(inputSize, outputSize, baseProcess, baseEnergy);
@@ -55,7 +55,7 @@ public class TileEntityMachine {
 			return new GuiSmeltingBlock(player.inventory, this);
 		}
 	}
-	//FIXME
+
 	public static class ReinforcedFurnace extends SingleOutput {
 
 		public ReinforcedFurnace() {
@@ -63,15 +63,49 @@ public class TileEntityMachine {
 		}
 
 		@Override
-		public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {
-			return new ItemStack[] { FurnaceRecipes.instance().getSmeltingResult(stacks[0]) };
-		}
-
-		@Override
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiSmeltingBlock.ReinforcedFurnace(player.inventory, this);
 		}
 
+		public ItemStack getFurnaceOutput(ItemStack stack) {
+			return FurnaceRecipes.instance().getSmeltingResult(stack);
+		}
+
+		public boolean canProcess() {
+			if (slots()[0] == null || (cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy())) {
+				return false;
+			}
+			ItemStack result = getFurnaceOutput(inputStacks()[0]);
+			if (result == null) {
+				return false;
+			}
+			for (int o = 0; o < outputSize(); o++) {
+				if (slots()[o + inputSize() + 1] != null) {
+					if (!slots()[o + inputSize() + 1].isItemEqual(result)) {
+						return false;
+					} else if (slots()[o + inputSize() + 1].stackSize + result.stackSize > slots()[o + inputSize() + 1].getMaxStackSize()) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+		public void finishProcess() {
+			ItemStack stack = getFurnaceOutput(inputStacks()[0]).copy();
+			if (stack != null) {
+				if (slots()[inputSize() + 1] == null) {
+					ItemStack outputStack = stack.copy();
+					if (outputStack.getItem() == Calculator.circuitBoard) {
+						CircuitBoard.setData(outputStack);
+					}
+					slots()[inputSize() + 1] = outputStack;
+				} else if (slots()[inputSize() + 1].isItemEqual(stack)) {
+					slots()[inputSize() + 1].stackSize += stack.stackSize;
+				}
+			}
+			slots()[0] = ItemStackHelper.reduceStackSize(slots()[0], 1);
+		}
 	}
 
 	public static class StoneSeperator extends DualOutput {
@@ -177,19 +211,7 @@ public class TileEntityMachine {
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, this);
 		}
-		/*
-		public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {
-			if (simulate) {
-				return recipeHelper().getOutput(stacks);
-			} else {
-				ItemStack[] outputs = recipeHelper().getOutput(stacks);
-				if (outputs[1].getItem()==Calculator.circuitBoard || outputs[1].getItem()==Calculator.circuitDamaged || outputs[1].getItem()==Calculator.circuitDirty) {
-					outputs[1] = rand.nextInt(8 + 1) == 8 ? new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1)) : null;
-				}
-				return outputs;
-			}
-		}
-		*/
+		/* public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) { if (simulate) { return recipeHelper().getOutput(stacks); } else { ItemStack[] outputs = recipeHelper().getOutput(stacks); if (outputs[1].getItem()==Calculator.circuitBoard || outputs[1].getItem()==Calculator.circuitDamaged || outputs[1].getItem()==Calculator.circuitDirty) { outputs[1] = rand.nextInt(8 + 1) == 8 ? new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1)) : null; } return outputs; } } */
 	}
 
 	public static class PrecisionChamber extends DualOutput {
@@ -207,18 +229,6 @@ public class TileEntityMachine {
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, this);
 		}
-		/*
-		public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) {
-			if (simulate) {
-				return recipeHelper().getOutput(stacks);
-			} else {
-				ItemStack[] outputs = recipeHelper().getOutput(stacks);
-				if (recipeHelper().containsStack(new ItemStack(Blocks.COBBLESTONE, 1), stacks, false) != -1 || recipeHelper().containsStack(new ItemStack(Blocks.DIRT, 1), stacks, false) != -1) {
-					outputs[1] = new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1));
-				}
-				return outputs;
-			}
-		}
-		*/
+		/* public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) { if (simulate) { return recipeHelper().getOutput(stacks); } else { ItemStack[] outputs = recipeHelper().getOutput(stacks); if (recipeHelper().containsStack(new ItemStack(Blocks.COBBLESTONE, 1), stacks, false) != -1 || recipeHelper().containsStack(new ItemStack(Blocks.DIRT, 1), stacks, false) != -1) { outputs[1] = new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1)); } return outputs; } } */
 	}
 }

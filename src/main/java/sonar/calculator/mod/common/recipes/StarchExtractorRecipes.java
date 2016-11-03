@@ -1,8 +1,7 @@
-package sonar.calculator.mod.common.recipes.machines;
+package sonar.calculator.mod.common.recipes;
 
 import net.minecraft.init.Items;
 import sonar.calculator.mod.Calculator;
-import sonar.core.helpers.ValueHelper;
 import sonar.core.recipes.ValueHelperV2.SimpleValueHelper;
 
 public class StarchExtractorRecipes extends SimpleValueHelper {

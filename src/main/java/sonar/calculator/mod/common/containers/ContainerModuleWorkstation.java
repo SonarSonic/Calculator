@@ -1,9 +1,13 @@
 package sonar.calculator.mod.common.containers;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
 import sonar.core.inventory.ContainerSync;
 
@@ -20,11 +24,23 @@ public class ContainerModuleWorkstation extends ContainerSync {
 
 		for (int j = 0; j < 2; ++j) {
 			for (int k = 0; k < 8; ++k) {
-				this.addSlotToContainer(new Slot(entity, k + j * 8, 26 + k * 18, 42 + j * 18));
+				this.addSlotToContainer(new Slot(entity, k + j * 8, 10 + k * 20, 40 + j * 22) {
+					public boolean isItemValid(@Nullable ItemStack stack) {
+						return stack != null && Calculator.moduleItems.getSecondaryObject(stack.getItem()) != null;
+					}
+
+					public int getSlotStackLimit() {
+						return 1;
+					}
+				});
 			}
 		}
 
-		this.addSlotToContainer(new Slot(entity, 16, 8, 8));
+		addSlotToContainer(new Slot(entity, 16, 8, 8) {
+			public boolean isItemValid(@Nullable ItemStack stack) {
+				return stack != null && stack.getItem() instanceof IFlawlessCalculator;
+			}
+		});
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
@@ -54,12 +70,15 @@ public class ContainerModuleWorkstation extends ContainerSync {
 				if (!this.mergeItemStack(itemstack1, INV_START, HOTBAR_END + 1, true)) {
 					return null;
 				}
-
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 
 				if (slotID >= INV_START) {
-					if (!this.mergeItemStack(itemstack1, 0, INV_START - 1, false)) {
+					if (itemstack1 != null && itemstack1.getItem() instanceof IFlawlessCalculator) {
+						if (!this.mergeItemStack(itemstack1, 16, 17, false)) {
+							return null;
+						}
+					} else if (!this.mergeItemStack(itemstack1, 0, INV_START - 1, false)) {
 						return null;
 					}
 				} else if (slotID >= INV_START && slotID < HOTBAR_START) {

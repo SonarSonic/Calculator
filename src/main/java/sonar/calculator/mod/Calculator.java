@@ -28,17 +28,6 @@ import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.calculator.mod.common.item.calculators.ModuleItemRegistry;
 import sonar.calculator.mod.common.item.calculators.ModuleRegistry;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
-import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
-import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
-import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.ProcessingChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
-import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
-import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
 import sonar.calculator.mod.integration.minetweaker.MineTweakerIntegration;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.research.ResearchRegistry;
@@ -50,8 +39,8 @@ public class Calculator {
 	@SidedProxy(clientSide = "sonar.calculator.mod.network.CalculatorClient", serverSide = "sonar.calculator.mod.network.CalculatorCommon")
 	public static CalculatorCommon calculatorProxy;
 
-	public static final String modid = "Calculator";
-	public static final String version = "3.1.2";
+	public static final String modid = "calculator";
+	public static final String version = "3.1.3";
 	
 	public static final int saveDimension = 0;
 	
@@ -73,7 +62,7 @@ public class Calculator {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		if (!(Loader.instance().isModLoaded("SonarCore")|| Loader.instance().isModLoaded("SonarCore".toLowerCase()))) {
+		if (!(Loader.instance().isModLoaded("SonarCore")|| Loader.instance().isModLoaded("sonarcore"))) {
 			logger.fatal("Sonar Core is not loaded");
 		} else {
 			logger.info("Successfully loaded with Sonar Core");
@@ -108,7 +97,7 @@ public class Calculator {
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 
-		RecipeRegistry.registerRecipes();
+		Recipes.registerRecipes();
 		logger.info("Registered Calculator Recipes");
 
 		CalculatorCrafting.addRecipes();
@@ -139,27 +128,11 @@ public class Calculator {
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(grenade, new CalculatorThrow(1));
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(small_stone, new CalculatorThrow(2));
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(soil, new CalculatorThrow(3));
-		logger.info(RecipeRegistry.getUnblockedSize() + " Standard Calculator Recipes were loaded");
-		logger.info(RecipeRegistry.getBlockedSize() + " Hidden Calculator Recipes were loaded");
-		logger.info(RecipeRegistry.getScientificSize() + " Scientific Recipes were loaded");
-		logger.info(RecipeRegistry.getAtomicSize() + " Atomic Recipes were loaded");
-		logger.info(RecipeRegistry.getFlawlessSize() + " Flawless Recipes were loaded");
-		logger.info(RecipeRegistry.ConductorMastRecipes.instance().getRecipes().size() + " Conductor Mast Recipes Recipes were loaded");
-		logger.info(AlgorithmSeparatorRecipes.instance().getRecipes().size() + " Algorithm Seperator Recipes were loaded");
-		logger.info(ExtractionChamberRecipes.instance().getRecipes().size() + " Extraction Chamber Recipes were loaded");
-		logger.info(GlowstoneExtractorRecipes.instance().getRecipes().size() + " Glowstone Extractor Recipes were loaded");
-		logger.info(HealthProcessorRecipes.instance().getRecipes().size() + " Health Processor Recipes were loaded");
-		logger.info(PrecisionChamberRecipes.instance().getRecipes().size() + " Precision Chamber Recipes were loaded");
-		logger.info(ProcessingChamberRecipes.instance().getRecipes().size() + " Processing Chamber Recipes were loaded");
-		logger.info(ReassemblyChamberRecipes.instance().getRecipes().size() + " Reassembly Chamber Recipes were loaded");
-		logger.info(RedstoneExtractorRecipes.instance().getRecipes().size() + " Redstone Extractor Recipes were loaded");
-		logger.info(StarchExtractorRecipes.instance().getRecipes().size() + " Starch Extractor Recipes were loaded");
-		logger.info(StoneSeparatorRecipes.instance().getRecipes().size() + " Stone Separator Recipes were loaded");
+		Recipes.printRecipeInfo();
 		
 		if (Loader.isModLoaded("MineTweaker3") || Loader.isModLoaded("MineTweaker3".toLowerCase())) {
-			MineTweakerIntegration.integrate();
+			MineTweakerIntegration.init();
 		}
-		/* if (Loader.isModLoaded("appliedenergistics2")) { StorageChamberHandler.init(); logger.info("Registered AE2 Handler for Storage Chamber"); } */
 
 	}
 

@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.RecipeType;
+import sonar.calculator.mod.common.recipes.ResearchRecipeType;
 import sonar.calculator.mod.research.IResearch;
 import sonar.calculator.mod.research.RecipeReward;
 import sonar.calculator.mod.research.Research;
@@ -32,8 +31,8 @@ public class RecipeResearch extends Research {
 		return unlocked;
 	}
 
-	public void addRecipes(ArrayList<RecipeType> types) {
-		for (RecipeType type : types) {
+	public void addRecipes(ArrayList<ResearchRecipeType> types) {
+		for (ResearchRecipeType type : types) {
 			if (!recipes.contains(type.name())) {
 				recipes.add(type.name());
 			}
@@ -63,7 +62,7 @@ public class RecipeResearch extends Research {
 
 	@Override
 	public byte getProgress() {
-		return (byte) ((recipes.size() * 100) / RecipeRegistry.RecipeType.values().length);
+		return (byte) ((recipes.size() * 100) / ResearchRecipeType.values().length);
 	}
 
 	@Override

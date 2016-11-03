@@ -1,6 +1,6 @@
 [
 {
-"modid": "Calculator",
+"modid": "calculator",
 "name": "Calculator",
 "description": "Whoever said Calculators were boring?! Awesome Calculators, crazy items, mind-blowing machines and hundreds of hidden recipes. 
 Change the way you craft, change the way you play, change the way you think. 
@@ -13,7 +13,7 @@ Thank you for trying Calculator!",
 "credits": "Created by Ollie Lansdell",
 "logoFile": "logo_calculator.png",
 "screenshots": [],
-"requiredMods": [ "Forge", "SonarCore" ],
+"requiredMods": [ "Forge", "sonarcore" ],
 "dependencies": ["Agricraft"],
 "useDependencyInformation": true
 }

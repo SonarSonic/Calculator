@@ -8,11 +8,12 @@ import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.machines.GuiDockingStation;
 import sonar.calculator.mod.common.containers.ContainerDockingStation;
-import sonar.calculator.mod.common.item.misc.CircuitBoard;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
+import sonar.calculator.mod.common.recipes.AtomicCalculatorRecipes;
+import sonar.calculator.mod.common.recipes.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.FlawlessCalculatorRecipes;
+import sonar.calculator.mod.common.recipes.ScientificRecipes;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.RecipeHelper;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.recipes.RecipeHelperV2;
@@ -20,11 +21,11 @@ import sonar.core.utils.IGuiTile;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess implements IGuiTile, IAdditionalInventory {
 
+	public ItemStack calcStack;
+
 	public TileEntityDockingStation() {
 		super(4, 1, 200, 10);
 	}
-
-	public ItemStack calcStack;
 
 	@Override
 	public int inputSize() {
@@ -48,13 +49,13 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		public RecipeHelperV2 getRecipeHelper() {
 			switch (this) {
 			case ATOMIC:
-				return RecipeRegistry.AtomicRecipes.instance();
+				return AtomicCalculatorRecipes.instance();
 			case CALCULATOR:
-				return RecipeRegistry.CalculatorRecipes.instance();
+				return CalculatorRecipes.instance();
 			case FLAWLESS:
-				return RecipeRegistry.FlawlessRecipes.instance();
+				return FlawlessCalculatorRecipes.instance();
 			case SCIENTIFIC:
-				return RecipeRegistry.ScientificRecipes.instance();
+				return ScientificRecipes.instance();
 			default:
 				return null;
 			}
@@ -96,7 +97,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		if (calcStack != null) {
 			return ProcessType.getType(calcStack.getItem()).getRecipeHelper();
 		}
-		return RecipeRegistry.CalculatorRecipes.instance();
+		return CalculatorRecipes.instance();
 	}
 
 	public int getProcessTime() {
@@ -118,35 +119,6 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 			input[i] = slots()[i];
 		}
 		return input;
-	}
-
-	@Override
-	public void finishProcess() {
-		ItemStack[] output = getOutput(false, inputStacks());
-		for (int o = 0; o < outputSize(); o++) {
-			if (output[o] != null) {
-				if (this.slots()[o + inputSize() + 1] == null) {
-					ItemStack outputStack = output[o].copy();
-					if (output[o].getItem() == Calculator.circuitBoard) {
-						CircuitBoard.setData(outputStack);
-					}
-					this.slots()[o + inputSize() + 1] = outputStack;
-				} else if (this.slots()[o + inputSize() + 1].isItemEqual(output[o])) {
-					this.slots()[o + inputSize() + 1].stackSize += output[o].stackSize;
-
-				}
-			}
-		}
-		for (int i = 0; i < getInputStackSize(calcStack); i++) {
-			if (recipeHelper() != null) {
-				this.slots()[i].stackSize -= recipeHelper().getInputSize(i, output);
-			} else {
-				this.slots()[i].stackSize -= 1;
-			}
-			if (this.slots()[i].stackSize <= 0) {
-				this.slots()[i] = null;
-			}
-		}
 	}
 
 	public void readData(NBTTagCompound nbt, SyncType type) {

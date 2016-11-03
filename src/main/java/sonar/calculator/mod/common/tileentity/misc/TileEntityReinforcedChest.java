@@ -2,15 +2,10 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.ContainerChest;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryLargeChest;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import sonar.calculator.mod.client.gui.misc.GuiReinforcedChest;
 import sonar.calculator.mod.common.containers.ContainerReinforcedChest;
-import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.common.tileentity.TileEntityLargeInventory;
 import sonar.core.inventory.ILargeInventory;
 import sonar.core.inventory.SonarLargeInventory;

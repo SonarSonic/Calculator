@@ -5,10 +5,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.AtomicRecipes;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.CalculatorRecipes;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.ScientificRecipes;
+import sonar.calculator.mod.common.recipes.AtomicCalculatorRecipes;
+import sonar.calculator.mod.common.recipes.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.ScientificRecipes;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
@@ -58,7 +57,7 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 	public void onItemCrafted() {
 		dynamic.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(CalculatorRecipes.instance().getOutputs(player, dynamic.getStackInSlot(0), dynamic.getStackInSlot(1)), 0));
 		dynamic.setInventorySlotContents(5, RecipeHelperV2.getItemStackFromList(ScientificRecipes.instance().getOutputs(player, dynamic.getStackInSlot(3), dynamic.getStackInSlot(4)), 0));
-		dynamic.setInventorySlotContents(9, RecipeHelperV2.getItemStackFromList(AtomicRecipes.instance().getOutputs(player, dynamic.getStackInSlot(6), dynamic.getStackInSlot(7), dynamic.getStackInSlot(8)), 0));
+		dynamic.setInventorySlotContents(9, RecipeHelperV2.getItemStackFromList(AtomicCalculatorRecipes.instance().getOutputs(player, dynamic.getStackInSlot(6), dynamic.getStackInSlot(7), dynamic.getStackInSlot(8)), 0));
 
 	}
 

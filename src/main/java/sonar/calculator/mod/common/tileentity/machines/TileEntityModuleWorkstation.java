@@ -26,10 +26,15 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 		super.inv = new SonarInventory(this, 1 + FlawlessCalculator.moduleCapacity) {
 
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
-				if (i != 16)
+				if (i != 16) {
 					updateCalc = true;
-				else
-					newCalc = true;
+				} else {
+					if (itemstack == null) {
+						clear();
+					} else {
+						newCalc = true;
+					}
+				}
 				super.setInventorySlotContents(i, itemstack);
 			}
 
@@ -38,7 +43,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 					IModule module = Calculator.modules.getRegisteredObject(Calculator.moduleItems.getSecondaryObject(stack.getItem()));
 					if (module != null) {
 						ItemStack calcStack = slots()[FlawlessCalculator.moduleCapacity];
-						IFlawlessCalculator calc = (IFlawlessCalculator) stack.getItem();
+						IFlawlessCalculator calc = (IFlawlessCalculator) calcStack.getItem();
 						if (calc.canAddModule(calcStack, module, slot)) {
 							return true;
 						}
@@ -51,7 +56,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 				updateCalc = true;
 				ItemStack toReturn = super.decrStackSize(slot, var2);
 				if (slot == 16) {
-					this.clear();
+					clear();
 				}
 				return toReturn;
 			}
@@ -60,7 +65,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 				updateCalc = true;
 				ItemStack toReturn = super.removeStackFromSlot(i);
 				if (i == 16) {
-					this.clear();
+					clear();
 				}
 				return toReturn;
 			}
@@ -69,9 +74,17 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 				updateCalc = true;
 			}
 
+			public int getInventoryStackLimit() {
+				return 1;
+			}
+
 			public void clear() {
 				updateCalc = true;
-				super.clear();
+				for (int i = 0; i < this.getSizeInventory(); i++) {
+					if (i != 16) {
+						setInventorySlotContents(i, null);
+					}
+				}
 			}
 
 			public boolean isUseableByPlayer(EntityPlayer player) {
@@ -107,16 +120,14 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 			ArrayList<IModule> modules = new ArrayList();
 			for (int i = 0; i < FlawlessCalculator.moduleCapacity; i++) {
 				ItemStack target = slots()[i];
-				if (target != null) {
-					IModule module = Calculator.modules.getRegisteredObject(Calculator.moduleItems.getSecondaryObject(target.getItem()));
-					if (module != null) {
-						calc.addModule(stack, target.getTagCompound(), module, i);
-					} else {
-						calc.addModule(stack, new NBTTagCompound(), EmptyModule.EMPTY, i);
-					}
-				} else {
-					calc.addModule(stack, new NBTTagCompound(), EmptyModule.EMPTY, i);
+				NBTTagCompound tag = new NBTTagCompound();
+				IModule module = target != null ? Calculator.modules.getRegisteredObject(Calculator.moduleItems.getSecondaryObject(target.getItem())) : EmptyModule.EMPTY;
+				if (module == null) {
+					module = EmptyModule.EMPTY;
+				} else if (target != null) {
+					tag = target.getTagCompound();
 				}
+				calc.addModule(stack, tag, module, i);
 			}
 			updateCalc = false;
 		}

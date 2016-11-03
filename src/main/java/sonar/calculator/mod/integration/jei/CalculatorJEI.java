@@ -20,6 +20,7 @@ import sonar.calculator.mod.client.gui.calculators.GuiDynamicModule;
 import sonar.calculator.mod.client.gui.calculators.GuiFlawlessCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiScientificCalculator;
 import sonar.calculator.mod.client.gui.generators.GuiConductorMast;
+import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting.AlgorithmSeperator;
 import sonar.calculator.mod.client.gui.machines.GuiHealthProcessor;
@@ -34,14 +35,22 @@ import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
 import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
 import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
-import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.ProcessingChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
+import sonar.calculator.mod.common.recipes.AlgorithmSeparatorRecipes;
+import sonar.calculator.mod.common.recipes.AnalysingChamberRecipes;
+import sonar.calculator.mod.common.recipes.AtomicCalculatorRecipes;
+import sonar.calculator.mod.common.recipes.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.ConductorMastRecipes;
+import sonar.calculator.mod.common.recipes.ExtractionChamberRecipes;
+import sonar.calculator.mod.common.recipes.FabricationChamberRecipes;
+import sonar.calculator.mod.common.recipes.FlawlessCalculatorRecipes;
+import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
+import sonar.calculator.mod.common.recipes.PrecisionChamberRecipes;
+import sonar.calculator.mod.common.recipes.ProcessingChamberRecipes;
+import sonar.calculator.mod.common.recipes.ReassemblyChamberRecipes;
+import sonar.calculator.mod.common.recipes.RestorationChamberRecipes;
+import sonar.calculator.mod.common.recipes.ScientificRecipes;
+import sonar.calculator.mod.common.recipes.StoneSeparatorRecipes;
+import sonar.calculator.mod.common.recipes.TreeHarvestRecipes;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategoryV2;
@@ -86,7 +95,7 @@ public class CalculatorJEI extends BlankModPlugin {
 		registry.addRecipeClickArea(GuiDualOutputSmelting.PrecisionChamber.class, 63, 26, 24, 12, Handlers.PRECISION.getUUID());
 		registry.addRecipeClickArea(GuiDualOutputSmelting.StoneSeperator.class, 63, 26, 24, 12, Handlers.STONE.getUUID());
 		registry.addRecipeClickArea(AlgorithmSeperator.class, 63, 26, 24, 12, Handlers.ALGORITHM.getUUID());
-		// registry.addRecipeClickArea(GuiHealthProcessor.class, 80, 40, 16, 5, Handlers.HEALTH.getUUID());
+		registry.addRecipeClickArea(GuiHealthProcessor.class, 80, 40, 16, 5, Handlers.HEALTH.getUUID());
 
 		registry.addRecipeClickArea(GuiCalculator.class, 108, 40, 14, 6, Handlers.CALCULATOR.getUUID());
 		registry.addRecipeClickArea(GuiScientificCalculator.class, 108, 40, 14, 6, Handlers.SCIENTIFIC.getUUID());
@@ -100,8 +109,9 @@ public class CalculatorJEI extends BlankModPlugin {
 
 		registry.addRecipeClickArea(GuiDynamicModule.class, 108, 40, 13, 6, Handlers.SCIENTIFIC.getUUID());
 		registry.addRecipeClickArea(GuiDynamicModule.class, 108, 66, 13, 6, Handlers.ATOMIC.getUUID());
-		// registry.addRecipeClickArea(GuiConductorMast.class, 79, 26, 18, 8, Handlers.CONDUCTOR.getUUID());
-		// registry.addRecipeClickArea(GuiFabricationChamber.class, 95, 89, 20, 15, Handlers.FABRICATION.getUUID());
+		registry.addRecipeClickArea(GuiConductorMast.class, 79, 26, 18, 8, Handlers.CONDUCTOR.getUUID());
+		registry.addRecipeClickArea(GuiFabricationChamber.class, 95, 89, 20, 15, Handlers.FABRICATION.getUUID());
+		registry.addRecipeClickArea(GuiAnalysingChamber.class, 20, 24, 115, 13, Handlers.ANALYSING.getUUID());
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSmeltingBlock.class, Handlers.PROCESSING.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSmeltingBlock.class, Handlers.RESTORATION.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSmeltingBlock.class, Handlers.REASSEMBLY.getUUID(), 0, 1, 3, 36);
@@ -120,7 +130,7 @@ public class CalculatorJEI extends BlankModPlugin {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDynamicCalculator.class, Handlers.CALCULATOR.getUUID(), 1, 2, 10, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDynamicCalculator.class, Handlers.SCIENTIFIC.getUUID(), 4, 2, 10, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDynamicCalculator.class, Handlers.ATOMIC.getUUID(), 7, 3, 10, 36);
-		// recipeTransferRegistry.addRecipeTransferHandler(ContainerConductorMast.class, Handlers.CONDUCTOR.getUUID(), 0, 1, 2, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerConductorMast.class, Handlers.CONDUCTOR.getUUID(), 0, 1, 2, 36);
 
 		Calculator.logger.info("Finished JEI Integration");
 	}
@@ -140,19 +150,23 @@ public class CalculatorJEI extends BlankModPlugin {
 		/**/
 		ALGORITHM(AlgorithmSeparatorRecipes.instance(), Calculator.algorithmSeparator, "stoneseperator", Recipes.Algorithm.class),
 		/**/
-		CALCULATOR(RecipeRegistry.CalculatorRecipes.instance(), Calculator.itemCalculator, "calculator", Recipes.Calculator.class),
+		CALCULATOR(CalculatorRecipes.instance(), Calculator.itemCalculator, "calculator", Recipes.Calculator.class),
 		/**/
-		SCIENTIFIC(RecipeRegistry.ScientificRecipes.instance(), Calculator.itemScientificCalculator, "scientificcalculator", Recipes.Scientific.class),
+		SCIENTIFIC(ScientificRecipes.instance(), Calculator.itemScientificCalculator, "scientificcalculator", Recipes.Scientific.class),
 		/**/
-		ATOMIC(RecipeRegistry.AtomicRecipes.instance(), Calculator.atomicCalculator, "atomiccalculator", Recipes.Atomic.class),
+		ATOMIC(AtomicCalculatorRecipes.instance(), Calculator.atomicCalculator, "atomiccalculator", Recipes.Atomic.class),
 		/**/
-		FLAWLESS(RecipeRegistry.FlawlessRecipes.instance(), Calculator.itemFlawlessCalculator, "flawlesscalculator", Recipes.Flawless.class);
+		FLAWLESS(FlawlessCalculatorRecipes.instance(), Calculator.itemFlawlessCalculator, "flawlesscalculator", Recipes.Flawless.class),
 		/**/
-		// HEALTH(HealthProcessorRecipes.instance(), Calculator.healthProcessor, "guicalculatorplug", Recipes.Health.class),
+		HEALTH(HealthProcessorRecipes.instance(), Calculator.healthProcessor, "guicalculatorplug", Recipes.Health.class),
 		/**/
-		// CONDUCTOR(RecipeRegistry.ConductorMastItemRecipes.instance(), Calculator.conductorMast, "conductorMast", Recipes.Conductor.class),
+		CONDUCTOR(ConductorMastRecipes.instance(), Calculator.conductorMast, "conductorMast", Recipes.Conductor.class),
 		/**/
-		// FABRICATION(FabricationChamberRecipes.getInstance(), Calculator.fabricationChamber, "fabrication_chamber_jei", Recipes.Fabrication.class);
+		FABRICATION(FabricationChamberRecipes.instance(), Calculator.fabricationChamber, "fabrication_chamber_jei", Recipes.Fabrication.class),
+		/**/
+		HARVEST(TreeHarvestRecipes.instance(), Calculator.sickle, "sickle_harvesting", Recipes.Harvest.class),
+		/**/
+		ANALYSING(AnalysingChamberRecipes.instance(), Calculator.analysingChamber, "guicalculatorplug", Recipes.Analysing.class);
 		// DISCHARGE(null, "Discharge Values", "guipowercube", Recipes.Discharge.class);
 		/**/
 		public IRecipeHelperV2 helper;
@@ -175,7 +189,6 @@ public class CalculatorJEI extends BlankModPlugin {
 			case SCIENTIFIC:
 			case CALCULATOR:
 				return new CalculatorCategory(guiHelper, this);
-
 			case PROCESSING:
 			case RESTORATION:
 			case REASSEMBLY:
@@ -186,10 +199,19 @@ public class CalculatorJEI extends BlankModPlugin {
 			case ALGORITHM:
 				return new DualProcessCategory(guiHelper, this);
 			case ATOMIC:
-				return new AtomicCalculatorCategory(guiHelper, this);
+				return new AtomicCategory(guiHelper, this);
 			case FLAWLESS:
-				return new FlawlessCalculatorCategory(guiHelper, this);
-			/* case HEALTH: return new ValueCategory(guiHelper, this); case CONDUCTOR: return new ConductorMastCategory(guiHelper, this); case FABRICATION: return new FabricationChamberCategory(guiHelper, this); */
+				return new FlawlessCategory(guiHelper, this);
+			case HEALTH:
+				return new ValueCategory(guiHelper, this);
+			case CONDUCTOR:
+				return new ConductorMastCategory(guiHelper, this);
+			case FABRICATION:
+				return new FabricationCategory(guiHelper, this);
+			case HARVEST:
+				return new SickleCategory(guiHelper, this);
+			case ANALYSING:
+				return new AnalysingCategory(guiHelper, this);
 			default:
 				return null;
 			}

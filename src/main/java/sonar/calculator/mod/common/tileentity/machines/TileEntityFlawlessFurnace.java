@@ -1,5 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
-
+/*
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
@@ -16,6 +16,7 @@ import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.core.api.machines.IPausable;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
+import sonar.core.helpers.ItemStackHelper;
 import sonar.core.helpers.RecipeHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
@@ -23,7 +24,7 @@ import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory implements IPausable, IGuiTile {
-	
+
 	public SyncTagType.INT[] cookTime = new SyncTagType.INT[9];
 	public float renderTicks;
 	public double energyBuffer;
@@ -149,14 +150,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 				}
 			}
 		}
-		if (recipeHelper() != null) {
-			this.slots()[slot].stackSize -= recipeHelper().getInputSize(0, output);
-		} else {
-			this.slots()[slot].stackSize -= 1;
-		}
-		if (this.slots()[slot].stackSize <= 0) {
-			this.slots()[slot] = null;
-		}
+		slots()[slot] = ItemStackHelper.reduceStackSize(slots()[slot], recipeHelper() != null ? recipeHelper().getInputSize(0, output) : 1);
 
 	}
 
@@ -193,7 +187,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
-			for (int i = 0; i < cookTime.length; i++){
+			for (int i = 0; i < cookTime.length; i++) {
 				cookTime[i].readData(nbt, type);
 			}
 			this.paused = nbt.getBoolean("pause");
@@ -204,7 +198,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
-			for (int i = 0; i < cookTime.length; i++){
+			for (int i = 0; i < cookTime.length; i++) {
 				cookTime[i].writeData(nbt, type);
 			}
 			nbt.setBoolean("pause", this.paused);
@@ -261,3 +255,4 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	}
 
 }
+*/

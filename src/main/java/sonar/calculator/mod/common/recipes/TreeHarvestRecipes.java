@@ -10,9 +10,10 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLeaves.LeafGrowth;
-import sonar.core.helpers.RecipeHelper;
+import sonar.core.recipes.DefinedRecipeHelper;
+import sonar.core.recipes.ISonarRecipe;
 
-public class TreeHarvestRecipes extends RecipeHelper {
+public class TreeHarvestRecipes extends DefinedRecipeHelper {
 
 	private static final TreeHarvestRecipes recipes = new TreeHarvestRecipes();
 
@@ -31,30 +32,34 @@ public class TreeHarvestRecipes extends RecipeHelper {
 		return "Tree Harvest Recipes";
 	}
 
+	public static TreeHarvestRecipes instance() {
+		return recipes;
+	}
+
 	public static ArrayList<ItemStack> harvestLeaves(World world, BlockPos pos, boolean override) {
 		ArrayList<ItemStack> stacks = new ArrayList();
 		Block target = world.getBlockState(pos).getBlock();
 		if (target != null) {
-			ItemStack[] outputs = recipes.getOutput(new ItemStack(target));
-			if (outputs != null && outputs.length == 2) {
+			ISonarRecipe recipe = recipes.getRecipeFromInputs(null, new Object[] { new ItemStack(target) });
+			if (recipe != null) {
 				IBlockState state = world.getBlockState(pos);
 				LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
 
-				int meta = growth.getMeta();
+				int meta = growth.getMeta()+1;
 				world.setBlockState(pos, state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
 				if (override) {
 					meta = 4;
 				}
 				switch (meta) {
 				case 3:
-					stacks.add(outputs[0]);
+					stacks.add((ItemStack) recipe.outputs().get(0).getValue());
 					break;
 				case 4:
-					stacks.add(outputs[0]);
-					stacks.add(outputs[1]);
+					stacks.add((ItemStack) recipe.outputs().get(0).getValue());
+					stacks.add((ItemStack) recipe.outputs().get(1).getValue());
 					break;
 				case 5:
-					stacks.add(outputs[1]);
+					stacks.add((ItemStack) recipe.outputs().get(1).getValue());
 					break;
 				default:
 					break;

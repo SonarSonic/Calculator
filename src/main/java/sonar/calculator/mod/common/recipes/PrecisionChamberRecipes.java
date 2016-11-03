@@ -1,4 +1,4 @@
-package sonar.calculator.mod.common.recipes.machines;
+package sonar.calculator.mod.common.recipes;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;

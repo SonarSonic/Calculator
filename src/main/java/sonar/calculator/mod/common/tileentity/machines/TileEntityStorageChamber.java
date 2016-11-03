@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,7 +8,6 @@ import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.machines.GuiStorageChamber;
 import sonar.calculator.mod.common.containers.ContainerStorageChamber;
 import sonar.core.api.inventories.StoredItemStack;
-import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.common.tileentity.TileEntityLargeInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.ILargeInventory;

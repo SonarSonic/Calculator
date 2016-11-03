@@ -45,11 +45,11 @@ public abstract class Research implements IResearch {
 	}
 
 	public ArrayList<ItemStack> getItemRewards() {
-		return new ArrayList();
+		return new ArrayList<ItemStack>();
 	}
 
 	public ArrayList<RecipeReward> getUnlockedRecipes() {
-		return new ArrayList();
+		return new ArrayList<RecipeReward>();
 	}
 
 	@Override

@@ -14,7 +14,6 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
@@ -79,7 +78,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	}
 
 	public IModule getCurrentModule(ItemStack stack) {
-		return getModuleInSlot(stack, this.getCurrentSlot(stack));
+		return getModuleInSlot(stack, getCurrentSlot(stack));
 	}
 
 	@Override
@@ -237,6 +236,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		}
 		return stored;
 	}
+
 	@Override
 	public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
 		return (int) addEnergy(container, maxReceive, ActionType.getTypeForAction(simulate));
@@ -249,12 +249,12 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 
 	@Override
 	public int getEnergyStored(ItemStack container) {
-		return (int)getEnergyLevel(container);
+		return (int) getEnergyLevel(container);
 	}
 
 	@Override
 	public int getMaxEnergyStored(ItemStack container) {
-		return (int)getFullCapacity(container);
+		return (int) getFullCapacity(container);
 	}
 
 	@Override

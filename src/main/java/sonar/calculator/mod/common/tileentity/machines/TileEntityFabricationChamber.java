@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,12 +14,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.misc.GuiFabricationChamber;
 import sonar.calculator.mod.common.containers.ContainerFabricationChamber;
-import sonar.calculator.mod.common.item.misc.CircuitBoard;
-import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.FabricationChamberRecipes.CircuitStack;
+import sonar.calculator.mod.common.recipes.FabricationChamberRecipes;
+import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.api.utils.ActionType;
@@ -28,19 +28,24 @@ import sonar.core.helpers.ItemStackHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
+import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
+import sonar.core.recipes.ISonarRecipe;
+import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityFabricationChamber extends TileEntityInventory implements IGuiTile, IByteBufTile {
 
 	public ItemStack selected = null;
-	public int fabricateTime = 200;
-	public int moveTime = 100;
-	public boolean moved;
-	public boolean canMove;
-
-	public int currentFabricateTime = 0;
-	public int currentMoveTime = 0;
+	public final int fabricateTime = 200;
+	public final int moveTime = 100;
+	public SyncTagType.BOOLEAN canMove = new SyncTagType.BOOLEAN(0);
+	public SyncTagType.BOOLEAN moved = new SyncTagType.BOOLEAN(1);
+	public SyncTagType.INT currentFabricateTime = new SyncTagType.INT(2);
+	public SyncTagType.INT currentMoveTime = new SyncTagType.INT(3);
+	{
+		syncParts.addAll(Lists.newArrayList(canMove, moved, currentFabricateTime, currentMoveTime));
+	}
 
 	public TileEntityFabricationChamber() {
 		super.inv = new SonarInventory(this, 1);
@@ -48,21 +53,21 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 
 	public void update() {
 		super.update();
-		if (canMove) {
-			if (currentMoveTime != 50 && currentMoveTime != 0) {
-				if (!moved)
-					currentMoveTime++;
+		if (canMove.getObject()) {
+			if (currentMoveTime.getObject() != 50 && currentMoveTime.getObject() != 0) {
+				if (!moved.getObject())
+					currentMoveTime.increaseBy(1);
 				else
-					currentMoveTime--;
-				if (currentMoveTime == 0) {
-					canMove = false;
+					currentMoveTime.decreaseBy(1);
+				if (currentMoveTime.getObject() == 0) {
+					canMove.setObject(false);
 				}
-			} else if (currentMoveTime == 50) {
+			} else if (currentMoveTime.getObject() == 50) {
 				// so now it's in position
-				if (currentFabricateTime != fabricateTime) {
-					currentFabricateTime++;
+				if (currentFabricateTime.getObject() != fabricateTime) {
+					currentFabricateTime.increaseBy(1);
 					if (this.isClient()) {
-						if ((currentFabricateTime & 1) == 0 && ((currentFabricateTime / 2) & 1) == 0) {
+						if ((currentFabricateTime.getObject() & 1) == 0 && ((currentFabricateTime.getObject() / 2) & 1) == 0) {
 							EnumFacing face = worldObj.getBlockState(getPos()).getValue(SonarBlock.FACING);
 							int fX = face.getFrontOffsetX();
 							int fZ = face.getFrontOffsetZ();
@@ -76,14 +81,14 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 						}
 					}
 				} else {
-					currentFabricateTime = 0;
-					currentMoveTime--;
-					moved = true;
+					currentFabricateTime.setObject(0);
+					currentMoveTime.decreaseBy(1);
+					moved.setObject(true);
 					fabricate();
 				}
-			} else if (currentMoveTime == 0) {
-				moved = false;
-				currentMoveTime++;
+			} else if (currentMoveTime.getObject() == 0) {
+				moved.setObject(false);
+				currentMoveTime.increaseBy(1);
 			}
 		}
 	}
@@ -102,27 +107,16 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 
 	}
 
-	public ArrayList<CircuitStack> getAvailableCircuits(ArrayList<TileEntityStorageChamber> chambers) {
-		ArrayList<CircuitStack> circuits = new ArrayList<CircuitStack>();
+	public ArrayList<StoredItemStack> getAvailableCircuits(ArrayList<TileEntityStorageChamber> chambers) {
+		ArrayList<StoredItemStack> circuits = new ArrayList<StoredItemStack>();
 		for (TileEntityStorageChamber chamber : chambers) {
 			for (StoredItemStack storedstack : chamber.getTileInv().slots) {
 				if (storedstack != null && storedstack.getItemStack().getItem() == Calculator.circuitBoard) {
-					CircuitStack storedStack = new CircuitStack(storedstack.getItemStack().getItemDamage(), storedstack.stored, ((IStability) (storedstack.getItemStack().getItem())).getStability(storedstack.getItemStack()));
-					addCircuitToStack(circuits, storedStack);
+					SonarAPI.getItemHelper().addStackToList(circuits, storedstack);
 				}
 			}
 		}
 		return circuits;
-	}
-
-	public void addCircuitToStack(ArrayList<CircuitStack> circuits, CircuitStack stack) {
-		for (CircuitStack stored : circuits) {
-			if (stored.stable == stack.stable && stored.meta == stack.meta) {
-				stored.required += stack.required;
-				return;
-			}
-		}
-		circuits.add(stack);
 	}
 
 	public void fabricate() {
@@ -133,9 +127,9 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		if (selected.stackSize == 0)
 			selected.stackSize++;
 		ArrayList<TileEntityStorageChamber> chambers = getChambers();
-		ArrayList<CircuitStack> available = getAvailableCircuits(chambers);
-		CircuitStack[] requirements = FabricationChamberRecipes.getInstance().getRequirements(selected).clone();
-		if (requirements != null && FabricationChamberRecipes.canPerformRecipe(requirements, available)) {
+		ArrayList<StoredItemStack> available = getAvailableCircuits(chambers);
+		ISonarRecipe recipe = FabricationChamberRecipes.instance().getRecipeFromOutputs(null, new Object[] { selected });
+		if (recipe != null && recipe.matchingInputs(new Object[] { available })) {
 			ItemStack current = slots()[0];
 			boolean fabricated = false;
 			if (current == null) {
@@ -146,20 +140,9 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 				fabricated = true;
 			}
 			if (fabricated) {
-				final List<CircuitStack> used = (List<CircuitStack>) Arrays.asList(requirements.clone());
-				ArrayList<StoredItemStack> stacks = new ArrayList();
-				for (CircuitStack stack : used) {
-					ItemStack item = new ItemStack(Calculator.circuitBoard, 1, stack.meta);
-					NBTTagCompound tag = new NBTTagCompound();
-					if (((CircuitBoard) item.getItem()).getStability(item)) {
-						tag.setInteger("Stable", 1);
-					} else {
-						tag.setInteger("Stable", 0);
-					}
-					tag.setBoolean("Analysed", true);
-					item.setTagCompound(tag);
-					SonarAPI.getItemHelper().addStackToList(stacks, new StoredItemStack(item).setStackSize(stack.required));
-				}
+				final List<ISonarRecipeObject> inputs = recipe.inputs();
+				List<StoredItemStack> stacks = new ArrayList();
+				inputs.forEach(input -> stacks.add(new StoredItemStack((ItemStack) input.getValue())));
 				for (TileEntityStorageChamber chamber : chambers) {
 					if (stacks.isEmpty()) {
 						break;
@@ -205,11 +188,6 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		case 0:
 			ByteBufUtils.writeItemStack(buf, selected);
 			break;
-		case 1:
-			if (!canMove)
-				canMove = true;
-			break;
-
 		}
 	}
 
@@ -220,8 +198,18 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 			selected = ByteBufUtils.readItemStack(buf);
 			break;
 		case 1:
-			if (!canMove)
-				canMove = true;
+			if (selected != null) {
+				ArrayList<TileEntityStorageChamber> chambers = getChambers();
+				ArrayList<StoredItemStack> available = getAvailableCircuits(chambers);
+				ISonarRecipe recipe = FabricationChamberRecipes.instance().getRecipeFromOutputs(null, new Object[] { selected.copy() });
+				if (recipe != null && recipe.matchingInputs(new Object[] { available })) {
+					if (!canMove.getObject()) {
+						canMove.setObject(true);
+						SonarCore.sendFullSyncAround(this, 64);
+						markDirty();
+					}
+				}
+			}
 			break;
 		}
 	}

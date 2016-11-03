@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.machines.GuiResearchChamber;
 import sonar.calculator.mod.common.containers.ContainerResearchChamber;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.RecipeType;
+import sonar.calculator.mod.common.recipes.ResearchRecipeType;
 import sonar.calculator.mod.network.packets.PacketPlayerResearch;
 import sonar.calculator.mod.research.IResearch;
 import sonar.calculator.mod.research.PlayerResearchRegistry;
@@ -18,17 +18,18 @@ import sonar.calculator.mod.research.types.ResearchTypes;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
+import sonar.core.network.sync.SyncUUID;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityResearchChamber extends TileEntityInventory implements IGuiTile {
 
 	public static final int researchSpeed = 100;
 	public SyncTagType.INT ticks = new SyncTagType.INT(0);
-	public SyncTagType.STRING playerName = new SyncTagType.STRING(1);
+	public SyncUUID playerUUID = new SyncUUID(1);
 
 	public TileEntityResearchChamber() {
 		super.inv = new SonarInventory(this, 1);
-		syncParts.addAll(Arrays.asList(ticks, playerName));
+		syncParts.addAll(Arrays.asList(ticks, playerUUID));
 	}
 
 	public void update() {
@@ -37,7 +38,6 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 			ticks.setObject(0);
 			return;
 		} else {
-			// if ((slots()[0].getItem() == Calculator.circuitBoard && slots()[0].getItem() instanceof IStability && ((IStability) slots()[0].getItem()).getStability(slots()[0]) {
 			if (ticks.getObject() == 0)
 				ticks.setObject(1);
 			if (ticks.getObject() > 0) {
@@ -49,14 +49,13 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 				}
 			}
 		}
-		// }
 	}
 
 	public void addRecipes() {
 		if (isServer()) {
-			ArrayList<RecipeType> types = RecipeType.getUnlocked(slots()[0]);
+			ArrayList<ResearchRecipeType> types = ResearchRecipeType.getUnlocked(slots()[0]);
 			if (!types.isEmpty()) {
-				IResearch research = PlayerResearchRegistry.getSpecificResearch(playerName.getObject(), ResearchTypes.RECIPES);
+				IResearch research = PlayerResearchRegistry.getSpecificResearch(playerUUID.getUUID(), ResearchTypes.RECIPES);
 				if (research != null && research instanceof RecipeResearch) {
 					RecipeResearch recipes = (RecipeResearch) research;
 					recipes.addRecipes(types);
@@ -64,7 +63,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 			}
 		}
 	}
-	
+
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1)
 			markBlockForUpdate();

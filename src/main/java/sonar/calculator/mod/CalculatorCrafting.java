@@ -7,7 +7,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import sonar.calculator.mod.common.block.MaterialBlock;
 import sonar.calculator.mod.common.block.MaterialBlock.Variants;
-import sonar.core.SonarCore;
 
 public class CalculatorCrafting extends Calculator {
 
@@ -78,9 +77,9 @@ public class CalculatorCrafting extends Calculator {
 
 		// calculator parts
 		addShapedOre(new ItemStack(calculator_screen, 1), new Object[] { "CCC", "CRC", "CCC", 'C', "cobblestone", 'R', "dustRedstone" });
-		//addShaped(new ItemStack(calculator_assembly, 1), new Object[] { "BBB", "BBB", "BBB", 'B', Blocks.stone_button });
-		//addShapedOre(new ItemStack(advanced_assembly, 1), new Object[] { "A A", " D ", "A A", 'D', "gemDiamond", 'A', calculator_assembly });
-		//addShapedOre(new ItemStack(atomic_module, 1), new Object[] { "A A", " D ", "A A", 'D', "gemDiamond", 'A', itemScientificCalculator });
+		// addShaped(new ItemStack(calculator_assembly, 1), new Object[] { "BBB", "BBB", "BBB", 'B', Blocks.stone_button });
+		// addShapedOre(new ItemStack(advanced_assembly, 1), new Object[] { "A A", " D ", "A A", 'D', "gemDiamond", 'A', calculator_assembly });
+		// addShapedOre(new ItemStack(atomic_module, 1), new Object[] { "A A", " D ", "A A", 'D', "gemDiamond", 'A', itemScientificCalculator });
 		addShapedOre(new ItemStack(atomic_assembly, 1), new Object[] { "BAB", "AEA", "BAB", 'E', "gemEmerald", 'A', atomic_module, 'B', advanced_assembly });
 		addShapedOre(new ItemStack(atomic_binder, 8), new Object[] { " A ", "ADA", " A ", 'A', "calculatorReinforcedStone", 'D', enrichedGold });
 
@@ -112,7 +111,7 @@ public class CalculatorCrafting extends Calculator {
 		addShaped(new ItemStack(analysingChamber, 1), new Object[] { "ABA", "BCB", "ABA", 'A', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'B', weakeneddiamond, 'C', advanced_assembly });
 		addShaped(new ItemStack(fabricationChamber, 1), new Object[] { "   ", "C C", "ABA", 'A', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'B', storageChamber, 'C', reinforcediron_ingot });
 		addShapedOre(new ItemStack(atomicMultiplier, 1), new Object[] { "EAE", "DBD", "FCF", 'A', fabricationChamber, 'B', atomic_assembly, 'C', endDiamond, 'D', atomic_module, 'E', calculatorplug, 'F', "sonarStableStone" });
-		
+
 		// generators
 		addShapedOre(new ItemStack(crankHandle, 1), new Object[] { "  A", "AAA", "A  ", 'A', "stickWood" });
 		addShapedOre(new ItemStack(handcrankedGenerator, 1), new Object[] { "AAA", "CBC", "AAA", 'A', "stickWood", 'B', powerCube, 'C', "plankWood" });
@@ -138,30 +137,12 @@ public class CalculatorCrafting extends Calculator {
 		addShapedOre(new ItemStack(large_tanzanite, 1), new Object[] { "AAA", "AAA", "AAA", 'A', "gemTanzanite" });
 		addShaped(new ItemStack(small_tanzanite, 1), new Object[] { "AAA", "AAA", "AAA", 'A', shard_tanzanite });
 		// decoration
-		for(Variants variant : MaterialBlock.Variants.values()){
+		for (Variants variant : MaterialBlock.Variants.values()) {
 			addShaped(new ItemStack(material_block, 1, variant.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', variant.getBaseItem() });
 			addShapeless(new ItemStack(variant.getBaseItem(), 9), new Object[] { new ItemStack(material_block, 1, variant.getMeta()) });
 		}
-		/*
-		addShaped(new ItemStack(material_block, 1, Variants.AMETHYST.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', large_amethyst });
-		addShapeless(new ItemStack(large_amethyst, 9), new Object[] { new ItemStack(material_block, 1, Variants.AMETHYST.getMeta()) });
-		addShaped(new ItemStack(material_block, 1, Variants.TANZANITE.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', large_tanzanite });
-		addShapeless(new ItemStack(large_tanzanite, 9), new Object[] { new ItemStack(material_block, 1, Variants.TANZANITE.getMeta()) });
-		addShaped(new ItemStack(material_block, 1, Variants.END_DIAMOND.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', endDiamond });
-		addShapeless(new ItemStack(endDiamond, 9), new Object[] { new ItemStack(material_block, 1, Variants.END_DIAMOND.getMeta()) });
-		addShaped(new ItemStack(material_block, 1, Variants.ENRICHED_GOLD.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', enrichedgold_ingot });
-		addShapeless(new ItemStack(enrichedgold_ingot, 9), new Object[] { new ItemStack(material_block, 1, Variants.ENRICHED_GOLD.getMeta()) });
-		addShaped(new ItemStack(material_block, 1, Variants.FLAWLESS_DIAMOND.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', flawlessdiamond });
-		addShapeless(new ItemStack(flawlessdiamond, 9), new Object[] { new ItemStack(material_block, 1, Variants.FLAWLESS_DIAMOND.getMeta()) });
-		addShaped(new ItemStack(material_block, 1, Variants.FIRE_DIAMOND.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', firediamond });
-		addShapeless(new ItemStack(firediamond, 9), new Object[] { new ItemStack(material_block, 1, Variants.FIRE_DIAMOND.getMeta()) });
-		addShaped(new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', reinforcediron_ingot });
-		addShapeless(new ItemStack(reinforcediron_ingot, 9), new Object[] { new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()) });
-		addShaped(new ItemStack(material_block, 1, Variants.WEAKENED_DIAMOND.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', weakeneddiamond });
-		addShapeless(new ItemStack(weakeneddiamond, 9), new Object[] { new ItemStack(material_block, 1, Variants.WEAKENED_DIAMOND.getMeta()) });
-		addShaped(new ItemStack(material_block, 1, Variants.ELECTRIC_DIAMOND.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', electricDiamond });
-		addShapeless(new ItemStack(electricDiamond, 9), new Object[] { new ItemStack(material_block, 1, Variants.ELECTRIC_DIAMOND.getMeta()) });
-		 */
+		/* addShaped(new ItemStack(material_block, 1, Variants.AMETHYST.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', large_amethyst }); addShapeless(new ItemStack(large_amethyst, 9), new Object[] { new ItemStack(material_block, 1, Variants.AMETHYST.getMeta()) }); addShaped(new ItemStack(material_block, 1, Variants.TANZANITE.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', large_tanzanite }); addShapeless(new ItemStack(large_tanzanite, 9), new Object[] { new ItemStack(material_block, 1, Variants.TANZANITE.getMeta()) }); addShaped(new ItemStack(material_block, 1, Variants.END_DIAMOND.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', endDiamond }); addShapeless(new ItemStack(endDiamond, 9), new Object[] { new ItemStack(material_block, 1, Variants.END_DIAMOND.getMeta()) }); addShaped(new ItemStack(material_block, 1, Variants.ENRICHED_GOLD.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', enrichedgold_ingot }); addShapeless(new ItemStack(enrichedgold_ingot, 9), new Object[] { new ItemStack(material_block, 1, Variants.ENRICHED_GOLD.getMeta()) }); addShaped(new ItemStack(material_block, 1, Variants.FLAWLESS_DIAMOND.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', flawlessdiamond }); addShapeless(new ItemStack(flawlessdiamond, 9), new Object[] { new ItemStack(material_block, 1, Variants.FLAWLESS_DIAMOND.getMeta()) }); addShaped(new ItemStack(material_block, 1, Variants.FIRE_DIAMOND.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', firediamond }); addShapeless(new ItemStack(firediamond, 9), new Object[] { new ItemStack(material_block, 1, Variants.FIRE_DIAMOND.getMeta()) }); addShaped(new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', reinforcediron_ingot }); addShapeless(new ItemStack(reinforcediron_ingot, 9), new Object[] { new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()) }); addShaped(new ItemStack(material_block, 1, Variants.WEAKENED_DIAMOND.getMeta()), new Object[] {
+		 * "AAA", "AAA", "AAA", 'A', weakeneddiamond }); addShapeless(new ItemStack(weakeneddiamond, 9), new Object[] { new ItemStack(material_block, 1, Variants.WEAKENED_DIAMOND.getMeta()) }); addShaped(new ItemStack(material_block, 1, Variants.ELECTRIC_DIAMOND.getMeta()), new Object[] { "AAA", "AAA", "AAA", 'A', electricDiamond }); addShapeless(new ItemStack(electricDiamond, 9), new Object[] { new ItemStack(material_block, 1, Variants.ELECTRIC_DIAMOND.getMeta()) }); */
 		// tree blocks
 		addShapeless(new ItemStack(amethystPlanks, 4), new Object[] { amethystLog });
 		addShapeless(new ItemStack(tanzanitePlanks, 4), new Object[] { tanzaniteLog });
@@ -177,7 +158,7 @@ public class CalculatorCrafting extends Calculator {
 		addShapedOre(new ItemStack(pearFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', pearPlanks, 'S', "stickWood" });
 		addShapedOre(new ItemStack(diamondFence, 6), new Object[] { "ASA", "ASA", "   ", 'A', diamondPlanks, 'S', "stickWood" });
 
-		//addShapedOre(new ItemStack(magneticFlux, 1), new Object[] { " D ", "RFR", "SSS", 'S', "sonarStableStone", 'R', redstone_ingot, 'F', fluxPoint, 'D', firediamond });
+		// addShapedOre(new ItemStack(magneticFlux, 1), new Object[] { " D ", "RFR", "SSS", 'S', "sonarStableStone", 'R', redstone_ingot, 'F', fluxPoint, 'D', firediamond });
 		addShapedOre(new ItemStack(dockingStation, 1), new Object[] { " R ", "APA", "RRR", 'R', "calculatorReinforcedStone", 'P', powerCube, 'A', calculator_assembly });
 		// addShapedOre(new ItemStack(teleporter, 2), new Object[] { "SRS", "RFR", "SDS", 'R', reinforcedStoneBlock, 'S', "sonarStableStone", 'D', endDiamond, 'F', fluxPlug });
 		addShaped(new ItemStack(weatherController, 1), new Object[] { "   ", "DSD", "RRR", 'S', Items.NETHER_STAR, 'D', electricDiamond, 'R', rainSensor });
@@ -189,6 +170,7 @@ public class CalculatorCrafting extends Calculator {
 		addShapedOre(new ItemStack(atomic_module, 4), new Object[] { "GCG", "CIC", "GCG", 'C', calculator_assembly, 'G', "gemTanzanite", 'I', "gemDiamond" });
 		addShapedOre(new ItemStack(algorithmSeparator, 1), new Object[] { "BCB", "ADA", "BCB", 'A', stoneSeparator, 'B', new ItemStack(material_block, 1, Variants.REINFORCED_IRON.getMeta()), 'C', powerCube, 'D', "gemDiamond" });
 		addShapedOre(new ItemStack(flawless_assembly, 1), new Object[] { "GCG", "CAC", "GCG", 'C', calculator_assembly, 'G', advanced_assembly, 'A', atomic_assembly });
+		addShapedOre(new ItemStack(moduleWorkstation, 1), new Object[] { "GCG", "CAC", "GCG", 'C', atomic_binder, 'G', "calculatorReinforcedStone", 'A', atomic_module });
 	}
 
 	public static void addShaped(ItemStack result, Object... input) {

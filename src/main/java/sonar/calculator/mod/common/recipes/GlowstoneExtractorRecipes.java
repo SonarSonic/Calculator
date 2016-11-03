@@ -1,4 +1,4 @@
-package sonar.calculator.mod.common.recipes.machines;
+package sonar.calculator.mod.common.recipes;
 
 import sonar.core.recipes.ValueHelperV2.SimpleValueHelper;
 

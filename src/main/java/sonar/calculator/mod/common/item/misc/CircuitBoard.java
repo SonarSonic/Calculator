@@ -26,10 +26,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability {
 		if (stack.hasTagCompound()) {
 			int stable = stack.getTagCompound().getInteger("Stable");
 			if (stack.getTagCompound().getBoolean("Analysed")) {
-				if (stable == 1) {
-					list.add(FontHelper.translate("circuit.stable"));
-				} else
-					list.add(FontHelper.translate("circuit.analysed"));
+				list.add(FontHelper.translate(stable == 1 ? "circuit.stable" : "circuit.analysed"));
 			} else {
 				list.add(FontHelper.translate("Not analysed"));
 			}
@@ -74,10 +71,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability {
 		if (stack.hasTagCompound()) {
 			return stack.getTagCompound().getInteger("Stable") == 1;
 		}
-		// } else {
-		// this.setData(stack);
 		return false;
-		// }
 	}
 
 	@Override

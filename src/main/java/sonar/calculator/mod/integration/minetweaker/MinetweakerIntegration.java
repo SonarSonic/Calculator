@@ -6,19 +6,23 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
-import sonar.calculator.mod.common.recipes.RecipeRegistry;
-import sonar.calculator.mod.common.recipes.RecipeRegistry.ConductorMastRecipes;
-import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
-import sonar.calculator.mod.common.recipes.machines.ExtractionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.GlowstoneExtractorRecipes;
-import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
-import sonar.calculator.mod.common.recipes.machines.PrecisionChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.ProcessingChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.ReassemblyChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.RedstoneExtractorRecipes;
-import sonar.calculator.mod.common.recipes.machines.RestorationChamberRecipes;
-import sonar.calculator.mod.common.recipes.machines.StarchExtractorRecipes;
-import sonar.calculator.mod.common.recipes.machines.StoneSeparatorRecipes;
+import sonar.calculator.mod.common.recipes.AlgorithmSeparatorRecipes;
+import sonar.calculator.mod.common.recipes.AtomicCalculatorRecipes;
+import sonar.calculator.mod.common.recipes.CalculatorRecipes;
+import sonar.calculator.mod.common.recipes.ConductorMastRecipes;
+import sonar.calculator.mod.common.recipes.ExtractionChamberRecipes;
+import sonar.calculator.mod.common.recipes.FabricationChamberRecipes;
+import sonar.calculator.mod.common.recipes.FlawlessCalculatorRecipes;
+import sonar.calculator.mod.common.recipes.GlowstoneExtractorRecipes;
+import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
+import sonar.calculator.mod.common.recipes.PrecisionChamberRecipes;
+import sonar.calculator.mod.common.recipes.ProcessingChamberRecipes;
+import sonar.calculator.mod.common.recipes.ReassemblyChamberRecipes;
+import sonar.calculator.mod.common.recipes.RedstoneExtractorRecipes;
+import sonar.calculator.mod.common.recipes.RestorationChamberRecipes;
+import sonar.calculator.mod.common.recipes.ScientificRecipes;
+import sonar.calculator.mod.common.recipes.StarchExtractorRecipes;
+import sonar.calculator.mod.common.recipes.StoneSeparatorRecipes;
 import sonar.core.integration.minetweaker.SonarAddRecipeV2;
 import sonar.core.integration.minetweaker.SonarRemoveRecipeV2;
 import sonar.core.recipes.RecipeObjectType;
@@ -27,7 +31,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 public class MineTweakerIntegration {
 
-	public static void integrate() {
+	public static void init() {
 		MineTweakerAPI.registerClass(CalculatorHandler.class);
 		MineTweakerAPI.registerClass(AtomicHandler.class);
 		MineTweakerAPI.registerClass(ScientificHandler.class);
@@ -40,6 +44,7 @@ public class MineTweakerIntegration {
 		MineTweakerAPI.registerClass(ReassemblyChamberHandler.class);
 		MineTweakerAPI.registerClass(PrecisionChamberHandler.class);
 		MineTweakerAPI.registerClass(ProcessingChamberHandler.class);
+		MineTweakerAPI.registerClass(FabricationChamberHandler.class);
 		MineTweakerAPI.registerClass(HealthProcessorHandler.class);
 		MineTweakerAPI.registerClass(StarchExtractorHandler.class);
 		MineTweakerAPI.registerClass(RedstoneExtractorHandler.class);
@@ -51,12 +56,12 @@ public class MineTweakerIntegration {
 
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IItemStack output) {
-			MineTweakerAPI.apply(new SonarAddRecipeV2(RecipeRegistry.CalculatorRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(MineTweakerMC.getItemStack(output))));
+			MineTweakerAPI.apply(new SonarAddRecipeV2(CalculatorRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(MineTweakerMC.getItemStack(output))));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output) {
-			MineTweakerAPI.apply(new SonarRemoveRecipeV2(RecipeRegistry.CalculatorRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
+			MineTweakerAPI.apply(new SonarRemoveRecipeV2(CalculatorRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
 		}
 	}
 
@@ -65,12 +70,12 @@ public class MineTweakerIntegration {
 
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IItemStack output) {
-			MineTweakerAPI.apply(new SonarAddRecipeV2(RecipeRegistry.ScientificRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(MineTweakerMC.getItemStack(output))));
+			MineTweakerAPI.apply(new SonarAddRecipeV2(ScientificRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(MineTweakerMC.getItemStack(output))));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output) {
-			MineTweakerAPI.apply(new SonarRemoveRecipeV2(RecipeRegistry.ScientificRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
+			MineTweakerAPI.apply(new SonarRemoveRecipeV2(ScientificRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
 		}
 	}
 
@@ -79,12 +84,12 @@ public class MineTweakerIntegration {
 
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient input3, IItemStack output) {
-			MineTweakerAPI.apply(new SonarAddRecipeV2(RecipeRegistry.AtomicRecipes.instance(), Lists.newArrayList(input1, input2, input3), Lists.newArrayList(MineTweakerMC.getItemStack(output))));
+			MineTweakerAPI.apply(new SonarAddRecipeV2(AtomicCalculatorRecipes.instance(), Lists.newArrayList(input1, input2, input3), Lists.newArrayList(MineTweakerMC.getItemStack(output))));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output) {
-			MineTweakerAPI.apply(new SonarRemoveRecipeV2(RecipeRegistry.AtomicRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
+			MineTweakerAPI.apply(new SonarRemoveRecipeV2(AtomicCalculatorRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
 		}
 	}
 
@@ -93,12 +98,12 @@ public class MineTweakerIntegration {
 
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient input3, IIngredient input4, IItemStack output) {
-			MineTweakerAPI.apply(new SonarAddRecipeV2(RecipeRegistry.FlawlessRecipes.instance(), Lists.newArrayList(input1, input2, input3, input4), Lists.newArrayList(MineTweakerMC.getItemStack(output))));
+			MineTweakerAPI.apply(new SonarAddRecipeV2(FlawlessCalculatorRecipes.instance(), Lists.newArrayList(input1, input2, input3, input4), Lists.newArrayList(MineTweakerMC.getItemStack(output))));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output) {
-			MineTweakerAPI.apply(new SonarRemoveRecipeV2(RecipeRegistry.FlawlessRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
+			MineTweakerAPI.apply(new SonarRemoveRecipeV2(FlawlessCalculatorRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
 		}
 	}
 
@@ -211,6 +216,20 @@ public class MineTweakerIntegration {
 		@ZenMethod
 		public static void removeRecipe(IIngredient output) {
 			MineTweakerAPI.apply(new SonarRemoveRecipeV2(ProcessingChamberRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
+		}
+	}
+
+	@ZenClass("mods.calculator.fabricationChamber")
+	public static class FabricationChamberHandler {
+
+		@ZenMethod
+		public static void addRecipe(IIngredient input, IItemStack output1) {
+			MineTweakerAPI.apply(new SonarAddRecipeV2(FabricationChamberRecipes.instance(), Lists.newArrayList(input), Lists.newArrayList(MineTweakerMC.getItemStack(output1))));
+		}
+
+		@ZenMethod
+		public static void removeRecipe(IIngredient input) {
+			MineTweakerAPI.apply(new SonarRemoveRecipeV2(FabricationChamberRecipes.instance(), RecipeObjectType.INPUT, Lists.newArrayList(input)));
 		}
 	}
 

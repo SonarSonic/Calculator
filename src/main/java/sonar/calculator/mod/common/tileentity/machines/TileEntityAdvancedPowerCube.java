@@ -31,7 +31,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 			return;
 		}
 		this.addEnergy();
-		//this.markDirty();
+		// this.markDirty();
 	}
 
 	public void addEnergy() {
@@ -49,13 +49,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	@Override
 	public EnergyMode getModeForSide(EnumFacing side) {
 		if (side != null) {
-			if (sides.getSideConfig(side).isInput()) {
-				return EnergyMode.RECIEVE;
-			} else if (sides.getSideConfig(side).isOutput()) {
-				return EnergyMode.SEND;
-			}else{
-				return EnergyMode.BLOCKED;
-			}
+			return sides.getSideConfig(side).isInput() ? EnergyMode.RECIEVE : sides.getSideConfig(side).isOutput() ? EnergyMode.SEND : EnergyMode.BLOCKED;
 		}
 		return super.getModeForSide(side);
 	}

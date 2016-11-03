@@ -16,6 +16,7 @@ public class ModuleItemRegistry extends LinkedRegistryHelper<String, Item> {
 	@Override
 	public void register() {
 		registerMap(GuiModule.flawless.getName(), Calculator.endDiamond);
+		registerMap(GuiModule.dynamic.getName(), Calculator.atomic_assembly);
 		registerMap(GuiModule.crafting.getName(), Calculator.itemCraftingCalculator);
 		registerMap(GuiModule.storage.getName(), Calculator.itemStorageModule);
 		registerMap(GuiModule.calculator.getName(), Calculator.itemCalculator);

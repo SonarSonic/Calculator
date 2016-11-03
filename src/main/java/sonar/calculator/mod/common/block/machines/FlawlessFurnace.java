@@ -1,5 +1,5 @@
 package sonar.calculator.mod.common.block.machines;
-
+/*
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
@@ -44,3 +44,4 @@ public class FlawlessFurnace extends SonarMachineBlock {
 
 	}
 }
+*/

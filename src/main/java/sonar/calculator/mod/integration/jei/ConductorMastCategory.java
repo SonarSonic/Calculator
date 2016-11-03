@@ -10,9 +10,9 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import sonar.core.integration.jei.IJEIHandler;
-import sonar.core.integration.jei.JEICategory;
+import sonar.core.integration.jei.JEICategoryV2;
 
-public class ConductorMastCategory extends JEICategory {
+public class ConductorMastCategory extends JEICategoryV2 {
 
 	private final IDrawable background;
 	protected final IDrawableAnimated arrow;
@@ -40,7 +40,7 @@ public class ConductorMastCategory extends JEICategory {
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 		stacks.init(0, true, 4, 4);
 		stacks.init(2, false, 58, 4);
-		stacks.setFromRecipe(0, recipeWrapper.getInputs());
-		stacks.setFromRecipe(2, recipeWrapper.getOutputs());
+		stacks.setFromRecipe(0, recipeWrapper.getInputs().get(0));
+		stacks.setFromRecipe(2, recipeWrapper.getOutputs().get(0));
 	}
 }

@@ -5,7 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.recipes.machines.HealthProcessorRecipes;
+import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.core.inventory.ContainerSync;
 
