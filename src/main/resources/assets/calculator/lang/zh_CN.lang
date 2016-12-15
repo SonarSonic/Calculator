@@ -1,13 +1,12 @@
-﻿//**CALCULATOR**//
+//**CALCULATOR**//
+
 //calculators
 item.Calculator.name=计算器
 item.CraftingCalculator.name=合成计算器
 item.ScientificCalculator.name=科学计算器
 item.FlawlessCalculator.name=完美计算器
-tile.atomiccalculatorBlock.name=原子计算器
-tile.dynamiccalculatorBlock.name=动态计算器
-
-
+tile.AtomicCalculator.name=原子计算器
+tile.DynamicCalculator.name=动态计算器
 //modules
 item.HungerModule.name=饥饿模块
 item.HealthModule.name=生命模块
@@ -20,14 +19,6 @@ item.AdvancedTerrainModule.name=高级地形模块
 item.EnergyUpgrade.name=能量升级
 item.SpeedUpgrade.name=速度升级
 item.VoidUpgrade.name=虚空升级
-
-//blocks
-tile.reinforcedstoneBlock.name=强化石头
-tile.reinforceddirtBlock.name=强化泥土
-tile.stablestoneBlock.name=稳定石块
-tile.stablePort.name=稳定石块
-
-
 //items for calculators
 item.CalculatorAssembly.name=基础组件
 item.CalculatorScreen.name=计算器显示屏
@@ -41,19 +32,19 @@ itemGroup.Calculator=运算工艺
 //generators
 tile.CalculatorLocator.name=运算器核心
 tile.CalculatorPlug.name=运算元件
-tile.starchextractor.name=有机能量提取机
-tile.redstoneextractor.name=红石能量提取机
-tile.glowstoneextractor.name=萤石能量提取机
-tile.Crank.name=曲柄
-tile.CrankedGenerator.name=手摇发电机
+tile.StarchExtractor.name=有机能量提取机
+tile.RedstoneExtractor.name=红石能量提取机
+tile.GlowstoneExtractor.name=萤石能量提取机
+tile.CrankHandle.name=曲柄
+tile.HandCrankedGenerator.name=手摇发电机
 
 //machines
 tile.AtomicMultiplier.name=原子增幅仪
 tile.ConductorMast.name=特斯拉电磁塔
 tile.ConductorMastBlock.name=特斯拉电磁塔
-tile.PCubeIdle.name=充能立方
-tile.AdvancedPCubeIdle.name=高级充能立方
-tile.StoneSeperatorIdle.name=基础分离器
+tile.PowerCube.name=充能立方
+tile.AdvancedPowerCube.name=高级充能立方
+tile.StoneSeparatorIdle.name=基础分离器
 tile.AlgorithmSeperatorIdle.name=运算分离器
 tile.HungerProcessor.name=饥饿处理器
 tile.HealthProcessor.name=生命处理器
@@ -65,9 +56,9 @@ tile.AnalysingChamber.name=分析室
 tile.PrecisionChamber.name=精准提取室
 tile.StorageChamber.name=储存室
 tile.ReinforcedFurnace.name=强化熔炉
-tile.LanternOn.name=燃气灯
-tile.LanternOff.name=燃气灯
-tile.LanternBasic.name=灯笼
+tile.GasLanternOn.name=燃气灯
+tile.GasLanternOff.name=燃气灯
+tile.Lantern.name=灯笼
 tile.AdvancedGreenhouse.name=高级温室
 tile.BasicGreenhouse.name=基础温室
 tile.FlawlessGreenhouse.name=完美温室
@@ -102,26 +93,25 @@ item.Broccoli.name=西兰花
 item.BroccoliSeeds.name=西兰花种子
 item.CookedBroccoli.name=熟西兰花
 item.Broccoli.name=西兰花
-tile.BroccoliPlant.name=西兰花植株
+tile.CropBroccoli.name=西兰花植株
 
 item.CoalDust.name=煤粉
 item.PrunaeSeeds.name=精华煤种子
-tile.PrunaePlant.name=精华煤植株
+tile.CropPrunae.name=精华煤植株
 
 item.FiddledewFruit.name=琴露果
-tile.FiddledewPlant.name=琴露植株
+tile.CropFiddledew.name=琴露植株
 
 //amethyst tree
-tile.Leaves.name=树叶
 tile.AmethystLog.name=紫晶木
-tile.AmethystLeaf.name=紫晶树叶
+tile.AmethystLeaves.name=紫晶树叶
 tile.AmethystSapling.name=紫晶树苗
 tile.AmethystPlanks.name=紫晶木板
 tile.AmethystStairs.name=紫晶台阶
 
 //tanzanite tree
 tile.TanzaniteLog.name=坦桑木
-tile.TanzaniteLeaf.name=坦桑树叶
+tile.TanzaniteLeaves.name=坦桑树叶
 tile.TanzaniteSapling.name=坦桑树苗
 tile.TanzanitePlanks.name=坦桑木板
 tile.TanzaniteStairs.name=坦桑台阶
@@ -130,21 +120,20 @@ tile.TanzaniteStairs.name=坦桑台阶
 item.Pear.name=梨
 item.RottenPear.name=腐烂的梨
 tile.PearLog.name=梨木
-tile.PearLeaf.name=梨树叶
+tile.PearLeaves.name=梨树叶
 tile.PearSapling.name=梨树树苗
 tile.PearPlanks.name=梨树木板
 tile.PearStairs.name=梨木台阶
 
 //diamond tree
 tile.DiamondLog.name=钻石木
-tile.DiamondLeaf.name=钻石树叶
+tile.DiamondLeaves.name=钻石树叶
 tile.DiamondSapling.name=钻石树苗
-tile.DiamondLeaves.name=树叶
 tile.DiamondPlanks.name=钻石木板
 tile.DiamondStairs.name=钻石木台阶
 
 
-tile.purifiedobsidianBlock.name=纯净黑曜石
+tile.PurifiedObsidian.name=纯净黑曜石
 
 
 item.Sickle.name=镰刀
@@ -154,63 +143,67 @@ item.Soil.name=土壤
 item.SmallStone.name=小石子
 
 //circuits
-item.CircuitBoard.C1.name=电路板
-item.CircuitBoard.C2.name=电路板
-item.CircuitBoard.C3.name=电路板
-item.CircuitBoard.C4.name=电路板
-item.CircuitBoard.C5.name=电路板
-item.CircuitBoard.C6.name=电路板
-item.CircuitBoard.C7.name=电路板
-item.CircuitBoard.C8.name=电路板
-item.CircuitBoard.C9.name=电路板
-item.CircuitBoard.C10.name=电路板
-item.CircuitBoard.C11.name=电路板
-item.CircuitBoard.C12.name=电路板
-item.CircuitBoard.C13.name=电路板
-item.CircuitBoard.C14.name=电路板
+item.CircuitBoard.0.name=电路板
+item.CircuitBoard.1.name=电路板
+item.CircuitBoard.2.name=电路板
+item.CircuitBoard.3.name=电路板
+item.CircuitBoard.4.name=电路板
+item.CircuitBoard.5.name=电路板
+item.CircuitBoard.6.name=电路板
+item.CircuitBoard.7.name=电路板
+item.CircuitBoard.8.name=电路板
+item.CircuitBoard.9.name=电路板
+item.CircuitBoard.10.name=电路板
+item.CircuitBoard.11.name=电路板
+item.CircuitBoard.12.name=电路板
+item.CircuitBoard.13.name=电路板
+item.CircuitBoard.14.name=电路板
 
 //damaged circuits
-item.CircuitDamaged.C1.name=损坏的电路板
-item.CircuitDamaged.C2.name=损坏的电路板
-item.CircuitDamaged.C3.name=损坏的电路板
-item.CircuitDamaged.C4.name=损坏的电路板
-item.CircuitDamaged.C5.name=损坏的电路板
-item.CircuitDamaged.C6.name=损坏的电路板
-item.CircuitDamaged.C7.name=损坏的电路板
-item.CircuitDamaged.C8.name=损坏的电路板
-item.CircuitDamaged.C9.name=损坏的电路板
-item.CircuitDamaged.C10.name=损坏的电路板
-item.CircuitDamaged.C11.name=损坏的电路板
-item.CircuitDamaged.C12.name=损坏的电路板
-item.CircuitDamaged.C13.name=损坏的电路板
-item.CircuitDamaged.C14.name=损坏的电路板
+item.CircuitDamaged.0.name=损坏的电路板
+item.CircuitDamaged.1.name=损坏的电路板
+item.CircuitDamaged.2.name=损坏的电路板
+item.CircuitDamaged.3.name=损坏的电路板
+item.CircuitDamaged.4.name=损坏的电路板
+item.CircuitDamaged.5.name=损坏的电路板
+item.CircuitDamaged.6.name=损坏的电路板
+item.CircuitDamaged.7.name=损坏的电路板
+item.CircuitDamaged.8.name=损坏的电路板
+item.CircuitDamaged.9.name=损坏的电路板
+item.CircuitDamaged.10.name=损坏的电路板
+item.CircuitDamaged.11.name=损坏的电路板
+item.CircuitDamaged.12.name=损坏的电路板
+item.CircuitDamaged.13.name=损坏的电路板
+item.CircuitDamaged.14.name=损坏的电路板
 
 //dirty circuits
-item.CircuitDirty.C1.name=污秽的电路板
-item.CircuitDirty.C2.name=污秽的电路板
-item.CircuitDirty.C3.name=污秽的电路板
-item.CircuitDirty.C4.name=污秽的电路板
-item.CircuitDirty.C5.name=污秽的电路板
-item.CircuitDirty.C6.name=污秽的电路板
-item.CircuitDirty.C7.name=污秽的电路板
-item.CircuitDirty.C8.name=污秽的电路板
-item.CircuitDirty.C9.name=污秽的电路板
-item.CircuitDirty.C10.name=污秽的电路板
-item.CircuitDirty.C11.name=污秽的电路板
-item.CircuitDirty.C12.name=污秽的电路板
-item.CircuitDirty.C13.name=污秽的电路板
-item.CircuitDirty.C14.name=污秽的电路板
+item.CircuitDirty.0.name=污秽的电路板
+item.CircuitDirty.1.name=污秽的电路板
+item.CircuitDirty.2.name=污秽的电路板
+item.CircuitDirty.3.name=污秽的电路板
+item.CircuitDirty.4.name=污秽的电路板
+item.CircuitDirty.5.name=污秽的电路板
+item.CircuitDirty.6.name=污秽的电路板
+item.CircuitDirty.7.name=污秽的电路板
+item.CircuitDirty.8.name=污秽的电路板
+item.CircuitDirty.9.name=污秽的电路板
+item.CircuitDirty.10.name=污秽的电路板
+item.CircuitDirty.11.name=污秽的电路板
+item.CircuitDirty.12.name=污秽的电路板
+item.CircuitDirty.13.name=污秽的电路板
+item.CircuitDirty.14.name=污秽的电路板
 
 //blocks
-tile.AmethystBlock.name=紫水晶块
-tile.FlawlessFireBlock.name=火钻块
-tile.EndBlock.name=末地钻石块
-tile.FlawlessBlock.name=无暇钻石块
-tile.WeakenedBlock.name=弱化钻石块
-tile.EnrichedBlock.name=富集金块
-tile.ElectricBlock.name=充能钻石块
-tile.ReinforcedBlock.name=强化铁块
-tile.TanzaniteBlock.name=蓝水晶块
+tile.Material.0.name=紫水晶块
+tile.Material.1.name=蓝水晶块
+tile.Material.2.name=富集金块
+tile.Material.3.name=强化铁块
+tile.Material.4.name=弱化钻石块
+tile.Material.5.name=无暇钻石块
+tile.Material.6.name=火钻块
+tile.Material.7.name=充能钻石块
+tile.Material.8.name=末地钻石块
+
 item.InfoCalculator.name=信息运算器
 item.ObsidianKey.name=黑曜石钥匙
 
@@ -320,26 +313,16 @@ greenhouse.carbon=CO2储量
 greenhouse.building=建造中
 greenhouse.incomplete=未完成
 greenhouse.complete=温室建立完成
-greenhouse.logStack=原木栏
-greenhouse.stairsStack=台阶栏
-greenhouse.glassStack=玻璃栏
-greenhouse.plankStack=木板栏
-greenhouse.isEmpty=是空的
-greenhouse.noLogs=未检测到原木
-greenhouse.noStairs=未检测到台阶
-greenhouse.noGlass=未检测到玻璃
-greenhouse.noPlanks=未检测到木板
-greenhouse.requires=需要
-greenhouse.moreLogs=更多原木
-greenhouse.moreStairs=更多台阶
-greenhouse.moreGlass=更多玻璃
-greenhouse.morePlanks=更多木板
 greenhouse.glass=玻璃
 greenhouse.quartz=石英
 greenhouse.planks=木板
 greenhouse.logs=原木
 greenhouse.stairs=台阶
 greenhouse.stable=稳定石块
+greenhouse.requires=需要
+greenhouse.build=建造
+greenhouse.rebuild=重建
+greenhouse.demolish=拆除
  
  
 //points
@@ -372,7 +355,6 @@ info.generators=发电机
 info.modules=模块
 info.items=物品
 info.circuits=电路板
-info.nei=需要 NEI
 info.extractChance=提取几率
  
 //misc
@@ -420,7 +402,7 @@ generator.starch=有机物储量
 generator.redstone=红石储量
 generator.glowstone=萤石储量
 
-//New
+//new
 planting.basic=请使用基础或更高级的温室种植
 planting.advanced=请使用高级或完美的温室种植
 planting.flawless=请使用完美温室种植
@@ -431,13 +413,13 @@ research.recipeNew=发现新配方
 research.sync=同步
 research.stored=已储存
 item.Recipe.name=合成配方
-research.newRecipes=没有配方
-
+research.invalid=没有配方
+research.newRecipes=新合成配方
 
 info.standard=标准
 info.unlocked=解锁
-tile.reinforcedstoneBrick.name=强化石砖
-tile.reinforceddirtBrick.name=强化土砖
+tile.ReinforcedStoneBrick.name=强化石砖
+tile.ReinforcedDirtBrick.name=强化土砖
 death.attack.stone=%1$s 被一块石头砸到了
 tile.Transmitter.name=发送器
 tile.TransmitterBlock.name=发送器
@@ -453,27 +435,7 @@ buttons.pause=暂停
 buttons.resume=继续
 buttons.confirm=确认
 
-tile.FluxPlug.name=RF输出点
-tile.FluxPoint.name=RF接入点
-tile.FluxController.name=RF控制器
-item.FluxModule.name=RF模块
-network.add=添加
-network.rename=重命名
-network.back=后退
-network.notConnected=未连接
-network.protection=安全权限
-network.restricted=限制
-network.private=专用
-network.public=公共
-network.on=开启
-network.off=关闭
-point.priority=优先级
-point.max=最高
-plug.sending=输出
-plug.receiving=接收
-plug.plugs=输出点
-plug.points=接入点
-plug.transfer=传输
+
 controller.name=拥有者
 controller.default=默认
 controller.users=分享用户
@@ -507,54 +469,7 @@ docking.noCalculator=未安装计算器
 tile.CalculatorTeleporter.name=传送器
 tile.StoneAssimilator.name=基础采集器
 tile.AlgorithmAssimilator.name=运算采集器
+tile.FlawlessFurnace.name=完美熔炉
 
-tile.stablestoneBlock_0.name=稳定石块
-tile.stablestoneBlock_1.name=橙色稳定石块
-tile.stablestoneBlock_2.name=品红色稳定石块
-tile.stablestoneBlock_3.name=淡蓝色稳定石块
-tile.stablestoneBlock_4.name=黄色稳定石块
-tile.stablestoneBlock_5.name=黄绿色稳定石块
-tile.stablestoneBlock_6.name=粉色稳定石块
-tile.stablestoneBlock_7.name=平滑稳定石块
-tile.stablestoneBlock_8.name=白色稳定石块
-tile.stablestoneBlock_9.name=青色稳定石块
-tile.stablestoneBlock_10.name=紫色稳定石块
-tile.stablestoneBlock_11.name=蓝色稳定石块
-tile.stablestoneBlock_12.name=棕色稳定石块
-tile.stablestoneBlock_13.name=绿色稳定石块
-tile.stablestoneBlock_14.name=红色稳定石块
-tile.stablestoneBlock_15.name=黑色稳定石块
 
-tile.stablestonerimmedBlock_0.name=灰色边框稳定石块
-tile.stablestonerimmedBlock_1.name=橙色边框稳定石块
-tile.stablestonerimmedBlock_2.name=品红色边框稳定石块
-tile.stablestonerimmedBlock_3.name=淡蓝色边框稳定石块
-tile.stablestonerimmedBlock_4.name=黄色边框稳定石块
-tile.stablestonerimmedBlock_5.name=黄绿色边框稳定石块
-tile.stablestonerimmedBlock_6.name=粉色边框稳定石块
-tile.stablestonerimmedBlock_7.name=平滑边框稳定石块
-tile.stablestonerimmedBlock_8.name=白色边框稳定石块
-tile.stablestonerimmedBlock_9.name=青色边框稳定石块
-tile.stablestonerimmedBlock_10.name=紫色边框稳定石块
-tile.stablestonerimmedBlock_11.name=蓝色边框稳定石块
-tile.stablestonerimmedBlock_12.name=棕色边框稳定石块
-tile.stablestonerimmedBlock_13.name=绿色边框稳定石块
-tile.stablestonerimmedBlock_14.name=红色边框稳定石块
-tile.stablestonerimmedBlock_15.name=黑色边框稳定石块
-
-tile.stablestonerimmedblackBlock_0.name=灰色边框深色稳定石块
-tile.stablestonerimmedblackBlock_1.name=橙色边框深色稳定石块
-tile.stablestonerimmedblackBlock_2.name=品红色边框深色稳定石块
-tile.stablestonerimmedblackBlock_3.name=淡蓝色边框深色稳定石块
-tile.stablestonerimmedblackBlock_4.name=黄色边框深色稳定石块
-tile.stablestonerimmedblackBlock_5.name=黄绿色边框深色稳定石块
-tile.stablestonerimmedblackBlock_6.name=粉色边框深色稳定石块
-tile.stablestonerimmedblackBlock_7.name=平滑边框深色稳定石块
-tile.stablestonerimmedblackBlock_8.name=白色边框深色稳定石块
-tile.stablestonerimmedblackBlock_9.name=青色边框深色稳定石块
-tile.stablestonerimmedblackBlock_10.name=紫色边框深色稳定石块
-tile.stablestonerimmedblackBlock_11.name=蓝色边框深色稳定石块
-tile.stablestonerimmedblackBlock_12.name=棕色边框深色稳定石块
-tile.stablestonerimmedblackBlock_13.name=绿色边框深色稳定石块
-tile.stablestonerimmedblackBlock_14.name=红色边框深色稳定石块
-tile.stablestonerimmedblackBlock_15.name=黑色边框深色稳定石块
+tile.Material.9.name=红石锭方块
