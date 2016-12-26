@@ -26,6 +26,8 @@ public class CalculatorOreDict extends Calculator {
 		registerOre("slimeball", rotten_pear);
 		registerOre("dustStone", small_stone);
 		registerOre("dustDirt", soil);
+		registerOre("cropBroccoli", broccoli);
+		registerOre("cropPear", pear);
 
 		// logs
 		registerOre("logWood", amethystLog);

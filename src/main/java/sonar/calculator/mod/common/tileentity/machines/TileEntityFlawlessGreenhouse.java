@@ -45,7 +45,6 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		super.type = 3;
 		super.maxLevel = 100000;
 		super.plantTick = 2;
-
 	}
 
 	@Override

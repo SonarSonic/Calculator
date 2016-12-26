@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.lwjgl.opengl.GL11;
 
+import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
@@ -21,6 +22,7 @@ public class Recipes {
 		public Processing(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
+
 	}
 
 	public static class Restoration extends JEIRecipeV2<Restoration> {
@@ -58,9 +60,10 @@ public class Recipes {
 		}
 
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-			Collection<ItemStack> collection = (Collection<ItemStack>) this.outputs.get(1);
-			ItemStack stack = collection.iterator().next();
-			if (stack.getItem() == sonar.calculator.mod.Calculator.circuitBoard || stack.getItem() == sonar.calculator.mod.Calculator.circuitDamaged || stack.getItem() == sonar.calculator.mod.Calculator.circuitDirty) {
+			ItemStack stack = this.outputs.get(1);
+			if (stack.getItem() == sonar.calculator.mod.Calculator.circuitBoard
+					|| stack.getItem() == sonar.calculator.mod.Calculator.circuitDamaged
+					|| stack.getItem() == sonar.calculator.mod.Calculator.circuitDirty) {
 				GL11.glPushMatrix();
 				GL11.glScaled(0.7, 0.7, 0.7);
 				minecraft.fontRendererObj.drawString("12.5%", 123, 39, 0);
@@ -118,7 +121,10 @@ public class Recipes {
 			GL11.glPushMatrix();
 			GL11.glScaled(0.7, 0.7, 0.7);
 
-			FontHelper.textCentre(" " + HealthProcessorRecipes.instance().getValue(null, this.inputs.get(0).iterator().next()) + " Health Points", (int) (recipeWidth * (1.0 / 0.7)), 40, 0);
+			FontHelper.textCentre(
+					" " + HealthProcessorRecipes.instance().getValue(null, this.inputs.get(0).iterator().next())
+							+ " Health Points",
+					(int) (recipeWidth * (1.0 / 0.7)), 40, 0);
 			GL11.glPopMatrix();
 		}
 	}
@@ -151,7 +157,8 @@ public class Recipes {
 				chance = 0.01;
 				break;
 			}
-			FontHelper.textCentre(FontHelper.translate("info.extractChance") + " = " + chance + " %", (int) (recipeWidth * (1.0 / 0.7)), 40, 0);
+			FontHelper.textCentre(FontHelper.translate("info.extractChance") + " = " + chance + " %",
+					(int) (recipeWidth * (1.0 / 0.7)), 40, 0);
 			GL11.glPopMatrix();
 		}
 	}
@@ -166,7 +173,8 @@ public class Recipes {
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 			GL11.glPushMatrix();
 			GL11.glScaled(0.7, 0.7, 0.7);
-			FontHelper.textCentre(" " + DischargeValues.getValueOf((ItemStack) this.inputs.get(0)) + " Discharge", (int) (recipeWidth * (1.0 / 0.7)), 40, 0);
+			FontHelper.textCentre(" " + DischargeValues.getValueOf((ItemStack) this.inputs.get(0)) + " Discharge",
+					(int) (recipeWidth * (1.0 / 0.7)), 40, 0);
 			GL11.glPopMatrix();
 		}
 	}

@@ -3,6 +3,7 @@ package sonar.calculator.mod.integration.jei;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.util.ResourceLocation;
 import sonar.core.integration.jei.IJEIHandler;
@@ -26,12 +27,12 @@ public class AtomicCategory extends JEICategoryV2 {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper) {
-		RecipeMapper mapper = new RecipeMapper(recipeWrapper);
+	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
+		RecipeMapper mapper = new RecipeMapper();
 		mapper.map(RecipeObjectType.INPUT, 0, 0, 0, 4);
 		mapper.map(RecipeObjectType.INPUT, 1, 1, 32, 4);
 		mapper.map(RecipeObjectType.INPUT, 2, 2, 64, 4);
 		mapper.map(RecipeObjectType.OUTPUT, 0, 3, 114, 4);
-		mapper.mapTo(recipeLayout.getItemStacks());
+		mapper.mapTo(recipeLayout.getItemStacks(), ingredients);
 	}
 }

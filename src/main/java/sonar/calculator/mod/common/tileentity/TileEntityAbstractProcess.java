@@ -153,7 +153,6 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 			}
 		}
 		return false;
-
 	}
 
 	@Override

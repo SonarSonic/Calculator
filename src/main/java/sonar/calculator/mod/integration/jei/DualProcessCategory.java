@@ -5,6 +5,7 @@ import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -37,12 +38,12 @@ public class DualProcessCategory extends JEICategoryV2 {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper) {
-		RecipeMapper mapper = new RecipeMapper(recipeWrapper);
+	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
+		RecipeMapper mapper = new RecipeMapper();
 		mapper.map(RecipeObjectType.INPUT, 0, 0, 4, 4);
 		mapper.map(RecipeObjectType.OUTPUT, 0, 2, 58, 4);
 		mapper.map(RecipeObjectType.OUTPUT, 1, 3, 86, 4);
-		mapper.mapTo(recipeLayout.getItemStacks());
+		mapper.mapTo(recipeLayout.getItemStacks(), ingredients);
 		/*
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 		stacks.init(0, true, 4, 4);

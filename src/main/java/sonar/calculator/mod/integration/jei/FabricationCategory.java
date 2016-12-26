@@ -8,6 +8,7 @@ import mezz.jei.api.gui.IDrawableAnimated;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -39,7 +40,7 @@ public class FabricationCategory extends JEICategoryV2 {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper) {
+	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 		List<ItemStack> outputs = recipeWrapper.getInputs();
 		int left = 0;

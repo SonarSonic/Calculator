@@ -106,6 +106,14 @@ public class TileEntityMachine {
 			}
 			slots()[0] = ItemStackHelper.reduceStackSize(slots()[0], 1);
 		}
+
+		@Override
+		public boolean isItemValidForSlot(int slot, ItemStack stack) {
+			if (slot < this.inputSize() && FurnaceRecipes.instance().getSmeltingResult(stack) != null) {
+				return true;
+			}
+			return false;
+		}
 	}
 
 	public static class StoneSeperator extends DualOutput {
