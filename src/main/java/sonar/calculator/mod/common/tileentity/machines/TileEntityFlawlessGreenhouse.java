@@ -57,10 +57,11 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			if (!this.worldObj.isRemote) {
 				extraTicks();
 			}
-			plantCrops();
-			grow();
-			harvestCrops();
-
+			if (isActive()) {
+				plantCrops();
+				grow();
+				harvestCrops();
+			}
 		}
 		discharge(0);
 	}

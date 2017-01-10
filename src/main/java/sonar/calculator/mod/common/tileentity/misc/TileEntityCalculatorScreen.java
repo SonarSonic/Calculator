@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
 import sonar.core.api.SonarAPI;
-import sonar.core.api.energy.EnergyHandler;
+import sonar.core.api.energy.ISonarEnergyHandler;
 import sonar.core.api.energy.StoredEnergyStack;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.helpers.NBTHelper.SyncType;
@@ -29,7 +29,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 			if (target == null) {
 				return;
 			} else {
-				EnergyHandler handler = SonarAPI.getEnergyHelper().canTransferEnergy(target, front);
+				ISonarEnergyHandler handler = SonarAPI.getEnergyHelper().canTransferEnergy(target, front);
 				if(handler!=null){
 					StoredEnergyStack stack = new StoredEnergyStack(handler.getProvidedType());
 					handler.getEnergy(stack, target, front);

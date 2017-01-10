@@ -59,7 +59,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		boolean flag = active.getObject();
 		boolean invert = false;
 		if (canGenerate()) {
-			if (!worldObj.isRemote) {
+			if (isServer()) {
 				beginGeneration();
 			}
 			if (!active.getObject()) {
@@ -68,7 +68,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		} else if (active.getObject()) {
 			invert = true;
 		}
-		if (!worldObj.isRemote) {
+		if (isServer()) {
 			if (invert) {
 				this.active.invert();
 			}

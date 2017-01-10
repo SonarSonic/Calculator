@@ -44,7 +44,7 @@ public class ContainerFlawlessCalculator extends Container implements ICalculato
 
 	@Override
 	public void onItemCrafted() {
-		inventory.setInventorySlotContents(3, RecipeHelperV2.getItemStackFromList(FlawlessCalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3)), 0));
+		inventory.setInventorySlotContents(4, RecipeHelperV2.getItemStackFromList(FlawlessCalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3)), 0));
 	}
 
 	public void removeEnergy(int remove) {

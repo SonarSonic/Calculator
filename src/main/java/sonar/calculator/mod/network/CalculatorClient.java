@@ -7,6 +7,7 @@ import sonar.calculator.mod.ItemRenderRegister;
 import sonar.calculator.mod.client.renderers.RenderAnalysingChamber;
 import sonar.calculator.mod.client.renderers.RenderChamber;
 import sonar.calculator.mod.client.renderers.RenderCrank;
+import sonar.calculator.mod.client.renderers.RenderDockingStation;
 import sonar.calculator.mod.client.renderers.RenderFabricationChamber;
 import sonar.calculator.mod.client.renderers.RenderHandlers;
 import sonar.calculator.mod.client.renderers.RenderMagneticFlux;
@@ -20,6 +21,7 @@ import sonar.calculator.mod.common.tileentity.TileEntityMachine;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
@@ -44,6 +46,7 @@ public class CalculatorClient extends CalculatorCommon{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFabricationChamber.class, new RenderFabricationChamber());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityReinforcedChest.class, new RenderReinforcedChest());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConductorMast.class, new RenderHandlers.ConductorMast());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDockingStation.class, new RenderDockingStation());
 		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalculatorLocator.class, new RenderCalculatorLocatorBeam());
 		/*
 		TileEntitySpecialRenderer plug = new RenderCalculatorPlug();

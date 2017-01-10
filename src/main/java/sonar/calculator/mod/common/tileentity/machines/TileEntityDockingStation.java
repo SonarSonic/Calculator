@@ -38,7 +38,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	}
 
 	public enum ProcessType {
-		CALCULATOR(2), SCIENTIFIC(2), ATOMIC(3), FLAWLESS(4);
+		NONE(0), CALCULATOR(2), SCIENTIFIC(2), ATOMIC(3), FLAWLESS(4);
 
 		public int inputStacks;
 
@@ -82,7 +82,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 					return type;
 				}
 			}
-			return null;
+			return NONE;
 		}
 	}
 

@@ -219,7 +219,6 @@ public class TileEntityMachine {
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, this);
 		}
-		/* public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) { if (simulate) { return recipeHelper().getOutput(stacks); } else { ItemStack[] outputs = recipeHelper().getOutput(stacks); if (outputs[1].getItem()==Calculator.circuitBoard || outputs[1].getItem()==Calculator.circuitDamaged || outputs[1].getItem()==Calculator.circuitDirty) { outputs[1] = rand.nextInt(8 + 1) == 8 ? new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1)) : null; } return outputs; } } */
 	}
 
 	public static class PrecisionChamber extends DualOutput {
@@ -237,6 +236,6 @@ public class TileEntityMachine {
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, this);
 		}
-		/* public ItemStack[] getOutput(boolean simulate, ItemStack... stacks) { if (simulate) { return recipeHelper().getOutput(stacks); } else { ItemStack[] outputs = recipeHelper().getOutput(stacks); if (recipeHelper().containsStack(new ItemStack(Blocks.COBBLESTONE, 1), stacks, false) != -1 || recipeHelper().containsStack(new ItemStack(Blocks.DIRT, 1), stacks, false) != -1) { outputs[1] = new ItemStack(outputs[1].getItem(), 1, rand.nextInt(13 + 1)); } return outputs; } } */
+
 	}
 }

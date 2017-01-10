@@ -40,7 +40,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "calculator";
-	public static final String version = "3.1.3";
+	public static final String version = "3.1.6";
 	
 	public static final int saveDimension = 0;
 	
@@ -49,7 +49,7 @@ public class Calculator {
 	public static ResearchRegistry research = new ResearchRegistry();
 	public static ModuleRegistry modules = new ModuleRegistry();
 	public static ModuleItemRegistry moduleItems = new ModuleItemRegistry();
-
+	
 	@Instance(modid)
 	public static Calculator instance;
 

@@ -116,7 +116,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 
 	public void finishProcess() {
 		ISonarRecipe recipe = getRecipe(inputStacks());
-		for (int o = 0; o < outputSize(); o++) {
+		for (int o = 0; o < Math.min(recipe.outputs().size(), outputSize()); o++) {
 			ISonarRecipeObject outputObject = recipe.outputs().get(o);
 			ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);
 			if (stack != null) {
@@ -131,9 +131,9 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 				}
 			}
 		}
-		for (int i = 0; i < inputSize(); i++) {
+		for (int i = 0; i < Math.min(recipe.inputs().size(), inputSize()); i++) {
 			ISonarRecipeObject inputObject = recipe.inputs().get(i);
-			slots()[0] = ItemStackHelper.reduceStackSize(slots()[0], recipeHelper() != null ? inputObject.getStackSize() : 1);
+			slots()[i] = ItemStackHelper.reduceStackSize(slots()[i], recipeHelper() != null ? inputObject.getStackSize() : 1);
 		}
 	}
 

@@ -31,13 +31,13 @@ public class GuiSmeltingBlock extends GuiSonar {
 	public void initGui() {
 		super.initGui();
 		this.buttonList.add(new CircuitButton(entity.getUpgradeInventory(), 0, guiLeft + 150 - 14, guiTop + 23));
-		this.buttonList.add(new PauseButton(entity, 1, guiLeft + 8 + 14, guiTop + 23, entity.isPaused()));
+		this.buttonList.add(new PauseButton(this, entity, 1, guiLeft + 8 + 14, guiTop + 23, entity.isPaused()));
 	}
 
 	public void initGui(boolean pause) {
 		super.initGui();
 		this.buttonList.add(new CircuitButton(entity.getUpgradeInventory(), 0, guiLeft + 150 - 14, guiTop + 23));
-		this.buttonList.add(new PauseButton(entity, 1, guiLeft + 8 + 14, guiTop + 23, pause));
+		this.buttonList.add(new PauseButton(this, entity, 1, guiLeft + 8 + 14, guiTop + 23, pause));
 	}
 
 	@Override

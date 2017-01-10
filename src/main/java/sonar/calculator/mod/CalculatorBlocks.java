@@ -29,6 +29,7 @@ import sonar.calculator.mod.common.block.machines.AnalysingChamber;
 import sonar.calculator.mod.common.block.machines.Assimilator;
 import sonar.calculator.mod.common.block.machines.AtomicMultiplier;
 import sonar.calculator.mod.common.block.machines.CreativePowerCube;
+import sonar.calculator.mod.common.block.machines.DockingStation;
 import sonar.calculator.mod.common.block.machines.FabricationChamber;
 import sonar.calculator.mod.common.block.machines.FlawlessGreenhouse;
 import sonar.calculator.mod.common.block.machines.Greenhouse;
@@ -64,6 +65,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityCreativePowerCube;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
@@ -157,8 +159,8 @@ public class CalculatorBlocks extends Calculator {
 
 		// dockingStation = new DockingStation().setUnlocalizedName("DockingStation").setCreativeTab(Calculator).setHardness(1.5F); GameRegistry.registerBlock(dockingStation, SonarBlockTip.class, "DockingStation").setBlockTextureName(modid + ":" + "reinforcedstone"); GameRegistry.registerTileEntity(TileEntityDockingStation.class, "DockingStation"); */
 
-		//dockingStation = registerBlock("DockingStation", new DockingStation().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
-		//GameRegistry.registerTileEntity(TileEntityDockingStation.class, "DockingStation");
+		dockingStation = registerBlock("DockingStation", new DockingStation().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
+		GameRegistry.registerTileEntity(TileEntityDockingStation.class, "DockingStation");
 		
 		atomicMultiplier = registerBlock("AtomicMultiplier", new AtomicMultiplier().setLightLevel(0.625F).setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityAtomicMultiplier.class, "AtomicMultiplier");

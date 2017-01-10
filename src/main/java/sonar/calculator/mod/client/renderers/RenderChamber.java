@@ -68,7 +68,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 					GL11.glRotated(180, 1, 0, 0);
 					GL11.glRotated(180, 0, 1, 0);
 					GL11.glScaled(0.6, 0.6, 0.6);
-					GL11.glTranslated(0, -1-0.05*14.5, 0);
+					GL11.glTranslated(0, -1-0.05*21, 0);
 					Minecraft.getMinecraft().getRenderItem().renderItem(target, TransformType.GROUND);
 				}
 			}

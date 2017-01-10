@@ -17,6 +17,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
+import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.AnalysingChamberRecipes;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.energy.EnergyMode;
@@ -44,9 +45,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public final int[] itemSlots = new int[] { 2, 3, 4, 5, 6, 7 };
 
 	public UpgradeInventory upgrades = new UpgradeInventory(1, "VOID", "TRANSFER");
-	{
-		
-	}
+
 	public TileEntityAnalysingChamber() {
 		super.input = new int[] { 0 };
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
@@ -224,6 +223,12 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
+		if (stack.getItem() instanceof CircuitBoard) {
+			NBTTagCompound tag = slots()[slot].getTagCompound();
+			if (!tag.getBoolean("Analysed")) {
+				return false;
+			}
+		}
 		return slot != 1;
 	}
 

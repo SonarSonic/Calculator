@@ -6,10 +6,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.api.utils.BlockInteraction;
@@ -58,7 +61,8 @@ public class DockingStation extends SonarMachineBlock {
 			TileEntity target = world.getTileEntity(pos);
 			if (target != null && target instanceof TileEntityDockingStation) {
 				TileEntityDockingStation station = (TileEntityDockingStation) target;
-				if (station.getStackInSlot(0) == null) {
+
+				if (station.calcStack == null) {
 					station.calcStack = player.getHeldItemMainhand().copy();
 					player.getHeldItemMainhand().stackSize--;
 					return true;
@@ -78,8 +82,17 @@ public class DockingStation extends SonarMachineBlock {
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
-
+	
+	@Override
+	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
+	}
+	
 	public boolean hasSpecialRenderer() {
 		return true;
+	}
+
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.INVISIBLE;
 	}
 }

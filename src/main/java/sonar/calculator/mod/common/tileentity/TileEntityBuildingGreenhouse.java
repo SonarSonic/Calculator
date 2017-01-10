@@ -30,18 +30,18 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	public abstract int[] getSlotsForType(BlockType type);
 
 	public abstract ArrayList<BlockPlace> getStructure();
-	
+
 	public abstract void gasLevels();
-	
+
 	public abstract int getPlants();
-	
+
 	public abstract int getLanterns();
 
 	public TileEntityBuildingGreenhouse(int requiredStairs, int requiredLogs, int requiredPlanks, int requiredGlass) {
-		this.requiredStairs=requiredStairs;
-		this.requiredLogs=requiredLogs;
-		this.requiredPlanks=requiredPlanks;
-		this.requiredGlass=requiredGlass;
+		this.requiredStairs = requiredStairs;
+		this.requiredLogs = requiredLogs;
+		this.requiredPlanks = requiredPlanks;
+		this.requiredGlass = requiredGlass;
 		this.requiredBuildEnergy = (requiredStairs + requiredLogs + requiredPlanks + requiredGlass) * buildRF;
 	}
 
@@ -51,6 +51,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		if (this.worldObj.isBlockPowered(pos)) {
 			return;
 		}
+
 		if (!(houseState.getObject() == State.BUILDING)) {
 			checkTile();
 		}
@@ -59,9 +60,11 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			if (!this.worldObj.isRemote) {
 				extraTicks();
 			}
-			plantCrops();
-			growTicks();
-			harvestCrops();
+			if (isActive()) {
+				plantCrops();
+				growTicks();
+				harvestCrops();
+			}
 			break;
 		case BUILDING:
 			if (checkStructure(GreenhouseAction.BUILD).getBoolean()) {
@@ -75,8 +78,8 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		default:
 			break;
 		}
-		//this.markDirty();
-	}	
+		// this.markDirty();
+	}
 
 	public void growTicks() {
 		if (this.growTicks == 0) {
@@ -93,7 +96,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			growTicks++;
 		}
 	}
-	
+
 	public void extraTicks() {
 		if (levelTicks == 15) {
 			this.getPlants();
@@ -108,7 +111,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			gasLevels();
 		}
 	}
-	
+
 	public enum BlockType {
 		LOG, GLASS, PLANKS, STAIRS, NONE;
 		public boolean checkBlock(Item item) {
@@ -245,7 +248,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		}
 		return list;
 	}
-	
+
 	public FailedCoords createBlock() {
 		FailedCoords coords = checkStructure(GreenhouseAction.CAN_BUILD);
 		if (!(houseState.getObject() == State.BUILDING)) {
@@ -338,7 +341,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 					if (stacks.isEmpty() && place.type == BlockType.GLASS) {
 						stacks.add(new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state)));
 					}
-					addHarvestedStacks(stacks, place.pos, false);
+					addHarvestedStacks(stacks, place.pos, true, false);
 					return new FailedCoords(false, place.pos, place.type.toString());
 				}
 			}
@@ -416,11 +419,12 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 
 	@Override
 	public void writePacket(ByteBuf buf, int id) {
-
+		super.writePacket(buf, id);
 	}
 
 	@Override
 	public void readPacket(ByteBuf buf, int id) {
+		super.readPacket(buf, id);
 		switch (id) {
 		case 0:
 			createBlock();

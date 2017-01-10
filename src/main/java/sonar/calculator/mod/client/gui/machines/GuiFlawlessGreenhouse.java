@@ -5,24 +5,45 @@ import java.text.DecimalFormat;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import sonar.calculator.mod.client.gui.machines.GuiBasicGreenhouse.GreenhouseButton;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
+import sonar.core.SonarCore;
+import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.SonarButtons;
+import sonar.core.client.gui.GuiSonar.PauseButton;
+import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 
-public class GuiFlawlessGreenhouse extends GuiContainer {
+public class GuiFlawlessGreenhouse extends GuiSonar {
 	DecimalFormat dec = new DecimalFormat("##.##");
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/flawlessgreenhouse.png");
 
 	public TileEntityFlawlessGreenhouse entity;
 
 	public GuiFlawlessGreenhouse(InventoryPlayer inventoryPlayer, TileEntityFlawlessGreenhouse entity) {
-		super(new ContainerFlawlessGreenhouse(inventoryPlayer, entity));
+		super(new ContainerFlawlessGreenhouse(inventoryPlayer, entity), entity);
 		this.entity = entity;
 		this.xSize = 176;
 		this.ySize = 192;
+	}
+
+	public void initGui() {
+		super.initGui();
+		this.buttonList.add(new PauseButton(this, entity, 3, guiLeft + 6, guiTop + 6, entity.isPaused()));
+	}
+
+	protected void actionPerformed(GuiButton button) {
+		if (button != null && button instanceof SonarButtons.SonarButton) {
+			SonarButton sButton = (SonarButton) button;
+			sButton.onClicked();
+		} else {
+			SonarCore.sendPacketToServer(entity, button.id);
+		}
 	}
 
 	@Override
@@ -44,7 +65,7 @@ public class GuiFlawlessGreenhouse extends GuiContainer {
 
 		String harvestName = FontHelper.translate("greenhouse.harvested") + ": ";
 		FontHelper.textOffsetCentre(harvestName, 144, 60, 0);
-		FontHelper.textOffsetCentre("" +entity.plantsHarvested, 144, 70, 0);
+		FontHelper.textOffsetCentre("" + entity.plantsHarvested, 144, 70, 0);
 
 	}
 
@@ -65,5 +86,10 @@ public class GuiFlawlessGreenhouse extends GuiContainer {
 			this.drawTexturedModalRect(this.guiLeft + 83, this.guiTop + 11 + 66 - o, 218, 66 - o, 28, 66);
 		}
 
+	}
+
+	@Override
+	public ResourceLocation getBackground() {
+		return bground;
 	}
 }

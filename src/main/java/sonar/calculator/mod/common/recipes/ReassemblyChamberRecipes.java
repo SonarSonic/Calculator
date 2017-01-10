@@ -19,20 +19,9 @@ public class ReassemblyChamberRecipes extends DefinedRecipeHelper {
 
 	@Override
 	public void addRecipes() {
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 0);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 1);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 2);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 3);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 4);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 5);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 6);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 7);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 8);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 9);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 10);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 11);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 12);
-		addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, 13);
+		for(int i=0;i<14;i++){
+			addCircuit(Calculator.circuitDamaged, Calculator.circuitBoard, i);
+		}
 	}
 
 	public void addCircuit(Item input, Item output, int par) {

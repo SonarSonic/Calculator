@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -20,6 +21,7 @@ import sonar.calculator.mod.api.machines.IGreenhouse;
 import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.inventories.StoredItemStack;
+import sonar.core.api.machines.IPausable;
 import sonar.core.api.utils.ActionType;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
@@ -32,9 +34,10 @@ import sonar.core.integration.planting.IPlanter;
 import sonar.core.network.sync.SyncEnum;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.INT;
+import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.FailedCoords;
 
-public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory implements IGreenhouse {
+public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory implements IGreenhouse, IPausable, IByteBufTile {
 
 	public enum State {
 		INCOMPLETE, BUILDING, COMPLETED, DEMOLISHING;
@@ -43,6 +46,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public SyncEnum<State> houseState = new SyncEnum(State.values(), 0);
 	public SyncTagType.INT carbon = (INT) new SyncTagType.INT(1).addSyncType(SyncType.DROP);
 	public SyncTagType.BOOLEAN wasBuilt = new SyncTagType.BOOLEAN(2);
+	public SyncTagType.BOOLEAN paused = new SyncTagType.BOOLEAN(3);
 
 	public int maxLevel, plantTicks, planting, houseSize, checkTicks;
 	public int plantsHarvested, plantsGrown;
@@ -57,7 +61,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public EnumFacing horizontal = EnumFacing.EAST;
 
 	public TileEntityGreenhouse() {
-		syncParts.addAll(Arrays.asList(houseState, carbon, wasBuilt));
+		syncParts.addAll(Arrays.asList(houseState, carbon, wasBuilt, paused));
 	}
 
 	public void update() {
@@ -146,38 +150,40 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 					if (harvester.canHarvest(worldObj, pos, state) && harvester.isReady(worldObj, pos, state)) {
 						List<ItemStack> stacks = harvester.getDrops(worldObj, pos, state, type);
 						if (stacks != null) {
-							addHarvestedStacks(stacks, pos, true);
+							addHarvestedStacks(stacks, pos, true, true);
+							harvester.harvest(worldObj, pos, state, true);
 						}
-
 					}
 				}
 			}
 		}
 	}
 
-	protected void addHarvestedStacks(List<ItemStack> array, BlockPos pos, boolean isCrops) {
-		if (!isClient()) {
-			for (ItemStack stack : array) {
-				if (stack != null) {
-					StoredItemStack storedstack = new StoredItemStack(stack.copy());
-					for (TileEntity tile : Arrays.asList(this, this.getWorld().getTileEntity(this.pos.offset(forward.getOpposite())))) {
-						StoredItemStack returned = SonarAPI.getItemHelper().addItems(tile, storedstack, isCrops ? EnumFacing.getFront(0) : EnumFacing.UP, ActionType.PERFORM, null);
-						if (returned != null)
-							storedstack.stored -= returned.getStackSize();
-						if (!isCrops) {
-							break;
-						}
-					}
-					if (storedstack != null && storedstack.stored > 0) {
-						EntityItem drop = new EntityItem(worldObj, this.pos.offset(forward.getOpposite()).getX(), this.pos.offset(forward.getOpposite()).getY(), this.pos.offset(forward.getOpposite()).getZ(), storedstack.getFullStack());
-						worldObj.spawnEntityInWorld(drop);
-					}
-
-					worldObj.setBlockToAir(pos);
-					if (isCrops && this.type == 3)
-						this.plantsHarvested++;
-
+	protected void addHarvestedStacks(List<ItemStack> array, BlockPos pos, boolean keepBlock, boolean isCrops) {
+		boolean keptBlock = !keepBlock;
+		for (ItemStack stack : array) {
+			if (stack != null) {
+				if (!keptBlock && stack.getItem() instanceof IPlantable) {
+					keptBlock = true;
+					continue;
 				}
+				StoredItemStack storedstack = new StoredItemStack(stack.copy());
+				for (TileEntity tile : Arrays.asList(this, this.getWorld().getTileEntity(this.pos.offset(forward.getOpposite())))) {
+					StoredItemStack returned = SonarAPI.getItemHelper().addItems(tile, storedstack, isCrops ? EnumFacing.getFront(0) : EnumFacing.UP, ActionType.PERFORM, null);
+					if (returned != null)
+						storedstack.stored -= returned.getStackSize();
+					if (!isCrops) {
+						break;
+					}
+				}
+				if (storedstack != null && storedstack.stored > 0) {
+					EntityItem drop = new EntityItem(worldObj, this.pos.offset(forward.getOpposite()).getX(), this.pos.offset(forward.getOpposite()).getY(), this.pos.offset(forward.getOpposite()).getZ(), storedstack.getFullStack());
+					worldObj.spawnEntityInWorld(drop);
+				}
+
+				if (isCrops && this.type == 3)
+					this.plantsHarvested++;
+
 			}
 		}
 	}
@@ -382,5 +388,33 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			currenttip.add(oxygenString);
 		}
 		return currenttip;
+	}
+
+	public void writePacket(ByteBuf buf, int id) {
+		if (id == 3) {
+			onPause();
+		}
+	}
+
+	public void readPacket(ByteBuf buf, int id) {
+		if (id == 3) {
+			onPause();
+		}
+
+	}
+
+	@Override
+	public void onPause() {
+		paused.invert();
+	}
+
+	@Override
+	public boolean isActive() {
+		return !paused.getObject();
+	}
+
+	@Override
+	public boolean isPaused() {
+		return paused.getObject();
 	}
 }

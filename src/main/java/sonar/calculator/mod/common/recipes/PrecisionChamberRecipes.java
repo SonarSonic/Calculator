@@ -6,6 +6,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.Calculator;
 import sonar.core.SonarCore;
 import sonar.core.recipes.DefinedRecipeHelper;
+import sonar.core.recipes.RecipeItemStack;
 
 public class PrecisionChamberRecipes extends DefinedRecipeHelper {
 
@@ -21,8 +22,8 @@ public class PrecisionChamberRecipes extends DefinedRecipeHelper {
 
 	@Override
 	public void addRecipes() {
-		addRecipe("cobblestone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, OreDictionary.WILDCARD_VALUE));
-		addRecipe(Blocks.DIRT, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, OreDictionary.WILDCARD_VALUE));
+		addRecipe("cobblestone", new ItemStack(Calculator.small_stone, 2), new PrecisionChamberOutput(new ItemStack(Calculator.circuitDamaged, 1, OreDictionary.WILDCARD_VALUE)));
+		addRecipe(Blocks.DIRT, new ItemStack(Calculator.soil, 2), new PrecisionChamberOutput(new ItemStack(Calculator.circuitDirty, 1, OreDictionary.WILDCARD_VALUE)));
 		addRecipe("stone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 0));
 		addRecipe("sand", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 1));
 		addRecipe(Blocks.STONEBRICK, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 2));
@@ -43,5 +44,19 @@ public class PrecisionChamberRecipes extends DefinedRecipeHelper {
 	@Override
 	public String getRecipeID() {
 		return "PrecisionChamber";
+	}
+
+	public static class PrecisionChamberOutput extends RecipeItemStack {
+
+		public PrecisionChamberOutput(ItemStack stack) {
+			super(stack, true);
+		}
+
+		@Override
+		public ItemStack getOutputStack() {
+			ItemStack circuit = stack.copy();
+			circuit.setItemDamage(SonarCore.rand.nextInt(13 + 1));
+			return circuit;
+		}
 	}
 }
