@@ -52,7 +52,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 5000000;
 		super.energyMode = EnergyMode.SEND;
-		syncParts.addAll(Lists.newArrayList(cookTime, lightingTicks, lightTicks, lightningSpeed, random, rfPerStrike, rfPerTick));
+		syncList.addParts(cookTime, lightingTicks, lightTicks, lightningSpeed, random, rfPerStrike, rfPerTick, inv);
 	}
 
 	public DefaultSonarRecipe.Value getRecipe(ItemStack stack) {

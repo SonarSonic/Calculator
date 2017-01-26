@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.network.PacketCoords;
@@ -45,7 +47,7 @@ public class PacketTeleportLinks  extends PacketCoords {
 	public static class Handler extends PacketTileEntityHandler<PacketTeleportLinks> {
 
 		@Override
-		public IMessage processMessage(PacketTeleportLinks message, TileEntity target) {
+		public IMessage processMessage(EntityPlayer player, MessageContext ctx, PacketTeleportLinks message, TileEntity target) {
 			if (target instanceof TileEntityTeleporter) {
 				TileEntityTeleporter teleporter = (TileEntityTeleporter) target;
 				teleporter.links = message.links;

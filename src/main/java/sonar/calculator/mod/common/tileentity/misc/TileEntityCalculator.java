@@ -25,6 +25,7 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 		
 		public Dynamic() {
 			super.inv = new SonarInventory(this, 10);
+			syncList.addPart(inv);
 		}
 
 		public FailedCoords checkStructure() {
@@ -106,6 +107,7 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 		
 		public Atomic() {
 			super.inv = new SonarInventory(this, 4);
+			syncList.addPart(inv);
 		}
 
 		@Override

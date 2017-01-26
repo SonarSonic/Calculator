@@ -93,6 +93,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 			}
 
 		};
+		syncList.addPart(inv);
 	}
 
 	public void update() {

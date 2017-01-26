@@ -171,7 +171,6 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			if (slot < slots().length) {
 				ItemStack target = slots()[slot];
 				if (target != null && type.checkBlock(target.getItem())) {
-					found = true;
 					Block block = Block.getBlockFromItem(target.getItem());
 					slots()[slot].stackSize--;
 					if (slots()[slot].stackSize == 1) {
@@ -342,10 +341,10 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 						stacks.add(new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state)));
 					}
 					addHarvestedStacks(stacks, place.pos, true, false);
-					return new FailedCoords(false, place.pos, place.type.toString());
+					worldObj.setBlockToAir(place.pos);
+					return null;
 				}
 			}
-
 			break;
 		}
 		return null;

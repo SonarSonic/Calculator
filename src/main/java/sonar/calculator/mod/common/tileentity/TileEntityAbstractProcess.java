@@ -34,6 +34,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		super.output = outputs;
 		super.storage.setCapacity(CalculatorConfig.getInteger("Standard Machine")).setMaxTransfer(32000);
 		super.inv = new SonarInventory(this, 1 + inputSize + outputSize);
+		syncList.addPart(inv);
 	}
 
 	public void update() {

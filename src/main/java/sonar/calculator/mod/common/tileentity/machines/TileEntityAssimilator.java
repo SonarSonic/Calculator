@@ -42,7 +42,8 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 	public abstract boolean harvestBlock(BlockCoords block);
 
 	public void update() {
-		if (this.worldObj.isRemote) {
+		super.update();
+		if (isClient()) {
 			return;
 		}
 		if (this.tick != tickRate) {
@@ -126,6 +127,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 
 		public Stone() {
 			super.inv = new SonarInventory(this, 1);
+			syncList.addPart(inv);
 		}
 
 		public int healthPoints, hungerPoints, speed = 4;;
@@ -249,6 +251,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 
 		public Algorithm() {
 			super.inv = new SonarInventory(this, 27);
+			syncList.addPart(inv);
 		}
 
 		public boolean harvestBlock(BlockCoords block) {

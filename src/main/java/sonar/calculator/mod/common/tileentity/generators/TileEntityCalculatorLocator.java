@@ -50,7 +50,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 100000;
 		super.energyMode = EnergyMode.SEND;
-		syncParts.addAll(Arrays.asList(active, size, stability, owner, currentGen));
+		syncList.addParts(active, size, stability, owner, currentGen, inv);
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	}
 
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		return false;
+		return oldState.getBlock() != newState.getBlock();
 	}
 
 	public int currentOutput() {

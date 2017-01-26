@@ -38,6 +38,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 
 	public TileEntityMagneticFlux() {
 		super.inv = new SonarInventory(this, 8);
+		syncList.addPart(inv);
 	}
 
 	@Override

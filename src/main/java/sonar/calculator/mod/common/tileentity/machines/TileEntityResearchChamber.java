@@ -29,7 +29,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 
 	public TileEntityResearchChamber() {
 		super.inv = new SonarInventory(this, 1);
-		syncParts.addAll(Arrays.asList(ticks, playerUUID));
+		syncList.addParts(ticks, playerUUID, inv);
 	}
 
 	public void update() {

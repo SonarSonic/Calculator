@@ -19,7 +19,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	public MachineSides sides = new MachineSides(MachineSideConfig.INPUT, this, MachineSideConfig.NONE);
 
 	public TileEntityAdvancedPowerCube() {
-		syncParts.add(sides);
+		syncList.addParts(sides);
 		super.storage.setCapacity(100000).setMaxTransfer(64000);
 		super.maxTransfer = 100000;
 		super.energyMode = EnergyMode.SEND_RECIEVE;

@@ -1,9 +1,11 @@
 package sonar.calculator.mod.network.packets;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
@@ -39,7 +41,7 @@ public class PacketCalculatorScreen extends PacketCoords {
 	public static class Handler extends PacketTileEntityHandler<PacketCalculatorScreen> {
 
 		@Override
-		public IMessage processMessage(PacketCalculatorScreen message, TileEntity target) {
+		public IMessage processMessage(EntityPlayer player, MessageContext ctx, PacketCalculatorScreen message, TileEntity target) {
 			if (target instanceof TileEntityCalculatorScreen) {
 				TileEntityCalculatorScreen screen = (TileEntityCalculatorScreen) target;
 				if (message.type == 0) {

@@ -35,6 +35,7 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 		super.type = 1;
 		super.maxLevel = 100000;
 		super.plantTick = 60;
+		syncList.addPart(inv);
 	}
 
 	@Override

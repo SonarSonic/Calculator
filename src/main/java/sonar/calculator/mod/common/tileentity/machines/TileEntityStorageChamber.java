@@ -24,7 +24,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 	}
 
 	public TileEntityStorageChamber() {
-		super.inv = new SonarLargeInventory(this, 14, 1024) {
+		super.inv = new SonarLargeInventory(14, 1024) {
 			//needs fixing I think
 			public boolean isItemValidForSlot(int slot, ItemStack item) {
 				int target = (int) Math.floor(slot / numStacks);
@@ -33,8 +33,8 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 					if (stackType == null) {
 						return false;
 					}
-					if (((TileEntityStorageChamber) tile).circuitType != CircuitType.None) {
-						if (((TileEntityStorageChamber) tile).circuitType != stackType) {
+					if (((TileEntityStorageChamber) listener).circuitType != CircuitType.None) {
+						if (((TileEntityStorageChamber) listener).circuitType != stackType) {
 							return false;
 						}
 					}
@@ -44,7 +44,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 				return false;
 			}
 		};
-		syncParts.add(inv);
+		syncList.addParts(inv);
 	}
 
 	public SonarLargeInventory getTileInv() {

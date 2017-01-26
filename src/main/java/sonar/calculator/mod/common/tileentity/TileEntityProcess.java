@@ -49,7 +49,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public int currentSpeed;
 
 	public TileEntityProcess() {
-		syncParts.addAll(Lists.newArrayList(paused, invertPaused, cookTime));
+		syncList.addParts(paused, invertPaused, cookTime);
 	}
 
 	public abstract boolean canProcess();

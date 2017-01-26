@@ -61,7 +61,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public EnumFacing horizontal = EnumFacing.EAST;
 
 	public TileEntityGreenhouse() {
-		syncParts.addAll(Arrays.asList(houseState, carbon, wasBuilt, paused));
+		syncList.addParts(houseState, carbon, wasBuilt, paused);
 	}
 
 	public void update() {
@@ -130,7 +130,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 						}
 					}
 				}
-				storage.extractEnergy(growthRF, true);
+				this.storage.modifyEnergyStored(-growthRF);
 			}
 		}
 	}
@@ -153,6 +153,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 							addHarvestedStacks(stacks, pos, true, true);
 							harvester.harvest(worldObj, pos, state, true);
 						}
+						this.storage.modifyEnergyStored(-growthRF);
 					}
 				}
 			}
@@ -202,7 +203,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 						if (stack != null && planter.canTierPlant(slots()[slot], type)) {
 							IBlockState state = planter.getPlant(stack, worldObj, pos);
 							if (state != null) {
-								storage.extractEnergy(plantRF, false);
+								this.storage.modifyEnergyStored(-plantRF);
 								slots()[slot].stackSize--;
 								if (slots()[slot].stackSize == 0) {
 									slots()[slot] = null;
@@ -219,31 +220,11 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 
 	public List<Integer> getInvPlants() {
 		List<Integer> plants = new ArrayList();
-
-		if (type == 2) {
-			for (int j = 0; j < 9; j++) {
-				if (slots()[8 + j] != null) {
-					if (isSeed(slots()[8 + j])) {
-						plants.add(8 + j);
-					}
-				}
-			}
-		}
-		if (type == 1) {
-			for (int j = 0; j < 9; j++) {
-				if (slots()[5 + j] != null) {
-					if (isSeed(slots()[5 + j])) {
-						plants.add(5 + j);
-					}
-				}
-			}
-		}
-		if (type == 3) {
-			for (int j = 0; j < 9; j++) {
-				if (slots()[1 + j] != null) {
-					if (isSeed(slots()[1 + j])) {
-						plants.add(1 + j);
-					}
+		int offset = type == 2 ? 8 : type == 1 ? 5 : 1;
+		for (int j = offset; j < offset + 9; j++) {
+			if (slots()[j] != null) {
+				if (isSeed(slots()[j])) {
+					plants.add(j);
 				}
 			}
 		}
@@ -387,6 +368,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			String oxygenString = FontHelper.translate("greenhouse.oxygen") + ": " + dec.format(oxygen * 100 / 100000) + "%";
 			currenttip.add(oxygenString);
 		}
+		currenttip.add("" + storage.getEnergyStored());
 		return currenttip;
 	}
 
@@ -400,7 +382,6 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		if (id == 3) {
 			onPause();
 		}
-
 	}
 
 	@Override

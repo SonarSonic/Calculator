@@ -44,11 +44,12 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	public SyncTagType.INT currentFabricateTime = new SyncTagType.INT(2);
 	public SyncTagType.INT currentMoveTime = new SyncTagType.INT(3);
 	{
-		syncParts.addAll(Lists.newArrayList(canMove, moved, currentFabricateTime, currentMoveTime));
+		syncList.addParts(canMove, moved, currentFabricateTime, currentMoveTime);
 	}
 
 	public TileEntityFabricationChamber() {
 		super.inv = new SonarInventory(this, 1);
+		syncList.addPart(inv);
 	}
 
 	public void update() {

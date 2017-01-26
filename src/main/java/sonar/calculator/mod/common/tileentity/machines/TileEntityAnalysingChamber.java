@@ -60,7 +60,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		};
 		super.maxTransfer = 2000;
 		super.energyMode = EnergyMode.SEND;
-		syncParts.addAll(Lists.newArrayList(stable, analysed));
+		syncList.addParts(stable, analysed, inv);
 	}
 
 	@Override

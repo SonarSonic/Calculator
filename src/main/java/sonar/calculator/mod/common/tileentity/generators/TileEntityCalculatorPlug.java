@@ -26,7 +26,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 
 	public TileEntityCalculatorPlug() {
 		super.inv = new SonarInventory(this, 1);
-		syncParts.add(stable);
+		syncList.addParts(stable,inv);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 	}
 
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		return false;
+		return oldState.getBlock() != newState.getBlock();
 	}
 
 	public boolean testStable() {

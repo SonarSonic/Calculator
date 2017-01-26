@@ -15,6 +15,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
+import sonar.calculator.mod.api.machines.ICalculatorGenerator;
 import sonar.calculator.mod.client.gui.generators.GuiExtractor;
 import sonar.calculator.mod.common.containers.ContainerGenerator;
 import sonar.calculator.mod.common.recipes.GlowstoneExtractorRecipes;
@@ -27,9 +28,7 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 
-public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile {
-
-	protected TileEntity[] handlers = new TileEntity[6];
+public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile, ICalculatorGenerator {
 
 	public SyncTagType.INT itemLevel = new SyncTagType.INT(0);
 	public SyncTagType.INT burnTime = new SyncTagType.INT(1);
@@ -47,7 +46,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		super.inv = new SonarInventory(this, 2);
 		super.energyMode = EnergyMode.SEND;
 		super.maxTransfer = 2000;
-		syncParts.addAll(Lists.newArrayList(itemLevel, burnTime, maxBurnTime));
+		syncList.addParts(itemLevel, burnTime, maxBurnTime, inv);
 	}
 
 	@Override
@@ -63,20 +62,17 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	public void generateEnergy() {
 		ItemStack stack = this.getStackInSlot(0);
-		if (!(stack == null)) {
-			if (burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
-				if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel.getObject() >= requiredLevel) {
-					int itemBurnTime = TileEntityFurnace.getItemBurnTime(stack);
-					if (itemBurnTime != 0) {
-						this.maxBurnTime.setObject(itemBurnTime);
-						burnTime.increaseBy(1);
-						if (this.slots()[0] != null) {
-							--this.slots()[0].stackSize;
-							if (this.slots()[0].stackSize <= 0) {
-								this.slots()[0] = this.slots()[0].getItem().getContainerItem(this.slots()[0]);
-							}
+		if (!(stack == null) && burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
+			if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel.getObject() >= requiredLevel) {
+				int itemBurnTime = TileEntityFurnace.getItemBurnTime(stack);
+				if (itemBurnTime != 0) {
+					this.maxBurnTime.setObject(itemBurnTime);
+					burnTime.increaseBy(1);
+					if (this.slots()[0] != null) {
+						--this.slots()[0].stackSize;
+						if (this.slots()[0].stackSize <= 0) {
+							this.slots()[0] = this.slots()[0].getItem().getContainerItem(this.slots()[0]);
 						}
-
 					}
 				}
 			}
@@ -147,6 +143,16 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
 		return direction != EnumFacing.DOWN || slot != 1 || stack != null && stack.getItem() == Items.BUCKET;
+	}
+
+	@Override
+	public int getItemLevel() {
+		return itemLevel.getObject();
+	}
+
+	@Override
+	public int getMaxItemLevel() {
+		return levelMax;
 	}
 
 	public static class StarchExtractor extends TileEntityGenerator {

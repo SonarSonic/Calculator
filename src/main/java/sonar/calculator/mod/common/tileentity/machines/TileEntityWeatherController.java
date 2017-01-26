@@ -28,6 +28,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 		super.inv = new SonarInventory(this, 1);
 		super.storage.setCapacity(1000000).setMaxTransfer(64000);
 		super.energyMode = EnergyMode.RECIEVE;
+		syncList.addPart(inv);
 	}
 
 	public void update() {

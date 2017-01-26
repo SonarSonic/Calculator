@@ -16,6 +16,7 @@ public class TileEntityPowerCube extends TileEntityEnergyInventory implements IG
 		super.inv = new SonarInventory(this, 2);
 		super.energyMode = EnergyMode.RECIEVE;
 		super.maxTransfer = 4;
+		syncList.addPart(inv);
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	public List<TeleportLink> links;
 
 	public TileEntityTeleporter(){
-		syncParts.addAll(Lists.newArrayList(name, destinationName, linkPassword, password));
+		syncList.addParts(name, destinationName, linkPassword, password);
 	}
 	
 	public void update() {

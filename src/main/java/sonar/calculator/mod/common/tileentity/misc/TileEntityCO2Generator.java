@@ -41,6 +41,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		super.storage.setCapacity(1000000).setMaxTransfer(64000);
 		super.inv = new SonarInventory(this, 2);
 		super.energyMode = EnergyMode.RECIEVE;
+		syncList.addPart(inv);
 	}
 	
 	@Override

@@ -28,7 +28,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 	public SyncTagType.INT cookTime = new SyncTagType.INT(0);
 	public SyncTagType.INT active = new SyncTagType.INT(1);
-	
+
 	public static int furnaceSpeed = 1000;
 	public static int requiredEnergy = 1500000000;
 
@@ -40,7 +40,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		super.storage.setCapacity(requiredEnergy).setMaxTransfer(requiredEnergy);
 		super.inv = new SonarInventory(this, 10);
 		super.energyMode = EnergyMode.RECIEVE;
-		syncParts.addAll(Lists.newArrayList(cookTime, active));
+		syncList.addParts(cookTime, active, inv);
 	}
 
 	@Override
@@ -146,7 +146,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		}
 
 	}
-	
+
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (0 < slot && slot < 8) {
