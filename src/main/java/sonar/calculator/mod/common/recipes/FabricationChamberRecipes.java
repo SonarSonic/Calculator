@@ -1,14 +1,18 @@
 package sonar.calculator.mod.common.recipes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
+import sonar.core.recipes.DefaultSonarRecipe;
 import sonar.core.recipes.ISonarRecipe;
+import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.recipes.RecipeHelperV2;
+import sonar.core.recipes.RecipeObjectType;
 
-public class FabricationChamberRecipes extends RecipeHelperV2<ISonarRecipe> {
+public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRecipe> {
 
 	private static FabricationChamberRecipes instance = new FabricationChamberRecipes();
 
@@ -67,5 +71,42 @@ public class FabricationChamberRecipes extends RecipeHelperV2<ISonarRecipe> {
 		tag.setBoolean("Analysed", true);
 		stack.setTagCompound(tag);
 		return stack;
+	}
+	
+
+	public FabricationSonarRecipe buildRecipe(ArrayList<ISonarRecipeObject> recipeInputs, ArrayList<ISonarRecipeObject> recipeOutputs, List additionals, boolean shapeless) {
+		return new FabricationSonarRecipe(recipeInputs, recipeOutputs, shapeless);
+	}
+
+	public static boolean matchingCircuitIngredients(RecipeObjectType type, ArrayList<ISonarRecipeObject> ingredients, boolean shapeless, Object[] objs) {
+		ArrayList<ISonarRecipeObject> matches = (ArrayList<ISonarRecipeObject>) ingredients.clone();
+		if (ingredients.size() > objs.length) {
+			return false;
+		}
+		ArrayList<ISonarRecipeObject> remaining = (ArrayList<ISonarRecipeObject>) ingredients.clone();
+		int iPos = 0;
+		i: for (ISonarRecipeObject ingredient : ingredients) {
+			int pos = -1;
+			for (Object obj : objs) {
+				pos++;
+				if (obj != null) {
+					if (obj instanceof List) {
+						List list = (List) obj;
+						for (Object listObj : list) {
+							if (matchingIngredient(listObj, pos, type, matches, ingredients, shapeless)) {
+								remaining.remove(iPos);
+								continue i;
+							}
+						}
+					}
+					if (matchingIngredient(obj, pos, type, matches, ingredients, shapeless)) {
+						remaining.remove(iPos);
+						continue i;
+					}
+				}
+			}
+			iPos++;
+		}
+		return remaining.isEmpty();
 	}
 }

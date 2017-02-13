@@ -19,6 +19,7 @@ import sonar.calculator.mod.common.recipes.RestorationChamberRecipes;
 import sonar.calculator.mod.common.recipes.StoneSeparatorRecipes;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.recipes.RecipeHelperV2;
+import sonar.core.upgrades.UpgradeInventory;
 
 public class TileEntityMachine {
 
@@ -208,6 +209,7 @@ public class TileEntityMachine {
 
 		public ExtractionChamber() {
 			super(1, 2, CalculatorConfig.getInteger("Extraction Chamber" + "Base Speed"), CalculatorConfig.getInteger("Extraction Chamber" + "Energy Usage"));
+			upgrades = upgrades.setAllowed(16, "ENERGY", "SPEED", "TRANSFER", "VOID").addMaxiumum("TRANSFER", 1).addMaxiumum("VOID", 1);
 		}
 
 		@Override
@@ -219,12 +221,17 @@ public class TileEntityMachine {
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, this);
 		}
+
+		public boolean isOutputVoided(int slot, ItemStack outputStack) {
+			return slot == 2 && upgrades.getUpgradesInstalled("VOID") == 1;
+		}
 	}
 
 	public static class PrecisionChamber extends DualOutput {
 
 		public PrecisionChamber() {
 			super(1, 2, CalculatorConfig.getInteger("Precision Chamber" + "Base Speed"), CalculatorConfig.getInteger("Precision Chamber" + "Energy Usage"));
+			upgrades = upgrades.setAllowed(16, "ENERGY", "SPEED", "TRANSFER", "VOID").addMaxiumum("TRANSFER", 1).addMaxiumum("VOID", 1);
 		}
 
 		@Override
@@ -237,5 +244,8 @@ public class TileEntityMachine {
 			return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, this);
 		}
 
+		public boolean isOutputVoided(int slot, ItemStack outputStack) {
+			return slot == 2 && upgrades.getUpgradesInstalled("VOID") == 1;
+		}
 	}
 }

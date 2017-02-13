@@ -24,6 +24,7 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
+import sonar.core.network.sync.IDirtyPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.network.utils.IByteBufTile;
@@ -38,10 +39,12 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public SyncTagType.BOOLEAN invertPaused = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.BOOLEAN paused = new SyncTagType.BOOLEAN(1);
-	public SyncTagType.INT cookTime = (INT) new SyncTagType.INT(2).removeSyncType(SyncType.DEFAULT_SYNC);
-	public UpgradeInventory upgrades = new UpgradeInventory(16, "ENERGY", "SPEED", "TRANSFER").addMaxiumum("TRANSFER", 1);
+	public SyncTagType.INT cookTime = (INT) new SyncTagType.INT(2);
+	public UpgradeInventory upgrades = new UpgradeInventory(3, 16, "ENERGY", "SPEED", "TRANSFER").addMaxiumum("TRANSFER", 1);
 
 	public boolean isActive = false;
+	private ProcessState state = ProcessState.UNKNOWN;
+	private int currentProcessTime = -1;
 
 	public static int lowestSpeed = 4, lowestEnergy = 1000;
 
@@ -49,7 +52,15 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public int currentSpeed;
 
 	public TileEntityProcess() {
-		syncList.addParts(paused, invertPaused, cookTime);
+		syncList.addParts(paused, invertPaused, cookTime, upgrades);
+	}
+
+	public static enum ProcessState {
+		TRUE, FALSE, UNKNOWN;
+
+		public boolean canProcess() {
+			return this == TRUE;
+		}
 	}
 
 	public abstract boolean canProcess();
@@ -64,7 +75,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			}
 			if (!isPaused()) {
 				boolean forceUpdate = false;
-				if (canProcess()) {
+				if (getProcessState().canProcess()) {
 					if (this.cookTime.getObject() >= this.getProcessTime()) {
 						this.finishProcess();
 						cookTime.setObject(0);
@@ -96,7 +107,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			}
 		} else {
 			if (!isPaused()) {
-				if (canProcess()) {
+				if (getProcessState().canProcess()) {
 					renderTicks();
 					cookTime.increaseBy(1);
 				} else {
@@ -108,8 +119,18 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			}
 		}
 
-		this.markDirty();
+	}
 
+	public ProcessState getProcessState() {
+		if (state == ProcessState.UNKNOWN) {
+			state = this.canProcess() ? ProcessState.TRUE : ProcessState.FALSE;
+		}
+		return state;
+	}
+
+	public void resetProcessState() {
+		this.state = ProcessState.UNKNOWN;
+		this.currentProcessTime = -1;
 	}
 
 	public void transferItems() {
@@ -180,9 +201,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			if (type.isType(SyncType.DEFAULT_SYNC)) {
 				this.currentSpeed = nbt.getInteger("speed");
 			}
-			upgrades.readData(nbt, type);
 		}
-
 	}
 
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
@@ -194,7 +213,6 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			if (type.isType(SyncType.DEFAULT_SYNC)) {
 				nbt.setInteger("speed", this.getProcessTime());
 			}
-			upgrades.writeData(nbt, type);
 		}
 		return nbt;
 	}
@@ -222,9 +240,9 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	@Override
 	public boolean isPaused() {
-		//return invertPaused.getObject() ? paused.getObject() : !paused.getObject();
+		// return invertPaused.getObject() ? paused.getObject() : !paused.getObject();
 		return invertPaused.getObject();
-		//return paused.getObject();
+		// return paused.getObject();
 	}
 
 	public boolean canStack(ItemStack current, ItemStack stack) {
@@ -276,18 +294,29 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	@Override
 	public int getProcessTime() {
-		int speed = upgrades.getUpgradesInstalled("SPEED");
-		int energy = upgrades.getUpgradesInstalled("ENERGY");
-		double i = (double) (((double) speed / 17) * getBaseProcessTime());
-		if (speed == 16) {
-			return 8;
+		if (this.currentProcessTime == -1) {
+			int speed = upgrades.getUpgradesInstalled("SPEED");
+			int energy = upgrades.getUpgradesInstalled("ENERGY");
+			double i = (double) (((double) speed / 17) * getBaseProcessTime());
+			if (speed == 16) {
+				return currentProcessTime = 8;
+			}
+			return currentProcessTime = (int) Math.max(getBaseProcessTime() - i, lowestSpeed);
 		}
-		return (int) Math.max(getBaseProcessTime() - i, lowestSpeed);
+		return currentProcessTime;
 	}
 
 	@Override
 	public double getEnergyUsage() {
 		return (double) requiredEnergy() / (double) getProcessTime();
+	}
+
+	@Override
+	public void markChanged(IDirtyPart part) {
+		super.markChanged(part);
+		if (this.isServer() && (part == inv || part == upgrades)) {
+			this.resetProcessState();
+		}
 	}
 
 	@Override
@@ -324,7 +353,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		}
 		if (id == 1) {
 			invertPaused.readFromBuf(buf);
-			//onPause();
+			// onPause();
 		}
 		if (id == 2) {
 			invertPaused.readFromBuf(buf);

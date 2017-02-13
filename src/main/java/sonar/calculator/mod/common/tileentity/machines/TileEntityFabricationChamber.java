@@ -130,7 +130,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		ArrayList<TileEntityStorageChamber> chambers = getChambers();
 		ArrayList<StoredItemStack> available = getAvailableCircuits(chambers);
 		ISonarRecipe recipe = FabricationChamberRecipes.instance().getRecipeFromOutputs(null, new Object[] { selected });
-		if (recipe != null && recipe.matchingInputs(new Object[] { available })) {
+		if (recipe != null && recipe.matchingInputs(available.toArray())) {
 			ItemStack current = slots()[0];
 			boolean fabricated = false;
 			if (current == null) {
@@ -203,7 +203,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 				ArrayList<TileEntityStorageChamber> chambers = getChambers();
 				ArrayList<StoredItemStack> available = getAvailableCircuits(chambers);
 				ISonarRecipe recipe = FabricationChamberRecipes.instance().getRecipeFromOutputs(null, new Object[] { selected.copy() });
-				if (recipe != null && recipe.matchingInputs(new Object[] { available })) {
+				if (recipe != null && recipe.matchingInputs(available.toArray())) {
 					if (!canMove.getObject()) {
 						canMove.setObject(true);
 						SonarCore.sendFullSyncAround(this, 64);

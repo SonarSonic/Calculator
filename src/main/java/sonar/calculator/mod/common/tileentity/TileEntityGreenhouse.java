@@ -150,8 +150,8 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 					if (harvester.canHarvest(worldObj, pos, state) && harvester.isReady(worldObj, pos, state)) {
 						List<ItemStack> stacks = harvester.getDrops(worldObj, pos, state, type);
 						if (stacks != null) {
-							addHarvestedStacks(stacks, pos, true, true);
-							harvester.harvest(worldObj, pos, state, true);
+							addHarvestedStacks(stacks, pos, false, true);
+							harvester.harvest(worldObj, pos, state, false);
 						}
 						this.storage.modifyEnergyStored(-growthRF);
 					}
@@ -199,22 +199,30 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			if ((block == null || block.isAir(oldState, getWorld(), pos) || block.isReplaceable(worldObj, pos))) {
 				for (IPlanter planter : SonarCore.planters.getObjects()) {
 					for (Integer slot : getInvPlants()) {
-						ItemStack stack = slots()[slot];
-						if (stack != null && planter.canTierPlant(slots()[slot], type)) {
-							IBlockState state = planter.getPlant(stack, worldObj, pos);
-							if (state != null) {
-								this.storage.modifyEnergyStored(-plantRF);
-								slots()[slot].stackSize--;
-								if (slots()[slot].stackSize == 0) {
-									slots()[slot] = null;
-								}
-								worldObj.setBlockState(pos, state, 3);
-								return;
-							}
-						}
+						plantCrop(planter, slot);
 					}
 				}
 			}
+		}
+	}
+
+	public void plantCrop(IPlanter planter, Integer slot) {
+		ItemStack stack = slots()[slot];
+		if (stack != null && planter.canTierPlant(slots()[slot], type)) {
+			IBlockState state = planter.getPlant(stack, worldObj, pos);
+			plantCrop(state, slot);
+		}
+	}
+
+	public void plantCrop(IBlockState state, Integer slot) {
+		if (state != null) {
+			this.storage.modifyEnergyStored(-plantRF);
+			slots()[slot].stackSize--;
+			if (slots()[slot].stackSize == 0) {
+				slots()[slot] = null;
+			}
+			worldObj.setBlockState(pos, state, 3);
+			return;
 		}
 	}
 

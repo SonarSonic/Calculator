@@ -81,16 +81,20 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 				return false;
 			} else {
 				ItemStack outputStack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);
-				if (slots()[o + inputSize() + 1] != null) {
-					if (!slots()[o + inputSize() + 1].isItemEqual(outputStack)) {
-						return false;
-					} else if (slots()[o + inputSize() + 1].stackSize + outputStack.stackSize > slots()[o + inputSize() + 1].getMaxStackSize()) {
-						return false;
+					if (slots()[o + inputSize() + 1] != null) {
+						if (!slots()[o + inputSize() + 1].isItemEqual(outputStack)) {
+							return false;
+						} else if (slots()[o + inputSize() + 1].stackSize + outputStack.stackSize > slots()[o + inputSize() + 1].getMaxStackSize()) {
+							return false;
+						}
 					}
-				}
 			}
 		}
 		return true;
+	}
+
+	public boolean isOutputVoided(int slot, ItemStack outputStack) {
+		return false;
 	}
 
 	public int getMaxInputSize() {
@@ -117,10 +121,14 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 
 	public void finishProcess() {
 		ISonarRecipe recipe = getRecipe(inputStacks());
+		if(recipe==null){
+			return;
+		}
 		for (int o = 0; o < Math.min(recipe.outputs().size(), outputSize()); o++) {
 			ISonarRecipeObject outputObject = recipe.outputs().get(o);
-			ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);
-			if (stack != null) {
+			
+			ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);			
+			if (stack != null && !isOutputVoided(o + inputSize() + 1, stack)) {
 				if (slots()[o + inputSize() + 1] == null) {
 					ItemStack outputStack = stack.copy();
 					if (outputStack.getItem() == Calculator.circuitBoard) {

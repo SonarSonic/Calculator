@@ -44,7 +44,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public final int transferTime = 20;
 	public final int[] itemSlots = new int[] { 2, 3, 4, 5, 6, 7 };
 
-	public UpgradeInventory upgrades = new UpgradeInventory(1, "VOID", "TRANSFER");
+	public UpgradeInventory upgrades = new UpgradeInventory(3, 1, "VOID", "TRANSFER");
 
 	public TileEntityAnalysingChamber() {
 		super.input = new int[] { 0 };

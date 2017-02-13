@@ -40,7 +40,7 @@ public class Calculator {
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "calculator";
-	public static final String version = "3.1.7";
+	public static final String version = "3.1.8";
 	
 	public static final int saveDimension = 0;
 	

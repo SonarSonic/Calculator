@@ -17,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import sonar.calculator.mod.common.containers.ContainerFabricationChamber;
 import sonar.calculator.mod.common.recipes.FabricationChamberRecipes;
+import sonar.calculator.mod.common.recipes.FabricationSonarRecipe;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.core.SonarCore;
 import sonar.core.helpers.FontHelper;
@@ -37,7 +38,7 @@ public class GuiFabricationChamber extends GuiContainer {
 	private boolean wasClicking;
 	public int scrollerLeft, scrollerStart, scrollerEnd, scrollerWidth;
 	public int currentSlot = -1;
-	public final List<ISonarRecipe> recipes = FabricationChamberRecipes.instance().getRecipes();
+	public final List<FabricationSonarRecipe> recipes = FabricationChamberRecipes.instance().getRecipes();
 
 	public GuiFabricationChamber(InventoryPlayer player, TileEntityFabricationChamber chamber) {
 		super(new ContainerFabricationChamber(player, chamber));
