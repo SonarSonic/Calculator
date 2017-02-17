@@ -166,15 +166,15 @@ public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 		addRecipe(new ItemStack(Items.BRICK, 1), Items.NETHERBRICK, Items.NETHERBRICK, type);
 		addRecipe(new ItemStack(Blocks.LOG, 8, 0), Blocks.OBSIDIAN, Blocks.OBSIDIAN, type);
 		addRecipe(new ItemStack(Items.BLAZE_ROD, 8), Items.GHAST_TEAR, Items.GHAST_TEAR, type);
-		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET.setContainerItem(null), Items.BLAZE_POWDER, type);
+		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET, Items.BLAZE_POWDER, type);
 		addRecipe(new ItemStack(Items.FIRE_CHARGE, 4), Items.SNOWBALL, Items.BLAZE_POWDER, type);
 
 		// buckets
-		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET.setContainerItem(null), new ItemStack(Items.DYE, 1, 14), ResearchRecipeType.DYE);
-		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET.setContainerItem(null), new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, 1), ResearchRecipeType.CLAY_BLOCK);
-		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET.setContainerItem(null), new ItemStack(Blocks.WOOL, 1, 1), ResearchRecipeType.WOOL);
-		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET.setContainerItem(null), new ItemStack(Blocks.STAINED_GLASS, 1, 1), ResearchRecipeType.GLASS);
-		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET.setContainerItem(null), new ItemStack(Blocks.RED_FLOWER, 1, 5), ResearchRecipeType.FLOWER);
+		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET, new ItemStack(Items.DYE, 1, 14), ResearchRecipeType.DYE);
+		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET, new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, 1), ResearchRecipeType.CLAY_BLOCK);
+		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET, new ItemStack(Blocks.WOOL, 1, 1), ResearchRecipeType.WOOL);
+		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET, new ItemStack(Blocks.STAINED_GLASS, 1, 1), ResearchRecipeType.GLASS);
+		addRecipe(Items.LAVA_BUCKET, Items.WATER_BUCKET, new ItemStack(Blocks.RED_FLOWER, 1, 5), ResearchRecipeType.FLOWER);
 
 		// irons
 		type = ResearchRecipeType.IRON;
