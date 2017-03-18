@@ -107,7 +107,8 @@ public class GuiTeleporter extends GuiSonar {
 	}
 
 	@Override
-	protected void mouseClicked(int i, int j, int k) {
+	public void mouseClicked(int i, int j, int k) throws IOException {
+		super.mouseClicked(i, j, k);
 		name.mouseClicked(i - guiLeft, j - guiTop, k);
 		password.mouseClicked(i - guiLeft, j - guiTop, k);
 		destinationPassword.mouseClicked(i - guiLeft, j - guiTop, k);

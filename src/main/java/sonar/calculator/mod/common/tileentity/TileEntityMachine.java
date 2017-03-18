@@ -69,7 +69,10 @@ public class TileEntityMachine {
 		}
 
 		public ItemStack getFurnaceOutput(ItemStack stack) {
-			return FurnaceRecipes.instance().getSmeltingResult(stack);
+			if (stack != null) {
+				return FurnaceRecipes.instance().getSmeltingResult(stack);
+			}
+			return null;
 		}
 
 		public boolean canProcess() {
@@ -93,7 +96,7 @@ public class TileEntityMachine {
 		}
 
 		public void finishProcess() {
-			ItemStack stack = getFurnaceOutput(inputStacks()[0]).copy();
+			ItemStack stack = getFurnaceOutput(inputStacks()[0]);
 			if (stack != null) {
 				if (slots()[inputSize() + 1] == null) {
 					ItemStack outputStack = stack.copy();
