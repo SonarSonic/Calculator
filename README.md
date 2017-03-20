@@ -1,11 +1,13 @@
-###Calculator by Ollie Lansdell
+### Calculator by Ollie Lansdell
+
 Feel free to make commits, suggestions and general contributions to the mod, however you must always follow my conditions below on top of the MIT License.
 
 - BEFORE POSTING BUGS: Please ensure you are running the latest versions of both SonarCore and Calculator.
 - Also note, if you do report an issue or suggest an enchancement, I have no obligation to fix it or respond as the majority of my time is take up by other work.
 
   
-####Conditions - on top of MIT License:
+#### Conditions - on top of MIT License:
+
   - No mod installers.
   - Full credit must always be given to me.
   - No re-releases of any form unless I have given expressed permission
