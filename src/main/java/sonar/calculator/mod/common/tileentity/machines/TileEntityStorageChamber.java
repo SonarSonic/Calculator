@@ -28,7 +28,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 			//needs fixing I think
 			public boolean isItemValidForSlot(int slot, ItemStack item) {
 				int target = (int) Math.floor(slot / numStacks);
-				if (item != null && item.getItemDamage() == target) {
+				if (item != null && item.getItemDamage() == slot) {
 					CircuitType stackType = getCircuitType(item);
 					if (stackType == null) {
 						return false;

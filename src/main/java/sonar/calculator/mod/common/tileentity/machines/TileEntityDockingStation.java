@@ -150,6 +150,11 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	}
 
 	@Override
+	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+		return true;
+	}
+
+	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
 		int[] outputSlot = new int[] { 5 };
 		int[] emptySlot = new int[0];
@@ -166,9 +171,9 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 				return new int[] { 0 };
 			} else if (side == SonarHelper.getHorizontal(dir).getOpposite()) {
 				return new int[] { 1 };
-			} else if ((size == 4 || size == 3) && side == SonarHelper.getHorizontal(dir).getOpposite()) {
+			} else if ((size == 4 || size == 3) && side == dir.getOpposite()) {
 				return new int[] { 2 };
-			} else if (size == 4 && side == SonarHelper.getHorizontal(dir).getOpposite()) {
+			} else if (size == 4 && side == dir) {
 				return new int[] { 3 };
 			}
 		}

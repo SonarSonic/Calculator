@@ -199,22 +199,22 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			if ((block == null || block.isAir(oldState, getWorld(), pos) || block.isReplaceable(worldObj, pos))) {
 				for (IPlanter planter : SonarCore.planters.getObjects()) {
 					for (Integer slot : getInvPlants()) {
-						plantCrop(planter, slot);
+						plantCrop(pos, planter, slot);
 					}
 				}
 			}
 		}
 	}
 
-	public void plantCrop(IPlanter planter, Integer slot) {
+	public void plantCrop(BlockPos pos, IPlanter planter, Integer slot) {
 		ItemStack stack = slots()[slot];
 		if (stack != null && planter.canTierPlant(slots()[slot], type)) {
 			IBlockState state = planter.getPlant(stack, worldObj, pos);
-			plantCrop(state, slot);
+			plantCrop(pos, state, slot);
 		}
 	}
 
-	public void plantCrop(IBlockState state, Integer slot) {
+	public void plantCrop(BlockPos pos, IBlockState state, Integer slot) {
 		if (state != null) {
 			this.storage.modifyEnergyStored(-plantRF);
 			slots()[slot].stackSize--;

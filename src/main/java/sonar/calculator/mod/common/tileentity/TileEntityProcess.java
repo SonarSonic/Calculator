@@ -122,10 +122,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	}
 
 	public ProcessState getProcessState() {
-		if (state == ProcessState.UNKNOWN) {
-			state = this.canProcess() ? ProcessState.TRUE : ProcessState.FALSE;
-		}
-		return state;
+		return state = this.canProcess() ? ProcessState.TRUE : ProcessState.FALSE;
 	}
 
 	public void resetProcessState() {

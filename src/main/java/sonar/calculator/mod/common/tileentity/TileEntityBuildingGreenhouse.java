@@ -48,6 +48,9 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	@Override
 	public void update() {
 		super.update();
+		if(this.isClient()){
+			return;
+		}
 		if (this.worldObj.isBlockPowered(pos)) {
 			return;
 		}
