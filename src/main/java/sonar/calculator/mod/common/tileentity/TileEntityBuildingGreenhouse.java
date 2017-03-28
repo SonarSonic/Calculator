@@ -48,10 +48,10 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	@Override
 	public void update() {
 		super.update();
-		if(this.isClient()){
+		if (this.isClient()) {
 			return;
 		}
-		if (this.worldObj.isBlockPowered(pos)) {
+		if (this.world.isBlockPowered(pos)) {
 			return;
 		}
 
@@ -60,7 +60,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		}
 		switch (houseState.getObject()) {
 		case COMPLETED:
-			if (!this.worldObj.isRemote) {
+			if (!this.world.isRemote) {
 				extraTicks();
 			}
 			if (isActive()) {
@@ -175,14 +175,14 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 				ItemStack target = slots()[slot];
 				if (target != null && type.checkBlock(target.getItem())) {
 					Block block = Block.getBlockFromItem(target.getItem());
-					slots()[slot].stackSize--;
-					if (slots()[slot].stackSize == 1) {
+					slots()[slot].shrink(1);
+					if (slots()[slot].getCount() == 1) {
 						slots()[slot] = null;
 					}
 					if (meta == -1) {
-						this.worldObj.setBlockState(pos, block.getStateFromMeta(target.getItemDamage()), 2);
+						this.world.setBlockState(pos, block.getStateFromMeta(target.getItemDamage()), 2);
 					} else {
-						this.worldObj.setBlockState(pos, block.getStateFromMeta(meta), 3);
+						this.world.setBlockState(pos, block.getStateFromMeta(meta), 3);
 					}
 					this.storage.modifyEnergyStored(-buildRF);
 					found = true;
@@ -203,13 +203,13 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			if (stack == null) {
 				return false;
 			} else if (GreenhouseHelper.checkLog(Block.getBlockFromItem(stack.getItem()))) {
-				logs += stack.stackSize;
+				logs += stack.getCount();
 			} else if (GreenhouseHelper.checkStairs(Block.getBlockFromItem(stack.getItem()))) {
-				stairs += stack.stackSize;
+				stairs += stack.getCount();
 			} else if (GreenhouseHelper.checkPlanks(Block.getBlockFromItem(stack.getItem()))) {
-				planks += stack.stackSize;
+				planks += stack.getCount();
 			} else if (GreenhouseHelper.checkGlass(Block.getBlockFromItem(stack.getItem()))) {
-				glass += stack.stackSize;
+				glass += stack.getCount();
 			}
 		}
 		return logs >= requiredLogs && stairs >= requiredStairs && planks >= requiredPlanks && glass >= requiredGlass;
@@ -222,13 +222,13 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			if (stack == null) {
 				continue;
 			} else if (GreenhouseHelper.checkLog(Block.getBlockFromItem(stack.getItem()))) {
-				logs += stack.stackSize;
+				logs += stack.getCount();
 			} else if (GreenhouseHelper.checkStairs(Block.getBlockFromItem(stack.getItem()))) {
-				stairs += stack.stackSize;
+				stairs += stack.getCount();
 			} else if (GreenhouseHelper.checkPlanks(Block.getBlockFromItem(stack.getItem()))) {
-				planks += stack.stackSize;
+				planks += stack.getCount();
 			} else if (GreenhouseHelper.checkGlass(Block.getBlockFromItem(stack.getItem()))) {
-				glass += stack.stackSize;
+				glass += stack.getCount();
 			}
 		}
 		ArrayList<String> list = new ArrayList<String>();
@@ -283,9 +283,9 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			for (int Z = -5; Z <= 5; Z++) {
 				for (int X = -5; X <= 5; X++) {
 					BlockPos pos = this.pos.add((forward.getFrontOffsetX() * 4) + X, -1, (forward.getFrontOffsetZ() * 4) + Z);
-					Block target = worldObj.getBlockState(pos).getBlock();
-					if (target == Blocks.DIRT || target == Blocks.FARMLAND || target == Blocks.WATER || target.isReplaceable(worldObj, pos)) {
-						worldObj.setBlockState(pos, Blocks.GRASS.getDefaultState(), 2);
+					Block target = world.getBlockState(pos).getBlock();
+					if (target == Blocks.DIRT || target == Blocks.FARMLAND || target == Blocks.WATER || target.isReplaceable(world, pos)) {
+						world.setBlockState(pos, Blocks.GRASS.getDefaultState(), 2);
 					}
 				}
 			}
@@ -298,7 +298,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	}
 
 	public FailedCoords checkBlock(GreenhouseAction action, BlockPlace place) {
-		IBlockState state = worldObj.getBlockState(place.pos);
+		IBlockState state = world.getBlockState(place.pos);
 		boolean checkBlock = false;
 		switch (place.type) {
 		case LOG:
@@ -332,19 +332,19 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		case CAN_BUILD:
 			if (checkBlock) {
 				break;
-			} else if (!GreenhouseHelper.r(worldObj, place.pos) && !state.getBlock().isAir(state, worldObj, place.pos) && !state.getBlock().isReplaceable(worldObj, place.pos)) {
+			} else if (!GreenhouseHelper.r(world, place.pos) && !state.getBlock().isAir(state, world, place.pos) && !state.getBlock().isReplaceable(world, place.pos)) {
 				return new FailedCoords(false, place.pos, "Can't Replace");
 			}
 			break;
 		case DEMOLISH:
 			if (checkBlock) {
-				List<ItemStack> stacks = state.getBlock().getDrops(worldObj, place.pos, state, 0);
+				List<ItemStack> stacks = state.getBlock().getDrops(world, place.pos, state, 0);
 				if (stacks != null) {
 					if (stacks.isEmpty() && place.type == BlockType.GLASS) {
 						stacks.add(new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state)));
 					}
 					addHarvestedStacks(stacks, place.pos, true, false);
-					worldObj.setBlockToAir(place.pos);
+					world.setBlockToAir(place.pos);
 					return null;
 				}
 			}
@@ -388,7 +388,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	}
 
 	public boolean checkLog(BlockPos pos) {
-		Block block = this.worldObj.getBlockState(pos).getBlock();
+		Block block = this.world.getBlockState(pos).getBlock();
 		if (block == null || !GreenhouseHelper.checkLog(block)) {
 			return false;
 		}
@@ -396,7 +396,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	}
 
 	public boolean checkGlass(BlockPos pos) {
-		Block block = this.worldObj.getBlockState(pos).getBlock();
+		Block block = this.world.getBlockState(pos).getBlock();
 		if (block == null || !GreenhouseHelper.checkGlass(block)) {
 			return false;
 		}
@@ -404,7 +404,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	}
 
 	public boolean checkPlanks(BlockPos pos) {
-		Block block = this.worldObj.getBlockState(pos).getBlock();
+		Block block = this.world.getBlockState(pos).getBlock();
 		if (block == null || !GreenhouseHelper.checkPlanks(block)) {
 			return false;
 		}
@@ -412,7 +412,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	}
 
 	public boolean checkStairs(BlockPos pos) {
-		Block block = this.worldObj.getBlockState(pos).getBlock();
+		Block block = this.world.getBlockState(pos).getBlock();
 		if (block == null || !GreenhouseHelper.checkStairs(block)) {
 			return false;
 		}

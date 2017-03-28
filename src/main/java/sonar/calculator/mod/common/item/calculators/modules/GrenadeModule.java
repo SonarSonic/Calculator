@@ -38,7 +38,7 @@ public class GrenadeModule extends ModuleBase implements IModuleClickable {
 				if (!world.isRemote) {
 					EntityGrenade entity = new EntityGrenade(world, player);
 					entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
-					world.spawnEntityInWorld(entity);
+					world.spawnEntity(entity);
 					this.extractEnergy(stack, player, 10000, false);
 				}
 			} else {

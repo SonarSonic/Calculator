@@ -51,7 +51,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	
 	public void update() {
 		super.update();
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			return;
 		}
 		if (coolDownTicks != 0) {
@@ -109,7 +109,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	public boolean canTeleportPlayer() {
 		boolean flag = true;
 		for (int i = 1; i < 3; i++) {
-			Block block = worldObj.getBlockState(pos.offset(EnumFacing.DOWN, i)).getBlock();
+			Block block = world.getBlockState(pos.offset(EnumFacing.DOWN, i)).getBlock();
 			if (!(block == Blocks.AIR || block == null)) {
 				flag = false;
 			}
@@ -120,7 +120,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			EnumFacing dir = dirs[i];
 			int blocks = 0;
 			for (int j = 0; j < 3; j++) {
-				Block block = worldObj.getBlockState(pos.add(dir.getFrontOffsetX(), -j, dir.getFrontOffsetZ())).getBlock();
+				Block block = world.getBlockState(pos.add(dir.getFrontOffsetX(), -j, dir.getFrontOffsetZ())).getBlock();
 				if (block instanceof StableStone) {
 					blocks++;
 				}
@@ -136,19 +136,19 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 
 	public List<EntityPlayer> getPlayerList() {
 		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - 1, pos.getY() - 2, pos.getZ() - 1, pos.getX() + 1, pos.getY() - 1, pos.getZ() + 1);
-		List<EntityPlayer> players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, aabb, null);
+		List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, aabb, null);
 		return players;
 	}
 
 	public void resetFrequency() {
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			this.removeFromFrequency();
 			this.addToFrequency();
 		}
 	}
 
 	public void addToFrequency() {
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			if (this.teleporterID == 0) {
 				teleporterID = TeleporterRegistry.nextID();
 			}
@@ -157,7 +157,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	}
 
 	public void removeFromFrequency() {
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			TeleporterRegistry.removeTeleporter(this);
 		}
 	}
@@ -196,7 +196,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	}
 
 	public void onLoaded() {
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			this.addToFrequency();
 		}
 	}
@@ -204,7 +204,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	@Override
 	public void invalidate() {
 		super.invalidate();
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			this.removeFromFrequency();
 		}
 	}

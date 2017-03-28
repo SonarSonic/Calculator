@@ -51,7 +51,7 @@ public class CalculatorPlug extends SonarMachineBlock {
 				StoredItemStack item = new StoredItemStack(held).setStackSize(1);
 				StoredItemStack stack = SonarAPI.getItemHelper().getStackToAdd(1, item, SonarAPI.getItemHelper().addItems(tile, item.copy(), EnumFacing.UP, ActionType.PERFORM, null));
 				if (stack == null || stack.getStackSize() == 0)
-					held.stackSize -= 1;
+					held.shrink(1);
 				return true;
 			}
 			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());

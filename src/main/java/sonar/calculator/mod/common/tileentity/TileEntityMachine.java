@@ -87,7 +87,7 @@ public class TileEntityMachine {
 				if (slots()[o + inputSize() + 1] != null) {
 					if (!slots()[o + inputSize() + 1].isItemEqual(result)) {
 						return false;
-					} else if (slots()[o + inputSize() + 1].stackSize + result.stackSize > slots()[o + inputSize() + 1].getMaxStackSize()) {
+					} else if (slots()[o + inputSize() + 1].getCount() + result.getCount() > slots()[o + inputSize() + 1].getMaxStackSize()) {
 						return false;
 					}
 				}
@@ -105,7 +105,7 @@ public class TileEntityMachine {
 					}
 					slots()[inputSize() + 1] = outputStack;
 				} else if (slots()[inputSize() + 1].isItemEqual(stack)) {
-					slots()[inputSize() + 1].stackSize += stack.stackSize;
+					slots()[inputSize() + 1].grow(stack.getCount());
 				}
 			}
 			slots()[0] = ItemStackHelper.reduceStackSize(slots()[0], 1);

@@ -17,14 +17,14 @@ public class SlotPortableCrafting extends SlotPortable {
 	public ItemStack decrStackSize(int size) {
 		if (invItem.getStackInSlot(this.slotNumber) != null) {
 			ItemStack itemstack;
-			if (invItem.getStackInSlot(this.slotNumber).stackSize <= size) {
+			if (invItem.getStackInSlot(this.slotNumber).getCount() <= size) {
 				itemstack = invItem.getStackInSlot(this.slotNumber);
 				invItem.setInventorySlotContents(this.slotNumber, null);
 				container.onItemCrafted();
 				return itemstack;
 			} else {
 				itemstack = invItem.getStackInSlot(this.slotNumber).splitStack(size);
-				if (invItem.getStackInSlot(this.slotNumber).stackSize == 0) {
+				if (invItem.getStackInSlot(this.slotNumber).getCount() == 0) {
 					invItem.setInventorySlotContents(this.slotNumber, null);
 				}
 				container.onItemCrafted();

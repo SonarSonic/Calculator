@@ -41,7 +41,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 			} else {
 				coolDown = 1;
 				buffer = 0;
-				if (!this.worldObj.isRemote) {
+				if (!this.world.isRemote) {
 					processType(type, false);
 				}
 			}
@@ -57,8 +57,8 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 	}
 
 	public void startProcess() {
-		boolean power = this.worldObj.isBlockPowered(pos);
-		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= requiredPower && this.processType(type, true) && (power || this.worldObj.isBlockIndirectlyGettingPowered(pos)>0)) {
+		boolean power = this.world.isBlockPowered(pos);
+		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= requiredPower && this.processType(type, true) && (power || this.world.isBlockIndirectlyGettingPowered(pos)>0)) {
 			buffer = 1;
 		}
 	}
@@ -66,34 +66,34 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 	public boolean processType(int type, boolean simulate) {
 		switch (type) {
 		case TIME:
-			if (data == 0 && this.worldObj.isDaytime()) {
+			if (data == 0 && this.world.isDaytime()) {
 				return false;
-			} else if (data > 0 && !this.worldObj.isDaytime()) {
+			} else if (data > 0 && !this.world.isDaytime()) {
 				return false;
 			}
 			if (!simulate) {
-				this.worldObj.setWorldTime(data == 0 ? 1000 : 13000);
+				this.world.setWorldTime(data == 0 ? 1000 : 13000);
 			}
 			return true;
 		case RAIN:
-			if (data == 0 && !this.worldObj.isRaining()) {
+			if (data == 0 && !this.world.isRaining()) {
 				return false;
-			} else if (data > 0 && this.worldObj.isRaining()) {
+			} else if (data > 0 && this.world.isRaining()) {
 				return false;
 			}
 			if (!simulate) {
-				this.worldObj.getWorldInfo().setRaining(data == 0 ? false : true);
+				this.world.getWorldInfo().setRaining(data == 0 ? false : true);
 			}
 			return true;
 		case THUNDER:
-			if (data == 0 && !this.worldObj.isThundering()) {
+			if (data == 0 && !this.world.isThundering()) {
 				return false;
-			} else if (data > 0 && this.worldObj.isThundering()) {
+			} else if (data > 0 && this.world.isThundering()) {
 				return false;
 			}
 			if (!simulate) {
-				this.worldObj.getWorldInfo().setRaining(data == 0 ? false : true);
-				this.worldObj.getWorldInfo().setThundering(data == 0 ? false : true);
+				this.world.getWorldInfo().setRaining(data == 0 ? false : true);
+				this.world.getWorldInfo().setThundering(data == 0 ? false : true);
 			}
 			return true;
 		}

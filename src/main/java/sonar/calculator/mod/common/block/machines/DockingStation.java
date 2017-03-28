@@ -64,7 +64,7 @@ public class DockingStation extends SonarMachineBlock {
 
 				if (station.calcStack == null) {
 					station.calcStack = player.getHeldItemMainhand().copy();
-					player.getHeldItemMainhand().stackSize--;
+					player.getHeldItemMainhand().shrink(1);
 					return true;
 				}
 			}
@@ -82,12 +82,12 @@ public class DockingStation extends SonarMachineBlock {
 	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
-	
+
 	@Override
 	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
 		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
 	}
-	
+
 	public boolean hasSpecialRenderer() {
 		return true;
 	}

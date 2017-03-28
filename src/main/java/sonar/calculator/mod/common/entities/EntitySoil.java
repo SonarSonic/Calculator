@@ -23,7 +23,7 @@ public class EntitySoil extends EntityThrowable {
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			if (result.entityHit != null && result.entityHit instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) result.entityHit;
 				player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("blindness"), 100, 1));

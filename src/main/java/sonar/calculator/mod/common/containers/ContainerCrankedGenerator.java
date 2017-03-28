@@ -34,10 +34,10 @@ public class ContainerCrankedGenerator extends ContainerSync {
 		if ((slot != null) && (slot.getHasStack())) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (itemstack1.stackSize == itemstack.stackSize) {
+			if (itemstack1.getCount() == itemstack.getCount()) {
 				return null;
 			}
-			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+			slot.onTake(par1EntityPlayer, itemstack1);
 		}
 
 		return itemstack;

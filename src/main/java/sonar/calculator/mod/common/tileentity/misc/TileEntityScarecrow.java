@@ -17,7 +17,7 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			return;
 		}
 		grow();
@@ -39,7 +39,7 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 	public boolean growCrop() {
 		int X = (0 + (int) (Math.random() * ((range - 0) + range))) - (range - 1);
 		int Z = (0 + (int) (Math.random() * ((range - 0) + range))) - (range - 1);
-		return GreenhouseHelper.applyBonemeal(worldObj, pos.add(X, 0, Z), false);
+		return GreenhouseHelper.applyBonemeal(world, pos.add(X, 0, Z), false);
 	}
 
 	@Override

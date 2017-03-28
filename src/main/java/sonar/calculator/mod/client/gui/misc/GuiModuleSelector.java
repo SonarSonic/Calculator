@@ -68,7 +68,7 @@ public class GuiModuleSelector extends GuiContainer {
 	@Override
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
-		this.mc.thePlayer.openContainer = this.inventorySlots;
+		this.mc.player.openContainer = this.inventorySlots;
 		this.xSize = 136;
 		this.ySize = 166;
 

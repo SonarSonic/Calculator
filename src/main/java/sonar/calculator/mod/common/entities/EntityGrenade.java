@@ -23,13 +23,13 @@ public class EntityGrenade extends EntityThrowable {
 	@Override
 	protected void onImpact(RayTraceResult result) {
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			setDead();
-			this.worldObj.createExplosion((Entity) null, this.posX, this.posY, this.posZ, 5.0F, true);
+			this.world.createExplosion((Entity) null, this.posX, this.posY, this.posZ, 5.0F, true);
 
 		} else {
 			for (int i = 0; i < 10; i++) {
-				this.worldObj.spawnParticle(EnumParticleTypes.FLAME, this.posX, this.posY, this.posZ, 0.8999999761581421D, 0.8999999761581421D, 0.8999999761581421D);
+				this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX, this.posY, this.posZ, 0.8999999761581421D, 0.8999999761581421D, 0.8999999761581421D);
 			}
 		}
 	}

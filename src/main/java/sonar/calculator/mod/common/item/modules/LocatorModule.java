@@ -22,7 +22,8 @@ public class LocatorModule extends SonarItem implements ILocatorModule {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {
 			nbtData = new NBTTagCompound();

@@ -54,7 +54,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			this.storage.modifyEnergyStored(-energy);
 		}
 		if (this.canCook()) {
-			if (!this.worldObj.isRemote) {
+			if (!this.world.isRemote) {
 				if (cookTime.getObject() == 0) {
 					this.cookTime.increaseBy(1);
 				}
@@ -96,7 +96,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		}
 
 		if (slots()[8] != null) {
-			if (slots()[8].stackSize + 4 > 64) {
+			if (slots()[8].getCount() + 4 > 64) {
 				return false;
 			}
 			if (!slots()[0].isItemEqual(slots()[8])) {
@@ -135,12 +135,12 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		if (this.slots()[8] == null) {
 			this.slots()[8] = itemstack;
 		} else if (this.slots()[8].isItemEqual(itemstack)) {
-			this.slots()[8].stackSize = this.slots()[8].stackSize + 4;
+			this.slots()[8].grow(4);
 		}
 
 		for (int i = 0; i < 8; i++) {
-			this.slots()[i].stackSize--;
-			if (this.slots()[i].stackSize <= 0) {
+			this.slots()[i].shrink(1);
+			if (this.slots()[i].getCount() <= 0) {
 				this.slots()[i] = null;
 			}
 		}

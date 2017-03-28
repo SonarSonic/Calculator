@@ -29,7 +29,7 @@ public class EnderModule extends ModuleBase implements IModuleClickable {
 		if (this.isEnergyAvailable(stack, player, world, 1000)) {
 			world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.NEUTRAL, 0.5F,0.8F);
 			if (!world.isRemote)
-				world.spawnEntityInWorld(new EntityEnderPearl(world, player));
+				world.spawnEntity(new EntityEnderPearl(world, player));
 		}
 	}
 

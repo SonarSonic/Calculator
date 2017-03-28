@@ -102,7 +102,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 				if (forceUpdate) {
 					isActive = isActive();
 					SonarCore.sendPacketAround(this, 128, 2);
-					worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
+					world.addBlockEvent(pos, this.getBlockType(), 1, 1);
 				}
 			}
 		} else {
@@ -139,10 +139,10 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public void onFirstTick() {
 		super.onFirstTick();
-		if (!worldObj.isRemote) {
+		if (!world.isRemote) {
 			isActive = this.isActive();
 			SonarCore.sendPacketAround(this, 128, 2);
-			worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
+			world.addBlockEvent(pos, this.getBlockType(), 1, 1);
 		}
 	}
 
@@ -222,7 +222,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	// IPausable
 	@Override
 	public boolean isActive() {
-		if (worldObj.isRemote) {
+		if (world.isRemote) {
 			return isActive;
 		}
 		return !isPaused() && cookTime.getObject() > 0;
@@ -232,7 +232,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public void onPause() {
 		// paused.invert();
 		markBlockForUpdate();
-		this.worldObj.addBlockEvent(pos, blockType, 1, 1);
+		this.world.addBlockEvent(pos, blockType, 1, 1);
 	}
 
 	@Override
@@ -245,7 +245,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public boolean canStack(ItemStack current, ItemStack stack) {
 		if (current == null) {
 			return true;
-		} else if (current.stackSize == current.getMaxStackSize()) {
+		} else if (current.getCount() == current.getMaxStackSize()) {
 			return false;
 		}
 		return true;
@@ -344,7 +344,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 					float f2 = rand.nextFloat() * 0.8F + 0.1F;
 
 					EntityItem dropStack = new EntityItem(getWorld(), pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, stack);
-					getWorld().spawnEntityInWorld(dropStack);
+					getWorld().spawnEntity(dropStack);
 				}
 			}
 		}

@@ -69,15 +69,15 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 					currentFabricateTime.increaseBy(1);
 					if (this.isClient()) {
 						if ((currentFabricateTime.getObject() & 1) == 0 && ((currentFabricateTime.getObject() / 2) & 1) == 0) {
-							EnumFacing face = worldObj.getBlockState(getPos()).getValue(SonarBlock.FACING);
+							EnumFacing face = world.getBlockState(getPos()).getValue(SonarBlock.FACING);
 							int fX = face.getFrontOffsetX();
 							int fZ = face.getFrontOffsetZ();
 							// TODO
-							// worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + fX == -1 ? 0.62 : 0.38, pos.getY() + 0.6F, pos.getZ() + (fZ == 0 ? 0.38 : 0.62), 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + 0.38 + (0.25 *face.getFrontOffsetZ()), pos.getY() + 0.6F, pos.getZ() + 0.38 + (0.25 *face.getFrontOffsetZ()), 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 + 0.25 * fZ, 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
+							// world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + fX == -1 ? 0.62 : 0.38, pos.getY() + 0.6F, pos.getZ() + (fZ == 0 ? 0.38 : 0.62), 0.0D, 0.0D, 0.0D);
+							// world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + 0.38 + (0.25 *face.getFrontOffsetZ()), pos.getY() + 0.6F, pos.getZ() + 0.38 + (0.25 *face.getFrontOffsetZ()), 0.0D, 0.0D, 0.0D);
+							// world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
+							// world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 + 0.25 * fZ, 0.0D, 0.0D, 0.0D);
+							// world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
 
 						}
 					}
@@ -97,9 +97,9 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	public ArrayList<TileEntityStorageChamber> getChambers() {
 		ArrayList<TileEntityStorageChamber> chambers = new ArrayList<TileEntityStorageChamber>();
 
-		ArrayList<BlockCoords> connected = SonarHelper.getConnectedBlocks(Calculator.storageChamber, Arrays.asList(EnumFacing.VALUES), worldObj, pos, 256);
+		ArrayList<BlockCoords> connected = SonarHelper.getConnectedBlocks(Calculator.storageChamber, Arrays.asList(EnumFacing.VALUES), world, pos, 256);
 		for (BlockCoords chamber : connected) {
-			TileEntity tile = chamber.getTileEntity(worldObj);
+			TileEntity tile = chamber.getTileEntity(world);
 			if (tile != null && tile instanceof TileEntityStorageChamber) {
 				chambers.add((TileEntityStorageChamber) tile);
 			}
@@ -125,8 +125,8 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 			return;
 		}
 		ItemStack selected = this.selected.copy();
-		if (selected.stackSize == 0)
-			selected.stackSize++;
+		if (selected.getCount() == 0)
+			selected.grow(1);
 		ArrayList<TileEntityStorageChamber> chambers = getChambers();
 		ArrayList<StoredItemStack> available = getAvailableCircuits(chambers);
 		ISonarRecipe recipe = FabricationChamberRecipes.instance().getRecipeFromOutputs(null, new Object[] { selected });
@@ -136,8 +136,8 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 			if (current == null) {
 				slots()[0] = selected.copy();
 				fabricated = true;
-			} else if (ItemStackHelper.equalStacksRegular(current, selected) && current.stackSize + selected.stackSize <= getInventoryStackLimit() && current.stackSize + selected.stackSize <= selected.getMaxStackSize()) {
-				slots()[0].stackSize += selected.copy().stackSize;
+			} else if (ItemStackHelper.equalStacksRegular(current, selected) && current.getCount() + selected.getCount() <= getInventoryStackLimit() && current.getCount() + selected.getCount() <= selected.getMaxStackSize()) {
+				slots()[0].grow(selected.getCount());
 				fabricated = true;
 			}
 			if (fabricated) {
@@ -164,7 +164,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			if (nbt.hasKey("selected")) {
-				selected = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("selected"));
+				selected = new ItemStack((NBTTagCompound) nbt.getTag("selected"));
 			} else {
 				selected = null;
 			}

@@ -26,7 +26,7 @@ public class TileEntityReinforcedChest extends TileEntityLargeInventory implemen
 	}
 
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	public void update() {
@@ -36,11 +36,11 @@ public class TileEntityReinforcedChest extends TileEntityLargeInventory implemen
 		int k = this.pos.getZ();
 		++this.ticksSinceSync;
 
-		if (!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + i + j + k) % 200 == 0) {
+		if (!this.world.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + i + j + k) % 200 == 0) {
 			this.numPlayersUsing = 0;
 			float f = 5.0F;
 
-			for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double) ((float) i - f), (double) ((float) j - f), (double) ((float) k - f), (double) ((float) (i + 1) + f), (double) ((float) (j + 1) + f), (double) ((float) (k + 1) + f)))) {
+			for (EntityPlayer entityplayer : this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double) ((float) i - f), (double) ((float) j - f), (double) ((float) k - f), (double) ((float) (i + 1) + f), (double) ((float) (j + 1) + f), (double) ((float) (k + 1) + f)))) {
 				if (entityplayer.openContainer instanceof ContainerReinforcedChest) {
 					ILargeInventory iinventory = ((ContainerReinforcedChest) entityplayer.openContainer).entity;
 					if (iinventory == this) {
@@ -55,7 +55,7 @@ public class TileEntityReinforcedChest extends TileEntityLargeInventory implemen
 		if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
 			double d1 = (double) i + 0.5D;
 			double d2 = (double) k + 0.5D;
-			this.worldObj.playSound((EntityPlayer) null, d1, (double) j + 0.5D, d2, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+			this.world.playSound((EntityPlayer) null, d1, (double) j + 0.5D, d2, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
 		}
 
 		if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
@@ -76,7 +76,7 @@ public class TileEntityReinforcedChest extends TileEntityLargeInventory implemen
 			if (this.lidAngle < f3 && f2 >= f3) {
 				double d3 = (double) i + 0.5D;
 				double d0 = (double) k + 0.5D;
-				this.worldObj.playSound((EntityPlayer) null, d3, (double) j + 0.5D, d0, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+				this.world.playSound((EntityPlayer) null, d3, (double) j + 0.5D, d0, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
 			}
 
 			if (this.lidAngle < 0.0F) {
@@ -101,9 +101,9 @@ public class TileEntityReinforcedChest extends TileEntityLargeInventory implemen
 				this.numPlayersUsing = 0;
 			}
 			++this.numPlayersUsing;
-			this.worldObj.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
-			this.worldObj.notifyNeighborsOfStateChange(this.pos, this.getBlockType());
-			this.worldObj.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType());
+			this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
+			this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), true);
+			this.world.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType(), true);
 		}
 	}
 
@@ -114,9 +114,9 @@ public class TileEntityReinforcedChest extends TileEntityLargeInventory implemen
 			if (this.numPlayersUsing < 0) {
 				this.numPlayersUsing = 0;
 			}
-			this.worldObj.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
-			this.worldObj.notifyNeighborsOfStateChange(this.pos, this.getBlockType());
-			this.worldObj.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType());
+			this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
+			this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), true);
+			this.world.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType(), true);
 		}
 	}
 

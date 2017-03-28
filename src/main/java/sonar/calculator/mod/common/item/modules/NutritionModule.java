@@ -102,7 +102,8 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		NutritionHelper.useHunger(stack, player, world, pos, side, "hunger");
 		NutritionHelper.useHealth(stack, player, world, pos, side, "health");
 		return EnumActionResult.SUCCESS;

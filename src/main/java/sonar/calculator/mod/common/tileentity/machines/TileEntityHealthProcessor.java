@@ -36,7 +36,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	@Override
 	public void update() {
 		super.update();
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 			loot(slots()[0]);
 
 		charge(slots()[1]);
@@ -84,8 +84,8 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 			if (value > 0) {
 				int add = value;
 				storedpoints.increaseBy(add);
-				this.slots()[0].stackSize--;
-				if (this.slots()[0].stackSize <= 0) {
+				this.slots()[0].shrink(1);
+				if (this.slots()[0].getCount() <= 0) {
 					this.slots()[0] = null;
 				}
 			}

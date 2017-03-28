@@ -41,7 +41,7 @@ public class JumpModule extends ModuleBase implements IModuleClickable {
 					if (world.isAirBlock(pos.offset(EnumFacing.UP)) && world.isAirBlock(pos.offset(EnumFacing.UP, 2))) {
 						Calculator.network.sendToServer(new PacketJumpModule(pos));
 					} else
-						player.addChatComponentMessage(new TextComponentTranslation("Target is blocked"));
+						player.sendMessage(new TextComponentTranslation("Target is blocked"));
 				}
 			} else {
 				modeTag.setLong("last", world.getWorldTime());

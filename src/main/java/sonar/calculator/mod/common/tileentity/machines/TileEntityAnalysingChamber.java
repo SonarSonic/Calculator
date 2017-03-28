@@ -67,7 +67,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public void update() {
 		super.update();
 
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			return;
 		}
 		if (upgrades.getUpgradesInstalled("TRANSFER") > 0) {
@@ -93,9 +93,9 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		}
 		ArrayList<EnumFacing> inputs = sides.getSidesWithConfig(MachineSideConfig.INPUT);
 		if (!inputs.isEmpty()) {
-			ArrayList<BlockCoords> chambers = SonarHelper.getConnectedBlocks(Calculator.storageChamber, inputs, worldObj, pos, 256);
+			ArrayList<BlockCoords> chambers = SonarHelper.getConnectedBlocks(Calculator.storageChamber, inputs, world, pos, 256);
 			for (BlockCoords chamber : chambers) {
-				TileEntity tile = chamber.getTileEntity(worldObj);
+				TileEntity tile = chamber.getTileEntity(world);
 				if (tile != null && tile instanceof TileEntityStorageChamber) {
 					SonarAPI.getItemHelper().transferItems(this, tile, inputs.get(0), inputs.get(0).getOpposite(), null);
 					if (this.slots()[0] == null) {

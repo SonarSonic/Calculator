@@ -27,7 +27,7 @@ public class SlotPortableResult extends SlotPortable {
 	@Override
 	public ItemStack decrStackSize(int size) {
 		if (this.getHasStack()) {
-			this.amountCrafted += Math.min(size, this.getStack().stackSize);
+			this.amountCrafted += Math.min(size, this.getStack().getCount());
 		}
 		return super.decrStackSize(size);
 	}
@@ -38,7 +38,7 @@ public class SlotPortableResult extends SlotPortable {
 	}
 
 	@Override
-	public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
+	public ItemStack onTake(EntityPlayer player, ItemStack stack) {
 		this.container.removeEnergy(amountCrafted);
 		amountCrafted=0;
 		for (int i = 0; i < this.craftSlots.length; ++i) {
@@ -64,13 +64,14 @@ public class SlotPortableResult extends SlotPortable {
 				}
 			}
 		}
+		return stack;
 	}
 
 	public ItemStack decrIngredientSize(int slot, int size) {
 		if (invItem.getStackInSlot(slot) != null) {
 			ItemStack itemstack;
 
-			if (invItem.getStackInSlot(slot).stackSize <= size) {
+			if (invItem.getStackInSlot(slot).getCount() <= size) {
 				itemstack = invItem.getStackInSlot(slot);
 				invItem.setInventorySlotContents(slot, null);
 				container.onItemCrafted();
@@ -78,7 +79,7 @@ public class SlotPortableResult extends SlotPortable {
 			} else {
 				itemstack = invItem.getStackInSlot(slot).splitStack(size);
 
-				if (invItem.getStackInSlot(slot).stackSize == 0) {
+				if (invItem.getStackInSlot(slot).getCount() == 0) {
 					invItem.setInventorySlotContents(slot, null);
 				}
 

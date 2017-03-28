@@ -74,7 +74,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		super.setInventorySlotContents(i, itemstack);
 		markBlockForUpdate();
-		this.worldObj.addBlockEvent(pos, blockType, 1, 0);
+		this.world.addBlockEvent(pos, blockType, 1, 0);
 	}
 
 	public void openInventory(EntityPlayer player) {

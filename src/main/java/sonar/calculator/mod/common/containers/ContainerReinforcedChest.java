@@ -56,7 +56,7 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 					return null;
 				}
 				StoredItemStack stored = entity.getTileInv().getLargeStack(slotID);
-				stored.stored -= itemstack.stackSize - itemstack1.stackSize;
+				stored.stored -= itemstack.getCount() - itemstack1.getCount();
 				if (stored.stored == 0) {
 					entity.getTileInv().setLargeStack(slotID, null);
 				}
@@ -66,7 +66,7 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 				return null;
 			}
 
-			if (itemstack1.stackSize == 0) {
+			if (itemstack1.getCount() == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();

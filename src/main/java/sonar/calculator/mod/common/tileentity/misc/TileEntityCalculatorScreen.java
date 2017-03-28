@@ -23,7 +23,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 
 	public void update() {
 
-		if (this.worldObj != null && !this.worldObj.isRemote) {
+		if (this.world != null && !this.world.isRemote) {
 			EnumFacing front = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
 			TileEntity target = SonarHelper.getAdjacentTileEntity(this, front);
 			if (target == null) {
@@ -53,8 +53,8 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 		markDirty();
 		this.lastMax = this.latestMax;
 		this.latestMax = max;
-		if (!this.worldObj.isRemote)
-			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 0, max), new TargetPoint(this.worldObj.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
+		if (!this.world.isRemote)
+			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 0, max), new TargetPoint(this.world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
 
 	}
 
@@ -62,8 +62,8 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 		markDirty();
 		this.lastEnergy = this.latestEnergy;
 		this.latestEnergy = energy;
-		if (!this.worldObj.isRemote)
-			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 1, energy), new TargetPoint(this.worldObj.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
+		if (!this.world.isRemote)
+			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 1, energy), new TargetPoint(this.world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
 	}
 
 	public void readData(NBTTagCompound nbt, SyncType type) {

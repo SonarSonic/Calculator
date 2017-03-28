@@ -124,7 +124,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
-			this.calcStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("calcStack"));
+			this.calcStack = new ItemStack(nbt.getCompoundTag("calcStack"));
 		}
 	}
 
@@ -144,8 +144,8 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		this.slots()[i] = itemstack;
 
-		if ((itemstack != null) && (itemstack.stackSize > getInventoryStackLimit())) {
-			itemstack.stackSize = getInventoryStackLimit();
+		if ((itemstack != null) && (itemstack.getCount() > getInventoryStackLimit())) {
+			itemstack.setCount(getInventoryStackLimit());
 		}
 	}
 

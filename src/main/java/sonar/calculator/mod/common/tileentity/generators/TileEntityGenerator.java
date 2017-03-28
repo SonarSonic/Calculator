@@ -52,7 +52,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	@Override
 	public void update() {
 		super.update();
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			processItemLevel();
 			generateEnergy();
 			this.addEnergy(EnumFacing.VALUES);
@@ -69,8 +69,9 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 					this.maxBurnTime.setObject(itemBurnTime);
 					burnTime.increaseBy(1);
 					if (this.slots()[0] != null) {
-						--this.slots()[0].stackSize;
-						if (this.slots()[0].stackSize <= 0) {
+						this.slots()[0].shrink(1);
+						
+						if (this.slots()[0].getCount() <= 0) {
 							this.slots()[0] = this.slots()[0].getItem().getContainerItem(this.slots()[0]);
 						}
 					}
@@ -97,8 +98,8 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		}
 		if (!(itemLevel.getObject() + getItemValue(stack) > levelMax)) {
 			addItem(getItemValue(stack));
-			this.slots()[1].stackSize--;
-			if (this.slots()[1].stackSize <= 0) {
+			this.slots()[1].shrink(1);
+			if (this.slots()[1].getCount() <= 0) {
 				this.slots()[1] = null;
 			}
 		}

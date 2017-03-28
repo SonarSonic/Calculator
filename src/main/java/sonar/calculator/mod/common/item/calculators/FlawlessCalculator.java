@@ -105,7 +105,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		int slot = 0;
 		for (IModule module : modules) {
 			if (module instanceof IModuleUpdate) {
-				NBTTagCompound tag = stack.getSubCompound("" + slot, false);
+				NBTTagCompound tag = stack.getSubCompound("" + slot);
 				if (tag == null) {
 					tag = new NBTTagCompound();
 				}
@@ -124,7 +124,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		if (!player.isSneaking()) {
 			int slot = this.getCurrentSlot(stack);
 			IModule module = this.getCurrentModule(stack);
-			tag = stack.getSubCompound("" + slot, false);
+			tag = stack.getSubCompound("" + slot);
 			if (tag == null) {
 				tag = new NBTTagCompound();
 			}
@@ -151,7 +151,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		IModule module = this.getCurrentModule(stack);
 		int slot = this.getCurrentSlot(stack);
 		if (module instanceof IModuleClickable) {
-			NBTTagCompound tag = stack.getSubCompound("" + slot, false);
+			NBTTagCompound tag = stack.getSubCompound("" + slot);
 			if (tag == null) {
 				tag = new NBTTagCompound();
 			}
@@ -174,7 +174,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 
 		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				energyStored += ((IModuleEnergy) module).getEnergyStored(stack, stack.getSubCompound("" + slot, true));
+				energyStored += ((IModuleEnergy) module).getEnergyStored(stack, stack.getOrCreateSubCompound("" + slot));
 			} else if (module instanceof IModuleInventory) {
 				itemsStored += ((IModuleInventory) module).getInventory(stack, "" + slot, false).getItemsStored(stack);
 			}
@@ -191,7 +191,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		int slot = 0;
 		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				received -= ((IModuleEnergy) module).receiveEnergy(stack, stack.getSubCompound("" + slot, true), maxReceive, action);
+				received -= ((IModuleEnergy) module).receiveEnergy(stack, stack.getOrCreateSubCompound("" + slot), maxReceive, action);
 			}
 			slot++;
 		}
@@ -204,7 +204,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		int slot = 0;
 		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				extracted -= ((IModuleEnergy) module).extractEnergy(stack, stack.getSubCompound("" + slot, true), maxExtract, action);
+				extracted -= ((IModuleEnergy) module).extractEnergy(stack, stack.getOrCreateSubCompound("" + slot), maxExtract, action);
 			}
 			slot++;
 		}
@@ -217,7 +217,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		int slot = 0;
 		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				stored += ((IModuleEnergy) module).getEnergyStored(stack, stack.getSubCompound("" + slot, true));
+				stored += ((IModuleEnergy) module).getEnergyStored(stack, stack.getOrCreateSubCompound("" + slot));
 			}
 			slot++;
 		}
@@ -230,7 +230,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		int slot = 0;
 		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				stored += ((IModuleEnergy) module).getMaxEnergyStored(stack, stack.getSubCompound("" + slot, true));
+				stored += ((IModuleEnergy) module).getMaxEnergyStored(stack, stack.getOrCreateSubCompound("" + slot));
 			}
 			slot++;
 		}
@@ -274,7 +274,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	@Override
 	public ItemStack removeModule(ItemStack stack, int slot) {
 		IModule module = getModuleInSlot(stack, slot);
-		NBTTagCompound tag = stack.getSubCompound("" + slot, false);
+		NBTTagCompound tag = stack.getSubCompound("" + slot);
 		stack.setTagInfo("" + slot, new NBTTagCompound());
 		stack.getTagCompound().setString("slot" + slot, "");
 		ItemStack toReturn = new ItemStack(Calculator.moduleItems.getPrimaryObject(module.getName()), 1);
@@ -318,7 +318,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 
 	@Override
 	public NBTTagCompound getModuleTag(ItemStack stack, int slot) {
-		return stack.getSubCompound("" + slot, true);
+		return stack.getOrCreateSubCompound("" + slot);
 	}
 
 	@Override

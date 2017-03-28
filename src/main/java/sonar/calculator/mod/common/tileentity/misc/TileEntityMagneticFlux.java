@@ -48,12 +48,12 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 
 	public void update() {
 		super.update();
-		if (this.worldObj.isBlockIndirectlyGettingPowered(pos) > 0) {
+		if (this.world.isBlockIndirectlyGettingPowered(pos) > 0) {
 			disabled = true;
 			return;
 		}
 		disabled = false;
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			if (!(rotate >= 1)) {
 				rotate += (float) 1 / 100;
 			} else {
@@ -83,7 +83,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	public void magnetizeItems() {
 		int range = 10;
 		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
-		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, aabb, null);
+		List<EntityItem> items = this.world.getEntitiesWithinAABB(EntityItem.class, aabb, null);
 		for (EntityItem entity : items) {
 			if (validItemStack(((EntityItem) entity).getEntityItem())) {
 				double x = pos.getX() + 0.5D - entity.posX;
@@ -93,7 +93,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 				double distance = Math.sqrt(x * x + y * y + z * z);
 				if (distance < 1.5) {
 					ItemStack itemstack = addToInventory((EntityItem) entity);
-					if (itemstack == null || itemstack.stackSize <= 0) {
+					if (itemstack == null || itemstack.getCount() <= 0) {
 						entity.setDead();
 					} else {
 						((EntityItem) entity).setEntityItemStack(itemstack);
@@ -144,17 +144,17 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	}
 
 	public ItemStack addToInventory(EntityItem item) {
-		if (!this.worldObj.isRemote) {
-			EntityItem entity = (EntityItem) this.worldObj.getEntityByID(item.getEntityId());
+		if (!this.world.isRemote) {
+			EntityItem entity = (EntityItem) this.world.getEntityByID(item.getEntityId());
 			if (entity == null) {
 				return null;
 			}
 			ItemStack itemstack = entity.getEntityItem();
 			if (itemstack != null) {
-				int i = itemstack.stackSize;
+				int i = itemstack.getCount();
 				TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
 				if (target != null)
-					itemstack = SonarAPI.getItemHelper().getStackToAdd(itemstack.stackSize, new StoredItemStack(itemstack), SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), EnumFacing.getFront(1), ActionType.PERFORM, null)).getFullStack();
+					itemstack = SonarAPI.getItemHelper().getStackToAdd(itemstack.getCount(), new StoredItemStack(itemstack), SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), EnumFacing.getFront(1), ActionType.PERFORM, null)).getFullStack();
 			}
 			return itemstack;
 		}

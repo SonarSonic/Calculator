@@ -29,7 +29,7 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 		}
 
 		public FailedCoords checkStructure() {
-			EnumFacing forward = this.worldObj.getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
+			EnumFacing forward = this.world.getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
 			BlockPos centre = pos.add((forward.getFrontOffsetX() * 3), 0, (forward.getFrontOffsetZ() * 3));
 
 			FailedCoords bottom = this.outsideLayer(centre.offset(EnumFacing.DOWN, 3));
@@ -53,11 +53,11 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 				for (int Z = -3; Z <= 3; Z++) {
 					BlockPos current = pos.add(X, 0, Z);
 					if (X == 3 || Z == 3 || X == -3 || Z == -3) {
-						if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableBlock)) {
-							return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimension()), "stable");
+						if (!(this.world.getBlockState(current).getBlock() instanceof IStableBlock)) {
+							return new FailedCoords(false, new BlockCoords(current, world.provider.getDimension()), "stable");
 						}
-					} else if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableGlass)) {
-						return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimension()), "glass");
+					} else if (!(this.world.getBlockState(current).getBlock() instanceof IStableGlass)) {
+						return new FailedCoords(false, new BlockCoords(current, world.provider.getDimension()), "glass");
 					}
 
 				}
@@ -74,16 +74,16 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 						if (X == 3 || Z == 3 || X == -3 || Z == -3) {
 							if (!this.pos.equals(current)) {
 								if (X == 3 && Z == 3 || X == -3 && Z == -3 || X == -3 && Z == 3 || X == 3 && Z == -3) {
-									if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableBlock)) {
-										return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimension()), "stable");
+									if (!(this.world.getBlockState(current).getBlock() instanceof IStableBlock)) {
+										return new FailedCoords(false, new BlockCoords(current, world.provider.getDimension()), "stable");
 									}
-								} else if (!(this.worldObj.getBlockState(current).getBlock() instanceof IStableGlass)) {
+								} else if (!(this.world.getBlockState(current).getBlock() instanceof IStableGlass)) {
 
-									return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimension()), "glass");
+									return new FailedCoords(false, new BlockCoords(current, world.provider.getDimension()), "glass");
 								}
 							}
-						} else if (!(this.worldObj.getBlockState(current).getBlock() == Blocks.AIR)) {
-							return new FailedCoords(false, new BlockCoords(current, worldObj.provider.getDimension()), "air");
+						} else if (!(this.world.getBlockState(current).getBlock() == Blocks.AIR)) {
+							return new FailedCoords(false, new BlockCoords(current, world.provider.getDimension()), "air");
 						}
 
 					}

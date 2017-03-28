@@ -50,7 +50,7 @@ public class TileEntityWeatherStation extends TileEntitySonar implements ITickab
 		TileEntityConductorMast mast = null;
 		for (int X = -10; X <= 10; X++) {
 			for (int Z = -10; Z <= 10; Z++) {
-				TileEntity target = this.worldObj.getTileEntity(pos.add(X, 0, Z));
+				TileEntity target = this.world.getTileEntity(pos.add(X, 0, Z));
 				if (target != null && target instanceof TileEntityConductorMast) {
 					TileEntityConductorMast tile = (TileEntityConductorMast) target;
 					double mastDist = target.getDistanceSq(pos.getX(), pos.getY(), pos.getZ());

@@ -119,7 +119,7 @@ public class WIPSmeltingModule extends SonarEnergyItem implements IItemInventory
 			if (inv.getStackInSlot(2) == null) {
 				inv.setInventorySlotContents(2, itemstack.copy());
 			} else if (inv.getStackInSlot(2).isItemEqual(itemstack)) {
-				this.getInventory(stack).decrStackSize(2, itemstack.stackSize);
+				this.getInventory(stack).decrStackSize(2, itemstack.getCount());
 			}
 
 			this.getInventory(stack).decrStackSize(0, 1);
@@ -148,7 +148,7 @@ public class WIPSmeltingModule extends SonarEnergyItem implements IItemInventory
 			if (!inv.getStackInSlot(2).isItemEqual(itemstack)) {
 				return false;
 			} else {
-				if (inv.getStackInSlot(2).stackSize + itemstack.stackSize > inv.getStackInSlot(2).getMaxStackSize()) {
+				if (inv.getStackInSlot(2).stackSize + itemstack.getCount() > inv.getStackInSlot(2).getMaxStackSize()) {
 					return false;
 				}
 			}

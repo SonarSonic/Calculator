@@ -81,13 +81,13 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 				return false;
 			} else {
 				ItemStack outputStack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);
-					if (slots()[o + inputSize() + 1] != null) {
-						if (!slots()[o + inputSize() + 1].isItemEqual(outputStack)) {
-							return false;
-						} else if (slots()[o + inputSize() + 1].stackSize + outputStack.stackSize > slots()[o + inputSize() + 1].getMaxStackSize()) {
-							return false;
-						}
+				if (slots()[o + inputSize() + 1] != null) {
+					if (!slots()[o + inputSize() + 1].isItemEqual(outputStack)) {
+						return false;
+					} else if (slots()[o + inputSize() + 1].getCount() + outputStack.getCount() > slots()[o + inputSize() + 1].getMaxStackSize()) {
+						return false;
 					}
+				}
 			}
 		}
 		return true;
@@ -100,7 +100,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 	public int getMaxInputSize() {
 		int size = 1;
 		for (int i = 0; i < inputSize(); i++) {
-			size = slots()[i] != null ? Math.max(size, slots()[i].stackSize) : 0;
+			size = slots()[i] != null ? Math.max(size, slots()[i].getCount()) : 0;
 		}
 		return size;
 	}
@@ -111,7 +111,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		for (int o = 0; o < outputSize(); o++) {
 			ISonarRecipeObject outputObject = recipe.outputs().get(o);
 			if (slots()[o + inputSize() + 1] != null && outputObject != null) {
-				size = Math.max((getInventoryStackLimit() - slots()[o + inputSize() + 1].stackSize) / outputObject.getStackSize(), size);
+				size = Math.max((getInventoryStackLimit() - slots()[o + inputSize() + 1].getCount()) / outputObject.getStackSize(), size);
 			} else {
 				size = 0;
 			}
@@ -121,22 +121,23 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 
 	public void finishProcess() {
 		ISonarRecipe recipe = getRecipe(inputStacks());
-		if(recipe==null){
+		if (recipe == null) {
 			return;
 		}
 		for (int o = 0; o < Math.min(recipe.outputs().size(), outputSize()); o++) {
 			ISonarRecipeObject outputObject = recipe.outputs().get(o);
-			
-			ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);			
+
+			ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);
 			if (stack != null && !isOutputVoided(o + inputSize() + 1, stack)) {
-				if (slots()[o + inputSize() + 1] == null) {
+				ItemStack stackInSlot = slots()[o + inputSize() + 1];
+				if (stackInSlot == null) {
 					ItemStack outputStack = stack.copy();
 					if (outputStack.getItem() == Calculator.circuitBoard) {
 						CircuitBoard.setData(outputStack);
 					}
 					slots()[o + inputSize() + 1] = outputStack;
-				} else if (slots()[o + inputSize() + 1].isItemEqual(stack)) {
-					slots()[o + inputSize() + 1].stackSize += outputObject.getStackSize();
+				} else if (stackInSlot.isItemEqual(stack)) {
+					stackInSlot.grow(outputObject.getStackSize());
 				}
 			}
 		}

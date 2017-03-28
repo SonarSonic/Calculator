@@ -55,7 +55,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			checkTile();
 		}
 		if (houseState.getObject() == State.COMPLETED) {
-			if (!this.worldObj.isRemote) {
+			if (!this.world.isRemote) {
 				extraTicks();
 			}
 			if (isActive()) {
@@ -128,7 +128,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			int fX = forward.getFrontOffsetX();
 			int fZ = forward.getFrontOffsetZ();
 
-			FailedCoords size = checkSize(true, this.worldObj, hX, hZ, hoX, hoZ, fX, fZ, pos.getX(), pos.getY(), pos.getZ());
+			FailedCoords size = checkSize(true, this.world, hX, hZ, hoX, hoZ, fX, fZ, pos.getX(), pos.getY(), pos.getZ());
 
 			if (!size.getBoolean()) {
 				return size;
@@ -141,7 +141,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	/** adds gas, depends on day and night **/
 	public void gasLevels() {
-		boolean day = this.worldObj.isDaytime();
+		boolean day = this.world.isDaytime();
 		int gasAdd = this.getGasAdd();
 		if (day) {
 			int add = (this.plants * 8) - (gasAdd * 2);
@@ -156,7 +156,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	}
 
 	private int getGasAdd() {
-		TileEntity tile = this.worldObj.getTileEntity(pos.add((SonarHelper.getHorizontal(forward).getFrontOffsetX() * 3), 0, (SonarHelper.getHorizontal(forward).getFrontOffsetZ()) * 3));
+		TileEntity tile = this.world.getTileEntity(pos.add((SonarHelper.getHorizontal(forward).getFrontOffsetX() * 3), 0, (SonarHelper.getHorizontal(forward).getFrontOffsetZ()) * 3));
 		if (tile != null && tile instanceof TileEntityCO2Generator) {
 			TileEntityCO2Generator generator = (TileEntityCO2Generator) tile;
 			return generator.gasAdd;
@@ -180,7 +180,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		for (int i = 0; i <= this.houseSize; i++) {
 			for (int XZ = 1; XZ <= 2; XZ++) {
 				BlockPos pos = this.pos.add((hX * XZ) + (fX * (1 + i)), 0, (hZ * XZ) + (fZ * (1 + i)));
-				if (this.worldObj.getBlockState(pos).getBlock() instanceof IGrowable) {
+				if (this.world.getBlockState(pos).getBlock() instanceof IGrowable) {
 					this.plants++;
 
 				}
@@ -204,13 +204,13 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 				BlockPos pos = this.pos.add((hX * XZ) + (fX * (1 + i)), 0, (hZ * XZ) + (fZ * (1 + i)));
 				if (XZ != 1 && XZ != 2) {
 					if (this.storage.getEnergyStored() >= waterRF) {
-						if (GreenhouseHelper.applyWater(worldObj, pos)) {
+						if (GreenhouseHelper.applyWater(world, pos)) {
 							this.storage.modifyEnergyStored(-waterRF);
 						}
 					}
 				} else {
 					if (this.storage.getEnergyStored() >= farmlandRF) {
-						if (GreenhouseHelper.applyFarmland(worldObj, pos)) {
+						if (GreenhouseHelper.applyFarmland(world, pos)) {
 							this.storage.modifyEnergyStored(-farmlandRF);
 						}
 					}
@@ -259,21 +259,21 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	}
 
 	public boolean stableStone(int x, int y, int z) {
-		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
+		Block block = this.world.getBlockState(new BlockPos(x, y, z)).getBlock();
 		if (block == null)
 			return false;
 		return !GreenhouseHelper.stableStone(block);
 	}
 
 	public boolean flawlessGlass(int x, int y, int z) {
-		Block block = this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock();
+		Block block = this.world.getBlockState(new BlockPos(x, y, z)).getBlock();
 		if (block == null)
 			return false;
 		return !GreenhouseHelper.flawlessGlass(block);
 	}
 
 	public boolean slabQuartz(int x, int y, int z) {
-		return !GreenhouseHelper.slabQuartz(this.worldObj, new BlockPos(x, y, z));
+		return !GreenhouseHelper.slabQuartz(this.world, new BlockPos(x, y, z));
 	}
 
 	public FailedCoords checkSize(boolean check, World w, int hX, int hZ, int hoX, int hoZ, int fX, int fZ, int x, int y, int z) {

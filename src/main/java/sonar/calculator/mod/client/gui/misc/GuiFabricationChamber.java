@@ -67,7 +67,7 @@ public class GuiFabricationChamber extends GuiContainer {
 	@Override
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
-		this.mc.thePlayer.openContainer = this.inventorySlots;
+		this.mc.player.openContainer = this.inventorySlots;
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
 		scrollerLeft = this.guiLeft + 91;

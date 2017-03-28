@@ -17,7 +17,8 @@ import sonar.core.utils.IMachineSides;
 public class Wrench extends SonarItem implements IWrench {
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		if (!player.canPlayerEdit(pos, side, stack)) {
 			return EnumActionResult.PASS;
 		}

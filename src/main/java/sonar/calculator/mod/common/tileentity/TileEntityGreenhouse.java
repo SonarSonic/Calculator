@@ -121,12 +121,12 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			if ((this.storage.getEnergyStored() > this.growthRF)) {
 				int rand = SonarCore.randInt(0, plantArea.size() - 1);
 				BlockPos pos = plantArea.get(rand);
-				IBlockState state = worldObj.getBlockState(pos);
+				IBlockState state = world.getBlockState(pos);
 				Block block = state.getBlock();
 				if (block != null) {
 					for (IFertiliser fertiliser : SonarCore.fertilisers.getObjects()) {
-						if (fertiliser.canFertilise(worldObj, pos, state) && fertiliser.canGrow(worldObj, pos, state, false)) {
-							fertiliser.grow(worldObj, SonarCore.rand, pos, state);
+						if (fertiliser.canFertilise(world, pos, state) && fertiliser.canGrow(world, pos, state, false)) {
+							fertiliser.grow(world, SonarCore.rand, pos, state);
 						}
 					}
 				}
@@ -143,15 +143,15 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			return;
 		}
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
-			IBlockState state = worldObj.getBlockState(pos);
+			IBlockState state = world.getBlockState(pos);
 			Block block = state.getBlock();
 			if (block != null) {
 				for (IHarvester harvester : SonarCore.harvesters.getObjects()) {
-					if (harvester.canHarvest(worldObj, pos, state) && harvester.isReady(worldObj, pos, state)) {
-						List<ItemStack> stacks = harvester.getDrops(worldObj, pos, state, type);
+					if (harvester.canHarvest(world, pos, state) && harvester.isReady(world, pos, state)) {
+						List<ItemStack> stacks = harvester.getDrops(world, pos, state, type);
 						if (stacks != null) {
 							addHarvestedStacks(stacks, pos, false, true);
-							harvester.harvest(worldObj, pos, state, false);
+							harvester.harvest(world, pos, state, false);
 						}
 						this.storage.modifyEnergyStored(-growthRF);
 					}
@@ -178,8 +178,8 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 					}
 				}
 				if (storedstack != null && storedstack.stored > 0) {
-					EntityItem drop = new EntityItem(worldObj, this.pos.offset(forward.getOpposite()).getX(), this.pos.offset(forward.getOpposite()).getY(), this.pos.offset(forward.getOpposite()).getZ(), storedstack.getFullStack());
-					worldObj.spawnEntityInWorld(drop);
+					EntityItem drop = new EntityItem(world, this.pos.offset(forward.getOpposite()).getX(), this.pos.offset(forward.getOpposite()).getY(), this.pos.offset(forward.getOpposite()).getZ(), storedstack.getFullStack());
+					world.spawnEntity(drop);
 				}
 
 				if (isCrops && this.type == 3)
@@ -194,9 +194,9 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			return;
 		}
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
-			IBlockState oldState = worldObj.getBlockState(pos);
+			IBlockState oldState = world.getBlockState(pos);
 			Block block = oldState.getBlock();
-			if ((block == null || block.isAir(oldState, getWorld(), pos) || block.isReplaceable(worldObj, pos))) {
+			if ((block == null || block.isAir(oldState, getWorld(), pos) || block.isReplaceable(world, pos))) {
 				for (IPlanter planter : SonarCore.planters.getObjects()) {
 					for (Integer slot : getInvPlants()) {
 						plantCrop(pos, planter, slot);
@@ -209,7 +209,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public void plantCrop(BlockPos pos, IPlanter planter, Integer slot) {
 		ItemStack stack = slots()[slot];
 		if (stack != null && planter.canTierPlant(slots()[slot], type)) {
-			IBlockState state = planter.getPlant(stack, worldObj, pos);
+			IBlockState state = planter.getPlant(stack, world, pos);
 			plantCrop(pos, state, slot);
 		}
 	}
@@ -217,11 +217,11 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public void plantCrop(BlockPos pos, IBlockState state, Integer slot) {
 		if (state != null) {
 			this.storage.modifyEnergyStored(-plantRF);
-			slots()[slot].stackSize--;
-			if (slots()[slot].stackSize == 0) {
+			slots()[slot].shrink(1);
+			if (slots()[slot].getCount() == 0) {
 				slots()[slot] = null;
 			}
-			worldObj.setBlockState(pos, state, 3);
+			world.setBlockState(pos, state, 3);
 			return;
 		}
 	}

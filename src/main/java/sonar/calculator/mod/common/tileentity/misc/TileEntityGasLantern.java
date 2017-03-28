@@ -30,7 +30,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 
 	@Override
 	public void update() {
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			return;
 		}
 		boolean flag1 = burnTime.getObject() > 0;
@@ -38,7 +38,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 		if (burnTime.getObject() > 0) {
 			burnTime.increaseBy(1);
 		}
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			if (maxBurnTime.getObject() == 0) {
 				if (this.slots()[0] != null) {
 					if (TileEntityFurnace.isItemFuel(slots()[0])) {
@@ -60,7 +60,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 
 		if (flag1 != this.burnTime.getObject() > 0) {
 			flag1 = true;
-			GasLantern.setState(this.isBurning(), worldObj, pos);
+			GasLantern.setState(this.isBurning(), world, pos);
 			markBlockForUpdate();
 		}
 
@@ -72,9 +72,9 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 
 	private void burn() {
 		this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(this.slots()[0]) * 10);
-		this.slots()[0].stackSize--;
+		this.slots()[0].shrink(1);
 
-		if (this.slots()[0].stackSize <= 0) {
+		if (this.slots()[0].getCount() <= 0) {
 			this.slots()[0] = null;
 		}
 

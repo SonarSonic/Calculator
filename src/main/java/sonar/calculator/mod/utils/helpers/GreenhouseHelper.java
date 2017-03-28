@@ -296,7 +296,7 @@ public class GreenhouseHelper {
 		return false;
 	}
 
-	public static boolean applyBonemeal(World worldObj, BlockPos add, boolean b) {
+	public static boolean applyBonemeal(World world, BlockPos add, boolean b) {
 		
 		return false;
 	}

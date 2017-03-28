@@ -60,7 +60,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	}
 
 	public void onLoaded() {
-		setWeatherStationAngles(true, worldObj, pos);
+		setWeatherStationAngles(true, world, pos);
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 						currentstrikes = strikes;
 					}
 					while (currentstrikes != 0) {
-						worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, pos.getX(), pos.getY() + 4, pos.getZ(), true));
+						world.spawnEntity(new EntityLightningBolt(world, pos.getX(), pos.getY() + 4, pos.getZ(), true));
 						currentstrikes--;
 					}
 				}
@@ -143,7 +143,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	private void lightningStrike(World world, int x, int y, int z) {
 		if (storage.getEnergyStored() < storage.getMaxEnergyStored()) {
-			world.spawnEntityInWorld(new EntityLightningBolt(world, x, y, z, true));
+			world.spawnEntity(new EntityLightningBolt(world, x, y, z, true));
 		}
 
 	}
@@ -164,7 +164,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		if (slots()[1] != null) {
 			if (!slots()[1].isItemEqual(stack)) {
 				return false;
-			} else if (slots()[1].stackSize + stack.stackSize > slots()[1].getMaxStackSize()) {
+			} else if (slots()[1].getCount() + stack.getCount() > slots()[1].getMaxStackSize()) {
 				return false;
 			}
 		}
@@ -192,11 +192,11 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			this.slots()[1] = stack.copy();
 
 		} else if (this.slots()[1].isItemEqual(stack)) {
-			this.slots()[1].stackSize++;
+			this.slots()[1].grow(1);
 		}
-		this.slots()[0].stackSize--;
+		this.slots()[0].shrink(1);
 
-		if (this.slots()[0].stackSize <= 0) {
+		if (this.slots()[0].getCount() <= 0) {
 			this.slots()[0] = null;
 		}
 
@@ -248,7 +248,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		int stations = 0;
 		for (int x = -10; x <= 10; x++) {
 			for (int z = -10; z <= 10; z++) {
-				TileEntity target = worldObj.getTileEntity(pos.add(x, 0, z));
+				TileEntity target = world.getTileEntity(pos.add(x, 0, z));
 				if (target != null && target instanceof TileEntityWeatherStation) {
 					TileEntityWeatherStation station = (TileEntityWeatherStation) target;
 					if (station.x == pos.getX() && station.z == pos.getZ()) {
@@ -290,7 +290,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		int transmitter = 0;
 		for (int x = -20; x <= 20; x++) {
 			for (int z = -20; z <= 20; z++) {
-				TileEntity target = worldObj.getTileEntity(pos.add(x, 0, z));
+				TileEntity target = world.getTileEntity(pos.add(x, 0, z));
 				if (target != null && target instanceof TileEntityTransmitter) {
 					TileEntityTransmitter station = (TileEntityTransmitter) target;
 					transmitter++;

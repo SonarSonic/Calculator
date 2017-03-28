@@ -21,9 +21,9 @@ public class EntityBabyGrenade extends EntityThrowable {
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			setDead();
-			this.worldObj.createExplosion((Entity) null, this.posX, this.posY, this.posZ, 1.0F, true);
+			this.world.createExplosion((Entity) null, this.posX, this.posY, this.posZ, 1.0F, true);
 
 		}
 	}

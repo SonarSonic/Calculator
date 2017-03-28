@@ -190,7 +190,7 @@ public class GuiInfoCalculator extends GuiContainer {
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
 		buttonList.clear();
-		this.mc.thePlayer.openContainer = this.inventorySlots;
+		this.mc.player.openContainer = this.inventorySlots;
 		this.xSize = 136;
 		this.ySize = 166;
 		this.guiLeft = (this.width - this.xSize) / 2;

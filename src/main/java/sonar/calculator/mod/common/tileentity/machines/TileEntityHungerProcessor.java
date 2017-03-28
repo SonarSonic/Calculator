@@ -36,7 +36,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	@Override
 	public void update() {
 		super.update();
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 			food(slots()[0]);
 		charge(slots()[1]);
 
@@ -78,8 +78,8 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 			if (stack.getItem() instanceof ItemFood) {
 				ItemFood food = (ItemFood) stack.getItem();
 				storedpoints.increaseBy(food.getHealAmount(stack));
-				this.slots()[0].stackSize--;
-				if (this.slots()[0].stackSize <= 0) {
+				this.slots()[0].shrink(1);
+				if (this.slots()[0].getCount() <= 0) {
 					this.slots()[0] = null;
 				}
 			}

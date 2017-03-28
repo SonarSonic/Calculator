@@ -81,7 +81,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 			}
 
 			if (flag != active.getObject()) {
-				worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(CalculatorLocator.ACTIVE, active.getObject()), 2);
+				world.setBlockState(pos, world.getBlockState(pos).withProperty(CalculatorLocator.ACTIVE, active.getObject()), 2);
 				SonarCore.sendPacketAround(this, 128, 1);
 			}
 			charge(0);
@@ -104,7 +104,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	}
 
 	public void getStability() {
-		if (worldObj.isRemote) {
+		if (world.isRemote) {
 			return;
 		}
 		int currentStable = 0;
@@ -114,7 +114,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 
 		for (int Z = -(size.getObject()); Z <= (size.getObject()); Z++) {
 			for (int X = -(size.getObject()); X <= (size.getObject()); X++) {
-				TileEntity target = worldObj.getTileEntity(pos.add(X, 0, Z));
+				TileEntity target = world.getTileEntity(pos.add(X, 0, Z));
 				if (target != null && target instanceof TileEntityCalculatorPlug) {
 					TileEntityCalculatorPlug plug = (TileEntityCalculatorPlug) target;
 					currentStable += plug.getS();
@@ -132,7 +132,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 			if (this.stability.getObject() >= 7) {
 				return true;
 			} else {
-				EntityPlayer player = this.worldObj.getPlayerEntityByName(getOwner());
+				EntityPlayer player = this.world.getPlayerEntityByName(getOwner());
 				if (player != null) {
 					return true;
 				}
@@ -145,7 +145,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	public void beginGeneration() {
 		currentGen.setObject(currentOutput());
 		storage.modifyEnergyStored(currentGen.getObject());
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			if (this.luckTicks >= 0 && this.luckTicks != 50) {
 				this.luckTicks++;
 			} else if (this.luckTicks == 50) {
@@ -161,7 +161,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	}
 
 	private void timeStart() {
-		this.worldObj.setWorldTime(worldObj.getWorldTime() + 100);
+		this.world.setWorldTime(world.getWorldTime() + 100);
 	}
 
 	public void addItem(EntityPlayer player, Item item) {
@@ -173,7 +173,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	}
 
 	private void effectStart() {
-		EntityPlayer player = this.worldObj.getPlayerEntityByName(getOwner());
+		EntityPlayer player = this.world.getPlayerEntityByName(getOwner());
 		if (player != null) {
 			double x = player.posX;
 			double y = player.posY;
@@ -182,14 +182,14 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 			int luck = 1 + (int) (Math.random() * ((20 * (stability + 1) - 1) + 20 * (stability + 1)));
 
 			if (stability == 0) {
-				worldObj.createExplosion(player, x, y, z, 4F, true);
+				world.createExplosion(player, x, y, z, 4F, true);
 				player.setHealth(player.getHealth() - 4);
 
 			} else {
 				if (stability < 2) {
 					switch (luck) {
 					case 1:
-						worldObj.createExplosion(player, x, y, z, 4F, true);
+						world.createExplosion(player, x, y, z, 4F, true);
 						player.setHealth(player.getHealth() - 4);
 						break;
 					}
@@ -200,10 +200,10 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 						player.setFire(400);
 						break;
 					case 3:
-						worldObj.createExplosion(player, x, y, z, 8F, true);
+						world.createExplosion(player, x, y, z, 8F, true);
 						break;
 					case 4:
-						worldObj.createExplosion(player, x, y, z, 6F, true);
+						world.createExplosion(player, x, y, z, 6F, true);
 						break;
 					case 5:
 						addPotion(player, "nausea");
@@ -250,7 +250,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 						if (luck == 16) {
 							int luck2 = 1 + (int) (Math.random() * ((5) - 1) + 5);
 							if (luck2 == 16) {
-								worldObj.createExplosion(player, x, y, z, 80F, true);
+								world.createExplosion(player, x, y, z, 80F, true);
 								player.setHealth(player.getHealth() - 40);
 							}
 						}
@@ -333,7 +333,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	public int beamHeight() {
 		int f = 0;
 		for (int i = 1; i <= 256; i++) {
-			if (this.worldObj.isSideSolid(pos.add(0, i, 0), EnumFacing.UP)) {
+			if (this.world.isSideSolid(pos.add(0, i, 0), EnumFacing.UP)) {
 				return i;
 			}
 		}
