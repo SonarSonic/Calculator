@@ -29,7 +29,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 				if (i != 16) {
 					updateCalc = true;
 				} else {
-					if (itemstack == null) {
+					if (itemstack.isEmpty()) {
 						clear();
 					} else {
 						newCalc = true;
@@ -42,7 +42,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 				if (hasFlawlessCalculator() && stack != null) {
 					IModule module = Calculator.modules.getRegisteredObject(Calculator.moduleItems.getSecondaryObject(stack.getItem()));
 					if (module != null) {
-						ItemStack calcStack = slots()[FlawlessCalculator.moduleCapacity];
+						ItemStack calcStack = slots().get(FlawlessCalculator.moduleCapacity);
 						IFlawlessCalculator calc = (IFlawlessCalculator) calcStack.getItem();
 						if (calc.canAddModule(calcStack, module, slot)) {
 							return true;
@@ -101,7 +101,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 		if (isClient() || !hasFlawlessCalculator()) {
 			return;
 		}
-		ItemStack stack = slots()[FlawlessCalculator.moduleCapacity];
+		ItemStack stack = slots().get(FlawlessCalculator.moduleCapacity);
 		IFlawlessCalculator calc = (IFlawlessCalculator) stack.getItem();
 		if (newCalc) {
 			ArrayList<IModule> modules = calc.getModules(stack);
@@ -111,7 +111,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 				if (item != null) {
 					ItemStack moduleStack = new ItemStack(item, 1);
 					moduleStack.setTagCompound(calc.getModuleTag(stack, i));
-					slots()[i] = moduleStack;
+					slots().set(i, moduleStack);
 				}
 				i++;
 			}
@@ -120,7 +120,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 		} else if (updateCalc) {
 			ArrayList<IModule> modules = new ArrayList();
 			for (int i = 0; i < FlawlessCalculator.moduleCapacity; i++) {
-				ItemStack target = slots()[i];
+				ItemStack target = slots().get(i);
 				NBTTagCompound tag = new NBTTagCompound();
 				IModule module = target != null ? Calculator.modules.getRegisteredObject(Calculator.moduleItems.getSecondaryObject(target.getItem())) : EmptyModule.EMPTY;
 				if (module == null) {
@@ -135,7 +135,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 	}
 
 	public boolean hasFlawlessCalculator() {
-		return slots()[FlawlessCalculator.moduleCapacity] != null && slots()[FlawlessCalculator.moduleCapacity].getItem() instanceof IFlawlessCalculator;
+		return slots().get(FlawlessCalculator.moduleCapacity).getItem() instanceof IFlawlessCalculator;
 	}
 
 	@Override

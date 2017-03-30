@@ -85,7 +85,7 @@ public class GuiFabricationChamber extends GuiContainer {
 		int finish = Math.min(start + getViewableSize(), recipes.size());
 		for (int i = start; i < finish; i++) {
 			ItemStack stack = RecipeHelperV2.getItemStackFromList(FabricationChamberRecipes.instance().getRecipes().get(i).outputs(), 0);
-			if (stack != null && ItemStackHelper.equalStacksRegular(chamber.selected, stack)) {
+			if (ItemStackHelper.equalStacksRegular(chamber.selected, stack)) {
 				return i - start;
 			}
 		}
@@ -101,7 +101,7 @@ public class GuiFabricationChamber extends GuiContainer {
 		int pos = this.getDataPosition();
 		for (int i = start; i < finish; i++) {
 			ItemStack stack = RecipeHelperV2.getItemStackFromList(FabricationChamberRecipes.instance().getRecipes().get(i).outputs(), 0);
-			if (stack != null) {
+			if (!stack.isEmpty()) {
 				itemRender.renderItemIntoGUI(stack, 7, 7 + ((i - start) * 18));
 				GL11.glPushMatrix();
 				GL11.glScaled(0.7, 0.7, 0.7);
@@ -155,7 +155,7 @@ public class GuiFabricationChamber extends GuiContainer {
 			for (int i = start; i < finish; i++) {
 				if (y > (4 + (i - start) * 18) && y < (4 + (i - start) * 18) + 18) {
 					ItemStack stack = RecipeHelperV2.getItemStackFromList(FabricationChamberRecipes.instance().getRecipes().get(i).outputs(), 0);
-					if (stack != null) {
+					if (!stack.isEmpty()) {
 						SonarCore.network.sendToServer(new PacketByteBuf(chamber, chamber.getPos(), 0, new ByteBufWritable(true) {
 							@Override
 							public void writeToBuf(ByteBuf buf) {

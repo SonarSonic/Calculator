@@ -49,7 +49,7 @@ public class CalculatorCommon implements IGuiHandler {
 			}
 		} else {
 			ItemStack equipped = player.getHeldItemMainhand();
-			if (equipped != null) {
+			if (!equipped.isEmpty()) {
 				switch (ID) {
 				case IGuiItem.ID:
 					return ((IGuiItem) equipped.getItem()).getGuiContainer(player, equipped);

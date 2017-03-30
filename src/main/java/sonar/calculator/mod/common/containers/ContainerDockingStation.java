@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.core.api.SonarAPI;
+import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
@@ -22,15 +23,7 @@ public class ContainerDockingStation extends ContainerSync {
 		this.entity = entity;
 		INV_START=entity.getInputStackSize(entity.calcStack) + 2;
 		addSlots(entity);
-
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-			}
-		}
-
-		for (int i = 0; i < 9; i++)
-			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
+		addInventory(inventory, 8, 84);
 	}
 
 	public void addSlots(TileEntityDockingStation entity) {
@@ -49,18 +42,16 @@ public class ContainerDockingStation extends ContainerSync {
 				addSlotToContainer(new Slot(entity, 4, 28, 60));
 				addSlotToContainer(new SlotBlockedInventory(entity, 5, 135, 30));
 			} else {
-
 				addSlotToContainer(new Slot(entity, 0, 26, 30));
 				addSlotToContainer(new Slot(entity, 1, 80, 30));
 				addSlotToContainer(new Slot(entity, 4, 28, 60));
 				addSlotToContainer(new SlotBlockedInventory(entity, 5, 135, 30));
 			}
-
 		}
 	}
 
 	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(id);
 
 		if (slot != null && slot.getHasStack()) {
@@ -69,40 +60,40 @@ public class ContainerDockingStation extends ContainerSync {
 			int start = entity.getInputStackSize(entity.calcStack) + 2;
 			if (id < start) {
 				if (!this.mergeItemStack(itemstack1, start, HOTBAR_END + 1, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 
 				if (id >= entity.getInputStackSize(entity.calcStack)) {
-					if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
+					if (DischargeValues.getValueOf(itemstack1) > 0 || SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1) != null) {
 						if (!mergeItemStack(itemstack1, start - 2, start - 1, false)) {
-							return null;
+							return ItemStack.EMPTY;
 						}
 					}else if (!this.mergeItemStack(itemstack1, 0, entity.getInputStackSize(entity.calcStack), false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 
 				} else if (id >= start && id < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				} else if (id >= HOTBAR_START && id < HOTBAR_END + 1) {
 					if (!this.mergeItemStack(itemstack1, start, INV_END + 1, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				}
 			}
 
 			if (itemstack1.getCount() == 0) {
-				slot.putStack((ItemStack) null);
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
 
 			if (itemstack1.getCount() == itemstack.getCount()) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 
 			slot.onTake(player, itemstack1);

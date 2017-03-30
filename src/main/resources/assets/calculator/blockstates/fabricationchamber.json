@@ -1,0 +1,34 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "particle":"calculator:model/analysing_chamber_slot1",
+            "up":"calculator:model/analysing_chamber_slot1",
+            "down":"calculator:model/analysing_chamber2_slot1",
+            "north":"calculator:model/fabrication_chamber_front",        
+            "east":"calculator:model/analysing_chamber_side_1",        
+            "south":"calculator:model/analysing_chamber_side_1",
+            "west":"calculator:model/analysing_chamber_side_1",
+            "arm":"calculator:model/fabrication_arm"
+	    },   
+        "model":"calculator:FabricationChamber_Fixed",        
+        "transform":"forge:default-block"
+    },
+    "variants": { 
+        "inventory": [{            
+            "model":"calculator:FabricationChamber"
+        }], 
+        "facing":{  
+            "north":{},
+            "south":{
+                "y": 180
+            },
+            "west":{
+                "y": 270
+            },
+            "east":{
+                "y": 90
+            }
+        }
+    }
+}

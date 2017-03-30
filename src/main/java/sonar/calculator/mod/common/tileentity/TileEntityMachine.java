@@ -76,18 +76,19 @@ public class TileEntityMachine {
 		}
 
 		public boolean canProcess() {
-			if (slots()[0] == null || (cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy())) {
+			if (slots().get(0) == null || (cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy())) {
 				return false;
 			}
 			ItemStack result = getFurnaceOutput(inputStacks()[0]);
-			if (result == null) {
+			if (result.isEmpty()) {
 				return false;
 			}
 			for (int o = 0; o < outputSize(); o++) {
-				if (slots()[o + inputSize() + 1] != null) {
-					if (!slots()[o + inputSize() + 1].isItemEqual(result)) {
+				ItemStack output = slots().get(o + inputSize() + 1);
+				if (!output.isEmpty()) {
+					if (!output.isItemEqual(result)) {
 						return false;
-					} else if (slots()[o + inputSize() + 1].getCount() + result.getCount() > slots()[o + inputSize() + 1].getMaxStackSize()) {
+					} else if (output.getCount() + result.getCount() > output.getMaxStackSize()) {
 						return false;
 					}
 				}
@@ -97,18 +98,19 @@ public class TileEntityMachine {
 
 		public void finishProcess() {
 			ItemStack stack = getFurnaceOutput(inputStacks()[0]);
-			if (stack != null) {
-				if (slots()[inputSize() + 1] == null) {
+			if (!stack.isEmpty()) {
+				ItemStack currentO = slots().get(inputSize() + 1);
+				if (currentO.isEmpty()) {
 					ItemStack outputStack = stack.copy();
 					if (outputStack.getItem() == Calculator.circuitBoard) {
 						CircuitBoard.setData(outputStack);
 					}
-					slots()[inputSize() + 1] = outputStack;
-				} else if (slots()[inputSize() + 1].isItemEqual(stack)) {
-					slots()[inputSize() + 1].grow(stack.getCount());
+					slots().set(inputSize() + 1, outputStack);
+				} else if (currentO.isItemEqual(stack)) {
+					currentO.grow(stack.getCount());
 				}
 			}
-			slots()[0] = ItemStackHelper.reduceStackSize(slots()[0], 1);
+			slots().get(0).shrink(1);
 		}
 
 		@Override

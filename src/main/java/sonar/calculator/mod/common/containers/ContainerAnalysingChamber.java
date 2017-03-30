@@ -1,19 +1,43 @@
 package sonar.calculator.mod.common.containers;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 import sonar.core.api.SonarAPI;
+import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
+import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.inventory.TransferSlotsManager.TransferSlots;
+import sonar.core.inventory.TransferSlotsManager.TransferType;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerAnalysingChamber extends ContainerSync {
 
 	private TileEntityAnalysingChamber entity;
+	public static TransferSlotsManager<TileEntityAnalysingChamber> analysingChamberTransfer = new TransferSlotsManager() {
+		{
 
+			addTransferSlot(new TransferSlots<TileEntityAnalysingChamber>(TransferType.TILE_INV, 1) {
+				public boolean canInsert(EntityPlayer player, TileEntityAnalysingChamber inv, Slot slot, int pos, int slotID, ItemStack stack) {
+					return stack.getItem() == Calculator.circuitBoard;
+				}
+			});
+			addTransferSlot(TransferSlotsManager.DISCHARGE_SLOT);
+			addTransferSlot(new TransferSlots<TileEntityAnalysingChamber>(TransferType.TILE_INV, 6) {
+				public boolean canInsert(EntityPlayer player, TileEntityAnalysingChamber inv, Slot slot, int pos, int slotID, ItemStack stack) {
+					return false;
+				}
+			});
+			addPlayerInventory();
+		}
+	};
+	
 	public ContainerAnalysingChamber(InventoryPlayer inventory, TileEntityAnalysingChamber entity) {
 		super(entity);
 		this.entity = entity;
@@ -26,59 +50,12 @@ public class ContainerAnalysingChamber extends ContainerSync {
 		addSlotToContainer(new SlotBlockedInventory(entity, 5, 89, 34));
 		addSlotToContainer(new SlotBlockedInventory(entity, 6, 107, 34));
 		addSlotToContainer(new SlotBlockedInventory(entity, 7, 125, 34));
-
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-			}
-		}
-
-		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
-		}
+		addInventory(inventory, 8, 84);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int num) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(num);
-
-		if ((slot != null) && (slot.getHasStack())) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
-			if (num >= 2 && num < 8) {
-				if (!mergeItemStack(itemstack1, 8, 43, true)) {
-					return null;
-				}
-				slot.onSlotChange(itemstack1, itemstack);
-			} else if ((num != 1) && (num != 0)) {
-				if (itemstack.getItem() == Calculator.circuitBoard) {
-					if (!mergeItemStack(itemstack1, 0, 1, false)) {
-						return null;
-					}
-				} else if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				}
-			} else if (!mergeItemStack(itemstack1, 8, 43, false)) {
-				return null;
-			}
-
-			if (itemstack1.getCount() == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
-				slot.onSlotChanged();
-			}
-
-			if (itemstack1.getCount() == itemstack.getCount()) {
-				return null;
-			}
-
-			slot.onTake(p_82846_1_, itemstack1);
-		}
-
-		return itemstack;
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
+		return analysingChamberTransfer.transferStackInSlot(this, entity, player, slotID);
 	}
 
 	@Override

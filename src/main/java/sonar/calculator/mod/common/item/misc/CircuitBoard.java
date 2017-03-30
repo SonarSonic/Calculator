@@ -10,10 +10,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.IStability;
+import sonar.core.api.utils.ICalculatorCircuit;
 import sonar.core.common.item.SonarMetaItem;
 import sonar.core.helpers.FontHelper;
 
-public class CircuitBoard extends SonarMetaItem implements IStability {
+public class CircuitBoard extends SonarMetaItem implements IStability, ICalculatorCircuit {
 
 	public CircuitBoard() {
 		super(14);

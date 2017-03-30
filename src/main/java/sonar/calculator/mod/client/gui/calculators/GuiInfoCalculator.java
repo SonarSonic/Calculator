@@ -97,7 +97,7 @@ public class GuiInfoCalculator extends GuiContainer {
 				int pos = 0;
 				prepareItemRender();
 				for (ItemStack stack : info.getRelatedItems()) {
-					if (stack != null) {
+					if (!stack.isEmpty()) {
 						Minecraft.getMinecraft().getTextureManager().bindTexture(list);
 						drawTexturedModalRect(guiLeft + 136, guiTop + 2 + (pos * 18), 136, 2, 18, 18);
 						renderItem(stack, guiLeft + 137, guiTop + 4 + (pos * 18));
@@ -115,7 +115,7 @@ public class GuiInfoCalculator extends GuiContainer {
 	}
 
 	public void renderItem(ItemStack item, int x, int y) {
-		if (item == null) {
+		if (item.isEmpty()) {
 			return;
 		}
 		GlStateManager.pushMatrix();
@@ -279,7 +279,7 @@ public class GuiInfoCalculator extends GuiContainer {
 				if (info == null || !((button.id - 10) < info.getRelatedItems().length))
 					return;
 				ItemStack stack = info.getRelatedItems()[button.id - 10];
-				if (stack == null)
+				if (stack.isEmpty())
 					return;
 
 				int pos = 0;
@@ -355,7 +355,7 @@ public class GuiInfoCalculator extends GuiContainer {
 				for (int i = start; i < finish; i++) {
 					IItemInfo info = infoList.get(i);
 					ItemStack item = info.getItem();
-					if (item != null) {
+					if (!item.isEmpty()) {
 						this.renderItem(item, 5, 31 + ((i - start) * 18));
 						GlStateManager.pushMatrix();
 						GlStateManager.scale(0.8, 0.8, 0.8);
@@ -376,7 +376,7 @@ public class GuiInfoCalculator extends GuiContainer {
 			prepareItemRender();
 			IItemInfo info = infoList.get(currentPos);
 			ItemStack item = info.getItem();
-			if (item != null) {
+			if (!item.isEmpty()) {
 				this.renderItem(item, 5, 5);
 				GlStateManager.pushMatrix();
 				GlStateManager.scale(0.8, 0.8, 0.8);

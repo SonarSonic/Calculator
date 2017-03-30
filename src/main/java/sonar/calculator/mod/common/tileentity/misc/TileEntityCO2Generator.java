@@ -54,9 +54,9 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 			boolean flag2 = false;
 			EnumFacing hoz = SonarHelper.getHorizontal(forward).getOpposite();
 			TileEntity tile = this.world.getTileEntity(pos.add((hoz.getFrontOffsetX() * 3), 0, (hoz.getFrontOffsetZ() * 3)));
-
-			if (this.maxBurnTime == 0 && !this.world.isRemote && this.slots()[0] != null) {
-				if (TileEntityFurnace.isItemFuel(slots()[0]) && this.storage.getEnergyStored() >= energyAmount) {
+			ItemStack burnStack = slots().get(0);
+			if (this.maxBurnTime == 0 && !this.world.isRemote && !burnStack.isEmpty()) {
+				if (TileEntityFurnace.isItemFuel(burnStack) && this.storage.getEnergyStored() >= energyAmount) {
 					if (tile != null && tile instanceof TileEntityFlawlessGreenhouse) {
 						burn();
 						this.storage.modifyEnergyStored(-energyAmount);
@@ -111,15 +111,11 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 	}
 
 	public void burn() {
+		ItemStack burnStack = slots().get(0);		
 		this.maxBurnTime = maxBurn;
-		this.gasAdd = TileEntityFurnace.getItemBurnTime(this.slots()[0]) / 100;
-		this.controlled = slots()[0].getItem() == Calculator.controlled_Fuel;
-		this.slots()[0].shrink(1);
-
-		if (this.slots()[0].getCount() <= 0) {
-			this.slots()[0] = null;
-		}
-
+		this.gasAdd = TileEntityFurnace.getItemBurnTime(burnStack) / 100;
+		this.controlled = burnStack.getItem() == Calculator.controlled_Fuel;
+		burnStack.shrink(1);
 	}
 
 	public boolean isBurning() {

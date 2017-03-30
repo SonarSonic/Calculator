@@ -1,0 +1,21 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {"crop":"calculator:blocks/crops/PrunaePlant1"},
+        "model":"crop",
+        "transform":"forge:default-block"
+     },
+    "variants": {
+        "inventory": [{}],
+        "age":{
+            0:{"textures": {"crop":"calculator:blocks/crops/PrunaePlant1"}},
+            1:{"textures": {"crop":"calculator:blocks/crops/PrunaePlant1"}},
+            2:{"textures": {"crop":"calculator:blocks/crops/PrunaePlant2"}},
+            3:{"textures": {"crop":"calculator:blocks/crops/PrunaePlant2"}},
+            4:{"textures": {"crop":"calculator:blocks/crops/PrunaePlant3"}},
+            5:{"textures": {"crop":"calculator:blocks/crops/PrunaePlant3"}},
+            6:{"textures": {"crop":"calculator:blocks/crops/PrunaePlant4"}},
+            7:{"textures": {"crop":"calculator:blocks/crops/PrunaePlant4"}}
+        }
+    }
+}

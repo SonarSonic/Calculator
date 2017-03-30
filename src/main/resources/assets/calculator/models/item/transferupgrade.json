@@ -1,6 +1,6 @@
 {
     "parent":"calculator:item/SonarItemBase",
     "textures": {
-        "layer0":"calculator:items/circuits/circuit1"
+        "layer0":"calculator:items/module_transfer"
     }
 }

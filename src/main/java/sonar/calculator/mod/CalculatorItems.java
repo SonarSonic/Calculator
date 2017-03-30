@@ -86,7 +86,9 @@ public class CalculatorItems extends Calculator {
 
 	public static Item registerItem(String name, Item item) {
 		item.setCreativeTab(Calculator);
-		GameRegistry.registerItem(item.setUnlocalizedName(name), name);
+		item.setUnlocalizedName(name);
+		item.setRegistryName(modid, name);
+		GameRegistry.register(item);
 		registeredItems.add(item);
 		return item;
 	}

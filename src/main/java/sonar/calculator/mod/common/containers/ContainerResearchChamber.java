@@ -4,11 +4,21 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
+import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.ContainerSync;
+import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
+import sonar.core.inventory.TransferSlotsManager.TransferSlots;
+import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerResearchChamber extends ContainerSync {
 	private TileEntityResearchChamber entity;
-
+	public static TransferSlotsManager<TileEntityResearchChamber> transfer = new TransferSlotsManager() {
+		{
+			addTransferSlot(new TransferSlots<TileEntityResearchChamber>(TransferType.TILE_INV, 1));
+			addPlayerInventory();
+		}
+	};
 	public ContainerResearchChamber(EntityPlayer player, TileEntityResearchChamber entity) {
 		super(entity);
 		this.entity = entity;
@@ -24,40 +34,8 @@ public class ContainerResearchChamber extends ContainerSync {
 		}
 	}
 
-	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(slotID);
-
-		if ((slot != null) && (slot.getHasStack())) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
-			if ((slotID != 0)) {
-				if (itemstack1.getItem() != null) {
-					if (!mergeItemStack(itemstack1, 0, 1, false)) {
-						return null;
-					}
-				} else if ((slotID >= 1) && (slotID < 28)) {
-					if (!mergeItemStack(itemstack1, 28, 37, false)) {
-						return null;
-					}
-				} else if ((slotID >= 28) && (slotID < 37) && (!mergeItemStack(itemstack1, 1, 28, false))) {
-					return null;
-				}
-			} else if (!mergeItemStack(itemstack1, 1, 37, false)) {
-				return null;
-			}
-			if (itemstack1.getCount() == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
-				slot.onSlotChanged();
-			}
-			if (itemstack1.getCount() == itemstack.getCount()) {
-				return null;
-			}
-			slot.onTake(player, itemstack1);
-		}
-		return itemstack;
+		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}
 
 	@Override

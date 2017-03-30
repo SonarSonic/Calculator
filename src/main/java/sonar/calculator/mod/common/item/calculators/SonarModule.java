@@ -57,7 +57,8 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 		}
 	}
 
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if (module instanceof IModuleClickable) {
 			NBTTagCompound tag = getTagCompound(stack);
 			((IModuleClickable) module).onModuleActivated(stack, tag, world, player);
@@ -66,7 +67,8 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		if (module instanceof IModuleClickable) {
 			NBTTagCompound tag = getTagCompound(stack);
 			boolean toReturn = ((IModuleClickable) module).onBlockClicked(stack, tag, player, world, pos, new BlockInteraction(side.getIndex(), hitX, hitY, hitZ, BlockInteractionType.RIGHT));

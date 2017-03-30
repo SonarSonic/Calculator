@@ -37,9 +37,9 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	public void update() {
 		super.update();
 		if (!this.world.isRemote)
-			loot(slots()[0]);
+			loot(slots().get(0));
 
-		charge(slots()[1]);
+		charge(slots().get(1));
 		this.markDirty();
 	}
 
@@ -79,15 +79,12 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	}
 
 	private void loot(ItemStack stack) {
-		if (!(stack == null)) {
+		if (!(stack.isEmpty())) {
 			int value = HealthProcessorRecipes.instance().getValue(null, stack);
 			if (value > 0) {
 				int add = value;
 				storedpoints.increaseBy(add);
-				this.slots()[0].shrink(1);
-				if (this.slots()[0].getCount() <= 0) {
-					this.slots()[0] = null;
-				}
+				this.slots().get(0).shrink(1);
 			}
 			if (stack.getItem() instanceof IHealthStore) {
 				IHealthStore module = (IHealthStore) stack.getItem();

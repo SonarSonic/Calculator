@@ -61,8 +61,7 @@ public class DockingStation extends SonarMachineBlock {
 			TileEntity target = world.getTileEntity(pos);
 			if (target != null && target instanceof TileEntityDockingStation) {
 				TileEntityDockingStation station = (TileEntityDockingStation) target;
-
-				if (station.calcStack == null) {
+				if (station.calcStack.isEmpty()) {
 					station.calcStack = player.getHeldItemMainhand().copy();
 					player.getHeldItemMainhand().shrink(1);
 					return true;

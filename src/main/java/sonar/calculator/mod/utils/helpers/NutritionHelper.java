@@ -35,7 +35,6 @@ public class NutritionHelper {
 					points -= usedpoints;
 					nbtData.setInteger(tag, points);
 					player.getFoodStats().addStats(20, 2.0F);
-
 				} else if (points - usedpoints < 1) {
 					nbtData.setInteger(tag, 0);
 					player.getFoodStats().addStats(points, 2.0F);

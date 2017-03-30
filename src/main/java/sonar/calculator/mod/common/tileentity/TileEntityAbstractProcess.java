@@ -69,7 +69,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 	}
 
 	public boolean canProcess() {
-		if (slots()[0] == null || (cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy())) {
+		if (slots().get(0).isEmpty() || (cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy())) {
 			return false;
 		}
 		ISonarRecipe recipe = getRecipe(inputStacks());
@@ -81,10 +81,11 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 				return false;
 			} else {
 				ItemStack outputStack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);
-				if (slots()[o + inputSize() + 1] != null) {
-					if (!slots()[o + inputSize() + 1].isItemEqual(outputStack)) {
+				ItemStack stackInSlot = slots().get(o + inputSize() + 1);
+				if (!stackInSlot.isEmpty()) {
+					if (!stackInSlot.isItemEqual(outputStack)) {
 						return false;
-					} else if (slots()[o + inputSize() + 1].getCount() + outputStack.getCount() > slots()[o + inputSize() + 1].getMaxStackSize()) {
+					} else if (stackInSlot.getCount() + outputStack.getCount() > stackInSlot.getMaxStackSize()) {
 						return false;
 					}
 				}
@@ -100,7 +101,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 	public int getMaxInputSize() {
 		int size = 1;
 		for (int i = 0; i < inputSize(); i++) {
-			size = slots()[i] != null ? Math.max(size, slots()[i].getCount()) : 0;
+			size = slots().get(i).isEmpty() ? Math.max(size, slots().get(i).getCount()) : 0;
 		}
 		return size;
 	}
@@ -110,8 +111,8 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		ISonarRecipe recipe = getRecipe(inputStacks());
 		for (int o = 0; o < outputSize(); o++) {
 			ISonarRecipeObject outputObject = recipe.outputs().get(o);
-			if (slots()[o + inputSize() + 1] != null && outputObject != null) {
-				size = Math.max((getInventoryStackLimit() - slots()[o + inputSize() + 1].getCount()) / outputObject.getStackSize(), size);
+			if (slots().get(o + inputSize() + 1).isEmpty() && outputObject != null) {
+				size = Math.max((getInventoryStackLimit() - slots().get(o + inputSize() + 1).getCount()) / outputObject.getStackSize(), size);
 			} else {
 				size = 0;
 			}
@@ -129,13 +130,13 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 
 			ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);
 			if (stack != null && !isOutputVoided(o + inputSize() + 1, stack)) {
-				ItemStack stackInSlot = slots()[o + inputSize() + 1];
-				if (stackInSlot == null) {
+				ItemStack stackInSlot = slots().get(o + inputSize() + 1);
+				if (stackInSlot.isEmpty()) {
 					ItemStack outputStack = stack.copy();
 					if (outputStack.getItem() == Calculator.circuitBoard) {
 						CircuitBoard.setData(outputStack);
 					}
-					slots()[o + inputSize() + 1] = outputStack;
+					slots().set(o + inputSize() + 1, outputStack);
 				} else if (stackInSlot.isItemEqual(stack)) {
 					stackInSlot.grow(outputObject.getStackSize());
 				}
@@ -143,14 +144,14 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		}
 		for (int i = 0; i < Math.min(recipe.inputs().size(), inputSize()); i++) {
 			ISonarRecipeObject inputObject = recipe.inputs().get(i);
-			slots()[i] = ItemStackHelper.reduceStackSize(slots()[i], recipeHelper() != null ? inputObject.getStackSize() : 1);
+			slots().get(i).shrink(recipeHelper() != null ? inputObject.getStackSize() : 1);
 		}
 	}
 
 	public ItemStack[] inputStacks() {
 		ItemStack[] input = new ItemStack[inputSize()];
 		for (int i = 0; i < inputSize(); i++) {
-			input[i] = slots()[i];
+			input[i] = slots().get(i);
 		}
 		return input;
 	}
@@ -158,7 +159,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (slot < this.inputSize()) {
-			if ((recipeHelper() != null && recipeHelper().isValidInput(stack)) || getRecipe(inputStacks()) != null) {
+			if ((recipeHelper() != null && recipeHelper().isValidInput(stack))){// || getRecipe(inputStacks()) != null) {
 				return true;
 			}
 		}
@@ -167,6 +168,6 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
-		return isItemValidForSlot(slot, stack) && canStack(slots()[slot], stack);
+		return isItemValidForSlot(slot, stack) && canStack(slots().get(slot), stack);
 	}
 }

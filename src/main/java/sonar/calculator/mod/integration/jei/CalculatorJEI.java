@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.IItemRegistry;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiCalculator;
@@ -52,23 +52,28 @@ import sonar.calculator.mod.common.recipes.ScientificRecipes;
 import sonar.calculator.mod.common.recipes.StoneSeparatorRecipes;
 import sonar.calculator.mod.common.recipes.TreeHarvestRecipes;
 import sonar.core.helpers.ItemStackHelper;
+import sonar.core.integration.SonarLoader;
 import sonar.core.integration.jei.IJEIHandler;
+import sonar.core.integration.jei.ISonarJEIRecipeBuilder;
 import sonar.core.integration.jei.JEICategoryV2;
+import sonar.core.integration.jei.JEIHelper;
 import sonar.core.integration.jei.JEIRecipeV2;
 import sonar.core.recipes.IRecipeHelperV2;
 import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.RecipeHelperV2;
 
 @JEIPlugin
-public class CalculatorJEI extends BlankModPlugin {
+public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuilder {
+	{
+		JEIHelper.registerRecipeBuilder(this);
+	}
 
 	@Override
 	public void register(IModRegistry registry) {
 		Calculator.logger.info("Starting JEI Integration");
-		IItemRegistry itemRegistry = registry.getItemRegistry();
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
-		registry.getJeiHelpers().getNbtIgnoreList().ignoreNbtTagNames(Calculator.circuitBoard, "Energy", "Item1", "Item2", "Item3", "Item4", "Item5", "Item6", "Stable");
+		//registry.getIngredientRegistry().getJeiHelpers().getNbtIgnoreList().ignoreNbtTagNames(Calculator.circuitBoard, "Energy", "Item1", "Item2", "Item3", "Item4", "Item5", "Item6", "Stable");
 
 		for (IJEIHandler handler : Handlers.values()) {
 			registry.addRecipes(handler.getJEIRecipes());
@@ -135,6 +140,21 @@ public class CalculatorJEI extends BlankModPlugin {
 		Calculator.logger.info("Finished JEI Integration");
 	}
 
+	public Object buildRecipe(ISonarRecipe recipe, RecipeHelperV2<ISonarRecipe> helper) {
+		if ((Loader.isModLoaded("jei") || Loader.isModLoaded("JEI"))) {
+			for (Handlers handler : CalculatorJEI.Handlers.values()) {
+				if (handler.helper.getRecipeID().equals(helper.getRecipeID())) {
+					try {
+						return handler.recipeClass.getConstructor(RecipeHelperV2.class, ISonarRecipe.class).newInstance(handler.helper, recipe);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	public enum Handlers implements IJEIHandler {
 		PROCESSING(ProcessingChamberRecipes.instance(), Calculator.processingChamber, "restorationchamber", Recipes.Processing.class),
 		/**/
@@ -167,7 +187,8 @@ public class CalculatorJEI extends BlankModPlugin {
 		HARVEST(TreeHarvestRecipes.instance(), Calculator.sickle, "sickle_harvesting", Recipes.Harvest.class),
 		/**/
 		ANALYSING(AnalysingChamberRecipes.instance(), Calculator.analysingChamber, "guicalculatorplug", Recipes.Analysing.class);
-		// DISCHARGE(null, "Discharge Values", "guipowercube", Recipes.Discharge.class);
+		// DISCHARGE(null, "Discharge Values", "guipowercube",
+		// Recipes.Discharge.class);
 		/**/
 		public IRecipeHelperV2 helper;
 		public String unlocalizedName;
@@ -254,7 +275,29 @@ public class CalculatorJEI extends BlankModPlugin {
 
 		/* @Deprecated
 		 * 
-		 * @Override public ArrayList<JEIRecipe> getJEIRecipes() { ArrayList<JEIRecipe> recipes = new ArrayList(); String id = helper.getRecipeID(); if (helper instanceof RecipeHelper) { RecipeHelper helper = (RecipeHelper) this.helper; for (Entry<Object[], Object[]> entry : helper.getRecipes().entrySet()) { try { recipes.add(recipeClass.newInstance().getInstance(id, helper.convertOutput(entry.getKey()), helper.convertOutput(entry.getValue()))); } catch (Exception e) { e.printStackTrace(); } } } else if (helper instanceof ValueHelper) { ValueHelper helper = (ValueHelper) this.helper; for (Entry<Object, Integer> entry : helper.getRecipes().entrySet()) { try { recipes.add(recipeClass.newInstance().getInstance(id, new Object[] { entry.getKey() }, new Object[] { null })); } catch (Exception e) { e.printStackTrace(); } } } else if (helper instanceof FabricationChamberRecipes) { FabricationChamberRecipes helper = (FabricationChamberRecipes) this.helper; LinkedHashMap<ItemStack, CircuitStack[]> chamberRecipes = helper.getRecipes(); for (Entry<ItemStack, CircuitStack[]> entry : chamberRecipes.entrySet()) { ArrayList<ItemStack> stacks = new ArrayList(); for (CircuitStack circuit : entry.getValue()) { stacks.add(circuit.buildItemStack()); } try { recipes.add(recipeClass.newInstance().getInstance(id, stacks.toArray(), new Object[] { entry.getKey() })); } catch (Exception e) { e.printStackTrace(); } } } return recipes; } */
+		 * @Override public ArrayList<JEIRecipe> getJEIRecipes() {
+		 * ArrayList<JEIRecipe> recipes = new ArrayList(); String id =
+		 * helper.getRecipeID(); if (helper instanceof RecipeHelper) {
+		 * RecipeHelper helper = (RecipeHelper) this.helper; for
+		 * (Entry<Object[], Object[]> entry : helper.getRecipes().entrySet()) {
+		 * try { recipes.add(recipeClass.newInstance().getInstance(id,
+		 * helper.convertOutput(entry.getKey()),
+		 * helper.convertOutput(entry.getValue()))); } catch (Exception e) {
+		 * e.printStackTrace(); } } } else if (helper instanceof ValueHelper) {
+		 * ValueHelper helper = (ValueHelper) this.helper; for (Entry<Object,
+		 * Integer> entry : helper.getRecipes().entrySet()) { try {
+		 * recipes.add(recipeClass.newInstance().getInstance(id, new Object[] {
+		 * entry.getKey() }, new Object[] { null })); } catch (Exception e) {
+		 * e.printStackTrace(); } } } else if (helper instanceof
+		 * FabricationChamberRecipes) { FabricationChamberRecipes helper =
+		 * (FabricationChamberRecipes) this.helper; LinkedHashMap<ItemStack,
+		 * CircuitStack[]> chamberRecipes = helper.getRecipes(); for
+		 * (Entry<ItemStack, CircuitStack[]> entry : chamberRecipes.entrySet())
+		 * { ArrayList<ItemStack> stacks = new ArrayList(); for (CircuitStack
+		 * circuit : entry.getValue()) { stacks.add(circuit.buildItemStack()); }
+		 * try { recipes.add(recipeClass.newInstance().getInstance(id,
+		 * stacks.toArray(), new Object[] { entry.getKey() })); } catch
+		 * (Exception e) { e.printStackTrace(); } } } return recipes; } */
 		@Override
 		public ItemStack getCrafterItemStack() {
 			return crafter;

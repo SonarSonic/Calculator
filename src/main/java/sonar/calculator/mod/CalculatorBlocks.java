@@ -99,18 +99,27 @@ public class CalculatorBlocks extends Calculator {
 
 	public static Block registerBlock(String name, Block block) {
 		block.setCreativeTab(Calculator);
-		GameRegistry.registerBlock(block.setUnlocalizedName(name), SonarBlockTip.class, name);
+		block.setUnlocalizedName(name);
+		block.setRegistryName(modid, name);
+		GameRegistry.register(block);
+		GameRegistry.register(new SonarBlockTip(block).setRegistryName(modid, name));
 		return addRegisteredBlock(block);
 	}
 	
 	public static Block registerBlockWithoutTab(String name, Block block) {
-		GameRegistry.registerBlock(block.setUnlocalizedName(name), SonarBlockTip.class, name);
+		block.setUnlocalizedName(name);
+		block.setRegistryName(modid, name);
+		GameRegistry.register(block);
+		GameRegistry.register(new SonarBlockTip(block).setRegistryName(modid, name));
 		return addRegisteredBlock(block);
 	}
 
 	public static Block registerMetaBlock(String name, Block block) {
 		block.setCreativeTab(Calculator);
-		GameRegistry.registerBlock(block.setUnlocalizedName(name), SonarMetaBlock.class, name);
+		block.setUnlocalizedName(name);
+		block.setRegistryName(modid, name);
+		GameRegistry.register(block);
+		GameRegistry.register(new SonarMetaBlock(block).setRegistryName(modid, name));
 		return addRegisteredBlock(block);
 	}
 
@@ -240,7 +249,10 @@ public class CalculatorBlocks extends Calculator {
 		// misc
 
 		gas_lantern_off = registerBlock("GasLanternOff", new GasLantern(false).setHardness(0.1F).setLightOpacity(100));
-		gas_lantern_on = addRegisteredBlock(GameRegistry.registerBlock(new GasLantern(true).setHardness(0.1F).setLightLevel(0.9375F).setUnlocalizedName("GasLanternOn"), SonarBlockTip.class, "GasLanternOn"));
+		gas_lantern_on = new GasLantern(true).setHardness(0.1F).setLightLevel(0.9375F).setUnlocalizedName("GasLanternOn").setRegistryName(modid, "GasLanternOn");
+		GameRegistry.register(gas_lantern_on);
+		GameRegistry.register(new SonarBlockTip(gas_lantern_on).setRegistryName(modid, "GasLanternOn"));
+		
 		basic_lantern = registerBlock("Lantern", new BasicLantern().setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100));
 		GameRegistry.registerTileEntity(TileEntityGasLantern.class, "Lantern");
 		

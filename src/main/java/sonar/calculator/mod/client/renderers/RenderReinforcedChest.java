@@ -33,7 +33,7 @@ public class RenderReinforcedChest extends TileEntitySpecialRenderer<TileEntityR
 		GlStateManager.depthMask(true);
 		int i;
 
-		if (!te.hasworld()) {
+		if (!te.hasWorld()) {
 			i = 0;
 		} else {
 			Block block = te.getBlockType();

@@ -17,10 +17,10 @@ public class SlotPortable extends Slot {
 	}
 
 	public boolean isItemValid(ItemStack stack) {
-		if (type == null || stack == null) {
+		if (type == null) {
 			return super.isItemValid(stack);
 		}
-		return stack.getItem() != type;
+		return !stack.isEmpty() && stack.getItem() != type;
 	}
 
 	public void putStack(ItemStack stack) {

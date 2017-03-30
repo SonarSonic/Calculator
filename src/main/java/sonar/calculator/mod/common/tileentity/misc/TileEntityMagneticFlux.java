@@ -93,7 +93,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 				double distance = Math.sqrt(x * x + y * y + z * z);
 				if (distance < 1.5) {
 					ItemStack itemstack = addToInventory((EntityItem) entity);
-					if (itemstack == null || itemstack.getCount() <= 0) {
+					if (itemstack.isEmpty() || itemstack.getCount() <= 0) {
 						entity.setDead();
 					} else {
 						((EntityItem) entity).setEntityItemStack(itemstack);
@@ -112,12 +112,9 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	}
 
 	public boolean validItemStack(ItemStack stack) {
-		if (slots() == null) {
-			return true;
-		}
-		for (int i = 0; i < slots().length; i++) {
-			if (slots()[i] != null) {
-				boolean matches = matchingStack(slots()[i], stack);
+		for (ItemStack slot : slots()) {
+			if (!slot.isEmpty()) {
+				boolean matches = matchingStack(slot, stack);
 				if (!this.whitelisted && matches) {
 					return false;
 				} else if (whitelisted && matches) {

@@ -25,10 +25,10 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 
 	public TileEntityStorageChamber() {
 		super.inv = new SonarLargeInventory(14, 1024) {
-			//needs fixing I think
+			// needs fixing I think
 			public boolean isItemValidForSlot(int slot, ItemStack item) {
 				int target = (int) Math.floor(slot / numStacks);
-				if (item != null && item.getItemDamage() == slot) {
+				if (!item.isEmpty() && item.getItemDamage() == slot) {
 					CircuitType stackType = getCircuitType(item);
 					if (stackType == null) {
 						return false;
@@ -38,7 +38,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 							return false;
 						}
 					}
-					
+
 					return super.isItemValidForSlot(slot, item);
 				}
 				return false;
@@ -98,25 +98,23 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 	}
 
 	public static CircuitType getCircuitType(ItemStack stack) {
-		if (stack != null) {
-			if (stack.getItem() == Calculator.circuitBoard && stack.getItem() instanceof IStability) {
-				IStability stability = (IStability) stack.getItem();
-				if (stability.getStability(stack) && stack.hasTagCompound()) {
-					if (stack.getTagCompound().getBoolean("Analysed")) {
-						return CircuitType.Stable;
-					}
-				} else if (!stack.hasTagCompound()) {
-					return CircuitType.Analysed;
-				} else if (stack.hasTagCompound()) {
-					if (stack.getTagCompound().getBoolean("Analysed")) {
-						return CircuitType.Analysed;
-					}
+		if (stack.getItem() == Calculator.circuitBoard && stack.getItem() instanceof IStability) {
+			IStability stability = (IStability) stack.getItem();
+			if (stability.getStability(stack) && stack.hasTagCompound()) {
+				if (stack.getTagCompound().getBoolean("Analysed")) {
+					return CircuitType.Stable;
 				}
-			} else if (stack.getItem() == Calculator.circuitDamaged) {
-				return CircuitType.Damaged;
-			} else if (stack.getItem() == Calculator.circuitDirty) {
-				return CircuitType.Dirty;
+			} else if (!stack.hasTagCompound()) {
+				return CircuitType.Analysed;
+			} else if (stack.hasTagCompound()) {
+				if (stack.getTagCompound().getBoolean("Analysed")) {
+					return CircuitType.Analysed;
+				}
 			}
+		} else if (stack.getItem() == Calculator.circuitDamaged) {
+			return CircuitType.Damaged;
+		} else if (stack.getItem() == Calculator.circuitDirty) {
+			return CircuitType.Dirty;
 		}
 		return null;
 	}

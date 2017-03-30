@@ -273,7 +273,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		ItemStack[] toDrop = new ItemStack[drops.size()];
 		int pos = 0;
 		for (ItemStack drop : drops) {
-			if (drop != null) {
+			if (!drop.isEmpty()) {
 				toDrop[pos] = drop;
 			}
 			pos++;
@@ -338,7 +338,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			ItemStack[] upgrades = getAdditionalStacks();
 			Random rand = new Random();
 			for (ItemStack stack : upgrades) {
-				if (stack != null) {
+				if (!stack.isEmpty()) {
 					float f = rand.nextFloat() * 0.8F + 0.1F;
 					float f1 = rand.nextFloat() * 0.8F + 0.1F;
 					float f2 = rand.nextFloat() * 0.8F + 0.1F;

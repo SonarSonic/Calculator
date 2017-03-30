@@ -109,7 +109,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public abstract void addFarmland();
 
 	public static boolean isSeed(ItemStack stack) {
-		return stack != null && stack.getItem() instanceof IPlantable;
+		return !stack.isEmpty() && stack.getItem() instanceof IPlantable;
 	}
 
 	protected void growCrops(int repeat) {
@@ -163,7 +163,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	protected void addHarvestedStacks(List<ItemStack> array, BlockPos pos, boolean keepBlock, boolean isCrops) {
 		boolean keptBlock = !keepBlock;
 		for (ItemStack stack : array) {
-			if (stack != null) {
+			if (!stack.isEmpty()) {
 				if (!keptBlock && stack.getItem() instanceof IPlantable) {
 					keptBlock = true;
 					continue;
@@ -207,8 +207,8 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	public void plantCrop(BlockPos pos, IPlanter planter, Integer slot) {
-		ItemStack stack = slots()[slot];
-		if (stack != null && planter.canTierPlant(slots()[slot], type)) {
+		ItemStack stack = slots().get(slot);
+		if (!stack.isEmpty() && planter.canTierPlant(stack, type)) {
 			IBlockState state = planter.getPlant(stack, world, pos);
 			plantCrop(pos, state, slot);
 		}
@@ -217,10 +217,8 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public void plantCrop(BlockPos pos, IBlockState state, Integer slot) {
 		if (state != null) {
 			this.storage.modifyEnergyStored(-plantRF);
-			slots()[slot].shrink(1);
-			if (slots()[slot].getCount() == 0) {
-				slots()[slot] = null;
-			}
+			ItemStack stack = slots().get(slot);
+			stack.shrink(1);
 			world.setBlockState(pos, state, 3);
 			return;
 		}
@@ -230,10 +228,9 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		List<Integer> plants = new ArrayList();
 		int offset = type == 2 ? 8 : type == 1 ? 5 : 1;
 		for (int j = offset; j < offset + 9; j++) {
-			if (slots()[j] != null) {
-				if (isSeed(slots()[j])) {
-					plants.add(j);
-				}
+			ItemStack stack = slots().get(j);
+			if (!stack.isEmpty() && isSeed(stack)) {
+				plants.add(j);
 			}
 		}
 		return plants;

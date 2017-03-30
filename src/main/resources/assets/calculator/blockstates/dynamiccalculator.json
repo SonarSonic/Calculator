@@ -1,0 +1,32 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {            
+            "particle":"calculator:blocks/dynamiccalculatoranimate",           
+            "north":"calculator:blocks/dynamiccalculatoranimate",                     
+            "east":"calculator:blocks/atomiccalculatoranimate1",             
+            "south":"calculator:blocks/atomiccalculatoranimate1",               
+            "west":"calculator:blocks/atomiccalculatoranimate1",
+            "up":"calculator:blocks/atomiccalculatoranimate2",  
+            "down":"calculator:blocks/atomiccalculatoranimate2"   
+        },    
+        "model":"calculator:SonarMachine",        
+        "transform":"forge:default-block",
+        "uvlock": true
+    },
+    "variants": {
+        "inventory": [{}], 
+        "facing":{  
+            "north":{},
+            "south":{
+                "y": 180
+            },
+            "west":{
+                "y": 270
+            },
+            "east":{
+                "y": 90
+            }
+        }
+    }
+}

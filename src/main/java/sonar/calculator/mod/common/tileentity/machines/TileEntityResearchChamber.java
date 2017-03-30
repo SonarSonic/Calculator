@@ -34,7 +34,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 
 	public void update() {
 		super.update();
-		if (slots()[0] == null) {
+		if (slots().get(0) == null) {
 			ticks.setObject(0);
 			return;
 		} else {
@@ -53,7 +53,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 
 	public void addRecipes() {
 		if (isServer()) {
-			ArrayList<ResearchRecipeType> types = ResearchRecipeType.getUnlocked(slots()[0]);
+			ArrayList<ResearchRecipeType> types = ResearchRecipeType.getUnlocked(slots().get(0));
 			if (!types.isEmpty()) {
 				IResearch research = PlayerResearchRegistry.getSpecificResearch(playerUUID.getUUID(), ResearchTypes.RECIPES);
 				if (research != null && research instanceof RecipeResearch) {

@@ -87,19 +87,19 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			return false;
 		}
 		for (int i = 0; i < 8; i++) {
-			if (slots()[i] == null) {
+			if (slots().get(i).isEmpty()) {
 				return false;
 			}
 		}
-		if (!isAllowed(slots()[0])) {
+		if (!isAllowed(slots().get(0))) {
 			return false;
 		}
-
-		if (slots()[8] != null) {
-			if (slots()[8].getCount() + 4 > 64) {
+		ItemStack output = slots().get(8);
+		if (!output.isEmpty()) {
+			if (output.getCount() + 4 > 64) {
 				return false;
 			}
-			if (!slots()[0].isItemEqual(slots()[8])) {
+			if (!slots().get(0).isItemEqual(output)) {
 				return false;
 			}
 		}
@@ -109,12 +109,12 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 				return false;
 			}
 		}
-		if (!(slots()[0].getMaxStackSize() >= 4)) {
+		if (!(slots().get(0).getMaxStackSize() >= 4)) {
 			return false;
 		}
 
 		for (int i = 1; i < 8; i++) {
-			if (slots()[i].getItem() != Calculator.circuitBoard) {
+			if (slots().get(i).getItem() != Calculator.circuitBoard) {
 				return false;
 			}
 		}
@@ -131,20 +131,17 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	}
 
 	private void cookItem() {
-		ItemStack itemstack = new ItemStack(slots()[0].getItem(), 4, slots()[0].getItemDamage());
-		if (this.slots()[8] == null) {
-			this.slots()[8] = itemstack;
-		} else if (this.slots()[8].isItemEqual(itemstack)) {
-			this.slots()[8].grow(4);
+		ItemStack itemstack = new ItemStack(slots().get(0).getItem(), 4, slots().get(0).getItemDamage());
+		ItemStack output = slots().get(8);
+		if (output.isEmpty()) {
+			slots().set(8, itemstack);
+		} else if (output.isItemEqual(itemstack)) {
+			output.grow(4);
 		}
 
 		for (int i = 0; i < 8; i++) {
-			this.slots()[i].shrink(1);
-			if (this.slots()[i].getCount() <= 0) {
-				this.slots()[i] = null;
-			}
+			slots().get(i).shrink(1);
 		}
-
 	}
 
 	@Override

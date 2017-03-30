@@ -24,16 +24,7 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 				this.addSlotToContainer(new SlotLarge(entity.getTileInv(), k + j * 9, 8 + k * 18, 24 + j * 18));
 			}
 		}
-
-		for (j = 0; j < 3; ++j) {
-			for (k = 0; k < 9; ++k) {
-				this.addSlotToContainer(new Slot(player.inventory, k + j * 9 + 9, 8 + k * 18, 102 + j * 18 + i));
-			}
-		}
-
-		for (j = 0; j < 9; ++j) {
-			this.addSlotToContainer(new Slot(player.inventory, j, 8 + j * 18, 160 + i));
-		}
+		addInventory(player.inventory, 8, 102);
 	}
 
 	public boolean canInteractWith(EntityPlayer player) {
@@ -41,7 +32,7 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 	}
 
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
 
 		if (slot != null && slot.getHasStack()) {
@@ -53,7 +44,7 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 			itemstack = itemstack1.copy();
 			if (slotID < 27) {
 				if (!this.mergeItemStack(itemstack1, 3 * 9, this.inventorySlots.size(), true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 				StoredItemStack stored = entity.getTileInv().getLargeStack(slotID);
 				stored.stored -= itemstack.getCount() - itemstack1.getCount();
@@ -61,13 +52,13 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 					entity.getTileInv().setLargeStack(slotID, null);
 				}
 				entity.getTileInv().setLargeStack(slotID, stored);
-				return null;
+				return ItemStack.EMPTY;
 			} else if (!this.mergeSpecial(itemstack1, 0, 3 * 9, false)) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 
 			if (itemstack1.getCount() == 0) {
-				slot.putStack((ItemStack) null);
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}

@@ -36,7 +36,7 @@ import sonar.core.utils.IGuiTile;
 
 public class TileEntityFabricationChamber extends TileEntityInventory implements IGuiTile, IByteBufTile {
 
-	public ItemStack selected = null;
+	public ItemStack selected = ItemStack.EMPTY;
 	public final int fabricateTime = 200;
 	public final int moveTime = 100;
 	public SyncTagType.BOOLEAN canMove = new SyncTagType.BOOLEAN(0);
@@ -121,7 +121,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	}
 
 	public void fabricate() {
-		if (selected == null || this.isClient()) {
+		if (selected.isEmpty() || this.isClient()) {
 			return;
 		}
 		ItemStack selected = this.selected.copy();
@@ -131,13 +131,13 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		ArrayList<StoredItemStack> available = getAvailableCircuits(chambers);
 		ISonarRecipe recipe = FabricationChamberRecipes.instance().getRecipeFromOutputs(null, new Object[] { selected });
 		if (recipe != null && recipe.matchingInputs(available.toArray())) {
-			ItemStack current = slots()[0];
+			ItemStack current = slots().get(0);
 			boolean fabricated = false;
-			if (current == null) {
-				slots()[0] = selected.copy();
+			if (current.isEmpty()) {
+				slots().set(0, selected.copy());
 				fabricated = true;
 			} else if (ItemStackHelper.equalStacksRegular(current, selected) && current.getCount() + selected.getCount() <= getInventoryStackLimit() && current.getCount() + selected.getCount() <= selected.getMaxStackSize()) {
-				slots()[0].grow(selected.getCount());
+				current.grow(selected.getCount());
 				fabricated = true;
 			}
 			if (fabricated) {
@@ -166,7 +166,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 			if (nbt.hasKey("selected")) {
 				selected = new ItemStack((NBTTagCompound) nbt.getTag("selected"));
 			} else {
-				selected = null;
+				selected = ItemStack.EMPTY;
 			}
 		}
 	}
@@ -174,7 +174,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
-			if (selected != null) {
+			if (!selected.isEmpty()) {
 				NBTTagCompound tag = new NBTTagCompound();
 				selected.writeToNBT(tag);
 				nbt.setTag("selected", tag);

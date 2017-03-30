@@ -51,14 +51,14 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 		this.renderAnimation(entity, x, y, z);
 		if (entity != null && entity.getWorld() != null && entity instanceof TileEntityProcess) {
 			TileEntityProcess inv = (TileEntityProcess) entity;
-			ItemStack target = null;
+			ItemStack target = ItemStack.EMPTY;
 			if (inv.cookTime.getObject() == 0 && inv.getStackInSlot(2) != null) {
 				target = inv.getStackInSlot(2);
 			} else {
 				target = inv.getStackInSlot(0);
 			}
 
-			if (target != null) {
+			if (!target.isEmpty()) {
 				if (!Minecraft.getMinecraft().getRenderItem().shouldRenderItemIn3D(target)) {
 					GL11.glRotated(90, 1, 0, 0);
 					GL11.glTranslated(0, -0.0, -1.17);

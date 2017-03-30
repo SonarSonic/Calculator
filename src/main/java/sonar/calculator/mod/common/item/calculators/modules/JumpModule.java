@@ -47,7 +47,7 @@ public class JumpModule extends ModuleBase implements IModuleClickable {
 				modeTag.setLong("last", world.getWorldTime());
 			}
 		} else if (!world.isRemote) {
-			FontHelper.sendMessage("" + "Cool Down: " + (current - last)*2 + "%", world, player);
+			FontHelper.sendMessage("" + "Cool Down: " + (current - last)*2 + "/100 ", world, player);
 		}
 	}
 

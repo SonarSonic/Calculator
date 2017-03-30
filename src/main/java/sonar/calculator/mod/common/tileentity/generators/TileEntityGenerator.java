@@ -62,18 +62,16 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	public void generateEnergy() {
 		ItemStack stack = this.getStackInSlot(0);
-		if (!(stack == null) && burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
+		if (!(stack.isEmpty()) && burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
 			if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel.getObject() >= requiredLevel) {
 				int itemBurnTime = TileEntityFurnace.getItemBurnTime(stack);
 				if (itemBurnTime != 0) {
 					this.maxBurnTime.setObject(itemBurnTime);
 					burnTime.increaseBy(1);
-					if (this.slots()[0] != null) {
-						this.slots()[0].shrink(1);
-						
-						if (this.slots()[0].getCount() <= 0) {
-							this.slots()[0] = this.slots()[0].getItem().getContainerItem(this.slots()[0]);
-						}
+					ItemStack burnStack = slots().get(0);
+
+					if (!burnStack.isEmpty()) {
+						burnStack.shrink(1);
 					}
 				}
 			}
@@ -92,16 +90,13 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	}
 
 	public void processItemLevel() {
-		ItemStack stack = this.slots()[1];
-		if (stack == null || !(getItemValue(stack) > 0)) {
+		ItemStack stack = slots().get(1);
+		if (stack.isEmpty() || !(getItemValue(stack) > 0)) {
 			return;
 		}
 		if (!(itemLevel.getObject() + getItemValue(stack) > levelMax)) {
 			addItem(getItemValue(stack));
-			this.slots()[1].shrink(1);
-			if (this.slots()[1].getCount() <= 0) {
-				this.slots()[1] = null;
-			}
+			stack.shrink(1);
 		}
 
 	}

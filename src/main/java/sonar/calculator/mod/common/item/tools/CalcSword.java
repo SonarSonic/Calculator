@@ -37,9 +37,4 @@ public class CalcSword extends ItemSword{
 		}
 	}
 
-	@Override
-	public boolean isItemTool(ItemStack stack) {
-		return true;
-	}
-
 }

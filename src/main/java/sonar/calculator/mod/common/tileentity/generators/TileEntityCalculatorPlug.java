@@ -5,6 +5,7 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,7 +27,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 
 	public TileEntityCalculatorPlug() {
 		super.inv = new SonarInventory(this, 1);
-		syncList.addParts(stable,inv);
+		syncList.addParts(stable, inv);
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			fill(0);
 		}
 		if (flag != this.stable.getObject()) {
-			world.setBlockState(pos, world.getBlockState(pos).withProperty(CalculatorPlug.ACTIVE, stable.getObject()==2), 2);
+			world.setBlockState(pos, world.getBlockState(pos).withProperty(CalculatorPlug.ACTIVE, stable.getObject() == 2), 2);
 		}
 	}
 
@@ -49,24 +50,26 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 	}
 
 	public boolean testStable() {
-		if (this.slots()[0] == null) {
+		ItemStack testItem = slots().get(0);
+		if (testItem.isEmpty()) {
 			stable.setObject(0);
 			return false;
 		}
-		if (this.slots()[0].getItem() instanceof IStability) {
+		if (testItem.getItem() instanceof IStability) {
 			return true;
 		}
 		return false;
 	}
 
 	public void fill(int slot) {
-		IStability item = (IStability) slots()[slot].getItem();
-		boolean stability = item.getStability(slots()[slot]);
+		ItemStack circuit = slots().get(slot);
+		IStability item = (IStability) circuit.getItem();
+		boolean stability = item.getStability(circuit);
 		if (stability) {
 			if (this.stable.getObject() != 2) {
 				this.stable.setObject(2);
 			}
-		} else if (!stability && slots()[slot].getItem() instanceof IStability) {
+		} else if (!stability && circuit.getItem() instanceof IStability) {
 			stable.setObject(1);
 		} else {
 			stable.setObject(0);

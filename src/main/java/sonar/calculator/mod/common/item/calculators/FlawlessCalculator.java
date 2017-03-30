@@ -117,9 +117,8 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		}
 	}
 
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
-		// if (!world.isRemote) {
-		// this.addModule(stack, new WarpModule(), 3);
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		NBTTagCompound tag = getTagCompound(stack);
 		if (!player.isSneaking()) {
 			int slot = this.getCurrentSlot(stack);
@@ -147,7 +146,8 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
 		IModule module = this.getCurrentModule(stack);
 		int slot = this.getCurrentSlot(stack);
 		if (module instanceof IModuleClickable) {

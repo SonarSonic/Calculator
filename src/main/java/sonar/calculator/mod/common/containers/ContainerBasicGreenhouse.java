@@ -9,197 +9,68 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.oredict.OreDictionary;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
+import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.SonarAPI;
 import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
+import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.inventory.TransferSlotsManager.TransferSlots;
+import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerBasicGreenhouse extends ContainerSync {
 	private TileEntityBasicGreenhouse entity;
+	public static TransferSlotsManager<TileEntityBasicGreenhouse> transfer = new TransferSlotsManager() {
+		{
+
+			addTransferSlot(new TransferSlots<TileEntityBasicGreenhouse>(TransferType.TILE_INV, 1) {
+				public boolean canInsert(EntityPlayer player, TileEntityBasicGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
+					return GreenhouseHelper.checkLog(Block.getBlockFromItem(stack.getItem()));
+				}
+			});
+			addTransferSlot(new TransferSlots<TileEntityBasicGreenhouse>(TransferType.TILE_INV, 1) {
+				public boolean canInsert(EntityPlayer player, TileEntityBasicGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
+					return GreenhouseHelper.checkStairs(Block.getBlockFromItem(stack.getItem()));
+				}
+			});
+			addTransferSlot(new TransferSlots<TileEntityBasicGreenhouse>(TransferType.TILE_INV, 1) {
+				public boolean canInsert(EntityPlayer player, TileEntityBasicGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
+					return GreenhouseHelper.checkGlass(Block.getBlockFromItem(stack.getItem()));
+				}
+			});
+			addTransferSlot(new TransferSlots<TileEntityBasicGreenhouse>(TransferType.TILE_INV, 1) {
+				public boolean canInsert(EntityPlayer player, TileEntityBasicGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
+					return GreenhouseHelper.checkPlanks(Block.getBlockFromItem(stack.getItem()));
+				}
+			});
+			addTransferSlot(TransferSlotsManager.DISCHARGE_SLOT);
+			addTransferSlot(new TransferSlots<TileEntityBasicGreenhouse>(TransferType.TILE_INV, 9) {
+				public boolean canInsert(EntityPlayer player, TileEntityBasicGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
+					return stack.getItem() instanceof IPlantable;
+				}
+			});
+			addPlayerInventory();
+		}
+	};
 
 	public ContainerBasicGreenhouse(InventoryPlayer inventory, TileEntityBasicGreenhouse tileentity) {
 		super(tileentity);
 		this.entity = tileentity;
-
-		addSlotToContainer(new Slot(tileentity, 0, 19+7, 28-6));
-		addSlotToContainer(new Slot(tileentity, 1, 37+7, 28-6));
-		addSlotToContainer(new Slot(tileentity, 2, 19+7, 46-6));
-		addSlotToContainer(new Slot(tileentity, 3, 37+7, 46-6));
-
+		addSlotToContainer(new Slot(tileentity, 0, 26, 22));
+		addSlotToContainer(new Slot(tileentity, 1, 44, 22));
+		addSlotToContainer(new Slot(tileentity, 2, 26, 40));
+		addSlotToContainer(new Slot(tileentity, 3, 44, 40));
 		addSlotToContainer(new Slot(tileentity, 4, 80, 61));
 		for (int j = 0; j < 9; j++) {
 			addSlotToContainer(new Slot(tileentity, 5 + j, 8 + j * 18, 88));
 		}
-
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 110 + i * 18));
-			}
-		}
-
-		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 168));
-		}
+		addInventory(inventory, 8, 110);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int slotID) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(slotID);
-
-		if ((slot != null) && (slot.getHasStack())) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
-
-			if (!(slotID <= 13)) {
-				if ((checkLog(Block.getBlockFromItem(itemstack1.getItem())))) {
-					if (!mergeItemStack(itemstack1, 0, 1, false)) {
-						return null;
-					}
-				} else if ((checkStairs(Block.getBlockFromItem(itemstack1.getItem())))) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if ((checkGlass(Block.getBlockFromItem(itemstack1.getItem())))) {
-					if (!mergeItemStack(itemstack1, 2, 3, false)) {
-						return null;
-					}
-				} else if ((checkPlanks(Block.getBlockFromItem(itemstack1.getItem())))) {
-					if (!mergeItemStack(itemstack1, 3, 4, false)) {
-						return null;
-					}
-				} else if (DischargeValues.getValueOf(itemstack1) > 0) {
-					if (!mergeItemStack(itemstack1, 4, 5, false)) {
-						return null;
-					}
-				} else if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
-					if (!mergeItemStack(itemstack1, 4, 5, false)) {
-						return null;
-					}
-				} else if (itemstack1.getItem() instanceof IPlantable) {
-					if (!mergeItemStack(itemstack1, 5, 14, false)) {
-						return null;
-					}
-				}
-			} else if ((slotID >= 13) && (slotID < 41)) {
-				if (!mergeItemStack(itemstack1, 40, 50, false)) {
-					return null;
-				}
-			} else if ((slotID >= 40) && (slotID < 50) && (!mergeItemStack(itemstack1, 14, 40, false))) {
-				return null;
-
-			} else if (!mergeItemStack(itemstack1, 14, 50, false)) {
-				return null;
-			}
-
-			if (itemstack1.getCount() == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
-				slot.onSlotChanged();
-			}
-
-			if (itemstack1.getCount() == itemstack.getCount()) {
-				return null;
-			}
-
-			slot.onTake(p_82846_1_, itemstack1);
-		}
-
-		return itemstack;
-	}
-
-	public boolean checkLog(Block block) {
-
-		for (int i = 0; i < OreDictionary.getOres("logWood").size(); i++) {
-			if (OreDictionary.getOres("logWood").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("treeWood").size(); i++) {
-			if (OreDictionary.getOres("treeWood").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean checkGlass(Block block) {
-
-		for (int i = 0; i < OreDictionary.getOres("blockGlass").size(); i++) {
-			if (OreDictionary.getOres("blockGlass").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("blockGlassColorless").size(); i++) {
-			if (OreDictionary.getOres("blockGlassColorless").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("paneGlassColorless").size(); i++) {
-			if (OreDictionary.getOres("paneGlassColorless").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("paneGlass").size(); i++) {
-			if (OreDictionary.getOres("paneGlass").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean checkStairs(Block block) {
-
-		for (int i = 0; i < OreDictionary.getOres("stairWood").size(); i++) {
-			if (OreDictionary.getOres("stairWood").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("stairStone").size(); i++) {
-			if (OreDictionary.getOres("stairStone").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("stairs").size(); i++) {
-			if (OreDictionary.getOres("stairs").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		if (block == Blocks.STONE_STAIRS) {
-			return true;
-		}
-		if (block == Blocks.STONE_BRICK_STAIRS) {
-			return true;
-		}
-		if (block == Blocks.SANDSTONE_STAIRS) {
-			return true;
-		}
-		if (block == Blocks.BRICK_STAIRS) {
-			return true;
-		}
-		if (block == Blocks.QUARTZ_STAIRS) {
-			return true;
-		}
-		if (block == Blocks.NETHER_BRICK_STAIRS) {
-			return true;
-		}
-
-		return false;
-	}
-
-	public boolean checkPlanks(Block block) {
-
-		for (int i = 0; i < OreDictionary.getOres("plankWood").size(); i++) {
-			if (OreDictionary.getOres("plankWood").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		for (int i = 0; i < OreDictionary.getOres("planksWood").size(); i++) {
-			if (OreDictionary.getOres("planksWood").get(i).getItem() == Item.getItemFromBlock(block)) {
-				return true;
-			}
-		}
-		return false;
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
+		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}
 
 	@Override

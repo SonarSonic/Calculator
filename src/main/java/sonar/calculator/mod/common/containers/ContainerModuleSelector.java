@@ -20,9 +20,7 @@ public class ContainerModuleSelector extends Container {
 	}
 
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(slotID);
-		return itemstack;
+		return ItemStack.EMPTY;
 	}
 
 }

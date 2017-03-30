@@ -15,7 +15,7 @@ public class SlotLocatorModule extends Slot {
 	}
 
 	public boolean isItemValid(ItemStack stack) {
-		if (stack != null && stack.getItem() == Calculator.itemLocatorModule) {
+		if (!stack.isEmpty() && stack.getItem() == Calculator.itemLocatorModule) {
 			return true;
 		}
 		return false;

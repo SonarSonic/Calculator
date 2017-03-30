@@ -45,36 +45,36 @@ public class RenderResearchChamber extends TileEntitySpecialRenderer<TileEntityR
 		if (tileentity.getWorld() != null) {
 			TileEntityResearchChamber chamber = (TileEntityResearchChamber) tileentity;
 
-			if (chamber.slots()[0] != null) {
-				if (GameRegistry.findUniqueIdentifierFor(chamber.slots()[0].getItem()).modId.equals(Calculator.modid) && !RenderBlocks.renderItemIn3d(Block.getBlockFromItem(chamber.slots()[0].getItem()).getRenderType()) && chamber.slots()[0].getItem() instanceof ItemBlock && Block.getBlockFromItem(chamber.slots()[0].getItem()).getRenderType() == -1 && MinecraftForgeClient.getItemRenderer(chamber.slots()[0], ItemRenderType.FIRST_PERSON_MAP) != null) {
+			if (chamber.slots().get(0) != null) {
+				if (GameRegistry.findUniqueIdentifierFor(chamber.slots().get(0).getItem()).modId.equals(Calculator.modid) && !RenderBlocks.renderItemIn3d(Block.getBlockFromItem(chamber.slots().get(0).getItem()).getRenderType()) && chamber.slots().get(0).getItem() instanceof ItemBlock && Block.getBlockFromItem(chamber.slots().get(0).getItem()).getRenderType() == -1 && MinecraftForgeClient.getItemRenderer(chamber.slots().get(0), ItemRenderType.FIRST_PERSON_MAP) != null) {
 
 					GL11.glRotated(180, 1, 0, 0);
 					GL11.glScaled(0.31, 0.31, 0.31);
 					GL11.glTranslated(-0.5, -3.25, -0.3);
-					if (Block.getBlockFromItem(chamber.slots()[0].getItem()) == Calculator.scarecrow) {
+					if (Block.getBlockFromItem(chamber.slots().get(0).getItem()) == Calculator.scarecrow) {
 						GL11.glRotated(180, 0, 1, 0);
 						GL11.glScaled(0.5, 0.5, 0.5);
 						GL11.glTranslated(-1.45, 0, -1.45);
 					}
 
-					if (Block.getBlockFromItem(chamber.slots()[0].getItem()) == Calculator.starchextractor || Block.getBlockFromItem(chamber.slots()[0].getItem()) == Calculator.glowstoneextractor || Block.getBlockFromItem(chamber.slots()[0].getItem()) == Calculator.redstoneextractor) {
+					if (Block.getBlockFromItem(chamber.slots().get(0).getItem()) == Calculator.starchextractor || Block.getBlockFromItem(chamber.slots().get(0).getItem()) == Calculator.glowstoneextractor || Block.getBlockFromItem(chamber.slots().get(0).getItem()) == Calculator.redstoneextractor) {
 						GL11.glTranslated(0, 0.2, 0);
 					}
-					if (Block.getBlockFromItem(chamber.slots()[0].getItem()) == Calculator.conductorMast) {
+					if (Block.getBlockFromItem(chamber.slots().get(0).getItem()) == Calculator.conductorMast) {
 						GL11.glScaled(0.3, 0.3, 0.3);
 						GL11.glTranslated(1.2, 0, 1.2);
 					}
-					MinecraftForgeClient.getItemRenderer(chamber.slots()[0], ItemRenderType.FIRST_PERSON_MAP).renderItem(ItemRenderType.FIRST_PERSON_MAP, chamber.slots()[0], renderBlocks, new EntityItem(tileentity.getWorld(), (int) xCoord, (int) yCoord, (int) zCoord, chamber.slots()[0]));
+					MinecraftForgeClient.getItemRenderer(chamber.slots().get(0), ItemRenderType.FIRST_PERSON_MAP).renderItem(ItemRenderType.FIRST_PERSON_MAP, chamber.slots().get(0), renderBlocks, new EntityItem(tileentity.getWorld(), (int) xCoord, (int) yCoord, (int) zCoord, chamber.slots().get(0)));
 					;
 
 				} else {
 					GL11.glTranslated(0.0, 1.01, -0.06);
 					GL11.glRotated(180, 1, 0, 0);
-					if (!(chamber.slots()[0].getItemSpriteNumber() == 0) || chamber.slots()[0].getItemSpriteNumber() == 0 && chamber.slots()[0].getItem() instanceof ItemBlock && !RenderBlocks.renderItemIn3d(Block.getBlockFromItem(chamber.slots()[0].getItem()).getRenderType())) {
+					if (!(chamber.slots().get(0).getItemSpriteNumber() == 0) || chamber.slots().get(0).getItemSpriteNumber() == 0 && chamber.slots().get(0).getItem() instanceof ItemBlock && !RenderBlocks.renderItemIn3d(Block.getBlockFromItem(chamber.slots().get(0).getItem()).getRenderType())) {
 						GL11.glRotated(-90, 1, 0, 0);
 						GL11.glTranslated(0, -0.22, 0.03);
 					}
-					RenderHelper.renderItem(tileentity.getWorld(), chamber.slots()[0]);
+					RenderHelper.renderItem(tileentity.getWorld(), chamber.slots().get(0));
 
 				}
 			}
@@ -83,7 +83,7 @@ public class RenderResearchChamber extends TileEntitySpecialRenderer<TileEntityR
 		GL11.glPopMatrix();
 		if (tileentity.getWorld() != null && tileentity instanceof TileEntityResearchChamber) {
 			TileEntityResearchChamber tile = (TileEntityResearchChamber) tileentity;
-			if (tile.slots()[0] != null && tile.ticks != 0 && tile.ticks != tile.researchSpeed) {
+			if (tile.slots().get(0) != null && tile.ticks != 0 && tile.ticks != tile.researchSpeed) {
 
 				double height = 0.3;
 				Tessellator tessellator = Tessellator.instance;

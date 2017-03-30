@@ -58,7 +58,6 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 		dynamic.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(CalculatorRecipes.instance().getOutputs(player, dynamic.getStackInSlot(0), dynamic.getStackInSlot(1)), 0));
 		dynamic.setInventorySlotContents(5, RecipeHelperV2.getItemStackFromList(ScientificRecipes.instance().getOutputs(player, dynamic.getStackInSlot(3), dynamic.getStackInSlot(4)), 0));
 		dynamic.setInventorySlotContents(9, RecipeHelperV2.getItemStackFromList(AtomicCalculatorRecipes.instance().getOutputs(player, dynamic.getStackInSlot(6), dynamic.getStackInSlot(7), dynamic.getStackInSlot(8)), 0));
-
 	}
 
 	public void removeEnergy(int remove) {
@@ -76,7 +75,7 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 	}
 
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(par2);
 
 		if (slot != null && slot.getHasStack()) {
@@ -85,43 +84,42 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 
 			if (par2 < INV_START) {
 				if (!this.mergeItemStack(itemstack1, INV_START, HOTBAR_END, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
-
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 				int current = this.getCurrentUsage();
 				if (par2 >= INV_START) {
 					if ((current == 0 || current == 1)) {
 						if (!this.mergeItemStack(itemstack1, 0, 2, false)) {
-							return null;
+							return ItemStack.EMPTY;
 						}
 					} else if (current == 2) {
 						if (!this.mergeItemStack(itemstack1, 3, 5, false)) {
-							return null;
+							return ItemStack.EMPTY;
 						}
 					} else if (current == 3) {
 						if (!this.mergeItemStack(itemstack1, 6, 9, false)) {
-							return null;
+							return ItemStack.EMPTY;
 						}
 					}
 				} else if (par2 >= INV_START && par2 < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				} else if (par2 >= HOTBAR_START && par2 < HOTBAR_END) {
 					if (!this.mergeItemStack(itemstack1, INV_START, INV_END, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				}
 			}
 			if (itemstack1.getCount() == 0) {
-				slot.putStack((ItemStack) null);
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
 			if (itemstack1.getCount() == itemstack.getCount()) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 			slot.onTake(player, itemstack1);
 		}

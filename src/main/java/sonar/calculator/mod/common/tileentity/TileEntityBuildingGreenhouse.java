@@ -171,22 +171,21 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		boolean found = false;
 		for (int i = 0; i < slots.length; i++) {
 			int slot = slots[i];
-			if (slot < slots().length) {
-				ItemStack target = slots()[slot];
-				if (target != null && type.checkBlock(target.getItem())) {
+			if (slot < slots().size()) {
+				ItemStack target = slots().get(slot);
+				if (!target.isEmpty() && type.checkBlock(target.getItem())) {
 					Block block = Block.getBlockFromItem(target.getItem());
-					slots()[slot].shrink(1);
-					if (slots()[slot].getCount() == 1) {
-						slots()[slot] = null;
+					if (block != null) {
+						target.shrink(1);
+						if (meta == -1) {
+							this.world.setBlockState(pos, block.getStateFromMeta(target.getItemDamage()), 2);
+						} else {
+							this.world.setBlockState(pos, block.getStateFromMeta(meta), 3);
+						}
+						this.storage.modifyEnergyStored(-buildRF);
+						found = true;
+						break;
 					}
-					if (meta == -1) {
-						this.world.setBlockState(pos, block.getStateFromMeta(target.getItemDamage()), 2);
-					} else {
-						this.world.setBlockState(pos, block.getStateFromMeta(meta), 3);
-					}
-					this.storage.modifyEnergyStored(-buildRF);
-					found = true;
-					break;
 				}
 			}
 		}
@@ -199,8 +198,8 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	public boolean hasRequiredStacks() {
 		int logs = 0, stairs = 0, planks = 0, glass = 0;
 		for (int i = 0; i < 7; i++) {
-			ItemStack stack = slots()[i];
-			if (stack == null) {
+			ItemStack stack = slots().get(i);
+			if (stack.isEmpty()) {
 				return false;
 			} else if (GreenhouseHelper.checkLog(Block.getBlockFromItem(stack.getItem()))) {
 				logs += stack.getCount();
@@ -218,8 +217,8 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	public ArrayList<String> getRequiredStacks() {
 		int logs = 0, stairs = 0, planks = 0, glass = 0;
 		for (int i = 0; i < 7; i++) {
-			ItemStack stack = slots()[i];
-			if (stack == null) {
+			ItemStack stack = slots().get(i);
+			if (stack.isEmpty()) {
 				continue;
 			} else if (GreenhouseHelper.checkLog(Block.getBlockFromItem(stack.getItem()))) {
 				logs += stack.getCount();

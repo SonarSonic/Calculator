@@ -73,7 +73,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		if (upgrades.getUpgradesInstalled("TRANSFER") > 0) {
 			transferItems();
 		}
-		if (analysed.getObject() == 1 && this.slots()[0] == null) {
+		if (analysed.getObject() == 1 && this.slots().get(0).isEmpty()) {
 			this.analysed.setObject(0);
 			this.stable.setObject(0);
 		}
@@ -98,7 +98,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 				TileEntity tile = chamber.getTileEntity(world);
 				if (tile != null && tile instanceof TileEntityStorageChamber) {
 					SonarAPI.getItemHelper().transferItems(this, tile, inputs.get(0), inputs.get(0).getOpposite(), null);
-					if (this.slots()[0] == null) {
+					if (this.slots().get(0).isEmpty()) {
 						return;
 					}
 				}
@@ -107,10 +107,10 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	}
 
 	private void analyse(int slot) {
-		if (slots()[slot].hasTagCompound()) {
-			NBTTagCompound tag = slots()[slot].getTagCompound();
+		if (slots().get(slot).hasTagCompound()) {
+			NBTTagCompound tag = slots().get(slot).getTagCompound();
 			if (!tag.getBoolean("Analysed")) {
-				int storedEnergy = itemEnergy(slots()[slot].getTagCompound().getInteger("Energy"));
+				int storedEnergy = itemEnergy(slots().get(slot).getTagCompound().getInteger("Energy"));
 				this.storage.receiveEnergy(storedEnergy, false);
 				for (int i = 1; i < 7; i++) {
 					if (i > 2 || upgrades.getUpgradesInstalled("VOID") == 0) {
@@ -126,21 +126,19 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	}
 
 	private void add(ItemStack item, int slotID) {
-		if (item != null) {
-			slots()[slotID] = new ItemStack(item.getItem(), 1, item.getItemDamage());
-		}
+		slots().set(slotID, new ItemStack(item.getItem(), 1, item.getItemDamage()));
 	}
 
 	private boolean canAnalyse() {
-		if (slots()[0] != null && slots()[0].getItem() == Calculator.circuitBoard) {
+		if (slots().get(0).getItem() == Calculator.circuitBoard) {
 			for (int slot : itemSlots) {
-				if (slots()[slot] != null) {
+				if (!slots().get(slot).isEmpty()) {
 					return false;
 				}
 			}
 			return true;
 		}
-		if (slots()[0] == null) {
+		if (slots().get(0).isEmpty()) {
 			stable.setObject(0);
 			return false;
 		}
@@ -177,16 +175,16 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	}
 
 	private int stable(int par) {
-		if (slots()[par] != null) {
-			if (slots()[par].hasTagCompound() && slots()[par].getItem() instanceof IStability) {
-				IStability item = (IStability) slots()[par].getItem();
-				boolean stable = item.getStability(slots()[par]);
-				if (!stable) {
-					item.onFalse(slots()[par]);
-				}
-				return stable ? 1 : 0;
+		ItemStack stableStack = slots().get(par);
+		if (stableStack.hasTagCompound() && stableStack.getItem() instanceof IStability) {
+			IStability item = (IStability) stableStack.getItem();
+			boolean stable = item.getStability(stableStack);
+			if (!stable) {
+				item.onFalse(stableStack);
 			}
+			return stable ? 1 : 0;
 		}
+
 		return 0;
 
 	}
@@ -224,7 +222,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
 		if (stack.getItem() instanceof CircuitBoard) {
-			NBTTagCompound tag = slots()[slot].getTagCompound();
+			NBTTagCompound tag = slots().get(slot).getTagCompound();
 			if (!tag.getBoolean("Analysed")) {
 				return false;
 			}
@@ -264,7 +262,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		ItemStack[] toDrop = new ItemStack[drops.size()];
 		int pos = 0;
 		for (ItemStack drop : drops) {
-			if (drop != null) {
+			if (!drop.isEmpty()) {
 				toDrop[pos] = drop;
 			}
 			pos++;

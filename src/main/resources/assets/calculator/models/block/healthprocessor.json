@@ -1,0 +1,11 @@
+{
+    "parent":"calculator:block/SonarMachine",
+    "textures": {
+        "north":"calculator:blocks/healthprocessor_front2",             
+        "east":"calculator:blocks/healthprocessor_slot2",            
+        "south":"calculator:blocks/healthprocessor_slot2",               
+        "west":"calculator:blocks/healthprocessor_slot2",
+        "up":"calculator:blocks/healthprocessor_slot2",  
+        "down":"calculator:blocks/healthprocessor_slot2"    
+    }
+}

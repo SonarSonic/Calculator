@@ -41,17 +41,7 @@ public class ContainerModuleWorkstation extends ContainerSync {
 				return stack != null && stack.getItem() instanceof IFlawlessCalculator;
 			}
 		});
-
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < 9; ++j) {
-				this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-			}
-		}
-
-		for (int i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
-		}
-
+		addInventory(inventory, 8, 84);
 	}
 
 	@Override
@@ -60,7 +50,7 @@ public class ContainerModuleWorkstation extends ContainerSync {
 	}
 
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
@@ -68,7 +58,7 @@ public class ContainerModuleWorkstation extends ContainerSync {
 
 			if (slotID < INV_START) {
 				if (!this.mergeItemStack(itemstack1, INV_START, HOTBAR_END + 1, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
@@ -76,35 +66,32 @@ public class ContainerModuleWorkstation extends ContainerSync {
 				if (slotID >= INV_START) {
 					if (itemstack1 != null && itemstack1.getItem() instanceof IFlawlessCalculator) {
 						if (!this.mergeItemStack(itemstack1, 16, 17, false)) {
-							return null;
+							return ItemStack.EMPTY;
 						}
 					} else if (!this.mergeItemStack(itemstack1, 0, INV_START - 1, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				} else if (slotID >= INV_START && slotID < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				} else if (slotID >= HOTBAR_START && slotID < HOTBAR_END + 1) {
 					if (!this.mergeItemStack(itemstack1, INV_START, INV_END + 1, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				}
 			}
 
 			if (itemstack1.getCount() == 0) {
-				slot.putStack((ItemStack) null);
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
-
 			if (itemstack1.getCount() == itemstack.getCount()) {
-				return null;
+				return ItemStack.EMPTY;
 			}
-
 			slot.onTake(player, itemstack1);
 		}
-
 		return itemstack;
 	}
 

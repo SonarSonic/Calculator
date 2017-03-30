@@ -263,7 +263,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 
 	protected boolean isLocated() {
 		ItemStack stack = this.getStackInSlot(1);
-		if (stack == null) {
+		if (stack.isEmpty()) {
 			return false;
 		}
 		if (stack.getItem() instanceof ILocatorModule) {

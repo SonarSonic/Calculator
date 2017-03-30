@@ -37,14 +37,14 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	public void update() {
 		super.update();
 		if (!this.world.isRemote)
-			food(slots()[0]);
-		charge(slots()[1]);
+			food(slots().get(0));
+		charge(slots().get(1));
 
 		this.markDirty();
 	}
 
 	public void charge(ItemStack stack) {
-		if (!(stack == null) && this.storedpoints.getObject() != 0) {
+		if (!(stack.isEmpty()) && this.storedpoints.getObject() != 0) {
 			if (stack.getItem() instanceof IHungerStore) {
 				IHungerStore module = (IHungerStore) stack.getItem();
 				int hunger = module.getHungerPoints(stack);
@@ -74,14 +74,11 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	}
 
 	private void food(ItemStack stack) {
-		if (!(stack == null)) {
+		if (!(stack.isEmpty())) {
 			if (stack.getItem() instanceof ItemFood) {
 				ItemFood food = (ItemFood) stack.getItem();
 				storedpoints.increaseBy(food.getHealAmount(stack));
-				this.slots()[0].shrink(1);
-				if (this.slots()[0].getCount() <= 0) {
-					this.slots()[0] = null;
-				}
+				this.slots().get(0).shrink(1);
 			}
 			if (stack.getItem() instanceof IHungerStore) {
 

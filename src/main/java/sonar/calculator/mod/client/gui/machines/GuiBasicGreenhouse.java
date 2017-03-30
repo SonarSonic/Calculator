@@ -100,16 +100,16 @@ public class GuiBasicGreenhouse extends GuiSonar {
 			int o = this.entity.getOxygen() * 66 / this.entity.maxLevel;
 			this.drawTexturedModalRect(this.guiLeft + 137, this.guiTop + 11 + 66 - o, 218, 66 - o, 28, 66);
 		}
-		if (entity.slots()[0] == null) {
+		if (entity.slots().get(0).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.LOG), this.guiLeft + 19 + 7, this.guiTop + 28 - 6);
 		}
-		if (entity.slots()[1] == null) {
+		if (entity.slots().get(1).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS), this.guiLeft + 37 + 7, this.guiTop + 28 - 6);
 		}
-		if (entity.slots()[2] == null) {
+		if (entity.slots().get(2).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.GLASS), this.guiLeft + 19 + 7, this.guiTop + 46 - 6);
 		}
-		if (entity.slots()[3] == null) {
+		if (entity.slots().get(3).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.PLANKS), this.guiLeft + 37 + 7, this.guiTop + 46 - 6);
 		}
 	}

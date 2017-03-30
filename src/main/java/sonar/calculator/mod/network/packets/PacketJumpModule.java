@@ -50,7 +50,7 @@ public class PacketJumpModule implements IMessage {
 				if (message.pos.getY() <= 0) {
 					return null;
 				}
-				if (held != null && held.getItem() instanceof IModuleProvider && SonarAPI.getEnergyHelper().canTransferEnergy(held)!=null) {
+				if (!held.isEmpty() && held.getItem() instanceof IModuleProvider && SonarAPI.getEnergyHelper().canTransferEnergy(held)!=null) {
 					//IEnergyContainerItem item = (IEnergyContainerItem) held.getItem();
 					long maxRemove = SonarAPI.getEnergyHelper().extractEnergy(held, 1000, ActionType.SIMULATE);
 					if (player.capabilities.isCreativeMode || maxRemove >= 1000) {

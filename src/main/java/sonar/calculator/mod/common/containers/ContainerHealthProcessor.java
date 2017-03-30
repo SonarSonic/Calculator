@@ -4,78 +4,45 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityFurnace;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
+import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.core.inventory.ContainerSync;
+import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.inventory.TransferSlotsManager.TransferSlots;
+import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerHealthProcessor extends ContainerSync {
 	private TileEntityHealthProcessor entity;
-
+	public static TransferSlotsManager<TileEntityHealthProcessor> transfer = new TransferSlotsManager() {
+		{
+			addTransferSlot(new TransferSlots<TileEntityHealthProcessor>(TransferType.TILE_INV, 1) {
+				public boolean canInsert(EntityPlayer player, TileEntityHealthProcessor inv, Slot slot, int pos, int slotID, ItemStack stack) {
+					return HealthProcessorRecipes.instance().getValue(player, stack) > 0;
+				}
+			});
+			addTransferSlot(new TransferSlots<TileEntityHealthProcessor>(TransferType.TILE_INV, 1) {
+				public boolean canInsert(EntityPlayer player, TileEntityHealthProcessor inv, Slot slot, int pos, int slotID, ItemStack stack) {
+					return stack.getItem() == Calculator.itemHealthModule || stack.getItem() == Calculator.itemNutritionModule;
+				}
+			});
+			addPlayerInventory();
+		}
+	};
+	
 	public ContainerHealthProcessor(InventoryPlayer inventory, TileEntityHealthProcessor entity) {
 		super(entity);
 		this.entity = entity;
-
 		addSlotToContainer(new Slot(entity, 0, 55, 34));
 		addSlotToContainer(new Slot(entity, 1, 104, 35));
-
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-			}
-		}
-
-		for (int i = 0; i < 9; i++)
-			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
+		addInventory(inventory, 8, 84);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int p_82846_2_) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(p_82846_2_);
-
-		if ((slot != null) && (slot.getHasStack())) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
-
-			if ((p_82846_2_ != 1) && (p_82846_2_ != 0)) {
-				if (HealthProcessorRecipes.instance().getValue(player, itemstack1) > 0) {
-					if (!mergeItemStack(itemstack1, 0, 1, false)) {
-						return null;
-					}
-				} else if (itemstack1.getItem() == Calculator.itemHealthModule) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if (itemstack1.getItem() == Calculator.itemNutritionModule) {
-					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if ((p_82846_2_ >= 3) && (p_82846_2_ < 30)) {
-					if (!mergeItemStack(itemstack1, 29, 38, false)) {
-						return null;
-					}
-				} else if ((p_82846_2_ >= 29) && (p_82846_2_ < 38) && (!mergeItemStack(itemstack1, 2, 29, false))) {
-					return null;
-				}
-			} else if (!mergeItemStack(itemstack1, 2, 38, false)) {
-				return null;
-			}
-
-			if (itemstack1.getCount() == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
-				slot.onSlotChanged();
-			}
-
-			if (itemstack1.getCount() == itemstack.getCount()) {
-				return null;
-			}
-
-			slot.onTake(player, itemstack1);
-		}
-
-		return itemstack;
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
+		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}
 
 	@Override

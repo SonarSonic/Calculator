@@ -39,7 +39,6 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	public final SyncTagType.INT rfPerStrike = new SyncTagType.INT(5);
 	public final SyncTagType.DOUBLE rfPerTick = new SyncTagType.DOUBLE(6);
 
-	
 	public int energyUsage;
 	public int lastStations, strikes, avgTicks;
 	public static int furnaceSpeed = 50;
@@ -149,26 +148,27 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	}
 
 	public boolean canCook() {
-		if (this.storage.getEnergyStored() == 0 || slots()[0] == null) {
+		ItemStack toCook = slots().get(0);
+		if (this.storage.getEnergyStored() == 0 || toCook.isEmpty()) {
 			return false;
 		}
 
 		if (cookTime.getObject() >= furnaceSpeed) {
 			return true;
 		}
-		DefaultSonarRecipe.Value recipe = this.getRecipe(slots()[0]);
+		DefaultSonarRecipe.Value recipe = this.getRecipe(toCook);
 		if (recipe == null) {
 			return false;
 		}
 		ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), 0);
-		if (slots()[1] != null) {
-			if (!slots()[1].isItemEqual(stack)) {
+		ItemStack outputStack = slots().get(1);
+		if (!outputStack.isEmpty()) {
+			if (!outputStack.isItemEqual(stack)) {
 				return false;
-			} else if (slots()[1].getCount() + stack.getCount() > slots()[1].getMaxStackSize()) {
+			} else if (outputStack.getCount() + stack.getCount() > outputStack.getMaxStackSize()) {
 				return false;
 			}
 		}
-
 		energyUsage = recipe.getValue();
 		if (cookTime.getObject() == 0) {
 			if (this.storage.getEnergyStored() < energyUsage) {
@@ -181,24 +181,21 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	}
 
 	private void cookItem() {
-		DefaultSonarRecipe.Value recipe = this.getRecipe(slots()[0]);
+		ItemStack inputStack = slots().get(0);
+		DefaultSonarRecipe.Value recipe = this.getRecipe(inputStack);
 		if (recipe == null)
 			return;
 		ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), 0);
 		energyUsage = recipe.getValue();
 		this.storage.extractEnergy(energyUsage, false);
+		ItemStack outputStack = slots().get(1);
 
-		if (this.slots()[1] == null) {
-			this.slots()[1] = stack.copy();
-
-		} else if (this.slots()[1].isItemEqual(stack)) {
-			this.slots()[1].grow(1);
+		if (outputStack.isEmpty()) {
+			slots().set(1, stack.copy());
+		} else if (outputStack.isItemEqual(stack)) {
+			outputStack.grow(1);
 		}
-		this.slots()[0].shrink(1);
-
-		if (this.slots()[0].getCount() <= 0) {
-			this.slots()[0] = null;
-		}
+		inputStack.shrink(1);
 
 	}
 

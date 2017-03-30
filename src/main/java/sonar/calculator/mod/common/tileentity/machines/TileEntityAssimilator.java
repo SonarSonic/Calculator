@@ -137,8 +137,8 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 			if (this.world.isRemote) {
 				return;
 			}
-			chargeHunger(slots()[0]);
-			chargeHealth(slots()[0]);
+			chargeHunger(slots().get(0));
+			chargeHealth(slots().get(0));
 		}
 
 		public boolean harvestBlock(BlockCoords coords) {
@@ -161,7 +161,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		}
 
 		public void chargeHunger(ItemStack stack) {
-			if (!(stack == null) && this.hungerPoints != 0) {
+			if (!(stack.isEmpty()) && this.hungerPoints != 0) {
 				if (stack.getItem() instanceof IHungerStore) {
 					IHungerStore module = (IHungerStore) stack.getItem();
 					int hunger = module.getHungerPoints(stack);
@@ -190,7 +190,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		}
 
 		public void chargeHealth(ItemStack stack) {
-			if (!(stack == null) && this.healthPoints != 0) {
+			if (!(stack.isEmpty()) && this.healthPoints != 0) {
 				if (stack.getItem() instanceof IHealthStore) {
 					IHealthStore module = (IHealthStore) stack.getItem();
 					int health = module.getHealthPoints(stack);
@@ -261,7 +261,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 				EnumFacing forward = EnumFacing.getFront(getBlockMetadata());
 				if (stacks != null && !stacks.isEmpty()) {
 					for (ItemStack s : stacks) {
-						if (s != null) {
+						if (!s.isEmpty()) {
 							ItemStack stack = s.copy();
 							StoredItemStack storedstack = new StoredItemStack(stack);
 							StoredItemStack harvest = SonarAPI.getItemHelper().addItems(this, storedstack.copy(), EnumFacing.DOWN, ActionType.PERFORM, null);

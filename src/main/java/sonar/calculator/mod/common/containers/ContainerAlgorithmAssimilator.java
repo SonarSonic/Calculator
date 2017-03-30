@@ -5,11 +5,28 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.calculator.mod.api.nutrition.IHealthStore;
+import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
+import sonar.core.inventory.ContainerSonar;
+import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.inventory.TransferSlotsManager.TransferSlots;
+import sonar.core.inventory.TransferSlotsManager.TransferType;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
-public class ContainerAlgorithmAssimilator extends Container {
+public class ContainerAlgorithmAssimilator extends ContainerSonar {
 	private TileEntityAssimilator entity;
+	public static TransferSlotsManager<TileEntityAssimilator> transfer = new TransferSlotsManager() {
+		{
+
+			addTransferSlot(new TransferSlots<TileEntityAssimilator>(TransferType.TILE_INV, 3 * 9) {
+				public boolean canInsert(EntityPlayer player, TileEntityAssimilator inv, Slot slot, int pos, int slotID, ItemStack stack) {
+					return true;
+				}
+			});
+			addPlayerInventory();
+		}
+	};
 
 	public ContainerAlgorithmAssimilator(EntityPlayer player, TileEntityAssimilator entity) {
 		this.entity = entity;
@@ -23,56 +40,16 @@ public class ContainerAlgorithmAssimilator extends Container {
 				this.addSlotToContainer(new SlotBlockedInventory(entity, k + j * 9, 8 + k * 18, 24 + j * 18));
 			}
 		}
-
-		for (j = 0; j < 3; ++j) {
-			for (k = 0; k < 9; ++k) {
-				this.addSlotToContainer(new Slot(player.inventory, k + j * 9 + 9, 8 + k * 18, 102 + j * 18 + i));
-			}
-		}
-
-		for (j = 0; j < 9; ++j) {
-			this.addSlotToContainer(new Slot(player.inventory, j, 8 + j * 18, 160 + i));
-		}
+		addInventory(player.inventory, 8,84);
 	}
 
 	public boolean canInteractWith(EntityPlayer player) {
 		return this.entity.isUseableByPlayer(player);
 	}
 
-	 public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
-	    {
-	        ItemStack itemstack = null;
-	        Slot slot = (Slot)this.inventorySlots.get(p_82846_2_);
-
-	        if (slot != null && slot.getHasStack())
-	        {
-	            ItemStack itemstack1 = slot.getStack();
-	            itemstack = itemstack1.copy();
-
-	            if (p_82846_2_ < 3 * 9)
-	            {
-	                if (!this.mergeItemStack(itemstack1, 3 * 9, this.inventorySlots.size(), true))
-	                {
-	                    return null;
-	                }
-	            }
-	            else if (!this.mergeItemStack(itemstack1, 0, 3 * 9, false))
-	            {
-	                return null;
-	            }
-
-	            if (itemstack1.getCount() == 0)
-	            {
-	                slot.putStack((ItemStack)null);
-	            }
-	            else
-	            {
-	                slot.onSlotChanged();
-	            }
-	        }
-
-	        return itemstack;
-	    }
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
+		return transfer.transferStackInSlot(this, entity, player, slotID);
+	}
 
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);

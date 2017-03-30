@@ -1,0 +1,81 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model":"builtin/generated",
+    "transform":"forge:default-item"
+  },
+  "variants": {
+    "variant": {
+      "meta0": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit1_dirty"
+        }
+      },
+      "meta1": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit2_dirty"
+        }
+      },
+      "meta2": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit3_dirty"
+        }
+      },
+      "meta3": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit4_dirty"
+        }
+      },
+      "meta4": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit5_dirty"
+        }
+      },
+      "meta5": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit6_dirty"
+        }
+      },
+      "meta6": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit7_dirty"
+        }
+      },
+      "meta7": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit8_dirty"
+        }
+      },
+      "meta8": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit9_dirty"
+        }
+      },
+      "meta9": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit10_dirty"
+        }
+      },
+      "meta10": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit11_dirty"
+        }
+      },
+      "meta11": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit12_dirty"
+        }
+      },
+      "meta12": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit13_dirty"
+        }
+      },
+      "meta13": {
+        "textures": {
+          "layer0":"calculator:items/circuits/circuit14_dirty"
+        }
+      }
+    }
+  }
+}

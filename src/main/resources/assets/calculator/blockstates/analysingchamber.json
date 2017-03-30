@@ -1,0 +1,80 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {              
+            "particle":"calculator:model/analysing_chamber_slot1",  
+	        "up":"calculator:model/analysing_chamber_slot1",
+	        "down":"calculator:model/analysing_chamber2_slot1",
+	        "north":"calculator:model/analysing_chamber_front_1",        
+	        "east":"calculator:model/analysing_chamber_side_1",        
+	        "south":"calculator:model/analysing_chamber_side_1",
+	        "west":"calculator:model/analysing_chamber_side_1" 
+        },    
+        "model":"calculator:AnalysingChamber",        
+        "transform":"forge:default-block",
+        "uvlock": true
+    },
+    "variants": { 
+        "inventory": [{}], 
+        "facing":{  
+            "north":{},
+            "south":{
+                "y": 180
+            },
+            "west":{
+                "y": 270
+            },
+            "east":{
+                "y": 90
+            }
+        },
+        "north":{
+            "input":{},
+            "output":{             
+               "textures": {        
+                    "north":"calculator:model/analysing_chamber_front_2" 
+                }         
+            }
+        },
+        "east":{
+            "input":{},
+            "output":{
+                 "textures": {           
+                    "east":"calculator:model/analysing_chamber_side_2" 
+                 }
+            }
+        },
+        "south":{
+            "input":{},
+            "output":{
+                 "textures": {            
+                    "south":"calculator:model/analysing_chamber_side_2"
+                 }
+            }
+        },
+        "west":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "west":"calculator:model/analysing_chamber_side_2" 
+                 }
+            }
+        },
+        "up":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "up":"calculator:model/analysing_chamber_slot2"
+                 }
+            }
+        },
+        "down":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "down":"calculator:model/analysing_chamber2_slot2" 
+                 }
+            }
+        }
+    }
+}

@@ -277,7 +277,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 
 	@Override
 	public boolean canInsertItem(int index, ItemStack stack, EnumFacing side) {
-		if (side == EnumFacing.UP && stack.getItem() != null) {
+		if (side == EnumFacing.UP && !stack.isEmpty()) {
 			BlockType type = BlockType.getTypeForItem(stack.getItem());
 			if (type != BlockType.NONE) {
 				for (int slot : getSlotsForType(type)) {
@@ -287,7 +287,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 				}
 			}
 		}
-		return stack != null && stack.getItem() instanceof IPlantable;
+		return !stack.isEmpty() && stack.getItem() instanceof IPlantable;
 	}
 
 	public int[] getSlotsForType(BlockType type) {

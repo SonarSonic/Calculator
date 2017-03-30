@@ -21,7 +21,7 @@ import sonar.core.utils.IGuiTile;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess implements IGuiTile, IAdditionalInventory {
 
-	public ItemStack calcStack;
+	public ItemStack calcStack = ItemStack.EMPTY;
 
 	public TileEntityDockingStation() {
 		super(4, 1, 200, 10);
@@ -87,14 +87,14 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	}
 
 	public static int getInputStackSize(ItemStack itemstack1) {
-		if (itemstack1 != null) {
+		if (!itemstack1.isEmpty()) {
 			return ProcessType.getType(itemstack1.getItem()).inputStacks;
 		}
 		return 0;
 	}
 
 	public RecipeHelperV2 recipeHelper() {
-		if (calcStack != null) {
+		if (!calcStack.isEmpty()) {
 			return ProcessType.getType(calcStack.getItem()).getRecipeHelper();
 		}
 		return CalculatorRecipes.instance();
@@ -116,7 +116,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		}
 		ItemStack[] input = new ItemStack[size];
 		for (int i = 0; i < size; i++) {
-			input[i] = slots()[i];
+			input[i] = slots().get(i);
 		}
 		return input;
 	}
@@ -142,9 +142,9 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		this.slots()[i] = itemstack;
+		this.slots().set(i, itemstack);
 
-		if ((itemstack != null) && (itemstack.getCount() > getInventoryStackLimit())) {
+		if (!(itemstack.isEmpty()) && (itemstack.getCount() > getInventoryStackLimit())) {
 			itemstack.setCount(getInventoryStackLimit());
 		}
 	}
@@ -202,7 +202,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	}
 
 	public ItemStack[] getAdditionalStacks() {
-		if (calcStack != null) {
+		if (!calcStack.isEmpty()) {
 			return new ItemStack[] { calcStack };
 		} else {
 			return new ItemStack[0];

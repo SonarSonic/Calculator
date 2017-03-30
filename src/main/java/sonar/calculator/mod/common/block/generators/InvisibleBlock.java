@@ -33,10 +33,10 @@ public class InvisibleBlock extends SonarBlock {
 		super(SonarMaterials.machine, false, true);
 		this.type = type;
 		if (type == 2) {
-			//this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 1.0F, 0.7F);
+			// this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 1.0F, 0.7F);
 		}
 		if (type == 0) {
-			//this.setBlockBounds(0.20F, 0.0F, 0.20F, 0.80F, 1.0F, 0.80F);
+			// this.setBlockBounds(0.20F, 0.0F, 0.20F, 0.80F, 1.0F, 0.80F);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class InvisibleBlock extends SonarBlock {
 			for (int i = 1; i < 4; i++) {
 				BlockPos offset = pos.offset(EnumFacing.DOWN, i);
 				if (world.getBlockState(offset).getBlock() == Calculator.conductorMast) {
-					player.openGui(Calculator.instance, IGuiTile.ID, world, offset.getX(), offset.getY(), offset.getZ());					
+					player.openGui(Calculator.instance, IGuiTile.ID, world, offset.getX(), offset.getY(), offset.getZ());
 					break;
 				}
 			}
@@ -57,15 +57,16 @@ public class InvisibleBlock extends SonarBlock {
 	@Override
 	public final boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		if (this.type == 0) {
-			if (world.getBlockState(pos.offset(EnumFacing.DOWN, 1)).getBlock() == Calculator.conductorMast) {
-				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(pos.offset(EnumFacing.DOWN, 1));
-				SonarHelper.dropTile(player, world.getBlockState(pos.offset(EnumFacing.DOWN, 1)).getBlock(), world, pos.offset(EnumFacing.DOWN, 1));
-			} else if (world.getBlockState(pos.offset(EnumFacing.DOWN, 2)).getBlock() == Calculator.conductorMast) {
-				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(pos.offset(EnumFacing.DOWN, 2));
-				SonarHelper.dropTile(player, world.getBlockState(pos.offset(EnumFacing.DOWN, 2)).getBlock(), world, pos.offset(EnumFacing.DOWN, 2));
-			} else if (world.getBlockState(pos.offset(EnumFacing.DOWN, 3)).getBlock() == Calculator.conductorMast) {
-				TileEntityConductorMast mast = (TileEntityConductorMast) world.getTileEntity(pos.offset(EnumFacing.DOWN, 3));
-				SonarHelper.dropTile(player, world.getBlockState(pos.offset(EnumFacing.DOWN, 3)).getBlock(), world, pos.offset(EnumFacing.DOWN, 3));
+			IBlockState mastState = null;
+			if ((mastState = world.getBlockState(pos.offset(EnumFacing.DOWN, 1))).getBlock() instanceof ConductorMast) {
+				ConductorMast mast = (ConductorMast) mastState.getBlock();
+				mast.wrenchBlock(player, world, pos, true);
+			} else if ((mastState = world.getBlockState(pos.offset(EnumFacing.DOWN, 2))).getBlock() instanceof ConductorMast) {
+				ConductorMast mast = (ConductorMast) mastState.getBlock();
+				mast.wrenchBlock(player, world, pos, true);
+			} else if ((mastState = world.getBlockState(pos.offset(EnumFacing.DOWN, 3))).getBlock() instanceof ConductorMast) {
+				ConductorMast mast = (ConductorMast) mastState.getBlock();
+				mast.wrenchBlock(player, world, pos, true);
 			}
 		} else if (this.type == 1) {
 			for (int X = -1; X < 2; X++) {
@@ -98,19 +99,19 @@ public class InvisibleBlock extends SonarBlock {
 			TileEntityConductorMast.setWeatherStationAngles(true, world, pos);
 		}
 	}
-	
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player){
-    	switch(type){
-    	case 0: 
-        	return new ItemStack(Calculator.conductorMast, 1);
-    	case 1: 
-        	return new ItemStack(Calculator.weatherStation, 1);
-    	case 2: 
-        	return new ItemStack(Calculator.transmitter, 1);
-    	default:
-    		return super.getPickBlock(state, target, world, pos, player);
-    	}
-    }
+
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+		switch (type) {
+		case 0:
+			return new ItemStack(Calculator.conductorMast, 1);
+		case 1:
+			return new ItemStack(Calculator.weatherStation, 1);
+		case 2:
+			return new ItemStack(Calculator.transmitter, 1);
+		default:
+			return super.getPickBlock(state, target, world, pos, player);
+		}
+	}
 
 	@Override
 	public int quantityDropped(Random rand) {
@@ -121,17 +122,17 @@ public class InvisibleBlock extends SonarBlock {
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isNormalCube(IBlockState state) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
-	
+
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}

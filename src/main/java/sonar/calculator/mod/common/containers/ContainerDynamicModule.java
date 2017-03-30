@@ -68,7 +68,7 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 	}
 
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(par2);
 
 		if (slot != null && slot.getHasStack()) {
@@ -77,45 +77,44 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 
 			if (par2 < INV_START) {
 				if (!this.mergeItemStack(itemstack1, INV_START, HOTBAR_END, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
-
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 				int current = this.getCurrentUsage();
 				if (par2 >= INV_START && (current == 0 || current == 1)) {
 					if (!this.mergeItemStack(itemstack1, 0, 2, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				} else if (par2 >= INV_START && current == 2) {
 					if (!this.mergeItemStack(itemstack1, 3, 5, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				} else if (par2 >= INV_START && current == 3) {
 					if (!this.mergeItemStack(itemstack1, 6, 9, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				}
 
 				else if (par2 >= INV_START && par2 < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				} else if (par2 >= HOTBAR_START && par2 < HOTBAR_END) {
 					if (!this.mergeItemStack(itemstack1, INV_START, INV_END, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				}
 			}
 
 			if (itemstack1.getCount() == 0) {
-				slot.putStack((ItemStack) null);
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
 
 			if (itemstack1.getCount() == itemstack.getCount()) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 
 			slot.onTake(player, itemstack1);
@@ -138,7 +137,7 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 	@Override
 	public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player) {
 		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
-			return null;
+			return ItemStack.EMPTY;
 		}
 		return super.slotClick(slot, drag, click, player);
 	}

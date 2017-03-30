@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -22,7 +23,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 
 	public SyncTagType.INT burnTime = new SyncTagType.INT("burnTime");
 	public SyncTagType.INT maxBurnTime = new SyncTagType.INT("maxBurnTime");
-	
+
 	public TileEntityGasLantern() {
 		super.inv = new SonarInventory(this, 1);
 		syncList.addParts(burnTime, maxBurnTime, inv);
@@ -40,10 +41,9 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 		}
 		if (!this.world.isRemote) {
 			if (maxBurnTime.getObject() == 0) {
-				if (this.slots()[0] != null) {
-					if (TileEntityFurnace.isItemFuel(slots()[0])) {
-						burn();
-					}
+				ItemStack burnStack = slots().get(0);
+				if (!burnStack.isEmpty() && TileEntityFurnace.isItemFuel(burnStack)) {
+					burn();
 				}
 			}
 			if (maxBurnTime.getObject() != 0 && burnTime.getObject() == 0) {
@@ -71,13 +71,9 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 	}
 
 	private void burn() {
-		this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(this.slots()[0]) * 10);
-		this.slots()[0].shrink(1);
-
-		if (this.slots()[0].getCount() <= 0) {
-			this.slots()[0] = null;
-		}
-
+		ItemStack burnStack = slots().get(0);
+		this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(burnStack) * 10);
+		burnStack.shrink(1);
 	}
 
 	public boolean isBurning() {
@@ -86,7 +82,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 		}
 		return true;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		if (burnTime.getObject() > 0 && maxBurnTime.getObject() != 0) {

@@ -1,0 +1,22 @@
+{
+   "forge_marker": 1,
+    "defaults": {
+        "model":"builtin/generated",
+        "transform":"forge:default-item",        
+        "textures": {
+            "layer0":"sonarcore:blocks/connected/stablestone"
+         }  
+    },
+    "variants": { 
+        "inventory": [{            
+            "textures": {
+              "layer0":"calculator:items/item_transmitter"
+            }}],
+        "facing":{  
+            "north":{},
+            "south":{},
+            "west":{},
+            "east":{}
+        }
+    } 
+}

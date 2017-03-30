@@ -44,7 +44,7 @@ public class SlotPortableResult extends SlotPortable {
 		for (int i = 0; i < this.craftSlots.length; ++i) {
 			ItemStack itemstack1 = this.invItem.getStackInSlot(craftSlots[i]);
 
-			if (itemstack1 != null) {
+			if (!itemstack1.isEmpty()) {
 				decrIngredientSize(craftSlots[i], 1);
 				if (itemstack1.getItem().hasContainerItem(itemstack1)) {
 					ItemStack itemstack2 = itemstack1.getItem().getContainerItem(itemstack1);
@@ -73,21 +73,16 @@ public class SlotPortableResult extends SlotPortable {
 
 			if (invItem.getStackInSlot(slot).getCount() <= size) {
 				itemstack = invItem.getStackInSlot(slot);
-				invItem.setInventorySlotContents(slot, null);
+				invItem.setInventorySlotContents(slot, ItemStack.EMPTY);
 				container.onItemCrafted();
 				return itemstack;
 			} else {
 				itemstack = invItem.getStackInSlot(slot).splitStack(size);
-
-				if (invItem.getStackInSlot(slot).getCount() == 0) {
-					invItem.setInventorySlotContents(slot, null);
-				}
-
 				container.onItemCrafted();
 				return itemstack;
 			}
 		} else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 

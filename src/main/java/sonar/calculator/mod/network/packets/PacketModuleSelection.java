@@ -45,7 +45,7 @@ public class PacketModuleSelection implements IMessage {
 			EntityPlayer player = SonarCore.proxy.getPlayerEntity(ctx);
 			if (player != null && ctx.side == Side.SERVER) {
 				ItemStack held = player.getHeldItemMainhand();
-				if (held != null) {
+				if (!held.isEmpty()) {
 					Item item = held.getItem();
 					if (item instanceof FlawlessCalculator) {
 						FlawlessCalculator calc = (FlawlessCalculator) item;

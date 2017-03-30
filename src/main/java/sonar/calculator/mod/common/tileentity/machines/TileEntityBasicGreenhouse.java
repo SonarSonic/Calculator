@@ -28,7 +28,7 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 	public int plants, lanterns, growTicks, growTick;
 
 	public TileEntityBasicGreenhouse() {
-		super(56,18,30,14);
+		super(56, 18, 30, 14);
 		super.storage.setCapacity(350000).setMaxTransfer(800);
 		super.inv = new SonarInventory(this, 14);
 		super.energyMode = EnergyMode.RECIEVE;
@@ -44,7 +44,6 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 		discharge(4);
 	}
 
-	
 	public ArrayList<BlockPos> getPlantArea() {
 		ArrayList<BlockPos> coords = new ArrayList();
 		int fX = forward.getFrontOffsetX();
@@ -104,11 +103,11 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 
 	/** Checks inventory has resources **/
 	public boolean hasRequiredStacks() {
-		if (slots()[0] != null && slots()[1] != null && slots()[2] != null && slots()[3] != null) {
-			if (slots()[0].getCount() >= requiredLogs && GreenhouseHelper.checkLog(Block.getBlockFromItem(slots()[0].getItem()))) {
-				if (slots()[1].getCount() >= requiredStairs && GreenhouseHelper.checkStairs(Block.getBlockFromItem(slots()[1].getItem()))) {
-					if (slots()[2].getCount() >= requiredGlass && GreenhouseHelper.checkGlass(Block.getBlockFromItem(slots()[2].getItem()))) {
-						if (slots()[3].getCount() >= requiredPlanks && GreenhouseHelper.checkPlanks(Block.getBlockFromItem(slots()[3].getItem()))) {
+		if (slots().get(0) != null && slots().get(1) != null && slots().get(2) != null && slots().get(3) != null) {
+			if (slots().get(0).getCount() >= requiredLogs && GreenhouseHelper.checkLog(Block.getBlockFromItem(slots().get(0).getItem()))) {
+				if (slots().get(1).getCount() >= requiredStairs && GreenhouseHelper.checkStairs(Block.getBlockFromItem(slots().get(1).getItem()))) {
+					if (slots().get(2).getCount() >= requiredGlass && GreenhouseHelper.checkGlass(Block.getBlockFromItem(slots().get(2).getItem()))) {
+						if (slots().get(3).getCount() >= requiredPlanks && GreenhouseHelper.checkPlanks(Block.getBlockFromItem(slots().get(3).getItem()))) {
 							return true;
 						}
 					}
@@ -117,7 +116,7 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 		}
 		return false;
 	}
-	
+
 	/** Hoes the ground **/
 	public void addFarmland() {
 		for (int Z = -1; Z <= 1; Z++) {
@@ -185,14 +184,12 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 
 		int fX = forward.getFrontOffsetX();
 		int fZ = forward.getFrontOffsetZ();
-		
 
-		
-		//end
+		// end
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
-		
+
 		for (int i = 1; i <= 2; i++) {
 			blocks.add(new BlockPlace(BlockType.LOG, x, y + i, z, -1));
 		}
@@ -207,8 +204,8 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 			blocks.add(new BlockPlace(BlockType.GLASS, x + (hoX), y + i, z + (hoZ), -1));
 
 		}
-		
-		//front
+
+		// front
 		x = pos.getX() + (forward.getFrontOffsetX() * 4);
 		y = pos.getY();
 		z = pos.getZ() + (forward.getFrontOffsetZ() * 4);
@@ -226,7 +223,7 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 		x = pos.getX();
 		y = pos.getY();
 		z = pos.getZ();
-		//sides
+		// sides
 		for (int i = 1; i <= 3; i++) {
 			if (i != 2) {
 				blocks.add(new BlockPlace(BlockType.PLANKS, x + (hX * 2) + (fX * i), y - 1, z + (hZ * 2) + (fZ * i), -1));
@@ -246,7 +243,7 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 			blocks.add(new BlockPlace(BlockType.LOG, x + (hoX * 2) + (fX * 2), y + Y, z + (hoZ * 2) + (fZ * 2), -1));
 		}
 
-		//roof		
+		// roof
 		for (int i = -1; i <= 1; i++) {
 			blocks.add(new BlockPlace(BlockType.PLANKS, x + (hX * i), y + 3, z + (hZ * i), -1));
 			blocks.add(new BlockPlace(BlockType.PLANKS, x + (hX * i) + (fX * 4), y + 3, z + (hZ * i) + (fZ * 4), -1));
@@ -259,7 +256,7 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 			}
 		}
 
-		//underroof
+		// underroof
 		for (int i = -1; i <= 5; i++) {
 			if (i != -1 && i != 0 && i != 4 && i != 5) {
 				blocks.add(new BlockPlace(BlockType.STAIRS, x + (hX) + (fX * i), y + 3, z + (hZ) + (fZ * i), type("d")));
@@ -276,18 +273,18 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 		}
 		return blocks;
 	}
-	
+
 	@Override
 	public int[] getSlotsForType(BlockType type) {
-		switch(type){
+		switch (type) {
 		case LOG:
-			return new int[]{0};
+			return new int[] { 0 };
 		case GLASS:
-			return new int[]{2};
+			return new int[] { 2 };
 		case PLANKS:
-			return new int[]{3};
+			return new int[] { 3 };
 		case STAIRS:
-			return new int[]{1};
+			return new int[] { 1 };
 		default:
 			return new int[0];
 		}
@@ -300,7 +297,7 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 
 	@Override
 	public boolean canInsertItem(int index, ItemStack stack, EnumFacing direction) {
-		return stack != null && stack.getItem() instanceof IPlantable;
+		return !stack.isEmpty() && stack.getItem() instanceof IPlantable;
 	}
 
 	@Override

@@ -15,23 +15,20 @@ public class SlotPortableCrafting extends SlotPortable {
 	}
 
 	public ItemStack decrStackSize(int size) {
-		if (invItem.getStackInSlot(this.slotNumber) != null) {
+		if (!invItem.getStackInSlot(this.slotNumber).isEmpty()) {
 			ItemStack itemstack;
 			if (invItem.getStackInSlot(this.slotNumber).getCount() <= size) {
 				itemstack = invItem.getStackInSlot(this.slotNumber);
-				invItem.setInventorySlotContents(this.slotNumber, null);
+				invItem.setInventorySlotContents(this.slotNumber, ItemStack.EMPTY);
 				container.onItemCrafted();
 				return itemstack;
 			} else {
 				itemstack = invItem.getStackInSlot(this.slotNumber).splitStack(size);
-				if (invItem.getStackInSlot(this.slotNumber).getCount() == 0) {
-					invItem.setInventorySlotContents(this.slotNumber, null);
-				}
 				container.onItemCrafted();
 				return itemstack;
 			}
 		} else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 

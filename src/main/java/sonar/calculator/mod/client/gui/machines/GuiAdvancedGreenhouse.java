@@ -106,25 +106,25 @@ public class GuiAdvancedGreenhouse extends GuiSonar {
 			this.drawTexturedModalRect(this.guiLeft + 137, this.guiTop + 11 + 66 - o, 218, 66 - o, 28, 66);
 		}
 		GL11.glDisable(GL11.GL_LIGHTING);
-		if (entity.slots()[1] == null) {
+		if (entity.slots().get(1).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS, 64), this.guiLeft + 12 - 4 + 9, this.guiTop + 33 - 4);
 		}
-		if (entity.slots()[2] == null) {
+		if (entity.slots().get(2).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS, 64), this.guiLeft + 30 - 4 + 9, this.guiTop + 33 - 4);
 		}
-		if (entity.slots()[3] == null) {
+		if (entity.slots().get(3).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS, 52), this.guiLeft + 48 - 4 + 9, this.guiTop + 33 - 4);
 		}
-		if (entity.slots()[0] == null) {
+		if (entity.slots().get(0).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.LOG, 30), this.guiLeft + 30 - 4 + 9, this.guiTop + 15 - 4);
 		}
-		if (entity.slots()[4] == null) {
+		if (entity.slots().get(4).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.GLASS, 64), this.guiLeft + 12 - 4 + 9, this.guiTop + 51 - 4);
 		}
-		if (entity.slots()[5] == null) {
+		if (entity.slots().get(5).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.GLASS, 26), this.guiLeft + 30 - 4 + 9, this.guiTop + 51 - 4);
 		}
-		if (entity.slots()[6] == null) {
+		if (entity.slots().get(6).isEmpty()) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.PLANKS, 40), this.guiLeft + 48 - 4 + 9, this.guiTop + 51 - 4);
 		}
 		GL11.glEnable(GL11.GL_LIGHTING);

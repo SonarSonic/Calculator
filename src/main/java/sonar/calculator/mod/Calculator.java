@@ -8,6 +8,7 @@ import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -34,14 +35,14 @@ import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.research.ResearchRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 
-@Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version, dependencies = "required-after:SonarCore")
+@Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version, dependencies = "required-after:sonarcore")
 public class Calculator {
 
 	@SidedProxy(clientSide = "sonar.calculator.mod.network.CalculatorClient", serverSide = "sonar.calculator.mod.network.CalculatorCommon")
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "calculator";
-	public static final String version = "3.2.1";
+	public static final String version = "4.0.0";
 
 	public static final int saveDimension = 0;
 
@@ -85,10 +86,10 @@ public class Calculator {
 		calculatorProxy.registerRenderThings();
 		logger.info("Registered Renderers");
 
-		EntityRegistry.registerModEntity(EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
-		EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
-		EntityRegistry.registerModEntity(EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
-		EntityRegistry.registerModEntity(EntitySoil.class, "Soil", 3, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(modid, "BabyGrenade"), EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(modid, "Grenade"), EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(modid, "Stone"), EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(modid, "Soil"), EntitySoil.class, "Soil", 3, instance, 64, 10, true);
 		logger.info("Registered Entities");
 
 		CalculatorIntegration.addSonarCore();
@@ -142,8 +143,7 @@ public class Calculator {
 		TeleporterRegistry.removeAll();
 	}
 
-	public static Item itemCalculator, itemInfoCalculator, itemCraftingCalculator, itemScientificCalculator,
-			itemFlawlessCalculator;
+	public static Item itemCalculator, itemInfoCalculator, itemCraftingCalculator, itemScientificCalculator, itemFlawlessCalculator;
 	public static Item itemHungerModule, itemHealthModule, itemNutritionModule;
 	public static Item itemTerrainModule, itemAdvancedTerrainModule;
 	public static Item itemEnergyModule;
@@ -199,14 +199,10 @@ public class Calculator {
 	// tools
 	public static Item reinforced_axe, reinforced_pickaxe, reinforced_shovel, reinforced_hoe, reinforced_sword;
 	public static Item redstone_axe, redstone_pickaxe, redstone_shovel, redstone_hoe, redstone_sword;
-	public static Item enrichedgold_axe, enrichedgold_pickaxe, enrichedgold_shovel, enrichedgold_hoe,
-			enrichedgold_sword;
-	public static Item reinforcediron_axe, reinforcediron_pickaxe, reinforcediron_shovel, reinforcediron_hoe,
-			reinforcediron_sword;
-	public static Item weakeneddiamond_axe, weakeneddiamond_pickaxe, weakeneddiamond_shovel, weakeneddiamond_hoe,
-			weakeneddiamond_sword;
-	public static Item flawlessdiamond_axe, flawlessdiamond_pickaxe, flawlessdiamond_shovel, flawlessdiamond_hoe,
-			flawlessdiamond_sword;
+	public static Item enrichedgold_axe, enrichedgold_pickaxe, enrichedgold_shovel, enrichedgold_hoe, enrichedgold_sword;
+	public static Item reinforcediron_axe, reinforcediron_pickaxe, reinforcediron_shovel, reinforcediron_hoe, reinforcediron_sword;
+	public static Item weakeneddiamond_axe, weakeneddiamond_pickaxe, weakeneddiamond_shovel, weakeneddiamond_hoe, weakeneddiamond_sword;
+	public static Item flawlessdiamond_axe, flawlessdiamond_pickaxe, flawlessdiamond_shovel, flawlessdiamond_hoe, flawlessdiamond_sword;
 	public static Item firediamond_axe, firediamond_pickaxe, firediamond_shovel, firediamond_hoe, firediamond_sword;
 	public static Item electric_axe, electric_pickaxe, electric_shovel, electric_hoe, electric_sword;
 	public static Item endforged_axe, endforged_pickaxe, endforged_shovel, endforged_hoe, endforged_sword;
