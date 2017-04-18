@@ -32,7 +32,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 	public void update() {
 		super.update();
 		if (cranked()) {
-			TileEntityCrankHandle crank = (TileEntityCrankHandle) this.worldObj.getTileEntity(pos.offset(EnumFacing.UP));
+			TileEntityCrankHandle crank = (TileEntityCrankHandle) this.getWorld().getTileEntity(pos.offset(EnumFacing.UP));
 			if (crank.angle > 0) {
 				if (ticks == 0) {
 					this.storage.modifyEnergyStored(8);
@@ -48,7 +48,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 
 
 	public boolean cranked() {
-		Block crank = this.worldObj.getBlockState(pos.offset(EnumFacing.UP)).getBlock();
+		Block crank = this.getWorld().getBlockState(pos.offset(EnumFacing.UP)).getBlock();
 		if (crank != null && crank == Calculator.crankHandle) {
 			return true;
 		}

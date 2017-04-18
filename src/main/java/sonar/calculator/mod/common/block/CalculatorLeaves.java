@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -130,7 +132,7 @@ public class CalculatorLeaves extends Block implements IShearable {
 
 	@Override
 	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
-		ArrayList<ItemStack> ret = new ArrayList();
+		ArrayList<ItemStack> ret = Lists.newArrayList();
 		switch (leafType) {
 		case 0:
 			ret.add(new ItemStack(Calculator.amethystLeaves, 1, 0));

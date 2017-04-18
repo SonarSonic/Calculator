@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
@@ -135,7 +137,7 @@ public class InfoRegistry {
 			return;
 		}
 		try {
-			this.info.putIfAbsent(category, new ArrayList());
+			this.info.putIfAbsent(category, Lists.newArrayList());
 			ItemStack[] stacks = new ItemStack[objs.length];
 			int pos = 0;
 			for (Object obj : objs) {
@@ -149,7 +151,7 @@ public class InfoRegistry {
 	}
 
 	public static ArrayList<IItemInfo> getInfo(Category category) {
-		ArrayList<IItemInfo> info = new ArrayList();
+		ArrayList<IItemInfo> info = Lists.newArrayList();
 		for (Entry<Category, ArrayList<IItemInfo>> entry : instance.info.entrySet()) {
 			if (category == Category.All || entry.getKey() == category) {
 				info.addAll(entry.getValue());

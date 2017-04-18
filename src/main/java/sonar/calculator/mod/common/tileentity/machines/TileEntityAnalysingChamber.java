@@ -3,8 +3,6 @@ package sonar.calculator.mod.common.tileentity.machines;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -67,7 +65,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public void update() {
 		super.update();
 
-		if (this.worldObj.isRemote) {
+		if (this.getWorld().isRemote) {
 			return;
 		}
 		if (upgrades.getUpgradesInstalled("TRANSFER") > 0) {
@@ -93,9 +91,9 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		}
 		ArrayList<EnumFacing> inputs = sides.getSidesWithConfig(MachineSideConfig.INPUT);
 		if (!inputs.isEmpty()) {
-			ArrayList<BlockCoords> chambers = SonarHelper.getConnectedBlocks(Calculator.storageChamber, inputs, worldObj, pos, 256);
+			ArrayList<BlockCoords> chambers = SonarHelper.getConnectedBlocks(Calculator.storageChamber, inputs, getWorld(), pos, 256);
 			for (BlockCoords chamber : chambers) {
-				TileEntity tile = chamber.getTileEntity(worldObj);
+				TileEntity tile = chamber.getTileEntity(getWorld());
 				if (tile != null && tile instanceof TileEntityStorageChamber) {
 					SonarAPI.getItemHelper().transferItems(this, tile, inputs.get(0), inputs.get(0).getOpposite(), null);
 					if (this.slots()[0] == null) {

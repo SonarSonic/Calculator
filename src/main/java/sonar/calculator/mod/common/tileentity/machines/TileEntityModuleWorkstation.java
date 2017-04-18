@@ -2,6 +2,8 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -118,7 +120,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 			newCalc = false;
 			updateCalc = false;
 		} else if (updateCalc) {
-			ArrayList<IModule> modules = new ArrayList();
+			ArrayList<IModule> modules = Lists.newArrayList();
 			for (int i = 0; i < FlawlessCalculator.moduleCapacity; i++) {
 				ItemStack target = slots()[i];
 				NBTTagCompound tag = new NBTTagCompound();

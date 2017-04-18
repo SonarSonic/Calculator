@@ -2,6 +2,8 @@ package sonar.calculator.mod;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
@@ -45,7 +47,7 @@ import sonar.core.upgrades.MachineUpgrade;
 
 public class CalculatorItems extends Calculator {
 
-	public static ArrayList<Item> registeredItems = new ArrayList();
+	public static ArrayList<Item> registeredItems = Lists.newArrayList();
 
 	public enum UpgradeTypes {
 		SPEED, ENERGY, VOID, TRANSFER;

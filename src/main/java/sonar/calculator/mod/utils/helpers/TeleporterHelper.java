@@ -17,7 +17,7 @@ public class TeleporterHelper {
 
 	public static void travelToDimension(List<EntityPlayer> players, TileEntityTeleporter tile) {
 		for (EntityPlayer entity : players) {
-			int currentDimension = entity.worldObj.provider.getDimension();
+			int currentDimension = entity.getEntityWorld().provider.getDimension();
 			BlockCoords coords = tile.getCoords();
 			if (coords.getDimension() != currentDimension) {
 				if (!tile.getWorld().isRemote && !entity.isDead) {
@@ -36,7 +36,7 @@ public class TeleporterHelper {
 
 				}
 			} else {
-				((EntityPlayerMP) entity).connection.setPlayerLocation(coords.getX() + 0.5, coords.getY() - 2, coords.getZ() + 0.5, SonarHelper.getAngleFromMeta(entity.worldObj.getBlockState(coords.getBlockPos()).getValue(SonarBlock.FACING).getIndex()), 0);
+				((EntityPlayerMP) entity).connection.setPlayerLocation(coords.getX() + 0.5, coords.getY() - 2, coords.getZ() + 0.5, SonarHelper.getAngleFromMeta(entity.getEntityWorld().getBlockState(coords.getBlockPos()).getValue(SonarBlock.FACING).getIndex()), 0);
 			}
 			tile.coolDown = true;
 			tile.coolDownTicks = 100;

@@ -1,10 +1,7 @@
 package sonar.calculator.mod.integration.jei;
 
-import java.util.Collection;
-
 import org.lwjgl.opengl.GL11;
 
-import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;

@@ -1,9 +1,10 @@
 package sonar.calculator.mod.api;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
 
 import gnu.trove.map.hash.THashMap;
 import net.minecraft.item.ItemStack;
@@ -15,8 +16,8 @@ public class CalculatorAPI {
 
 	}
 
-	private static final List<ResourceLocation> multiplierBlacklist = new ArrayList();
-	private static final List<String> multiplierModBlacklist = new ArrayList();
+	private static final List<ResourceLocation> multiplierBlacklist = Lists.newArrayList();
+	private static final List<String> multiplierModBlacklist = Lists.newArrayList();
 	private static final Map<String, List<Object[]>> recipes = new THashMap<String, List<Object[]>>();
 	public static final String VERSION = "1.9.4 - 1.0";
 	public static final String MODID = "calculator";
@@ -46,7 +47,7 @@ public class CalculatorAPI {
 	 */
 	public static void registerRecipe(String recipeID, Object... obj) {
 		if (recipes.get(recipeID) == null) {
-			recipes.put(recipeID, new ArrayList());
+			recipes.put(recipeID, Lists.newArrayList());
 		}
 		recipes.get(recipeID).add(obj);
 

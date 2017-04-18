@@ -2,8 +2,6 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntityFurnace;

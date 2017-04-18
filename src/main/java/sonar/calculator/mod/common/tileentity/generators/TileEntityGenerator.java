@@ -2,14 +2,11 @@ package sonar.calculator.mod.common.tileentity.generators;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
@@ -52,7 +49,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	@Override
 	public void update() {
 		super.update();
-		if (!this.worldObj.isRemote) {
+		if (!this.getWorld().isRemote) {
 			processItemLevel();
 			generateEnergy();
 			this.addEnergy(EnumFacing.VALUES);

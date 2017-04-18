@@ -2,6 +2,8 @@ package sonar.calculator.mod.research.types;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
@@ -14,7 +16,7 @@ import sonar.core.helpers.NBTHelper.SyncType;
 
 public class RecipeResearch extends Research {
 
-	public ArrayList<String> recipes = new ArrayList();
+	public ArrayList<String> recipes = Lists.newArrayList();
 
 	public RecipeResearch() {
 		super(ResearchTypes.RECIPES, "tile.ResearchChamber.name", Item.getItemFromBlock(Calculator.researchChamber));
@@ -26,7 +28,7 @@ public class RecipeResearch extends Research {
 	}
 
 	public ArrayList<RecipeReward> getUnlockedRecipes() {
-		ArrayList<RecipeReward> unlocked = new ArrayList();
+		ArrayList<RecipeReward> unlocked = Lists.newArrayList();
 		unlocked.add(new RecipeReward("Calculator", recipes));
 		return unlocked;
 	}
@@ -43,7 +45,7 @@ public class RecipeResearch extends Research {
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		NBTTagCompound recipeList = (NBTTagCompound) nbt.getTag("recipeList");
-		recipes = new ArrayList();
+		recipes = Lists.newArrayList();
 		for (String recipeID : recipeList.getKeySet()) {
 			recipes.add(recipeID);
 		}

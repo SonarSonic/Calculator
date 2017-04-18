@@ -1,10 +1,11 @@
 package sonar.calculator.mod.utils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
 
 import gnu.trove.map.hash.THashMap;
 import net.minecraft.server.MinecraftServer;
@@ -24,7 +25,7 @@ public class TeleporterRegistry {
 	}
 
 	public static List<ITeleport> getTeleporters() {
-		List<ITeleport> list = new ArrayList();
+		List<ITeleport> list = Lists.newArrayList();
 		for (Map.Entry<Integer, ITeleport> teleport : teleporters.entrySet()) {
 			list.add(teleport.getValue());
 		}
@@ -72,7 +73,7 @@ public class TeleporterRegistry {
 
 	public static List<TeleportLink> getTeleportLinks(int currentID) {
 		List<ITeleport> teleports = getTeleporters();
-		List<TeleportLink> list = new ArrayList();
+		List<TeleportLink> list = Lists.newArrayList();
 		for (ITeleport teleport : teleports) {
 			if (teleport != null && teleport.teleporterID() != currentID) {
 				TileEntity tile = getTile(teleport);

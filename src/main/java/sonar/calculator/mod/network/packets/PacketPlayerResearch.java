@@ -2,6 +2,8 @@ package sonar.calculator.mod.network.packets;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +21,7 @@ import sonar.core.helpers.NBTHelper.SyncType;
 public class PacketPlayerResearch implements IMessage {
 
 	public EntityPlayer player;
-	public ArrayList<IResearch> research = new ArrayList();
+	public ArrayList<IResearch> research = Lists.newArrayList();
 
 	public PacketPlayerResearch() {}
 

@@ -1,6 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
@@ -36,7 +35,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	@Override
 	public void update() {
 		super.update();
-		if (!this.worldObj.isRemote)
+		if (!this.getWorld().isRemote)
 			food(slots()[0]);
 		charge(slots()[1]);
 

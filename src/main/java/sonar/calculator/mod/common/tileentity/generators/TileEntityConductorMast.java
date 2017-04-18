@@ -2,8 +2,6 @@ package sonar.calculator.mod.common.tileentity.generators;
 
 import java.util.Random;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -60,7 +58,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	}
 
 	public void onLoaded() {
-		setWeatherStationAngles(true, worldObj, pos);
+		setWeatherStationAngles(true, getWorld(), pos);
 	}
 
 	@Override
@@ -99,7 +97,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 						currentstrikes = strikes;
 					}
 					while (currentstrikes != 0) {
-						worldObj.spawnEntityInWorld(new EntityLightningBolt(worldObj, pos.getX(), pos.getY() + 4, pos.getZ(), true));
+						getWorld().spawnEntityInWorld(new EntityLightningBolt(getWorld(), pos.getX(), pos.getY() + 4, pos.getZ(), true));
 						currentstrikes--;
 					}
 				}
@@ -248,7 +246,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		int stations = 0;
 		for (int x = -10; x <= 10; x++) {
 			for (int z = -10; z <= 10; z++) {
-				TileEntity target = worldObj.getTileEntity(pos.add(x, 0, z));
+				TileEntity target = getWorld().getTileEntity(pos.add(x, 0, z));
 				if (target != null && target instanceof TileEntityWeatherStation) {
 					TileEntityWeatherStation station = (TileEntityWeatherStation) target;
 					if (station.x == pos.getX() && station.z == pos.getZ()) {
@@ -290,7 +288,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		int transmitter = 0;
 		for (int x = -20; x <= 20; x++) {
 			for (int z = -20; z <= 20; z++) {
-				TileEntity target = worldObj.getTileEntity(pos.add(x, 0, z));
+				TileEntity target = getWorld().getTileEntity(pos.add(x, 0, z));
 				if (target != null && target instanceof TileEntityTransmitter) {
 					TileEntityTransmitter station = (TileEntityTransmitter) target;
 					transmitter++;

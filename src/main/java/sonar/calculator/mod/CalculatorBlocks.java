@@ -2,6 +2,8 @@ package sonar.calculator.mod;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.MapColor;
@@ -90,7 +92,7 @@ import sonar.core.common.block.SonarStairs;
 
 public class CalculatorBlocks extends Calculator {
 
-	public static ArrayList<Block> registeredBlocks = new ArrayList();
+	public static ArrayList<Block> registeredBlocks = Lists.newArrayList();
 
 	public static Block addRegisteredBlock(Block block) {
 		registeredBlocks.add(block);

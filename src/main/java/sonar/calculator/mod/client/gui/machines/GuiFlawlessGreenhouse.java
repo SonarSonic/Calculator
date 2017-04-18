@@ -6,16 +6,13 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.client.gui.machines.GuiBasicGreenhouse.GreenhouseButton;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.SonarCore;
 import sonar.core.client.gui.GuiSonar;
 import sonar.core.client.gui.SonarButtons;
-import sonar.core.client.gui.GuiSonar.PauseButton;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 

@@ -2,6 +2,8 @@ package sonar.calculator.mod.integration.jei;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IItemRegistry;
@@ -238,7 +240,7 @@ public class CalculatorJEI extends BlankModPlugin {
 		}
 
 		public ArrayList<JEIRecipeV2> getJEIRecipes() {
-			ArrayList<JEIRecipeV2> recipesV2 = new ArrayList();
+			ArrayList<JEIRecipeV2> recipesV2 = Lists.newArrayList();
 			if (helper != null && helper instanceof RecipeHelperV2) {
 				RecipeHelperV2 helper = (RecipeHelperV2) this.helper;
 				for (ISonarRecipe recipe : (ArrayList<ISonarRecipe>) helper.getRecipes()) {
@@ -254,7 +256,7 @@ public class CalculatorJEI extends BlankModPlugin {
 
 		/* @Deprecated
 		 * 
-		 * @Override public ArrayList<JEIRecipe> getJEIRecipes() { ArrayList<JEIRecipe> recipes = new ArrayList(); String id = helper.getRecipeID(); if (helper instanceof RecipeHelper) { RecipeHelper helper = (RecipeHelper) this.helper; for (Entry<Object[], Object[]> entry : helper.getRecipes().entrySet()) { try { recipes.add(recipeClass.newInstance().getInstance(id, helper.convertOutput(entry.getKey()), helper.convertOutput(entry.getValue()))); } catch (Exception e) { e.printStackTrace(); } } } else if (helper instanceof ValueHelper) { ValueHelper helper = (ValueHelper) this.helper; for (Entry<Object, Integer> entry : helper.getRecipes().entrySet()) { try { recipes.add(recipeClass.newInstance().getInstance(id, new Object[] { entry.getKey() }, new Object[] { null })); } catch (Exception e) { e.printStackTrace(); } } } else if (helper instanceof FabricationChamberRecipes) { FabricationChamberRecipes helper = (FabricationChamberRecipes) this.helper; LinkedHashMap<ItemStack, CircuitStack[]> chamberRecipes = helper.getRecipes(); for (Entry<ItemStack, CircuitStack[]> entry : chamberRecipes.entrySet()) { ArrayList<ItemStack> stacks = new ArrayList(); for (CircuitStack circuit : entry.getValue()) { stacks.add(circuit.buildItemStack()); } try { recipes.add(recipeClass.newInstance().getInstance(id, stacks.toArray(), new Object[] { entry.getKey() })); } catch (Exception e) { e.printStackTrace(); } } } return recipes; } */
+		 * @Override public ArrayList<JEIRecipe> getJEIRecipes() { ArrayList<JEIRecipe> recipes = Lists.newArrayList(); String id = helper.getRecipeID(); if (helper instanceof RecipeHelper) { RecipeHelper helper = (RecipeHelper) this.helper; for (Entry<Object[], Object[]> entry : helper.getRecipes().entrySet()) { try { recipes.add(recipeClass.newInstance().getInstance(id, helper.convertOutput(entry.getKey()), helper.convertOutput(entry.getValue()))); } catch (Exception e) { e.printStackTrace(); } } } else if (helper instanceof ValueHelper) { ValueHelper helper = (ValueHelper) this.helper; for (Entry<Object, Integer> entry : helper.getRecipes().entrySet()) { try { recipes.add(recipeClass.newInstance().getInstance(id, new Object[] { entry.getKey() }, new Object[] { null })); } catch (Exception e) { e.printStackTrace(); } } } else if (helper instanceof FabricationChamberRecipes) { FabricationChamberRecipes helper = (FabricationChamberRecipes) this.helper; LinkedHashMap<ItemStack, CircuitStack[]> chamberRecipes = helper.getRecipes(); for (Entry<ItemStack, CircuitStack[]> entry : chamberRecipes.entrySet()) { ArrayList<ItemStack> stacks = Lists.newArrayList(); for (CircuitStack circuit : entry.getValue()) { stacks.add(circuit.buildItemStack()); } try { recipes.add(recipeClass.newInstance().getInstance(id, stacks.toArray(), new Object[] { entry.getKey() })); } catch (Exception e) { e.printStackTrace(); } } } return recipes; } */
 		@Override
 		public ItemStack getCrafterItemStack() {
 			return crafter;

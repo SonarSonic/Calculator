@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -73,7 +75,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		boolean flag = true;
 		for (int log = 0; log < 3; log++) {
 			pos.offset(dir).add(0, log, 0);
-			if (!(this.worldObj.getBlockState(pos.offset(dir).add(0, log, 0)).getBlock() instanceof CalculatorLogs)) {
+			if (!(this.getWorld().getBlockState(pos.offset(dir).add(0, log, 0)).getBlock() instanceof CalculatorLogs)) {
 				flag = false;
 			}
 		}
@@ -81,7 +83,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		for (int X = -3; X < 3; X++) {
 			for (int Z = -3; Z < 3; Z++) {
 				for (int leaves = 1; leaves < 8; leaves++) {
-					if (!(this.worldObj.getBlockState(pos.offset(dir).add(X, leaves, Z)).getBlock() instanceof CalculatorLeaves)) {
+					if (!(this.getWorld().getBlockState(pos.offset(dir).add(X, leaves, Z)).getBlock() instanceof CalculatorLeaves)) {
 						leafCount++;
 					}
 				}
@@ -95,12 +97,12 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 
 	public List<BlockCoords> getLeaves() {
 		EnumFacing dir = this.getWorld().getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
-		List<BlockCoords> leafList = new ArrayList();
+		List<BlockCoords> leafList = Lists.newArrayList();
 		for (int X = -2; X < 3; X++) {
 			for (int Z = -2; Z < 3; Z++) {
 				for (int leaves = 1; leaves < 8; leaves++) {
 					BlockPos pos = this.pos.offset(dir).add(X, leaves, Z);
-					if ((this.worldObj.getBlockState(pos).getBlock() instanceof CalculatorLeaves)) {
+					if ((this.getWorld().getBlockState(pos).getBlock() instanceof CalculatorLeaves)) {
 						leafList.add(new BlockCoords(pos));
 					}
 
@@ -134,7 +136,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 
 		public void update() {
 			super.update();
-			if (this.worldObj.isRemote) {
+			if (this.getWorld().isRemote) {
 				return;
 			}
 			chargeHunger(slots()[0]);
@@ -142,17 +144,17 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		}
 
 		public boolean harvestBlock(BlockCoords coords) {
-			IBlockState state = coords.getBlockState(this.worldObj);
+			IBlockState state = coords.getBlockState(this.getWorld());
 			if (state.getBlock() == Calculator.tanzaniteLeaves || state.getBlock() == Calculator.amethystLeaves) {
 				LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
 				if (growth != null && (growth == LeafGrowth.MATURED || growth == LeafGrowth.READY)) {
 					if (state.getBlock() == Calculator.tanzaniteLeaves) {
 						this.healthPoints++;
-						this.worldObj.setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
+						this.getWorld().setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
 						return true;
 					} else if (state.getBlock() == Calculator.amethystLeaves) {
 						this.hungerPoints++;
-						this.worldObj.setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
+						this.getWorld().setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
 						return true;
 					}
 				}
@@ -255,9 +257,9 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		}
 
 		public boolean harvestBlock(BlockCoords block) {
-			IBlockState state = block.getBlockState(worldObj);
+			IBlockState state = block.getBlockState(getWorld());
 			if (state.getValue(CalculatorLeaves.GROWTH).getMeta() > 2) {
-				ArrayList<ItemStack> stacks = TreeHarvestRecipes.harvestLeaves(worldObj, block.getBlockPos(), rand.nextBoolean());
+				ArrayList<ItemStack> stacks = TreeHarvestRecipes.harvestLeaves(getWorld(), block.getBlockPos(), rand.nextBoolean());
 				EnumFacing forward = EnumFacing.getFront(getBlockMetadata());
 				if (stacks != null && !stacks.isEmpty()) {
 					for (ItemStack s : stacks) {
@@ -268,8 +270,8 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 							storedstack.remove(harvest);
 							if (storedstack != null && storedstack.stored > 0) {
 								BlockPos pos = this.pos.offset(forward.getOpposite());
-								EntityItem drop = new EntityItem(worldObj, pos.getX(), pos.getY(), pos.getZ(), storedstack.getFullStack());
-								worldObj.spawnEntityInWorld(drop);
+								EntityItem drop = new EntityItem(getWorld(), pos.getX(), pos.getY(), pos.getZ(), storedstack.getFullStack());
+								getWorld().spawnEntityInWorld(drop);
 							}
 						}
 					}

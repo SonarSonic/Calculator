@@ -14,7 +14,7 @@ Thank you for trying Calculator!",
 "logoFile": "logo_calculator.png",
 "screenshots": [],
 "requiredMods": [ "Forge", "sonarcore" ],
-"dependencies": ["Agricraft"],
+"dependencies": ["sonarcore", "Agricraft"],
 "useDependencyInformation": true
 }
 ]

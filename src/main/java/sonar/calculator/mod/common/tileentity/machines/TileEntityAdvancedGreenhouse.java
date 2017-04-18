@@ -2,6 +2,8 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
@@ -48,7 +50,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 	}
 
 	public ArrayList<BlockPos> getPlantArea() {
-		ArrayList<BlockPos> coords = new ArrayList();
+		ArrayList<BlockPos> coords = Lists.newArrayList();
 		for (int Z = -3; Z <= 3; Z++) {
 			for (int X = -3; X <= 3; X++) {
 				coords.add(this.pos.add((forward.getFrontOffsetX() * 4) + X, 0, (forward.getFrontOffsetZ() * 4) + Z));
@@ -59,7 +61,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 	
 	/** adds gas, depends on day and night **/
 	public void gasLevels() {
-		boolean day = this.worldObj.isDaytime();
+		boolean day = this.getWorld().isDaytime();
 		if (day) {
 			int add = (this.plants / 5 * 8) - (this.lanterns * 50);
 			this.addGas(-add);
@@ -76,7 +78,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 		for (int Z = -3; Z <= 3; Z++) {
 			for (int X = -3; X <= 3; X++) {
 				BlockPos pos = this.pos.add((forward.getFrontOffsetX() * 4) + X, 0, (forward.getFrontOffsetZ() * 4) + Z);
-				if (this.worldObj.getBlockState(pos).getBlock() instanceof IGrowable) {
+				if (this.getWorld().getBlockState(pos).getBlock() instanceof IGrowable) {
 					this.plants++;
 
 				}
@@ -92,7 +94,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 			for (int X = -3; X <= 3; X++) {
 				for (int Y = 0; Y <= 5; Y++) {
 					BlockPos pos = this.pos.add((forward.getFrontOffsetX() * 4) + X, Y, (forward.getFrontOffsetZ() * 4) + Z);
-					if (this.worldObj.getBlockState(pos).getBlock() == Calculator.gas_lantern_on) {
+					if (this.getWorld().getBlockState(pos).getBlock() == Calculator.gas_lantern_on) {
 						this.lanterns++;
 					}
 				}
@@ -108,20 +110,20 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 				BlockPos pos = this.pos.add((4 * forward.getFrontOffsetX()) + X, 0, (4 * forward.getFrontOffsetZ()) + Z);
 				if ((X == 3 && Z == 3) || (X == -3 && Z == -3) || (X == 3 && Z == -3) || (X == -3 && Z == 3)) {
 					if (this.storage.getEnergyStored() >= waterRF) {
-						if (GreenhouseHelper.applyWater(worldObj, pos)) {
+						if (GreenhouseHelper.applyWater(getWorld(), pos)) {
 							this.storage.modifyEnergyStored(-waterRF);
 						}
 					}
 				} else {
 					if (this.storage.getEnergyStored() >= farmlandRF) {
-						if (GreenhouseHelper.applyFarmland(worldObj, pos)) {
+						if (GreenhouseHelper.applyFarmland(getWorld(), pos)) {
 							this.storage.modifyEnergyStored(-farmlandRF);
 						}
 					}
-					IBlockState state = worldObj.getBlockState(pos);
+					IBlockState state = getWorld().getBlockState(pos);
 					Block block = state.getBlock();
-					if (!block.isAir(state, worldObj, pos) && GreenhouseHelper.r(worldObj, pos)) {
-						worldObj.setBlockToAir(pos);
+					if (!block.isAir(state, getWorld(), pos) && GreenhouseHelper.r(getWorld(), pos)) {
+						getWorld().setBlockToAir(pos);
 					}
 				}
 			}
@@ -129,7 +131,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 	}
 
 	public ArrayList<BlockPlace> getStructure() {
-		ArrayList<BlockPlace> blocks = new ArrayList();
+		ArrayList<BlockPlace> blocks = Lists.newArrayList();
 
 		int hX = SonarHelper.getHorizontal(forward).getFrontOffsetX();
 		int hZ = SonarHelper.getHorizontal(forward).getFrontOffsetZ();

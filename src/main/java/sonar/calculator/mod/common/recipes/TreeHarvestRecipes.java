@@ -2,6 +2,8 @@ package sonar.calculator.mod.common.recipes;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -37,7 +39,7 @@ public class TreeHarvestRecipes extends DefinedRecipeHelper {
 	}
 
 	public static ArrayList<ItemStack> harvestLeaves(World world, BlockPos pos, boolean override) {
-		ArrayList<ItemStack> stacks = new ArrayList();
+		ArrayList<ItemStack> stacks = Lists.newArrayList();
 		Block target = world.getBlockState(pos).getBlock();
 		if (target != null) {
 			ISonarRecipe recipe = recipes.getRecipeFromInputs(null, new Object[] { new ItemStack(target) });

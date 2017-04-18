@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -31,7 +33,7 @@ public class PlayerResearchRegistry {
 	}
 
 	public static void writePlayerData(EntityPlayer player, NBTTagCompound nbt, SyncType type) {
-		ArrayList<IResearch> playerResearch = new ArrayList();
+		ArrayList<IResearch> playerResearch = Lists.newArrayList();
 		if (research.get(player.getName()) != null) {
 			playerResearch = research.get(player.getName());
 		}
@@ -97,10 +99,10 @@ public class PlayerResearchRegistry {
 	public static ArrayList<IResearch> getPlayerResearch(UUID uuid) {
 		if (uuid != null) {
 			if (research.get(uuid) == null) {
-				research.put(uuid, new ArrayList());
+				research.put(uuid, Lists.newArrayList());
 			}
 			return research.get(uuid);
 		}
-		return new ArrayList();
+		return Lists.newArrayList();
 	}
 }

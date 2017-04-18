@@ -3,11 +3,11 @@ package sonar.calculator.mod.common.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
-import sonar.core.recipes.DefaultSonarRecipe;
-import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.recipes.RecipeObjectType;
@@ -51,8 +51,8 @@ public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRe
 	}
 
 	public void addRecipe(Object... objs) {
-		ArrayList outputs = new ArrayList();
-		ArrayList inputs = new ArrayList();
+		ArrayList outputs = Lists.newArrayList();
+		ArrayList inputs = Lists.newArrayList();
 		for (int i = 0; i < objs.length; i++) {
 			Object obj = objs[i];
 			if (i < 1) {
@@ -61,7 +61,7 @@ public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRe
 				inputs.add(obj);
 			}
 		}
-		addRecipe(buildDefaultRecipe(inputs, outputs, new ArrayList(), true));
+		addRecipe(buildDefaultRecipe(inputs, outputs, Lists.newArrayList(), true));
 	}
 
 	public ItemStack c(int meta, long required, boolean stable) {

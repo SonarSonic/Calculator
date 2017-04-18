@@ -2,8 +2,6 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

@@ -1,9 +1,10 @@
 package sonar.calculator.mod.utils;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -15,7 +16,7 @@ import sonar.calculator.mod.api.CalculatorAPI;
 public class AtomicMultiplierBlacklist {
 	private static final AtomicMultiplierBlacklist blacklist = new AtomicMultiplierBlacklist();
 
-	private Map bannedList = new HashMap();
+	private Map bannedList = Maps.newHashMap();
 
 	public static AtomicMultiplierBlacklist blacklist() {
 		return blacklist;

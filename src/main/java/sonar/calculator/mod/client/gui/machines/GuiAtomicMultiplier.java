@@ -3,6 +3,8 @@ package sonar.calculator.mod.client.gui.machines;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -30,7 +32,7 @@ public class GuiAtomicMultiplier extends GuiSonar {
 		}
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 66, 2);
 		if ((x > guiLeft + 2 && x < guiLeft + 16) && (y > guiTop + 62 && y < guiTop + 76)) {
-			ArrayList list = new ArrayList();
+			ArrayList list = Lists.newArrayList();
 			DecimalFormat df = new DecimalFormat("#.##");
 			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
 			list.add("Usage: " + df.format(entity.getEnergyUsage()) + " rf/t");

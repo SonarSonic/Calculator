@@ -51,7 +51,7 @@ public class TileEntityFlawlessCapacitor extends TileEntityEnergy {
 	}
 
 	public void incrementSide(int i) {
-		if (!this.worldObj.isRemote) {
+		if (!this.getWorld().isRemote) {
 			if (i < output.length) {
 				if (output[i] == 0) {
 					output[i] = 1;

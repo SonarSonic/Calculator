@@ -33,23 +33,24 @@ import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.research.ResearchRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 
-@Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version, dependencies = "required-after:SonarCore")
+@Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version, dependencies = "required-after:sonarcore@[" + Calculator.SONAR_VERSION + ",);")
 public class Calculator {
 
 	@SidedProxy(clientSide = "sonar.calculator.mod.network.CalculatorClient", serverSide = "sonar.calculator.mod.network.CalculatorCommon")
 	public static CalculatorCommon calculatorProxy;
 
 	public static final String modid = "calculator";
-	public static final String version = "3.2.1";
-	
+	public static final String version = "3.2.2";
+	public static final String SONAR_VERSION = "3.2.7";
+
 	public static final int saveDimension = 0;
-	
+
 	public static SimpleNetworkWrapper network;
 	public static Logger logger = (Logger) LogManager.getLogger(modid);
 	public static ResearchRegistry research = new ResearchRegistry();
 	public static ModuleRegistry modules = new ModuleRegistry();
 	public static ModuleItemRegistry moduleItems = new ModuleItemRegistry();
-	
+
 	@Instance(modid)
 	public static Calculator instance;
 
@@ -62,7 +63,7 @@ public class Calculator {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		if (!(Loader.instance().isModLoaded("SonarCore")|| Loader.instance().isModLoaded("sonarcore"))) {
+		if (!(Loader.instance().isModLoaded("SonarCore") || Loader.instance().isModLoaded("sonarcore"))) {
 			logger.fatal("Sonar Core is not loaded");
 		} else {
 			logger.info("Successfully loaded with Sonar Core");
@@ -115,7 +116,7 @@ public class Calculator {
 
 		MinecraftForge.EVENT_BUS.register(new CalculatorEvents());
 		logger.info("Registered Events");
-		
+
 		research.register();
 		modules.register();
 		moduleItems.register();
@@ -129,7 +130,7 @@ public class Calculator {
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(small_stone, new CalculatorThrow(2));
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(soil, new CalculatorThrow(3));
 		Recipes.printRecipeInfo();
-		
+
 		if (Loader.isModLoaded("MineTweaker3") || Loader.isModLoaded("MineTweaker3".toLowerCase())) {
 			MineTweakerIntegration.init();
 		}
@@ -148,7 +149,7 @@ public class Calculator {
 	public static Item itemLocatorModule;
 	public static Item itemStorageModule;
 	public static Item itemWarpModule, itemJumpModule;
-	//public static Item itemSmeltingModule;
+	// public static Item itemSmeltingModule;
 	public static Item circuitBoard, circuitDamaged, circuitDirty;
 	public static Item wrench;
 

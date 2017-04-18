@@ -2,8 +2,6 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -54,7 +52,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			this.storage.modifyEnergyStored(-energy);
 		}
 		if (this.canCook()) {
-			if (!this.worldObj.isRemote) {
+			if (!this.getWorld().isRemote) {
 				if (cookTime.getObject() == 0) {
 					this.cookTime.increaseBy(1);
 				}

@@ -7,6 +7,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +33,7 @@ public class GuiModuleSelector extends GuiContainer {
 	private boolean isScrolling;
 	private boolean wasClicking;
 	public int scrollerLeft, scrollerStart, scrollerEnd, scrollerWidth;
-	public ArrayList<IModule> modules = new ArrayList();
+	public ArrayList<IModule> modules = Lists.newArrayList();
 	public IModule current = EmptyModule.EMPTY;
 	public int currentSlot = -1;
 

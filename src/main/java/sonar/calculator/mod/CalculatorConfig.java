@@ -1,9 +1,10 @@
 package sonar.calculator.mod;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
 
 import gnu.trove.map.hash.THashMap;
 import net.minecraft.item.ItemStack;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class CalculatorConfig extends Calculator {
 
-	private static final List<IntegerConfig> integerConfigs = new ArrayList();
+	private static final List<IntegerConfig> integerConfigs = Lists.newArrayList();
 	private static final Map<String, Integer> integers = new THashMap<String, Integer>();
 
 	public static boolean timeEffect;

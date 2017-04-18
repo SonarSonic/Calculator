@@ -20,7 +20,7 @@ public class EntitySmallStone extends EntityThrowable {
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		if (!this.worldObj.isRemote) {
+		if (!this.getEntityWorld().isRemote) {
 			if (result.entityHit != null) {
 				result.entityHit.attackEntityFrom(CalculatorDamages.smallstone, 4.0F);
 			}

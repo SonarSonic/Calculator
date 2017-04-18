@@ -6,7 +6,6 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -20,7 +19,6 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenho
 import sonar.core.SonarCore;
 import sonar.core.client.gui.GuiSonar;
 import sonar.core.client.gui.SonarButtons;
-import sonar.core.client.gui.GuiSonar.PauseButton;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 

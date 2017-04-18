@@ -1,7 +1,8 @@
 package sonar.calculator.mod.network.packets;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +29,7 @@ public class PacketTeleportLinks  extends PacketCoords {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		links = new ArrayList();
+		links = Lists.newArrayList();
 		int size = buf.readInt();
 		for (int i = 0; i < size; i++) {
 			links.add(i, TeleportLink.readFromBuf(buf));			

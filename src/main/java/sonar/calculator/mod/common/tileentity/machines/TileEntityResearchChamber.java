@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -74,7 +73,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		super.setInventorySlotContents(i, itemstack);
 		markBlockForUpdate();
-		this.worldObj.addBlockEvent(pos, blockType, 1, 0);
+		this.getWorld().addBlockEvent(pos, blockType, 1, 0);
 	}
 
 	public void openInventory(EntityPlayer player) {

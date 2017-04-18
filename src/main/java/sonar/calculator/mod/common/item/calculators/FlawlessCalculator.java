@@ -3,6 +3,8 @@ package sonar.calculator.mod.common.item.calculators;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -83,7 +85,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 
 	@Override
 	public ArrayList<IModule> getModules(ItemStack stack) {
-		ArrayList list = new ArrayList();
+		ArrayList list = Lists.newArrayList();
 		for (int i = 0; i < moduleCapacity; i++) {
 			list.add(i, (getModuleInSlot(stack, i)));
 		}

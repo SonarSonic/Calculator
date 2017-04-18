@@ -4,11 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemBlock;
 import sonar.calculator.mod.client.models.ModelDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.core.helpers.RenderHelper;

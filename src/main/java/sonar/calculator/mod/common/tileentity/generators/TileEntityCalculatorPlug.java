@@ -40,7 +40,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			fill(0);
 		}
 		if (flag != this.stable.getObject()) {
-			worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(CalculatorPlug.ACTIVE, stable.getObject()==2), 2);
+			getWorld().setBlockState(pos, getWorld().getBlockState(pos).withProperty(CalculatorPlug.ACTIVE, stable.getObject()==2), 2);
 		}
 	}
 

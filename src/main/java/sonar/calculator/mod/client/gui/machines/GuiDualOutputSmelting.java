@@ -3,6 +3,8 @@ package sonar.calculator.mod.client.gui.machines;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -54,7 +56,7 @@ public class GuiDualOutputSmelting extends GuiSonar {
 		FontHelper.textCentre(this.entity.getName(), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 		if ((x > guiLeft + 130 && x < guiLeft + 144) && (y > guiTop + 60 && y < guiTop + 74)) {
-			ArrayList list = new ArrayList();
+			ArrayList list = Lists.newArrayList();
 			DecimalFormat df = new DecimalFormat("#.##");
 			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
 			list.add("Usage: " + df.format(entity.getEnergyUsage()) + " rf/t");

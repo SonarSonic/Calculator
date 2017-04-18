@@ -69,15 +69,15 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 					currentFabricateTime.increaseBy(1);
 					if (this.isClient()) {
 						if ((currentFabricateTime.getObject() & 1) == 0 && ((currentFabricateTime.getObject() / 2) & 1) == 0) {
-							EnumFacing face = worldObj.getBlockState(getPos()).getValue(SonarBlock.FACING);
+							EnumFacing face = getWorld().getBlockState(getPos()).getValue(SonarBlock.FACING);
 							int fX = face.getFrontOffsetX();
 							int fZ = face.getFrontOffsetZ();
 							// TODO
-							// worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + fX == -1 ? 0.62 : 0.38, pos.getY() + 0.6F, pos.getZ() + (fZ == 0 ? 0.38 : 0.62), 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + 0.38 + (0.25 *face.getFrontOffsetZ()), pos.getY() + 0.6F, pos.getZ() + 0.38 + (0.25 *face.getFrontOffsetZ()), 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 + 0.25 * fZ, 0.0D, 0.0D, 0.0D);
-							// worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
+							// getWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + fX == -1 ? 0.62 : 0.38, pos.getY() + 0.6F, pos.getZ() + (fZ == 0 ? 0.38 : 0.62), 0.0D, 0.0D, 0.0D);
+							// getWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + 0.38 + (0.25 *face.getFrontOffsetZ()), pos.getY() + 0.6F, pos.getZ() + 0.38 + (0.25 *face.getFrontOffsetZ()), 0.0D, 0.0D, 0.0D);
+							// getWorld().spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
+							// getWorld().spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 + 0.25 * fZ, 0.0D, 0.0D, 0.0D);
+							// getWorld().spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (0.38 * fX), pos.getY() + 0.6F, pos.getZ() + 0.38 * fZ, 0.0D, 0.0D, 0.0D);
 
 						}
 					}
@@ -97,9 +97,9 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	public ArrayList<TileEntityStorageChamber> getChambers() {
 		ArrayList<TileEntityStorageChamber> chambers = new ArrayList<TileEntityStorageChamber>();
 
-		ArrayList<BlockCoords> connected = SonarHelper.getConnectedBlocks(Calculator.storageChamber, Arrays.asList(EnumFacing.VALUES), worldObj, pos, 256);
+		ArrayList<BlockCoords> connected = SonarHelper.getConnectedBlocks(Calculator.storageChamber, Arrays.asList(EnumFacing.VALUES), getWorld(), pos, 256);
 		for (BlockCoords chamber : connected) {
-			TileEntity tile = chamber.getTileEntity(worldObj);
+			TileEntity tile = chamber.getTileEntity(getWorld());
 			if (tile != null && tile instanceof TileEntityStorageChamber) {
 				chambers.add((TileEntityStorageChamber) tile);
 			}
@@ -142,7 +142,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 			}
 			if (fabricated) {
 				final List<ISonarRecipeObject> inputs = recipe.inputs();
-				List<StoredItemStack> stacks = new ArrayList();
+				List<StoredItemStack> stacks = Lists.newArrayList();
 				inputs.forEach(input -> stacks.add(new StoredItemStack((ItemStack) input.getValue())));
 				for (TileEntityStorageChamber chamber : chambers) {
 					if (stacks.isEmpty()) {

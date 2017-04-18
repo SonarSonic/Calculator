@@ -9,6 +9,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -152,7 +154,7 @@ public class GuiInfoCalculator extends GuiContainer {
 		ArrayList<IItemInfo> newInfo = InfoRegistry.getInfo(currentCategory);
 		String search = getSearch();
 		if (!search.isEmpty() && search != null) {
-			newInfo = new ArrayList();
+			newInfo = Lists.newArrayList();
 			for (IItemInfo item : InfoRegistry.getInfo(currentCategory)) {
 				if (item != null) {
 					if (item.getItem().getDisplayName().toLowerCase().contains(search.toLowerCase())) {
@@ -180,7 +182,7 @@ public class GuiInfoCalculator extends GuiContainer {
 				pageSize = lineInfo.size();
 				pageNum++;
 			}
-			itemInfo.putIfAbsent(pageNum, new ArrayList());
+			itemInfo.putIfAbsent(pageNum, Lists.newArrayList());
 			itemInfo.get(pageNum).add((String[]) lineInfo.toArray());
 		}
 		this.itemInfo = itemInfo;

@@ -19,7 +19,6 @@ import sonar.calculator.mod.common.recipes.RestorationChamberRecipes;
 import sonar.calculator.mod.common.recipes.StoneSeparatorRecipes;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.recipes.RecipeHelperV2;
-import sonar.core.upgrades.UpgradeInventory;
 
 public class TileEntityMachine {
 

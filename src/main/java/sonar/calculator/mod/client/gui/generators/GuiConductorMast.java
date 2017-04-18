@@ -3,6 +3,8 @@ package sonar.calculator.mod.client.gui.generators;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -73,7 +75,7 @@ public class GuiConductorMast extends GuiSonar {
 
 		FontHelper.textOffsetCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), 90, 66, 2);
 		if ((x > guiLeft + 2 && x < guiLeft + 16) && (y > guiTop + 62 && y < guiTop + 76)) {
-			ArrayList list = new ArrayList();
+			ArrayList list = Lists.newArrayList();
 			DecimalFormat df = new DecimalFormat("#.##");
 			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Last Strike");
 			if (entity.rfPerStrike.getObject() == 0 && entity.rfPerTick.getObject() == 0) {

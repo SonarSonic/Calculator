@@ -40,7 +40,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 
 	public void update() {
 		super.update();
-		if (this.worldObj.isBlockPowered(pos)) {
+		if (this.getWorld().isBlockPowered(pos)) {
 			this.paused = true;
 			return;
 		} else {
@@ -51,7 +51,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 			for (int i = 0; i < size; i++) {
 				if (this.cookTime[i].getObject() > 0) {
 					this.cookTime[i].increaseBy(1);
-					if (!this.worldObj.isRemote) {
+					if (!this.getWorld().isRemote) {
 						energyBuffer += (energyUsage() / speed) * 8;
 						int energyUsage = (int) Math.round(energyBuffer);
 						if (energyBuffer - energyUsage < 0) {
@@ -63,7 +63,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 					}
 				}
 				if (this.canProcess(i)) {
-					if (!this.worldObj.isRemote) {
+					if (!this.getWorld().isRemote) {
 						if (this.cookTime[i].getObject() == 0) {
 							this.cookTime[i].increaseBy(1);
 							energyBuffer += energyUsage() / speed;
@@ -216,7 +216,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	public void onPause() {
 		paused = !paused;
 		markBlockForUpdate();
-		this.worldObj.addBlockEvent(pos, blockType, 1, 1);
+		this.getWorld().addBlockEvent(pos, blockType, 1, 1);
 	}
 
 	@Override

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.google.common.collect.Lists;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -102,7 +100,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 				if (forceUpdate) {
 					isActive = isActive();
 					SonarCore.sendPacketAround(this, 128, 2);
-					worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
+					getWorld().addBlockEvent(pos, this.getBlockType(), 1, 1);
 				}
 			}
 		} else {
@@ -139,10 +137,10 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public void onFirstTick() {
 		super.onFirstTick();
-		if (!worldObj.isRemote) {
+		if (!getWorld().isRemote) {
 			isActive = this.isActive();
 			SonarCore.sendPacketAround(this, 128, 2);
-			worldObj.addBlockEvent(pos, this.getBlockType(), 1, 1);
+			getWorld().addBlockEvent(pos, this.getBlockType(), 1, 1);
 		}
 	}
 
@@ -222,7 +220,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	// IPausable
 	@Override
 	public boolean isActive() {
-		if (worldObj.isRemote) {
+		if (getWorld().isRemote) {
 			return isActive;
 		}
 		return !isPaused() && cookTime.getObject() > 0;
@@ -232,7 +230,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public void onPause() {
 		// paused.invert();
 		markBlockForUpdate();
-		this.worldObj.addBlockEvent(pos, blockType, 1, 1);
+		this.getWorld().addBlockEvent(pos, blockType, 1, 1);
 	}
 
 	@Override
