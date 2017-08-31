@@ -141,7 +141,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		if (isClient()) {
 			return;
 		}
-		if (!(this.storage.getEnergyStored() > this.growthRF)) {
+		if (this.storage.getEnergyStored() < this.growthRF) {
 			return;
 		}
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
@@ -192,53 +192,93 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	protected void plantCrops() {
-		if (!(this.storage.getEnergyStored() > this.plantRF)) {
+		if (this.storage.getEnergyStored() < this.plantRF) {
 			return;
 		}
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
 			IBlockState oldState = getWorld().getBlockState(pos);
 			Block block = oldState.getBlock();
-			if ((block == null || block.isAir(oldState, getWorld(), pos) || block.isReplaceable(getWorld(), pos))) {
-				for (IPlanter planter : SonarCore.planters.getObjects()) {
-					for (Integer slot : getInvPlants()) {
-						plantCrop(pos, planter, slot);
-					}
-				}
-			}
+
+			if (!block.isAir(oldState, getWorld(), pos) && !block.isReplaceable(getWorld(), pos)) {
+			    // can't plant here!
+                continue;
+            }
+
+            ItemStack seeds = getAvailableSeedStack();
+            IPlanter planter = getPlanter(seeds);
+
+            if (seeds != null && planter != null) {
+                IBlockState state = planter.getPlant(seeds, getWorld(), pos);
+                plantCrop(pos, state, seeds);
+            }
 		}
 	}
 
-	public void plantCrop(BlockPos pos, IPlanter planter, Integer slot) {
-		ItemStack stack = slots()[slot];
-		if (stack != null && planter.canTierPlant(slots()[slot], type)) {
-			IBlockState state = planter.getPlant(stack, getWorld(), pos);
-			plantCrop(pos, state, slot);
-		}
-	}
+	private ItemStack getAvailableSeedStack() {
+        for (ItemStack stack : getCropStacks()) {
+            if (stack != null && stack.stackSize > 0) {
+                return stack;
+            }
+        }
+        return null;
+    }
 
-	public void plantCrop(BlockPos pos, IBlockState state, Integer slot) {
-		if (state != null) {
-			this.storage.modifyEnergyStored(-plantRF);
-			slots()[slot].stackSize--;
-			if (slots()[slot].stackSize == 0) {
-				slots()[slot] = null;
-			}
-			getWorld().setBlockState(pos, state, 3);
-			return;
-		}
-	}
+	private IPlanter getPlanter(ItemStack stack) {
+        for (IPlanter planter : SonarCore.planters.getObjects()) {
+            if (planter.canTierPlant(stack, type)) {
+                return planter;
+            }
+        }
+        return null;
+    }
 
-	public List<Integer> getInvPlants() {
-		List<Integer> plants = Lists.newArrayList();
-		int offset = type == 2 ? 8 : type == 1 ? 5 : 1;
-		for (int j = offset; j < offset + 9; j++) {
-			if (slots()[j] != null) {
-				if (isSeed(slots()[j])) {
-					plants.add(j);
-				}
+	public void plantCrop(BlockPos pos, IBlockState state, ItemStack stack) {
+	    if (state == null) {
+	        return;
+        }
+
+        this.storage.modifyEnergyStored(-plantRF);
+        stack.stackSize--;
+
+        if (stack.stackSize == 0) {
+            removeStack(stack);
+        }
+
+        getWorld().setBlockState(pos, state, 3);
+    }
+
+	private void removeStack(ItemStack stack) {
+        ItemStack[] slotInventories = slots();
+	    for (Integer i = 0; i < slots().length; i++) {
+	        if (slotInventories[i] == stack) {
+                slotInventories[i] = null;
+            }
+        }
+    }
+
+    private int getSlotOffset() {
+        switch (type) {
+            case 2:
+                return 8;
+            case 1:
+                return 5;
+            default:
+                return 1;
+        }
+    }
+
+	public List<ItemStack> getCropStacks() {
+		List<ItemStack> stacks = Lists.newArrayList();
+		ItemStack[] seedSlots = slots();
+		int offset = getSlotOffset();
+
+		for (int j = 0; j <  9; j++) {
+		    ItemStack stack = seedSlots[j + offset];
+			if (stack != null && isSeed(stack)) {
+                stacks.add(stack);
 			}
 		}
-		return plants;
+		return stacks;
 	}
 
 	/** id = Gas to set. (Carbon=0) (Oxygen=1). set = amount to set it to **/
