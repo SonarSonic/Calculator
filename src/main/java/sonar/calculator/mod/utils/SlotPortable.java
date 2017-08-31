@@ -14,6 +14,7 @@ public class SlotPortable extends Slot {
 		super(inv, index, x, y);
 		this.isRemote = isRemote;
 		this.invItem = inv;
+		this.type = type;
 	}
 
 	public boolean isItemValid(ItemStack stack) {
