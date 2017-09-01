@@ -146,7 +146,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public void modifyEnergy() {
 		energyBuffer += getEnergyUsage();
-		int energyUsage = (int) Math.round(energyBuffer);
+		int energyUsage = (int) Math.floor(energyBuffer);
 		if (energyBuffer - energyUsage < 0) {
 			this.energyBuffer = 0;
 		} else {
@@ -177,9 +177,9 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public int requiredEnergy() {
 		int speed = upgrades.getUpgradesInstalled("SPEED");
-		int energy = upgrades.getUpgradesInstalled("ENERGY"); /* if (energy + speed == 0) { return 1000 * 5; } int i = 16 - (energy - speed); return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (energy - speed))) * 5; */
-		float i = (float) ((double) speed / 17) * getBaseEnergyUsage();
-		float e = (float) ((double) energy / 17) * getBaseEnergyUsage();
+		int energy = upgrades.getUpgradesInstalled("ENERGY");
+		float i = (float) ((double) speed / 16) * getBaseEnergyUsage();
+		float e = (float) ((double) energy / 16) * getBaseEnergyUsage();
 		return (int) (getBaseEnergyUsage() + i - e);
 	}
 

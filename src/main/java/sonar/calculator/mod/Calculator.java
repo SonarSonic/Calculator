@@ -98,6 +98,9 @@ public class Calculator {
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 
+		CalculatorOreDict.registerOres();
+		logger.info("Registered OreDict");
+
 		Recipes.registerRecipes();
 		logger.info("Registered Calculator Recipes");
 
@@ -106,9 +109,6 @@ public class Calculator {
 
 		CalculatorSmelting.addSmeltingRecipes();
 		logger.info("Added Smelting Recipes");
-
-		CalculatorOreDict.registerOres();
-		logger.info("Registered OreDict");
 
 		GameRegistry.registerFuelHandler(new CalculatorSmelting());
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CalculatorCommon());

@@ -42,7 +42,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 		int transfer = maxTransfer / facing.size();
 		for (EnumFacing dir : facing) {
 			TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
-			SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir.getOpposite(), dir, transfer);
+			SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir, dir, transfer);
 		}
 	}
 

@@ -245,7 +245,6 @@ public class GuiInfoCalculator extends GuiContainer {
 								this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 								int i = this.getHoverState(this.hovered);
 								if (this.isMouseOver()) {
-									IItemInfo info = infoList.get(currentPos);
 									if (info != null && info.getRelatedItems() != null) {
 										if (this.id - 10 < info.getRelatedItems().length) {
 											drawCreativeTabHoveringText("" + info.getRelatedItems()[id - 10].getDisplayName(), mouseX, mouseY);

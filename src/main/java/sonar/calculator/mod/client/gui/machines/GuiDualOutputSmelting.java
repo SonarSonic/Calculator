@@ -59,6 +59,7 @@ public class GuiDualOutputSmelting extends GuiSonar {
 			ArrayList list = Lists.newArrayList();
 			DecimalFormat df = new DecimalFormat("#.##");
 			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
+			list.add("Stored: " + entity.storage.getEnergyStored() + " RF");
 			list.add("Usage: " + df.format(entity.getEnergyUsage()) + " rf/t");
 			list.add("Speed: " + entity.getProcessTime() + " ticks");
 			this.drawSpecialToolTip(list, x, y, fontRendererObj);

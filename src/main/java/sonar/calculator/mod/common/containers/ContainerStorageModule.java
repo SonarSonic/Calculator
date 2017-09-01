@@ -19,30 +19,25 @@ public class ContainerStorageModule extends Container {
 	public ContainerStorageModule(EntityPlayer player, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
 		isRemote = player.getEntityWorld().isRemote;
-        int i = 36;
-        int j;
-        int k;
+		int i = 36;
+		int j;
+		int k;
 
-        for (j = 0; j < 6; ++j)
-        {
-            for (k = 0; k < 9; ++k)
-            {
-                this.addSlotToContainer(new SlotPortable(inventory, k + j * 9, 8 + k * 18, 18 + j * 18, isRemote, Calculator.itemStorageModule));
-            }
-        }
+		for (j = 0; j < 6; ++j) {
+			for (k = 0; k < 9; ++k) {
+				this.addSlotToContainer(new SlotPortable(inventory, k + j * 9, 8 + k * 18, 18 + j * 18, isRemote, Calculator.itemStorageModule));
+			}
+		}
 
-        for (j = 0; j < 3; ++j)
-        {
-            for (k = 0; k < 9; ++k)
-            {
-                this.addSlotToContainer(new SlotLimiter(player.inventory, k + j * 9 + 9, 8 + k * 18, 104 + j * 18 + i, Calculator.itemStorageModule));
-            }
-        }
+		for (j = 0; j < 3; ++j) {
+			for (k = 0; k < 9; ++k) {
+				this.addSlotToContainer(new SlotLimiter(player.inventory, k + j * 9 + 9, 8 + k * 18, 104 + j * 18 + i, Calculator.itemStorageModule));
+			}
+		}
 
-        for (j = 0; j < 9; ++j)
-        {
-            this.addSlotToContainer(new SlotLimiter(player.inventory, j, 8 + j * 18, 162 + i, Calculator.itemStorageModule));
-        }
+		for (j = 0; j < 9; ++j) {
+			this.addSlotToContainer(new SlotLimiter(player.inventory, j, 8 + j * 18, 162 + i, Calculator.itemStorageModule));
+		}
 	}
 
 	@Override
@@ -54,7 +49,6 @@ public class ContainerStorageModule extends Container {
 	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(id);
-
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
@@ -66,18 +60,16 @@ public class ContainerStorageModule extends Container {
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
-				
+
 				if (id >= INV_START) {
 					if (!this.mergeItemStack(itemstack1, 0, INV_START, false)) {
 						return null;
 					}
-				}
-				else if (id >= INV_START && id < HOTBAR_START) {
+				} else if (id >= INV_START && id < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
 						return null;
 					}
-				}
-				else if (id >= HOTBAR_START && id < HOTBAR_END + 1) {
+				} else if (id >= HOTBAR_START && id < HOTBAR_END + 1) {
 					if (!this.mergeItemStack(itemstack1, INV_START, INV_END + 1, false)) {
 						return null;
 					}
@@ -101,7 +93,7 @@ public class ContainerStorageModule extends Container {
 	}
 
 	@Override
-    public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player){
+	public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player) {
 		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
 			return null;
 		}

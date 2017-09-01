@@ -19,14 +19,60 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-    version = "1.10.2-12.18.3.2281"
+    version = "1.10.2-12.18.3.2422"
     runDir = "run"
     mappings = "snapshot_20161111"
     makeObfSourceJar = false
 }
 
+repositories {
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+    maven { url 'http://dvs1.progwml6.com/files/maven' }        // JEI & Tinkers
+    maven { url 'http://maven.epoxide.org' }                    // Darkhax / Tesla
+    maven { url "http://maven.amadornes.com/" }                 // MC MultiPart
+    maven { url "http://maven.cil.li/" }                        // Open Computers
+    maven { url "https://dl.bintray.com/raoulvdberge/dev/" }    // Refined Storage
+    maven { url "http://maven.blamejared.com/" }                // CraftTweaker (aka MineTweaker3)
+    maven { url "http://maven.ic2.player.to/" }     // IC2
+    maven { url "http://mobiusstrip.eu/maven" }     // Waila
+    maven { url "http://chickenbones.net/maven/" }  // NEI (used by Waila)
+    maven { url "http://maven.k-4u.nl" }            // McJtyLib && McJtyCompat
+    maven { url "http://maven.tterrag.com" }        // EnderCore && Ender IO
+}
 dependencies {
+    compileOnly "mezz.jei:jei_${minecraft_version}:${jei_version}:api"
+    compileOnly "net.darkhax.tesla:Tesla:${tesla_version}"
+    compileOnly "MCMultiPart:MCMultiPart:${mcmp_version}:universal"
+    compileOnly "li.cil.oc:OpenComputers:${opencomputers_version}:api"
+    compileOnly "refinedstorage:refinedstorage:${refinedstorage_version}:api"
+    compileOnly "MineTweaker3:MineTweaker3-MC1102-Main:${minetweaker3_version}"
+    compileOnly "net.industrial-craft:industrialcraft-2:${ic2_version}"
+    compileOnly "mcp.mobius.waila:Waila:${waila_version}"
+    compileOnly "com.github.mcjty:mcjtylib:${mcjtylib_version}"
+    compileOnly "com.github.mcjty:compatlayer:${compatlayer_version}"
+    compileOnly "com.enderio.core:EnderCore:${endercore_version}"
+    compileOnly "com.enderio:EnderIO:${enderio_version}"
 
+    //curseforge
+    compileOnly "codechicken:CodeChickenCore:${codechickencore_version}:deobf"
+    compileOnly "cofhcore:CoFHCore-${minecraft_version}:release:universal"
+    compileOnly "appeng:appliedenergistics2:rv4-stable-1"
+    compileOnly "chameleon:Chameleon:${chameleon_version}"
+    compileOnly "storage-drawers:StorageDrawers:${storagedrawers_version}"
+    compileOnly "immersive-engineering:ImmersiveEngineering:${immersiveengineering_version}"
+    compileOnly "deep-resonance:deepresonance:${deep_resonance_version}"
+    compileOnly "eleccore-rendering-library:ElecCore:${elec_core_version}"
+    compileOnly "mekanism:Mekanism:${mekanism_version}"
+    compileOnly "extreme-reactors:ExtremeReactors:${extreme_reactors_version}"
+    compileOnly "extra-utilities:extrautils2:${extra_utilities_version}"
+    
+
+    //help if you can minefactoryreloaded does not want to download automatically from curse!
+    compileOnly files("./lib/MineFactoryReloaded-[1.10.2]2.9.0B1-229.jar")
+    
 }
 
 processResources

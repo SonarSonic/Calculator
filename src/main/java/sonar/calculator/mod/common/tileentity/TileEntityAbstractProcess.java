@@ -81,13 +81,13 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 				return false;
 			} else {
 				ItemStack outputStack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);
-					if (slots()[o + inputSize() + 1] != null) {
-						if (!slots()[o + inputSize() + 1].isItemEqual(outputStack)) {
-							return false;
-						} else if (slots()[o + inputSize() + 1].stackSize + outputStack.stackSize > slots()[o + inputSize() + 1].getMaxStackSize()) {
-							return false;
-						}
+				if (slots()[o + inputSize() + 1] != null) {
+					if (!slots()[o + inputSize() + 1].isItemEqual(outputStack)) {
+						return false;
+					} else if (slots()[o + inputSize() + 1].stackSize + outputStack.stackSize > slots()[o + inputSize() + 1].getMaxStackSize()) {
+						return false;
 					}
+				}
 			}
 		}
 		return true;
@@ -121,13 +121,13 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 
 	public void finishProcess() {
 		ISonarRecipe recipe = getRecipe(inputStacks());
-		if(recipe==null){
+		if (recipe == null) {
 			return;
 		}
 		for (int o = 0; o < Math.min(recipe.outputs().size(), outputSize()); o++) {
 			ISonarRecipeObject outputObject = recipe.outputs().get(o);
-			
-			ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);			
+
+			ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);
 			if (stack != null && !isOutputVoided(o + inputSize() + 1, stack)) {
 				if (slots()[o + inputSize() + 1] == null) {
 					ItemStack outputStack = stack.copy();
@@ -142,7 +142,12 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		}
 		for (int i = 0; i < Math.min(recipe.inputs().size(), inputSize()); i++) {
 			ISonarRecipeObject inputObject = recipe.inputs().get(i);
-			slots()[i] = ItemStackHelper.reduceStackSize(slots()[i], recipeHelper() != null ? inputObject.getStackSize() : 1);
+			if (slots()[i].getItem().hasContainerItem(slots()[i])) {
+				slots()[i] = slots()[i].getItem().getContainerItem(slots()[i]);
+			} else {
+				slots()[i] = ItemStackHelper.reduceStackSize(slots()[i], recipeHelper() != null ? inputObject.getStackSize() : 1);
+			}
+
 		}
 	}
 
