@@ -173,8 +173,9 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				StoredItemStack storedstack = new StoredItemStack(stack.copy());
 				for (TileEntity tile : Arrays.asList(this, this.getWorld().getTileEntity(this.pos.offset(forward.getOpposite())))) {
 					StoredItemStack returned = SonarAPI.getItemHelper().addItems(tile, storedstack, isCrops ? EnumFacing.getFront(0) : EnumFacing.UP, ActionType.PERFORM, null);
-					if (returned != null)
+					if (returned != null) {
 						storedstack.stored -= returned.getStackSize();
+					}
 					if (!isCrops) {
 						break;
 					}
@@ -184,9 +185,9 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 					getWorld().spawnEntityInWorld(drop);
 				}
 
-				if (isCrops && this.type == 3)
+				if (isCrops && this.type == 3) {
 					this.plantsHarvested++;
-
+				}
 			}
 		}
 	}
