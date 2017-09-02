@@ -200,17 +200,19 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			Block block = oldState.getBlock();
 
 			if (!block.isAir(oldState, getWorld(), pos) && !block.isReplaceable(getWorld(), pos)) {
-			    // can't plant here!
-                continue;
-            }
+			    	// can't plant here!
+                		continue;
+            		}
 
-            ItemStack seeds = getAvailableSeedStack();
-            IPlanter planter = getPlanter(seeds);
-
-            if (seeds != null && planter != null) {
-                IBlockState state = planter.getPlant(seeds, getWorld(), pos);
-                plantCrop(pos, state, seeds);
-            }
+            		ItemStack seeds = getAvailableSeedStack();
+			
+			if (seeds != null) {
+				IPlanter planter = getPlanter(seeds);
+            			if (planter != null) {
+                			IBlockState state = planter.getPlant(seeds, getWorld(), pos);
+               				plantCrop(pos, state, seeds);
+				}
+            		}
 		}
 	}
 
