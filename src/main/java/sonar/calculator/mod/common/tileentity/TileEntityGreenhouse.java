@@ -217,57 +217,61 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	private ItemStack getAvailableSeedStack() {
-        for (ItemStack stack : getCropStacks()) {
-            if (stack != null && stack.stackSize > 0) {
-                return stack;
-            }
-        }
-        return null;
-    }
+        	for (ItemStack stack : getCropStacks()) {
+            		if (stack != null && stack.stackSize > 0) {
+                		return stack;
+            		}
+        	}
+        	return null;
+    	}
 
 	private IPlanter getPlanter(ItemStack stack) {
-        for (IPlanter planter : SonarCore.planters.getObjects()) {
-            if (planter.canTierPlant(stack, type)) {
-                return planter;
-            }
-        }
-        return null;
-    }
+		if (stack = null) {
+			return null;	
+		}
+		
+        	for (IPlanter planter : SonarCore.planters.getObjects()) {
+            		if (planter.canTierPlant(stack, type)) {
+                		return planter;
+            		}
+       		}
+        	return null;
+    	}
 
 	public void plantCrop(BlockPos pos, IBlockState state, ItemStack stack) {
-	    if (state == null) {
-	        return;
-        }
+		if (state == null) {
+	    		return;
+        	}
 
-        this.storage.modifyEnergyStored(-plantRF);
-        stack.stackSize--;
+        	this.storage.modifyEnergyStored(-plantRF);
+       		stack.stackSize--;
 
-        if (stack.stackSize == 0) {
-            removeStack(stack);
-        }
+        	if (stack.stackSize == 0) {
+            		removeStack(stack);
+       		}
 
-        getWorld().setBlockState(pos, state, 3);
-    }
+       		getWorld().setBlockState(pos, state, 3);
+    	}
 
 	private void removeStack(ItemStack stack) {
-        ItemStack[] slotInventories = slots();
-	    for (Integer i = 0; i < slots().length; i++) {
-	        if (slotInventories[i] == stack) {
-                slotInventories[i] = null;
-            }
-        }
-    }
+        	ItemStack[] slotInventories = slots();
+	    	for (Integer i = 0; i < slots().length; i++) {
+	        	if (slotInventories[i] == stack) {
+                		slotInventories[i] = null;
+            		}
+        	}
+    	}
 
-    private int getSlotOffset() {
-        switch (type) {
-            case 2:
-                return 8;
-            case 1:
-                return 5;
-            default:
-                return 1;
-        }
-    }
+	private int getSlotOffset() {
+        	switch (type) {
+            	case 2:
+                	return 8;
+            	case 1:
+                	return 5;
+            	default:
+                	return 1;
+        	}
+    	}
 
 	public List<ItemStack> getCropStacks() {
 		List<ItemStack> stacks = Lists.newArrayList();
@@ -277,7 +281,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		for (int j = 0; j <  9; j++) {
 		    ItemStack stack = seedSlots[j + offset];
 			if (stack != null && isSeed(stack)) {
-                stacks.add(stack);
+                		stacks.add(stack);
 			}
 		}
 		return stacks;
