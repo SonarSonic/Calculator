@@ -264,12 +264,12 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 
 	private int getSlotOffset() {
         	switch (type) {
-            	case 2:
-                	return 8;
-            	case 1:
-                	return 5;
-            	default:
-                	return 1;
+            		case 2:
+                		return 8;
+            		case 1:
+                		return 5;
+            		default:
+                		return 1;
         	}
     	}
 
