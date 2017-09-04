@@ -1,7 +1,5 @@
 package sonar.calculator.mod.network.packets;
 
-import java.util.Random;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -17,6 +15,8 @@ import sonar.calculator.mod.api.items.IModuleProvider;
 import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.ActionType;
+
+import java.util.Random;
 
 public class PacketJumpModule implements IMessage {
 
@@ -43,6 +43,7 @@ public class PacketJumpModule implements IMessage {
 
 	public static class Handler implements IMessageHandler<PacketJumpModule, IMessage> {
 
+        @Override
 		public IMessage onMessage(PacketJumpModule message, MessageContext ctx) {
 			EntityPlayer player = SonarCore.proxy.getPlayerEntity(ctx);
 			if (player != null && ctx.side == Side.SERVER) {
@@ -56,7 +57,7 @@ public class PacketJumpModule implements IMessage {
 					if (player.capabilities.isCreativeMode || maxRemove >= 1000) {
 						player.setPositionAndUpdate(message.pos.getX() + 0.5, message.pos.getY() + 1, message.pos.getZ() + 0.5);
 
-						player.getEntityWorld().playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDEREYE_LAUNCH, SoundCategory.NEUTRAL, 0.5F, 0.8F);
+                        player.getEntityWorld().playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDEREYE_LAUNCH, SoundCategory.NEUTRAL, 0.5F, 0.8F);
 
 						if (!player.capabilities.isCreativeMode){
 							SonarAPI.getEnergyHelper().extractEnergy(held, 1000, ActionType.PERFORM);
@@ -64,11 +65,10 @@ public class PacketJumpModule implements IMessage {
 						return new PacketJumpModule(message.pos);
 					}
 				}
-
 			} else if (player != null && ctx.side == Side.CLIENT) {
 				Random rand = new Random();
 				for (int i = 0; i < 32; ++i) {
-					player.getEntityWorld().spawnParticle(EnumParticleTypes.PORTAL, player.posX, player.posY + rand.nextDouble() * 2.0D, player.posZ, rand.nextGaussian(), 0.0D, rand.nextGaussian(), new int[0]);
+                    player.getEntityWorld().spawnParticle(EnumParticleTypes.PORTAL, player.posX, player.posY + rand.nextDouble() * 2.0D, player.posZ, rand.nextGaussian(), 0.0D, rand.nextGaussian());
 				}
 				/*
 				int i = 12;

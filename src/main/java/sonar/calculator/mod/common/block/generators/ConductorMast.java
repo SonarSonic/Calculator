@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.generators;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -24,12 +22,15 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.ISpecialTooltip;
 
+import java.util.List;
+
 public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip {
 
 	public ConductorMast() {
 		super(SonarMaterials.machine, false, true);
 	}
 
+    @Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (!world.isRemote) {
 			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
@@ -52,17 +53,9 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 
 	@Override
 	public boolean canPlaceBlockAt(World world, BlockPos pos) {
-		if (world.getBlockState(pos.offset(EnumFacing.UP, 1)).getBlock() != Blocks.AIR) {
-			return false;
-		}
-		if (world.getBlockState(pos.offset(EnumFacing.UP, 2)).getBlock() != Blocks.AIR) {
-			return false;
-		}
-		if (world.getBlockState(pos.offset(EnumFacing.UP, 3)).getBlock() != Blocks.AIR) {
-			return false;
-		}
-		return true;
-
+        return world.getBlockState(pos.offset(EnumFacing.UP, 1)).getBlock() == Blocks.AIR &&
+                world.getBlockState(pos.offset(EnumFacing.UP, 2)).getBlock() == Blocks.AIR &&
+                world.getBlockState(pos.offset(EnumFacing.UP, 3)).getBlock() == Blocks.AIR;
 	}
 
 	@Override
@@ -75,7 +68,6 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 		world.setBlockState(pos.offset(EnumFacing.UP, 1), Calculator.conductormastBlock.getDefaultState());
 		world.setBlockState(pos.offset(EnumFacing.UP, 2), Calculator.conductormastBlock.getDefaultState());
 		world.setBlockState(pos.offset(EnumFacing.UP, 3), Calculator.conductormastBlock.getDefaultState());
-
 	}
 
 	@Override
@@ -84,21 +76,33 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
+    }
 
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+    }
+
+    @Override
+    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
+        //list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
+        list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Conductor Mast") + " RF per strike");
 	}
 
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+    public void standardInfo(ItemStack stack, World world, List<String> list) {
 		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
 		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Conductor Mast") + " RF per strike");
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
 
+    @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}

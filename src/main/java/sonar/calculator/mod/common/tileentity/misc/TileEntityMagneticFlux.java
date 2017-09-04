@@ -1,8 +1,5 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import java.util.List;
-import java.util.Random;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -29,11 +26,14 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
 
+import java.util.List;
+import java.util.Random;
+
 public class TileEntityMagneticFlux extends TileEntityInventory implements ISidedInventory, IByteBufTile, IGuiTile {
 
 	public boolean whitelisted, exact;
 	public Random rand = new Random();
-	public float rotate = 0;
+    public float rotate;
 	public boolean disabled;
 
 	public TileEntityMagneticFlux() {
@@ -46,6 +46,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		return 1;
 	}
 
+    @Override
 	public void update() {
 		super.update();
 		if (this.world.isBlockIndirectlyGettingPowered(pos) > 0) {
@@ -63,6 +64,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		this.magnetizeItems();
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -71,6 +73,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -85,18 +88,18 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
 		List<EntityItem> items = this.world.getEntitiesWithinAABB(EntityItem.class, aabb, null);
 		for (EntityItem entity : items) {
-			if (validItemStack(((EntityItem) entity).getEntityItem())) {
+            if (validItemStack(entity.getItem())) {
 				double x = pos.getX() + 0.5D - entity.posX;
 				double y = pos.getY() + 0.2D - entity.posY;
 				double z = pos.getZ() + 0.5D - entity.posZ;
 
 				double distance = Math.sqrt(x * x + y * y + z * z);
 				if (distance < 1.5) {
-					ItemStack itemstack = addToInventory((EntityItem) entity);
+                    ItemStack itemstack = addToInventory(entity);
 					if (itemstack.isEmpty() || itemstack.getCount() <= 0) {
 						entity.setDead();
 					} else {
-						((EntityItem) entity).setEntityItemStack(itemstack);
+                        entity.setItem(itemstack);
 					}
 				} else {
 					double speed = entity.isBurning() ? 5.2 : 0.1;
@@ -129,9 +132,9 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		if (exact) {
 			int[] stackDict = OreDictionary.getOreIDs(stack2);
 			int[] storedDict = OreDictionary.getOreIDs(stack);
-			for (int i = 0; i < stackDict.length; i++) {
-				for (int s = 0; s < storedDict.length; s++) {
-					if (stackDict[i] == storedDict[s]) {
+            for (int aStackDict : stackDict) {
+                for (int aStoredDict : storedDict) {
+                    if (aStackDict == aStoredDict) {
 						return true;
 					}
 				}
@@ -146,7 +149,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 			if (entity == null) {
 				return null;
 			}
-			ItemStack itemstack = entity.getEntityItem();
+            ItemStack itemstack = entity.getItem();
 			if (itemstack != null) {
 				int i = itemstack.getCount();
 				TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
@@ -155,7 +158,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 			}
 			return itemstack;
 		}
-		return item.getEntityItem();
+        return item.getItem();
 	}
 
 	@Override
@@ -173,6 +176,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		return false;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		if (!disabled) {
@@ -221,5 +225,4 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiMagneticFlux(player.inventory, this);
 	}
-
 }

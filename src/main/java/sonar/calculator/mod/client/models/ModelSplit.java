@@ -4,8 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelSplit extends ModelBase
-{
+public class ModelSplit extends ModelBase {
   //fields
     ModelRenderer Split1;
     ModelRenderer Split2;
@@ -13,8 +12,7 @@ public class ModelSplit extends ModelBase
     ModelRenderer Frame2;
     ModelRenderer Frame3;
   
-  public ModelSplit()
-  {
+    public ModelSplit() {
     textureWidth = 64;
     textureHeight = 32;
     
@@ -49,31 +47,29 @@ public class ModelSplit extends ModelBase
       Frame3.mirror = true;
       setRotation(Frame3, 0F, 0F, 0F);
   }
-  public void renderSplitter(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
+
+    public void renderSplitter(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
     setRotationAngles(entity, f, f1, f2, f3, f4, f5);
     Split1.render(f5);
     Split2.render(f5);
     Frame1.render(f5);
   }
-  public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
+
+    @Override
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
     super.render(entity, f, f1, f2, f3, f4, f5);
     setRotationAngles(entity, f, f1, f2, f3, f4, f5);
     Frame2.render(f5);
     Frame3.render(f5);
   }
   
-  private void setRotation(ModelRenderer model, float x, float y, float z)
-  {
+    private void setRotation(ModelRenderer model, float x, float y, float z) {
     model.rotateAngleX = x;
     model.rotateAngleY = y;
     model.rotateAngleZ = z;
   }
   
-  public void setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
+    public void setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
     super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
   }
-
 }

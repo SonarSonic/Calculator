@@ -1,8 +1,5 @@
 package sonar.calculator.mod.network.packets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -14,11 +11,15 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.network.PacketCoords;
 import sonar.core.network.PacketTileEntityHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PacketTeleportLinks  extends PacketCoords {
 
 	public List<TeleportLink> links;
 
-	public PacketTeleportLinks() {}
+    public PacketTeleportLinks() {
+    }
 
 	public PacketTeleportLinks(BlockPos pos, List<TeleportLink> links) {
 		super(pos);
@@ -28,7 +29,7 @@ public class PacketTeleportLinks  extends PacketCoords {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
-		links = new ArrayList();
+        links = new ArrayList<>();
 		int size = buf.readInt();
 		for (int i = 0; i < size; i++) {
 			links.add(i, TeleportLink.readFromBuf(buf));			
@@ -39,8 +40,8 @@ public class PacketTeleportLinks  extends PacketCoords {
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
 		buf.writeInt(links.size());
-		for (int i = 0; i < links.size(); i++) {
-			TeleportLink.writeToBuf(buf, links.get(i));
+        for (TeleportLink link : links) {
+            TeleportLink.writeToBuf(buf, link);
 		}
 	}
 

@@ -1,8 +1,5 @@
 package sonar.calculator.mod.client.gui.machines;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -11,6 +8,9 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCu
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.core.client.gui.GuiSonar;
 import sonar.core.helpers.FontHelper;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class GuiPowerCube extends GuiSonar {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guipowercube.png");
@@ -26,14 +26,14 @@ public class GuiPowerCube extends GuiSonar {
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
-		if ((x > guiLeft + 130 && x < guiLeft + 144) && (y > guiTop + 60 && y < guiTop + 74)) {
-			ArrayList list = new ArrayList();
+        if (x > guiLeft + 130 && x < guiLeft + 144 && y > guiTop + 60 && y < guiTop + 74) {
+            ArrayList<String> list = new ArrayList<>();
 			DecimalFormat df = new DecimalFormat("#.##");
 			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
 			list.add("Stored: " + entity.storage.getEnergyStored() + " RF");
 			list.add("Max Input: " + df.format(entity.storage.getMaxReceive()) + " rf/t");
 			list.add("Max Output: " + df.format(entity instanceof TileEntityAdvancedPowerCube ? entity.storage.getMaxExtract() : 0) + " rf/t");
-			this.drawSpecialToolTip(list, x, y, fontRendererObj);
+            this.drawSpecialToolTip(list, x, y, fontRenderer);
 		}
 	}
 

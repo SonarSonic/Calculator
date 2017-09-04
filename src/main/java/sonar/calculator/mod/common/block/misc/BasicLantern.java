@@ -1,10 +1,6 @@
 package sonar.calculator.mod.common.block.misc;
 
-import java.util.Iterator;
-import java.util.Random;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -23,6 +19,9 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 
+import java.util.Iterator;
+import java.util.Random;
+
 public class BasicLantern extends SonarBlock {
 
 	public static final PropertyDirection DIR = PropertyDirection.create("dir");
@@ -32,6 +31,7 @@ public class BasicLantern extends SonarBlock {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(DIR, EnumFacing.NORTH));
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -47,6 +47,7 @@ public class BasicLantern extends SonarBlock {
 		// setDefaultFacing(world, pos, state);
 	}
 
+    @Override
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) {
 		super.onNeighborChange(world, pos, neighbour);
 		try {
@@ -80,6 +81,7 @@ public class BasicLantern extends SonarBlock {
 		return EnumFacing.DOWN;
 	}
 
+    @Override
 	@Deprecated
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
 		if (customBB != null) {
@@ -87,7 +89,7 @@ public class BasicLantern extends SonarBlock {
 		}
 
 		EnumFacing dir = getDefaultFacing(world, pos, state);
-		return new AxisAlignedBB(0.3F + (dir.getFrontOffsetX() * 0.32F), 0.0F + getY(dir), 0.3F + (dir.getFrontOffsetZ() * 0.32F), 0.7F + (dir.getFrontOffsetX() * 0.32F), 0.7F + getY(dir), 0.7F + (dir.getFrontOffsetZ() * 0.32F));
+        return new AxisAlignedBB(0.3F + dir.getFrontOffsetX() * 0.32F, 0.0F + getY(dir), 0.3F + dir.getFrontOffsetZ() * 0.32F, 0.7F + dir.getFrontOffsetX() * 0.32F, 0.7F + getY(dir), 0.7F + dir.getFrontOffsetZ() * 0.32F);
 	}
 
 	public float getY(EnumFacing meta) {
@@ -106,7 +108,6 @@ public class BasicLantern extends SonarBlock {
 		float z1 = pos.getZ() + rand.nextFloat();
 		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
 		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
-
 	}
 
 	@Override
@@ -119,11 +120,13 @@ public class BasicLantern extends SonarBlock {
 		return false;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public IBlockState getStateForEntityRender(IBlockState state) {
 		return this.getDefaultState().withProperty(DIR, EnumFacing.SOUTH);
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.getFront(meta);
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
@@ -132,16 +135,18 @@ public class BasicLantern extends SonarBlock {
 		return this.getDefaultState().withProperty(DIR, enumfacing);
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
-		return ((EnumFacing) state.getValue(DIR)).getIndex();
+        return state.getValue(DIR).getIndex();
 	}
 
+    @Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return state.withProperty(DIR, getDefaultFacing(world, pos, state));
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { DIR });
+        return new BlockStateContainer(this, DIR);
 	}
-
 }

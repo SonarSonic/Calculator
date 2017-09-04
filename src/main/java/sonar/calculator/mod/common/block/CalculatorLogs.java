@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.block;
 
 import net.minecraft.block.BlockLog;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -24,6 +23,7 @@ public class CalculatorLogs extends BlockLog {
 		return true;
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState iblockstate = this.getDefaultState();
 		switch (meta & 12) {
@@ -43,11 +43,12 @@ public class CalculatorLogs extends BlockLog {
 		return iblockstate;
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 		i = i | 0;
 
-		switch ((BlockLog.EnumAxis) state.getValue(LOG_AXIS)) {
+        switch (state.getValue(LOG_AXIS)) {
 		case X:
 			i |= 4;
 			break;
@@ -63,7 +64,8 @@ public class CalculatorLogs extends BlockLog {
 		return i;
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { LOG_AXIS });
+        return new BlockStateContainer(this, LOG_AXIS);
 	}
 }

@@ -1,7 +1,5 @@
 package sonar.calculator.mod.utils.helpers;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -12,6 +10,8 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.block.CalculatorSaplings;
+
+import java.util.Random;
 
 public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 	private final int minTreeHeight;
@@ -38,6 +38,7 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 		this.blockLog = blockLog;
 	}
 
+    @Override
 	public boolean generate(World world, Random rand, BlockPos pos) {
 		int l = rand.nextInt(3) + this.minTreeHeight;
 		boolean flag = true;
@@ -114,7 +115,6 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 						block = offset.getBlock();
 						if (block.isAir(offset, world, pos.add(0, k1, 0)) || block.isLeaves(offset, world, pos.add(0, k1, 0))) {
 							world.setBlockState(pos.add(0, k1, 0), blockLog.getDefaultState());
-
 						}
 					}
 					if (sapling.type == 3)

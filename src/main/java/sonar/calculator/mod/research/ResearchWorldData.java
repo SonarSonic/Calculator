@@ -1,7 +1,7 @@
 package sonar.calculator.mod.research;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.WorldSavedData;
+import net.minecraft.world.storage.WorldSavedData;
 import sonar.core.helpers.NBTHelper.SyncType;
 
 public class ResearchWorldData extends WorldSavedData {
@@ -23,6 +23,7 @@ public class ResearchWorldData extends WorldSavedData {
 		return nbt;
 	}
 
+    @Override
 	public boolean isDirty() {
 		return true;
 	}

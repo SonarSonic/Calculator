@@ -14,6 +14,7 @@ public class SlotPortableCrafting extends SlotPortable {
 		this.container = container;
 	}
 
+    @Override
 	public ItemStack decrStackSize(int size) {
 		if (!invItem.getStackInSlot(this.slotNumber).isEmpty()) {
 			ItemStack itemstack;
@@ -37,5 +38,4 @@ public class SlotPortableCrafting extends SlotPortable {
 		super.putStack(stack);
 		container.onItemCrafted();
 	}
-
 }

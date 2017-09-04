@@ -20,8 +20,8 @@ public class PurifiedObsidian extends ConnectedBlock implements IObsidianDrop {
 		return true;
 	}
 
+    @Override
 	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
 		return false;
 	}
-
 }

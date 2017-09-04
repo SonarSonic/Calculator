@@ -1,24 +1,12 @@
 package sonar.calculator.mod.integration.jei;
 
-import java.util.ArrayList;
-
-import mezz.jei.api.BlankModPlugin;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.IModRegistry;
-import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.*;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
-import sonar.calculator.mod.client.gui.calculators.GuiCalculator;
-import sonar.calculator.mod.client.gui.calculators.GuiCraftingCalculator;
-import sonar.calculator.mod.client.gui.calculators.GuiDynamicCalculator;
-import sonar.calculator.mod.client.gui.calculators.GuiDynamicModule;
-import sonar.calculator.mod.client.gui.calculators.GuiFlawlessCalculator;
-import sonar.calculator.mod.client.gui.calculators.GuiScientificCalculator;
+import sonar.calculator.mod.client.gui.calculators.*;
 import sonar.calculator.mod.client.gui.generators.GuiConductorMast;
 import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
@@ -26,41 +14,15 @@ import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting.AlgorithmS
 import sonar.calculator.mod.client.gui.machines.GuiHealthProcessor;
 import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.client.gui.misc.GuiFabricationChamber;
-import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
-import sonar.calculator.mod.common.containers.ContainerCalculator;
-import sonar.calculator.mod.common.containers.ContainerConductorMast;
-import sonar.calculator.mod.common.containers.ContainerCraftingCalculator;
-import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
-import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
-import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
-import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
-import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
-import sonar.calculator.mod.common.recipes.AlgorithmSeparatorRecipes;
-import sonar.calculator.mod.common.recipes.AnalysingChamberRecipes;
-import sonar.calculator.mod.common.recipes.AtomicCalculatorRecipes;
-import sonar.calculator.mod.common.recipes.CalculatorRecipes;
-import sonar.calculator.mod.common.recipes.ConductorMastRecipes;
-import sonar.calculator.mod.common.recipes.ExtractionChamberRecipes;
-import sonar.calculator.mod.common.recipes.FabricationChamberRecipes;
-import sonar.calculator.mod.common.recipes.FlawlessCalculatorRecipes;
-import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
-import sonar.calculator.mod.common.recipes.PrecisionChamberRecipes;
-import sonar.calculator.mod.common.recipes.ProcessingChamberRecipes;
-import sonar.calculator.mod.common.recipes.ReassemblyChamberRecipes;
-import sonar.calculator.mod.common.recipes.RestorationChamberRecipes;
-import sonar.calculator.mod.common.recipes.ScientificRecipes;
-import sonar.calculator.mod.common.recipes.StoneSeparatorRecipes;
-import sonar.calculator.mod.common.recipes.TreeHarvestRecipes;
+import sonar.calculator.mod.common.containers.*;
+import sonar.calculator.mod.common.recipes.*;
 import sonar.core.helpers.ItemStackHelper;
-import sonar.core.integration.SonarLoader;
-import sonar.core.integration.jei.IJEIHandler;
-import sonar.core.integration.jei.ISonarJEIRecipeBuilder;
-import sonar.core.integration.jei.JEICategoryV2;
-import sonar.core.integration.jei.JEIHelper;
-import sonar.core.integration.jei.JEIRecipeV2;
+import sonar.core.integration.jei.*;
 import sonar.core.recipes.IRecipeHelperV2;
 import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.RecipeHelperV2;
+
+import java.util.ArrayList;
 
 @JEIPlugin
 public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuilder {
@@ -140,8 +102,9 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 		Calculator.logger.info("Finished JEI Integration");
 	}
 
+    @Override
 	public Object buildRecipe(ISonarRecipe recipe, RecipeHelperV2<ISonarRecipe> helper) {
-		if ((Loader.isModLoaded("jei") || Loader.isModLoaded("JEI"))) {
+        if (Loader.isModLoaded("jei") || Loader.isModLoaded("JEI")) {
 			for (Handlers handler : CalculatorJEI.Handlers.values()) {
 				if (handler.helper.getRecipeID().equals(helper.getRecipeID())) {
 					try {
@@ -258,8 +221,9 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 			return helper;
 		}
 
+        @Override
 		public ArrayList<JEIRecipeV2> getJEIRecipes() {
-			ArrayList<JEIRecipeV2> recipesV2 = new ArrayList();
+            ArrayList<JEIRecipeV2> recipesV2 = new ArrayList<>();
 			if (helper != null && helper instanceof RecipeHelperV2) {
 				RecipeHelperV2 helper = (RecipeHelperV2) this.helper;
 				for (ISonarRecipe recipe : (ArrayList<ISonarRecipe>) helper.getRecipes()) {
@@ -276,7 +240,7 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 		/* @Deprecated
 		 * 
 		 * @Override public ArrayList<JEIRecipe> getJEIRecipes() {
-		 * ArrayList<JEIRecipe> recipes = new ArrayList(); String id =
+         * ArrayList<JEIRecipe> recipes = new ArrayList<>(); String id =
 		 * helper.getRecipeID(); if (helper instanceof RecipeHelper) {
 		 * RecipeHelper helper = (RecipeHelper) this.helper; for
 		 * (Entry<Object[], Object[]> entry : helper.getRecipes().entrySet()) {
@@ -293,7 +257,7 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 		 * (FabricationChamberRecipes) this.helper; LinkedHashMap<ItemStack,
 		 * CircuitStack[]> chamberRecipes = helper.getRecipes(); for
 		 * (Entry<ItemStack, CircuitStack[]> entry : chamberRecipes.entrySet())
-		 * { ArrayList<ItemStack> stacks = new ArrayList(); for (CircuitStack
+         * { ArrayList<ItemStack> stacks = new ArrayList<>(); for (CircuitStack
 		 * circuit : entry.getValue()) { stacks.add(circuit.buildItemStack()); }
 		 * try { recipes.add(recipeClass.newInstance().getInstance(id,
 		 * stacks.toArray(), new Object[] { entry.getKey() })); } catch

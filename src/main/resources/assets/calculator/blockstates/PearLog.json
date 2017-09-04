@@ -10,17 +10,29 @@
         "uvlock": true
     },
     "variants": {  
-        "inventory": [{}],  
+    "inventory": [
+      {}
+    ],
         "axis": {
             "y":{
                  "model":"cube_column"
             },
             "z":{    
-                 "model":"column_side"
+        "model": "cube_column",
+        "x": 90,
+        "textures": {
+          "end": "calculator:blocks/wood/log_pear_top",
+          "side": "calculator:blocks/wood/log_pear_side"
+        }
             }, 
             "x":{      
-                 "model":"column_side",
-                 "y": 90
+        "model": "cube_column",
+        "x": 90,
+        "y": 90,
+        "textures": {
+          "end": "calculator:blocks/wood/log_pear_top",
+          "side": "calculator:blocks/wood/log_pear_side"
+        }
             },
             "none":{           
                  "textures": {

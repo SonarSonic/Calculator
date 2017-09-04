@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.misc;
 
-import java.util.List;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,12 +9,15 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.api.nutrition.IHealthProcessor;
-import sonar.calculator.mod.api.nutrition.IHungerProcessor;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
+import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
 import sonar.core.common.block.ConnectedBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.ISpecialTooltip;
+
+import java.util.List;
 
 public class Piping extends ConnectedBlock implements ISpecialTooltip {
 
@@ -77,12 +78,22 @@ public class Piping extends ConnectedBlock implements ISpecialTooltip {
 	 * 
 	 * @SideOnly(Side.CLIENT) public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos) { return getCollisionBoundingBox(world, pos, world.getBlockState(pos)); } */
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
 		list.add("W.I.P");
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
+    }
+
+    @Override
+    public void addSpecialToolTip(ItemStack itemStack, World world, List<String> list) {
+
+    }
+
+    @Override
+    public void standardInfo(ItemStack itemStack, World world, List<String> list) {
+
 	}
 
 	public static class Amethyst extends Piping {
@@ -91,13 +102,11 @@ public class Piping extends ConnectedBlock implements ISpecialTooltip {
 			super(SonarMaterials.machine, -1);
 		}
 
+        @Override
 		public boolean checkBlockInDirection(IBlockAccess world, int x, int y, int z, EnumFacing dir) {
 			IBlockState state = world.getBlockState(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
 			TileEntity tile = world.getTileEntity(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
-			if (tile != null && tile instanceof IHungerProcessor || state.getBlock() == Calculator.amethystLog) {
-				return true;
-			}
-			return super.checkBlockInDirection(world, x, y, z, dir);
+            return tile != null && tile instanceof TileEntityHungerProcessor || state.getBlock() == Calculator.amethystLog || super.checkBlockInDirection(world, x, y, z, dir);
 		}
 	}
 
@@ -107,14 +116,11 @@ public class Piping extends ConnectedBlock implements ISpecialTooltip {
 			super(SonarMaterials.machine, -2);
 		}
 
+        @Override
 		public boolean checkBlockInDirection(IBlockAccess world, int x, int y, int z, EnumFacing dir) {
 			IBlockState state = world.getBlockState(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
 			TileEntity tile = world.getTileEntity(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
-			if (tile != null && tile instanceof IHealthProcessor || state.getBlock() == Calculator.tanzaniteLog) {
-				return true;
+            return tile != null && tile instanceof TileEntityHealthProcessor || state.getBlock() == Calculator.tanzaniteLog || super.checkBlockInDirection(world, x, y, z, dir);
 			}
-			return super.checkBlockInDirection(world, x, y, z, dir);
 		}
 	}
-
-}

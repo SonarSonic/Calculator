@@ -2,15 +2,10 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerFabricationChamber extends ContainerSync {
@@ -21,6 +16,7 @@ public class ContainerFabricationChamber extends ContainerSync {
 			addPlayerInventory();
 		}
 	};
+
 	public ContainerFabricationChamber(InventoryPlayer inventory, TileEntityFabricationChamber entity) {
 		super(entity);
 		this.entity = entity;
@@ -38,5 +34,4 @@ public class ContainerFabricationChamber extends ContainerSync {
 	public boolean canInteractWith(EntityPlayer player) {
 		return entity.isUseableByPlayer(player);
 	}
-
 }

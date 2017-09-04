@@ -4,26 +4,24 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerHealthProcessor extends ContainerSync {
 	private TileEntityHealthProcessor entity;
 	public static TransferSlotsManager<TileEntityHealthProcessor> transfer = new TransferSlotsManager() {
 		{
 			addTransferSlot(new TransferSlots<TileEntityHealthProcessor>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityHealthProcessor inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return HealthProcessorRecipes.instance().getValue(player, stack) > 0;
 				}
 			});
 			addTransferSlot(new TransferSlots<TileEntityHealthProcessor>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityHealthProcessor inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return stack.getItem() == Calculator.itemHealthModule || stack.getItem() == Calculator.itemNutritionModule;
 				}

@@ -46,14 +46,13 @@ public class ModelFabricationArm extends ModelBase {
 		Base.setTextureSize(64, 32);
 		Base.mirror = true;
 		setRotation(Base, 0F, 0F, 0F);
-
 	}
 
 	public void renderTile(Entity entity, float f, float f1, float f2, float f3, float f4, float f5, boolean lastActive, boolean isActive, int progress) {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		//if (lastActive != isActive) {
-		setRotation(Arm3, ((float)progress*0.50F)/100,0,0);
-		setRotation(Arm4, ((float)progress*0.50F)/100,0,0);
+        setRotation(Arm3, (float) progress * 0.50F / 100, 0, 0);
+        setRotation(Arm4, (float) progress * 0.50F / 100, 0, 0);
 			if (isActive) {
 				// GET PROGRESS SET ANGLES :)
 			} else {
@@ -73,5 +72,4 @@ public class ModelFabricationArm extends ModelBase {
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
-
 }

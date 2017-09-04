@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.item.tools;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -14,6 +12,8 @@ import sonar.core.api.SonarAPI;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.ItemStackHelper;
+
+import java.util.ArrayList;
 
 public class Sickle extends SonarItem {
 
@@ -37,5 +37,4 @@ public class Sickle extends SonarItem {
 
 		return EnumActionResult.PASS;
 	}
-
 }

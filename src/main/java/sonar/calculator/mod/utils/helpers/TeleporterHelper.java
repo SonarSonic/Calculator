@@ -1,7 +1,5 @@
 package sonar.calculator.mod.utils.helpers;
 
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -12,6 +10,8 @@ import sonar.calculator.mod.utils.CalculatorTeleporter;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.helpers.SonarHelper;
+
+import java.util.List;
 
 public class TeleporterHelper {
 
@@ -24,7 +24,7 @@ public class TeleporterHelper {
 
 					EntityPlayerMP entityPlayerMP = (EntityPlayerMP) entity;
 					MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-					WorldServer worldServer = server.worldServerForDimension(coords.getDimension());
+                    WorldServer worldServer = server.getWorld(coords.getDimension());
 					server.getPlayerList().transferPlayerToDimension(entityPlayerMP, tile.getCoords().getDimension(), new CalculatorTeleporter(worldServer, coords.getX() + 0.5, coords.getY() - 2, coords.getZ() + 0.5));
 					if (currentDimension == 1) {
 						((EntityPlayerMP) entity).connection.setPlayerLocation(coords.getX() + 0.5, coords.getY() - 2, coords.getZ() + 0.5, SonarHelper.getAngleFromMeta(worldServer.getBlockState(coords.getBlockPos()).getValue(SonarBlock.FACING).getIndex()), 0);
@@ -33,7 +33,6 @@ public class TeleporterHelper {
 					} else {
 						((EntityPlayerMP) entity).connection.setPlayerLocation(coords.getX() + 0.5, coords.getY() - 2, coords.getZ() + 0.5, SonarHelper.getAngleFromMeta(worldServer.getBlockState(coords.getBlockPos()).getValue(SonarBlock.FACING).getIndex()), 0);
 					}
-
 				}
 			} else {
 				((EntityPlayerMP) entity).connection.setPlayerLocation(coords.getX() + 0.5, coords.getY() - 2, coords.getZ() + 0.5, SonarHelper.getAngleFromMeta(entity.world.getBlockState(coords.getBlockPos()).getValue(SonarBlock.FACING).getIndex()), 0);
@@ -45,7 +44,7 @@ public class TeleporterHelper {
 
 	public static boolean canTeleport(TileEntityTeleporter target, TileEntityTeleporter current) {
 		if (!target.getCoords().equals(current.getCoords()) && target.canTeleportPlayer()) {
-			if ((target.password.getObject() == null || target.password.getObject().equals("") || current.linkPassword.getObject().equals(target.password.getObject()))) {
+            if (target.password.getObject() == null || target.password.getObject().equals("") || current.linkPassword.getObject().equals(target.password.getObject())) {
 				return true;
 			}
 		}

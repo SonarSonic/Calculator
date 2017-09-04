@@ -12,7 +12,6 @@ public class CalculatorThrow extends BehaviorProjectileDispense {
 
 	public CalculatorThrow(int entity) {
 		this.entity = entity;
-
 	}
 
 	@Override
@@ -29,6 +28,4 @@ public class CalculatorThrow extends BehaviorProjectileDispense {
 		}
 		return null;
 	}
-
-
 }

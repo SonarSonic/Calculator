@@ -4,8 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelChamber extends ModelBase
-{
+public class ModelChamber extends ModelBase {
   //fields
     ModelRenderer Corner1;
     ModelRenderer Corner2;
@@ -26,8 +25,7 @@ public class ModelChamber extends ModelBase
     ModelRenderer Side11;
     ModelRenderer Side12;
   
-  public ModelChamber()
-  {
+    public ModelChamber() {
     textureWidth = 64;
     textureHeight = 32;
     
@@ -141,8 +139,8 @@ public class ModelChamber extends ModelBase
       setRotation(Side12, 0F, 1.570796F, 0F);
   }
   
-  public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
+    @Override
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
     super.render(entity, f, f1, f2, f3, f4, f5);
     setRotationAngles(entity, f, f1, f2, f3, f4, f5);
     Corner1.render(f5);
@@ -165,16 +163,13 @@ public class ModelChamber extends ModelBase
     Side12.render(f5);
   }
   
-  private void setRotation(ModelRenderer model, float x, float y, float z)
-  {
+    private void setRotation(ModelRenderer model, float x, float y, float z) {
     model.rotateAngleX = x;
     model.rotateAngleY = y;
     model.rotateAngleZ = z;
   }
   
-  public void setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
+    public void setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
     super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
   }
-
 }

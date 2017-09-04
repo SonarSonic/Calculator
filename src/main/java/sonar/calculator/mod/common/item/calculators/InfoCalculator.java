@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.item.calculators;
 
-import java.util.List;
-
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -16,6 +15,8 @@ import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.IGuiItem;
 
+import java.util.List;
+
 public class InfoCalculator extends SonarItem implements IGuiItem {
 
 	public InfoCalculator() {
@@ -24,8 +25,8 @@ public class InfoCalculator extends SonarItem implements IGuiItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
+        super.addInformation(stack, world, list, par4);
 	}
 
 	@Override

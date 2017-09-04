@@ -93,6 +93,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		return 0;
 	}
 
+    @Override
 	public RecipeHelperV2 recipeHelper() {
 		if (!calcStack.isEmpty()) {
 			return ProcessType.getType(calcStack.getItem()).getRecipeHelper();
@@ -100,10 +101,12 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		return CalculatorRecipes.instance();
 	}
 
+    @Override
 	public int getProcessTime() {
 		return Math.max(1, super.getProcessTime() / 8);
 	}
 
+    @Override
 	public int requiredEnergy() {
 		return 10;
 	}
@@ -121,6 +124,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		return input;
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -128,6 +132,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -144,7 +149,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		this.slots().set(i, itemstack);
 
-		if (!(itemstack.isEmpty()) && (itemstack.getCount() > getInventoryStackLimit())) {
+        if (!itemstack.isEmpty() && itemstack.getCount() > getInventoryStackLimit()) {
 			itemstack.setCount(getInventoryStackLimit());
 		}
 	}
@@ -158,7 +163,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	public int[] getSlotsForFace(EnumFacing side) {
 		int[] outputSlot = new int[] { 5 };
 		int[] emptySlot = new int[0];
-		int size = this.getInputStackSize(calcStack);
+        int size = getInputStackSize(calcStack);
 		EnumFacing dir = EnumFacing.getFront(getBlockMetadata());
 		if (dir == null || size == 0) {
 			return emptySlot;
@@ -201,6 +206,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		return new GuiDockingStation(player.inventory, this);
 	}
 
+    @Override
 	public ItemStack[] getAdditionalStacks() {
 		if (!calcStack.isEmpty()) {
 			return new ItemStack[] { calcStack };

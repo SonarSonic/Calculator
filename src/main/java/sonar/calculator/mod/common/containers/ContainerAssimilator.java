@@ -7,13 +7,8 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
-import sonar.core.api.SonarAPI;
-import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerAssimilator extends ContainerSync {
 	private TileEntityAssimilator entity;
@@ -21,6 +16,7 @@ public class ContainerAssimilator extends ContainerSync {
 		{
 
 			addTransferSlot(new TransferSlots<TileEntityAssimilator>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityAssimilator inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return stack.getItem() instanceof IHungerStore || stack.getItem() instanceof IHealthStore;
 				}

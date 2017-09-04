@@ -1,16 +1,13 @@
 package sonar.calculator.mod.integration.jei;
 
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IDrawableAnimated;
-import mezz.jei.api.gui.IDrawableStatic;
-import mezz.jei.api.gui.IGuiItemStackGroup;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import sonar.calculator.mod.Calculator;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategoryV2;
 
@@ -26,6 +23,11 @@ public class ConductorMastCategory extends JEICategoryV2 {
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, 176, 0, 18, 8);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 100, IDrawableAnimated.StartDirection.LEFT, false);
 	}
+
+    @Override
+    public String getModName() {
+        return Calculator.name;
+    }
 
 	@Override
 	public IDrawable getBackground() {

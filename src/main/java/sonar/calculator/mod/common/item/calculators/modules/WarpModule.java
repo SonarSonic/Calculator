@@ -34,10 +34,10 @@ public class WarpModule extends ModuleBase implements IModuleClickable {
 	public void onModuleActivated(ItemStack stack, NBTTagCompound tag, World world, EntityPlayer player) {
 		if (!world.isRemote) {
 			if (!tag.hasKey("click") || !tag.getBoolean("click")) {
-				String message = "";
+                String message;
 				if (player.dimension == tag.getInteger("Dimension")) {
 					if (tag.getBoolean("Tele")) {
-						BlockPos target = new BlockPos((tag.getInteger("TeleX")), tag.getInteger("TeleY"), (tag.getInteger("TeleZ")));
+                        BlockPos target = new BlockPos(tag.getInteger("TeleX"), tag.getInteger("TeleY"), tag.getInteger("TeleZ"));
 						if (world.isAirBlock(target.offset(EnumFacing.UP)) && world.isAirBlock(target.offset(EnumFacing.UP, 2))) {
 							IBlockState state = world.getBlockState(target);
 							if (state.getBlock() instanceof IStableBlock) {
@@ -83,9 +83,7 @@ public class WarpModule extends ModuleBase implements IModuleClickable {
 					FontHelper.sendMessage(FontHelper.translate("not stable stone"), world, player);
 				}
 			}
-
 		}
 		return true;
 	}
-
 }

@@ -1,20 +1,13 @@
 package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.api.nutrition.IHealthStore;
-import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.common.recipes.AtomicCalculatorRecipes;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.inventory.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 import sonar.core.recipes.RecipeHelperV2;
 
 public class ContainerAtomicCalculator extends ContainerSonar implements ICalculatorCrafter {
@@ -45,13 +38,16 @@ public class ContainerAtomicCalculator extends ContainerSonar implements ICalcul
 		onItemCrafted();
 	}
 
-	public void removeEnergy(int remove) {}
+    @Override
+    public void removeEnergy(int remove) {
+    }
 
 	@Override
 	public void onItemCrafted() {
 		atomic.setInventorySlotContents(3, RecipeHelperV2.getItemStackFromList(AtomicCalculatorRecipes.instance().getOutputs(player, atomic.getStackInSlot(0), atomic.getStackInSlot(1), atomic.getStackInSlot(2)), 0));
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, atomic, player, slotID);
 	}
@@ -60,5 +56,4 @@ public class ContainerAtomicCalculator extends ContainerSonar implements ICalcul
 	public boolean canInteractWith(EntityPlayer player) {
 		return atomic.isUseableByPlayer(player);
 	}
-
 }

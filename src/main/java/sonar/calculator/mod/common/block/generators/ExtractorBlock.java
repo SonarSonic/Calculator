@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.generators;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,6 +18,8 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
+import java.util.List;
+
 public class ExtractorBlock extends SonarMachineBlock {
 	public int type;
 
@@ -29,6 +29,7 @@ public class ExtractorBlock extends SonarMachineBlock {
 		this.setBlockBounds(0.0625F, 0.0625F, 0.0625F, 1 - 0.0625F, 1 - 0.0625F, 1 - 0.0625F);
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -58,7 +59,6 @@ public class ExtractorBlock extends SonarMachineBlock {
 			TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(pos);
 			//generator.updateAdjacentHandlers();
 		}
-
 	}
 
 	@Override
@@ -75,15 +75,34 @@ public class ExtractorBlock extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 		CalculatorHelper.addItemLevelToolTip(stack, player, list);
+    }
 
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+        CalculatorHelper.addItemLevelToolTip(stack, world, list);
 	}
 
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
+        switch (type) {
+            case 0:
+                list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Starch Extractor") + " RF/t");
+                break;
+            case 1:
+                list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Redstone Extractor") + " RF/t");
+                break;
+            case 2:
+                list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Glowstone Extractor") + " RF/t");
+                break;
+        }
+    }
 
+    @Override
+    public void standardInfo(ItemStack stack, World world, List<String> list) {
 		switch (type) {
 		case 0:
 			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Starch Extractor") + " RF/t");

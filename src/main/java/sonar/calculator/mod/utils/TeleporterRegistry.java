@@ -1,11 +1,5 @@
 package sonar.calculator.mod.utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-
 import gnu.trove.map.hash.THashMap;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -15,16 +9,20 @@ import sonar.calculator.mod.api.machines.ITeleport;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class TeleporterRegistry {
 
-	private static Map<Integer, ITeleport> teleporters = new THashMap<Integer, ITeleport>();
+    private static Map<Integer, ITeleport> teleporters = new THashMap<>();
 
 	public static void removeAll() {
 		teleporters.clear();
 	}
 
 	public static List<ITeleport> getTeleporters() {
-		List<ITeleport> list = new ArrayList();
+        List<ITeleport> list = new ArrayList<>();
 		for (Map.Entry<Integer, ITeleport> teleport : teleporters.entrySet()) {
 			list.add(teleport.getValue());
 		}
@@ -49,7 +47,6 @@ public class TeleporterRegistry {
 			}
 		}
 		return nextID;
-
 	}
 
 	public static TileEntityTeleporter getTile(ITeleport teleport) {
@@ -57,7 +54,7 @@ public class TeleporterRegistry {
 			return null;
 		}
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-		World world = server.worldServerForDimension(teleport.teleporterID());
+        World world = server.getWorld(teleport.teleporterID());
 		if (world != null) {
 			TileEntity target = world.getTileEntity(teleport.getCoords().getBlockPos());
 			return (TileEntityTeleporter) (target instanceof TileEntityTeleporter ? target : null);
@@ -72,7 +69,7 @@ public class TeleporterRegistry {
 
 	public static List<TeleportLink> getTeleportLinks(int currentID) {
 		List<ITeleport> teleports = getTeleporters();
-		List<TeleportLink> list = new ArrayList();
+        List<TeleportLink> list = new ArrayList<>();
 		for (ITeleport teleport : teleports) {
 			if (teleport != null && teleport.teleporterID() != currentID) {
 				TileEntity tile = getTile(teleport);
@@ -83,17 +80,13 @@ public class TeleporterRegistry {
 				}
 			}
 		}
-		Collections.sort(list, new Comparator<TeleportLink>() {
-			public int compare(TeleportLink str1, TeleportLink str2) {
+        list.sort((str1, str2) -> {
 				int res = String.CASE_INSENSITIVE_ORDER.compare(str1.networkName, str2.networkName);
 				if (res == 0) {
 					res = str1.networkName.compareTo(str2.networkName);
 				}
 				return res;
-			}
 		});
 		return list;
-
 	}
-
 }

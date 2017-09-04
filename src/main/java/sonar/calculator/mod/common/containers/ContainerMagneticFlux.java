@@ -3,16 +3,11 @@ package sonar.calculator.mod.common.containers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.core.inventory.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 import sonar.core.inventory.slots.SlotList;
 
 public class ContainerMagneticFlux extends ContainerSonar {
@@ -27,7 +22,7 @@ public class ContainerMagneticFlux extends ContainerSonar {
 	public ContainerMagneticFlux(InventoryPlayer inv, TileEntityMagneticFlux flux) {
 		this.flux = flux;
 		for (int i = 0; i < 7; i++) {
-			addSlotToContainer(new SlotList(flux, i, 26 + (18 * i), 61));
+            addSlotToContainer(new SlotList(flux, i, 26 + 18 * i, 61));
 		}
 		this.addInventory(inv, 8, 84);
 	}
@@ -42,9 +37,10 @@ public class ContainerMagneticFlux extends ContainerSonar {
 		return transfer.transferStackInSlot(this, flux, player, slotID);
 	}
 
+    @Override
 	public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player) {
-		Slot targetSlot = slot < 0 ? null : (Slot) this.inventorySlots.get(slot);
-		if ((targetSlot instanceof SlotList)) {
+        Slot targetSlot = slot < 0 ? null : this.inventorySlots.get(slot);
+        if (targetSlot instanceof SlotList) {
 			if (click == ClickType.SWAP) {
 				targetSlot.putStack(null);
 			} else {

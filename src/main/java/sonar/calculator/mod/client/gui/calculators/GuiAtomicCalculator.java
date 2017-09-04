@@ -9,7 +9,6 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.core.client.gui.GuiSonar;
 import sonar.core.helpers.FontHelper;
 
-
 @SideOnly(Side.CLIENT)
 public class GuiAtomicCalculator extends GuiSonar {
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/atomiccalculator.png");

@@ -23,6 +23,7 @@ public class EnergyModule implements IModuleEnergy {
 		return "Energy Module";
 	}
 
+    @Override
 	public long receiveEnergy(ItemStack container, NBTTagCompound tag, long maxReceive, ActionType action) {
 		long energy = tag.getLong("Energy");
 		long energyReceived = Math.min(getMaxEnergyStored(container, tag) - energy, Math.min(getMaxEnergyStored(container, tag) / 10, maxReceive));
@@ -34,8 +35,9 @@ public class EnergyModule implements IModuleEnergy {
 		return energyReceived;
 	}
 
+    @Override
 	public long extractEnergy(ItemStack container, NBTTagCompound tag, long maxExtract, ActionType action) {
-		if ((!tag.hasKey("Energy"))) {
+        if (!tag.hasKey("Energy")) {
 			return 0;
 		}
 		long energy = tag.getLong("Energy");
@@ -48,12 +50,13 @@ public class EnergyModule implements IModuleEnergy {
 		return energyExtracted;
 	}
 
+    @Override
 	public long getEnergyStored(ItemStack container, NBTTagCompound tag) {
 		return tag.getLong("Energy");
 	}
 
+    @Override
 	public long getMaxEnergyStored(ItemStack container, NBTTagCompound tag) {
 		return CalculatorConfig.getInteger("Energy Module");
 	}
-
 }

@@ -20,5 +20,4 @@ public class EmptyModule implements IModule {
 	public String getClientName() {
 		return "Empty Module";
 	}
-
 }

@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.machines;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,21 +17,24 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import java.util.List;
+
 public class WeatherStation extends SonarMachineBlock {
 
 	public WeatherStation() {
 		super(SonarMaterials.machine, false, true);
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
 	
+    @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
 	
-
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (!world.isRemote && player != null) {
@@ -48,9 +49,14 @@ public class WeatherStation extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
+
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+    }
 
 	@Override
 	public boolean canPlaceBlockAt(World world, BlockPos pos) {
@@ -62,7 +68,6 @@ public class WeatherStation extends SonarMachineBlock {
 			}
 		}
 		return true;
-
 	}
 
 	@Override
@@ -86,7 +91,12 @@ public class WeatherStation extends SonarMachineBlock {
 	}
 
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
+        //list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
+    }
+
+    @Override
+    public void standardInfo(ItemStack stack, World world, List<String> list) {
 		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
 	}
 }

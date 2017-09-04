@@ -1,9 +1,5 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import java.util.Random;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -28,6 +24,8 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.recipes.DefaultSonarRecipe;
 import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.utils.IGuiTile;
+
+import java.util.Random;
 
 public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
 
@@ -65,7 +63,6 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	@Override
 	public void update() {
 		super.update();
-
 		if (this.cookTime.getObject() > 0) {
 			this.cookTime.increaseBy(1);
 		}
@@ -105,22 +102,19 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 				this.lastStations = this.getStations();
 				lightTicks.increaseBy(1);
 				if (isServer()) {
-					rfPerStrike.setObject(((((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes) * 4) * 200);
-					rfPerTick.setObject((double) ((double) rfPerStrike.getObject() / lastSpeed));
+                    rfPerStrike.setObject((strikeRF / 200 + this.lastStations * weatherStationRF / 200) * strikes * 4 * 200);
+                    rfPerTick.setObject((double) rfPerStrike.getObject() / lastSpeed);
 				}
-
 			} else {
 				lightingTicks.increaseBy(1);
 			}
-
 		}
 		if (lightTicks.getObject() > 0) {
-			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes) * 4;
+            int add = (strikeRF / 200 + this.lastStations * weatherStationRF / 200) * strikes * 4;
 			if (lightTicks.getObject() < 200) {
 				if (this.storage.getEnergyStored() + add <= this.storage.getMaxEnergyStored()) {
 					lightTicks.increaseBy(1);
 					storage.receiveEnergy(add, false);
-
 				} else {
 					lightTicks.increaseBy(1);
 					storage.setEnergyStored(this.storage.getMaxEnergyStored());
@@ -144,7 +138,6 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		if (storage.getEnergyStored() < storage.getMaxEnergyStored()) {
 			world.spawnEntity(new EntityLightningBolt(world, x, y, z, true));
 		}
-
 	}
 
 	public boolean canCook() {
@@ -177,7 +170,6 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		}
 
 		return true;
-
 	}
 
 	private void cookItem() {
@@ -196,18 +188,18 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			outputStack.grow(1);
 		}
 		inputStack.shrink(1);
-
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE) {
 			this.lastStations = nbt.getInteger("lastStations");
 			this.strikes = nbt.getInteger("strikes");
 		}
-
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE) {
@@ -267,7 +259,6 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			}
 		}
 		return 1;
-
 	}
 
 	public int getNextTime() {
@@ -276,11 +267,10 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			if (trans > 9) {
 				return 250;
 			} else {
-				return 1500 - (135 * trans);
+                return 1500 - 135 * trans;
 			}
 		}
 		return 1500;
-
 	}
 
 	public int getTransmitters() {
@@ -304,15 +294,8 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		if (slot == 0) {
-			if (stack != null && ConductorMastRecipes.instance().isValidInput(stack)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+        return slot != 0 || stack != null && ConductorMastRecipes.instance().isValidInput(stack);
 
-		return true;
 	}
 
 	@Override
@@ -350,6 +333,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		return furnaceSpeed;
 	}
 
+    @Override
 	public boolean maxRender() {
 		return true;
 	}

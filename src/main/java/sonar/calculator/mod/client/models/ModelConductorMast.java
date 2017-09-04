@@ -1,12 +1,10 @@
-
 package sonar.calculator.mod.client.models;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelConductorMast extends ModelBase
-{
+public class ModelConductorMast extends ModelBase {
   //fields
     ModelRenderer Centre_Piece;
     ModelRenderer Rod1;
@@ -37,8 +35,7 @@ public class ModelConductorMast extends ModelBase
     ModelRenderer Power2;
     ModelRenderer Power1;
   
-  public ModelConductorMast()
-  {
+    public ModelConductorMast() {
     textureWidth = 256;
     textureHeight = 128;
     
@@ -213,8 +210,7 @@ public class ModelConductorMast extends ModelBase
   }
   
   @Override
-public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
     super.render(entity, f, f1, f2, f3, f4, f5);
     setRotationAngles(f, f1, f2, f3, f4, f5, entity);
     Centre_Piece.render(f5);
@@ -247,17 +243,14 @@ public void render(Entity entity, float f, float f1, float f2, float f3, float f
    // Power1.render(f5);
   }
   
-  private void setRotation(ModelRenderer model, float x, float y, float z)
-  {
+    private void setRotation(ModelRenderer model, float x, float y, float z) {
     model.rotateAngleX = x;
     model.rotateAngleY = y;
     model.rotateAngleZ = z;
   }
   
-
   @Override
 public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) { 
-	  super.setRotationAngles(f, f1, f2, f3, f4, f5, entity); }
-  
-
+        super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+    }
 }

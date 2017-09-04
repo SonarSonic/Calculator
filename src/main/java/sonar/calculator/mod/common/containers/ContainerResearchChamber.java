@@ -4,12 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber;
-import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerResearchChamber extends ContainerSync {
 	private TileEntityResearchChamber entity;
@@ -19,6 +15,7 @@ public class ContainerResearchChamber extends ContainerSync {
 			addPlayerInventory();
 		}
 	};
+
 	public ContainerResearchChamber(EntityPlayer player, TileEntityResearchChamber entity) {
 		super(entity);
 		this.entity = entity;
@@ -34,6 +31,7 @@ public class ContainerResearchChamber extends ContainerSync {
 		}
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}

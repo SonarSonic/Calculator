@@ -1,6 +1,5 @@
 package sonar.calculator.mod.common.block.generators;
 
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -31,9 +30,10 @@ public class CalculatorPlug extends SonarMachineBlock {
 	public CalculatorPlug() {
 		super(SonarMaterials.machine, false, true);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, Boolean.valueOf(true)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, Boolean.TRUE));
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -64,21 +64,24 @@ public class CalculatorPlug extends SonarMachineBlock {
 		return new TileEntityCalculatorPlug();
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public IBlockState getStateForEntityRender(IBlockState state) {
 		return this.getDefaultState().withProperty(ACTIVE, true);
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(ACTIVE, meta==1 ? true : false);
-
+        return this.getDefaultState().withProperty(ACTIVE, meta == 1);
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(ACTIVE) ? 1 : 0;
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
+        return new BlockStateContainer(this, ACTIVE);
 	}
 }

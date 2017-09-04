@@ -5,8 +5,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-/**implemented on modules which update every player tick*/
+/**
+ * implemented on modules which update every player tick
+ */
 public interface IModuleUpdate extends IModule {
 
-	public void onUpdate(ItemStack stack, NBTTagCompound tag, World world, Entity entity);
+    void onUpdate(ItemStack stack, NBTTagCompound tag, World world, Entity entity);
 }

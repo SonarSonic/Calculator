@@ -1,8 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -21,6 +18,8 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncUUID;
 import sonar.core.utils.IGuiTile;
 
+import java.util.ArrayList;
+
 public class TileEntityResearchChamber extends TileEntityInventory implements IGuiTile {
 
 	public static final int researchSpeed = 100;
@@ -32,11 +31,12 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 		syncList.addParts(ticks, playerUUID, inv);
 	}
 
+    @Override
 	public void update() {
 		super.update();
 		if (slots().get(0) == null) {
 			ticks.setObject(0);
-			return;
+            //return;
 		} else {
 			if (ticks.getObject() == 0)
 				ticks.setObject(1);
@@ -64,6 +64,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 		}
 	}
 
+    @Override
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1)
 			markBlockForUpdate();
@@ -77,6 +78,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 		this.world.addBlockEvent(pos, blockType, 1, 0);
 	}
 
+    @Override
 	public void openInventory(EntityPlayer player) {
 		super.openInventory(player);
 		if (isServer())
@@ -92,5 +94,4 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiResearchChamber(player, this);
 	}
-
 }

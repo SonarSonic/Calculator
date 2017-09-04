@@ -1,12 +1,10 @@
 package sonar.calculator.mod.client.renderers;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.client.models.ModelWeatherStationBase;
 import sonar.calculator.mod.client.models.ModelWeatherStationDish;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
@@ -24,7 +22,8 @@ public class RenderWeatherStation extends TileEntitySpecialRenderer<TileEntityWe
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntityWeatherStation te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileEntityWeatherStation te, double x, double y, double z, float partialTicks, int destroyStage, float f) {
+        //public void renderTileEntityAt(TileEntityWeatherStation te, double x, double y, double z, float partialTicks, int destroyStage) {
 		int i;
 
 		if (te.getWorld() == null) {
@@ -32,7 +31,7 @@ public class RenderWeatherStation extends TileEntitySpecialRenderer<TileEntityWe
 		} else {
 			Block block = te.getBlockType();
 			i = te.getBlockMetadata();
-			if ((block != null) && (i == 0)) {
+            if (block != null && i == 0) {
 				i = te.getBlockMetadata();
 			}
 		}
@@ -60,22 +59,21 @@ public class RenderWeatherStation extends TileEntitySpecialRenderer<TileEntityWe
 					j = 270;
 				}
 				GL11.glRotatef(j, 0.0F, 1.0F, 0.0F);
-				this.base.renderBase((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-				this.base.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+                this.base.renderBase(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+                this.base.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 				GL11.glTranslatef(0.0F, -0.9F, -0.84F);
 				GL11.glRotated(45, 1.0F, 0.0F, 0.0F);
 				Minecraft.getMinecraft().renderEngine.bindTexture(dishTex);
-				this.dish.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+                this.dish.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 			} else {
-				this.base.renderBase((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+                this.base.renderBase(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 				GL11.glRotated(te.angle, 0.0F, 1.0F, 0.0F);
-				this.base.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+                this.base.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 				GL11.glTranslatef(0.0F, -0.9F, -0.84F);
 				GL11.glRotated(45, 1.0F, 0.0F, 0.0F);
 				Minecraft.getMinecraft().renderEngine.bindTexture(dishTex);
-				this.dish.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+                this.dish.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 			}
-
 		} else {
 			int j = 0;
 			if (i == 3) {
@@ -91,17 +89,15 @@ public class RenderWeatherStation extends TileEntitySpecialRenderer<TileEntityWe
 				j = 270;
 			}
 			GL11.glRotatef(j, 0.0F, 1.0F, 0.0F);
-			this.base.renderBase((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-			this.base.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+            this.base.renderBase(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+            this.base.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 			GL11.glTranslatef(0.0F, -0.9F, -0.84F);
 			GL11.glRotatef(45, 1.0F, 0.0F, 0.0F);
 			Minecraft.getMinecraft().renderEngine.bindTexture(dishTex);
-			this.dish.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-
+            this.dish.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		}
 
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}
-
 }

@@ -1,11 +1,10 @@
 package sonar.calculator.mod.client.gui.machines;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerStorageChamber;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.core.helpers.FontHelper;

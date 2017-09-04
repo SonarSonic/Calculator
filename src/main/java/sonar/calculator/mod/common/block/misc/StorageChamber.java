@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.misc;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,6 +14,8 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
+
+import java.util.List;
 
 public class StorageChamber extends SonarMachineBlock {
 
@@ -46,7 +46,7 @@ public class StorageChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		switch (stack.getTagCompound().getInteger("type")) {
 		case 1:
 			list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.analysed"));
@@ -66,14 +66,44 @@ public class StorageChamber extends SonarMachineBlock {
 
 		int[] stored = stack.getTagCompound().getIntArray("stored");
 		int total = 0;
-		for (int i = 0; i < stored.length; i++) {
-			total += stored[i];
+        for (int aStored : stored) {
+            total += aStored;
 		}
 		if (total != 0) {
 			list.add(FontHelper.translate("circuit.stored") + ": " + total);
 		}
 	}
 
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+        switch (stack.getTagCompound().getInteger("type")) {
+            case 1:
+                list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.analysed"));
+                break;
+            case 2:
+                list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.stable"));
+                break;
+
+            case 3:
+                list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.damaged"));
+                break;
+
+            case 4:
+                list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.dirty"));
+                break;
+        }
+
+        int[] stored = stack.getTagCompound().getIntArray("stored");
+        int total = 0;
+        for (int aStored : stored) {
+            total += aStored;
+        }
+        if (total != 0) {
+            list.add(FontHelper.translate("circuit.stored") + ": " + total);
+        }
+    }
+
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}

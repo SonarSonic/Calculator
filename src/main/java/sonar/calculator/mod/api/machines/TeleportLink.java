@@ -12,11 +12,13 @@ public class TeleportLink {
 		this.networkName = networkName;
 		this.dimension = dimension;
 	}
+
 	public static void writeToBuf(ByteBuf buf, TeleportLink network){
 		buf.writeInt(network.networkID);
 		buf.writeInt(network.dimension);
 		ByteBufUtils.writeUTF8String(buf, network.networkName);
 	}
+
 	public static TeleportLink readFromBuf(ByteBuf buf){
 		int bufNetworkID = buf.readInt();	
 		int bufType = buf.readInt();	
@@ -24,5 +26,4 @@ public class TeleportLink {
 		
 		return new TeleportLink(bufNetworkID, bufNetwork, bufType);
 	}
-	
 }
