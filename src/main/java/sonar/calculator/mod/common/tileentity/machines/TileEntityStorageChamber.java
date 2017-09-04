@@ -27,7 +27,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 		super.inv = new SonarLargeInventory(14, 1024) {
 			//needs fixing I think
 			public boolean isItemValidForPos(int slot, ItemStack item) {
-				if (item != null && item.getItemDamage() == slot) {
+				if (item != null && item.getMetadata() == slot) {
 					CircuitType stackType = getCircuitType(item);
 					if (stackType == null) {
 						return false;
