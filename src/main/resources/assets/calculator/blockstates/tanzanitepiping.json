@@ -1,0 +1,101 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model":"calculator:PipingCentre",
+        "textures": {
+            "0":"calculator:model/tanzanite_piping",
+            "particle":"calculator:blocks/tanzanite_block"
+        },
+        "transform":"forge:default-block"
+     },
+    "variants": {
+    "inventory": [
+      {
+                 "submodel": {
+          "down": {
+            "model": "calculator:PipingConnection"
+          },
+          "up": {
+            "model": "calculator:PipingConnection",
+            "x": 180
+          }
+                  }
+      }
+    ],
+         "north":{
+            "true":{
+                 "submodel": {
+          "north": {
+            "model": "calculator:PipingConnection",
+            "x": 90,
+            "y": 180
+          }
+                }
+            },
+            "false":{
+            }
+        },
+        "east":{
+            "true":{
+                 "submodel": {
+          "east": {
+            "model": "calculator:PipingConnection",
+            "x": 90,
+            "y": 270
+          }
+                }
+            },
+            "false":{
+            }
+        },
+        "south":{
+            "true":{
+                 "submodel": {
+          "south": {
+            "model": "calculator:PipingConnection",
+            "x": 90,
+            "y": 0
+          }
+                }
+            },
+            "false":{
+            }
+        },
+        "west":{
+            "true":{
+                 "submodel": {
+          "west": {
+            "model": "calculator:PipingConnection",
+            "x": 90,
+            "y": 90
+          }
+                }
+            },
+            "false":{
+            }
+        },
+        "down":{
+            "true":{
+                 "submodel": {
+          "down": {
+            "model": "calculator:PipingConnection"
+          }
+                }
+            },
+            "false":{
+            }
+        },
+        "up":{
+            "true":{
+                 "submodel": {
+          "up": {
+            "model": "calculator:PipingConnection",
+            "x": 180
+          }
+                }
+            },
+            "false":{
+            }
+        }
+    }
+}

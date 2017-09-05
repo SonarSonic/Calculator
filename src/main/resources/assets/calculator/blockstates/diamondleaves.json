@@ -1,0 +1,32 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "all":"calculator:blocks/wood/leaves_diamond_empty"
+        },
+        "model":"leaves",        
+        "transform":"forge:default-block",
+        "uvlock": true
+    },
+    "variants": {  
+    "inventory": [
+      {}
+    ],
+        "growth":{
+	        "fresh":{
+	        },
+	        "growing":{
+	        },
+	        "ready":{
+	            "textures": {
+	                "all":"calculator:blocks/wood/leaves_diamond"
+	            }
+	        },
+	        "matured":{            
+	            "textures": {
+	                "all":"calculator:blocks/wood/leaves_diamond"
+	            }
+	        }
+        }
+    }
+}

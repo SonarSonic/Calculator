@@ -1,0 +1,57 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+    "textures": {
+      "crop": "calculator:blocks/crops/FiddledewPlant1"
+    },
+        "model":"crop",
+        "transform":"forge:default-block"
+     },
+    "variants": {
+    "inventory": [
+      {}
+    ],
+        "age":{
+      0: {
+        "textures": {
+          "crop": "calculator:blocks/crops/FiddledewPlant1"
+        }
+      },
+      1: {
+        "textures": {
+          "crop": "calculator:blocks/crops/FiddledewPlant1"
+        }
+      },
+      2: {
+        "textures": {
+          "crop": "calculator:blocks/crops/FiddledewPlant2"
+        }
+      },
+      3: {
+        "textures": {
+          "crop": "calculator:blocks/crops/FiddledewPlant2"
+        }
+      },
+      4: {
+        "textures": {
+          "crop": "calculator:blocks/crops/FiddledewPlant3"
+        }
+      },
+      5: {
+        "textures": {
+          "crop": "calculator:blocks/crops/FiddledewPlant3"
+        }
+      },
+      6: {
+        "textures": {
+          "crop": "calculator:blocks/crops/FiddledewPlant4"
+        }
+      },
+      7: {
+        "textures": {
+          "crop": "calculator:blocks/crops/FiddledewPlant4"
+        }
+      }
+        }
+    }
+}
