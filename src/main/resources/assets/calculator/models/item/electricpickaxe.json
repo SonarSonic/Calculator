@@ -1,0 +1,9 @@
+{
+    "parent":"calculator:item/SonarPickaxe",
+    "textures": {
+        "particle":"calculator:model/tools/electric_diamond_0",
+        "0":"calculator:model/tools/electric_diamond_0",
+        "1":"calculator:model/tools/electric_diamond_1",
+        "2":"calculator:model/tools/electric_diamond_2"
+    }
+}

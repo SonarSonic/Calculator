@@ -1,0 +1,150 @@
+{
+    "textures": {
+        "black":"calculator:model/tools/iron_2",
+        "light":"calculator:model/tools/iron_1",
+        "mid":"calculator:model/tools/iron_0"
+    },
+    "display": {
+        "thirdperson_righthand": {        
+            "rotation": [ 0, -90, 0 ],
+            "translation": [ 0, 1, 0 ],
+            "scale": [ 1.0, 1.0, 1.0 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 0, -90, -15 ],
+            "translation": [ 0, 4, 1 ],
+            "scale": [ 0.8, 0.8, 0.8 ]
+        },
+        "gui": {
+            "scale": [ 1, 1, 1 ],
+            "rotation": [ 0, -30, 40 ],
+            "translation": [ 1, 0, 0 ]
+        },
+        "head":{            
+            "scale": [ 2.0, 2.0, 2.0 ]
+        }
+    }, 
+    "elements": [
+        {
+            "name":"Handle1",
+            "from": [ 7.0, 0.0, 7.0 ], 
+            "to": [ 9.0, 2.0, 9.0 ], 
+            "faces": {
+                "north": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "east": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "south": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "west": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "up": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "down": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] }
+            }
+        },
+        {
+            "name":"Handle2",
+            "from": [ 7.5, 2.0, 7.5 ], 
+            "to": [ 8.5, 7.0, 8.5 ], 
+            "faces": {
+                "north": { "texture":"#mid", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "east": { "texture":"#mid", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "south": { "texture":"#mid", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "west": { "texture":"#mid", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "up": { "texture":"#mid", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "down": { "texture":"#mid", "uv": [ 0.0, 0.0, 1.0, 1.0 ] }
+            }
+        },
+        {
+            "name":"Handle3",
+            "from": [ 7.0, 7.0, 7.0 ], 
+            "to": [ 9.0, 9.0, 9.0 ], 
+            "faces": {
+                "north": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "east": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "south": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "west": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "up": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "down": { "texture":"#black", "uv": [ 0.0, 0.0, 2.0, 2.0 ] }
+            }
+        },
+        {
+            "name":"Sickle1",
+            "from": [ 7.5, 8.5, 7.5 ], 
+            "to": [ 8.5, 11.5, 8.5 ], 
+            "rotation": { "origin": [ 8.0, 8.0, 8.0 ], "axis":"z", "angle": -45.0 },
+            "faces": {
+                "north": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 3.0 ] },
+                "east": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 3.0 ] },
+                "south": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 3.0 ] },
+                "west": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 3.0 ] },
+                "up": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "down": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] }
+            }
+        },
+        {
+            "name":"Sickle2",
+            "from": [ 9.8, 10.0, 7.5 ], 
+            "to": [ 10.8, 13.0, 8.5 ], 
+            "faces": {
+                "north": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 3.0 ] },
+                "east": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 3.0 ] },
+                "south": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 3.0 ] },
+                "west": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 3.0 ] },
+                "up": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "down": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] }
+            }
+        },
+        {
+            "name":"Sickle3",
+            "from": [ 6.6, 12.8, 7.5 ], 
+            "to": [ 8.6, 13.8, 8.5 ], 
+            "rotation": { "origin": [ 8.0, 8.0, 8.0 ], "axis":"z", "angle": -22.5 },
+            "faces": {
+                "north": { "texture":"#light", "uv": [ 0.0, 0.0, 2.0, 1.0 ] },
+                "east": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "south": { "texture":"#light", "uv": [ 0.0, 0.0, 2.0, 1.0 ] },
+                "west": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "up": { "texture":"#light", "uv": [ 0.0, 0.0, 2.0, 1.0 ] },
+                "down": { "texture":"#light", "uv": [ 0.0, 0.0, 2.0, 1.0 ] }
+            }
+        },
+        {
+            "name":"Sickle4",
+            "from": [ 7.0, 12.9, 7.5 ], 
+            "to": [ 9.0, 13.9, 8.5 ], 
+            "faces": {
+                "north": { "texture":"#light", "uv": [ 0.0, 0.0, 2.0, 1.0 ] },
+                "east": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "south": { "texture":"#light", "uv": [ 0.0, 0.0, 2.0, 1.0 ] },
+                "west": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "up": { "texture":"#light", "uv": [ 0.0, 0.0, 2.0, 1.0 ] },
+                "down": { "texture":"#light", "uv": [ 0.0, 0.0, 2.0, 1.0 ] }
+            }
+        },
+        {
+            "name":"Sickle5",
+            "from": [ 8.4, 12.8, 7.5 ], 
+            "to": [ 9.4, 13.8, 8.5 ], 
+            "rotation": { "origin": [ 8.0, 8.0, 8.0 ], "axis":"z", "angle": 22.5 },
+            "faces": {
+                "north": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "east": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "south": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "west": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "up": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "down": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] }
+            }
+        },
+        {
+            "name":"Sickle6",
+            "from": [ 9.6, 12.2, 7.5 ], 
+            "to": [ 10.6, 13.2, 8.5 ], 
+            "rotation": { "origin": [ 8.0, 8.0, 8.0 ], "axis":"z", "angle": 45.0 },
+            "faces": {
+                "north": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "east": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "south": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "west": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "up": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
+                "down": { "texture":"#light", "uv": [ 0.0, 0.0, 1.0, 1.0 ] }
+            }
+        }
+    ]
+}
