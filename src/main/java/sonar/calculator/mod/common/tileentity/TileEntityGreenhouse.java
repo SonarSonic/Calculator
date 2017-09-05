@@ -173,8 +173,9 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				StoredItemStack storedstack = new StoredItemStack(stack.copy());
 				for (TileEntity tile : Arrays.asList(this, this.getWorld().getTileEntity(this.pos.offset(forward.getOpposite())))) {
 					StoredItemStack returned = SonarAPI.getItemHelper().addItems(tile, storedstack, isCrops ? EnumFacing.getFront(0) : EnumFacing.UP, ActionType.PERFORM, null);
-					if (returned != null)
+					if (returned != null) {
 						storedstack.stored -= returned.getStackSize();
+					}
 					if (!isCrops) {
 						break;
 					}
@@ -184,9 +185,9 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 					getWorld().spawnEntityInWorld(drop);
 				}
 
-				if (isCrops && this.type == 3)
+				if (isCrops && this.type == 3) {
 					this.plantsHarvested++;
-
+				}
 			}
 		}
 	}
@@ -200,72 +201,78 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			Block block = oldState.getBlock();
 
 			if (!block.isAir(oldState, getWorld(), pos) && !block.isReplaceable(getWorld(), pos)) {
-			    // can't plant here!
-                continue;
-            }
+			    	// can't plant here!
+                		continue;
+            		}
 
-            ItemStack seeds = getAvailableSeedStack();
-            IPlanter planter = getPlanter(seeds);
-
-            if (seeds != null && planter != null) {
-                IBlockState state = planter.getPlant(seeds, getWorld(), pos);
-                plantCrop(pos, state, seeds);
-            }
+            		ItemStack seeds = getAvailableSeedStack();
+			
+			if (seeds != null) {
+				IPlanter planter = getPlanter(seeds);
+            			if (planter != null) {
+                			IBlockState state = planter.getPlant(seeds, getWorld(), pos);
+               				plantCrop(pos, state, seeds);
+				}
+            		}
 		}
 	}
 
 	private ItemStack getAvailableSeedStack() {
-        for (ItemStack stack : getCropStacks()) {
-            if (stack != null && stack.stackSize > 0) {
-                return stack;
-            }
-        }
-        return null;
-    }
+        	for (ItemStack stack : getCropStacks()) {
+            		if (stack != null && stack.stackSize > 0) {
+                		return stack;
+            		}
+        	}
+        	return null;
+    	}
 
 	private IPlanter getPlanter(ItemStack stack) {
-        for (IPlanter planter : SonarCore.planters.getObjects()) {
-            if (planter.canTierPlant(stack, type)) {
-                return planter;
-            }
-        }
-        return null;
-    }
+		if (stack = null) {
+			return null;	
+		}
+		
+        	for (IPlanter planter : SonarCore.planters.getObjects()) {
+            		if (planter.canTierPlant(stack, type)) {
+                		return planter;
+            		}
+       		}
+        	return null;
+    	}
 
 	public void plantCrop(BlockPos pos, IBlockState state, ItemStack stack) {
-	    if (state == null) {
-	        return;
-        }
+		if (state == null) {
+	    		return;
+        	}
 
-        this.storage.modifyEnergyStored(-plantRF);
-        stack.stackSize--;
+        	this.storage.modifyEnergyStored(-plantRF);
+       		stack.stackSize--;
 
-        if (stack.stackSize == 0) {
-            removeStack(stack);
-        }
+        	if (stack.stackSize == 0) {
+            		removeStack(stack);
+       		}
 
-        getWorld().setBlockState(pos, state, 3);
-    }
+       		getWorld().setBlockState(pos, state, 3);
+    	}
 
 	private void removeStack(ItemStack stack) {
-        ItemStack[] slotInventories = slots();
-	    for (Integer i = 0; i < slots().length; i++) {
-	        if (slotInventories[i] == stack) {
-                slotInventories[i] = null;
-            }
-        }
-    }
+        	ItemStack[] slotInventories = slots();
+	    	for (Integer i = 0; i < slots().length; i++) {
+	        	if (slotInventories[i] == stack) {
+                		slotInventories[i] = null;
+            		}
+        	}
+    	}
 
-    private int getSlotOffset() {
-        switch (type) {
-            case 2:
-                return 8;
-            case 1:
-                return 5;
-            default:
-                return 1;
-        }
-    }
+	private int getSlotOffset() {
+        	switch (type) {
+            		case 2:
+                		return 8;
+            		case 1:
+                		return 5;
+            		default:
+                		return 1;
+        	}
+    	}
 
 	public List<ItemStack> getCropStacks() {
 		List<ItemStack> stacks = Lists.newArrayList();
@@ -275,7 +282,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		for (int j = 0; j <  9; j++) {
 		    ItemStack stack = seedSlots[j + offset];
 			if (stack != null && isSeed(stack)) {
-                stacks.add(stack);
+                		stacks.add(stack);
 			}
 		}
 		return stacks;
