@@ -8,13 +8,10 @@
          }  
     },
     "variants": { 
-    "inventory": [
-      {
+        "inventory": [{            
             "textures": {
               "layer0":"calculator:items/item_transmitter"
-        }
-      }
-    ],
+            }}],
         "facing":{  
             "north":{},
             "south":{},

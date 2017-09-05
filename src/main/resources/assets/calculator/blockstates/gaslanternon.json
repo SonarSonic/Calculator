@@ -8,9 +8,7 @@
         "transform":"forge:default-block"
     },
     "variants": {
-    "inventory": [
-      {}
-    ],
+        "inventory": [{}], 
         "dir":{            
             "north":{  
                 "model":"calculator:Lantern_Side",   
@@ -28,8 +26,10 @@
                 "y":180 
             },
             "up":{
+                
             },
             "down":{
+                
             }
         }      
     }

@@ -10,9 +10,7 @@
         "transform":"forge:default-block"
      },
     "variants": {
-    "inventory": [
-      {}
-    ],
+        "inventory": [{}], 
         "facing":{  
             "north":{},
             "south":{},

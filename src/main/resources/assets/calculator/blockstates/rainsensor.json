@@ -10,9 +10,7 @@
         "transform":"forge:default-block"
      },
     "variants": {
-    "inventory": [
-      {}
-    ],
+        "inventory": [{}],
         "active":{
             "true":{  
                 "textures": {             
@@ -20,6 +18,7 @@
                 }
             },
             "false":{
+                
             }
         }
     }

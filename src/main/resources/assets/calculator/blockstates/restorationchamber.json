@@ -9,16 +9,14 @@
         "transform":"forge:default-block"
     },
      "variants": { 
-    "inventory": [
-      {
+        "inventory": [{            
             "textures": {
 	            "particle":"calculator:model/black_chamber",          
 	            "0":"calculator:model/black_chamber",
 	            "1":"calculator:model/black_chamber_name"
 	        },
 	        "model":"calculator:Chamber_Scanner"
-      }
-    ],
+        }], 
         "facing":{  
             "north":{},
             "south":{

@@ -1,18 +1,12 @@
 {
     "forge_marker": 1,
     "defaults": {
-    "textures": {
-      "all": "calculator:blocks/wood/planks_tanzanite"
-    },
+        "textures": {"all":"calculator:blocks/wood/planks_tanzanite"},
         "model":"cube_all",
         "transform":"forge:default-block"
      },
     "variants": {
-    "normal": [
-      {}
-    ],
-    "inventory": [
-      {}
-    ]
+        "normal": [{}],
+        "inventory": [{}]
     }
 }

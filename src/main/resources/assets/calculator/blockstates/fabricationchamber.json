@@ -15,11 +15,9 @@
         "transform":"forge:default-block"
     },
     "variants": { 
-    "inventory": [
-      {
+        "inventory": [{            
             "model":"calculator:FabricationChamber"
-      }
-    ],
+        }], 
         "facing":{  
             "north":{},
             "south":{

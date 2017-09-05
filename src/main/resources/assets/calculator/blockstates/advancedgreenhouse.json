@@ -1,35 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "textures": {
-      "particle": "calculator:blocks/advanced_greenhouse_front",
-      "north": "calculator:blocks/advanced_greenhouse_front",
-      "east": "calculator:blocks/greenhouse_side",
-      "south": "calculator:blocks/greenhouse_side",
-      "west": "calculator:blocks/greenhouse_side",
-      "up": "calculator:blocks/greenhouse_side",
-      "down": "calculator:blocks/greenhouse_side"
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {            
+	        "particle":"calculator:blocks/advanced_greenhouse_front",          
+	        "north":"calculator:blocks/advanced_greenhouse_front",             
+	        "east":"calculator:blocks/greenhouse_side",            
+	        "south":"calculator:blocks/greenhouse_side",               
+	        "west":"calculator:blocks/greenhouse_side",
+	        "up":"calculator:blocks/greenhouse_side",  
+	        "down":"calculator:blocks/greenhouse_side"   
+        },
+        "model":"calculator:sonarmachine",        
+        "transform":"forge:default-block",
+        "uvlock": true
     },
-    "model": "calculator:sonarmachine",
-    "transform": "forge:default-block",
-    "uvlock": true
-  },
-  "variants": {
-    "inventory": [
-      {}
-    ],
-    "facing": {
-      "north": {
-      },
-      "south": {
-        "y": 180
-      },
-      "west": {
-        "y": 270
-      },
-      "east": {
-        "y": 90
-      }
+    "variants": {  
+        "inventory": [{}],  
+        "facing": {
+            "north":{                
+            
+            },
+            "south":{    
+                 "y": 180
+            }, 
+            "west":{      
+                 "y": 270
+            },
+            "east":{            
+                 "y": 90
+            }
+        }
     }
-  }
 }

@@ -8,20 +8,21 @@
         "uvlock": true
     },
     "variants": {  
-    "inventory": [
-      {
+        "inventory": [{   
             "textures": {
                 "layer0":"calculator:blocks/wood/sapling_pear"
             },        
             "model":"builtin/generated",             
             "transform":"forge:default-item"        
-      }
-    ],
+        }],
         "stage":{
             0:{
+                
             },
             1:{
+                
             }
         }            
+        
     }
 }

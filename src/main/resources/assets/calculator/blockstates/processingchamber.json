@@ -9,11 +9,9 @@
         "transform":"forge:default-block"
     },
      "variants": { 
-    "inventory": [
-      {
+        "inventory": [{            
 	        "model":"calculator:Chamber_Scanner"
-      }
-    ],
+        }], 
         "facing":{  
             "north":{},
             "south":{

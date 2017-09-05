@@ -8,13 +8,10 @@
          }  
     },
     "variants": { 
-    "inventory": [
-      {
+        "inventory": [{            
             "textures": {
               "layer0":"calculator:items/docking_station_item"
-        }
-      }
-    ],
+            }}],
         "facing":{  
             "north":{},
             "south":{},

@@ -9,92 +9,70 @@
         "transform":"forge:default-block"
      },
     "variants": {
-    "inventory": [
-      {
+        "inventory": [{            
                  "submodel": {
-          "down": {
-            "model": "calculator:PipingConnection"
-          },
-          "up": {
-            "model": "calculator:PipingConnection",
-            "x": 180
-          }
+                    "down": { "model": "calculator:PipingConnection"},                    
+                    "up": { "model": "calculator:PipingConnection", "x": 180}
                   }
-      }
-    ],
+                }],
          "north":{
             "true":{
                  "submodel": {
-          "north": {
-            "model": "calculator:PipingConnection",
-            "x": 90,
-            "y": 180
-          }
+                    "north": { "model": "calculator:PipingConnection", "x": 90, "y": 180 }
                 }
             },
             "false":{
+                
             }
         },
         "east":{
             "true":{
                  "submodel": {
-          "east": {
-            "model": "calculator:PipingConnection",
-            "x": 90,
-            "y": 270
-          }
+                    "east": { "model": "calculator:PipingConnection", "x": 90, "y": 270 }
                 }
             },
             "false":{
+                
             }
         },
         "south":{
             "true":{
                  "submodel": {
-          "south": {
-            "model": "calculator:PipingConnection",
-            "x": 90,
-            "y": 0
-          }
+                    "south": { "model": "calculator:PipingConnection", "x": 90, "y": 0 }
                 }
             },
             "false":{
+                
             }
         },
         "west":{
             "true":{
                  "submodel": {
-          "west": {
-            "model": "calculator:PipingConnection",
-            "x": 90,
-            "y": 90
-          }
+                    "west": { "model": "calculator:PipingConnection", "x": 90, "y": 90 }
                 }
             },
             "false":{
+                
             }
         },
         "down":{
             "true":{
                  "submodel": {
-          "down": {
-            "model": "calculator:PipingConnection"
-          }
+                    "down": { "model": "calculator:PipingConnection"}
                 }
             },
             "false":{
+                
             }
         },
         "up":{
             "true":{
                  "submodel": {
-          "up": {
-            "model": "calculator:PipingConnection",
-            "x": 180
-          }
+                    "up": { "model": "calculator:PipingConnection", "x": 180}
                 }
             },
             "false":{
+                
             }
         }
     }

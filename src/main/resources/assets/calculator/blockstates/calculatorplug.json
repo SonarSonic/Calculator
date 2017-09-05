@@ -10,15 +10,13 @@
         "transform":"forge:default-block"
     },
     "variants": {
-    "inventory": [
-      {
+        "inventory": [{
             "textures": {
                 "particle":"calculator:model/calculator_plug_base_on",
                 "0":"calculator:model/calculator_plug_base_on",
                 "1":"calculator:model/calculator_plug_on"                    
                 }
-      }
-    ],
+                }], 
         "active":{
             "true":{
                 "textures": {
@@ -28,6 +26,7 @@
                 }
             },
             "false":{
+                
             }
         }
     }

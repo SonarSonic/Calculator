@@ -9,13 +9,13 @@
         "uvlock": true
     },
     "variants": {  
-    "inventory": [
-      {}
-    ],
+        "inventory": [{}],
         "growth":{
 	        "fresh":{
+	            
 	        },
 	        "growing":{
+	            
 	        },
 	        "ready":{
 	            "textures": {

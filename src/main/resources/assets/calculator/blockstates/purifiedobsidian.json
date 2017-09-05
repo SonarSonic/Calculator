@@ -14,9 +14,7 @@
         "transform":"forge:default-block"
     },
     "variants": {        
-    "inventory": [
-      {}
-    ],
+        "inventory": [{}], 
         "down=false,east=false,north=false,south=false,up=false,west=false": {             
             "model":"cube_all"
         },             
@@ -38,6 +36,7 @@
                 "west":"calculator:blocks/connected/purifiedobsidian_1"
             }
         },     
+        
         "down=false,east=false,north=true,south=false,up=false,west=false": {    
             "model":"cube_all",
             "textures":{                                
@@ -47,6 +46,7 @@
 	            "down":"calculator:blocks/connected/purifiedobsidian_1" 
             }
         },
+        
         "down=false,east=false,north=false,south=true,up=false,west=false": {    
             "model":"cube_all",
             "textures":{                               
@@ -74,6 +74,7 @@
                 "down":"calculator:blocks/connected/purifiedobsidian_6" 
             }
         },
+
         "down=false,east=true,north=false,south=false,up=true,west=false": {    
             "model":"cube_all",
             "textures":{                               
@@ -257,6 +258,7 @@
                 "west":"calculator:blocks/connected/purifiedobsidian_8"  
             }
          },
+
         "down=false,east=true,north=false,south=false,up=true,west=true": {   
             "model":"cube_all",
             "textures":{                               
@@ -345,6 +347,7 @@
                 "up":"calculator:blocks/connected/purifiedobsidian_9" 
             }
         },
+
         "down=true,east=false,north=false,south=true,up=false,west=true": {    
             "model":"cube_all",
             "textures":{                                           
@@ -390,6 +393,7 @@
                 "west":"calculator:blocks/connected/purifiedobsidian_15" 
             }
         },
+
         "down=true,east=false,north=true,south=false,up=true,west=true": {   
             "model":"cube_all",
             "textures":{                               
@@ -474,6 +478,7 @@
                 "up":"calculator:blocks/connected/purifiedobsidian_13"
             }
          },
+
         "down=true,east=true,north=true,south=true,up=false,west=true": {    
             "model":"cube_all",
             "textures":{                               
@@ -510,8 +515,9 @@
                 "down":"calculator:blocks/connected/purifiedobsidian_15" 
             } 
         },
+
         "down=true,east=true,north=true,south=true,up=true,west=true": {    
-      "model": "cube_all"
+            "model":"cube_all"}
     }
-    }
+
 }
