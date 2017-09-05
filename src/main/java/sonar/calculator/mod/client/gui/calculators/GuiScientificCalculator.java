@@ -1,13 +1,12 @@
 package sonar.calculator.mod.client.gui.calculators;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerScientificCalculator;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.helpers.FontHelper;

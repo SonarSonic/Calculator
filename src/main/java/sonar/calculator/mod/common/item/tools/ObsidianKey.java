@@ -26,7 +26,7 @@ public class ObsidianKey extends SonarItem {
 			return EnumActionResult.PASS;
 		}
 		Block block = world.getBlockState(pos).getBlock();
-		if (block == Blocks.OBSIDIAN || (block instanceof IObsidianDrop && ((IObsidianDrop) block).canKeyDrop(world, pos))) {
+        if (block == Blocks.OBSIDIAN || block instanceof IObsidianDrop && ((IObsidianDrop) block).canKeyDrop(world, pos)) {
 			block.dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
 			world.setBlockToAir(pos);
 			stack.damageItem(1, player);

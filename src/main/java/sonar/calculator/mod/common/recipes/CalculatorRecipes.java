@@ -1,8 +1,5 @@
 package sonar.calculator.mod.common.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -11,11 +8,14 @@ import sonar.core.SonarCore;
 import sonar.core.recipes.DefinedRecipeHelper;
 import sonar.core.recipes.ISonarRecipeObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 
 	private static final CalculatorRecipes recipes = new CalculatorRecipes();
 
-	public static final CalculatorRecipes instance() {
+    public static CalculatorRecipes instance() {
 		return recipes;
 	}
 
@@ -97,7 +97,7 @@ public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 		type = ResearchRecipeType.DIRT;
 		addRecipe(new ItemStack(Blocks.DIRT, 1), Calculator.soil, type);
 		addRecipe(new ItemStack(Blocks.DIRT, 1), Blocks.GRAVEL, "sand", type);
-		addRecipe(new ItemStack(Blocks.DIRT, 1), "sand", "sand", ResearchRecipeType.DIRT);
+        addRecipe(new ItemStack(Blocks.DIRT, 1), "sand", "sand", type);
 		addRecipe(new ItemStack(Blocks.DIRT, 1, 2), new ItemStack(Blocks.GRASS, 1), Blocks.DIRT, type); // addRecipe(new ItemStack(Blocks.DIRT, 1, 2), new ItemStack(Blocks.GRASS, 1), new ItemStack(Blocks.red_mushroom_block, 1, 5), type); // addRecipe(new ItemStack(Blocks.DIRT, 1, 2), new ItemStack(Blocks.GRASS, 1), new ItemStack(Blocks.brown_mushroom_block, 1, 5), type); addRecipe(Blocks.mycelium, new ItemStack(Blocks.DIRT, 1, 2), type); addRecipe(new ItemStack(Blocks.mycelium, 2), new ItemStack(Blocks.GRASS, 1), new ItemStack(Blocks.DIRT, 1, 2), type); addRecipe(new ItemStack(Blocks.mycelium, 2), new ItemStack(Blocks.GRASS, 1), new ItemStack(Blocks.GRASS, 1), type); addRecipe(Blocks.DIRT, Blocks.SAND, Calculator.soil, type);
 
 		// sand
@@ -279,7 +279,6 @@ public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 			addRecipe(new ItemStack(Blocks.LOG2, 4, i), new ItemStack(Blocks.SAPLING, 1, i + 4), new ItemStack(Blocks.PLANKS, 1, i + 4), type);
 			addRecipe(new ItemStack(Blocks.LOG2, 4, i), new ItemStack(Blocks.SAPLING, 1, i + 4), new ItemStack(Blocks.PLANKS, 1, i + 4), type);
 			addRecipe(new ItemStack(Blocks.LOG2, 8, i), new ItemStack(Blocks.SAPLING, 1, i + 4), new ItemStack(Blocks.LOG2, 1, i), type);
-
 		}
 		type = ResearchRecipeType.PLANKS;
 
@@ -436,6 +435,7 @@ public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 		}
 	}
 
+    @Override
 	public boolean reverseRecipes() {
 		return true;
 	}
@@ -449,6 +449,7 @@ public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 		return "Calculator";
 	}
 
+    @Override
 	public CalculatorRecipe buildRecipe(ArrayList<ISonarRecipeObject> recipeInputs, ArrayList<ISonarRecipeObject> recipeOutputs, List additionals, boolean shapeless) {
 		ResearchRecipeType type = additionals.isEmpty() ? ResearchRecipeType.NONE : (ResearchRecipeType) additionals.get(0);
 		if (!enableResearchRecipes() && type != ResearchRecipeType.NONE) {
@@ -456,5 +457,4 @@ public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 		}
 		return new CalculatorRecipe(recipeInputs, recipeOutputs, type, shapeless);
 	}
-
 }

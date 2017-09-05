@@ -1,20 +1,13 @@
 package sonar.calculator.mod.common.containers;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.IPlantable;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
-import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
-import sonar.core.api.SonarAPI;
-import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerFlawlessGreenhouse extends ContainerSync {
 
@@ -23,6 +16,7 @@ public class ContainerFlawlessGreenhouse extends ContainerSync {
 		{
 			addTransferSlot(TransferSlotsManager.DISCHARGE_SLOT);
 			addTransferSlot(new TransferSlots<TileEntityFlawlessGreenhouse>(TransferType.TILE_INV, 9) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityFlawlessGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return stack.getItem() instanceof IPlantable;
 				}
@@ -51,5 +45,4 @@ public class ContainerFlawlessGreenhouse extends ContainerSync {
 	public boolean canInteractWith(EntityPlayer player) {
 		return entity.isUseableByPlayer(player);
 	}
-
 }

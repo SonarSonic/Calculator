@@ -4,12 +4,18 @@ import sonar.core.api.utils.BlockCoords;
 
 public interface ITeleport {
 
-	/**assigned frequency*/
-	public int teleporterID();
+    /**
+     * assigned frequency
+     */
+    int teleporterID();
 
-	/**user assigned name*/
-	public String name();
+    /**
+     * user assigned name
+     */
+    String name();
 
-	/**teleporter coordinates*/
-	public BlockCoords getCoords();
+    /**
+     * teleporter coordinates
+     */
+    BlockCoords getCoords();
 }

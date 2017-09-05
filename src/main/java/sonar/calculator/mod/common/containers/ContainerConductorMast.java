@@ -4,17 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 import sonar.calculator.mod.common.recipes.ConductorMastRecipes;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
-import sonar.core.api.SonarAPI;
-import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerConductorMast extends ContainerSync {
@@ -22,6 +15,7 @@ public class ContainerConductorMast extends ContainerSync {
 	public static TransferSlotsManager<TileEntityConductorMast> transfer = new TransferSlotsManager() {
 		{
 			addTransferSlot(new TransferSlots<TileEntityConductorMast>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityConductorMast inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return ConductorMastRecipes.instance().isValidInput(stack);
 				}

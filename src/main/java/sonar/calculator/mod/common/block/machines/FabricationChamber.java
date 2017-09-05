@@ -1,8 +1,5 @@
 package sonar.calculator.mod.common.block.machines;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -22,6 +19,9 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.upgrades.MachineUpgrade;
 import sonar.core.utils.IGuiTile;
+
+import java.util.List;
+import java.util.Random;
 
 public class FabricationChamber extends SonarMachineBlock {
 
@@ -66,16 +66,28 @@ public class FabricationChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
 
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+    }
+
+    @Override
+    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
+        //list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Feature!");
+        //list.add("Doesn't require power to operate");
+    }
+
+    @Override
+    public void standardInfo(ItemStack stack, World world, List<String> list) {
 		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Feature!");
-		// list.add("Doesn't require power to opperate");
+        //list.add("Doesn't require power to operate");
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -84,8 +96,8 @@ public class FabricationChamber extends SonarMachineBlock {
 		return false;
 	}
 
+    @Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
-
 }

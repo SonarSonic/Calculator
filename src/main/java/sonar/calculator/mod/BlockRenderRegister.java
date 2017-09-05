@@ -1,8 +1,5 @@
 package sonar.calculator.mod;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -18,7 +15,7 @@ public class BlockRenderRegister {
 			Item item = Item.getItemFromBlock(block);
 			if (item.getHasSubtypes()) {				
 				NonNullList<ItemStack> stacks = NonNullList.create();
-				item.getSubItems(item, Calculator.Calculator, stacks);
+                item.getSubItems(Calculator.Calculator, stacks);
 				for (ItemStack stack : stacks) {
 					String variant = "variant=meta" + stack.getItemDamage();
 					if(block instanceof IMetaRenderer){

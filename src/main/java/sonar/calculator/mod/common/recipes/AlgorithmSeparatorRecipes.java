@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.core.recipes.DefinedRecipeHelper;
 
-public class AlgorithmSeparatorRecipes extends DefinedRecipeHelper {
+public class AlgorithmSeparatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 
 	private static final AlgorithmSeparatorRecipes recipes = new AlgorithmSeparatorRecipes();
 
@@ -14,7 +14,7 @@ public class AlgorithmSeparatorRecipes extends DefinedRecipeHelper {
 		super(1, 2, false);
 	}
 
-	public static final AlgorithmSeparatorRecipes instance() {
+    public static AlgorithmSeparatorRecipes instance() {
 		return recipes;
 	}
 
@@ -32,5 +32,4 @@ public class AlgorithmSeparatorRecipes extends DefinedRecipeHelper {
 	public String getRecipeID() {
 		return "AlgorithmSeparator";
 	}
-
 }

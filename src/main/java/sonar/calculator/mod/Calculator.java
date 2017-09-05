@@ -1,8 +1,5 @@
 package sonar.calculator.mod;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
@@ -23,11 +20,9 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import sonar.calculator.mod.common.entities.CalculatorThrow;
-import sonar.calculator.mod.common.entities.EntityBabyGrenade;
-import sonar.calculator.mod.common.entities.EntityGrenade;
-import sonar.calculator.mod.common.entities.EntitySmallStone;
-import sonar.calculator.mod.common.entities.EntitySoil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import sonar.calculator.mod.common.entities.*;
 import sonar.calculator.mod.common.item.calculators.ModuleItemRegistry;
 import sonar.calculator.mod.common.item.calculators.ModuleRegistry;
 import sonar.calculator.mod.integration.minetweaker.MineTweakerIntegration;
@@ -35,14 +30,15 @@ import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.research.ResearchRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 
-@Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version, dependencies = "required-after:sonarcore")
+@Mod(modid = Calculator.modid, name = Calculator.name, version = Calculator.version, dependencies = "required-after:sonarcore@[" + Calculator.SONAR_VERSION + ",);")
 public class Calculator {
-
 	@SidedProxy(clientSide = "sonar.calculator.mod.network.CalculatorClient", serverSide = "sonar.calculator.mod.network.CalculatorCommon")
 	public static CalculatorCommon calculatorProxy;
 
+    public static final String name = "Calculator";
 	public static final String modid = "calculator";
-	public static final String version = "4.0.0";
+    public static final String version = "5.0.0";
+    public static final String SONAR_VERSION = "5.0.0";
 
 	public static final int saveDimension = 0;
 
@@ -64,7 +60,7 @@ public class Calculator {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		if (!(Loader.instance().isModLoaded("SonarCore") || Loader.instance().isModLoaded("sonarcore"))) {
+        if (!(Loader.isModLoaded("SonarCore") || Loader.isModLoaded("sonarcore"))) {
 			logger.fatal("Sonar Core is not loaded");
 		} else {
 			logger.info("Successfully loaded with Sonar Core");
@@ -99,6 +95,9 @@ public class Calculator {
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 
+        CalculatorOreDict.registerOres();
+        logger.info("Registered OreDict");
+
 		Recipes.registerRecipes();
 		logger.info("Registered Calculator Recipes");
 
@@ -107,9 +106,6 @@ public class Calculator {
 
 		CalculatorSmelting.addSmeltingRecipes();
 		logger.info("Added Smelting Recipes");
-
-		CalculatorOreDict.registerOres();
-		logger.info("Registered OreDict");
 
 		GameRegistry.registerFuelHandler(new CalculatorSmelting());
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CalculatorCommon());
@@ -121,7 +117,6 @@ public class Calculator {
 		research.register();
 		modules.register();
 		moduleItems.register();
-
 	}
 
 	@EventHandler
@@ -132,10 +127,9 @@ public class Calculator {
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(soil, new CalculatorThrow(3));
 		Recipes.printRecipeInfo();
 
-		if (Loader.isModLoaded("MineTweaker3") || Loader.isModLoaded("MineTweaker3".toLowerCase())) {
+        if (Loader.isModLoaded("CraftTweaker2") || Loader.isModLoaded("CraftTweaker2".toLowerCase())) {
 			MineTweakerIntegration.init();
 		}
-
 	}
 
 	@EventHandler
@@ -242,5 +236,4 @@ public class Calculator {
 	public static Block material_block;
 	// tools
 	public static Item sickle, obsidianKey;
-
 }

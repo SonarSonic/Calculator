@@ -7,14 +7,8 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.utils.SlotLocatorModule;
-import sonar.core.api.SonarAPI;
-import sonar.core.common.item.InventoryItem;
-import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerCalculatorLocator extends ContainerSync {
 	private TileEntityCalculatorLocator entity;
@@ -22,6 +16,7 @@ public class ContainerCalculatorLocator extends ContainerSync {
 		{
 			addTransferSlot(TransferSlotsManager.DISCHARGE_SLOT);
 			addTransferSlot(new TransferSlots<TileEntityCalculatorLocator>(TransferType.TILE_INV, 1){
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityCalculatorLocator inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return stack.getItem() == Calculator.itemLocatorModule;
 				}

@@ -1,9 +1,7 @@
 package sonar.calculator.mod.common.item.misc;
 
-import java.util.List;
-
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -14,6 +12,8 @@ import sonar.core.api.utils.ICalculatorCircuit;
 import sonar.core.common.item.SonarMetaItem;
 import sonar.core.helpers.FontHelper;
 
+import java.util.List;
+
 public class CircuitBoard extends SonarMetaItem implements IStability, ICalculatorCircuit {
 
 	public CircuitBoard() {
@@ -22,8 +22,8 @@ public class CircuitBoard extends SonarMetaItem implements IStability, ICalculat
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
+        super.addInformation(stack, world, list, par4);
 		if (stack.hasTagCompound()) {
 			int stable = stack.getTagCompound().getInteger("Stable");
 			if (stack.getTagCompound().getBoolean("Analysed")) {
@@ -57,10 +57,10 @@ public class CircuitBoard extends SonarMetaItem implements IStability, ICalculat
 				nbtData.setInteger("Stable", stable);
 				stack.setTagCompound(nbtData);
 			}
-
 		}
 	}
 
+    @Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int par, boolean bool) {
 		if (stack.getTagCompound() == null && !stack.hasTagCompound()) {
 			setData(stack);
@@ -69,10 +69,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability, ICalculat
 
 	@Override
 	public boolean getStability(ItemStack stack) {
-		if (stack.hasTagCompound()) {
-			return stack.getTagCompound().getInteger("Stable") == 1;
-		}
-		return false;
+        return stack.hasTagCompound() && stack.getTagCompound().getInteger("Stable") == 1;
 	}
 
 	@Override
@@ -80,6 +77,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability, ICalculat
 		stack.getTagCompound().setInteger("Stable", 0);
 	}
 
+    @Override
 	public boolean hasEffect(ItemStack stack) {
 		return getStability(stack);
 	}

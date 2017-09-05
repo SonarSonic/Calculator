@@ -14,7 +14,7 @@ public class GuiReinforcedChest extends GuiSonar {
 
 	public GuiReinforcedChest(EntityPlayer player, TileEntityReinforcedChest entity) {
 		super(new ContainerReinforcedChest(player, entity), entity);
-		this.entity = (TileEntityReinforcedChest) entity;
+        this.entity = entity;
 	}
 
 	@Override

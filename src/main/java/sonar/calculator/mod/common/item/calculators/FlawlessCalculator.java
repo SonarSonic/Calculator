@@ -1,9 +1,7 @@
 package sonar.calculator.mod.common.item.calculators;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import cofh.api.energy.IEnergyContainerItem;
+import cofh.redstoneflux.api.IEnergyContainerItem;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,14 +13,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.api.items.IModuleProvider;
-import sonar.calculator.mod.api.modules.IModule;
-import sonar.calculator.mod.api.modules.IModuleClickable;
-import sonar.calculator.mod.api.modules.IModuleEnergy;
-import sonar.calculator.mod.api.modules.IModuleInventory;
-import sonar.calculator.mod.api.modules.IModuleUpdate;
+import sonar.calculator.mod.api.modules.*;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
@@ -37,6 +32,11 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.IGuiItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")})
 public class FlawlessCalculator extends SonarItem implements IItemInventory, IModuleProvider, ISonarEnergyItem, IEnergyContainerItem, IFlawlessCalculator, IGuiItem {
 	public final String invTag = "inv";
 	public final String emptyModule = "";
@@ -46,6 +46,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		setMaxStackSize(1);
 	}
 
+    @Override
 	public NBTTagCompound getDefaultTag() {
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setString("slot" + 0, GuiModule.flawless.getName());
@@ -56,6 +57,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		return tag;
 	}
 
+    @Override
 	public int getCurrentSlot(ItemStack stack) {
 		NBTTagCompound tag = getTagCompound(stack);
 		return tag.getInteger("slot");
@@ -77,15 +79,16 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		return EmptyModule.EMPTY;
 	}
 
+    @Override
 	public IModule getCurrentModule(ItemStack stack) {
 		return getModuleInSlot(stack, getCurrentSlot(stack));
 	}
 
 	@Override
 	public ArrayList<IModule> getModules(ItemStack stack) {
-		ArrayList list = new ArrayList();
+        ArrayList<IModule> list = new ArrayList<>();
 		for (int i = 0; i < moduleCapacity; i++) {
-			list.add(i, (getModuleInSlot(stack, i)));
+            list.add(i, getModuleInSlot(stack, i));
 		}
 		return list;
 	}
@@ -97,45 +100,46 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		if (!(module instanceof IModuleInventory)) {
 			return null;
 		}
-		return ((IModuleInventory) module).getInventory(stack, "" + slot, false);
+        return ((IModuleInventory) module).getInventory(stack, String.valueOf(slot), false);
 	}
 
+    @Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
 		ArrayList<IModule> modules = getModules(stack);
 		int slot = 0;
 		for (IModule module : modules) {
 			if (module instanceof IModuleUpdate) {
-				NBTTagCompound tag = stack.getSubCompound("" + slot);
+                NBTTagCompound tag = stack.getSubCompound(String.valueOf(slot));
 				if (tag == null) {
 					tag = new NBTTagCompound();
 				}
 				((IModuleUpdate) module).onUpdate(stack, tag, world, entity);
 				if (!tag.hasNoTags())
-					stack.setTagInfo("" + slot, tag);
+                    stack.setTagInfo(String.valueOf(slot), tag);
 			}
 			slot++;
 		}
 	}
 
+    @Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		NBTTagCompound tag = getTagCompound(stack);
 		if (!player.isSneaking()) {
 			int slot = this.getCurrentSlot(stack);
 			IModule module = this.getCurrentModule(stack);
-			tag = stack.getSubCompound("" + slot);
+            tag = stack.getSubCompound(String.valueOf(slot));
 			if (tag == null) {
 				tag = new NBTTagCompound();
 			}
 			if (module instanceof IModuleClickable) {
 				((IModuleClickable) module).onModuleActivated(stack, tag, world, player);
-
 			} else if (module instanceof IModuleEnergy) {
 				IModuleEnergy energy = (IModuleEnergy) module;
 				FontHelper.sendMessage("Energy Module: " + energy.getEnergyStored(stack, tag) + " RF", world, player);
 			}
 			if (!tag.hasNoTags() && !world.isRemote)
-				stack.setTagInfo("" + slot, tag);
+                stack.setTagInfo(String.valueOf(slot), tag);
 		} else if (!world.isRemote) {
 			player.openGui(Calculator.instance, CalculatorGui.ModuleSelect, world, -1000, -1000, -1000);
 			/* int slot = this.getCurrentSlot(stack); slot++; if (!(slot < moduleCapacity)) { slot = 0; } tag.setInteger("slot", slot); stack.setTagCompound(tag);
@@ -146,25 +150,27 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
 		IModule module = this.getCurrentModule(stack);
 		int slot = this.getCurrentSlot(stack);
 		if (module instanceof IModuleClickable) {
-			NBTTagCompound tag = stack.getSubCompound("" + slot);
+            NBTTagCompound tag = stack.getSubCompound(String.valueOf(slot));
 			if (tag == null) {
 				tag = new NBTTagCompound();
 			}
 			boolean toReturn = ((IModuleClickable) module).onBlockClicked(stack, tag, player, world, pos, new BlockInteraction(side.getIndex(), hitX, hitY, hitZ, BlockInteractionType.RIGHT));
 			if (!tag.hasNoTags())
-				stack.setTagInfo("" + slot, tag);
+                stack.setTagInfo(String.valueOf(slot), tag);
 			return toReturn ? EnumActionResult.SUCCESS : EnumActionResult.PASS;
 		}
 		return EnumActionResult.PASS;
 	}
 
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+    @Override
+    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
+        super.addInformation(stack, world, list, par4);
 		IModule current = this.getCurrentModule(stack);
 		list.add("Current Module: " + current.getClientName());
 
@@ -174,9 +180,9 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 
 		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				energyStored += ((IModuleEnergy) module).getEnergyStored(stack, stack.getOrCreateSubCompound("" + slot));
+                energyStored += ((IModuleEnergy) module).getEnergyStored(stack, stack.getOrCreateSubCompound(String.valueOf(slot)));
 			} else if (module instanceof IModuleInventory) {
-				itemsStored += ((IModuleInventory) module).getInventory(stack, "" + slot, false).getItemsStored(stack);
+                itemsStored += ((IModuleInventory) module).getInventory(stack, String.valueOf(slot), false).getItemsStored(stack);
 			}
 			slot++;
 		}
@@ -191,7 +197,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		int slot = 0;
 		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				received -= ((IModuleEnergy) module).receiveEnergy(stack, stack.getOrCreateSubCompound("" + slot), maxReceive, action);
+                received -= ((IModuleEnergy) module).receiveEnergy(stack, stack.getOrCreateSubCompound(String.valueOf(slot)), maxReceive, action);
 			}
 			slot++;
 		}
@@ -204,7 +210,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		int slot = 0;
 		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				extracted -= ((IModuleEnergy) module).extractEnergy(stack, stack.getOrCreateSubCompound("" + slot), maxExtract, action);
+                extracted -= ((IModuleEnergy) module).extractEnergy(stack, stack.getOrCreateSubCompound(String.valueOf(slot)), maxExtract, action);
 			}
 			slot++;
 		}
@@ -217,7 +223,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		int slot = 0;
 		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				stored += ((IModuleEnergy) module).getEnergyStored(stack, stack.getOrCreateSubCompound("" + slot));
+                stored += ((IModuleEnergy) module).getEnergyStored(stack, stack.getOrCreateSubCompound(String.valueOf(slot)));
 			}
 			slot++;
 		}
@@ -230,7 +236,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		int slot = 0;
 		for (IModule module : (ArrayList<IModule>) getModules(stack).clone()) {
 			if (module instanceof IModuleEnergy) {
-				stored += ((IModuleEnergy) module).getMaxEnergyStored(stack, stack.getOrCreateSubCompound("" + slot));
+                stored += ((IModuleEnergy) module).getMaxEnergyStored(stack, stack.getOrCreateSubCompound(String.valueOf(slot)));
 			}
 			slot++;
 		}
@@ -238,21 +244,25 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
 		return (int) addEnergy(container, maxReceive, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
 		return (int) removeEnergy(container, maxExtract, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int getEnergyStored(ItemStack container) {
 		return (int) getEnergyLevel(container);
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int getMaxEnergyStored(ItemStack container) {
 		return (int) getFullCapacity(container);
 	}
@@ -274,8 +284,8 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	@Override
 	public ItemStack removeModule(ItemStack stack, int slot) {
 		IModule module = getModuleInSlot(stack, slot);
-		NBTTagCompound tag = stack.getSubCompound("" + slot);
-		stack.setTagInfo("" + slot, new NBTTagCompound());
+        NBTTagCompound tag = stack.getSubCompound(String.valueOf(slot));
+        stack.setTagInfo(String.valueOf(slot), new NBTTagCompound());
 		stack.getTagCompound().setString("slot" + slot, "");
 		ItemStack toReturn = new ItemStack(Calculator.moduleItems.getPrimaryObject(module.getName()), 1);
 		if (tag != null && !tag.hasNoTags())
@@ -293,9 +303,9 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		}
 		stack.setTagCompound(tag);
 		if (moduleTag != null && !moduleTag.hasNoTags()) {
-			stack.setTagInfo("" + slot, moduleTag);
-		} else if (stack.getTagCompound().hasKey("" + slot, 10)) {
-			stack.getTagCompound().removeTag("" + slot);
+            stack.setTagInfo(String.valueOf(slot), moduleTag);
+        } else if (stack.getTagCompound().hasKey(String.valueOf(slot), 10)) {
+            stack.getTagCompound().removeTag(String.valueOf(slot));
 		}
 	}
 
@@ -318,7 +328,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 
 	@Override
 	public NBTTagCompound getModuleTag(ItemStack stack, int slot) {
-		return stack.getOrCreateSubCompound("" + slot);
+        return stack.getOrCreateSubCompound(String.valueOf(slot));
 	}
 
 	@Override
@@ -331,12 +341,13 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		return ((IGuiItem) getCurrentModule(stack)).getGuiScreen(player, stack);
 	}
 
+    @Override
 	public boolean hasEffect(ItemStack stack) {
 		return true;
 	}
 
+    @Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
 	}
-
 }

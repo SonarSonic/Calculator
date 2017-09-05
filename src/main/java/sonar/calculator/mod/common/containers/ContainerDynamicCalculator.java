@@ -35,8 +35,8 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 		this.addSlotToContainer(new SlotPortableCrafting(this, dynamic, 4, 79, 35, isRemote, Calculator.itemFlawlessCalculator));
 		this.addSlotToContainer(new SlotPortableResult(player, dynamic, this, new int[] { 3, 4 }, 5, 134, 35, isRemote));
 
-		addSlotToContainer(new SlotPortableCrafting(this, dynamic, 6, 20 + 0 * 32, 61, isRemote, Calculator.itemFlawlessCalculator));
-		addSlotToContainer(new SlotPortableCrafting(this, dynamic, 7, 20 + 1 * 32, 61, isRemote, Calculator.itemFlawlessCalculator));
+        addSlotToContainer(new SlotPortableCrafting(this, dynamic, 6, 20, 61, isRemote, Calculator.itemFlawlessCalculator));
+        addSlotToContainer(new SlotPortableCrafting(this, dynamic, 7, 20 + 32, 61, isRemote, Calculator.itemFlawlessCalculator));
 		addSlotToContainer(new SlotPortableCrafting(this, dynamic, 8, 20 + 2 * 32, 61, isRemote, Calculator.itemFlawlessCalculator));
 		this.addSlotToContainer(new SlotPortableResult(player, dynamic, this, new int[] { 6, 7, 8 }, 9, 134, 61, isRemote));
 
@@ -60,6 +60,7 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 		dynamic.setInventorySlotContents(9, RecipeHelperV2.getItemStackFromList(AtomicCalculatorRecipes.instance().getOutputs(player, dynamic.getStackInSlot(6), dynamic.getStackInSlot(7), dynamic.getStackInSlot(8)), 0));
 	}
 
+    @Override
 	public void removeEnergy(int remove) {
 		if (!this.isRemote) {
 			if (player.capabilities.isCreativeMode) {
@@ -74,9 +75,10 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 		return dynamic.isUseableByPlayer(player);
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = (Slot) this.inventorySlots.get(par2);
+        Slot slot = this.inventorySlots.get(par2);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
@@ -90,7 +92,7 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 			} else {
 				int current = this.getCurrentUsage();
 				if (par2 >= INV_START) {
-					if ((current == 0 || current == 1)) {
+                    if (current == 0 || current == 1) {
 						if (!this.mergeItemStack(itemstack1, 0, 2, false)) {
 							return ItemStack.EMPTY;
 						}
@@ -128,11 +130,11 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 	}
 
 	public int getCurrentUsage() {
-		if (((Slot) this.inventorySlots.get(0)).getHasStack() || ((Slot) this.inventorySlots.get(1)).getHasStack()) {
+        if (this.inventorySlots.get(0).getHasStack() || this.inventorySlots.get(1).getHasStack()) {
 			return 1;
-		} else if (((Slot) this.inventorySlots.get(3)).getHasStack() || ((Slot) this.inventorySlots.get(4)).getHasStack()) {
+        } else if (this.inventorySlots.get(3).getHasStack() || this.inventorySlots.get(4).getHasStack()) {
 			return 2;
-		} else if (((Slot) this.inventorySlots.get(6)).getHasStack() || ((Slot) this.inventorySlots.get(7)).getHasStack() || ((Slot) this.inventorySlots.get(8)).getHasStack()) {
+        } else if (this.inventorySlots.get(6).getHasStack() || this.inventorySlots.get(7).getHasStack() || this.inventorySlots.get(8).getHasStack()) {
 			return 3;
 		}
 		return 0;

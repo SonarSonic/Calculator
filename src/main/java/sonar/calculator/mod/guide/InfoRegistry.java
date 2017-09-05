@@ -1,9 +1,5 @@
 package sonar.calculator.mod.guide;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
-
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
@@ -11,11 +7,15 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplie
 import sonar.calculator.mod.guide.IItemInfo.Category;
 import sonar.core.helpers.ItemStackHelper;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+
 public class InfoRegistry {
 
 	private static final InfoRegistry instance = new InfoRegistry();
 
-	public LinkedHashMap<Category, ArrayList<IItemInfo>> info = new LinkedHashMap<Category, ArrayList<IItemInfo>>();
+    public LinkedHashMap<Category, ArrayList<IItemInfo>> info = new LinkedHashMap<>();
 
 	public InfoRegistry getInstance() {
 		return new InfoRegistry();
@@ -32,7 +32,7 @@ public class InfoRegistry {
 
 		addInfo(Category.Modules, new ItemStack(Calculator.itemTerrainModule), "info.BasicTerrainModule.name", Calculator.itemAdvancedTerrainModule);
 		addInfo(Category.Modules, new ItemStack(Calculator.itemAdvancedTerrainModule), "info.AdvancedTerrainModule.name", Calculator.itemTerrainModule);
-		addInfo(Category.Modules, new ItemStack(Calculator.itemEnergyModule), "Can store up to " + CalculatorConfig.getInteger("Energy Module") + " RF" + "or " + (CalculatorConfig.getInteger("Energy Module") / 4) + " EU", Calculator.powerCube, Calculator.itemFlawlessCalculator);
+        addInfo(Category.Modules, new ItemStack(Calculator.itemEnergyModule), "Can store up to " + CalculatorConfig.getInteger("Energy Module") + " RF" + "or " + CalculatorConfig.getInteger("Energy Module") / 4 + " EU", Calculator.powerCube, Calculator.itemFlawlessCalculator);
 		addInfo(Category.Modules, new ItemStack(Calculator.itemStorageModule), "info.StorageModule.name", Calculator.itemFlawlessCalculator);
 		addInfo(Category.Modules, new ItemStack(Calculator.itemLocatorModule), "info.LocatorModule.name", Calculator.calculatorlocator);
 		addInfo(Category.Modules, new ItemStack(Calculator.itemJumpModule), "info.JumpModule.name", Calculator.itemFlawlessCalculator);
@@ -104,7 +104,7 @@ public class InfoRegistry {
 		addInfo(Category.Machines, new ItemStack(Calculator.teleporter), "A simple teleporter -+Can be password protected");
 		addInfo(Category.Machines, new ItemStack(Calculator.stoneAssimilator), "Harvests Calculator Trees-+Must be placed next to the Tree-+For Tanzanite and Amethyst-+Doesn't Require Energy");
 		addInfo(Category.Machines, new ItemStack(Calculator.algorithmAssimilator), "Harvests Calculator Trees-+Must be placed next to the Tree-+For Pear and Diamond-+Doesn't Require Energy");
-		addInfo(Category.Machines, new ItemStack(Calculator.atomicMultiplier), "Can quadruple almost any item--Requires seven circuits-and " + TileEntityAtomicMultiplier.requiredEnergy + "RF--or " + (TileEntityAtomicMultiplier.requiredEnergy / 4) + "EU");
+        addInfo(Category.Machines, new ItemStack(Calculator.atomicMultiplier), "Can quadruple almost any item--Requires seven circuits-and " + TileEntityAtomicMultiplier.requiredEnergy + "RF--or " + TileEntityAtomicMultiplier.requiredEnergy / 4 + "EU");
 
 		addInfo(Category.Tools, new ItemStack(Calculator.wrench), "info.Wrench.name");
 		addInfo(Category.Tools, new ItemStack(Calculator.sickle), "Can remove berries/diamonds- from their trees");
@@ -135,7 +135,7 @@ public class InfoRegistry {
 			return;
 		}
 		try {
-			this.info.putIfAbsent(category, new ArrayList());
+            this.info.putIfAbsent(category, new ArrayList<>());
 			ItemStack[] stacks = new ItemStack[objs.length];
 			int pos = 0;
 			for (Object obj : objs) {
@@ -149,7 +149,7 @@ public class InfoRegistry {
 	}
 
 	public static ArrayList<IItemInfo> getInfo(Category category) {
-		ArrayList<IItemInfo> info = new ArrayList();
+        ArrayList<IItemInfo> info = new ArrayList<>();
 		for (Entry<Category, ArrayList<IItemInfo>> entry : instance.info.entrySet()) {
 			if (category == Category.All || entry.getKey() == category) {
 				info.addAll(entry.getValue());

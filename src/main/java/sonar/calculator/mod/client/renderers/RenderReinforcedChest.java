@@ -1,7 +1,5 @@
 package sonar.calculator.mod.client.renderers;
 
-import java.util.Calendar;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.model.ModelLargeChest;
@@ -11,6 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
+
+import java.util.Calendar;
 
 @SideOnly(Side.CLIENT)
 public class RenderReinforcedChest extends TileEntitySpecialRenderer<TileEntityReinforcedChest> {
@@ -22,12 +22,14 @@ public class RenderReinforcedChest extends TileEntitySpecialRenderer<TileEntityR
 	public RenderReinforcedChest() {
 		Calendar calendar = Calendar.getInstance();
 
-		if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
+        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
 			this.isChristams = true;
 		}
 	}
 
-	public void renderTileEntityAt(TileEntityReinforcedChest te, double x, double y, double z, float partialTicks, int destroyStage) {
+    @Override
+    public void render(TileEntityReinforcedChest te, double x, double y, double z, float partialTicks, int destroyStage, float f1) {
+        //public void renderTileEntityAt(TileEntityReinforcedChest te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GlStateManager.enableDepth();
 		GlStateManager.depthFunc(515);
 		GlStateManager.depthMask(true);
@@ -97,6 +99,5 @@ public class RenderReinforcedChest extends TileEntitySpecialRenderer<TileEntityR
 			GlStateManager.popMatrix();
 			GlStateManager.matrixMode(5888);
 		}
-
 	}
 }

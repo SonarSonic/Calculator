@@ -14,8 +14,10 @@ public class SlotPortable extends Slot {
 		super(inv, index, x, y);
 		this.isRemote = isRemote;
 		this.invItem = inv;
+        this.type = type;
 	}
 
+    @Override
 	public boolean isItemValid(ItemStack stack) {
 		if (type == null) {
 			return super.isItemValid(stack);
@@ -23,10 +25,12 @@ public class SlotPortable extends Slot {
 		return !stack.isEmpty() && stack.getItem() != type;
 	}
 
+    @Override
 	public void putStack(ItemStack stack) {
 		invItem.setInventorySlotContents(getSlotIndex(), stack);
 	}
 
+    @Override
 	public void onSlotChanged() {
 		if (!this.isRemote)
 			this.inventory.markDirty();

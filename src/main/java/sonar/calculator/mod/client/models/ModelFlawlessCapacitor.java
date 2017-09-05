@@ -1,4 +1,3 @@
-
 package sonar.calculator.mod.client.models;
 
 import net.minecraft.client.Minecraft;
@@ -7,8 +6,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-public class ModelFlawlessCapacitor extends ModelBase
-{
+public class ModelFlawlessCapacitor extends ModelBase {
   //fields
     ModelRenderer Bottom;
     ModelRenderer Front;
@@ -46,8 +44,7 @@ public class ModelFlawlessCapacitor extends ModelBase
     ModelRenderer Support15;
     ModelRenderer Support16;
   
-  public ModelFlawlessCapacitor()
-  {
+    public ModelFlawlessCapacitor() {
     textureWidth = 128;
     textureHeight = 64;
     
@@ -263,8 +260,8 @@ public class ModelFlawlessCapacitor extends ModelBase
       setRotation(Support16, 0F, 0F, 0F);
   }
   
-  public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
+    @Override
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
     super.render(entity, f, f1, f2, f3, f4, f5);
     setRotationAngles(entity, f, f1, f2, f3, f4, f5);
     Bottom.render(f5);
@@ -303,8 +300,8 @@ public class ModelFlawlessCapacitor extends ModelBase
     Support15.render(f5);
     Support16.render(f5);
   }
-  public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5, int[] output)
-  {
+
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5, int[] output) {
     super.render(entity, f, f1, f2, f3, f4, f5);
     setRotationAngles(entity, f, f1, f2, f3, f4, f5);    
     Power_Source.render(f5);
@@ -377,16 +374,13 @@ public class ModelFlawlessCapacitor extends ModelBase
     }
   }
   
-  private void setRotation(ModelRenderer model, float x, float y, float z)
-  {
+    private void setRotation(ModelRenderer model, float x, float y, float z) {
     model.rotateAngleX = x;
     model.rotateAngleY = y;
     model.rotateAngleZ = z;
   }
   
-  public void setRotationAngles(Entity entity,float f, float f1, float f2, float f3, float f4, float f5)
-  {
+    public void setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
     super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
   }
-
 }

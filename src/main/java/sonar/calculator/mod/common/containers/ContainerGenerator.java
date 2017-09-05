@@ -5,13 +5,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerGenerator extends ContainerSync {
 
@@ -19,11 +15,13 @@ public class ContainerGenerator extends ContainerSync {
 	public static TransferSlotsManager<TileEntityGenerator> transfer = new TransferSlotsManager() {
 		{
 			addTransferSlot(new TransferSlots<TileEntityGenerator>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityGenerator inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return TileEntityFurnace.isItemFuel(stack);
 				}
 			});
 			addTransferSlot(new TransferSlots<TileEntityGenerator>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityGenerator inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return inv.getItemValue(stack) > 0;
 				}
@@ -49,5 +47,4 @@ public class ContainerGenerator extends ContainerSync {
 	public boolean canInteractWith(EntityPlayer player) {
 		return entity.isUseableByPlayer(player);
 	}
-
 }

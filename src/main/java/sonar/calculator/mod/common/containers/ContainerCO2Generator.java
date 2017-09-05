@@ -5,16 +5,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
-import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
-import sonar.core.api.SonarAPI;
-import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerCO2Generator extends ContainerSync {
 
@@ -22,6 +15,7 @@ public class ContainerCO2Generator extends ContainerSync {
 	public static TransferSlotsManager<TileEntityCO2Generator> transfer = new TransferSlotsManager() {
 		{
 			addTransferSlot(new TransferSlots<TileEntityCO2Generator>(TransferType.TILE_INV, 1){
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityCO2Generator inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return TileEntityFurnace.getItemBurnTime(stack) > 0;
 				}

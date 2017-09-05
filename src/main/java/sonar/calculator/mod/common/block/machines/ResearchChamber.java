@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.machines;
 
-import java.util.UUID;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,13 +17,16 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
+import java.util.UUID;
+
 public class ResearchChamber extends SonarMachineBlock {
 
 	public ResearchChamber() {
 		super(SonarMaterials.machine, true, true);
-		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - (0.0625F * 8), 1.0F);
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - 0.0625F * 8, 1.0F);
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}

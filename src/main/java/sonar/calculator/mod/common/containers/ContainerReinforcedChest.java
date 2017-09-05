@@ -27,13 +27,15 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 		addInventory(player.inventory, 8, 102);
 	}
 
+    @Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return this.entity.isUseableByPlayer(player);
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = (Slot) this.inventorySlots.get(slotID);
+        Slot slot = this.inventorySlots.get(slotID);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
@@ -67,6 +69,7 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 		return itemstack;
 	}
 
+    @Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
 		this.entity.closeInventory(player);

@@ -16,6 +16,7 @@ public class SlotResearch extends Slot {
 		this.entity = entity;
 	}
 
+    @Override
 	public void onSlotChange(ItemStack stack1, ItemStack stack2) {
 		super.onSlotChange(stack1, stack2);
 		if (player != null) {
@@ -29,10 +30,10 @@ public class SlotResearch extends Slot {
 			*/
 			entity.markBlockForUpdate();
 			entity.getWorld().addBlockEvent(entity.getPos(), entity.getBlockType(), 1, 0);
-
 		}
 	}
 
+    @Override
 	public void onSlotChanged() {
 		super.onSlotChanged();
 		if (player != null) {
@@ -46,12 +47,11 @@ public class SlotResearch extends Slot {
 			*/
 			entity.markBlockForUpdate();
 			entity.getWorld().addBlockEvent(entity.getPos(), entity.getBlockType(), 1, 0);
-
 		}
 	}
 
+    @Override
 	public boolean isItemValid(ItemStack stack) {
 		return CalculatorRecipes.instance().isValidInput(stack);
 	}
-
 }

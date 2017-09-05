@@ -1,41 +1,18 @@
 package sonar.calculator.mod;
 
-import java.util.ArrayList;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
-import sonar.calculator.mod.common.item.calculators.InfoCalculator;
-import sonar.calculator.mod.common.item.calculators.SonarEnergyModule;
-import sonar.calculator.mod.common.item.calculators.SonarModule;
-import sonar.calculator.mod.common.item.calculators.SonarUsageModule;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import sonar.calculator.mod.common.item.calculators.*;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
 import sonar.calculator.mod.common.item.calculators.modules.JumpModule;
 import sonar.calculator.mod.common.item.calculators.modules.WarpModule;
-import sonar.calculator.mod.common.item.misc.CalculatorScreen;
-import sonar.calculator.mod.common.item.misc.CircuitBoard;
-import sonar.calculator.mod.common.item.misc.EndDiamond;
-import sonar.calculator.mod.common.item.misc.Grenade;
-import sonar.calculator.mod.common.item.misc.SmallStone;
-import sonar.calculator.mod.common.item.misc.Soil;
-import sonar.calculator.mod.common.item.modules.AdvancedTerrainModule;
-import sonar.calculator.mod.common.item.modules.HealthModule;
-import sonar.calculator.mod.common.item.modules.HungerModule;
-import sonar.calculator.mod.common.item.modules.LocatorModule;
-import sonar.calculator.mod.common.item.modules.NutritionModule;
-import sonar.calculator.mod.common.item.modules.TerrainModule;
-import sonar.calculator.mod.common.item.tools.CalcAxe;
-import sonar.calculator.mod.common.item.tools.CalcHoe;
-import sonar.calculator.mod.common.item.tools.CalcPickaxe;
-import sonar.calculator.mod.common.item.tools.CalcShovel;
-import sonar.calculator.mod.common.item.tools.CalcSword;
-import sonar.calculator.mod.common.item.tools.ObsidianKey;
-import sonar.calculator.mod.common.item.tools.Sickle;
-import sonar.calculator.mod.common.item.tools.Wrench;
+import sonar.calculator.mod.common.item.misc.*;
+import sonar.calculator.mod.common.item.modules.*;
+import sonar.calculator.mod.common.item.tools.*;
 import sonar.core.common.block.properties.IMetaVariant;
 import sonar.core.common.item.SonarItem;
 import sonar.core.common.item.SonarMetaItem;
@@ -43,12 +20,14 @@ import sonar.core.common.item.SonarSeeds;
 import sonar.core.common.item.SonarSeedsFood;
 import sonar.core.upgrades.MachineUpgrade;
 
+import java.util.ArrayList;
+
 public class CalculatorItems extends Calculator {
 
-	public static ArrayList<Item> registeredItems = new ArrayList();
+    public static ArrayList<Item> registeredItems = new ArrayList<>();
 
 	public enum UpgradeTypes {
-		SPEED, ENERGY, VOID, TRANSFER;
+        SPEED, ENERGY, VOID, TRANSFER
 	}
 
 	public static final Item.ToolMaterial ReinforcedStone = EnumHelper.addToolMaterial("ReinforcedStone", 1, 250, 5.0F, 1.5F, 5);
@@ -61,11 +40,11 @@ public class CalculatorItems extends Calculator {
 	public static final Item.ToolMaterial ElectricDiamond = EnumHelper.addToolMaterial("ElectricDiamond", 4, 10000, 18.0F, 10.0F, 30);
 	public static final Item.ToolMaterial EndForged = EnumHelper.addToolMaterial("EndForged", 6, -1, 50F, 16.0F, 30);
 
-	public static enum ToolTypes implements IMetaVariant {
+    public enum ToolTypes implements IMetaVariant {
 		ReinforcedStone(0, CalculatorItems.ReinforcedStone), Redstone(1, CalculatorItems.RedstoneMaterial), EnrichedGold(2, CalculatorItems.EnrichedGold), ReinforcedIron(3, CalculatorItems.ReinforcedIron), WeakenedDiamond(4, CalculatorItems.WeakenedDiamond), FlawlessDiamond(5, CalculatorItems.FlawlessDiamond), FireDiamond(6, CalculatorItems.FireDiamond), ElectricDiamond(7, CalculatorItems.ElectricDiamond), EndForged(8, CalculatorItems.EndForged);
 
 		Item.ToolMaterial material;
-		int type = 0;
+        int type;
 
 		ToolTypes(int type, Item.ToolMaterial material) {
 			this.material = material;
@@ -88,7 +67,7 @@ public class CalculatorItems extends Calculator {
 		item.setCreativeTab(Calculator);
 		item.setUnlocalizedName(name);
 		item.setRegistryName(modid, name);
-		GameRegistry.register(item);
+        ForgeRegistries.ITEMS.register(item);
 		registeredItems.add(item);
 		return item;
 	}

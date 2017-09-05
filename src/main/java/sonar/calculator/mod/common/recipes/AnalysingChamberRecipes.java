@@ -7,7 +7,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.core.SonarCore;
 import sonar.core.recipes.DefinedRecipeHelper;
 
-public class AnalysingChamberRecipes extends DefinedRecipeHelper {
+public class AnalysingChamberRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 
 	private static final AnalysingChamberRecipes instance = new AnalysingChamberRecipes();
 
@@ -19,6 +19,7 @@ public class AnalysingChamberRecipes extends DefinedRecipeHelper {
 		return instance;
 	}
 
+    @Override
 	public void addRecipes() {
 		addRecipe(1, 1, new ItemStack(Calculator.itemCalculator, 1));
 		addRecipe(1, 2, new ItemStack(SonarCore.reinforcedDirtBlock, 1));
@@ -93,12 +94,10 @@ public class AnalysingChamberRecipes extends DefinedRecipeHelper {
 		addRecipe(5, 8, new ItemStack(Blocks.BEACON, 1));
 		addRecipe(5, 9, new ItemStack(Calculator.endDiamond, 1));
 		addRecipe(5, 10, new ItemStack(Calculator.flawlessGreenhouse, 1));
-
 	}
 
 	@Override
 	public String getRecipeID() {
 		return "Analysing Chamber";
 	}
-
 }

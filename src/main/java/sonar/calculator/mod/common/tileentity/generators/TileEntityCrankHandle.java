@@ -30,7 +30,6 @@ public class TileEntityCrankHandle extends TileEntitySonar {
 		super.readFromNBT(nbt);
 		angle = nbt.getInteger("angle");
 		cranked = nbt.getBoolean("cranked");
-
 	}
 
 	@Override
@@ -40,5 +39,4 @@ public class TileEntityCrankHandle extends TileEntitySonar {
 		nbt.setBoolean("cranked", this.cranked);
 		return nbt;
 	}
-
 }

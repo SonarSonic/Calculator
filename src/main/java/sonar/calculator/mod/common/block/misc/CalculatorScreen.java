@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.misc;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockContainer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -13,7 +11,11 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.common.block.SonarMaterials;
 
-/** basically a fabrication of the BlockSign code */
+import java.util.Random;
+
+/**
+ * basically a fabrication of the BlockSign code
+ */
 public class CalculatorScreen extends BlockContainer {
 
 	public CalculatorScreen() {
@@ -22,6 +24,7 @@ public class CalculatorScreen extends BlockContainer {
 		float f1 = 1.0F;
 		//this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
 	}
+
 	/*
 	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
 		int l = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
@@ -115,5 +118,4 @@ public class CalculatorScreen extends BlockContainer {
 	public boolean isOpaqueCube() {
 		return false;
 	}
-
 }

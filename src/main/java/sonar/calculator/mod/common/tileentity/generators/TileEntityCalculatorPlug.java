@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +18,8 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
+
+import java.util.List;
 
 public class TileEntityCalculatorPlug extends TileEntityInventory implements IGuiTile, IByteBufTile {
 
@@ -45,6 +45,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 		}
 	}
 
+    @Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
@@ -55,10 +56,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			stable.setObject(0);
 			return false;
 		}
-		if (testItem.getItem() instanceof IStability) {
-			return true;
-		}
-		return false;
+        return testItem.getItem() instanceof IStability;
 	}
 
 	public void fill(int slot) {
@@ -83,6 +81,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 		return 0;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add(FontHelper.translate("circuit.stable") + ": " + (!state.getValue(CalculatorPlug.ACTIVE) ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
@@ -117,5 +116,4 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			break;
 		}
 	}
-
 }

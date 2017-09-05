@@ -22,6 +22,7 @@ public class DynamicCalculator extends SonarMachineBlock {
 		super(SonarMaterials.machine, true, true);
 	}
 
+    @Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		return true;
@@ -48,5 +49,4 @@ public class DynamicCalculator extends SonarMachineBlock {
 	public boolean dropStandard(IBlockAccess world, BlockPos pos) {
 		return true;
 	}
-
 }

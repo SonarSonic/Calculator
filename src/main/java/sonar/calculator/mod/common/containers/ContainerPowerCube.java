@@ -9,8 +9,6 @@ import sonar.core.api.SonarAPI;
 import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerPowerCube extends ContainerSync {
 
@@ -18,11 +16,13 @@ public class ContainerPowerCube extends ContainerSync {
 	public static TransferSlotsManager<TileEntityPowerCube> powerCubeTransfer = new TransferSlotsManager() {
 		{
 			addTransferSlot(new TransferSlots<TileEntityPowerCube>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityPowerCube inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return SonarAPI.getEnergyHelper().canTransferEnergy(stack) != null;
 				}
 			});
 			addTransferSlot(new TransferSlots<TileEntityPowerCube>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityPowerCube inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return DischargeValues.getValueOf(stack) > 0 || SonarAPI.getEnergyHelper().canTransferEnergy(stack) != null;
 				}
@@ -48,5 +48,4 @@ public class ContainerPowerCube extends ContainerSync {
 	public boolean canInteractWith(EntityPlayer player) {
 		return entity.isUseableByPlayer(player);
 	}
-
 }

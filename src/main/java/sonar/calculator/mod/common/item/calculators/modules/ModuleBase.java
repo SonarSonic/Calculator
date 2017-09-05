@@ -18,7 +18,7 @@ public abstract class ModuleBase implements IModule {
 	}
 
 	protected final boolean isCreativeMode(Entity entity) {
-		return (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode);
+        return entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode;
 	}
 
 	protected final boolean isEnergyAvailable(ItemStack container, Entity entity, World world, int required) {
@@ -47,5 +47,4 @@ public abstract class ModuleBase implements IModule {
 	protected final long getMaxEnergyStored(ItemStack container, Entity entity) {
 		return SonarAPI.getEnergyHelper().getEnergyStored(container, EnergyType.RF).capacity;
 	}
-
 }

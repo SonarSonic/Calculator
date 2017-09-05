@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.misc;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -19,6 +17,8 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.IGuiTile;
+
+import java.util.List;
 
 public class WeatherController extends SonarMachineBlock {
 
@@ -50,24 +50,30 @@ public class WeatherController extends SonarMachineBlock {
 			TileEntityWeatherController controller = (TileEntityWeatherController) target;
 			controller.startProcess();
 		}
-
 	}
 
+    @Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityWeatherController();
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
 
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+    }
+
+    @Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
+    @Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-
 }

@@ -1,8 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import java.util.Arrays;
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -10,7 +7,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.machines.ProcessType;
-import sonar.calculator.mod.api.nutrition.IHealthProcessor;
 import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.client.gui.machines.GuiHealthProcessor;
 import sonar.calculator.mod.common.containers.ContainerHealthProcessor;
@@ -21,7 +17,9 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 
-public class TileEntityHealthProcessor extends TileEntitySidedInventory implements IHealthProcessor, IGuiTile {
+import java.util.List;
+
+public class TileEntityHealthProcessor extends TileEntitySidedInventory implements IGuiTile {
 
 	public SyncTagType.INT storedpoints = new SyncTagType.INT(0);
 	public final int speed = 4;
@@ -70,20 +68,17 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 				}
 			}
 		}
-
 	}
 
-	@Override
 	public int getHealthPoints() {
 		return storedpoints.getObject();
 	}
 
 	private void loot(ItemStack stack) {
-		if (!(stack.isEmpty())) {
+        if (!stack.isEmpty()) {
 			int value = HealthProcessorRecipes.instance().getValue(null, stack);
 			if (value > 0) {
-				int add = value;
-				storedpoints.increaseBy(add);
+                storedpoints.increaseBy(value);
 				this.slots().get(0).shrink(1);
 			}
 			if (stack.getItem() instanceof IHealthStore) {
@@ -104,10 +99,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	}
 
 	private boolean isLoot(ItemStack stack) {
-		if (HealthProcessorRecipes.instance().getValue(null, stack) > 0) {
-			return true;
-		}
-		return false;
+        return HealthProcessorRecipes.instance().getValue(null, stack) > 0;
 	}
 
 	@Override
@@ -128,6 +120,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 		return true;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add(FontHelper.translate("points.health") + ": " + storedpoints);
@@ -143,5 +136,4 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiHealthProcessor(player.inventory, this);
 	}
-
 }

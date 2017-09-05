@@ -22,10 +22,12 @@ public class Scarecrow extends SonarMachineBlock {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.6F, 1.0F);
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
 
+    @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
@@ -33,7 +35,6 @@ public class Scarecrow extends SonarMachineBlock {
 	private void setBlocks(World world, BlockPos pos) {
 		world.setBlockState(pos.offset(EnumFacing.UP, 1), Calculator.scarecrowBlock.getDefaultState(), 3);
 		world.setBlockState(pos.offset(EnumFacing.UP, 2), Calculator.scarecrowBlock.getDefaultState(), 3);
-
 	}
 
 	@Override
@@ -67,5 +68,4 @@ public class Scarecrow extends SonarMachineBlock {
 		}
 		return true;
 	}
-
 }

@@ -89,8 +89,9 @@ public class CalculatorOreDict extends Calculator {
 			OreDictionary.registerOre(string, stack);
 	}
 	
-	/** @param type (Normal=0, Damaged=1, Dirty=2)
-	 * @return */
+    /**
+     * @param type (Normal=0, Damaged=1, Dirty=2)
+     */
 	public static ItemStack[] circuitList(int type) {
 		ItemStack[] circuits = new ItemStack[14];
 		for (int i = 0; i < circuits.length; i++) {

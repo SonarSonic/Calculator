@@ -41,6 +41,7 @@ public class PacketModuleSelection implements IMessage {
 
 	public static class Handler implements IMessageHandler<PacketModuleSelection, IMessage> {
 
+        @Override
 		public IMessage onMessage(PacketModuleSelection message, MessageContext ctx) {
 			EntityPlayer player = SonarCore.proxy.getPlayerEntity(ctx);
 			if (player != null && ctx.side == Side.SERVER) {

@@ -1,15 +1,10 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,6 +22,8 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
+
+import java.util.List;
 
 public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile, ICalculatorGenerator {
 
@@ -62,7 +59,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	public void generateEnergy() {
 		ItemStack stack = this.getStackInSlot(0);
-		if (!(stack.isEmpty()) && burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
+        if (!stack.isEmpty() && burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
 			if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel.getObject() >= requiredLevel) {
 				int itemBurnTime = TileEntityFurnace.getItemBurnTime(stack);
 				if (itemBurnTime != 0) {
@@ -75,7 +72,6 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 					}
 				}
 			}
-
 		}
 		if (burnTime.getObject() > 0 && !(burnTime.getObject() >= maxBurnTime.getObject())) {
 			this.storage.receiveEnergy(energyMultiplier, false);
@@ -86,7 +82,6 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 			burnTime.setObject(0);
 			this.removeItem(requiredLevel);
 		}
-
 	}
 
 	public void processItemLevel() {
@@ -98,7 +93,6 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 			addItem(getItemValue(stack));
 			stack.shrink(1);
 		}
-
 	}
 
 	public abstract int getItemValue(ItemStack stack);
@@ -128,7 +122,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-		return side == EnumFacing.DOWN ? slotsSides : (side == EnumFacing.UP ? slotsTop : slotsSides);
+        return side == EnumFacing.DOWN ? slotsSides : side == EnumFacing.UP ? slotsTop : slotsSides;
 	}
 
 	@Override
@@ -156,9 +150,10 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 			super.energyMultiplier = CalculatorConfig.getInteger("Starch Extractor");
 		}
 
+        @Override
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
-			currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel.getObject() * 100 / 5000 + "%");
+            currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel.getObject() * 100 / 5000 + '%');
 			return currenttip;
 		}
 
@@ -178,13 +173,15 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 			super.energyMultiplier = CalculatorConfig.getInteger("Redstone Extractor");
 		}
 
+        @Override
 		public int getItemValue(ItemStack stack) {
 			return RedstoneExtractorRecipes.instance().getValue(null, stack);
 		}
 
+        @Override
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
-			currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel.getObject() * 100 / 5000 + "%");
+            currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel.getObject() * 100 / 5000 + '%');
 			return currenttip;
 		}
 
@@ -199,13 +196,15 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 			super.energyMultiplier = CalculatorConfig.getInteger("Glowstone Extractor");
 		}
 
+        @Override
 		public int getItemValue(ItemStack stack) {
 			return GlowstoneExtractorRecipes.instance().getValue(null, stack);
 		}
 
+        @Override
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
-			currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel.getObject() * 100 / 5000 + "%");
+            currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel.getObject() * 100 / 5000 + '%');
 			return currenttip;
 		}
 

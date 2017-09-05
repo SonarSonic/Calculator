@@ -1,11 +1,10 @@
 package sonar.calculator.mod.client.gui.misc;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerCO2Generator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.core.helpers.FontHelper;
@@ -26,9 +25,7 @@ public class GuiCO2Generator extends GuiContainer {
 		if (entity.burnTime > 0 && this.entity.maxBurnTime != 0 && this.entity.gasAdd == 0) {
 			String burn = FontHelper.translate("co2.control");
 			FontHelper.textCentre(burn, xSize, 50, 0);
-		}
-
-		else if (entity.burnTime > 0 && this.entity.maxBurnTime != 0) {
+        } else if (entity.burnTime > 0 && this.entity.maxBurnTime != 0) {
 			String burn = FontHelper.translate("co2.burnt") + ": " + this.entity.burnTime * 100 / this.entity.maxBurnTime;
 			FontHelper.textCentre(burn, xSize, 50, 0);
 		} else {
@@ -36,7 +33,6 @@ public class GuiCO2Generator extends GuiContainer {
 			FontHelper.textCentre(burn, xSize, 50, 0);
 		}
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
-
 	}
 
 	@Override
@@ -48,6 +44,5 @@ public class GuiCO2Generator extends GuiContainer {
 		int k = this.entity.storage.getEnergyStored() * 78 / 1000000;
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
-
 	}
 }

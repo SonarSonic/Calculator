@@ -34,8 +34,8 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 		this.addSlotToContainer(new SlotPortableCrafting(this, inventory, 4, 79, 35, isRemote, Calculator.itemFlawlessCalculator));
 		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 3, 4 }, 5, 134, 35, isRemote));
 
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 6, 20 + 0 * 32, 61, isRemote, Calculator.itemFlawlessCalculator));
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 7, 20 + 1 * 32, 61, isRemote, Calculator.itemFlawlessCalculator));
+        addSlotToContainer(new SlotPortableCrafting(this, inventory, 6, 20, 61, isRemote, Calculator.itemFlawlessCalculator));
+        addSlotToContainer(new SlotPortableCrafting(this, inventory, 7, 20 + 32, 61, isRemote, Calculator.itemFlawlessCalculator));
 		addSlotToContainer(new SlotPortableCrafting(this, inventory, 8, 20 + 2 * 32, 61, isRemote, Calculator.itemFlawlessCalculator));
 		this.addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 6, 7, 8 }, 9, 134, 61, isRemote));
 
@@ -53,11 +53,12 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 
 	@Override
 	public void onItemCrafted() {
-		inventory.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(CalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1)), 0));
-		inventory.setInventorySlotContents(5, RecipeHelperV2.getItemStackFromList(ScientificRecipes.instance().getOutputs(player, inventory.getStackInSlot(3), inventory.getStackInSlot(4)), 0));
-		inventory.setInventorySlotContents(9, RecipeHelperV2.getItemStackFromList(AtomicCalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(6), inventory.getStackInSlot(7), inventory.getStackInSlot(8)), 0));
+        inventory.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(CalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1)), 0), false);
+        inventory.setInventorySlotContents(5, RecipeHelperV2.getItemStackFromList(ScientificRecipes.instance().getOutputs(player, inventory.getStackInSlot(3), inventory.getStackInSlot(4)), 0), false);
+        inventory.setInventorySlotContents(9, RecipeHelperV2.getItemStackFromList(AtomicCalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(6), inventory.getStackInSlot(7), inventory.getStackInSlot(8)), 0), false);
 	}
 
+    @Override
 	public void removeEnergy(int remove) {
 
 	}
@@ -67,9 +68,10 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 		return inventory.isUseableByPlayer(player);
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = (Slot) this.inventorySlots.get(par2);
+        Slot slot = this.inventorySlots.get(par2);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
@@ -94,9 +96,7 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 					if (!this.mergeItemStack(itemstack1, 6, 9, false)) {
 						return ItemStack.EMPTY;
 					}
-				}
-
-				else if (par2 >= INV_START && par2 < HOTBAR_START) {
+                } else if (par2 >= INV_START && par2 < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END, false)) {
 						return ItemStack.EMPTY;
 					}
@@ -124,11 +124,11 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 	}
 
 	public int getCurrentUsage() {
-		if (((Slot) this.inventorySlots.get(0)).getHasStack() || ((Slot) this.inventorySlots.get(1)).getHasStack()) {
+        if (this.inventorySlots.get(0).getHasStack() || this.inventorySlots.get(1).getHasStack()) {
 			return 1;
-		} else if (((Slot) this.inventorySlots.get(3)).getHasStack() || ((Slot) this.inventorySlots.get(4)).getHasStack()) {
+        } else if (this.inventorySlots.get(3).getHasStack() || this.inventorySlots.get(4).getHasStack()) {
 			return 2;
-		} else if (((Slot) this.inventorySlots.get(6)).getHasStack() || ((Slot) this.inventorySlots.get(7)).getHasStack() || ((Slot) this.inventorySlots.get(8)).getHasStack()) {
+        } else if (this.inventorySlots.get(6).getHasStack() || this.inventorySlots.get(7).getHasStack() || this.inventorySlots.get(8).getHasStack()) {
 			return 3;
 		}
 		return 0;

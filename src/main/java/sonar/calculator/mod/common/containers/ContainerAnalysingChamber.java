@@ -1,20 +1,13 @@
 package sonar.calculator.mod.common.containers;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
-import sonar.core.api.SonarAPI;
-import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerAnalysingChamber extends ContainerSync {
@@ -24,12 +17,14 @@ public class ContainerAnalysingChamber extends ContainerSync {
 		{
 
 			addTransferSlot(new TransferSlots<TileEntityAnalysingChamber>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityAnalysingChamber inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return stack.getItem() == Calculator.circuitBoard;
 				}
 			});
 			addTransferSlot(TransferSlotsManager.DISCHARGE_SLOT);
 			addTransferSlot(new TransferSlots<TileEntityAnalysingChamber>(TransferType.TILE_INV, 6) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityAnalysingChamber inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return false;
 				}

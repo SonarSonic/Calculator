@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.machines;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,6 +23,8 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
 
+import java.util.List;
+
 public abstract class Greenhouse extends SonarMachineBlock {
 	
 	public Greenhouse() {
@@ -37,7 +37,6 @@ public abstract class Greenhouse extends SonarMachineBlock {
 		public TileEntity createNewTileEntity(World var1, int var2) {
 			return new TileEntityAdvancedGreenhouse();
 		}
-		
 	}
 	
 	public static class Basic extends Greenhouse{
@@ -46,12 +45,11 @@ public abstract class Greenhouse extends SonarMachineBlock {
 		public TileEntity createNewTileEntity(World var1, int var2) {
 			return new TileEntityBasicGreenhouse();
 		}
-		
 	}
 	
+    @Override
 	public abstract TileEntity createNewTileEntity(World var1, int var2);
 	
-
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		TileEntity tile = world.getTileEntity(pos);
@@ -68,7 +66,7 @@ public abstract class Greenhouse extends SonarMachineBlock {
 							if (house.houseState.getObject() == State.INCOMPLETE && !house.wasBuilt.getObject()) {
 								FailedCoords coords = house.createBlock();
 								if (!coords.getBoolean()) {
-									FontHelper.sendMessage(FontHelper.translate("greenhouse.block") + " " + "X: " + coords.getCoords().getX() + " Y: " + coords.getCoords().getY() + " Z: " + coords.getCoords().getZ() + " - " + FontHelper.translate("greenhouse.blocking"), world, player);
+                                    FontHelper.sendMessage(FontHelper.translate("greenhouse.block") + ' ' + "X: " + coords.getCoords().getX() + " Y: " + coords.getCoords().getY() + " Z: " + coords.getCoords().getZ() + " - " + FontHelper.translate("greenhouse.blocking"), world, player);
 								} else {
 									FontHelper.sendMessage(FontHelper.translate("greenhouse.construction"), world, player);
 								}
@@ -81,7 +79,7 @@ public abstract class Greenhouse extends SonarMachineBlock {
 					}else {
 						FailedCoords coords = house.checkStructure(GreenhouseAction.CHECK);
 						if (!coords.getBoolean()) {
-							FontHelper.sendMessage("X: " + coords.getCoords().getX() + " Y: " + coords.getCoords().getY() + " Z: " + coords.getCoords().getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(), world, player);
+                            FontHelper.sendMessage("X: " + coords.getCoords().getX() + " Y: " + coords.getCoords().getY() + " Z: " + coords.getCoords().getZ() + " - " + FontHelper.translate("greenhouse.equal") + ' ' + coords.getBlock(), world, player);
 							return true;
 						}
 					}
@@ -100,11 +98,15 @@ public abstract class Greenhouse extends SonarMachineBlock {
 		return true;
 	}
 
-
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 		CalculatorHelper.addGasToolTip(stack, player, list);
 	}
 
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+        CalculatorHelper.addGasToolTip(stack, world, list);
+    }
 }

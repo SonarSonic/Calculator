@@ -14,7 +14,7 @@ public class GuiModuleWorkstation extends GuiSonar {
 
 	public GuiModuleWorkstation(InventoryPlayer inv, TileEntityModuleWorkstation entity) {
 		super(new ContainerModuleWorkstation(inv, entity), entity);
-		this.entity = (TileEntityModuleWorkstation) entity;
+        this.entity = entity;
 	}
 
 	@Override
@@ -27,5 +27,4 @@ public class GuiModuleWorkstation extends GuiSonar {
 	public ResourceLocation getBackground() {
 		return bground;
 	}
-
 }

@@ -5,11 +5,11 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.core.recipes.DefinedRecipeHelper;
 
-public class ScientificRecipes extends DefinedRecipeHelper {
+public class ScientificRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 
 	private static final ScientificRecipes recipes = new ScientificRecipes();
 
-	public static final ScientificRecipes instance() {
+    public static ScientificRecipes instance() {
 		return recipes;
 	}
 

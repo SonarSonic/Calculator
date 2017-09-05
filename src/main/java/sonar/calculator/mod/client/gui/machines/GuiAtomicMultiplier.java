@@ -1,8 +1,5 @@
 package sonar.calculator.mod.client.gui.machines;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -10,6 +7,9 @@ import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.core.client.gui.GuiSonar;
 import sonar.core.helpers.FontHelper;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class GuiAtomicMultiplier extends GuiSonar {
 
@@ -29,13 +29,13 @@ public class GuiAtomicMultiplier extends GuiSonar {
 			FontHelper.textCentre(FontHelper.translate("locator.idle"), xSize, 3, 0);
 		}
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 66, 2);
-		if ((x > guiLeft + 2 && x < guiLeft + 16) && (y > guiTop + 62 && y < guiTop + 76)) {
-			ArrayList list = new ArrayList();
+        if (x > guiLeft + 2 && x < guiLeft + 16 && y > guiTop + 62 && y < guiTop + 76) {
+            ArrayList<String> list = new ArrayList<>();
 			DecimalFormat df = new DecimalFormat("#.##");
 			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
 			list.add("Usage: " + df.format(entity.getEnergyUsage()) + " rf/t");
 			list.add("Speed: " + entity.getProcessTime() + " ticks");
-			drawSpecialToolTip(list, x, y, fontRendererObj);
+            drawSpecialToolTip(list, x, y, fontRenderer);
 		}
 		super.drawGuiContainerForegroundLayer(x, y);
 	}
@@ -47,7 +47,7 @@ public class GuiAtomicMultiplier extends GuiSonar {
 		int newEnergy = changedEnergy * 126 / 15000;
 		drawTexturedModalRect(this.guiLeft + 41, this.guiTop + 65, 0, 166, newEnergy, 10);
 
-		int c = this.entity.cookTime.getObject() * 18 / this.entity.furnaceSpeed;
+        int c = this.entity.cookTime.getObject() * 18 / TileEntityAtomicMultiplier.furnaceSpeed;
 		drawTexturedModalRect(this.guiLeft + 79, this.guiTop + 20, 176, 0, c, 9);
 	}
 
@@ -55,5 +55,4 @@ public class GuiAtomicMultiplier extends GuiSonar {
 	public ResourceLocation getBackground() {
 		return bground;
 	}
-
 }

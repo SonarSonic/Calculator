@@ -35,5 +35,4 @@ public class ItemInfo implements IItemInfo {
 	public ItemStack[] getRelatedItems() {
 		return stacks;
 	}
-
 }

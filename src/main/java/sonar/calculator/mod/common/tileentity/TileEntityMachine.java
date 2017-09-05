@@ -10,16 +10,8 @@ import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
-import sonar.calculator.mod.common.recipes.AlgorithmSeparatorRecipes;
-import sonar.calculator.mod.common.recipes.ExtractionChamberRecipes;
-import sonar.calculator.mod.common.recipes.PrecisionChamberRecipes;
-import sonar.calculator.mod.common.recipes.ProcessingChamberRecipes;
-import sonar.calculator.mod.common.recipes.ReassemblyChamberRecipes;
-import sonar.calculator.mod.common.recipes.RestorationChamberRecipes;
-import sonar.calculator.mod.common.recipes.StoneSeparatorRecipes;
-import sonar.core.helpers.ItemStackHelper;
+import sonar.calculator.mod.common.recipes.*;
 import sonar.core.recipes.RecipeHelperV2;
-import sonar.core.upgrades.UpgradeInventory;
 
 public class TileEntityMachine {
 
@@ -75,8 +67,9 @@ public class TileEntityMachine {
 			return null;
 		}
 
+        @Override
 		public boolean canProcess() {
-			if (slots().get(0) == null || (cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy())) {
+            if (slots().get(0) == null || cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy()) {
 				return false;
 			}
 			ItemStack result = getFurnaceOutput(inputStacks()[0]);
@@ -96,6 +89,7 @@ public class TileEntityMachine {
 			return true;
 		}
 
+        @Override
 		public void finishProcess() {
 			ItemStack stack = getFurnaceOutput(inputStacks()[0]);
 			if (!stack.isEmpty()) {
@@ -115,17 +109,14 @@ public class TileEntityMachine {
 
 		@Override
 		public boolean isItemValidForSlot(int slot, ItemStack stack) {
-			if (slot < this.inputSize() && FurnaceRecipes.instance().getSmeltingResult(stack) != null) {
-				return true;
-			}
-			return false;
+            return slot < this.inputSize() && FurnaceRecipes.instance().getSmeltingResult(stack) != null;
 		}
 	}
 
-	public static class StoneSeperator extends DualOutput {
+    public static class StoneSeparator extends DualOutput {
 
-		public StoneSeperator() {
-			super(1, 2, CalculatorConfig.getInteger("Stone Seperator" + "Base Speed"), CalculatorConfig.getInteger("Stone Seperator" + "Energy Usage"));
+        public StoneSeparator() {
+            super(1, 2, CalculatorConfig.getInteger("Stone Separator" + "Base Speed"), CalculatorConfig.getInteger("Stone Separator" + "Energy Usage"));
 		}
 
 		@Override
@@ -139,7 +130,9 @@ public class TileEntityMachine {
 		}
 	}
 
-	/** single process machines */
+    /**
+     * single process machines
+     */
 	public static class ReassemblyChamber extends SingleOutput {
 
 		public ReassemblyChamber() {
@@ -155,7 +148,6 @@ public class TileEntityMachine {
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiSmeltingBlock.ReassemblyChamber(player.inventory, this);
 		}
-
 	}
 
 	public static class RestorationChamber extends SingleOutput {
@@ -192,11 +184,13 @@ public class TileEntityMachine {
 		}
 	}
 
-	/** dual process machines */
-	public static class AlgorithmSeperator extends DualOutput {
+    /**
+     * dual process machines
+     */
+    public static class AlgorithmSeparator extends DualOutput {
 
-		public AlgorithmSeperator() {
-			super(1, 2, CalculatorConfig.getInteger("Algorithm Seperator" + "Base Speed"), CalculatorConfig.getInteger("Algorithm Seperator" + "Energy Usage"));
+        public AlgorithmSeparator() {
+            super(1, 2, CalculatorConfig.getInteger("Algorithm Separator" + "Base Speed"), CalculatorConfig.getInteger("Algorithm Separator" + "Energy Usage"));
 		}
 
 		@Override
@@ -227,6 +221,7 @@ public class TileEntityMachine {
 			return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, this);
 		}
 
+        @Override
 		public boolean isOutputVoided(int slot, ItemStack outputStack) {
 			return slot == 2 && upgrades.getUpgradesInstalled("VOID") == 1;
 		}
@@ -249,6 +244,7 @@ public class TileEntityMachine {
 			return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, this);
 		}
 
+        @Override
 		public boolean isOutputVoided(int slot, ItemStack outputStack) {
 			return slot == 2 && upgrades.getUpgradesInstalled("VOID") == 1;
 		}

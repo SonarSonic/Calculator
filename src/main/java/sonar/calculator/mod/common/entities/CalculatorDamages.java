@@ -9,5 +9,4 @@ public class CalculatorDamages extends DamageSource {
 	public CalculatorDamages(String source) {
 		super(source);
 	}
-
 }

@@ -8,7 +8,7 @@ import sonar.core.SonarCore;
 import sonar.core.recipes.DefinedRecipeHelper;
 import sonar.core.recipes.RecipeItemStack;
 
-public class PrecisionChamberRecipes extends DefinedRecipeHelper {
+public class PrecisionChamberRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 
 	private static final PrecisionChamberRecipes recipes = new PrecisionChamberRecipes();
 
@@ -16,7 +16,7 @@ public class PrecisionChamberRecipes extends DefinedRecipeHelper {
 		super(1, 2, false);
 	}
 
-	public static final PrecisionChamberRecipes instance() {
+    public static PrecisionChamberRecipes instance() {
 		return recipes;
 	}
 
@@ -27,7 +27,7 @@ public class PrecisionChamberRecipes extends DefinedRecipeHelper {
 		addRecipe("stone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 0));
 		addRecipe("sand", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 1));
 		addRecipe(Blocks.STONEBRICK, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 2));
-		addRecipe("reinforcedStone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 3));
+        addRecipe(SonarCore.reinforcedStoneBlock, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 3));
 		addRecipe(Blocks.SOUL_SAND, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 4));
 		addRecipe(Blocks.OBSIDIAN, new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 5));
 		addRecipe(Blocks.GRAVEL, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 6));
@@ -38,7 +38,6 @@ public class PrecisionChamberRecipes extends DefinedRecipeHelper {
 		addRecipe("sandstone", new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 11));
 		addRecipe(Blocks.CLAY, new ItemStack(Calculator.small_stone, 2), new ItemStack(Calculator.circuitDamaged, 1, 12));
 		addRecipe("dustRedstone", new ItemStack(Calculator.soil, 2), new ItemStack(Calculator.circuitDirty, 1, 13));
-
 	}
 
 	@Override

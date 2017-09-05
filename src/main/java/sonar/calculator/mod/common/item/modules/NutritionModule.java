@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.item.modules;
 
-import java.util.List;
-
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,6 +19,8 @@ import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.utils.helpers.NutritionHelper;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
+
+import java.util.List;
 
 public class NutritionModule extends SonarItem implements IHealthStore, IHungerStore {
 
@@ -75,17 +76,16 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 		if (points != 0) {
 			int current = (int) player.getHealth();
 			int max = (int) player.getMaxHealth();
-			if (current != max & (current < max)) {
+            if (current != max & current < max) {
 				int maxpoints = max - current;
 				int usedpoints = Math.min(maxpoints, 2);
 				if (!(points - usedpoints < 0)) {
 					nbtData.setInteger("health", points - usedpoints);
 					player.setHealth(player.getHealth() + usedpoints);
-				} else if ((points - usedpoints < 0)) {
+                } else if (points - usedpoints < 0) {
 					nbtData.setInteger("health", 0);
 					player.setHealth(nbtData.getInteger("health") + current);
 				}
-
 			}
 		}
 		return stack;
@@ -93,8 +93,8 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
+        super.addInformation(stack, world, list, par4);
 		if (stack.hasTagCompound()) {
 			list.add(FontHelper.translate("points.hunger") + ": " + getHungerPoints(stack));
 			list.add(FontHelper.translate("points.health") + ": " + getHealthPoints(stack));
@@ -187,5 +187,4 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 			nbtData.setInteger("health", health);
 		}
 	}
-
 }

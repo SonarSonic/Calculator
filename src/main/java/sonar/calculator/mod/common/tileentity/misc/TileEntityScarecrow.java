@@ -21,7 +21,6 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 			return;
 		}
 		grow();
-
 	}
 
 	public void grow() {
@@ -31,14 +30,12 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 		if (this.growTicks == speed) {
 			growCrop();
 			this.growTicks = 0;
-
 		}
-
 	}
 
 	public boolean growCrop() {
-		int X = (0 + (int) (Math.random() * ((range - 0) + range))) - (range - 1);
-		int Z = (0 + (int) (Math.random() * ((range - 0) + range))) - (range - 1);
+        int X = (int) (Math.random() * (range + range)) - (range - 1);
+        int Z = (int) (Math.random() * (range + range)) - (range - 1);
 		return GreenhouseHelper.applyBonemeal(world, pos.add(X, 0, Z), false);
 	}
 
@@ -46,7 +43,6 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.growTicks = nbt.getInteger("Grow");
-
 	}
 
 	@Override
@@ -56,6 +52,7 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 		return nbt;
 	}
 	
+    @Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;

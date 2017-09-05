@@ -2,14 +2,12 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.utils.SlotPortable;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.ContainerSonar;
-import sonar.core.inventory.slots.SlotLimiter;
 
 public class ContainerStorageModule extends ContainerSonar {
 	private final InventoryItem inventory;
@@ -38,9 +36,10 @@ public class ContainerStorageModule extends ContainerSonar {
 		return inventory.isUseableByPlayer(player);
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = (Slot) this.inventorySlots.get(id);
+        Slot slot = this.inventorySlots.get(id);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();

@@ -7,10 +7,12 @@ public class TileEntityPiping extends TileEntitySonar implements ISonarCable {
 
 	public int registryID = -1;
 	
+    @Override
 	public void validate(){
 		super.validate();
 	}
 	
+    @Override
 	public void invalidate(){
 		super.invalidate();
 	}

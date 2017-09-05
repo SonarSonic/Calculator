@@ -35,5 +35,4 @@ public class AtomicCalculator extends SonarMachineBlock {
 	public boolean dropStandard(IBlockAccess world, BlockPos pos) {
 		return true;
 	}
-
 }

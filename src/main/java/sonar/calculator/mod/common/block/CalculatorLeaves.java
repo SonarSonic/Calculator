@@ -1,12 +1,7 @@
 package sonar.calculator.mod.common.block;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -21,11 +16,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import sonar.calculator.mod.Calculator;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class CalculatorLeaves extends Block implements IShearable {
 
 	int leafType;
 
-	public static final PropertyEnum<LeafGrowth> GROWTH = PropertyEnum.<LeafGrowth> create("growth", LeafGrowth.class);
+    public static final PropertyEnum<LeafGrowth> GROWTH = PropertyEnum.create("growth", LeafGrowth.class);
 
 	public enum LeafGrowth implements IStringSerializable {
 		FRESH(0), GROWING(1), READY(2), MATURED(3);
@@ -58,7 +57,6 @@ public class CalculatorLeaves extends Block implements IShearable {
 		setLightOpacity(1);
 		//setStepSound(Block.soundTypeGrass);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(GROWTH, LeafGrowth.FRESH));
-
 	}
 
 	@Override
@@ -73,7 +71,7 @@ public class CalculatorLeaves extends Block implements IShearable {
 			}
 		}
 		if (blocks != 6) {
-			int randInt = 0;
+            int randInt;
 			if (leafType == 3) {
 				randInt = rand.nextInt(10);
 			} else if (leafType < 2) {
@@ -130,7 +128,7 @@ public class CalculatorLeaves extends Block implements IShearable {
 
 	@Override
 	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
-		ArrayList<ItemStack> ret = new ArrayList();
+        ArrayList<ItemStack> ret = new ArrayList<>();
 		switch (leafType) {
 		case 0:
 			ret.add(new ItemStack(Calculator.amethystLeaves, 1, 0));
@@ -148,6 +146,7 @@ public class CalculatorLeaves extends Block implements IShearable {
 		return ret;
 	}
 
+    @Override
 	public int damageDropped(IBlockState state) {
 		return 0;
 	}
@@ -161,24 +160,27 @@ public class CalculatorLeaves extends Block implements IShearable {
 		return LeafGrowth.FRESH;
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(GROWTH, getVariant(meta));
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
-		return ((LeafGrowth) state.getValue(GROWTH)).getMeta();
+        return state.getValue(GROWTH).getMeta();
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { GROWTH });
+        return new BlockStateContainer(this, GROWTH);
 	}
 
+    @Override
 	public BlockRenderLayer getBlockLayer() {
 		return Minecraft.isFancyGraphicsEnabled() ? BlockRenderLayer.CUTOUT_MIPPED : BlockRenderLayer.SOLID;
 	}	
 
-    public boolean isVisuallyOpaque()
-    {
+    public boolean isVisuallyOpaque() {
         return false;
     }
 }

@@ -2,8 +2,6 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.FlawlessCalculatorRecipes;
@@ -12,9 +10,6 @@ import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 import sonar.core.recipes.RecipeHelperV2;
 
 public class ContainerFlawlessCalculator extends ContainerSonar implements ICalculatorCrafter {
@@ -45,10 +40,12 @@ public class ContainerFlawlessCalculator extends ContainerSonar implements ICalc
 
 	@Override
 	public void onItemCrafted() {
-		inventory.setInventorySlotContents(4, RecipeHelperV2.getItemStackFromList(FlawlessCalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3)), 0));
+        inventory.setInventorySlotContents(4, RecipeHelperV2.getItemStackFromList(FlawlessCalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3)), 0), false);
 	}
 
-	public void removeEnergy(int remove) {}
+    @Override
+    public void removeEnergy(int remove) {
+    }
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

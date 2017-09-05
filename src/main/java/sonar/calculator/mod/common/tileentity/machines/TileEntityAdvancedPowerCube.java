@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -14,6 +12,8 @@ import sonar.core.utils.IMachineSides;
 import sonar.core.utils.MachineSideConfig;
 import sonar.core.utils.MachineSides;
 
+import java.util.ArrayList;
+
 public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IGuiTile, IMachineSides {
 
 	public MachineSides sides = new MachineSides(MachineSideConfig.INPUT, this, MachineSideConfig.NONE);
@@ -25,6 +25,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 		super.energyMode = EnergyMode.SEND_RECIEVE;
 	}
 
+    @Override
 	public void update() {
 		super.update();
 		if (this.isClient()) {
@@ -42,7 +43,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 		int transfer = maxTransfer / facing.size();
 		for (EnumFacing dir : facing) {
 			TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
-			SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir.getOpposite(), dir, transfer);
+            SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir, dir, transfer);
 		}
 	}
 

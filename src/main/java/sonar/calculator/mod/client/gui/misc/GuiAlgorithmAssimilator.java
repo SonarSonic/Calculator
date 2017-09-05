@@ -27,5 +27,4 @@ public class GuiAlgorithmAssimilator extends GuiSonar {
 	public ResourceLocation getBackground() {
 		return bground;
 	}
-
 }

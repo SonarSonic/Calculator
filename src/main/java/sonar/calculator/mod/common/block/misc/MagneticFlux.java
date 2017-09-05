@@ -24,6 +24,7 @@ public class MagneticFlux extends SonarMachineBlock {
 		return 2;
 	}
 	
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -59,5 +60,4 @@ public class MagneticFlux extends SonarMachineBlock {
 		}
 		return true;
 	}
-
 }

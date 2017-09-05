@@ -1,12 +1,11 @@
 package sonar.calculator.mod.client.gui.misc;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.core.SonarCore;
@@ -18,10 +17,11 @@ public class GuiWeatherController extends GuiContainer {
 
 	public TileEntityWeatherController entity;
 
+    @Override
 	public void initGui() {
 		super.initGui();
-		this.buttonList.add(new GuiButton(1, guiLeft + (xSize/2-(60/2))-25, guiTop + 18, 60, 20, getTypeIdentifier(entity.type)));
-		this.buttonList.add(new GuiButton(2, guiLeft + (xSize/2-(40/2))+35, guiTop + 18, 40, 20, entity.type==0 ?(entity.data==0?FontHelper.translate("weather.day"):FontHelper.translate("weather.night")) :(entity.data==0?FontHelper.translate("state.off"):FontHelper.translate("state.on")) ));
+        this.buttonList.add(new GuiButton(1, guiLeft + xSize / 2 - 60 / 2 - 25, guiTop + 18, 60, 20, getTypeIdentifier(entity.type)));
+        this.buttonList.add(new GuiButton(2, guiLeft + xSize / 2 - 40 / 2 + 35, guiTop + 18, 40, 20, entity.type == 0 ? entity.data == 0 ? FontHelper.translate("weather.day") : FontHelper.translate("weather.night") : entity.data == 0 ? FontHelper.translate("state.off") : FontHelper.translate("state.on")));
 	}
 
 	public static String getTypeIdentifier(int type) {
@@ -34,9 +34,9 @@ public class GuiWeatherController extends GuiContainer {
 			return FontHelper.translate("weather.thunder");
 		}
 		return null;
-
 	}
 
+    @Override
 	protected void actionPerformed(GuiButton button) {
 		if (button == null) {
 			return;
@@ -62,7 +62,6 @@ public class GuiWeatherController extends GuiContainer {
 		}
 		this.buttonList.clear();
 		this.initGui();
-
 	}
 
 	public GuiWeatherController(InventoryPlayer inventoryPlayer, TileEntityWeatherController entity) {
@@ -74,7 +73,7 @@ public class GuiWeatherController extends GuiContainer {
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
-		FontHelper.textCentre("Buffer: " + this.entity.buffer * 100 / 100 + "%", this.xSize, 45, 0);
+        FontHelper.textCentre("Buffer: " + this.entity.buffer * 100 / 100 + '%', this.xSize, 45, 0);
 		FontHelper.text(": ", 97, 24, 0);
 	}
 

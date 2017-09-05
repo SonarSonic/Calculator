@@ -1,11 +1,7 @@
 package sonar.calculator.mod.common.block;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -23,11 +19,13 @@ import sonar.calculator.mod.Calculator;
 import sonar.core.common.block.properties.IMetaRenderer;
 import sonar.core.common.block.properties.IMetaVariant;
 
+import java.util.Random;
+
 public class MaterialBlock extends Block implements IMetaRenderer {
 
-	public static final PropertyEnum<Variants> VARIANTS = PropertyEnum.<Variants> create("variant", Variants.class);
+    public static final PropertyEnum<Variants> VARIANTS = PropertyEnum.create("variant", Variants.class);
 
-	public static enum Variants implements IStringSerializable, IMetaVariant {
+    public enum Variants implements IStringSerializable, IMetaVariant {
 		AMETHYST(0), TANZANITE(1), ENRICHED_GOLD(2), REINFORCED_IRON(3), WEAKENED_DIAMOND(4), FLAWLESS_DIAMOND(5), FIRE_DIAMOND(6), ELECTRIC_DIAMOND(7), END_DIAMOND(8), REDSTONE_INGOT(9);
 		private int meta;
 
@@ -101,9 +99,9 @@ public class MaterialBlock extends Block implements IMetaRenderer {
 				double d6 = pos.getX() + rand.nextFloat();
 				double d1 = pos.getY() + rand.nextFloat();
 				d6 = pos.getZ() + rand.nextFloat();
-				double d3 = 0.0D;
-				double d4 = 0.0D;
-				double d5 = 0.0D;
+                double d3;
+                double d4;
+                double d5;
 				int i1 = rand.nextInt(2) * 2 - 1;
 				int j1 = rand.nextInt(2) * 2 - 1;
 				d3 = (rand.nextFloat() - 0.5D) * 0.125D;
@@ -118,27 +116,31 @@ public class MaterialBlock extends Block implements IMetaRenderer {
 		}
 	}
 
+    @Override
 	public int damageDropped(IBlockState state) {
-		return ((Variants) state.getValue(VARIANTS)).getMeta();
+        return state.getValue(VARIANTS).getMeta();
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int i = 0; i < getVariants().length; ++i) {
-			list.add(new ItemStack(item, 1, i));
+            list.add(new ItemStack(this, 1, i));
 		}
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(VARIANTS, getVariant(meta));
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
-		return ((Variants) state.getValue(VARIANTS)).getMeta();
+        return state.getValue(VARIANTS).getMeta();
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { VARIANTS });
+        return new BlockStateContainer(this, VARIANTS);
 	}
-
 }

@@ -1,10 +1,10 @@
 package sonar.calculator.mod.common.item.calculators;
 
-import java.util.List;
-
-import cofh.api.energy.IEnergyContainerItem;
-import net.minecraft.entity.player.EntityPlayer;
+import cofh.redstoneflux.api.IEnergyContainerItem;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.modules.IModuleEnergy;
@@ -12,6 +12,9 @@ import sonar.core.api.energy.ISonarEnergyItem;
 import sonar.core.api.utils.ActionType;
 import sonar.core.helpers.FontHelper;
 
+import java.util.List;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")})
 public class SonarEnergyModule extends SonarModule implements ISonarEnergyItem, IEnergyContainerItem {
 
 	public SonarEnergyModule(IModuleEnergy module) {
@@ -20,8 +23,8 @@ public class SonarEnergyModule extends SonarModule implements ISonarEnergyItem, 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
+        super.addInformation(stack, world, list, par4);
 		list.add(FontHelper.translate("energy.stored") + ": " + getEnergyLevel(stack) + " RF");
 	}
 
@@ -46,25 +49,30 @@ public class SonarEnergyModule extends SonarModule implements ISonarEnergyItem, 
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int receiveEnergy(ItemStack stack, int maxReceive, boolean simulate) {
 		return (int) addEnergy(stack, maxReceive, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int extractEnergy(ItemStack stack, int maxExtract, boolean simulate) {
 		return (int) removeEnergy(stack, maxExtract, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int getEnergyStored(ItemStack stack) {
 		return (int) getEnergyLevel(stack);
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int getMaxEnergyStored(ItemStack stack) {
 		return (int) getFullCapacity(stack);
 	}
 
+    @Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
 	}

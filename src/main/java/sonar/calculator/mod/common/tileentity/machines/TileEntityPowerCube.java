@@ -10,7 +10,6 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
 
 public class TileEntityPowerCube extends TileEntityEnergyInventory implements IGuiTile {
-
 	public TileEntityPowerCube() {
 		super.storage.setCapacity(CalculatorConfig.getInteger("Standard Machine")).setMaxTransfer(200);
 		super.inv = new SonarInventory(this, 2);
@@ -21,10 +20,10 @@ public class TileEntityPowerCube extends TileEntityEnergyInventory implements IG
 
 	@Override
 	public void update() {
-		super.update();
 		if (this.isClient()) {
 			return;
 		}
+        super.update();
 		charge(0);
 		discharge(1);		
 	}
@@ -38,5 +37,4 @@ public class TileEntityPowerCube extends TileEntityEnergyInventory implements IG
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiPowerCube(player.inventory, this);
 	}
-
 }

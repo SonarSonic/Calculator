@@ -1,16 +1,14 @@
 package sonar.calculator.mod.common.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
-import sonar.core.recipes.DefaultSonarRecipe;
-import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.recipes.RecipeObjectType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRecipe> {
 
@@ -51,8 +49,8 @@ public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRe
 	}
 
 	public void addRecipe(Object... objs) {
-		ArrayList outputs = new ArrayList();
-		ArrayList inputs = new ArrayList();
+        ArrayList<Object> outputs = new ArrayList<>();
+        ArrayList<Object> inputs = new ArrayList<>();
 		for (int i = 0; i < objs.length; i++) {
 			Object obj = objs[i];
 			if (i < 1) {
@@ -61,7 +59,7 @@ public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRe
 				inputs.add(obj);
 			}
 		}
-		addRecipe(buildDefaultRecipe(inputs, outputs, new ArrayList(), true));
+        addRecipe(buildDefaultRecipe(inputs, outputs, new ArrayList<>(), true));
 	}
 
 	public ItemStack c(int meta, long required, boolean stable) {
@@ -73,7 +71,7 @@ public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRe
 		return stack;
 	}
 	
-
+    @Override
 	public FabricationSonarRecipe buildRecipe(ArrayList<ISonarRecipeObject> recipeInputs, ArrayList<ISonarRecipeObject> recipeOutputs, List additionals, boolean shapeless) {
 		return new FabricationSonarRecipe(recipeInputs, recipeOutputs, shapeless);
 	}
@@ -85,7 +83,8 @@ public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRe
 		}
 		ArrayList<ISonarRecipeObject> remaining = (ArrayList<ISonarRecipeObject>) ingredients.clone();
 		int iPos = 0;
-		i: for (ISonarRecipeObject ingredient : ingredients) {
+        i:
+        for (ISonarRecipeObject ingredient : ingredients) {
 			int pos = -1;
 			for (Object obj : objs) {
 				pos++;

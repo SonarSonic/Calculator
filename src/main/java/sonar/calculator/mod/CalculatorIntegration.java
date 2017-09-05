@@ -17,6 +17,5 @@ public class CalculatorIntegration {
 		DischargeValues.addValue(Calculator.purified_coal, 10000);
 		DischargeValues.addValue(Calculator.coal_dust, 250);
 		Calculator.logger.info("Added Discharge Values");
-
 	}
 }

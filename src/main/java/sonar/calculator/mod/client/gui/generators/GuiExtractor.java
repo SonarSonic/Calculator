@@ -1,11 +1,10 @@
 package sonar.calculator.mod.client.gui.generators;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerGenerator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
 import sonar.core.helpers.FontHelper;
@@ -56,7 +55,6 @@ public abstract class GuiExtractor extends GuiContainer {
 		public ResourceLocation getResource() {
 			return starch;
 		}
-
 	}
 
 	public static class Redstone extends GuiExtractor {
@@ -71,7 +69,6 @@ public abstract class GuiExtractor extends GuiContainer {
 		public ResourceLocation getResource() {
 			return redstone;
 		}
-
 	}
 
 	public static class Glowstone extends GuiExtractor {
@@ -86,6 +83,5 @@ public abstract class GuiExtractor extends GuiContainer {
 		public ResourceLocation getResource() {
 			return glowstone;
 		}
-
 	}
 }

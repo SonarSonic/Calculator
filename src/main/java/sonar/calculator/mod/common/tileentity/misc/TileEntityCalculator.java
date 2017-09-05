@@ -30,7 +30,7 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 
 		public FailedCoords checkStructure() {
 			EnumFacing forward = this.world.getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
-			BlockPos centre = pos.add((forward.getFrontOffsetX() * 3), 0, (forward.getFrontOffsetZ() * 3));
+            BlockPos centre = pos.add(forward.getFrontOffsetX() * 3, 0, forward.getFrontOffsetZ() * 3);
 
 			FailedCoords bottom = this.outsideLayer(centre.offset(EnumFacing.DOWN, 3));
 			if (!bottom.getBoolean()) {
@@ -45,7 +45,6 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 				return middle;
 			}
 			return new FailedCoords(true, BlockCoords.EMPTY, null);
-
 		}
 
 		public FailedCoords outsideLayer(BlockPos pos) {
@@ -59,7 +58,6 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 					} else if (!(this.world.getBlockState(current).getBlock() instanceof IStableGlass)) {
 						return new FailedCoords(false, new BlockCoords(current, world.provider.getDimension()), "glass");
 					}
-
 				}
 			}
 			return new FailedCoords(true, BlockCoords.EMPTY, null);
@@ -85,7 +83,6 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 						} else if (!(this.world.getBlockState(current).getBlock() == Blocks.AIR)) {
 							return new FailedCoords(false, new BlockCoords(current, world.provider.getDimension()), "air");
 						}
-
 					}
 				}
 			}

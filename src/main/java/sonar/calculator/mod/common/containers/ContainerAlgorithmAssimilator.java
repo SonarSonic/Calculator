@@ -1,17 +1,12 @@
 package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.api.nutrition.IHealthStore;
-import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.core.inventory.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerAlgorithmAssimilator extends ContainerSonar {
@@ -20,6 +15,7 @@ public class ContainerAlgorithmAssimilator extends ContainerSonar {
 		{
 
 			addTransferSlot(new TransferSlots<TileEntityAssimilator>(TransferType.TILE_INV, 3 * 9) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityAssimilator inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return true;
 				}
@@ -43,14 +39,17 @@ public class ContainerAlgorithmAssimilator extends ContainerSonar {
 		addInventory(player.inventory, 8,84);
 	}
 
+    @Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return this.entity.isUseableByPlayer(player);
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}
 
+    @Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
 		this.entity.closeInventory(player);
