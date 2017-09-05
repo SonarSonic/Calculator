@@ -1,8 +1,0 @@
-{
-    "parent":"calculator:item/SonarAxe",
-    "textures": {
-        "0":"calculator:model/tools/redstone_0",
-        "1":"calculator:model/tools/redstone_1",
-        "2":"calculator:model/tools/redstone_2"
-    }
-}

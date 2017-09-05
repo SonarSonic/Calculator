@@ -1,8 +1,0 @@
-{
-    "parent":"calculator:item/SonarSword",
-    "textures": {
-        "0":"calculator:model/tools/iron_0",
-        "1":"calculator:model/tools/iron_1",
-        "2":"calculator:model/tools/iron_2"
-    }
-}

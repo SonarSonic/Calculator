@@ -1,8 +1,0 @@
-{
-    "parent":"calculator:item/SonarSword",
-    "textures": {
-        "0":"calculator:model/tools/weak_diamond_0",
-        "1":"calculator:model/tools/weak_diamond_1",
-        "2":"calculator:model/tools/weak_diamond_2"
-    }
-}
