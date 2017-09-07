@@ -227,7 +227,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
     	}
 
 	private IPlanter getPlanter(ItemStack stack) {
-		if (stack = null) {
+		if (stack == null) {
 			return null;	
 		}
 		
