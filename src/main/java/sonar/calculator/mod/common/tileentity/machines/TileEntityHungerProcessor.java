@@ -8,6 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.machines.ProcessType;
+import sonar.calculator.mod.api.nutrition.IHungerProcessor;
 import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.client.gui.machines.GuiHungerProcessor;
 import sonar.calculator.mod.common.containers.ContainerHungerProcessor;
@@ -19,7 +20,7 @@ import sonar.core.utils.IGuiTile;
 
 import java.util.List;
 
-public class TileEntityHungerProcessor extends TileEntitySidedInventory implements IGuiTile {
+public class TileEntityHungerProcessor extends TileEntitySidedInventory implements IGuiTile, IHungerProcessor {
 
 	public SyncTagType.INT storedpoints = new SyncTagType.INT(0);
 	public final int speed = 4;
