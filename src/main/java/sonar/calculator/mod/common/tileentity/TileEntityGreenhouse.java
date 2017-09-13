@@ -279,7 +279,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		ItemStack[] seedSlots = slots();
 		int offset = getSlotOffset();
 
-		for (int j = 0; j <  9; j++) {
+		for (int j = 0; j < 9; j++) {
 		    ItemStack stack = seedSlots[j + offset];
 			if (stack != null && isSeed(stack)) {
                 		stacks.add(stack);
