@@ -1,8 +1,0 @@
-{
-    "parent":"calculator:item/SonarPickaxe",
-    "textures": {
-        "0":"calculator:model/tools/end_diamond_0",
-        "1":"calculator:model/tools/end_diamond_1",
-        "2":"calculator:model/tools/end_diamond_2"
-    }
-}
