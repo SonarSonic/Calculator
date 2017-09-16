@@ -198,12 +198,14 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
                 continue;
 					}
             ItemStack seeds = getAvailableSeedStack();
-            IPlanter planter = getPlanter(seeds);
+			if (seeds != null) {
+				IPlanter planter = getPlanter(seeds);
 
-            if (seeds != null && planter != null) {
-                IBlockState state = planter.getPlant(seeds, getWorld(), pos);
-                plantCrop(pos, state, seeds);
+				if (planter != null) {
+					IBlockState state = planter.getPlant(seeds, getWorld(), pos);
+					plantCrop(pos, state, seeds);
 				}
+			}
 
 
         }
@@ -219,6 +221,8 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
     private IPlanter getPlanter(ItemStack stack) {
+		if (stack == null)
+			return null;
         for (IPlanter planter : SonarCore.planters.getObjects()) {
             if (planter.canTierPlant(stack, type)) {
                 return planter;

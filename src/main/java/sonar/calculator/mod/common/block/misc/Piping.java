@@ -11,6 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.api.nutrition.IHealthProcessor;
+import sonar.calculator.mod.api.nutrition.IHungerProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
 import sonar.core.common.block.ConnectedBlock;
@@ -106,7 +108,7 @@ public class Piping extends ConnectedBlock implements ISpecialTooltip {
 		public boolean checkBlockInDirection(IBlockAccess world, int x, int y, int z, EnumFacing dir) {
 			IBlockState state = world.getBlockState(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
 			TileEntity tile = world.getTileEntity(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
-            return tile != null && tile instanceof TileEntityHungerProcessor || state.getBlock() == Calculator.amethystLog || super.checkBlockInDirection(world, x, y, z, dir);
+            return tile != null && tile instanceof IHungerProcessor || state.getBlock() == Calculator.amethystLog || super.checkBlockInDirection(world, x, y, z, dir);
 		}
 	}
 
@@ -120,7 +122,7 @@ public class Piping extends ConnectedBlock implements ISpecialTooltip {
 		public boolean checkBlockInDirection(IBlockAccess world, int x, int y, int z, EnumFacing dir) {
 			IBlockState state = world.getBlockState(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
 			TileEntity tile = world.getTileEntity(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
-            return tile != null && tile instanceof TileEntityHealthProcessor || state.getBlock() == Calculator.tanzaniteLog || super.checkBlockInDirection(world, x, y, z, dir);
+            return tile != null && tile instanceof IHealthProcessor || state.getBlock() == Calculator.tanzaniteLog || super.checkBlockInDirection(world, x, y, z, dir);
 			}
 		}
 	}

@@ -116,7 +116,7 @@ public class TileEntityMachine {
     public static class StoneSeparator extends DualOutput {
 
         public StoneSeparator() {
-            super(1, 2, CalculatorConfig.getInteger("Stone Separator" + "Base Speed"), CalculatorConfig.getInteger("Stone Separator" + "Energy Usage"));
+            super(1, 2, CalculatorConfig.getInteger("Stone Seperator" + "Base Speed"), CalculatorConfig.getInteger("Stone Seperator" + "Energy Usage"));
 		}
 
 		@Override
@@ -190,7 +190,7 @@ public class TileEntityMachine {
     public static class AlgorithmSeparator extends DualOutput {
 
         public AlgorithmSeparator() {
-            super(1, 2, CalculatorConfig.getInteger("Algorithm Separator" + "Base Speed"), CalculatorConfig.getInteger("Algorithm Separator" + "Energy Usage"));
+            super(1, 2, CalculatorConfig.getInteger("Algorithm Seperator" + "Base Speed"), CalculatorConfig.getInteger("Algorithm Seperator" + "Energy Usage"));
 		}
 
 		@Override
