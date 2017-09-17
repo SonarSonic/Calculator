@@ -24,7 +24,7 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 				this.addSlotToContainer(new SlotLarge(entity.getTileInv(), k + j * 9, 8 + k * 18, 24 + j * 18));
 			}
 		}
-		addInventory(player.inventory, 8, 102);
+		addInventory(player.inventory, 8, 84);
 	}
 
     @Override

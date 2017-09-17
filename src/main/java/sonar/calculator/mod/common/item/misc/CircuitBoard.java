@@ -62,6 +62,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability, ICalculat
 
     @Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int par, boolean bool) {
+    	super.onUpdate(stack, world, entity, par, bool);
 		if (stack.getTagCompound() == null && !stack.hasTagCompound()) {
 			setData(stack);
 		}

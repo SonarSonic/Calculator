@@ -81,12 +81,10 @@ public class DockingStation extends SonarMachineBlock {
 
 	@Override
     public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
-		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
 	}
 
     @Override
     public void standardInfo(ItemStack stack, World world, List<String> list) {
-        list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
     }
 
     @Override

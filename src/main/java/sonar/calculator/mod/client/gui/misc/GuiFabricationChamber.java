@@ -16,6 +16,7 @@ import sonar.calculator.mod.common.recipes.FabricationChamberRecipes;
 import sonar.calculator.mod.common.recipes.FabricationSonarRecipe;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.core.SonarCore;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.network.PacketByteBuf;
@@ -27,7 +28,7 @@ import sonar.core.recipes.RecipeHelperV2;
 import java.io.IOException;
 import java.util.List;
 
-public class GuiFabricationChamber extends GuiContainer {
+public class GuiFabricationChamber extends GuiSonarTile {
 
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/fabrication_chamber.png");
 
@@ -40,16 +41,14 @@ public class GuiFabricationChamber extends GuiContainer {
 	public final List<FabricationSonarRecipe> recipes = FabricationChamberRecipes.instance().getRecipes();
 
 	public GuiFabricationChamber(InventoryPlayer player, TileEntityFabricationChamber chamber) {
-		super(new ContainerFabricationChamber(player, chamber));
+		super(new ContainerFabricationChamber(player, chamber), chamber);
 		this.chamber = chamber;
 		this.ySize = 200;
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		drawTexturedModalRect(scrollerLeft, scrollerStart + (int) ((float) (scrollerEnd - scrollerStart - 17) * this.currentScroll), 176, 0, 8, 15);
 		int pos = getDataPosition();
 		int offsetTop = 6;
@@ -61,6 +60,11 @@ public class GuiFabricationChamber extends GuiContainer {
 			int l = chamber.currentFabricateTime.getObject() * 23 / chamber.fabricateTime;
 			drawTexturedModalRect(this.guiLeft + 84 + 10, this.guiTop + 89, 176, 16, l, 16);
 		}
+	}
+
+	@Override
+	public ResourceLocation getBackground() {
+		return bground;
 	}
 
 	@Override

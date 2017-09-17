@@ -26,8 +26,8 @@ public class ContainerModuleWorkstation extends ContainerSync {
 			for (int k = 0; k < 8; ++k) {
 				this.addSlotToContainer(new Slot(entity, k + j * 8, 10 + k * 20, 40 + j * 22) {
                     @Override
-					public boolean isItemValid(@Nullable ItemStack stack) {
-						return stack != null && Calculator.moduleItems.getSecondaryObject(stack.getItem()) != null;
+					public boolean isItemValid(ItemStack stack) {
+						return !stack.isEmpty() && Calculator.moduleItems.getSecondaryObject(stack.getItem()) != null;
 					}
 
                     @Override
@@ -40,8 +40,8 @@ public class ContainerModuleWorkstation extends ContainerSync {
 
 		addSlotToContainer(new Slot(entity, 16, 8, 8) {
             @Override
-			public boolean isItemValid(@Nullable ItemStack stack) {
-				return stack != null && stack.getItem() instanceof IFlawlessCalculator;
+			public boolean isItemValid(ItemStack stack) {
+				return !stack.isEmpty() && stack.getItem() instanceof IFlawlessCalculator;
 			}
 		});
 		addInventory(inventory, 8, 84);

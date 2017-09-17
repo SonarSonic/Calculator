@@ -51,7 +51,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		super.inv = new SonarInventory(this, 8) {
             @Override
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
-                inv().setInventorySlotContents(i, itemstack);
+               super.setInventorySlotContents(i, itemstack);
 				if (i == 0) {
 					markBlockForUpdate();
 				}
@@ -255,7 +255,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public ItemStack[] getAdditionalStacks() {
 		ArrayList<ItemStack> drops = upgrades.getDrops();
 		if (drops == null || drops.isEmpty()) {
-			return new ItemStack[] { null };
+			return new ItemStack[] { ItemStack.EMPTY };
 		}
 		ItemStack[] toDrop = new ItemStack[drops.size()];
 		int pos = 0;

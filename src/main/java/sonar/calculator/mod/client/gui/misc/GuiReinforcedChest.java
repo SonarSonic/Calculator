@@ -4,10 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerReinforcedChest;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 
-public class GuiReinforcedChest extends GuiSonar {
+public class GuiReinforcedChest extends GuiSonarTile {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/assimilator.png");
 
 	public TileEntityReinforcedChest entity;

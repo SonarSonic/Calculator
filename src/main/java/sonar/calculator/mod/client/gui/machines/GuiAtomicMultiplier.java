@@ -5,13 +5,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class GuiAtomicMultiplier extends GuiSonar {
+public class GuiAtomicMultiplier extends GuiSonarTile {
 
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/atomicMultiplier.png");
 	public TileEntityAtomicMultiplier entity;

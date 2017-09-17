@@ -214,9 +214,9 @@ public class CalculatorItems extends Calculator {
 		grenadecasing = registerItem("GrenadeCasing", new Item());
 		baby_grenade = registerItem("BabyGrenade", new Grenade(0));
 		grenade = registerItem("Grenade", new Grenade(1));
-		circuitBoard = registerItem("CircuitBoard", new CircuitBoard().setHasSubtypes(true).setMaxStackSize(1));
-		circuitDamaged = registerItem("CircuitDamaged", new SonarMetaItem(14).setHasSubtypes(true).setMaxStackSize(1));
-		circuitDirty = registerItem("CircuitDirty", new SonarMetaItem(14).setHasSubtypes(true).setMaxStackSize(1));
+		circuitBoard = registerItem("CircuitBoard", new CircuitBoard().setCreativeTab(Calculator).setHasSubtypes(true).setMaxStackSize(1));
+		circuitDamaged = registerItem("CircuitDamaged", new SonarMetaItem(14).setCreativeTab(Calculator).setHasSubtypes(true).setMaxStackSize(1));
+		circuitDirty = registerItem("CircuitDirty", new SonarMetaItem(14).setCreativeTab(Calculator).setHasSubtypes(true).setMaxStackSize(1));
 
 		//ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(circuitBoard, 0, 1, 1, 2)); ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(circuitDirty, 0, 1, 1, 5)); ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(circuitDamaged, 0, 1, 1, 5)); ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(itemCalculator, 0, 1, 1, 4)); ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(itemCraftingCalculator, 0, 1, 1, 4)); ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(itemInfoCalculator, 0, 1, 1, 4)); ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(Item.getItemFromBlock(reinforcedStoneBlock), 0, 5, 20, 12)); ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(wrench, 0, 1, 1, 3)); ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(itemInfoCalculator, 0, 1, 1, 10)); 
 	}

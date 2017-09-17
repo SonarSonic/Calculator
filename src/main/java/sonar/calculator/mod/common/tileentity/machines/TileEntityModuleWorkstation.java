@@ -25,7 +25,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 	public TileEntityModuleWorkstation() {
 		super.inv = new SonarInventory(this, 1 + FlawlessCalculator.moduleCapacity) {
 
-            @Override
+			@Override
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
 				if (i != 16) {
 					updateCalc = true;
@@ -36,12 +36,12 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 						newCalc = true;
 					}
 				}
-                inv().setInventorySlotContents(i, itemstack);
+				super.setInventorySlotContents(i, itemstack);
 			}
 
-            @Override
+			@Override
 			public boolean isItemValidForSlot(int slot, ItemStack stack) {
-				if (hasFlawlessCalculator() && stack != null) {
+				if (hasFlawlessCalculator() && !stack.isEmpty()) {
 					IModule module = Calculator.modules.getRegisteredObject(Calculator.moduleItems.getSecondaryObject(stack.getItem()));
 					if (module != null) {
 						ItemStack calcStack = slots().get(FlawlessCalculator.moduleCapacity);
@@ -54,42 +54,42 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 				return true;
 			}
 
-            @Override
+			@Override
 			public ItemStack decrStackSize(int slot, int var2) {
 				updateCalc = true;
-                ItemStack toReturn = inv().decrStackSize(slot, var2);
+				ItemStack toReturn = super.decrStackSize(slot, var2);
 				if (slot == 16) {
 					clear();
 				}
 				return toReturn;
 			}
 
-            @Override
+			@Override
 			public ItemStack removeStackFromSlot(int i) {
 				updateCalc = true;
-                ItemStack toReturn = inv().removeStackFromSlot(i);
+				ItemStack toReturn = super.removeStackFromSlot(i);
 				if (i == 16) {
 					clear();
 				}
 				return toReturn;
 			}
 
-            @Override
+			@Override
 			public void closeInventory(EntityPlayer player) {
 				updateCalc = true;
 			}
 
-            @Override
+			@Override
 			public int getInventoryStackLimit() {
 				return 1;
 			}
 
-            @Override
+			@Override
 			public void clear() {
 				updateCalc = true;
-                for (int i = 0; i < getSizeInventory(); i++) {
+				for (int i = 0; i < getSizeInventory(); i++) {
 					if (i != 16) {
-						setInventorySlotContents(i, null);
+						setInventorySlotContents(i, ItemStack.EMPTY);
 					}
 				}
 			}
@@ -102,12 +102,12 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 		syncList.addPart(inv);
 	}
 
-    @Override
+	@Override
 	public void update() {
 		if (isClient() || !hasFlawlessCalculator()) {
 			return;
 		}
-        super.update();
+		super.update();
 		ItemStack stack = slots().get(FlawlessCalculator.moduleCapacity);
 		IFlawlessCalculator calc = (IFlawlessCalculator) stack.getItem();
 		if (newCalc) {
@@ -125,14 +125,14 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 			newCalc = false;
 			updateCalc = false;
 		} else if (updateCalc) {
-            ArrayList<IModule> modules = new ArrayList<>();
+			ArrayList<IModule> modules = new ArrayList<>();
 			for (int i = 0; i < FlawlessCalculator.moduleCapacity; i++) {
 				ItemStack target = slots().get(i);
 				NBTTagCompound tag = new NBTTagCompound();
-				IModule module = target != null ? Calculator.modules.getRegisteredObject(Calculator.moduleItems.getSecondaryObject(target.getItem())) : EmptyModule.EMPTY;
+				IModule module = !target.isEmpty() ? Calculator.modules.getRegisteredObject(Calculator.moduleItems.getSecondaryObject(target.getItem())) : EmptyModule.EMPTY;
 				if (module == null) {
 					module = EmptyModule.EMPTY;
-				} else if (target != null) {
+				} else if (!target.isEmpty()) {
 					tag = target.getTagCompound();
 				}
 				calc.addModule(stack, tag, module, i);

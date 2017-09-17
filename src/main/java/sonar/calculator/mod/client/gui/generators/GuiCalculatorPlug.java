@@ -7,24 +7,24 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerCalculatorPlug;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 
-public class GuiCalculatorPlug extends GuiContainer {
+public class GuiCalculatorPlug extends GuiSonarTile {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guicalculatorplug.png");
 
 	public TileEntityCalculatorPlug entity;
 
 	public GuiCalculatorPlug(InventoryPlayer inventoryPlayer, TileEntityCalculatorPlug entity) {
-		super(new ContainerCalculatorPlug(inventoryPlayer, entity));
-
+		super(new ContainerCalculatorPlug(inventoryPlayer, entity), entity);
 		this.entity = entity;
-
 		this.xSize = 176;
 		this.ySize = 166;
 	}
 
 	@Override
-	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+	public void drawGuiContainerForegroundLayer(int x, int y) {
+		super.drawGuiContainerForegroundLayer(x, y);
 		FontHelper.textCentre(FontHelper.translate("tile.CalculatorPlug.name"), xSize, 6, 0);
 		FontHelper.textCentre(getString(entity.stable.getObject()), xSize, 60, 0);
 	}
@@ -42,9 +42,7 @@ public class GuiCalculatorPlug extends GuiContainer {
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+	public ResourceLocation getBackground() {
+		return bground;
 	}
 }

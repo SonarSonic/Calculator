@@ -59,9 +59,7 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 	}
 
     @Override
-	public void removeEnergy(int remove) {
-
-	}
+	public void removeEnergy(int remove) {}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

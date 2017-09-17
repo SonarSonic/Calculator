@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
@@ -14,7 +14,7 @@ import sonar.core.helpers.FontHelper;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class GuiSmeltingBlock extends GuiSonar {
+public class GuiSmeltingBlock extends GuiSonarTile {
 
 	public TileEntityAbstractProcess entity;
 
@@ -51,6 +51,7 @@ public class GuiSmeltingBlock extends GuiSonar {
 			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
 			list.add("Usage: " + df.format(entity.getEnergyUsage()) + " rf/t");
 			list.add("Speed: " + entity.getProcessTime() + " ticks");
+			list.add("Stored: " + entity.storage.getEnergyStored() + " RF");
             this.drawSpecialToolTip(list, x, y, fontRenderer);
 		}
 		super.drawGuiContainerForegroundLayer(x, y);

@@ -5,13 +5,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class GuiConductorMast extends GuiSonar {
+public class GuiConductorMast extends GuiSonarTile {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/conductorMast.png");
 
 	public TileEntityConductorMast entity;

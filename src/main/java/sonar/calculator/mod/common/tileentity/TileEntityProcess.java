@@ -245,7 +245,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	}
 
 	public boolean canStack(ItemStack current, ItemStack stack) {
-		if (current == null) {
+		if (current.isEmpty()) {
 			return true;
 		} else if (current.getCount() == current.getMaxStackSize()) {
 			return false;
@@ -271,7 +271,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public ItemStack[] getAdditionalStacks() {
 		ArrayList<ItemStack> drops = upgrades.getDrops();
 		if (drops == null || drops.isEmpty()) {
-			return new ItemStack[] { null };
+			return new ItemStack[] { ItemStack.EMPTY };
 		}
 		ItemStack[] toDrop = new ItemStack[drops.size()];
 		int pos = 0;

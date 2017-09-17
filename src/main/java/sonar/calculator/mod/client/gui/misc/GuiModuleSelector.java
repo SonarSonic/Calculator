@@ -175,7 +175,9 @@ public class GuiModuleSelector extends GuiContainer {
 
     @Override
 	public void drawScreen(int x, int y, float var) {
+		this.drawDefaultBackground();
 		super.drawScreen(x, y, var);
+		this.renderHoveredToolTip(x, y);
 		float lastScroll = currentScroll;
 		boolean flag = Mouse.isButtonDown(0);
 

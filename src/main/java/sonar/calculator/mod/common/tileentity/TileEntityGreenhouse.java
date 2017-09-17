@@ -40,7 +40,7 @@ import java.util.List;
 public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory implements IGreenhouse, IPausable, IByteBufTile {
 
 	public enum State {
-        INCOMPLETE, BUILDING, COMPLETED, DEMOLISHING
+		INCOMPLETE, BUILDING, COMPLETED, DEMOLISHING
 	}
 
 	public SyncEnum<State> houseState = new SyncEnum(State.values(), 0);
@@ -64,7 +64,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		syncList.addParts(houseState, carbon, wasBuilt, paused);
 	}
 
-    @Override
+	@Override
 	public void update() {
 		super.update();
 		forward = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
@@ -100,7 +100,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	public enum GreenhouseAction {
-        CAN_BUILD, CHECK, BUILD, DEMOLISH
+		CAN_BUILD, CHECK, BUILD, DEMOLISH
 	}
 
 	public abstract FailedCoords checkStructure(GreenhouseAction action);
@@ -119,7 +119,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 		ArrayList<BlockPos> plantArea = (ArrayList<BlockPos>) getPlantArea().clone();
 		for (int i = 0; i < repeat; i++) {
-            if (this.storage.getEnergyStored() > this.growthRF) {
+			if (this.storage.getEnergyStored() > this.growthRF) {
 				int rand = SonarCore.randInt(0, plantArea.size() - 1);
 				BlockPos pos = plantArea.get(rand);
 				IBlockState state = world.getBlockState(pos);
@@ -137,7 +137,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	protected void harvestCrops() {
-        if (isClient() || this.storage.getEnergyStored() < this.plantRF) {
+		if (isClient() || this.storage.getEnergyStored() < this.plantRF) {
 			return;
 		}
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
@@ -187,18 +187,18 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	protected void plantCrops() {
-        if (this.storage.getEnergyStored() < this.plantRF) {
+		if (this.storage.getEnergyStored() < this.plantRF) {
 			return;
 		}
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
 			IBlockState oldState = world.getBlockState(pos);
 			Block block = oldState.getBlock();
-            if (!block.isAir(oldState, getWorld(), pos) && !block.isReplaceable(getWorld(), pos)) {
-                // can't plant here!
-                continue;
-					}
-            ItemStack seeds = getAvailableSeedStack();
-			if (seeds != null) {
+			if (!block.isAir(oldState, getWorld(), pos) && !block.isReplaceable(getWorld(), pos)) {
+				// can't plant here!
+				continue;
+			}
+			ItemStack seeds = getAvailableSeedStack();
+			if (!seeds.isEmpty()) {
 				IPlanter planter = getPlanter(seeds);
 
 				if (planter != null) {
@@ -207,94 +207,84 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				}
 			}
 
+		}
+	}
 
-        }
-    }
-
-    private ItemStack getAvailableSeedStack() {
-        for (ItemStack stack : getCropStacks()) {
-            if (stack != null && stack.getCount() > 0) {
-                return stack;
+	private ItemStack getAvailableSeedStack() {
+		for (ItemStack stack : getCropStacks()) {
+			if (!stack.isEmpty() && stack.getCount() > 0) {
+				return stack;
 			}
 		}
-        return null;
+		return ItemStack.EMPTY;
 	}
 
-    private IPlanter getPlanter(ItemStack stack) {
-		if (stack == null)
+	private IPlanter getPlanter(ItemStack stack) {
+		if (stack.isEmpty())
 			return null;
-        for (IPlanter planter : SonarCore.planters.getObjects()) {
-            if (planter.canTierPlant(stack, type)) {
-                return planter;
-            }
+		for (IPlanter planter : SonarCore.planters.getObjects()) {
+			if (planter.canTierPlant(stack, type)) {
+				return planter;
+			}
 		}
-        return null;
+		return null;
 	}
 
-    public void plantCrop(BlockPos pos, IBlockState state, ItemStack stack) {
-        if (state == null) {
+	public void plantCrop(BlockPos pos, IBlockState state, ItemStack stack) {
+		if (state == null) {
 			return;
 		}
 
-        this.storage.modifyEnergyStored(-plantRF);
-        int size = stack.getCount() - 1;
-        stack.setCount(size);
+		this.storage.modifyEnergyStored(-plantRF);
+		int size = stack.getCount() - 1;
+		stack.setCount(size);
 
-        if (size == 0) {
-            removeStack(stack);
-        }
 
-        getWorld().setBlockState(pos, state, 3);
+		getWorld().setBlockState(pos, state, 3);
 	}
-
-    private void removeStack(ItemStack stack) {
-        slots().remove(stack);
-			}
-
-    private int getSlotOffset() {
-        switch (type) {
-            case 2:
-                return 8;
-            case 1:
-                return 5;
-            default:
-                return 1;
+	
+	private int getSlotOffset() {
+		switch (type) {
+		case 2:
+			return 8;
+		case 1:
+			return 5;
+		default:
+			return 1;
 		}
 	}
 
-    public List<ItemStack> getCropStacks() {
-        List<ItemStack> stacks = new ArrayList<>();
-        List<ItemStack> seedSlots = slots();
-        int offset = getSlotOffset();
-        for (int j = 0; j < 9; j++) {
-            ItemStack stack = seedSlots.get(j + offset);
-            if (stack != null && isSeed(stack)) {
-                stacks.add(stack);
-            }
-        }
-        return stacks;
-    }
+	public List<ItemStack> getCropStacks() {
+		List<ItemStack> stacks = new ArrayList<>();
+		List<ItemStack> seedSlots = slots();
+		int offset = getSlotOffset();
+		for (int j = 0; j < 9; j++) {
+			ItemStack stack = seedSlots.get(j + offset);
+			if (!stack.isEmpty() && isSeed(stack)) {
+				stacks.add(stack);
+			}
+		}
+		return stacks;
+	}
 
-    /**
-     * id = Gas to set. (Carbon=0) (Oxygen=1). set = amount to set it to
-     **/
+	/** id = Gas to set. (Carbon=0) (Oxygen=1). set = amount to set it to **/
 	public void setGas(int set) {
 		if (set <= this.maxLevel) {
 			this.carbon.setObject(set);
 		}
 	}
 
-    @Override
+	@Override
 	public int getTier() {
 		return type;
 	}
 
-    @Override
+	@Override
 	public int getOxygen() {
 		return maxLevel - carbon.getObject();
 	}
 
-    @Override
+	@Override
 	public int getCarbon() {
 		return carbon.getObject();
 	}
@@ -304,9 +294,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		return maxLevel;
 	}
 
-    /**
-     * id = Gas to add to. (Carbon=0) (Oxygen=1). add = amount to add
-     **/
+	/** id = Gas to add to. (Carbon=0) (Oxygen=1). add = amount to add **/
 	public void addGas(int add) {
 		int carbonLevels = carbon.getObject();
 
@@ -324,7 +312,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 
 	public int type(String string) {
 		int meta = this.getBlockMetadata();
-        if (string.equals("r")) {
+		if (string.equals("r")) {
 			if (meta == 3) {
 				return 1;
 			}
@@ -338,7 +326,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				return 0;
 			}
 		}
-        if (string.equals("l")) {
+		if (string.equals("l")) {
 			if (meta == 3) {
 				return 0;
 			}
@@ -352,7 +340,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				return 1;
 			}
 		}
-        if (string.equals("d")) {
+		if (string.equals("d")) {
 			if (meta == 3) {
 				return 4;
 			}
@@ -366,7 +354,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				return 5;
 			}
 		}
-        if (string.equals("d2")) {
+		if (string.equals("d2")) {
 			if (meta == 3) {
 				return 5;
 			}
@@ -388,7 +376,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		return houseState.getObject();
 	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		switch (houseState.getObject()) {
@@ -412,25 +400,25 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		int oxygen = getOxygen();
 		int carbon = getCarbon();
 		if (carbon != 0) {
-            String carbonString = FontHelper.translate("greenhouse.carbon") + ": " + dec.format(carbon * 100 / 100000) + '%';
+			String carbonString = FontHelper.translate("greenhouse.carbon") + ": " + dec.format(carbon * 100 / 100000) + '%';
 			currenttip.add(carbonString);
 		}
 		if (oxygen != 0) {
-            String oxygenString = FontHelper.translate("greenhouse.oxygen") + ": " + dec.format(oxygen * 100 / 100000) + '%';
+			String oxygenString = FontHelper.translate("greenhouse.oxygen") + ": " + dec.format(oxygen * 100 / 100000) + '%';
 			currenttip.add(oxygenString);
 		}
-        currenttip.add(String.valueOf(storage.getEnergyStored()));
+		currenttip.add(String.valueOf(storage.getEnergyStored()));
 		return currenttip;
 	}
 
-    @Override
+	@Override
 	public void writePacket(ByteBuf buf, int id) {
 		if (id == 3) {
 			onPause();
 		}
 	}
 
-    @Override
+	@Override
 	public void readPacket(ByteBuf buf, int id) {
 		if (id == 3) {
 			onPause();

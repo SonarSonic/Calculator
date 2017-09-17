@@ -43,7 +43,7 @@ public class ExtractionChamberRecipes extends DefinedRecipeHelper<CalculatorReci
 			if (SonarCore.rand.nextInt(8 + 1) == 8) {
 				circuit.setItemDamage(SonarCore.rand.nextInt(13 + 1));
 			} else {
-				circuit = null;
+				circuit = ItemStack.EMPTY;
 			}
 			return circuit;
 		}

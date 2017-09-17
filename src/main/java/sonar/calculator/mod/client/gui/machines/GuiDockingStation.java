@@ -24,6 +24,12 @@ public class GuiDockingStation extends GuiContainer {
 		this.entity = entity;
 	}
 
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.renderHoveredToolTip(mouseX, mouseY);
+	}
+
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);

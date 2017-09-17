@@ -9,10 +9,11 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.core.SonarCore;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 import sonar.core.network.PacketByteBuf;
 
-public class GuiWeatherController extends GuiContainer {
+public class GuiWeatherController extends GuiSonarTile {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guiWeatherController.png");
 
 	public TileEntityWeatherController entity;
@@ -65,12 +66,13 @@ public class GuiWeatherController extends GuiContainer {
 	}
 
 	public GuiWeatherController(InventoryPlayer inventoryPlayer, TileEntityWeatherController entity) {
-		super(new ContainerWeatherController(inventoryPlayer, entity));
+		super(new ContainerWeatherController(inventoryPlayer, entity), entity);
 		this.entity = entity;
 	}
 
 	@Override
-	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+	public void drawGuiContainerForegroundLayer(int x, int y) {
+		super.drawGuiContainerForegroundLayer(x, y);
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
         FontHelper.textCentre("Buffer: " + this.entity.buffer * 100 / 100 + '%', this.xSize, 45, 0);
@@ -78,16 +80,18 @@ public class GuiWeatherController extends GuiContainer {
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+	protected void drawGuiContainerBackgroundLayer(float floatTicks, int x, int y) {
+		super.drawGuiContainerBackgroundLayer(floatTicks, x, y);
 
 		int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 
 		int b = this.entity.buffer * 120 / 100;
 		drawTexturedModalRect(this.guiLeft + 28, this.guiTop + 44, 0, 166, b, 10);
+	}
+
+	@Override
+	public ResourceLocation getBackground() {
+		return bground;
 	}
 }

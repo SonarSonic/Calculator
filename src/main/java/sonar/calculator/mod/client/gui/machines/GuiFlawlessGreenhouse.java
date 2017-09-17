@@ -8,14 +8,14 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.SonarCore;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 
 import java.text.DecimalFormat;
 
-public class GuiFlawlessGreenhouse extends GuiSonar {
+public class GuiFlawlessGreenhouse extends GuiSonarTile {
 	DecimalFormat dec = new DecimalFormat("##.##");
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/flawlessgreenhouse.png");
 

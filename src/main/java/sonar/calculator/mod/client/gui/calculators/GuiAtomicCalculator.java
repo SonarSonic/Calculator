@@ -6,11 +6,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 
 @SideOnly(Side.CLIENT)
-public class GuiAtomicCalculator extends GuiSonar {
+public class GuiAtomicCalculator extends GuiSonarTile {
 	private ResourceLocation texture = new ResourceLocation("Calculator:textures/gui/atomiccalculator.png");
 
 	public GuiAtomicCalculator(EntityPlayer player, TileEntityCalculator.Atomic atomic) {

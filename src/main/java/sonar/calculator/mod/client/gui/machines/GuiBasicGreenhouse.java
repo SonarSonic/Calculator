@@ -11,14 +11,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.core.SonarCore;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 
 import java.text.DecimalFormat;
 
-public class GuiBasicGreenhouse extends GuiSonar {
+public class GuiBasicGreenhouse extends GuiSonarTile {
 	DecimalFormat dec = new DecimalFormat("##.##");
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/basicgreenhouse.png");
 

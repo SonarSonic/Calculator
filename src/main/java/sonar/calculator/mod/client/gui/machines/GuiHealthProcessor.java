@@ -6,10 +6,10 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerHealthProcessor;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 
-public class GuiHealthProcessor extends GuiSonar {
+public class GuiHealthProcessor extends GuiSonarTile {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/hungerprocessor.png");
 
 	public TileEntityHealthProcessor entity;

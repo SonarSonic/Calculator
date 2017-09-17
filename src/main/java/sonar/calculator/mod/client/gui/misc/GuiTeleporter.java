@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.SonarCore;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons.ImageButton;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerEmpty;
@@ -22,7 +22,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
-public class GuiTeleporter extends GuiSonar {
+public class GuiTeleporter extends GuiSonarTile {
 	public static ResourceLocation network = new ResourceLocation("Calculator:textures/gui/teleporter.png");
 
 	public TileEntityTeleporter entity;

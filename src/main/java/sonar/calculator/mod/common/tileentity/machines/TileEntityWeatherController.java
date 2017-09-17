@@ -34,6 +34,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
     @Override
 	public void update() {
 		super.update();
+		startProcess();
 		this.discharge(0);
 		if (buffer > 0) {
 			storage.modifyEnergyStored(-(requiredPower / 100));

@@ -14,14 +14,14 @@ import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.core.SonarCore;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 
 import java.text.DecimalFormat;
 
-public class GuiAdvancedGreenhouse extends GuiSonar {
+public class GuiAdvancedGreenhouse extends GuiSonarTile {
 	DecimalFormat dec = new DecimalFormat("##.##");
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/advancedgreenhouse.png");
 

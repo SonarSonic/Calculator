@@ -7,24 +7,24 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 
-public class GuiGasLantern extends GuiContainer {
+public class GuiGasLantern extends GuiSonarTile {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guicalculatorplug.png");
 
 	public TileEntityGasLantern entity;
 
 	public GuiGasLantern(InventoryPlayer inventoryPlayer, TileEntityGasLantern entity) {
-		super(new ContainerLantern(inventoryPlayer, entity));
-
+		super(new ContainerLantern(inventoryPlayer, entity), entity);
 		this.entity = entity;
-
 		this.xSize = 176;
 		this.ySize = 166;
 	}
 
 	@Override
-	public void drawGuiContainerForegroundLayer(int par1, int par2) {
+	public void drawGuiContainerForegroundLayer(int x, int y) {
+		super.drawGuiContainerForegroundLayer(x, y);
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		if (entity.burnTime.getObject() > 0 && entity.maxBurnTime.getObject() != 0) {
 			String burn = FontHelper.translate("co2.burnt") + ": " + entity.burnTime.getObject() * 100 / entity.maxBurnTime.getObject();
@@ -36,10 +36,7 @@ public class GuiGasLantern extends GuiContainer {
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+	public ResourceLocation getBackground() {
+		return bground;
 	}
 }
