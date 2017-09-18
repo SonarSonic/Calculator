@@ -38,7 +38,7 @@ public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, I
 			stack.setTagCompound(new NBTTagCompound());
 		}
 		long energy = stack.getTagCompound().getLong("Energy");
-		long energyReceived = Math.min(getMaxEnergyStored(stack) - energy, Math.min(storage / 10, maxReceive));
+		long energyReceived = Math.min(getFullCapacity(stack) - energy, Math.min(storage / 10, maxReceive));
 
 		if (!action.shouldSimulate()) {
 			energy += energyReceived;
@@ -74,7 +74,7 @@ public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, I
 	public long getFullCapacity(ItemStack stack) {
 		return storage;
 	}
-
+	
 	@Override
     @Optional.Method(modid = "redstoneflux")
 	public int receiveEnergy(ItemStack stack, int maxReceive, boolean simulate) {
@@ -98,7 +98,7 @@ public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, I
 	public int getMaxEnergyStored(ItemStack stack) {
 		return (int) getFullCapacity(stack);
 	}
-
+	
     @Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();

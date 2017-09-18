@@ -29,7 +29,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 			// needs fixing I think
             @Override
             public boolean isItemValidForPos(int slot, ItemStack item) {
-				if (!item.isEmpty() && item.getItemDamage() == slot) {
+				if (!item.isEmpty() && item.getMetadata() == slot) {
 					CircuitType stackType = getCircuitType(item);
 					if (stackType == null) {
 						return false;
