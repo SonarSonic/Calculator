@@ -38,7 +38,7 @@ public class Calculator {
 	public static final String name = "Calculator";
 	public static final String modid = "calculator";
 	public static final String version = "5.0.1";
-	public static final String mc_versions = "[1.12,1.12.1,1.12.2]";
+	public static final String mc_versions = "[1.12,1.12.2]";
 	public static final String SONAR_VERSION = "5.0.1";
 
 	public static final int saveDimension = 0;

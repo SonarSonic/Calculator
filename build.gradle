@@ -48,7 +48,7 @@ compileJava {
 minecraft {
     version = "${forge_version}"
     runDir = "run"
-    mappings = "snapshot_20170624"
+    mappings = "snapshot_20170919"
     makeObfSourceJar = false
 
 }
@@ -71,7 +71,6 @@ dependencies {
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${jei_version}"
     compileOnly "crafttweaker:CraftTweaker2:${crafttweaker_version}"
-    deobfCompile name: "sonarcore-${sonarcore_version}-deobf"
 }
 
 processResources
