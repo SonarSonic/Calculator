@@ -1,9 +1,5 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,6 +15,8 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 
+import java.util.List;
+
 public class TileEntityGasLantern extends TileEntityInventory implements IGuiTile {
 
 	public SyncTagType.INT burnTime = new SyncTagType.INT("burnTime");
@@ -31,6 +29,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 
 	@Override
 	public void update() {
+        super.update();
 		if (this.world.isRemote) {
 			return;
 		}
@@ -67,7 +66,6 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 		if (flag2) {
 			this.markDirty();
 		}
-
 	}
 
 	private void burn() {
@@ -77,12 +75,10 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 	}
 
 	public boolean isBurning() {
-		if (this.maxBurnTime.getObject() == 0) {
-			return false;
-		}
-		return true;
+        return this.maxBurnTime.getObject() != 0;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		if (burnTime.getObject() > 0 && maxBurnTime.getObject() != 0) {

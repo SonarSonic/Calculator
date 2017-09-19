@@ -9,7 +9,7 @@ public class HealthProcessorRecipes extends SimpleValueHelper {
 
 	private static final HealthProcessorRecipes recipes = new HealthProcessorRecipes();
 
-	public static final HealthProcessorRecipes instance() {
+    public static HealthProcessorRecipes instance() {
 		return recipes;
 	}
 

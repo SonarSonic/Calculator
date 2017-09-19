@@ -1,22 +1,13 @@
 package sonar.calculator.mod.common.containers;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
-import sonar.core.api.SonarAPI;
-import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerAtomicMultiplier extends ContainerSync {
@@ -26,11 +17,13 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 		{
 
 			addTransferSlot(new TransferSlots<TileEntityAtomicMultiplier>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityAtomicMultiplier inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return slot.isItemValid(stack);
 				}
 			});
 			addTransferSlot(new TransferSlots<TileEntityAtomicMultiplier>(TransferType.TILE_INV, 7) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityAtomicMultiplier inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return stack.getItem() == Calculator.circuitBoard;
 				}
@@ -46,6 +39,7 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 		this.entity = entity;
 
 		addSlotToContainer(new Slot(entity, 0, 54, 16) {
+            @Override
 			public boolean isItemValid(ItemStack stack) {
 				if (!TileEntityAtomicMultiplier.isAllowed(stack)) {
 					return false;

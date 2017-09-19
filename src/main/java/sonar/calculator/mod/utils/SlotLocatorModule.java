@@ -14,13 +14,12 @@ public class SlotLocatorModule extends Slot {
 		this.locator = locator;
 	}
 
+    @Override
 	public boolean isItemValid(ItemStack stack) {
-		if (!stack.isEmpty() && stack.getItem() == Calculator.itemLocatorModule) {
-			return true;
-		}
-		return false;
+        return !stack.isEmpty() && stack.getItem() == Calculator.itemLocatorModule;
 	}
 
+    @Override
 	public void onSlotChanged() {
 		super.onSlotChanged();
 		locator.createOwner();

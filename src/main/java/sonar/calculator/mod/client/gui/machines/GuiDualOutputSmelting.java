@@ -1,20 +1,20 @@
 package sonar.calculator.mod.client.gui.machines;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 
-public class GuiDualOutputSmelting extends GuiSonar {
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+public class GuiDualOutputSmelting extends GuiSonarTile {
 
 	public TileEntityAbstractProcess entity;
 
@@ -28,6 +28,7 @@ public class GuiDualOutputSmelting extends GuiSonar {
 		return new ResourceLocation("Calculator:textures/gui/stoneseperator.png");
 	}
 
+    @Override
 	public void initGui() {
 		super.initGui();
 		this.buttonList.add(new CircuitButton(entity.getUpgradeInventory(), 0, guiLeft + 149, guiTop + 23));
@@ -40,6 +41,7 @@ public class GuiDualOutputSmelting extends GuiSonar {
 		this.buttonList.add(new PauseButton(this, entity, 1, guiLeft + 8, guiTop + 23, pause));
 	}
 
+    @Override
 	protected void actionPerformed(GuiButton button) {
 		if (entity.getWorld().isRemote) {
 			if (button != null && button instanceof SonarButtons.SonarButton) {
@@ -53,13 +55,14 @@ public class GuiDualOutputSmelting extends GuiSonar {
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		FontHelper.textCentre(this.entity.getName(), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
-		if ((x > guiLeft + 130 && x < guiLeft + 144) && (y > guiTop + 60 && y < guiTop + 74)) {
-			ArrayList list = new ArrayList();
+        if (x > guiLeft + 130 && x < guiLeft + 144 && y > guiTop + 60 && y < guiTop + 74) {
+            ArrayList<String> list = new ArrayList<>();
 			DecimalFormat df = new DecimalFormat("#.##");
 			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
+            list.add("Stored: " + entity.storage.getEnergyStored() + " RF");
 			list.add("Usage: " + df.format(entity.getEnergyUsage()) + " rf/t");
 			list.add("Speed: " + entity.getProcessTime() + " ticks");
-			this.drawSpecialToolTip(list, x, y, fontRendererObj);
+            this.drawSpecialToolTip(list, x, y, fontRenderer);
 		}
 		super.drawGuiContainerForegroundLayer(x, y);
 	}
@@ -112,5 +115,4 @@ public class GuiDualOutputSmelting extends GuiSonar {
 			return new ResourceLocation("Calculator:textures/gui/extractionchamber.png");
 		}
 	}
-
 }

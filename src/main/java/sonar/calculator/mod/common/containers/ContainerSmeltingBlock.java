@@ -5,12 +5,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
-import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerSmeltingBlock extends ContainerSync {
 	
@@ -18,6 +14,7 @@ public class ContainerSmeltingBlock extends ContainerSync {
 	public static TransferSlotsManager<TileEntityAbstractProcess> transfer = new TransferSlotsManager() {
 		{
 			addTransferSlot(new TransferSlots<TileEntityAbstractProcess>(TransferType.TILE_INV, 1){
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityAbstractProcess inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return inv.isItemValidForSlot(0, stack);
 				}
@@ -47,5 +44,4 @@ public class ContainerSmeltingBlock extends ContainerSync {
 	public boolean canInteractWith(EntityPlayer player) {
 		return entity.isUseableByPlayer(player);
 	}
-
 }

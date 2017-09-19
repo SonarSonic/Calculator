@@ -1,10 +1,6 @@
 package sonar.calculator.mod.common.block.misc;
 
-import java.util.Iterator;
-import java.util.Random;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -27,6 +23,9 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import java.util.Iterator;
+import java.util.Random;
+
 public class GasLantern extends SonarMachineBlock {
 
 	private static boolean keepInventory;
@@ -39,6 +38,7 @@ public class GasLantern extends SonarMachineBlock {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(DIR, EnumFacing.NORTH));
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -68,6 +68,7 @@ public class GasLantern extends SonarMachineBlock {
 		}
 	}
 
+    @Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		if (!keepInventory) {
 			super.breakBlock(world, pos, state);
@@ -119,6 +120,7 @@ public class GasLantern extends SonarMachineBlock {
 		}
 	}
 
+    @Override
 	@Deprecated
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
 		if (customBB != null) {
@@ -126,7 +128,7 @@ public class GasLantern extends SonarMachineBlock {
 		}
 		
 		EnumFacing dir = getDefaultFacing(world, pos, state);	
-		return new AxisAlignedBB(0.3F + (dir.getFrontOffsetX() * 0.32F), 0.0F + getY(dir), 0.3F + (dir.getFrontOffsetZ() * 0.32F), 0.7F + (dir.getFrontOffsetX() * 0.32F), 0.7F + getY(dir), 0.7F + (dir.getFrontOffsetZ() * 0.32F));
+        return new AxisAlignedBB(0.3F + dir.getFrontOffsetX() * 0.32F, 0.0F + getY(dir), 0.3F + dir.getFrontOffsetZ() * 0.32F, 0.7F + dir.getFrontOffsetX() * 0.32F, 0.7F + getY(dir), 0.7F + dir.getFrontOffsetZ() * 0.32F);
 	}
 
 	public float getY(EnumFacing meta) {
@@ -143,15 +145,18 @@ public class GasLantern extends SonarMachineBlock {
 		return new TileEntityGasLantern();
 	}
 
+    @Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(Calculator.gas_lantern_off);
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public IBlockState getStateForEntityRender(IBlockState state) {
 		return this.getDefaultState().withProperty(DIR, EnumFacing.SOUTH);
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.getFront(meta);
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
@@ -160,15 +165,18 @@ public class GasLantern extends SonarMachineBlock {
 		return this.getDefaultState().withProperty(DIR, enumfacing);
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
-		return ((EnumFacing) state.getValue(DIR)).getIndex();
+        return state.getValue(DIR).getIndex();
 	}
 
+    @Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return state.withProperty(DIR, getDefaultFacing(world, pos, state));
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { DIR });
+        return new BlockStateContainer(this, DIR);
 	}
 }

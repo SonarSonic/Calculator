@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.machines;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,6 +15,8 @@ import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.IGuiTile;
+
+import java.util.List;
 
 public class AdvancedPowerCube extends SonarSidedBlock {
 
@@ -47,10 +47,16 @@ public class AdvancedPowerCube extends SonarSidedBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
 
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+    }
+
+    @Override
 	public boolean hasAnimatedFront() {
 		return false;
 	}

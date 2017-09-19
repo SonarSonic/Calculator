@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.machines;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,6 +12,8 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
+
+import java.util.List;
 
 public class CreativePowerCube extends SonarMachineBlock {
 
@@ -35,11 +35,14 @@ public class CreativePowerCube extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-	}
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {}
 
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Feature!");
-	}
+	public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {}
+
+	@Override
+	public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {}
+
+	@Override
+	public void standardInfo(ItemStack stack, World world, List<String> list) {}
 }

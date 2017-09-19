@@ -6,6 +6,7 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.util.ResourceLocation;
+import sonar.calculator.mod.Calculator;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategoryV2;
 import sonar.core.integration.jei.JEIHelper.RecipeMapper;
@@ -20,6 +21,11 @@ public class AtomicCategory extends JEICategoryV2 {
 		ResourceLocation location = new ResourceLocation("calculator", "textures/gui/" + handler.getTextureName() + ".png");
 		background = guiHelper.createDrawable(location, 19, 30, 136, 27);
 	}
+
+    @Override
+    public String getModName() {
+        return Calculator.name;
+    }
 
 	@Override
 	public IDrawable getBackground() {

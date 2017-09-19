@@ -18,6 +18,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 
 	public CircuitType circuitType = CircuitType.None;
 
+    @Override
 	public void update() {
 		super.update();
 		this.resetCircuitType();
@@ -26,9 +27,9 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 	public TileEntityStorageChamber() {
 		super.inv = new SonarLargeInventory(14, 1024) {
 			// needs fixing I think
-			public boolean isItemValidForSlot(int slot, ItemStack item) {
-				int target = (int) Math.floor(slot / numStacks);
-				if (!item.isEmpty() && item.getItemDamage() == slot) {
+            @Override
+            public boolean isItemValidForPos(int slot, ItemStack item) {
+				if (!item.isEmpty() && item.getMetadata() == slot) {
 					CircuitType stackType = getCircuitType(item);
 					if (stackType == null) {
 						return false;
@@ -39,7 +40,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 						}
 					}
 
-					return super.isItemValidForSlot(slot, item);
+                    return super.isItemValidForPos(slot, item);
 				}
 				return false;
 			}
@@ -47,13 +48,14 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 		syncList.addParts(inv);
 	}
 
+    @Override
 	public SonarLargeInventory getTileInv() {
-		return (SonarLargeInventory) inv;
+        return inv;
 	}
 
 	public void resetCircuitType() {
 		if (isServer()) {
-			StoredItemStack[] slots = getTileInv().slots;
+            StoredItemStack[] slots = inv.slots;
 			for (StoredItemStack stack : slots) {
 				if (stack != null && stack.getStackSize() != 0) {
 					CircuitType type = getCircuitType(stack.item);
@@ -65,9 +67,9 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 			}
 			circuitType = CircuitType.None;
 		}
-
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
@@ -85,6 +87,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
@@ -121,6 +124,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 
 	public enum CircuitType {
 		Analysed, Stable, Damaged, Dirty, None;
+
 		public boolean isProcessed() {
 			return this == Analysed || this == Stable;
 		}
@@ -139,5 +143,4 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiStorageChamber(player, this);
 	}
-
 }

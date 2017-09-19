@@ -2,22 +2,17 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.recipes.ConductorMastRecipes;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.ContainerSonar;
 import sonar.core.inventory.InventoryStoredCrafting;
 import sonar.core.inventory.InventoryStoredResult;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerCraftingCalculator extends ContainerSonar{
 	private final InventoryItem inventory;
@@ -54,9 +49,10 @@ public class ContainerCraftingCalculator extends ContainerSonar{
 
 	@Override
 	public void onCraftMatrixChanged(IInventory inv) {
-		this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, player.getEntityWorld()));
+        this.craftResult.setInventorySlotContents(0, CraftingManager.findMatchingResult(this.craftMatrix, player.getEntityWorld()));//Was getInstance()findMatchingRecipe
 	}
 	
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, inventory, player, slotID);
 	}
@@ -73,6 +69,4 @@ public class ContainerCraftingCalculator extends ContainerSonar{
 	public boolean canInteractWith(EntityPlayer player) {
 		return inventory.isUseableByPlayer(player);
 	}
-
-
 }

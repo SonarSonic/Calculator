@@ -7,26 +7,71 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+
+repositories {
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+    maven {
+        name = "CoFH Maven"
+        url = "http://maven.covers1624.net"
+    }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "modmaven.k-4u.nl"
+    }
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${minecraft_version}-${mod_version}"
 group= "sonar.calculator.mod"
-archivesBaseName = "Calculator"
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+archivesBaseName = "calculator"
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
 
 minecraft {
-    version = "1.11.2-13.20.0.2259"
+    version = "${forge_version}"
     runDir = "run"
-    mappings = "snapshot_20161220"
+    mappings = "snapshot_20170624"
     makeObfSourceJar = false
+
+}
+
+task deobfJar(type: Jar) { // Generate deobfuscated
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+tasks.build.dependsOn('deobfJar')
+artifacts {
+    archives deobfJar
+    archives jar
 }
 
 dependencies {
-
+    compileOnly "tesla:Tesla:${tesla_version}"
+    deobfCompile "cofh:RedstoneFlux:${redstoneflux_version}"
+    // compile against the JEI API but do not include it at runtime
+    deobfProvided "mezz.jei:jei_${jei_version}:api"
+    // at runtime, use the full JEI jar
+    runtime "mezz.jei:jei_${jei_version}"
+    compileOnly "crafttweaker:CraftTweaker2:${crafttweaker_version}"
+    deobfCompile name: "sonarcore-${sonarcore_version}-deobf"
 }
 
 processResources

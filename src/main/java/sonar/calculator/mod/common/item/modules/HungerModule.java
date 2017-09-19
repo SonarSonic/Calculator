@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.item.modules;
 
-import java.util.List;
-
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,6 +17,8 @@ import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.utils.helpers.NutritionHelper;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
+
+import java.util.List;
 
 public class HungerModule extends SonarItem implements IHungerStore {
 
@@ -41,8 +42,8 @@ public class HungerModule extends SonarItem implements IHungerStore {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
+        super.addInformation(stack, world, list, par4);
 
 		if (stack.hasTagCompound()) {
 			list.add(FontHelper.translate("points.hunger") + ": " + getHungerPoints(stack));
@@ -87,5 +88,4 @@ public class HungerModule extends SonarItem implements IHungerStore {
 			nbtData.setInteger("points", health);
 		}
 	}
-
 }

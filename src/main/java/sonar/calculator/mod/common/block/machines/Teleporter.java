@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.machines;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,12 +18,15 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import java.util.List;
+
 public class Teleporter extends SonarMachineBlock {
 
 	public Teleporter() {
 		super(SonarMaterials.machine, false, true);
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -53,7 +54,12 @@ public class Teleporter extends SonarMachineBlock {
 	}
 
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
+        list.add("A simple teleporter");
+    }
+
+    @Override
+    public void standardInfo(ItemStack stack, World world, List<String> list) {
 		list.add("A simple teleporter");
 	}
 

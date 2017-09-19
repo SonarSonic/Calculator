@@ -1,13 +1,11 @@
 package sonar.calculator.mod.client.renderers;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.client.models.ModelFabricationArm;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.core.common.block.SonarBlock;
@@ -20,7 +18,9 @@ public class RenderFabricationChamber extends TileEntitySpecialRenderer<TileEnti
 		this.model = new ModelFabricationArm();
 	}
 
-	public void renderTileEntityAt(TileEntityFabricationChamber tileentity, double x, double y, double z, float partialTicks, int destroyStage) {
+    @Override
+    public void render(TileEntityFabricationChamber tileentity, double x, double y, double z, float partialTicks, int destroyStage, float f) {
+        //public void renderTileEntityAt(TileEntityFabricationChamber tileentity, double x, double y, double z, float partialTicks, int destroyStage) {
 		if(tileentity.getWorld()!=null){
 			return;
 		}
@@ -50,7 +50,7 @@ public class RenderFabricationChamber extends TileEntitySpecialRenderer<TileEnti
 			GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 		}
 		int progress=tileentity.currentMoveTime.getObject();
-		float rotateR=((float)progress*25)/50;
+        float rotateR = (float) progress * 25 / 50;
 		float rotateL=360-rotateR;
 		
 		GlStateManager.pushMatrix();
@@ -59,11 +59,11 @@ public class RenderFabricationChamber extends TileEntitySpecialRenderer<TileEnti
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 
 		GlStateManager.rotate(rotateR, 0, 1, 0);
-		this.model.renderTile((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F, false, false, progress);
+        this.model.renderTile(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F, false, false, progress);
 		GlStateManager.rotate(rotateR, 0, -1, 0);
 		GlStateManager.translate(-1, 0.0, 0.0);
 		GlStateManager.rotate(rotateL, 0, 1, 0);
-		this.model.renderTile((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F, false, false, progress);
+        this.model.renderTile(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F, false, false, progress);
 		GlStateManager.rotate(rotateL, 0, -1, 0);
 		GlStateManager.popMatrix();
 		GlStateManager.translate(0.5, 1.506, 0.5);

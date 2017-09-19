@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.item.modules;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,17 +27,17 @@ public class BaseTerrainModule extends SonarEnergyItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+	public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
+		super.addInformation(stack, world, list, par4);
 		if (stack.hasTagCompound()) {
-			list.add(FontHelper.translate("calc.mode") + ": " + currentBlockString(stack, player));
+			list.add(FontHelper.translate("calc.mode") + ": " + currentBlockString(stack, world));
 		}
 	}
 
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (player.capabilities.isCreativeMode || this.getEnergyStored(stack) > 0) {
+		if (player.capabilities.isCreativeMode || this.getEnergyLevel(stack) > 0) {
 			if (!player.canPlayerEdit(pos, side, stack)) {
 				return EnumActionResult.PASS;
 			}
@@ -47,18 +48,22 @@ public class BaseTerrainModule extends SonarEnergyItem {
 				if (canReplace(stack, world, pos)) {
 					world.setBlockState(pos, getCurrentBlock(stack).getStateFromMeta(stack.getMetadata()));
 					if (!player.capabilities.isCreativeMode) {
-						int energy = this.getEnergyStored(stack);
+						int energy = (int) getEnergyLevel(stack);
 						stack.getTagCompound().setInteger("Energy", energy - 1);
 					}
 				}
 			}
-		} else if (this.getEnergyStored(stack) == 0) {
+		} else if (this.getEnergyLevel(stack) == 0) {
 			FontHelper.sendMessage(FontHelper.translate("energy.noEnergy"), world, player);
 		}
 		return EnumActionResult.SUCCESS;
 	}
 
 	public String currentBlockString(ItemStack stack, EntityPlayer player) {
+		return new ItemStack(getCurrentBlock(stack), 1).getDisplayName();
+	}
+
+	public String currentBlockString(ItemStack stack, World world) {
 		return new ItemStack(getCurrentBlock(stack), 1).getDisplayName();
 	}
 
@@ -95,9 +100,9 @@ public class BaseTerrainModule extends SonarEnergyItem {
 	}
 
 	public boolean replaceableBlock(Block block) {
-		for (int s = 0; s < replacable.length; s++) {
-			if (replacable[s] != null) {
-				if (block == replacable[s]) {
+		for (Block aReplacable : replacable) {
+			if (aReplacable != null) {
+				if (block == aReplacable) {
 					return true;
 				}
 			}

@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -23,6 +21,8 @@ import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
+
+import java.util.List;
 
 public class TileEntityCO2Generator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile {
 
@@ -53,7 +53,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 			boolean flag1 = this.burnTime > 0;
 			boolean flag2 = false;
 			EnumFacing hoz = SonarHelper.getHorizontal(forward).getOpposite();
-			TileEntity tile = this.world.getTileEntity(pos.add((hoz.getFrontOffsetX() * 3), 0, (hoz.getFrontOffsetZ() * 3)));
+            TileEntity tile = this.world.getTileEntity(pos.add(hoz.getFrontOffsetX() * 3, 0, hoz.getFrontOffsetZ() * 3));
 			ItemStack burnStack = slots().get(0);
 			if (this.maxBurnTime == 0 && !this.world.isRemote && !burnStack.isEmpty()) {
 				if (TileEntityFurnace.isItemFuel(burnStack) && this.storage.getEnergyStored() >= energyAmount) {
@@ -62,7 +62,6 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 						this.storage.modifyEnergyStored(-energyAmount);
 					}
 				}
-
 			}
 			if (!this.controlled) {
 				if (this.maxBurnTime != 0 && this.burnTime >= 0 && this.burnTime < this.maxBurnTime) {
@@ -85,7 +84,6 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 						} else {
 							this.control = false;
 						}
-
 					}
 					if (!control) {
 						if (carbon <= 92000) {
@@ -107,7 +105,6 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 			}
 		}
 		discharge(1);
-
 	}
 
 	public void burn() {
@@ -119,14 +116,10 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 	}
 
 	public boolean isBurning() {
-
-		if (this.maxBurnTime == 0) {
-			return false;
-		}
-
-		return true;
+        return this.maxBurnTime != 0;
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -138,6 +131,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -157,11 +151,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (slot == 0 && TileEntityFurnace.isItemFuel(stack)) {
-			return true;
-		}
-		return false;
-
+        return slot == 0 && TileEntityFurnace.isItemFuel(stack);
 	}
 
 	@Override
@@ -174,6 +164,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		return false;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		if (burnTime > 0 && maxBurn != 0 && gasAdd == 0) {

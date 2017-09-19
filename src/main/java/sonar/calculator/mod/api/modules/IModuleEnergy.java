@@ -5,11 +5,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import sonar.core.api.utils.ActionType;
 
 public interface IModuleEnergy extends IModule {
-	public long receiveEnergy(ItemStack container, NBTTagCompound tag, long maxReceive, ActionType action);
+    long receiveEnergy(ItemStack container, NBTTagCompound tag, long maxReceive, ActionType action);
 
-	public long extractEnergy(ItemStack container, NBTTagCompound tag, long maxExtract, ActionType action);
+    long extractEnergy(ItemStack container, NBTTagCompound tag, long maxExtract, ActionType action);
 
-	public long getEnergyStored(ItemStack container, NBTTagCompound tag);
+    long getEnergyStored(ItemStack container, NBTTagCompound tag);
 
-	public long getMaxEnergyStored(ItemStack container, NBTTagCompound tag);
+    long getMaxEnergyStored(ItemStack container, NBTTagCompound tag);
 }

@@ -17,6 +17,7 @@ public class CalculatorTeleporter extends Teleporter {
 		this.z = z;
 	}
 
+    @Override
     public void placeInPortal(Entity entity, float rotationYaw){
     	entity.setPosition(x, y, z);
 		entity.motionX = 0F;

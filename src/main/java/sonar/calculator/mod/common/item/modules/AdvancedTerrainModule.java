@@ -11,5 +11,4 @@ public class AdvancedTerrainModule extends BaseTerrainModule {
 		super.replacable = new Block[] { Blocks.GRASS, Blocks.DIRT, Blocks.STONE, Blocks.GRAVEL, Blocks.SAND, Blocks.COBBLESTONE };
 		maxStackSize = 1;
 	}
-
 }

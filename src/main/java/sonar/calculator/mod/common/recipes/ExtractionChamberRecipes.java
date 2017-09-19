@@ -8,7 +8,7 @@ import sonar.core.SonarCore;
 import sonar.core.recipes.DefinedRecipeHelper;
 import sonar.core.recipes.RecipeItemStack;
 
-public class ExtractionChamberRecipes extends DefinedRecipeHelper {
+public class ExtractionChamberRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 
 	private static final ExtractionChamberRecipes recipes = new ExtractionChamberRecipes();
 
@@ -16,7 +16,7 @@ public class ExtractionChamberRecipes extends DefinedRecipeHelper {
 		super(1, 2, false);
 	}
 
-	public static final ExtractionChamberRecipes instance() {
+    public static ExtractionChamberRecipes instance() {
 		return recipes;
 	}
 
@@ -43,7 +43,7 @@ public class ExtractionChamberRecipes extends DefinedRecipeHelper {
 			if (SonarCore.rand.nextInt(8 + 1) == 8) {
 				circuit.setItemDamage(SonarCore.rand.nextInt(13 + 1));
 			} else {
-				circuit = null;
+				circuit = ItemStack.EMPTY;
 			}
 			return circuit;
 		}

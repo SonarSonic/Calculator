@@ -1,12 +1,11 @@
 package sonar.calculator.mod.client.gui.machines;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.containers.ContainerDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
@@ -23,6 +22,12 @@ public class GuiDockingStation extends GuiContainer {
 	public GuiDockingStation(InventoryPlayer inventoryPlayer, TileEntityDockingStation entity) {
 		super(new ContainerDockingStation(inventoryPlayer, entity));
 		this.entity = entity;
+	}
+
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.renderHoveredToolTip(mouseX, mouseY);
 	}
 
 	@Override
@@ -72,6 +77,5 @@ public class GuiDockingStation extends GuiContainer {
 		int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
-
 	}
 }

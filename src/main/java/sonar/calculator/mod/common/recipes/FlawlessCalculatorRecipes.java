@@ -6,11 +6,11 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.core.recipes.DefinedRecipeHelper;
 
-public class FlawlessCalculatorRecipes extends DefinedRecipeHelper {
+public class FlawlessCalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 
 		private static final FlawlessCalculatorRecipes recipes = new FlawlessCalculatorRecipes();
 
-		public static final FlawlessCalculatorRecipes instance() {
+    public static FlawlessCalculatorRecipes instance() {
 			return recipes;
 		}
 

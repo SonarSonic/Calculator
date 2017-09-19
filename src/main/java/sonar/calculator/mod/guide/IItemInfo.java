@@ -5,19 +5,27 @@ import sonar.calculator.mod.Calculator;
 
 public interface IItemInfo {
 
-	/** the item */
-	public ItemStack getItem();
+    /**
+     * the item
+     */
+    ItemStack getItem();
 
-	/** the info */
-	public String getItemInfo();
+    /**
+     * the info
+     */
+    String getItemInfo();
 
-	/** the main item category **/
-	public Category getMainCategory();
+    /**
+     * the main item category
+     **/
+    Category getMainCategory();
 
-	/** up to 9 related items */
-	public ItemStack[] getRelatedItems();
+    /**
+     * up to 9 related items
+     */
+    ItemStack[] getRelatedItems();
 
-	public static enum Category {
+    enum Category {
 		All(null), 
 		Calculators(new ItemStack(Calculator.itemCalculator)), 
 		Modules(new ItemStack(Calculator.itemEnergyModule)), 

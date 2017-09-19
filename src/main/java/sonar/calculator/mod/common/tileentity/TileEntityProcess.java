@@ -1,11 +1,5 @@
 package sonar.calculator.mod.common.tileentity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import com.google.common.collect.Lists;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -31,7 +25,13 @@ import sonar.core.network.utils.IByteBufTile;
 import sonar.core.upgrades.UpgradeInventory;
 import sonar.core.utils.MachineSideConfig;
 
-/** electric smelting tile entity */
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * electric smelting tile entity
+ */
 public abstract class TileEntityProcess extends TileEntityEnergySidedInventory implements IUpgradableTile, IPausable, IAdditionalInventory, IProcessMachine, IByteBufTile {
 
 	public float renderTicks;
@@ -42,7 +42,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public SyncTagType.INT cookTime = (INT) new SyncTagType.INT(2);
 	public UpgradeInventory upgrades = new UpgradeInventory(3, 16, "ENERGY", "SPEED", "TRANSFER").addMaxiumum("TRANSFER", 1);
 
-	public boolean isActive = false;
+    public boolean isActive;
 	private ProcessState state = ProcessState.UNKNOWN;
 	private int currentProcessTime = -1;
 
@@ -55,7 +55,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		syncList.addParts(paused, invertPaused, cookTime, upgrades);
 	}
 
-	public static enum ProcessState {
+    public enum ProcessState {
 		TRUE, FALSE, UNKNOWN;
 
 		public boolean canProcess() {
@@ -67,6 +67,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public abstract void finishProcess();
 
+    @Override
 	public void update() {
 		super.update();
 		if (isServer()) {
@@ -89,7 +90,6 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 						modifyEnergy();
 						forceUpdate = true;
 					}
-
 				} else {
 					renderTicks = 0;
 					if (cookTime.getObject() != 0) {
@@ -118,7 +118,6 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 				}
 			}
 		}
-
 	}
 
 	public ProcessState getProcessState() {
@@ -137,6 +136,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		}
 	}
 
+    @Override
 	public void onFirstTick() {
 		super.onFirstTick();
 		if (!world.isRemote) {
@@ -148,7 +148,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public void modifyEnergy() {
 		energyBuffer += getEnergyUsage();
-		int energyUsage = (int) Math.round(energyBuffer);
+        int energyUsage = (int) Math.floor(energyBuffer);
 		if (energyBuffer - energyUsage < 0) {
 			this.energyBuffer = 0;
 		} else {
@@ -170,7 +170,6 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public float getRenderPosition() {
 		return renderTicks < 1 ? renderTicks : 1 - (renderTicks - 1);
-
 	}
 
 	private int roundNumber(double i) {
@@ -179,12 +178,13 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	public int requiredEnergy() {
 		int speed = upgrades.getUpgradesInstalled("SPEED");
-		int energy = upgrades.getUpgradesInstalled("ENERGY"); /* if (energy + speed == 0) { return 1000 * 5; } int i = 16 - (energy - speed); return roundNumber(((4 + ((i * i) * 2 + i)) * 2) * Math.max(1, (energy - speed))) * 5; */
-		float i = (float) ((double) speed / 17) * getBaseEnergyUsage();
-		float e = (float) ((double) energy / 17) * getBaseEnergyUsage();
+        int energy = upgrades.getUpgradesInstalled("ENERGY");
+        float i = (float) ((double) speed / 16) * getBaseEnergyUsage();
+        float e = (float) ((double) energy / 16) * getBaseEnergyUsage();
 		return (int) (getBaseEnergyUsage() + i - e);
 	}
 
+    @Override
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1) {
 			markBlockForUpdate();
@@ -192,6 +192,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		return true;
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -201,6 +202,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		if (isServer() && forceSync) {
 			SonarCore.sendPacketAround(this, 128, 2);
@@ -243,7 +245,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	}
 
 	public boolean canStack(ItemStack current, ItemStack stack) {
-		if (current == null) {
+		if (current.isEmpty()) {
 			return true;
 		} else if (current.getCount() == current.getMaxStackSize()) {
 			return false;
@@ -251,6 +253,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		return true;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		int speed = upgrades.getUpgradesInstalled("SPEED");
@@ -268,7 +271,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public ItemStack[] getAdditionalStacks() {
 		ArrayList<ItemStack> drops = upgrades.getDrops();
 		if (drops == null || drops.isEmpty()) {
-			return new ItemStack[] { null };
+			return new ItemStack[] { ItemStack.EMPTY };
 		}
 		ItemStack[] toDrop = new ItemStack[drops.size()];
 		int pos = 0;
@@ -279,7 +282,6 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 			pos++;
 		}
 		return toDrop;
-
 	}
 
 	public abstract int getBaseEnergyUsage();
@@ -294,7 +296,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 		if (this.currentProcessTime == -1) {
 			int speed = upgrades.getUpgradesInstalled("SPEED");
 			int energy = upgrades.getUpgradesInstalled("ENERGY");
-			double i = (double) (((double) speed / 17) * getBaseProcessTime());
+            double i = (double) speed / 17 * getBaseProcessTime();
 			if (speed == 16) {
 				return currentProcessTime = 8;
 			}

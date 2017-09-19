@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.block.generators;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -22,8 +20,9 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
-import sonar.core.helpers.SonarHelper;
 import sonar.core.utils.IGuiTile;
+
+import java.util.Random;
 
 public class InvisibleBlock extends SonarBlock {
 
@@ -57,7 +56,7 @@ public class InvisibleBlock extends SonarBlock {
 	@Override
 	public final boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		if (this.type == 0) {
-			IBlockState mastState = null;
+            IBlockState mastState;
 			if ((mastState = world.getBlockState(pos.offset(EnumFacing.DOWN, 1))).getBlock() instanceof ConductorMast) {
 				ConductorMast mast = (ConductorMast) mastState.getBlock();
 				mast.wrenchBlock(player, world, pos, true);
@@ -87,7 +86,6 @@ public class InvisibleBlock extends SonarBlock {
 			if (block == Calculator.transmitter) {
 				block.dropBlockAsItem(world, offset, state, 0);
 				world.setBlockToAir(offset);
-
 			}
 		}
 		return super.removedByPlayer(state, world, pos, player, willHarvest);
@@ -100,6 +98,7 @@ public class InvisibleBlock extends SonarBlock {
 		}
 	}
 
+    @Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		switch (type) {
 		case 0:
@@ -133,6 +132,7 @@ public class InvisibleBlock extends SonarBlock {
 		return false;
 	}
 
+    @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
@@ -142,20 +142,23 @@ public class InvisibleBlock extends SonarBlock {
 		return true;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public IBlockState getStateForEntityRender(IBlockState state) {
 		return this.getDefaultState();
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState();
-
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
 		return 0;
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this);
 	}

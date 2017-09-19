@@ -1,20 +1,17 @@
 package sonar.calculator.mod.integration.jei;
 
-import java.util.List;
-
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IDrawableAnimated;
-import mezz.jei.api.gui.IDrawableStatic;
-import mezz.jei.api.gui.IGuiItemStackGroup;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import sonar.calculator.mod.Calculator;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategoryV2;
+
+import java.util.List;
 
 public class FabricationCategory extends JEICategoryV2 {
 
@@ -39,6 +36,11 @@ public class FabricationCategory extends JEICategoryV2 {
 		arrow.draw(minecraft, 95, 20);
 	}
 
+    @Override
+    public String getModName() {
+        return Calculator.name;
+    }
+
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
@@ -47,14 +49,13 @@ public class FabricationCategory extends JEICategoryV2 {
 		int top = 0;
 		int cPos = 0;
 		for (List<ItemStack> stack : outputs) {
-			int cLeft = left + ((cPos - ((cPos / 5) * 5)) * 18);
-			int cTop = top + (cPos / 5) * 18;
+            int cLeft = left + (cPos - cPos / 5 * 5) * 18;
+            int cTop = top + cPos / 5 * 18;
 			stacks.init(cPos, true, cLeft, cTop);
 			stacks.set(cPos, stack);
 			cPos++;
 		}
 		stacks.init(-1, false, 129, 20);
 		stacks.set(-1, ingredients.getOutputs(ItemStack.class).get(0));
-
 	}
 }

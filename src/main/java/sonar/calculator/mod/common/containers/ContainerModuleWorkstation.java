@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.containers;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,6 +8,8 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
 import sonar.core.inventory.ContainerSync;
+
+import javax.annotation.Nullable;
 
 public class ContainerModuleWorkstation extends ContainerSync {
 	private final InventoryPlayer inventory;
@@ -25,10 +25,12 @@ public class ContainerModuleWorkstation extends ContainerSync {
 		for (int j = 0; j < 2; ++j) {
 			for (int k = 0; k < 8; ++k) {
 				this.addSlotToContainer(new Slot(entity, k + j * 8, 10 + k * 20, 40 + j * 22) {
-					public boolean isItemValid(@Nullable ItemStack stack) {
-						return stack != null && Calculator.moduleItems.getSecondaryObject(stack.getItem()) != null;
+                    @Override
+					public boolean isItemValid(ItemStack stack) {
+						return !stack.isEmpty() && Calculator.moduleItems.getSecondaryObject(stack.getItem()) != null;
 					}
 
+                    @Override
 					public int getSlotStackLimit() {
 						return 1;
 					}
@@ -37,8 +39,9 @@ public class ContainerModuleWorkstation extends ContainerSync {
 		}
 
 		addSlotToContainer(new Slot(entity, 16, 8, 8) {
-			public boolean isItemValid(@Nullable ItemStack stack) {
-				return stack != null && stack.getItem() instanceof IFlawlessCalculator;
+            @Override
+			public boolean isItemValid(ItemStack stack) {
+				return !stack.isEmpty() && stack.getItem() instanceof IFlawlessCalculator;
 			}
 		});
 		addInventory(inventory, 8, 84);
@@ -49,9 +52,10 @@ public class ContainerModuleWorkstation extends ContainerSync {
 		return inventory.isUsableByPlayer(player);
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = (Slot) this.inventorySlots.get(slotID);
+        Slot slot = this.inventorySlots.get(slotID);
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
@@ -94,5 +98,4 @@ public class ContainerModuleWorkstation extends ContainerSync {
 		}
 		return itemstack;
 	}
-
 }

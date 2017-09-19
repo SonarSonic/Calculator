@@ -1,25 +1,21 @@
 package sonar.calculator.mod.client.gui.machines;
 
-import java.text.DecimalFormat;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.client.gui.machines.GuiBasicGreenhouse.GreenhouseButton;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.SonarCore;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
-import sonar.core.client.gui.GuiSonar.PauseButton;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 
-public class GuiFlawlessGreenhouse extends GuiSonar {
+import java.text.DecimalFormat;
+
+public class GuiFlawlessGreenhouse extends GuiSonarTile {
 	DecimalFormat dec = new DecimalFormat("##.##");
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/flawlessgreenhouse.png");
 
@@ -32,11 +28,13 @@ public class GuiFlawlessGreenhouse extends GuiSonar {
 		this.ySize = 192;
 	}
 
+    @Override
 	public void initGui() {
 		super.initGui();
 		this.buttonList.add(new PauseButton(this, entity, 3, guiLeft + 6, guiTop + 6, entity.isPaused()));
 	}
 
+    @Override
 	protected void actionPerformed(GuiButton button) {
 		if (button != null && button instanceof SonarButtons.SonarButton) {
 			SonarButton sButton = (SonarButton) button;
@@ -50,10 +48,10 @@ public class GuiFlawlessGreenhouse extends GuiSonar {
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		if (entity.wasBuilt.getObject()) {
 			double car = (double) this.entity.carbon.getObject() * 100 / this.entity.maxLevel;
-			String carbon = dec.format(car) + "%";
+            String carbon = dec.format(car) + '%';
 			FontHelper.textOffsetCentre(carbon, 61, 79, 0);
 			double oxy = (double) this.entity.getOxygen() * 100 / this.entity.maxLevel;
-			String oxygen = dec.format(oxy) + "%";
+            String oxygen = dec.format(oxy) + '%';
 			FontHelper.textOffsetCentre(oxygen, 97, 79, 0);
 		}
 		String size = FontHelper.translate("greenhouse.size") + ": " + entity.houseSize;
@@ -61,12 +59,11 @@ public class GuiFlawlessGreenhouse extends GuiSonar {
 
 		String grownName = FontHelper.translate("greenhouse.grown") + ": ";
 		FontHelper.textOffsetCentre(grownName, 144, 30, 0);
-		FontHelper.textOffsetCentre("" + entity.plantsGrown, 144, 40, 0);
+        FontHelper.textOffsetCentre(String.valueOf(entity.plantsGrown), 144, 40, 0);
 
 		String harvestName = FontHelper.translate("greenhouse.harvested") + ": ";
 		FontHelper.textOffsetCentre(harvestName, 144, 60, 0);
-		FontHelper.textOffsetCentre("" + entity.plantsHarvested, 144, 70, 0);
-
+        FontHelper.textOffsetCentre(String.valueOf(entity.plantsHarvested), 144, 70, 0);
 	}
 
 	@Override
@@ -85,7 +82,6 @@ public class GuiFlawlessGreenhouse extends GuiSonar {
 			int o = this.entity.getOxygen() * 66 / this.entity.maxLevel;
 			this.drawTexturedModalRect(this.guiLeft + 83, this.guiTop + 11 + 66 - o, 218, 66 - o, 28, 66);
 		}
-
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package sonar.calculator.mod.client.renderers;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelSign;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -9,6 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.helpers.FontHelper;
 
@@ -17,7 +16,9 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer<TileEntity
 	private static final ResourceLocation tex = new ResourceLocation("Calculator:textures/model/calculatorScreen.png");
 	private final ModelSign modelSign = new ModelSign();
 
-	public void renderTileEntityAt(TileEntityCalculatorScreen te, double x, double y, double z, float partialTicks, int destroyStage) {
+    @Override
+    //public void renderTileEntityAt(TileEntityCalculatorScreen te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileEntityCalculatorScreen te, double x, double y, double z, float partialTicks, int destroyStage, float f) {
 		GL11.glPushMatrix();
 
 		float f1 = 0.6666667F;
@@ -59,7 +60,6 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer<TileEntity
 			String max = "M: " +FontHelper.formatStorage(te.latestMax);
 			fontrenderer.drawString(energy, -fontrenderer.getStringWidth(energy) / 2, -8, b0);
 			fontrenderer.drawString(max, -fontrenderer.getStringWidth(max) / 2, 4, b0);
-
 		}
 		GL11.glDepthMask(true);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -67,6 +67,6 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer<TileEntity
 	}
 
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float var) {
-		this.renderTileEntityAt((TileEntityCalculatorScreen) tile, x, y, z, var);
+        this.renderTileEntityAt(tile, x, y, z, var);
 	}
 }

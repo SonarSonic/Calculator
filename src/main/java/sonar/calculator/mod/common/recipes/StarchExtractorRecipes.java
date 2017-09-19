@@ -8,7 +8,7 @@ public class StarchExtractorRecipes extends SimpleValueHelper {
 
 	private static final StarchExtractorRecipes recipes = new StarchExtractorRecipes();
 
-	public static final StarchExtractorRecipes instance() {
+    public static StarchExtractorRecipes instance() {
 		return recipes;
 	}
 
@@ -29,12 +29,10 @@ public class StarchExtractorRecipes extends SimpleValueHelper {
 		addRecipe("treeSapling", 1000);
 		addRecipe("calculatorLeaves", 2500);
 		addRecipe("treeLeaves", 200);
-
 	}
 
 	@Override
 	public String getRecipeID() {
 		return "Starch Values";
 	}
-
 }

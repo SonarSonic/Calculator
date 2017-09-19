@@ -1,6 +1,5 @@
 package sonar.calculator.mod.common.entities;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.EnumParticleTypes;
@@ -25,8 +24,7 @@ public class EntityGrenade extends EntityThrowable {
 
 		if (!this.world.isRemote) {
 			setDead();
-			this.world.createExplosion((Entity) null, this.posX, this.posY, this.posZ, 5.0F, true);
-
+            this.world.createExplosion(null, this.posX, this.posY, this.posZ, 5.0F, true);
 		} else {
 			for (int i = 0; i < 10; i++) {
 				this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX, this.posY, this.posZ, 0.8999999761581421D, 0.8999999761581421D, 0.8999999761581421D);

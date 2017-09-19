@@ -1,13 +1,13 @@
 package sonar.calculator.mod.common.recipes;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.core.SonarCore;
+
+import java.util.ArrayList;
 
 public enum ResearchRecipeType {
 	REINFORCED_STONE(SonarCore.reinforcedStoneBlock, SonarCore.reinforcedDirtBlock, "reinforcedStone"),
@@ -73,7 +73,7 @@ public enum ResearchRecipeType {
 	}
 
 	public static ArrayList<ResearchRecipeType> getUnlocked(ItemStack stack) {
-		ArrayList<ResearchRecipeType> unlocked = new ArrayList<ResearchRecipeType>();
+        ArrayList<ResearchRecipeType> unlocked = new ArrayList<>();
 		int[] ids = OreDictionary.getOreIDs(stack);
 		for (ResearchRecipeType type : ResearchRecipeType.values()) {
 			for (Object object : type.items) {

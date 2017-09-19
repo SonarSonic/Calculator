@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +13,8 @@ import sonar.core.common.tileentity.TileEntityEnergy;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.utils.IGuiTile;
+
+import java.util.List;
 
 public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGuiTile {
 
@@ -46,15 +46,12 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 		addEnergy(EnumFacing.VALUES);
 	}
 
-
 	public boolean cranked() {
 		Block crank = this.world.getBlockState(pos.offset(EnumFacing.UP)).getBlock();
-		if (crank != null && crank == Calculator.crankHandle) {
-			return true;
-		}
-		return false;
+        return crank != null && crank == Calculator.crankHandle;
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
@@ -63,6 +60,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
@@ -72,6 +70,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 		return nbt;
 	}
 
+    @Override
 	public List<String> getWailaInfo(List<String> tooltip, IBlockState state) {
 		tooltip.add(FontHelper.translate("crank.cranked") + ": " + (this.cranked ? FontHelper.translate("locator.true") : FontHelper.translate("locator.false")));
 		return tooltip;

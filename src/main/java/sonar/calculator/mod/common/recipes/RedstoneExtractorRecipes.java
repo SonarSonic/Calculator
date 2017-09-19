@@ -6,7 +6,7 @@ public class RedstoneExtractorRecipes extends SimpleValueHelper {
 
 	private static final RedstoneExtractorRecipes recipes = new RedstoneExtractorRecipes();
 
-	public static final RedstoneExtractorRecipes instance() {
+    public static RedstoneExtractorRecipes instance() {
 		return recipes;
 	}
 
@@ -22,5 +22,4 @@ public class RedstoneExtractorRecipes extends SimpleValueHelper {
 	public String getRecipeID() {
 		return "Redstone Values";
 	}
-
 }

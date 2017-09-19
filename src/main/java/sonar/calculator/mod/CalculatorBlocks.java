@@ -1,96 +1,32 @@
 package sonar.calculator.mod;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import sonar.calculator.mod.common.block.CalculatorCrops;
-import sonar.calculator.mod.common.block.CalculatorLeaves;
-import sonar.calculator.mod.common.block.CalculatorLogs;
-import sonar.calculator.mod.common.block.CalculatorPlanks;
-import sonar.calculator.mod.common.block.CalculatorSaplings;
-import sonar.calculator.mod.common.block.MaterialBlock;
-import sonar.calculator.mod.common.block.SmeltingBlock;
+import sonar.calculator.mod.common.block.*;
 import sonar.calculator.mod.common.block.SmeltingBlock.BlockTypes;
 import sonar.calculator.mod.common.block.calculators.AtomicCalculator;
 import sonar.calculator.mod.common.block.calculators.DynamicCalculator;
-import sonar.calculator.mod.common.block.generators.CalculatorLocator;
-import sonar.calculator.mod.common.block.generators.CalculatorPlug;
-import sonar.calculator.mod.common.block.generators.ConductorMast;
-import sonar.calculator.mod.common.block.generators.CrankHandle;
-import sonar.calculator.mod.common.block.generators.CrankedGenerator;
-import sonar.calculator.mod.common.block.generators.ExtractorBlock;
-import sonar.calculator.mod.common.block.generators.InvisibleBlock;
-import sonar.calculator.mod.common.block.machines.AdvancedPowerCube;
-import sonar.calculator.mod.common.block.machines.AnalysingChamber;
-import sonar.calculator.mod.common.block.machines.Assimilator;
-import sonar.calculator.mod.common.block.machines.AtomicMultiplier;
-import sonar.calculator.mod.common.block.machines.CreativePowerCube;
-import sonar.calculator.mod.common.block.machines.DockingStation;
-import sonar.calculator.mod.common.block.machines.FabricationChamber;
-import sonar.calculator.mod.common.block.machines.FlawlessGreenhouse;
-import sonar.calculator.mod.common.block.machines.Greenhouse;
-import sonar.calculator.mod.common.block.machines.HealthProcessor;
-import sonar.calculator.mod.common.block.machines.HungerProcessor;
-import sonar.calculator.mod.common.block.machines.ModuleWorkstation;
-import sonar.calculator.mod.common.block.machines.PowerCube;
-import sonar.calculator.mod.common.block.machines.Transmitter;
-import sonar.calculator.mod.common.block.machines.WeatherStation;
-import sonar.calculator.mod.common.block.misc.BasicLantern;
-import sonar.calculator.mod.common.block.misc.CO2Generator;
-import sonar.calculator.mod.common.block.misc.GasLantern;
-import sonar.calculator.mod.common.block.misc.MagneticFlux;
-import sonar.calculator.mod.common.block.misc.Piping;
-import sonar.calculator.mod.common.block.misc.PurifiedObsidian;
-import sonar.calculator.mod.common.block.misc.RainSensor;
-import sonar.calculator.mod.common.block.misc.ReinforcedChest;
-import sonar.calculator.mod.common.block.misc.Scarecrow;
-import sonar.calculator.mod.common.block.misc.ScarecrowBlock;
-import sonar.calculator.mod.common.block.misc.StorageChamber;
-import sonar.calculator.mod.common.block.misc.WeatherController;
+import sonar.calculator.mod.common.block.generators.*;
+import sonar.calculator.mod.common.block.machines.*;
+import sonar.calculator.mod.common.block.misc.*;
 import sonar.calculator.mod.common.tileentity.TileEntityMachine;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenerator;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCube;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityCreativePowerCube;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
-import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
+import sonar.calculator.mod.common.tileentity.generators.*;
+import sonar.calculator.mod.common.tileentity.machines.*;
+import sonar.calculator.mod.common.tileentity.misc.*;
 import sonar.core.common.block.ConnectedBlock;
 import sonar.core.common.block.SonarBlockTip;
 import sonar.core.common.block.SonarMetaBlock;
 import sonar.core.common.block.SonarStairs;
 
+import java.util.ArrayList;
+
 public class CalculatorBlocks extends Calculator {
 
-	public static ArrayList<Block> registeredBlocks = new ArrayList();
+    public static ArrayList<Block> registeredBlocks = new ArrayList<>();
 
 	public static Block addRegisteredBlock(Block block) {
 		registeredBlocks.add(block);
@@ -101,16 +37,16 @@ public class CalculatorBlocks extends Calculator {
 		block.setCreativeTab(Calculator);
 		block.setUnlocalizedName(name);
 		block.setRegistryName(modid, name);
-		GameRegistry.register(block);
-		GameRegistry.register(new SonarBlockTip(block).setRegistryName(modid, name));
+        ForgeRegistries.BLOCKS.register(block);
+        ForgeRegistries.ITEMS.register(new SonarBlockTip(block).setRegistryName(modid, name));
 		return addRegisteredBlock(block);
 	}
 	
 	public static Block registerBlockWithoutTab(String name, Block block) {
 		block.setUnlocalizedName(name);
 		block.setRegistryName(modid, name);
-		GameRegistry.register(block);
-		GameRegistry.register(new SonarBlockTip(block).setRegistryName(modid, name));
+        ForgeRegistries.BLOCKS.register(block);
+        ForgeRegistries.ITEMS.register(new SonarBlockTip(block).setRegistryName(modid, name));
 		return addRegisteredBlock(block);
 	}
 
@@ -118,8 +54,8 @@ public class CalculatorBlocks extends Calculator {
 		block.setCreativeTab(Calculator);
 		block.setUnlocalizedName(name);
 		block.setRegistryName(modid, name);
-		GameRegistry.register(block);
-		GameRegistry.register(new SonarMetaBlock(block).setRegistryName(modid, name));
+        ForgeRegistries.BLOCKS.register(block);
+        ForgeRegistries.ITEMS.register(new SonarMetaBlock(block).setRegistryName(modid, name));
 		return addRegisteredBlock(block);
 	}
 
@@ -153,9 +89,9 @@ public class CalculatorBlocks extends Calculator {
 		// GameRegistry.registerTileEntity(TileEntityFlawlessFurnace.class, "FlawlessFurnace");
 
 		stoneSeparator = registerBlock("StoneSeparator", new SmeltingBlock(BlockTypes.STONE).setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityMachine.StoneSeperator.class, "StoneSeparator");
+        GameRegistry.registerTileEntity(TileEntityMachine.StoneSeparator.class, "StoneSeparator");
 		algorithmSeparator = registerBlock("AlgorithmSeparator", new SmeltingBlock(BlockTypes.ALGORITHM).setHardness(1.0F).setResistance(20.0F));
-		GameRegistry.registerTileEntity(TileEntityMachine.AlgorithmSeperator.class, "AlgorithmSeparator");
+        GameRegistry.registerTileEntity(TileEntityMachine.AlgorithmSeparator.class, "AlgorithmSeparator");
 		hungerProcessor = registerBlock("HungerProcessor", new HungerProcessor().setHardness(1.0F).setResistance(20.0F));
 		GameRegistry.registerTileEntity(TileEntityHungerProcessor.class, "HungerProcessor");
 		healthProcessor = registerBlock("HealthProcessor", new HealthProcessor().setHardness(1.0F).setResistance(20.0F));
@@ -250,8 +186,8 @@ public class CalculatorBlocks extends Calculator {
 
 		gas_lantern_off = registerBlock("GasLanternOff", new GasLantern(false).setHardness(0.1F).setLightOpacity(100));
 		gas_lantern_on = new GasLantern(true).setHardness(0.1F).setLightLevel(0.9375F).setUnlocalizedName("GasLanternOn").setRegistryName(modid, "GasLanternOn");
-		GameRegistry.register(gas_lantern_on);
-		GameRegistry.register(new SonarBlockTip(gas_lantern_on).setRegistryName(modid, "GasLanternOn"));
+        ForgeRegistries.BLOCKS.register(gas_lantern_on);
+        ForgeRegistries.ITEMS.register(new SonarBlockTip(gas_lantern_on).setRegistryName(modid, "GasLanternOn"));
 		
 		basic_lantern = registerBlock("Lantern", new BasicLantern().setHardness(0.1F).setLightLevel(0.9375F).setLightOpacity(100));
 		GameRegistry.registerTileEntity(TileEntityGasLantern.class, "Lantern");

@@ -1,9 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -23,6 +19,8 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
+
+import java.util.List;
 
 public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
 
@@ -69,7 +67,6 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 				this.storage.modifyEnergyStored(-energy);
 				markBlockForUpdate();
 			}
-
 		} else {
 			if (this.cookTime.getObject() != 0 || this.active.getObject() != 0) {
 				this.cookTime.setObject(0);
@@ -79,7 +76,6 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		}
 
 		this.markDirty();
-
 	}
 
 	public boolean canCook() {
@@ -123,7 +119,6 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			return true;
 		}
 		return true;
-
 	}
 
 	public static boolean isAllowed(ItemStack stack) {
@@ -158,7 +153,6 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			return true;
 		}
 		return false;
-
 	}
 
 	@Override
@@ -173,12 +167,10 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		if (slot == 8) {
-			return true;
-		}
-		return false;
+        return slot == 8;
 	}
 
+    @Override
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1) {
 			markBlockForUpdate();
@@ -186,6 +178,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		return true;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		super.getWailaInfo(currenttip, state);
@@ -211,7 +204,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 	@Override
 	public double getEnergyUsage() {
-		return requiredEnergy / getProcessTime();
+        return requiredEnergy / furnaceSpeed;
 	}
 
 	@Override
@@ -228,5 +221,4 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	public int getBaseProcessTime() {
 		return furnaceSpeed;
 	}
-
 }

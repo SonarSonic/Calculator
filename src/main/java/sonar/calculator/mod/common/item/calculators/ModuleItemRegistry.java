@@ -3,12 +3,7 @@ package sonar.calculator.mod.common.item.calculators;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.common.item.calculators.modules.EnderModule;
-import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
-import sonar.calculator.mod.common.item.calculators.modules.GrenadeModule;
-import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
-import sonar.calculator.mod.common.item.calculators.modules.JumpModule;
-import sonar.calculator.mod.common.item.calculators.modules.WarpModule;
+import sonar.calculator.mod.common.item.calculators.modules.*;
 import sonar.core.helpers.LinkedRegistryHelper;
 
 public class ModuleItemRegistry extends LinkedRegistryHelper<String, Item> {
@@ -32,5 +27,4 @@ public class ModuleItemRegistry extends LinkedRegistryHelper<String, Item> {
 	public String registeryType() {
 		return "Module Item";
 	}
-
 }

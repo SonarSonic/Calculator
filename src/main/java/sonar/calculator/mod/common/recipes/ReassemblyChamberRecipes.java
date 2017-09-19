@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.core.recipes.DefinedRecipeHelper;
 
-public class ReassemblyChamberRecipes extends DefinedRecipeHelper {
+public class ReassemblyChamberRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 
 	private static final ReassemblyChamberRecipes recipes = new ReassemblyChamberRecipes();
 
@@ -13,7 +13,7 @@ public class ReassemblyChamberRecipes extends DefinedRecipeHelper {
 		super(1, 1, false);
 	}
 
-	public static final ReassemblyChamberRecipes instance() {
+    public static ReassemblyChamberRecipes instance() {
 		return recipes;
 	}
 

@@ -1,18 +1,18 @@
 package sonar.calculator.mod.client.renderers;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 
 public class RenderAnalysingChamber extends TileEntitySpecialRenderer<TileEntityAnalysingChamber> {
 
 	@Override
-	public void renderTileEntityAt(TileEntityAnalysingChamber te, double x, double y, double z, float partialTicks, int destroyStage) {
+    //public void renderTileEntityAt(TileEntityAnalysingChamber te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileEntityAnalysingChamber te, double x, double y, double z, float partialTicks, int destroyStage, float f) {
 		if (te.getWorld() != null) {
 			ItemStack stack = te.inv().getStackInSlot(0);
 			if (!stack.isEmpty()) {
@@ -69,5 +69,4 @@ public class RenderAnalysingChamber extends TileEntitySpecialRenderer<TileEntity
 			}
 		}
 	}
-
 }

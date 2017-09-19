@@ -1,8 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import java.util.Arrays;
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -21,7 +18,9 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 
-public class TileEntityHungerProcessor extends TileEntitySidedInventory implements IHungerProcessor, IGuiTile {
+import java.util.List;
+
+public class TileEntityHungerProcessor extends TileEntitySidedInventory implements IGuiTile, IHungerProcessor {
 
 	public SyncTagType.INT storedpoints = new SyncTagType.INT(0);
 	public final int speed = 4;
@@ -44,7 +43,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	}
 
 	public void charge(ItemStack stack) {
-		if (!(stack.isEmpty()) && this.storedpoints.getObject() != 0) {
+        if (!stack.isEmpty() && this.storedpoints.getObject() != 0) {
 			if (stack.getItem() instanceof IHungerStore) {
 				IHungerStore module = (IHungerStore) stack.getItem();
 				int hunger = module.getHungerPoints(stack);
@@ -70,11 +69,10 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 				}
 			}
 		}
-
 	}
 
 	private void food(ItemStack stack) {
-		if (!(stack.isEmpty())) {
+        if (!stack.isEmpty()) {
 			if (stack.getItem() instanceof ItemFood) {
 				ItemFood food = (ItemFood) stack.getItem();
 				storedpoints.increaseBy(food.getHealAmount(stack));
@@ -116,13 +114,13 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 		return true;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add(FontHelper.translate("points.hunger") + ": " + storedpoints);
 		return currenttip;
 	}
 
-	@Override
 	public int getHungerPoints() {
 		return storedpoints.getObject();
 	}
@@ -136,5 +134,4 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiHungerProcessor(player.inventory, this);
 	}
-
 }

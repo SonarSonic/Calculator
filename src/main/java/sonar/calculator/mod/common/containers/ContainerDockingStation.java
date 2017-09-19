@@ -21,7 +21,7 @@ public class ContainerDockingStation extends ContainerSync {
 	public ContainerDockingStation(InventoryPlayer inventory, TileEntityDockingStation entity) {
 		super(entity);
 		this.entity = entity;
-		INV_START=entity.getInputStackSize(entity.calcStack) + 2;
+        INV_START = TileEntityDockingStation.getInputStackSize(entity.calcStack) + 2;
 		addSlots(entity);
 		addInventory(inventory, 8, 84);
 	}
@@ -50,14 +50,15 @@ public class ContainerDockingStation extends ContainerSync {
 		}
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = (Slot) this.inventorySlots.get(id);
+        Slot slot = this.inventorySlots.get(id);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			int start = entity.getInputStackSize(entity.calcStack) + 2;
+            int start = TileEntityDockingStation.getInputStackSize(entity.calcStack) + 2;
 			if (id < start) {
 				if (!this.mergeItemStack(itemstack1, start, HOTBAR_END + 1, true)) {
 					return ItemStack.EMPTY;
@@ -66,15 +67,14 @@ public class ContainerDockingStation extends ContainerSync {
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 
-				if (id >= entity.getInputStackSize(entity.calcStack)) {
+                if (id >= TileEntityDockingStation.getInputStackSize(entity.calcStack)) {
 					if (DischargeValues.getValueOf(itemstack1) > 0 || SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1) != null) {
 						if (!mergeItemStack(itemstack1, start - 2, start - 1, false)) {
 							return ItemStack.EMPTY;
 						}
-					}else if (!this.mergeItemStack(itemstack1, 0, entity.getInputStackSize(entity.calcStack), false)) {
+                    } else if (!this.mergeItemStack(itemstack1, 0, TileEntityDockingStation.getInputStackSize(entity.calcStack), false)) {
 						return ItemStack.EMPTY;
 					}
-
 				} else if (id >= start && id < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
 						return ItemStack.EMPTY;

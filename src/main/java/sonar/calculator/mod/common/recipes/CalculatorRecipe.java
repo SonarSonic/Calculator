@@ -1,10 +1,10 @@
 package sonar.calculator.mod.common.recipes;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import sonar.core.recipes.DefaultSonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
+
+import java.util.ArrayList;
 
 public class CalculatorRecipe extends DefaultSonarRecipe {
 

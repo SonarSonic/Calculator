@@ -1,12 +1,5 @@
 package sonar.calculator.mod.client.gui.misc;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -15,11 +8,15 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerFabricationChamber;
 import sonar.calculator.mod.common.recipes.FabricationChamberRecipes;
 import sonar.calculator.mod.common.recipes.FabricationSonarRecipe;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
 import sonar.core.SonarCore;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.network.PacketByteBuf;
@@ -28,7 +25,10 @@ import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.recipes.RecipeHelperV2;
 
-public class GuiFabricationChamber extends GuiContainer {
+import java.io.IOException;
+import java.util.List;
+
+public class GuiFabricationChamber extends GuiSonarTile {
 
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/fabrication_chamber.png");
 
@@ -41,16 +41,14 @@ public class GuiFabricationChamber extends GuiContainer {
 	public final List<FabricationSonarRecipe> recipes = FabricationChamberRecipes.instance().getRecipes();
 
 	public GuiFabricationChamber(InventoryPlayer player, TileEntityFabricationChamber chamber) {
-		super(new ContainerFabricationChamber(player, chamber));
+		super(new ContainerFabricationChamber(player, chamber), chamber);
 		this.chamber = chamber;
 		this.ySize = 200;
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		drawTexturedModalRect(scrollerLeft, scrollerStart + (int) ((float) (scrollerEnd - scrollerStart - 17) * this.currentScroll), 176, 0, 8, 15);
 		int pos = getDataPosition();
 		int offsetTop = 6;
@@ -62,6 +60,11 @@ public class GuiFabricationChamber extends GuiContainer {
 			int l = chamber.currentFabricateTime.getObject() * 23 / chamber.fabricateTime;
 			drawTexturedModalRect(this.guiLeft + 84 + 10, this.guiTop + 89, 176, 16, l, 16);
 		}
+	}
+
+	@Override
+	public ResourceLocation getBackground() {
+		return bground;
 	}
 
 	@Override
@@ -102,18 +105,18 @@ public class GuiFabricationChamber extends GuiContainer {
 		for (int i = start; i < finish; i++) {
 			ItemStack stack = RecipeHelperV2.getItemStackFromList(FabricationChamberRecipes.instance().getRecipes().get(i).outputs(), 0);
 			if (!stack.isEmpty()) {
-				itemRender.renderItemIntoGUI(stack, 7, 7 + ((i - start) * 18));
+                itemRender.renderItemIntoGUI(stack, 7, 7 + (i - start) * 18);
 				GL11.glPushMatrix();
 				GL11.glScaled(0.7, 0.7, 0.7);
 				String string = stack.getDisplayName();
 				if (string.length() > 15) {
 					string = string.substring(0, Math.min(15, string.length())) + "...";
 				}
-				FontHelper.text(" " + string, 32, 17 + ((i - start) * 26), -1);
+                FontHelper.text(' ' + string, 32, 17 + (i - start) * 26, -1);
 				GL11.glPopMatrix();
 			}
 		}
-		if (chamber.selected != null) {
+		if (!chamber.selected.isEmpty()) {
 			ISonarRecipe recipe = FabricationChamberRecipes.instance().getRecipeFromOutputs(null, new Object[] { chamber.selected });
 			if (recipe != null) {
 				GL11.glPushMatrix();
@@ -122,11 +125,11 @@ public class GuiFabricationChamber extends GuiContainer {
 				int top = 24;
 				int cPos = 0;
 				for (ISonarRecipeObject circuit : recipe.inputs()) {
-					int cLeft = left + ((cPos - ((cPos / 5) * 5)) * 18);
-					int cTop = top + (cPos / 5) * 18;
+                    int cLeft = left + (cPos - cPos / 5 * 5) * 18;
+                    int cTop = top + cPos / 5 * 18;
 					ItemStack stack = (ItemStack) circuit.getValue();
 					itemRender.renderItemIntoGUI(stack, cLeft, cTop);
-					itemRender.renderItemOverlayIntoGUI(fontRendererObj, stack, cLeft, cTop, null);
+                    itemRender.renderItemOverlayIntoGUI(fontRenderer, stack, cLeft, cTop, null);
 					cPos++;
 				}
 				GL11.glPopMatrix();
@@ -138,6 +141,7 @@ public class GuiFabricationChamber extends GuiContainer {
 		}
 	}
 
+    @Override
 	protected void actionPerformed(GuiButton button) {
 		if (button != null && button.id == 0) {
 			SonarCore.network.sendToServer(new PacketByteBuf(chamber, chamber.getPos(), 1));
@@ -153,7 +157,7 @@ public class GuiFabricationChamber extends GuiContainer {
 			int start = (int) (recipes.size() * this.currentScroll);
 			int finish = Math.min(start + this.getViewableSize(), recipes.size());
 			for (int i = start; i < finish; i++) {
-				if (y > (4 + (i - start) * 18) && y < (4 + (i - start) * 18) + 18) {
+                if (y > 4 + (i - start) * 18 && y < 4 + (i - start) * 18 + 18) {
 					ItemStack stack = RecipeHelperV2.getItemStackFromList(FabricationChamberRecipes.instance().getRecipes().get(i).outputs(), 0);
 					if (!stack.isEmpty()) {
 						SonarCore.network.sendToServer(new PacketByteBuf(chamber, chamber.getPos(), 0, new ByteBufWritable(true) {
@@ -168,6 +172,7 @@ public class GuiFabricationChamber extends GuiContainer {
 		}
 	}
 
+    @Override
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		float lastScroll = currentScroll;
@@ -191,9 +196,9 @@ public class GuiFabricationChamber extends GuiContainer {
 				this.currentScroll = 1.0F;
 			}
 		}
-
 	}
 
+    @Override
 	public void drawScreen(int x, int y, float var) {
 		super.drawScreen(x, y, var);
 		float lastScroll = currentScroll;
@@ -218,13 +223,11 @@ public class GuiFabricationChamber extends GuiContainer {
 			if (this.currentScroll > 1.0F) {
 				this.currentScroll = 1.0F;
 			}
-
 		}
-
 	}
 
 	public void drawSelectionBackground(int offsetTop, int i, int pos) {
-		drawTexturedModalRect(this.guiLeft + 6, this.guiTop + offsetTop + (getSelectionHeight() * i), 0, i == pos ? 220 + getSelectionHeight() : 220, 88, getSelectionHeight());
+        drawTexturedModalRect(this.guiLeft + 6, this.guiTop + offsetTop + getSelectionHeight() * i, 0, i == pos ? 220 + getSelectionHeight() : 220, 88, getSelectionHeight());
 	}
 
 	public int getViewableSize() {
@@ -236,11 +239,6 @@ public class GuiFabricationChamber extends GuiContainer {
 	}
 
 	private boolean needsScrollBars() {
-		if (recipes.size() <= getViewableSize())
-			return false;
-
-		return true;
-
+        return recipes.size() > getViewableSize();
 	}
-
 }

@@ -4,22 +4,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
-import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
-import sonar.core.api.SonarAPI;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.DisabledSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerCalculatorPlug extends ContainerSync {
 	private TileEntityCalculatorPlug entity;
 	public static TransferSlotsManager<TileEntityCalculatorPlug> transfer = new TransferSlotsManager() {
 		{
 			addTransferSlot(new TransferSlots<TileEntityCalculatorPlug>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityCalculatorPlug inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return stack.getItem() instanceof IStability;
 				}

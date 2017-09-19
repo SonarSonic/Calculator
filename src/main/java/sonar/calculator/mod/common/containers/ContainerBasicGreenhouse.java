@@ -3,21 +3,13 @@ package sonar.calculator.mod.common.containers;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.oredict.OreDictionary;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
-import sonar.core.api.SonarAPI;
-import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.TransferSlotsManager.TransferSlots;
-import sonar.core.inventory.TransferSlotsManager.TransferType;
 
 public class ContainerBasicGreenhouse extends ContainerSync {
 	private TileEntityBasicGreenhouse entity;
@@ -25,27 +17,32 @@ public class ContainerBasicGreenhouse extends ContainerSync {
 		{
 
 			addTransferSlot(new TransferSlots<TileEntityBasicGreenhouse>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityBasicGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return GreenhouseHelper.checkLog(Block.getBlockFromItem(stack.getItem()));
 				}
 			});
 			addTransferSlot(new TransferSlots<TileEntityBasicGreenhouse>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityBasicGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return GreenhouseHelper.checkStairs(Block.getBlockFromItem(stack.getItem()));
 				}
 			});
 			addTransferSlot(new TransferSlots<TileEntityBasicGreenhouse>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityBasicGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return GreenhouseHelper.checkGlass(Block.getBlockFromItem(stack.getItem()));
 				}
 			});
 			addTransferSlot(new TransferSlots<TileEntityBasicGreenhouse>(TransferType.TILE_INV, 1) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityBasicGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return GreenhouseHelper.checkPlanks(Block.getBlockFromItem(stack.getItem()));
 				}
 			});
 			addTransferSlot(TransferSlotsManager.DISCHARGE_SLOT);
 			addTransferSlot(new TransferSlots<TileEntityBasicGreenhouse>(TransferType.TILE_INV, 9) {
+                @Override
 				public boolean canInsert(EntityPlayer player, TileEntityBasicGreenhouse inv, Slot slot, int pos, int slotID, ItemStack stack) {
 					return stack.getItem() instanceof IPlantable;
 				}
@@ -77,5 +74,4 @@ public class ContainerBasicGreenhouse extends ContainerSync {
 	public boolean canInteractWith(EntityPlayer player) {
 		return entity.isUseableByPlayer(player);
 	}
-
 }

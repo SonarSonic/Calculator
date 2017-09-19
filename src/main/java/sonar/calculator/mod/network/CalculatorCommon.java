@@ -1,8 +1,5 @@
 package sonar.calculator.mod.network;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,18 +11,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.misc.GuiModuleSelector;
 import sonar.calculator.mod.common.containers.ContainerModuleSelector;
-import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
-import sonar.calculator.mod.network.packets.PacketJumpModule;
-import sonar.calculator.mod.network.packets.PacketModuleSelection;
-import sonar.calculator.mod.network.packets.PacketPlayerResearch;
-import sonar.calculator.mod.network.packets.PacketTeleportLinks;
+import sonar.calculator.mod.network.packets.*;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.utils.IGuiItem;
 import sonar.core.utils.IGuiTile;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CalculatorCommon implements IGuiHandler {
 
-	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
+    private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<>();
 
 	public static void registerPackets() {
 		Calculator.network.registerMessage(PacketCalculatorScreen.Handler.class, PacketCalculatorScreen.class, 0, Side.CLIENT);
@@ -61,7 +57,6 @@ public class CalculatorCommon implements IGuiHandler {
 					return new ContainerModuleSelector(player, equipped);
 				}
 			}
-
 		}
 		return null;
 	}
@@ -86,7 +81,6 @@ public class CalculatorCommon implements IGuiHandler {
 					return new GuiModuleSelector(player, equipped);
 				}
 			}
-
 		}
 
 		return null;
@@ -102,5 +96,4 @@ public class CalculatorCommon implements IGuiHandler {
 	public static NBTTagCompound getEntityData(String name) {
 		return extendedEntityData.remove(name);
 	}
-
 }

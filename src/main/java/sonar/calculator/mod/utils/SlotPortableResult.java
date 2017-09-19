@@ -20,6 +20,7 @@ public class SlotPortableResult extends SlotPortable {
 		this.container = container;
 	}
 
+    @Override
 	public boolean isItemValid(ItemStack stack) {
 		return false;
 	}
@@ -41,11 +42,11 @@ public class SlotPortableResult extends SlotPortable {
 	public ItemStack onTake(EntityPlayer player, ItemStack stack) {
 		this.container.removeEnergy(amountCrafted);
 		amountCrafted=0;
-		for (int i = 0; i < this.craftSlots.length; ++i) {
-			ItemStack itemstack1 = this.invItem.getStackInSlot(craftSlots[i]);
+        for (int craftSlot : this.craftSlots) {
+            ItemStack itemstack1 = this.invItem.getStackInSlot(craftSlot);
 
 			if (!itemstack1.isEmpty()) {
-				decrIngredientSize(craftSlots[i], 1);
+                decrIngredientSize(craftSlot, 1);
 				if (itemstack1.getItem().hasContainerItem(itemstack1)) {
 					ItemStack itemstack2 = itemstack1.getItem().getContainerItem(itemstack1);
 
@@ -55,8 +56,8 @@ public class SlotPortableResult extends SlotPortable {
 					}
 
 					if (!this.thePlayer.inventory.addItemStackToInventory(itemstack2)) {
-						if (this.invItem.getStackInSlot(craftSlots[i]) == null) {
-							this.invItem.setInventorySlotContents(craftSlots[i], itemstack2);
+                        if (this.invItem.getStackInSlot(craftSlot) == null) {
+                            this.invItem.setInventorySlotContents(craftSlot, itemstack2);
 						} else {
 							this.thePlayer.dropItem(itemstack2, false);
 						}
@@ -85,5 +86,4 @@ public class SlotPortableResult extends SlotPortable {
 			return ItemStack.EMPTY;
 		}
 	}
-
 }

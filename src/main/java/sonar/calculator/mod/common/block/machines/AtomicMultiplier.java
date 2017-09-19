@@ -1,8 +1,5 @@
 package sonar.calculator.mod.common.block.machines;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,6 +20,9 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
+import java.util.List;
+import java.util.Random;
+
 public class AtomicMultiplier extends SonarMachineBlock {
 
 	public AtomicMultiplier() {
@@ -30,6 +30,7 @@ public class AtomicMultiplier extends SonarMachineBlock {
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - 0.0625F * 3, 1.0F);
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -50,9 +51,14 @@ public class AtomicMultiplier extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
+
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+    }
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -68,11 +74,16 @@ public class AtomicMultiplier extends SonarMachineBlock {
 	}
 
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
 		list.add(FontHelper.translate("energy.required") + ": " + FontHelper.formatStorage(TileEntityAtomicMultiplier.requiredEnergy));
+    }
 
+    @Override
+    public void standardInfo(ItemStack stack, World world, List<String> list) {
+        list.add(FontHelper.translate("energy.required") + ": " + FontHelper.formatStorage(TileEntityAtomicMultiplier.requiredEnergy));
 	}
 
+    @Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}

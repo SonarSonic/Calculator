@@ -1,10 +1,5 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -35,12 +30,15 @@ import sonar.core.upgrades.UpgradeInventory;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.MachineSideConfig;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements IUpgradableTile, IAdditionalInventory, IGuiTile {
 
 	public SyncTagType.INT stable = new SyncTagType.INT(0);
 	public SyncTagType.INT analysed = new SyncTagType.INT(2);
 	public int maxTransfer = 2000;
-	public int transferTicks = 0;
+    public int transferTicks;
 	public final int transferTime = 20;
 	public final int[] itemSlots = new int[] { 2, 3, 4, 5, 6, 7 };
 
@@ -51,8 +49,9 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
 		super.storage.setCapacity(100000).setMaxTransfer(64000);
 		super.inv = new SonarInventory(this, 8) {
+            @Override
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
-				super.setInventorySlotContents(i, itemstack);
+               super.setInventorySlotContents(i, itemstack);
 				if (i == 0) {
 					markBlockForUpdate();
 				}
@@ -66,7 +65,6 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	@Override
 	public void update() {
 		super.update();
-
 		if (this.world.isRemote) {
 			return;
 		}
@@ -114,7 +112,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 				this.storage.receiveEnergy(storedEnergy, false);
 				for (int i = 1; i < 7; i++) {
 					if (i > 2 || upgrades.getUpgradesInstalled("VOID") == 0) {
-						add(RecipeHelperV2.getItemStackFromList(AnalysingChamberRecipes.instance().getOutputs(null, new Object[] { i, tag.getInteger("Item" + i) }), 0), i + 1);
+                        add(RecipeHelperV2.getItemStackFromList(AnalysingChamberRecipes.instance().getOutputs(null, i, tag.getInteger("Item" + i)), 0), i + 1);
 					}
 					tag.removeTag("Item" + i);
 				}
@@ -186,7 +184,6 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		}
 
 		return 0;
-
 	}
 
 	@Override
@@ -211,7 +208,6 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			}
 		}
 		return false;
-
 	}
 
 	@Override
@@ -230,13 +226,14 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		return slot != 1;
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE))
 			upgrades.readData(nbt, type);
-
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE))
@@ -244,6 +241,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		return nbt;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		int vUpgrades = upgrades.getUpgradesInstalled("VOID");
@@ -257,7 +255,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public ItemStack[] getAdditionalStacks() {
 		ArrayList<ItemStack> drops = upgrades.getDrops();
 		if (drops == null || drops.isEmpty()) {
-			return new ItemStack[] { null };
+			return new ItemStack[] { ItemStack.EMPTY };
 		}
 		ItemStack[] toDrop = new ItemStack[drops.size()];
 		int pos = 0;
@@ -284,5 +282,4 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public UpgradeInventory getUpgradeInventory() {
 		return upgrades;
 	}
-
 }

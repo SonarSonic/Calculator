@@ -31,8 +31,10 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 		syncList.addPart(inv);
 	}
 
+    @Override
 	public void update() {
 		super.update();
+		startProcess();
 		this.discharge(0);
 		if (buffer > 0) {
 			storage.modifyEnergyStored(-(requiredPower / 100));
@@ -45,7 +47,6 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 					processType(type, false);
 				}
 			}
-
 		}
 		if (coolDown > 0) {
 			if (coolDown != 30) {
@@ -82,7 +83,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 				return false;
 			}
 			if (!simulate) {
-				this.world.getWorldInfo().setRaining(data == 0 ? false : true);
+                    this.world.getWorldInfo().setRaining(data != 0);
 			}
 			return true;
 		case THUNDER:
@@ -92,8 +93,8 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 				return false;
 			}
 			if (!simulate) {
-				this.world.getWorldInfo().setRaining(data == 0 ? false : true);
-				this.world.getWorldInfo().setThundering(data == 0 ? false : true);
+                    this.world.getWorldInfo().setRaining(data != 0);
+                    this.world.getWorldInfo().setThundering(data != 0);
 			}
 			return true;
 		}
@@ -104,6 +105,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 		this.type = type;
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if(type.isType(SyncType.SAVE,SyncType.DEFAULT_SYNC)){
@@ -113,6 +115,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if(type.isType(SyncType.SAVE,SyncType.DEFAULT_SYNC)){

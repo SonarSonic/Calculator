@@ -1,10 +1,5 @@
 package sonar.calculator.mod.common.block;
 
-import java.util.List;
-import java.util.Random;
-
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,6 +14,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
@@ -31,31 +27,47 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.upgrades.MachineUpgrade;
 import sonar.core.utils.IGuiTile;
 
+import java.util.List;
+import java.util.Random;
+
 public class SmeltingBlock extends SonarSidedBlock {
 
 	public enum BlockTypes {
-		/** extraction chamber */
+        /**
+         * extraction chamber
+         */
 		EXTRACTION,
-		/** restoration chamber */
+        /**
+         * restoration chamber
+         */
 		RESTORATION,
-		/** reassembly chamber */
+        /**
+         * reassembly chamber
+         */
 		REASSEMBLY,
-		/** processing chamber */
+        /**
+         * processing chamber
+         */
 		PROCESSING,
-		/** stone seperator */
+        /**
+         * stone seperator
+         */
 		STONE,
-		/** algorithm seperator */
+        /**
+         * algorithm seperator
+         */
 		ALGORITHM,
-		/** precision chamber */
+        /**
+         * precision chamber
+         */
 		PRECISION,
-		/** reinforced furnace */
+        /**
+         * reinforced furnace
+         */
 		FURNACE;
 
 		public boolean isOpaqueCube() {
-			if (this == STONE || this == ALGORITHM || this == FURNACE) {
-				return true;
-			}
-			return false;
+            return this == STONE || this == ALGORITHM || this == FURNACE;
 		}
 
 		public TileEntity getTile(World world, int meta) {
@@ -69,9 +81,9 @@ public class SmeltingBlock extends SonarSidedBlock {
 			case PROCESSING:
 				return new TileEntityMachine.ProcessingChamber();
 			case STONE:
-				return new TileEntityMachine.StoneSeperator();
+                    return new TileEntityMachine.StoneSeparator();
 			case ALGORITHM:
-				return new TileEntityMachine.AlgorithmSeperator();
+                    return new TileEntityMachine.AlgorithmSeparator();
 			case PRECISION:
 				return new TileEntityMachine.PrecisionChamber();
 			case FURNACE:
@@ -79,7 +91,6 @@ public class SmeltingBlock extends SonarSidedBlock {
 
 			default:
 				return null;
-
 			}
 		}
 	}
@@ -96,10 +107,11 @@ public class SmeltingBlock extends SonarSidedBlock {
 		return type != null && type.isOpaqueCube();
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 		if (isAnimated(state, world, pos)) {
-			EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
+            EnumFacing enumfacing = state.getValue(FACING);
 			double d0 = (double) pos.getX() + 0.5D;
 			double d1 = (double) pos.getY() + rand.nextDouble() * 6.0D / 16.0D;
 			double d2 = (double) pos.getZ() + 0.5D;
@@ -108,16 +120,16 @@ public class SmeltingBlock extends SonarSidedBlock {
 
 			switch (enumfacing) {
 			case WEST:
-				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
+                    world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
 				break;
 			case EAST:
-				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
+                    world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
 				break;
 			case NORTH:
-				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D, new int[0]);
+                    world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
 				break;
 			case SOUTH:
-				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D, new int[0]);
+                    world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
 			default:
 				break;
 			}
@@ -153,13 +165,65 @@ public class SmeltingBlock extends SonarSidedBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
+    }
 
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+    }
+
+    @Override
+    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
+            int energyUsage = 0;
+            int speed = 0;
+
+            switch (type.ordinal()) {
+                case 0:
+                    energyUsage = CalculatorConfig.getInteger("Extraction Chamber" + "Energy Usage");
+                    speed = CalculatorConfig.getInteger("Extraction Chamber" + "Base Speed");
+                    break;
+                case 1:
+                    energyUsage = CalculatorConfig.getInteger("Restoration Chamber" + "Energy Usage");
+                    speed = CalculatorConfig.getInteger("Restoration Chamber" + "Base Speed");
+                    break;
+                case 2:
+                    energyUsage = CalculatorConfig.getInteger("Reassembly Chamber" + "Energy Usage");
+                    speed = CalculatorConfig.getInteger("Reassembly Chamber" + "Base Speed");
+                    break;
+                case 3:
+                    energyUsage = CalculatorConfig.getInteger("Processing Chamber" + "Energy Usage");
+                    speed = CalculatorConfig.getInteger("Processing Chamber" + "Base Speed");
+                    break;
+                case 4:
+                    energyUsage = CalculatorConfig.getInteger("Stone Seperator" + "Energy Usage");
+                    speed = CalculatorConfig.getInteger("Stone Seperator" + "Base Speed");
+                    break;
+                case 5:
+                    energyUsage = CalculatorConfig.getInteger("Algorithm Seperator" + "Energy Usage");
+                    speed = CalculatorConfig.getInteger("Algorithm Seperator" + "Base Speed");
+                    break;
+                case 6:
+                    energyUsage = CalculatorConfig.getInteger("Precision Chamber" + "Energy Usage");
+                    speed = CalculatorConfig.getInteger("Precision Chamber" + "Base Speed");
+                    break;
+                case 7:
+                    energyUsage = CalculatorConfig.getInteger("Reinforced Furnace" + "Energy Usage");
+                    speed = CalculatorConfig.getInteger("Reinforced Furnace" + "Base Speed");
+                    break;
+            }
+            list.add(FontHelper.translate("Process Speed: ") + TextFormatting.WHITE + speed + " ticks");
+            list.add(FontHelper.translate("Energy Usage: ") + TextFormatting.WHITE + energyUsage + " RF per operation");
+            list.add(FontHelper.translate("Consumption: ") + TextFormatting.WHITE + energyUsage / speed + " RF/t");
+        } else {
+            list.add("Hold" + TextFormatting.YELLOW + " SHIFT " + TextFormatting.RESET + "for more info");
+        }
 	}
 
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
+    public void standardInfo(ItemStack stack, World world, List<String> list) {
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
 			int energyUsage = 0;
 			int speed = 0;
@@ -206,6 +270,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 		}
 	}
 
+    @Override
 	public boolean isAnimated(IBlockState state, IBlockAccess w, BlockPos pos) {
 		TileEntity target = w.getTileEntity(pos);
 		if (target instanceof TileEntityAbstractProcess) {
@@ -215,6 +280,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 		return false;
 	}
 
+    @Override
 	public BlockRenderLayer getBlockLayer() {
 		return !type.isOpaqueCube() ? BlockRenderLayer.CUTOUT_MIPPED : super.getBlockLayer();
 	}
@@ -225,10 +291,9 @@ public class SmeltingBlock extends SonarSidedBlock {
 			super(type);
 		}
 
+        @Override
 		public boolean hasAnimatedFront() {
 			return false;
 		}
-
 	}
-
 }
