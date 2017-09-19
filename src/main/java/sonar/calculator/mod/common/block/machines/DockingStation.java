@@ -41,7 +41,7 @@ public class DockingStation extends SonarMachineBlock {
 						TileEntity target = world.getTileEntity(pos);
 						if (target != null && target instanceof TileEntityDockingStation) {
 							TileEntityDockingStation station = (TileEntityDockingStation) target;
-                            if (TileEntityDockingStation.getInputStackSize(station.calcStack) != 0) {
+							if (TileEntityDockingStation.getInputStackSize(station.calcStack) != 0) {
 								player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 							} else {
 								FontHelper.sendMessage(FontHelper.translate("docking.noCalculator"), world, player);
@@ -75,24 +75,22 @@ public class DockingStation extends SonarMachineBlock {
 	}
 
 	@Override
-    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
 
 	@Override
-    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
-	}
+	public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {}
 
-    @Override
-    public void standardInfo(ItemStack stack, World world, List<String> list) {
-    }
+	@Override
+	public void standardInfo(ItemStack stack, World world, List<String> list) {}
 
-    @Override
+	@Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
 
-    @Override
+	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}

@@ -35,20 +35,14 @@ public class CreativePowerCube extends SonarMachineBlock {
 	}
 
 	@Override
-    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
-    }
-
-    @Override
-    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
-    }
-
-    @Override
-    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
-        //list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Feature!");
-	}
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {}
 
 	@Override
-    public void standardInfo(ItemStack stack, World world, List<String> list) {
-		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Feature!");
-	}
+	public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {}
+
+	@Override
+	public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {}
+
+	@Override
+	public void standardInfo(ItemStack stack, World world, List<String> list) {}
 }

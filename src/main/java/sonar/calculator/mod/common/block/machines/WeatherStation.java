@@ -89,14 +89,4 @@ public class WeatherStation extends SonarMachineBlock {
 	private void removeBlocks(World world, BlockPos pos, IBlockState state) {
 		world.setBlockToAir(pos.offset(EnumFacing.UP));
 	}
-
-	@Override
-    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
-        //list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
-    }
-
-    @Override
-    public void standardInfo(ItemStack stack, World world, List<String> list) {
-		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
-	}
 }

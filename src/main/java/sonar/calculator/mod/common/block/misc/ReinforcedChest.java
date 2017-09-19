@@ -30,31 +30,31 @@ public class ReinforcedChest extends BlockChest {
 		return true;
 	}
 
-    @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-        if (tileentity instanceof ILargeInventory) {
-            SonarLargeInventory inventory = ((ILargeInventory) tileentity).getTileInv();
+		if (tileentity instanceof ILargeInventory) {
+			SonarLargeInventory inventory = ((ILargeInventory) tileentity).getTileInv();
 
-            for (int i = 0; i < inventory.getSlots(); ++i) {
-                ItemStack itemstack = inventory.getStackInSlot(i);
-                if (itemstack != null) {
-                    InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack);
-                }
-            }
-            worldIn.updateComparatorOutputLevel(pos, this);
-        }
+			for (int i = 0; i < inventory.getSlots(); ++i) {
+				ItemStack itemstack = inventory.getStackInSlot(i);
+				if (!itemstack.isEmpty()) {
+					InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack);
+				}
+			}
+			worldIn.updateComparatorOutputLevel(pos, this);
+		}
 
-        super.breakBlock(worldIn, pos, state);
-    }
+		super.breakBlock(worldIn, pos, state);
+	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityReinforcedChest();
 	}
 
-    @Override
+	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		return true;
 	}

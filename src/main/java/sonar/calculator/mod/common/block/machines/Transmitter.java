@@ -29,16 +29,16 @@ public class Transmitter extends SonarMachineBlock {
 		this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 1.0F, 0.7F);
 	}
 
-    @Override
+	@Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
 
-    @Override
+	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
-	
+
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		return false;
@@ -50,18 +50,18 @@ public class Transmitter extends SonarMachineBlock {
 	}
 
 	@Override
-    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
+	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
 
 	@Override
-    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
-        CalculatorHelper.addEnergytoToolTip(stack, world, list);
-		}
+	public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+		CalculatorHelper.addEnergytoToolTip(stack, world, list);
+	}
 
-    @Override
-    public boolean canPlaceBlockAt(World world, BlockPos pos) {
-        return world.getBlockState(pos.offset(EnumFacing.UP)).getBlock().isReplaceable(world, pos.offset(EnumFacing.UP));
+	@Override
+	public boolean canPlaceBlockAt(World world, BlockPos pos) {
+		return world.getBlockState(pos.offset(EnumFacing.UP)).getBlock().isReplaceable(world, pos.offset(EnumFacing.UP));
 	}
 
 	@Override
@@ -96,14 +96,4 @@ public class Transmitter extends SonarMachineBlock {
 	private void removeBlocks(World world, BlockPos pos, IBlockState state) {
 		world.setBlockToAir(pos.offset(EnumFacing.UP));
 	}
-
-	@Override
-    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
-		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
-	}
-
-    @Override
-    public void standardInfo(ItemStack stack, World world, List<String> list) {
-        //list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
-    }
 }

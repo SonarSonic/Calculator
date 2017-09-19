@@ -131,7 +131,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 			ISonarRecipeObject outputObject = recipe.outputs().get(o);
 
 			ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), o);
-			if (stack != null && !isOutputVoided(o + inputSize() + 1, stack)) {
+			if (!stack.isEmpty() && !isOutputVoided(o + inputSize() + 1, stack)) {
 				ItemStack stackInSlot = slots().get(o + inputSize() + 1);
 				if (stackInSlot.isEmpty()) {
 					ItemStack outputStack = stack.copy();
@@ -160,11 +160,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (slot < this.inputSize()) {
-			if (recipeHelper() != null && recipeHelper().isValidInput(stack)) {// ||
-																				// getRecipe(inputStacks())
-																				// !=
-																				// null)
-																				// {
+			if (recipeHelper() != null && recipeHelper().isValidInput(stack)) {
 				return true;
 			}
 		}

@@ -116,7 +116,7 @@ public class GuiFabricationChamber extends GuiSonarTile {
 				GL11.glPopMatrix();
 			}
 		}
-		if (chamber.selected != null) {
+		if (!chamber.selected.isEmpty()) {
 			ISonarRecipe recipe = FabricationChamberRecipes.instance().getRecipeFromOutputs(null, new Object[] { chamber.selected });
 			if (recipe != null) {
 				GL11.glPushMatrix();

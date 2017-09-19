@@ -37,10 +37,8 @@ public class ModuleWorkstation extends SonarMachineBlock {
 	}
 
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
-	}
+	public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {}
 
 	@Override
-	public void standardInfo(ItemStack stack, World world, List<String> list) {
-	}
+	public void standardInfo(ItemStack stack, World world, List<String> list) {}
 }
