@@ -13,7 +13,7 @@ public class ItemRenderRegister {
 		for (Item item : CalculatorItems.registeredItems) {
 			if (item.getHasSubtypes()) {
 				NonNullList<ItemStack> stacks = NonNullList.create();
-                item.getSubItems(Calculator.Calculator, stacks);
+                item.getSubItems(item, Calculator.Calculator, stacks);
 				for (ItemStack stack : stacks) {
 					String variant = "variant=meta" + stack.getItemDamage();
 					if (item instanceof IMetaRenderer) {

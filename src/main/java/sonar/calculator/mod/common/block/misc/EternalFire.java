@@ -1,8 +1,8 @@
 package sonar.calculator.mod.common.block.misc;
 
-import net.minecraft.block.BlockFire;
-
 import java.util.Random;
+
+import net.minecraft.block.BlockFire;
 
 public class EternalFire extends BlockFire {
 	public EternalFire() {

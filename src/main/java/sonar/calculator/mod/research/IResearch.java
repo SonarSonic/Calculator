@@ -1,11 +1,11 @@
 package sonar.calculator.mod.research;
 
+import java.util.ArrayList;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.core.api.IRegistryObject;
 import sonar.core.api.nbt.INBTSyncable;
-
-import java.util.ArrayList;
 
 public interface IResearch extends INBTSyncable, IRegistryObject {
 

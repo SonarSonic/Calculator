@@ -1,12 +1,12 @@
 package sonar.calculator.mod.research;
 
+import java.util.ArrayList;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.research.types.ResearchTypes;
 import sonar.core.helpers.NBTHelper.SyncType;
-
-import java.util.ArrayList;
 
 public abstract class Research implements IResearch {
 

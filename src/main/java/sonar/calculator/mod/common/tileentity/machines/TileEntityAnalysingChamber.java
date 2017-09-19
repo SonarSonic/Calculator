@@ -1,5 +1,8 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -29,9 +32,6 @@ import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.upgrades.UpgradeInventory;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.MachineSideConfig;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements IUpgradableTile, IAdditionalInventory, IGuiTile {
 

@@ -1,13 +1,13 @@
 package sonar.calculator.mod.api;
 
-import gnu.trove.map.hash.THashMap;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import gnu.trove.map.hash.THashMap;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class CalculatorAPI {
 

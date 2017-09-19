@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -17,8 +19,6 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncUUID;
 import sonar.core.utils.IGuiTile;
-
-import java.util.ArrayList;
 
 public class TileEntityResearchChamber extends TileEntityInventory implements IGuiTile {
 

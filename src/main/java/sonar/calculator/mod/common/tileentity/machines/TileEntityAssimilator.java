@@ -1,5 +1,9 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,10 +33,6 @@ import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public abstract class TileEntityAssimilator extends TileEntityInventory implements IGuiTile {
 	public boolean hasTree;

@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -22,8 +24,6 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
-
-import java.util.List;
 
 public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile, ICalculatorGenerator {
 

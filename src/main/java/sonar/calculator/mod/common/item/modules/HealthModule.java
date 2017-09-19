@@ -1,6 +1,7 @@
 package sonar.calculator.mod.common.item.modules;
 
-import net.minecraft.client.util.ITooltipFlag;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,8 +19,6 @@ import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.utils.helpers.NutritionHelper;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
-
-import java.util.List;
 
 public class HealthModule extends SonarItem implements IHealthStore {
 
@@ -44,8 +43,8 @@ public class HealthModule extends SonarItem implements IHealthStore {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
-        super.addInformation(stack, world, list, par4);
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean advanced) {
+        super.addInformation(stack, player, list, advanced);
 		if (stack.hasTagCompound()) {
 			list.add(FontHelper.translate("points.health") + ": " + getHealthPoints(stack));
 		}

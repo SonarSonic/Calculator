@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
+import java.util.Random;
+
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -24,8 +26,6 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.recipes.DefaultSonarRecipe;
 import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.utils.IGuiTile;
-
-import java.util.Random;
 
 public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
 

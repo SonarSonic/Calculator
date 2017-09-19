@@ -1,5 +1,8 @@
 package sonar.calculator.mod.common.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -13,9 +16,6 @@ import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.FailedCoords;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse {
 

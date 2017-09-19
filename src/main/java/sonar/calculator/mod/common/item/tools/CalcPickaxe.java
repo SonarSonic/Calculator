@@ -1,8 +1,8 @@
 package sonar.calculator.mod.common.item.tools;
 
-import net.minecraft.item.ItemPickaxe;
-
 import java.util.Random;
+
+import net.minecraft.item.ItemPickaxe;
 
 public class CalcPickaxe extends ItemPickaxe {
 	private Random rand = new Random();

@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,8 +34,6 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
-
-import java.util.List;
 
 public class TileEntityCalculatorLocator extends TileEntityEnergyInventory implements IByteBufTile, ICalculatorLocator, IGuiTile {
 

@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block.misc;
 
+import java.util.Random;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -10,8 +12,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.common.block.SonarMaterials;
-
-import java.util.Random;
 
 /**
  * basically a fabrication of the BlockSign code

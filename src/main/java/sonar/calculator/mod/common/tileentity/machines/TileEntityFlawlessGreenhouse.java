@@ -1,5 +1,8 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
@@ -29,9 +32,6 @@ import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implements ISidedInventory, IFlawlessGreenhouse, IGuiTile {
 

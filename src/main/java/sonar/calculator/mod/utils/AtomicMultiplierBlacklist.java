@@ -1,15 +1,15 @@
 package sonar.calculator.mod.utils;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.CalculatorAPI;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Uses the config BlackList file to create a Map which can be easily accessed

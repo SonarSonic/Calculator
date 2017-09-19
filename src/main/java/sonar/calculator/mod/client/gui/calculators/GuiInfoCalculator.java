@@ -1,5 +1,16 @@
 package sonar.calculator.mod.client.gui.calculators;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -10,19 +21,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.calculator.mod.guide.IItemInfo;
 import sonar.calculator.mod.guide.IItemInfo.Category;
 import sonar.calculator.mod.guide.InfoRegistry;
 import sonar.core.helpers.FontHelper;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class GuiInfoCalculator extends GuiContainer {
 
@@ -120,7 +123,7 @@ public class GuiInfoCalculator extends GuiContainer {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(0.0F, 0.0F, 32.0F);
 		this.itemRender.renderItemAndEffectIntoGUI(item, x, y);
-        this.itemRender.renderItemOverlayIntoGUI(fontRenderer, item, x, y, "");
+        this.itemRender.renderItemOverlayIntoGUI(fontRendererObj, item, x, y, "");
 		GlStateManager.popMatrix();
 	}
 
@@ -172,7 +175,7 @@ public class GuiInfoCalculator extends GuiContainer {
 		int pageSize = 0;
         for (String string : strings) {
             String name = bulletPoint + ' ' + string;
-            List<String> lineInfo = fontRenderer.listFormattedStringToWidth(name, (int) (xSize / 0.8) - 6);
+            List<String> lineInfo = fontRendererObj.listFormattedStringToWidth(name, (int) (xSize / 0.8) - 6);
 			if (pageSize + lineInfo.size() < maxPerPage) {
 				pageSize += lineInfo.size();
 			} else {
@@ -204,7 +207,7 @@ public class GuiInfoCalculator extends GuiContainer {
 				offsetTop = offsetTop + 2;
 			}
 			if (search == null) {
-                search = new GuiTextField(0, this.fontRenderer, 5, 16, 125, 12);
+                search = new GuiTextField(0, this.fontRendererObj, 5, 16, 125, 12);
 				search.setMaxStringLength(16);
 			}
 
@@ -213,19 +216,19 @@ public class GuiInfoCalculator extends GuiContainer {
 				if (cat != Category.All) {
                     buttonList.add(new GuiButton(pos + 1, guiLeft + 136, guiTop + 2 + pos * 18, 18, 18, String.valueOf(pos)) {
                         @Override
-                        public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+                        public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 							if (this.visible) {
-                                this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+                                this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 								int i = this.getHoverState(this.hovered);
 								if (this.isMouseOver()) {
-                                    drawHoveringText(String.valueOf(Category.values()[this.id]), mouseX, mouseY);
+                                    drawHoveringText(Lists.newArrayList(String.valueOf(Category.values()[this.id])), mouseX, mouseY);
 								}
 							}
 						}
 
                         @Override
 						public void drawButtonForegroundLayer(int x, int y) {
-                            drawHoveringText(String.valueOf(Category.values()[this.id]), x, y);
+                            drawHoveringText(Lists.newArrayList(String.valueOf(Category.values()[this.id])), x, y);
 						}
 					});
 					pos++;
@@ -240,14 +243,15 @@ public class GuiInfoCalculator extends GuiContainer {
 				while (pos != 10) {
                     buttonList.add(new GuiButton(10 + pos, guiLeft + 136, guiTop + 2 + pos * 18, 18, 18, "") {
                         @Override
-                        public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+                        public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 							if (this.visible) {
-                                this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+                                this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 								int i = this.getHoverState(this.hovered);
 								if (this.isMouseOver()) {
 									if (info != null && info.getRelatedItems() != null) {
 										if (this.id - 10 < info.getRelatedItems().length) {
-                                            drawHoveringText(info.getRelatedItems()[id - 10].getDisplayName(), mouseX, mouseY);
+											
+                                            drawHoveringText(Lists.newArrayList(info.getRelatedItems()[id - 10].getDisplayName()), mouseX, mouseY);
 										}
 									}
 								}
@@ -361,8 +365,8 @@ public class GuiInfoCalculator extends GuiContainer {
 						GlStateManager.pushMatrix();
 						GlStateManager.scale(0.8, 0.8, 0.8);
 						String name = item.getDisplayName();
-                        if (fontRenderer.getStringWidth(name) > 120) {
-                            name = fontRenderer.trimStringToWidth(name, 120 - 6) + "...";
+                        if (fontRendererObj.getStringWidth(name) > 120) {
+                            name = fontRendererObj.trimStringToWidth(name, 120 - 6) + "...";
 						}
                         FontHelper.text(name, 33, (int) (45 + (i - start) * 18.0 * (1.0 / 0.8)), -1);
 						GlStateManager.popMatrix();

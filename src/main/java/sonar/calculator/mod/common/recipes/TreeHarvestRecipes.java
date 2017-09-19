@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.recipes;
 
+import java.util.ArrayList;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -10,8 +12,6 @@ import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLeaves.LeafGrowth;
 import sonar.core.recipes.DefinedRecipeHelper;
 import sonar.core.recipes.ISonarRecipe;
-
-import java.util.ArrayList;
 
 public class TreeHarvestRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 

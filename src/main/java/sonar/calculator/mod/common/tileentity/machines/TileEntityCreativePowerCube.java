@@ -1,6 +1,6 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import cofh.redstoneflux.api.IEnergyConnection;
+import cofh.api.energy.IEnergyConnection;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.Optional;

@@ -1,5 +1,8 @@
 package sonar.calculator.mod.utils.helpers;
 
+import java.text.DecimalFormat;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -8,9 +11,6 @@ import sonar.calculator.mod.Calculator;
 import sonar.core.api.SonarAPI;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
-
-import java.text.DecimalFormat;
-import java.util.List;
 
 public class CalculatorHelper {
 

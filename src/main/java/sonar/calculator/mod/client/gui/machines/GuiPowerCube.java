@@ -1,5 +1,8 @@
 package sonar.calculator.mod.client.gui.machines;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -8,9 +11,6 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCu
 import sonar.calculator.mod.common.tileentity.machines.TileEntityPowerCube;
 import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 public class GuiPowerCube extends GuiSonarTile {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/guipowercube.png");
@@ -34,7 +34,7 @@ public class GuiPowerCube extends GuiSonarTile {
 			list.add("Stored: " + entity.storage.getEnergyStored() + " RF");
 			list.add("Max Input: " + df.format(entity.storage.getMaxReceive()) + " rf/t");
 			list.add("Max Output: " + df.format(entity instanceof TileEntityAdvancedPowerCube ? entity.storage.getMaxExtract() : 0) + " rf/t");
-           drawSpecialToolTip(list, x, y, fontRenderer);
+           drawSpecialToolTip(list, x, y, fontRendererObj);
 		}
 	}
 

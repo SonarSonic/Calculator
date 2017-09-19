@@ -1,5 +1,8 @@
 package sonar.calculator.mod.common.block.misc;
 
+import java.util.Iterator;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -18,9 +21,6 @@ import sonar.calculator.mod.Calculator;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
-
-import java.util.Iterator;
-import java.util.Random;
 
 public class BasicLantern extends SonarBlock {
 

@@ -1,5 +1,7 @@
 package sonar.calculator.mod.network.packets;
 
+import java.util.Random;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -15,8 +17,6 @@ import sonar.calculator.mod.api.items.IModuleProvider;
 import sonar.core.SonarCore;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.ActionType;
-
-import java.util.Random;
 
 public class PacketJumpModule implements IMessage {
 

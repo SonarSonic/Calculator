@@ -1,10 +1,11 @@
 package sonar.calculator.mod.common.item.calculators;
 
-import cofh.redstoneflux.api.IEnergyContainerItem;
-import net.minecraft.client.util.ITooltipFlag;
+import java.util.List;
+
+import cofh.api.energy.IEnergyContainerItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -12,8 +13,6 @@ import sonar.calculator.mod.api.modules.IModule;
 import sonar.core.api.energy.ISonarEnergyItem;
 import sonar.core.api.utils.ActionType;
 import sonar.core.helpers.FontHelper;
-
-import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")})
 public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, IEnergyContainerItem {
@@ -27,9 +26,9 @@ public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean advanced) {
 		list.add(FontHelper.translate("energy.stored") + ": " + getEnergyLevel(stack) + " RF");
-        super.addInformation(stack, world, list, par4);
+        super.addInformation(stack, player, list, advanced);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package sonar.calculator.mod.network.packets;
 
+import java.util.ArrayList;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,8 +15,6 @@ import sonar.calculator.mod.research.IResearch;
 import sonar.calculator.mod.research.PlayerResearchRegistry;
 import sonar.core.SonarCore;
 import sonar.core.helpers.NBTHelper.SyncType;
-
-import java.util.ArrayList;
 
 public class PacketPlayerResearch implements IMessage {
 

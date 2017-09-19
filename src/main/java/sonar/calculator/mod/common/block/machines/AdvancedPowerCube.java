@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block.machines;
 
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,8 +17,6 @@ import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.IGuiTile;
-
-import java.util.List;
 
 public class AdvancedPowerCube extends SonarSidedBlock {
 

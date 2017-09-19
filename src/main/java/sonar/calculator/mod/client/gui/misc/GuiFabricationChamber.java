@@ -1,16 +1,18 @@
 package sonar.calculator.mod.client.gui.misc;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerFabricationChamber;
 import sonar.calculator.mod.common.recipes.FabricationChamberRecipes;
 import sonar.calculator.mod.common.recipes.FabricationSonarRecipe;
@@ -24,9 +26,6 @@ import sonar.core.network.utils.ByteBufWritable;
 import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.recipes.RecipeHelperV2;
-
-import java.io.IOException;
-import java.util.List;
 
 public class GuiFabricationChamber extends GuiSonarTile {
 
@@ -129,7 +128,7 @@ public class GuiFabricationChamber extends GuiSonarTile {
                     int cTop = top + cPos / 5 * 18;
 					ItemStack stack = (ItemStack) circuit.getValue();
 					itemRender.renderItemIntoGUI(stack, cLeft, cTop);
-                    itemRender.renderItemOverlayIntoGUI(fontRenderer, stack, cLeft, cTop, null);
+                    itemRender.renderItemOverlayIntoGUI(fontRendererObj, stack, cLeft, cTop, null);
 					cPos++;
 				}
 				GL11.glPopMatrix();

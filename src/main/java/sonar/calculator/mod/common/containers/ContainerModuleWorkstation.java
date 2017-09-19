@@ -9,8 +9,6 @@ import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
 import sonar.core.inventory.ContainerSync;
 
-import javax.annotation.Nullable;
-
 public class ContainerModuleWorkstation extends ContainerSync {
 	private final InventoryPlayer inventory;
 	private final TileEntityModuleWorkstation entity;

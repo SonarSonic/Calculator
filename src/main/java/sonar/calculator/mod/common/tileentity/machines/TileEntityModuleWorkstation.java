@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,8 +16,6 @@ import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
-
-import java.util.ArrayList;
 
 public class TileEntityModuleWorkstation extends TileEntityInventory implements IGuiTile {
 

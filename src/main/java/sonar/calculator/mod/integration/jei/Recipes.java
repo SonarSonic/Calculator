@@ -1,8 +1,9 @@
 package sonar.calculator.mod.integration.jei;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
@@ -62,7 +63,7 @@ public class Recipes {
 					|| stack.getItem() == sonar.calculator.mod.Calculator.circuitDirty) {
 				GL11.glPushMatrix();
 				GL11.glScaled(0.7, 0.7, 0.7);
-                minecraft.fontRenderer.drawString("12.5%", 123, 39, 0);
+                minecraft.fontRendererObj.drawString("12.5%", 123, 39, 0);
 				GL11.glPopMatrix();
 			}
 		}

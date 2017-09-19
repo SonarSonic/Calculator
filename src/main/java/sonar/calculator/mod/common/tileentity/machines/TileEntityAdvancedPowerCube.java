@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -11,8 +13,6 @@ import sonar.core.utils.IGuiTile;
 import sonar.core.utils.IMachineSides;
 import sonar.core.utils.MachineSideConfig;
 import sonar.core.utils.MachineSides;
-
-import java.util.ArrayList;
 
 public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IGuiTile, IMachineSides {
 

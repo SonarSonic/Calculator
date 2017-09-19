@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.generators;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,8 +15,6 @@ import sonar.core.common.tileentity.TileEntityEnergy;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.utils.IGuiTile;
-
-import java.util.List;
 
 public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGuiTile {
 

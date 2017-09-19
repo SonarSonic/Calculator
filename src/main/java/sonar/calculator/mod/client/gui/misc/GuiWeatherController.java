@@ -1,11 +1,8 @@
 package sonar.calculator.mod.client.gui.misc;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.core.SonarCore;

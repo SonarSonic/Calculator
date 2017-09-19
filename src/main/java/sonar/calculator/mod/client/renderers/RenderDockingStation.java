@@ -1,10 +1,11 @@
 package sonar.calculator.mod.client.renderers;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.client.models.ModelDockingStation;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.core.helpers.RenderHelper;
@@ -19,7 +20,7 @@ public class RenderDockingStation extends TileEntitySpecialRenderer<TileEntityDo
 
 	@Override
     //public void renderTileEntityAt(TileEntityDockingStation te, double x, double y, double z, float partialTicks, int destroyStage) {
-    public void render(TileEntityDockingStation te, double x, double y, double z, float partialTicks, int destroyStage, float f) {
+    public void renderTileEntityAt(TileEntityDockingStation te, double x, double y, double z, float partialTicks, int destroyStage) {
 
 		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(te), texture);
         model.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);

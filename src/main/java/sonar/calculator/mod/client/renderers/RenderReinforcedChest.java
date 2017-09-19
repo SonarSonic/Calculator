@@ -1,5 +1,7 @@
 package sonar.calculator.mod.client.renderers;
 
+import java.util.Calendar;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.model.ModelLargeChest;
@@ -9,8 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
-
-import java.util.Calendar;
 
 @SideOnly(Side.CLIENT)
 public class RenderReinforcedChest extends TileEntitySpecialRenderer<TileEntityReinforcedChest> {
@@ -28,7 +28,7 @@ public class RenderReinforcedChest extends TileEntitySpecialRenderer<TileEntityR
 	}
 
     @Override
-    public void render(TileEntityReinforcedChest te, double x, double y, double z, float partialTicks, int destroyStage, float f1) {
+    public void renderTileEntityAt(TileEntityReinforcedChest te, double x, double y, double z, float partialTicks, int destroyStage) {
         //public void renderTileEntityAt(TileEntityReinforcedChest te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GlStateManager.enableDepth();
 		GlStateManager.depthFunc(515);

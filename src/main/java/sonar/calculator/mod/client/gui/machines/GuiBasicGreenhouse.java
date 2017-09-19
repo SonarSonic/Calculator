@@ -1,6 +1,7 @@
 package sonar.calculator.mod.client.gui.machines;
 
-import net.minecraft.client.Minecraft;
+import java.text.DecimalFormat;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -15,8 +16,6 @@ import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
-
-import java.text.DecimalFormat;
 
 public class GuiBasicGreenhouse extends GuiSonarTile {
 	DecimalFormat dec = new DecimalFormat("##.##");
@@ -49,9 +48,6 @@ public class GuiBasicGreenhouse extends GuiSonarTile {
 			this.name = name;
 		}
 
-        @Override
-        public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		}
 	}
 
     @Override
@@ -78,7 +74,7 @@ public class GuiBasicGreenhouse extends GuiSonarTile {
 		for (GuiButton b : buttonList) {
 			if (b instanceof GreenhouseButton) {
 				GreenhouseButton button = (GreenhouseButton) b;
-                if (x >= button.x && y >= button.y && x < button.x + button.width && y < button.y + button.height) {
+                if (x >= button.xPosition && y >= button.yPosition && x < button.xPosition + button.width && y < button.yPosition + button.height) {
                     drawSonarCreativeTabHoveringText(FontHelper.translate(button.name), x - guiLeft, y - guiTop);
 				}
 			}

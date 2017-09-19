@@ -1,14 +1,14 @@
 package sonar.calculator.mod.common.recipes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
 import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.recipes.RecipeObjectType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRecipe> {
 

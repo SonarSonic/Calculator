@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block;
 
+import java.util.Random;
+
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.PropertyInteger;
@@ -14,8 +16,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.block.MaterialBlock.Variants;
 import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
-
-import java.util.Random;
 
 public class CalculatorSaplings extends BlockBush implements IGrowable {
 

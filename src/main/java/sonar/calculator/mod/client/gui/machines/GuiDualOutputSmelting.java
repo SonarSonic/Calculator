@@ -1,5 +1,8 @@
 package sonar.calculator.mod.client.gui.machines;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -10,9 +13,6 @@ import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 public class GuiDualOutputSmelting extends GuiSonarTile {
 
@@ -62,7 +62,7 @@ public class GuiDualOutputSmelting extends GuiSonarTile {
             list.add("Stored: " + entity.storage.getEnergyStored() + " RF");
 			list.add("Usage: " + df.format(entity.getEnergyUsage()) + " rf/t");
 			list.add("Speed: " + entity.getProcessTime() + " ticks");
-            this.drawSpecialToolTip(list, x, y, fontRenderer);
+            this.drawSpecialToolTip(list, x, y, fontRendererObj);
 		}
 		super.drawGuiContainerForegroundLayer(x, y);
 	}

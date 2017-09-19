@@ -1,7 +1,9 @@
 package sonar.calculator.mod.common.item.misc;
 
-import net.minecraft.client.util.ITooltipFlag;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -12,8 +14,6 @@ import sonar.core.api.utils.ICalculatorCircuit;
 import sonar.core.common.item.SonarMetaItem;
 import sonar.core.helpers.FontHelper;
 
-import java.util.List;
-
 public class CircuitBoard extends SonarMetaItem implements IStability, ICalculatorCircuit {
 
 	public CircuitBoard() {
@@ -22,8 +22,8 @@ public class CircuitBoard extends SonarMetaItem implements IStability, ICalculat
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
-        super.addInformation(stack, world, list, par4);
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean advanced) {
+        super.addInformation(stack, player, list, advanced);
 		if (stack.hasTagCompound()) {
 			int stable = stack.getTagCompound().getInteger("Stable");
 			if (stack.getTagCompound().getBoolean("Analysed")) {

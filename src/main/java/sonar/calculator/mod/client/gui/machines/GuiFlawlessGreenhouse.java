@@ -1,10 +1,13 @@
 package sonar.calculator.mod.client.gui.machines;
 
+import java.text.DecimalFormat;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.SonarCore;
@@ -12,8 +15,6 @@ import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
-
-import java.text.DecimalFormat;
 
 public class GuiFlawlessGreenhouse extends GuiSonarTile {
 	DecimalFormat dec = new DecimalFormat("##.##");

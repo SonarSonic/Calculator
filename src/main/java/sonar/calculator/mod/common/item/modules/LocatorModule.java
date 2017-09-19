@@ -1,6 +1,7 @@
 package sonar.calculator.mod.common.item.modules;
 
-import net.minecraft.client.util.ITooltipFlag;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,8 +14,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
-
-import java.util.List;
 
 public class LocatorModule extends SonarItem implements ILocatorModule {
 
@@ -44,8 +43,8 @@ public class LocatorModule extends SonarItem implements ILocatorModule {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
-        super.addInformation(stack, world, list, par4);
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean advanced) {
+        super.addInformation(stack, player, list, advanced);
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbtData = stack.getTagCompound();
             if (!stack.getTagCompound().getString("Player").equals("None")) {

@@ -1,5 +1,7 @@
 package sonar.calculator.mod.research.types;
 
+import java.util.ArrayList;
+
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
@@ -9,8 +11,6 @@ import sonar.calculator.mod.research.RecipeReward;
 import sonar.calculator.mod.research.Research;
 import sonar.calculator.mod.research.ResearchCategory;
 import sonar.core.helpers.NBTHelper.SyncType;
-
-import java.util.ArrayList;
 
 public class RecipeResearch extends Research {
 

@@ -1,5 +1,8 @@
 package sonar.calculator.mod;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,9 +23,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import sonar.calculator.mod.common.entities.*;
+import sonar.calculator.mod.common.entities.CalculatorThrow;
+import sonar.calculator.mod.common.entities.EntityBabyGrenade;
+import sonar.calculator.mod.common.entities.EntityGrenade;
+import sonar.calculator.mod.common.entities.EntitySmallStone;
+import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.calculator.mod.common.item.calculators.ModuleItemRegistry;
 import sonar.calculator.mod.common.item.calculators.ModuleRegistry;
 import sonar.calculator.mod.integration.minetweaker.MineTweakerIntegration;
@@ -37,9 +42,9 @@ public class Calculator {
 
 	public static final String name = "Calculator";
 	public static final String modid = "calculator";
-	public static final String version = "5.0.1";
-	public static final String mc_versions = "[1.12,1.12.1,1.12.2]";
-	public static final String SONAR_VERSION = "5.0.1";
+	public static final String version = "4.0.1";
+	public static final String mc_versions = "[1.11, 1.11.2]";
+	public static final String SONAR_VERSION = "4.0.1";
 
 	public static final int saveDimension = 0;
 

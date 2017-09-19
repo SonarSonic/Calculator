@@ -16,7 +16,7 @@ public class RenderCrank extends TileEntitySpecialRenderer<TileEntityCrankHandle
 	}
 
     @Override
-    public void render(TileEntityCrankHandle tileentity, double x, double y, double z, float partialTicks, int destroyStage, float f) {
+    public void renderTileEntityAt(TileEntityCrankHandle tileentity, double x, double y, double z, float partialTicks, int destroyStage) {
         //public void renderTileEntityAt(TileEntityCrankHandle tileentity, double x, double y, double z, float partialTicks, int destroyStage) {
 		int i;
 		if (tileentity.getWorld() == null || tileentity==null) {

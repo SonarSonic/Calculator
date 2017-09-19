@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,8 +16,6 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
-
-import java.util.List;
 
 public class TileEntityGasLantern extends TileEntityInventory implements IGuiTile {
 

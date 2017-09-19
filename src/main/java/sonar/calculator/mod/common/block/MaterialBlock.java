@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -18,8 +20,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.core.common.block.properties.IMetaRenderer;
 import sonar.core.common.block.properties.IMetaVariant;
-
-import java.util.Random;
 
 public class MaterialBlock extends Block implements IMetaRenderer {
 
@@ -123,7 +123,7 @@ public class MaterialBlock extends Block implements IMetaRenderer {
 
     @Override
 	@SideOnly(Side.CLIENT)
-    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+    public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int i = 0; i < getVariants().length; ++i) {
             list.add(new ItemStack(this, 1, i));
 		}

@@ -1,5 +1,8 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import java.util.List;
+import java.util.Random;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -25,9 +28,6 @@ import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
-
-import java.util.List;
-import java.util.Random;
 
 public class TileEntityMagneticFlux extends TileEntityInventory implements ISidedInventory, IByteBufTile, IGuiTile {
 
@@ -88,7 +88,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
 		List<EntityItem> items = this.world.getEntitiesWithinAABB(EntityItem.class, aabb, null);
 		for (EntityItem entity : items) {
-            if (validItemStack(entity.getItem())) {
+            if (validItemStack(entity.getEntityItem())) {
 				double x = pos.getX() + 0.5D - entity.posX;
 				double y = pos.getY() + 0.2D - entity.posY;
 				double z = pos.getZ() + 0.5D - entity.posZ;
@@ -99,7 +99,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 					if (itemstack.isEmpty() || itemstack.getCount() <= 0) {
 						entity.setDead();
 					} else {
-                        entity.setItem(itemstack);
+                        entity.setEntityItemStack(itemstack);
 					}
 				} else {
 					double speed = entity.isBurning() ? 5.2 : 0.1;
@@ -149,7 +149,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 			if (entity == null) {
 				return null;
 			}
-            ItemStack itemstack = entity.getItem();
+            ItemStack itemstack = entity.getEntityItem();
 			if (itemstack != null) {
 				int i = itemstack.getCount();
 				TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
@@ -158,7 +158,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 			}
 			return itemstack;
 		}
-        return item.getItem();
+        return item.getEntityItem();
 	}
 
 	@Override

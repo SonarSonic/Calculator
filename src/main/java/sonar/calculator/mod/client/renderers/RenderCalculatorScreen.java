@@ -1,5 +1,7 @@
 package sonar.calculator.mod.client.renderers;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelSign;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -7,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.core.helpers.FontHelper;
 
@@ -18,7 +19,7 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer<TileEntity
 
     @Override
     //public void renderTileEntityAt(TileEntityCalculatorScreen te, double x, double y, double z, float partialTicks, int destroyStage) {
-    public void render(TileEntityCalculatorScreen te, double x, double y, double z, float partialTicks, int destroyStage, float f) {
+    public void renderTileEntityAt(TileEntityCalculatorScreen te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GL11.glPushMatrix();
 
 		float f1 = 0.6666667F;

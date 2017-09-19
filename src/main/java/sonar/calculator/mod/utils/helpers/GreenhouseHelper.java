@@ -1,6 +1,12 @@
 package sonar.calculator.mod.utils.helpers;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoublePlant;
+import net.minecraft.block.BlockFlower;
+import net.minecraft.block.BlockGlass;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockPane;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;

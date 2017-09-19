@@ -49,7 +49,7 @@ public class ContainerCraftingCalculator extends ContainerSonar{
 
 	@Override
 	public void onCraftMatrixChanged(IInventory inv) {
-        this.craftResult.setInventorySlotContents(0, CraftingManager.findMatchingResult(this.craftMatrix, player.getEntityWorld()));//Was getInstance()findMatchingRecipe
+        this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, player.getEntityWorld()));
 	}
 	
     @Override

@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block.machines;
 
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,8 +14,6 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
-
-import java.util.List;
 
 public class CreativePowerCube extends SonarMachineBlock {
 

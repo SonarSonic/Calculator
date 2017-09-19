@@ -1,10 +1,10 @@
 package sonar.calculator.mod.common.recipes;
 
+import java.util.ArrayList;
+
 import sonar.core.recipes.DefaultSonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.recipes.RecipeObjectType;
-
-import java.util.ArrayList;
 
 public class FabricationSonarRecipe extends DefaultSonarRecipe {
 

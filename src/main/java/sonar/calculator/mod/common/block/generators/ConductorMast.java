@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block.generators;
 
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -21,8 +23,6 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.ISpecialTooltip;
-
-import java.util.List;
 
 public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip {
 

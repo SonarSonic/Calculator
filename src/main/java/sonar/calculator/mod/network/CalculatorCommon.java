@@ -1,5 +1,8 @@
 package sonar.calculator.mod.network;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,13 +14,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.misc.GuiModuleSelector;
 import sonar.calculator.mod.common.containers.ContainerModuleSelector;
-import sonar.calculator.mod.network.packets.*;
+import sonar.calculator.mod.network.packets.PacketCalculatorScreen;
+import sonar.calculator.mod.network.packets.PacketJumpModule;
+import sonar.calculator.mod.network.packets.PacketModuleSelection;
+import sonar.calculator.mod.network.packets.PacketPlayerResearch;
+import sonar.calculator.mod.network.packets.PacketTeleportLinks;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.utils.IGuiItem;
 import sonar.core.utils.IGuiTile;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CalculatorCommon implements IGuiHandler {
 

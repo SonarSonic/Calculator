@@ -1,5 +1,8 @@
 package sonar.calculator.mod.common.block.machines;
 
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,9 +21,6 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
-
-import java.util.List;
-import java.util.Random;
 
 public class Transmitter extends SonarMachineBlock {
 

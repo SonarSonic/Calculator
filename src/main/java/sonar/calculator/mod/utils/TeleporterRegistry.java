@@ -1,5 +1,9 @@
 package sonar.calculator.mod.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import gnu.trove.map.hash.THashMap;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -8,10 +12,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import sonar.calculator.mod.api.machines.ITeleport;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class TeleporterRegistry {
 
@@ -54,7 +54,7 @@ public class TeleporterRegistry {
 			return null;
 		}
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-        World world = server.getWorld(teleport.teleporterID());
+        World world = server.worldServerForDimension(teleport.teleporterID());
 		if (world != null) {
 			TileEntity target = world.getTileEntity(teleport.getCoords().getBlockPos());
 			return (TileEntityTeleporter) (target instanceof TileEntityTeleporter ? target : null);

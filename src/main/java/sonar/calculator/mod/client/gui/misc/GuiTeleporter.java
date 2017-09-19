@@ -1,14 +1,19 @@
 package sonar.calculator.mod.client.gui.misc;
 
+import java.awt.Color;
+import java.io.IOException;
+import java.util.List;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.SonarCore;
@@ -17,10 +22,6 @@ import sonar.core.client.gui.SonarButtons.ImageButton;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerEmpty;
 import sonar.core.network.PacketByteBuf;
-
-import java.awt.*;
-import java.io.IOException;
-import java.util.List;
 
 public class GuiTeleporter extends GuiSonarTile {
 	public static ResourceLocation network = new ResourceLocation("Calculator:textures/gui/teleporter.png");
@@ -74,15 +75,15 @@ public class GuiTeleporter extends GuiSonarTile {
 	public void initGui() {
 		super.initGui();
 		Keyboard.enableRepeatEvents(true);
-        name = new GuiTextField(0, this.fontRenderer, 8, 40, 70, 12);
+        name = new GuiTextField(0, this.fontRendererObj, 8, 40, 70, 12);
 		name.setMaxStringLength(10);
 		name.setText(String.valueOf(entity.name));
 
-        password = new GuiTextField(1, this.fontRenderer, 8, 66, 70, 12);
+        password = new GuiTextField(1, this.fontRendererObj, 8, 66, 70, 12);
 		password.setMaxStringLength(10);
 		password.setText(String.valueOf(entity.password));
 
-        destinationPassword = new GuiTextField(2, this.fontRenderer, 87, 66, 70, 12);
+        destinationPassword = new GuiTextField(2, this.fontRendererObj, 87, 66, 70, 12);
 		destinationPassword.setMaxStringLength(10);
 		destinationPassword.setText(String.valueOf(entity.linkPassword));
 

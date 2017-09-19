@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block;
 
+import java.util.Random;
+
 import net.minecraft.block.BlockCrops;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -8,8 +10,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
-
-import java.util.Random;
 
 public class CalculatorCrops extends BlockCrops {
 

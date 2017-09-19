@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block.misc;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -18,8 +20,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
-
-import java.util.Random;
 
 public class ScarecrowBlock extends SonarBlock {
 

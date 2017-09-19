@@ -10,7 +10,13 @@ import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
-import sonar.calculator.mod.common.recipes.*;
+import sonar.calculator.mod.common.recipes.AlgorithmSeparatorRecipes;
+import sonar.calculator.mod.common.recipes.ExtractionChamberRecipes;
+import sonar.calculator.mod.common.recipes.PrecisionChamberRecipes;
+import sonar.calculator.mod.common.recipes.ProcessingChamberRecipes;
+import sonar.calculator.mod.common.recipes.ReassemblyChamberRecipes;
+import sonar.calculator.mod.common.recipes.RestorationChamberRecipes;
+import sonar.calculator.mod.common.recipes.StoneSeparatorRecipes;
 import sonar.core.recipes.RecipeHelperV2;
 
 public class TileEntityMachine {

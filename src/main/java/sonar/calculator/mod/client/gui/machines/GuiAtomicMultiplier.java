@@ -1,5 +1,8 @@
 package sonar.calculator.mod.client.gui.machines;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -7,9 +10,6 @@ import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 public class GuiAtomicMultiplier extends GuiSonarTile {
 
@@ -35,7 +35,7 @@ public class GuiAtomicMultiplier extends GuiSonarTile {
 			list.add(TextFormatting.BLUE + "" + TextFormatting.UNDERLINE + "Machine Stats");
 			list.add("Usage: " + df.format(entity.getEnergyUsage()) + " rf/t");
 			list.add("Speed: " + entity.getProcessTime() + " ticks");
-            drawSpecialToolTip(list, x, y, fontRenderer);
+            drawSpecialToolTip(list, x, y, fontRendererObj);
 		}
 		super.drawGuiContainerForegroundLayer(x, y);
 	}

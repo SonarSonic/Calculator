@@ -1,5 +1,10 @@
 package sonar.calculator.mod.common.block;
 
+import java.util.List;
+import java.util.Random;
+
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,7 +19,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
@@ -26,9 +30,6 @@ import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.helpers.FontHelper;
 import sonar.core.upgrades.MachineUpgrade;
 import sonar.core.utils.IGuiTile;
-
-import java.util.List;
-import java.util.Random;
 
 public class SmeltingBlock extends SonarSidedBlock {
 

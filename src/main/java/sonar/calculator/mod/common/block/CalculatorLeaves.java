@@ -1,5 +1,9 @@
 package sonar.calculator.mod.common.block;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -15,10 +19,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import sonar.calculator.mod.Calculator;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class CalculatorLeaves extends Block implements IShearable {
 

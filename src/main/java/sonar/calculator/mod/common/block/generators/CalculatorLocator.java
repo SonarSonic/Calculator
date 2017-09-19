@@ -1,5 +1,8 @@
 package sonar.calculator.mod.common.block.generators;
 
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -21,9 +24,6 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
-
-import java.util.List;
-import java.util.Random;
 
 public class CalculatorLocator extends SonarMachineBlock {
 

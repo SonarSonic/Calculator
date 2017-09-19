@@ -1,6 +1,9 @@
 package sonar.calculator.mod.common.item.calculators;
 
-import net.minecraft.client.util.ITooltipFlag;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -26,10 +29,6 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerCraftInventory;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.IGuiItem;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class SonarModule extends SonarItem implements IItemInventory, IModuleProvider, IGuiItem {
 	public IModule module;
@@ -83,8 +82,8 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 	}
 
     @Override
-    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
-        super.addInformation(stack, world, list, par4);
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean advanced) {
+        super.addInformation(stack, player, list, advanced);
 		if (module instanceof IModuleInventory) {
 			int items = ((IModuleInventory) module).getInventory(stack, invTag, true).getItemsStored(stack);
 			if (items != 0) {

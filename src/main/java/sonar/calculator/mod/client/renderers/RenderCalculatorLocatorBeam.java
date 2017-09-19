@@ -13,7 +13,7 @@ public class RenderCalculatorLocatorBeam extends TileEntitySpecialRenderer<TileE
 
 	@Override
     //public void renderTileEntityAt(TileEntityCalculatorLocator te, double x, double y, double z, float partialTicks, int destroyStage) {
-    public void render(TileEntityCalculatorLocator te, double x, double y, double z, float partialTicks, int destroyStage, float f) {
+    public void renderTileEntityAt(TileEntityCalculatorLocator te, double x, double y, double z, float partialTicks, int destroyStage) {
 		if (CalculatorConfig.beamEffect && te.getWorld() != null) {
 			if (te.active.getObject()) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(beam);

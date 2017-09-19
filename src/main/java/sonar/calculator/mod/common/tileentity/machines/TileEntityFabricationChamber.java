@@ -1,5 +1,9 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -27,10 +31,6 @@ import sonar.core.network.utils.IByteBufTile;
 import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.utils.IGuiTile;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class TileEntityFabricationChamber extends TileEntityInventory implements IGuiTile, IByteBufTile {
 

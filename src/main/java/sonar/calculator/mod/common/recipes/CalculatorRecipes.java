@@ -1,5 +1,8 @@
 package sonar.calculator.mod.common.recipes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -7,9 +10,6 @@ import sonar.calculator.mod.Calculator;
 import sonar.core.SonarCore;
 import sonar.core.recipes.DefinedRecipeHelper;
 import sonar.core.recipes.ISonarRecipeObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 

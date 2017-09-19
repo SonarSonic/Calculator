@@ -1,5 +1,7 @@
 package sonar.calculator.mod.utils.helpers;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -10,8 +12,6 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.block.CalculatorSaplings;
-
-import java.util.Random;
 
 public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 	private final int minTreeHeight;

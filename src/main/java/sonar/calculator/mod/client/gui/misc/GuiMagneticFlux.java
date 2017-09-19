@@ -1,5 +1,7 @@
 package sonar.calculator.mod.client.gui.misc;
 
+import java.io.IOException;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -9,8 +11,6 @@ import sonar.core.SonarCore;
 import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 import sonar.core.network.PacketByteBuf;
-
-import java.io.IOException;
 
 public class GuiMagneticFlux extends GuiSonarTile {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/magnetic_flux.png");

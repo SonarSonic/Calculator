@@ -1,15 +1,15 @@
 package sonar.calculator.mod.guide;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.guide.IItemInfo.Category;
 import sonar.core.helpers.ItemStackHelper;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 public class InfoRegistry {
 

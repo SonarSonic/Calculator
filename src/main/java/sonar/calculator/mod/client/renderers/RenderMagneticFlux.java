@@ -14,7 +14,7 @@ public class RenderMagneticFlux extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-    public void render(TileEntity entity, double x, double y, double z, float partialTicks, int destroyStage, float f) {
+    public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float partialTicks, int destroyStage) {
         //public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float partialTicks, int destroyStage) {
 		/*
 		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(entity), texture);

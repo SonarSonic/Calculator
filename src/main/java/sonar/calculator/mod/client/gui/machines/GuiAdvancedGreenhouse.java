@@ -1,6 +1,9 @@
 package sonar.calculator.mod.client.gui.machines;
 
-import net.minecraft.client.Minecraft;
+import java.text.DecimalFormat;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -9,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
@@ -18,8 +20,6 @@ import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
-
-import java.text.DecimalFormat;
 
 public class GuiAdvancedGreenhouse extends GuiSonarTile {
 	DecimalFormat dec = new DecimalFormat("##.##");
@@ -51,13 +51,6 @@ public class GuiAdvancedGreenhouse extends GuiSonarTile {
 			// this.visible = false;
 			this.name = name;
 		}
-
-        @Override
-        public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-			// if (this.isMouseOver())
-			// drawCreativeTabHoveringText(FontHelper.translate(name), mouseX, mouseY);
-            // super.drawButton(mc, mouseX, mouseY, partialTicks);
-		}
 	}
 
     @Override
@@ -84,7 +77,7 @@ public class GuiAdvancedGreenhouse extends GuiSonarTile {
 		for (GuiButton b : buttonList) {
 			if (b instanceof GreenhouseButton) {
 				GreenhouseButton button = (GreenhouseButton) b;
-                if (x >= button.x && y >= button.y && x < button.x + button.width && y < button.y + button.height) {
+                if (x >= button.xPosition && y >= button.yPosition && x < button.xPosition + button.width && y < button.yPosition + button.height) {
                     drawSonarCreativeTabHoveringText(FontHelper.translate(button.name), x - guiLeft, y - guiTop);
 				}
 			}

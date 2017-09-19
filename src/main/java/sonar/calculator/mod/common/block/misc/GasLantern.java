@@ -1,5 +1,8 @@
 package sonar.calculator.mod.common.block.misc;
 
+import java.util.Iterator;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -22,9 +25,6 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
-
-import java.util.Iterator;
-import java.util.Random;
 
 public class GasLantern extends SonarMachineBlock {
 

@@ -1,7 +1,9 @@
 package sonar.calculator.mod.common.item.calculators;
 
-import cofh.redstoneflux.api.IEnergyContainerItem;
-import net.minecraft.client.util.ITooltipFlag;
+import java.util.ArrayList;
+import java.util.List;
+
+import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,7 +19,11 @@ import net.minecraftforge.fml.common.Optional;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.api.items.IModuleProvider;
-import sonar.calculator.mod.api.modules.*;
+import sonar.calculator.mod.api.modules.IModule;
+import sonar.calculator.mod.api.modules.IModuleClickable;
+import sonar.calculator.mod.api.modules.IModuleEnergy;
+import sonar.calculator.mod.api.modules.IModuleInventory;
+import sonar.calculator.mod.api.modules.IModuleUpdate;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
@@ -31,9 +37,6 @@ import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.IGuiItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")})
@@ -169,8 +172,8 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	}
 
     @Override
-    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
-        super.addInformation(stack, world, list, par4);
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean advanced) {
+        super.addInformation(stack, player, list, advanced);
 		IModule current = this.getCurrentModule(stack);
 		list.add("Current Module: " + current.getClientName());
 

@@ -1,12 +1,13 @@
 package sonar.calculator.mod.client.renderers;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.client.models.ModelChamber;
 import sonar.calculator.mod.client.models.ModelProcessing;
 import sonar.calculator.mod.client.models.ModelSplit;
@@ -38,7 +39,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer<TileEntity
 	public abstract String getName(TileEntity entity);
 
 	@Override
-    public void render(TileEntity entity, double x, double y, double z, float partialTicks, int destroyStage, float f) {
+    public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float partialTicks, int destroyStage) {
 		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(entity), texture);
 
         if (destroyStage < 0) {

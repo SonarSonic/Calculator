@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block.misc;
 
+import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,13 +15,9 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.nutrition.IHealthProcessor;
 import sonar.calculator.mod.api.nutrition.IHungerProcessor;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
 import sonar.core.common.block.ConnectedBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.ISpecialTooltip;
-
-import java.util.List;
 
 public class Piping extends ConnectedBlock implements ISpecialTooltip {
 

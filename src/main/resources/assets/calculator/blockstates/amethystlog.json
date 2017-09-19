@@ -10,29 +10,17 @@
         "uvlock": true
     },
     "variants": {  
-    "inventory": [
-      {}
-    ],
+        "inventory": [{}],  
         "axis": {
             "y":{
                  "model":"cube_column"
             },
             "z":{    
-        "model": "cube_column",
-        "x": 90,
-        "textures": {
-          "end": "calculator:blocks/wood/log_amethyst_top",
-          "side": "calculator:blocks/wood/log_amethyst_side"
-        }
+                 "model":"column_side"
             }, 
             "x":{      
-        "model": "cube_column",
-        "x": 90,
-        "y": 90,
-        "textures": {
-          "end": "calculator:blocks/wood/log_amethyst_top",
-          "side": "calculator:blocks/wood/log_amethyst_side"
-        }
+                 "model":"column_side",
+                 "y": 90
             },
             "none":{            
                  "textures": {

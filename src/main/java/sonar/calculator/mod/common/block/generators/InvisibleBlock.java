@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block.generators;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -21,8 +23,6 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
-
-import java.util.Random;
 
 public class InvisibleBlock extends SonarBlock {
 

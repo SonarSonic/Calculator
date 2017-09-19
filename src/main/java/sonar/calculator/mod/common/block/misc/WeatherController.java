@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.block.misc;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -17,8 +19,6 @@ import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.IGuiTile;
-
-import java.util.List;
 
 public class WeatherController extends SonarMachineBlock {
 

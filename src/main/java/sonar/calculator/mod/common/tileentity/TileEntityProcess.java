@@ -1,5 +1,9 @@
 package sonar.calculator.mod.common.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -24,10 +28,6 @@ import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.upgrades.UpgradeInventory;
 import sonar.core.utils.MachineSideConfig;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * electric smelting tile entity
