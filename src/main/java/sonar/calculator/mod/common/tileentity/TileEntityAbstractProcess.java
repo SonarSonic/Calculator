@@ -1,7 +1,10 @@
 package sonar.calculator.mod.common.tileentity;
 
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
@@ -145,7 +148,22 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 			}
 		}
 		for (int i = 0; i < Math.min(recipe.inputs().size(), inputSize()); i++) {
-			slots().get(i).shrink(recipeHelper() != null ? recipe.inputs().get(i).getStackSize() : 1);
+			ItemStack input = slots().get(i).copy();
+			int shrinkSize = recipeHelper() != null ? recipe.inputs().get(i).getStackSize() : 1;
+			boolean hasContainer = (input.getCount() - shrinkSize) <= 0;
+			slots().get(i).shrink(shrinkSize);
+
+			if (hasContainer && input.getItem().hasContainerItem(input)) {
+				ItemStack itemstack2 = input.getItem().getContainerItem(input);
+
+				if (this.isItemValidForSlot(i, itemstack2)) {
+					if (inv.getStackInSlot(i).isEmpty()) {
+						inv.setInventorySlotContents(i, itemstack2);
+					} else {
+						InventoryHelper.spawnItemStack(this.getWorld(), pos.getX(), pos.getY(), pos.getZ(), itemstack2);
+					}
+				}
+			}
 		}
 	}
 

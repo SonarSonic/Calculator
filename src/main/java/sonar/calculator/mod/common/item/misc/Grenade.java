@@ -39,7 +39,7 @@ public class Grenade extends SonarItem {
 				entity = new EntityGrenade(world, player);
 				break;
 			}
-			entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+			entity.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 			world.spawnEntity(entity);
 		}
 

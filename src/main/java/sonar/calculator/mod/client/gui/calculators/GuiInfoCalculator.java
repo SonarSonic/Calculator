@@ -17,6 +17,7 @@ import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.calculator.mod.guide.IItemInfo;
 import sonar.calculator.mod.guide.IItemInfo.Category;
 import sonar.calculator.mod.guide.InfoRegistry;
+import sonar.core.client.gui.GuiSonar;
 import sonar.core.helpers.FontHelper;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GuiInfoCalculator extends GuiContainer {
+public class GuiInfoCalculator extends GuiSonar {
 
 	public static final ResourceLocation list = new ResourceLocation("Calculator:textures/gui/info_calculator.png");
 	public static final ResourceLocation info = new ResourceLocation("Calculator:textures/gui/info_calculator_item.png");
@@ -67,9 +68,7 @@ public class GuiInfoCalculator extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(currentState.getBackground());
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		if (currentState == GuiState.LIST) {
 			drawTexturedModalRect(scrollerLeft, scrollerStart + (int) ((float) (scrollerEnd - scrollerStart - 17) * this.currentScroll), 119, 166, 8, 15);
 			int offsetTop = 29;
@@ -541,5 +540,10 @@ public class GuiInfoCalculator extends GuiContainer {
 
 	private boolean needsScrollBars() {
         return infoList.size() > getViewableSize();
+	}
+
+	@Override
+	public ResourceLocation getBackground() {
+		return currentState.getBackground();
 	}
 }

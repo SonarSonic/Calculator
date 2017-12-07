@@ -23,7 +23,7 @@ public class SmallStone extends SonarItem {
 
 		if (!world.isRemote) {
 			EntitySmallStone entity = new EntitySmallStone(world, player);
-			entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+			entity.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 			world.spawnEntity(entity);
 		}
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);

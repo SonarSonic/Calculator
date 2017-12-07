@@ -37,7 +37,7 @@ public class GrenadeModule extends ModuleBase implements IModuleClickable {
                 world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.NEUTRAL, 0.5F, 0.8F);
 				if (!world.isRemote) {
 					EntityGrenade entity = new EntityGrenade(world, player);
-					entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+					entity.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 					world.spawnEntity(entity);
 					this.extractEnergy(stack, player, 10000, false);
 				}

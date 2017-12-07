@@ -29,7 +29,7 @@ public class ContainerStorageChamber extends ContainerLargeInventory {
 		addSlotToContainer(new SlotLarge(entity.getTileInv(), 11, 80, 58 + 17));
 		addSlotToContainer(new SlotLarge(entity.getTileInv(), 12, 116, 58 + 17));
 		addSlotToContainer(new SlotLarge(entity.getTileInv(), 13, 152, 58 + 17));
-		addInventory(player.inventory, 8, 102);
+		addInventory(player.inventory, 8, 101);
 	}
 
     @Override

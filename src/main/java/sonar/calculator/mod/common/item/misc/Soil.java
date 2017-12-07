@@ -23,7 +23,7 @@ public class Soil extends SonarItem implements IStability {
         world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 		if (!world.isRemote) {
 			EntitySoil entity = new EntitySoil(world, player);
-			entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+			entity.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 			world.spawnEntity(entity);
 		}
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);

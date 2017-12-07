@@ -4,6 +4,6 @@ import net.minecraft.item.ItemAxe;
 
 public class CalcAxe extends ItemAxe {
 	public CalcAxe(ToolMaterial material) {
-		super(material, material.getDamageVsEntity(), -3.5F);
+		super(material, material.getAttackDamage(), -3.5F);
 	}
 }
