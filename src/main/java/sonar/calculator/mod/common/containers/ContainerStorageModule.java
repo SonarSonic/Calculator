@@ -11,20 +11,18 @@ import sonar.core.inventory.ContainerSonar;
 
 public class ContainerStorageModule extends ContainerSonar {
 	private final InventoryItem inventory;
-	private boolean isRemote;
 
 	private static final int INV_START = 54, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
 	public ContainerStorageModule(EntityPlayer player, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
-		isRemote = player.getEntityWorld().isRemote;
 		int i = 36;
 		int j;
 		int k;
 
 		for (j = 0; j < 6; ++j) {
 			for (k = 0; k < 9; ++k) {
-				this.addSlotToContainer(new SlotPortable(inventory, k + j * 9, 8 + k * 18, 18 + j * 18, isRemote, Calculator.itemStorageModule));
+				this.addSlotToContainer(new SlotPortable(inventory, k + j * 9, 8 + k * 18, 18 + j * 18, Calculator.itemStorageModule));
 			}
 		}
 		addInventoryWithLimiter(player.inventory, 8, 140, Calculator.itemStorageModule);

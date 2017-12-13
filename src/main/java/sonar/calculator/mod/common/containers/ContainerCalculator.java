@@ -24,23 +24,21 @@ public class ContainerCalculator extends ContainerSonar implements ICalculatorCr
 		}
 	};
 
-	private boolean isRemote;
 	private EntityPlayer player;
 
 	public ContainerCalculator(EntityPlayer player, InventoryItem inventoryItem) {
 		this.player = player;
 		this.inventory = inventoryItem;
-		isRemote = player.getEntityWorld().isRemote;
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, isRemote, Calculator.itemCalculator));
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, isRemote, Calculator.itemCalculator));
-		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1 }, 2, 134, 35, isRemote));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, Calculator.itemCalculator));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, Calculator.itemCalculator));
+		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1 }, 2, 134, 35));
 		addInventoryWithLimiter(player.inventory, 8, 84, Calculator.itemCalculator);
 		onItemCrafted();
 	}
 
 	@Override
 	public void onItemCrafted() {
-		inventory.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(CalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1)), 0), isRemote);
+		inventory.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(CalculatorRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1)), 0));
 	}
 
     @Override

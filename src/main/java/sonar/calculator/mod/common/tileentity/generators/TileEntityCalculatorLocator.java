@@ -45,7 +45,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	private int sizeTicks, luckTicks;
 
 	public TileEntityCalculatorLocator() {
-		super.storage.setCapacity(25000000).setMaxTransfer(128000);
+		super.storage.setCapacity(25000000);
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 100000;
 		super.energyMode = EnergyMode.SEND;

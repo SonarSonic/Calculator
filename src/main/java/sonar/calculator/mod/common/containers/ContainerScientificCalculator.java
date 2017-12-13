@@ -23,29 +23,27 @@ public class ContainerScientificCalculator extends ContainerSonar implements ICa
 			addPlayerInventory();
 		}
 	};
-	private boolean isRemote;
 	private EntityPlayer player;
 
 	public ContainerScientificCalculator(EntityPlayer player, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
 		this.player = player;
-		isRemote = player.getEntityWorld().isRemote;
 
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, isRemote, Calculator.itemScientificCalculator));
-		addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, isRemote, Calculator.itemScientificCalculator));
-		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1 }, 2, 134, 35, isRemote));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 0, 25, 35, Calculator.itemScientificCalculator));
+		addSlotToContainer(new SlotPortableCrafting(this, inventory, 1, 79, 35, Calculator.itemScientificCalculator));
+		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1 }, 2, 134, 35));
 		addInventoryWithLimiter(player.inventory, 8, 84, Calculator.itemScientificCalculator);
 		onItemCrafted();
 	}
 
 	@Override
 	public void onItemCrafted() {
-		inventory.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(ScientificRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1)), 0), isRemote);
+		inventory.setInventorySlotContents(2, RecipeHelperV2.getItemStackFromList(ScientificRecipes.instance().getOutputs(player, inventory.getStackInSlot(0), inventory.getStackInSlot(1)), 0));
 	}
 
     @Override
 	public void removeEnergy(int remove) {
-		if (!this.isRemote) {
+		if (!player.getEntityWorld().isRemote) {
 			if (player.capabilities.isCreativeMode) {
 				return;
 			}

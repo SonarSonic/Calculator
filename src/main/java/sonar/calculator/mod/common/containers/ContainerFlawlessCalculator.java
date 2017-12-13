@@ -22,18 +22,16 @@ public class ContainerFlawlessCalculator extends ContainerSonar implements ICalc
 		}
 	};
 	public final EntityPlayer player;
-	public boolean isRemote;
 
 	public ContainerFlawlessCalculator(EntityPlayer player, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
 		this.player = player;
-		isRemote = player.getEntityWorld().isRemote;
 
 		for (int k = 0; k < 4; k++) {
-			addSlotToContainer(new SlotPortableCrafting(this, inventory, k, 17 + k * 32, 35, isRemote, Calculator.itemFlawlessCalculator));
+			addSlotToContainer(new SlotPortableCrafting(this, inventory, k, 17 + k * 32, 35, Calculator.itemFlawlessCalculator));
 		}
 
-		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1, 2, 3 }, 4, 145, 35, isRemote));
+		addSlotToContainer(new SlotPortableResult(player, inventory, this, new int[] { 0, 1, 2, 3 }, 4, 145, 35));
 		addInventoryWithLimiter(player.inventory, 8, 84, Calculator.itemFlawlessCalculator);
 		onItemCrafted();
 	}

@@ -9,8 +9,8 @@ public class SlotPortableCrafting extends SlotPortable {
 
 	private ICalculatorCrafter container;
 
-	public SlotPortableCrafting(ICalculatorCrafter container, IInventory inv, int index, int x, int y, boolean isRemote, Item type) {
-		super(inv, index, x, y, isRemote, type);
+	public SlotPortableCrafting(ICalculatorCrafter container, IInventory inv, int index, int x, int y, Item type) {
+		super(inv, index, x, y, type);
 		this.container = container;
 	}
 

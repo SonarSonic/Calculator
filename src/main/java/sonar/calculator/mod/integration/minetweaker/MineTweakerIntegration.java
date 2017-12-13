@@ -127,8 +127,8 @@ public class MineTweakerIntegration {
 		}
 
 		@ZenMethod
-		public static void removeRecipe(IIngredient output) {
-            CraftTweakerAPI.apply(new SonarRemoveRecipeV2(StoneSeparatorRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
+		public static void removeRecipe(IIngredient output, IIngredient output2) {
+            CraftTweakerAPI.apply(new SonarRemoveRecipeV2(StoneSeparatorRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output, output2)));
 		}
 	}
 
@@ -157,8 +157,8 @@ public class MineTweakerIntegration {
 		}
 
 		@ZenMethod
-		public static void removeRecipe(IIngredient output) {
-            CraftTweakerAPI.apply(new SonarRemoveRecipeV2(ExtractionChamberRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output)));
+		public static void removeRecipe(IIngredient output, IIngredient output2) {
+            CraftTweakerAPI.apply(new SonarRemoveRecipeV2(ExtractionChamberRecipes.instance(), RecipeObjectType.OUTPUT, Lists.newArrayList(output, output2)));
 		}
 	}
 

@@ -15,14 +15,17 @@ import sonar.core.api.blocks.IStableGlass;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.inventory.IDropInventory;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
 
 public abstract class TileEntityCalculator extends TileEntityInventory implements ISidedInventory, IGuiTile {
 
-	public static class Dynamic extends TileEntityCalculator {
-		
+	public static class Dynamic extends TileEntityCalculator implements IDropInventory {
+
+		public int[] dropSlots = new int[] { 0, 1, 3, 4, 6, 7, 8 };
+
 		public Dynamic() {
 			super.inv = new SonarInventory(this, 10);
 			syncList.addPart(inv);
@@ -30,7 +33,7 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 
 		public FailedCoords checkStructure() {
 			EnumFacing forward = this.world.getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
-            BlockPos centre = pos.add(forward.getFrontOffsetX() * 3, 0, forward.getFrontOffsetZ() * 3);
+			BlockPos centre = pos.add(forward.getFrontOffsetX() * 3, 0, forward.getFrontOffsetZ() * 3);
 
 			FailedCoords bottom = this.outsideLayer(centre.offset(EnumFacing.DOWN, 3));
 			if (!bottom.getBoolean()) {
@@ -98,9 +101,21 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiDynamicCalculator(player, this);
 		}
+
+		@Override
+		public int[] dropSlots() {
+			return dropSlots;
+		}
+
+		@Override
+		public boolean canDrop() {
+			return true;
+		}
 	}
 
-	public static class Atomic extends TileEntityCalculator {
+	public static class Atomic extends TileEntityCalculator implements IDropInventory {
+
+		public int[] dropSlots = new int[] { 0, 1, 2};
 		
 		public Atomic() {
 			super.inv = new SonarInventory(this, 4);
@@ -115,6 +130,16 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 		@Override
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiAtomicCalculator(player, this);
+		}
+
+		@Override
+		public int[] dropSlots() {
+			return dropSlots;
+		}
+
+		@Override
+		public boolean canDrop() {
+			return true;
 		}
 	}
 
