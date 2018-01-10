@@ -53,7 +53,7 @@ public class ContainerScientificCalculator extends ContainerSonar implements ICa
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return inventory.isUseableByPlayer(player);
+		return inventory.isUsableByPlayer(player);
 	}
 
     @Override

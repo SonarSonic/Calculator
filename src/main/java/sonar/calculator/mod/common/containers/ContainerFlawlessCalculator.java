@@ -47,7 +47,7 @@ public class ContainerFlawlessCalculator extends ContainerSonar implements ICalc
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return inventory.isUseableByPlayer(player);
+		return inventory.isUsableByPlayer(player);
 	}
 
 	@Override

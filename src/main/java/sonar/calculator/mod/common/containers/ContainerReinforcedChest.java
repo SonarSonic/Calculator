@@ -29,7 +29,7 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 
     @Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return this.entity.isUseableByPlayer(player);
+		return this.entity.isUsableByPlayer(player);
 	}
 
     @Override

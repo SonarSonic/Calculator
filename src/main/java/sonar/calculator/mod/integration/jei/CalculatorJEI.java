@@ -1,6 +1,7 @@
 package sonar.calculator.mod.integration.jei;
 
 import mezz.jei.api.*;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import net.minecraft.item.ItemStack;
@@ -43,16 +44,16 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 			registry.addRecipeCategories(cat);
 			registry.addRecipeHandlers(cat);
 			if (handler.getCrafterItemStack() != null)
-				registry.addRecipeCategoryCraftingItem(handler.getCrafterItemStack(), handler.getUUID());
+				registry.addRecipeCatalyst(handler.getCrafterItemStack(), handler.getUUID());
 
 			Calculator.logger.info("Registering Recipe Handler: " + handler.getUUID());
 		}
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 
-		registry.addRecipeCategoryCraftingItem(new ItemStack(Calculator.dynamicCalculator, 1), Handlers.CALCULATOR.getUUID(), Handlers.SCIENTIFIC.getUUID(), Handlers.ATOMIC.getUUID());
-		registry.addRecipeCategoryCraftingItem(new ItemStack(Calculator.itemFlawlessCalculator, 1), Handlers.FLAWLESS.getUUID(), Handlers.CALCULATOR.getUUID(), Handlers.SCIENTIFIC.getUUID(), Handlers.ATOMIC.getUUID());
-		registry.addRecipeCategoryCraftingItem(new ItemStack(Calculator.reinforcedFurnace, 1), VanillaRecipeCategoryUid.SMELTING);
-		registry.addRecipeCategoryCraftingItem(new ItemStack(Calculator.itemCraftingCalculator, 1), VanillaRecipeCategoryUid.CRAFTING);
+		registry.addRecipeCatalyst(new ItemStack(Calculator.dynamicCalculator, 1), Handlers.CALCULATOR.getUUID(), Handlers.SCIENTIFIC.getUUID(), Handlers.ATOMIC.getUUID());
+		registry.addRecipeCatalyst(new ItemStack(Calculator.itemFlawlessCalculator, 1), Handlers.FLAWLESS.getUUID(), Handlers.CALCULATOR.getUUID(), Handlers.SCIENTIFIC.getUUID(), Handlers.ATOMIC.getUUID());
+		registry.addRecipeCatalyst(new ItemStack(Calculator.reinforcedFurnace, 1), VanillaRecipeCategoryUid.SMELTING);
+		registry.addRecipeCatalyst(new ItemStack(Calculator.itemCraftingCalculator, 1), VanillaRecipeCategoryUid.CRAFTING);
 
 		registry.addRecipeClickArea(GuiSmeltingBlock.ProcessingChamber.class, 77, 19, 24, 14, Handlers.PROCESSING.getUUID());
 		registry.addRecipeClickArea(GuiSmeltingBlock.RestorationChamber.class, 77, 19, 24, 14, Handlers.RESTORATION.getUUID());

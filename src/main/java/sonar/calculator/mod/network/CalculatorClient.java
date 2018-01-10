@@ -2,8 +2,6 @@ package sonar.calculator.mod.network;
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import sonar.calculator.mod.BlockRenderRegister;
-import sonar.calculator.mod.ItemRenderRegister;
 import sonar.calculator.mod.client.renderers.*;
 import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
@@ -21,8 +19,6 @@ public class CalculatorClient extends CalculatorCommon{
 	
 	@Override
 	public void registerRenderThings() {
-		BlockRenderRegister.register();
-		ItemRenderRegister.register();
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, RenderThrowables.GRENADE);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBabyGrenade.class, RenderThrowables.BABY_GRENADE);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySoil.class, RenderThrowables.SOIL);

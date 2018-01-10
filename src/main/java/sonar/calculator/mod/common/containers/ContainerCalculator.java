@@ -51,7 +51,7 @@ public class ContainerCalculator extends ContainerSonar implements ICalculatorCr
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return inventory.isUseableByPlayer(player);
+		return inventory.isUsableByPlayer(player);
 	}
 
     @Override

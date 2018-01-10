@@ -79,7 +79,7 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return dynamic.isUseableByPlayer(player);
+		return dynamic.isUsableByPlayer(player);
 	}
 
 	@Override

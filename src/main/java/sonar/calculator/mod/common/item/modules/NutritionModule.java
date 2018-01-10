@@ -25,7 +25,7 @@ import java.util.List;
 public class NutritionModule extends SonarItem implements IHealthStore, IHungerStore {
 
 	public NutritionModule() {
-		setCreativeTab(Calculator.Calculator);
+		setCreativeTab(Calculator.tab);
 		maxStackSize = 1;
 	}
 

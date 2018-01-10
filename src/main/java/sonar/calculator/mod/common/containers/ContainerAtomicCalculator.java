@@ -58,6 +58,6 @@ public class ContainerAtomicCalculator extends ContainerSonar implements ICalcul
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return atomic.isUseableByPlayer(player);
+		return atomic.isUsableByPlayer(player);
 	}
 }

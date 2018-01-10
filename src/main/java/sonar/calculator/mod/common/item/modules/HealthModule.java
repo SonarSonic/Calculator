@@ -24,7 +24,7 @@ import java.util.List;
 public class HealthModule extends SonarItem implements IHealthStore {
 
 	public HealthModule() {
-		this.setCreativeTab(Calculator.Calculator);
+		this.setCreativeTab(Calculator.tab);
 		this.maxStackSize = 1;
 	}
 

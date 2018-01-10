@@ -52,7 +52,7 @@ public class Calculator {
 	@Instance(modid)
 	public static Calculator instance;
 
-	public static CreativeTabs Calculator = new CreativeTabs("Calculator") {
+	public static CreativeTabs tab = new CreativeTabs("Calculator") {
 		@Override
 		public ItemStack getTabIconItem() {
 			return new ItemStack(itemCalculator, 1);

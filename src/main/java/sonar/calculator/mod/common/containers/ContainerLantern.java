@@ -37,6 +37,6 @@ public class ContainerLantern extends ContainerSync {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return entity.isUseableByPlayer(player);
+		return entity.isUsableByPlayer(player);
 	}
 }

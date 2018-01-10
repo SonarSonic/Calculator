@@ -94,7 +94,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 				}
 			}
 
-			public boolean isUseableByPlayer(EntityPlayer player) {
+			public boolean isUsableByPlayer(EntityPlayer player) {
 				// does the player own this FLAWLESS CALCULATOR?
 				return true;
 			}
