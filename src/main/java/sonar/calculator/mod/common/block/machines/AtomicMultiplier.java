@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.block.machines;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumHand;
@@ -50,14 +51,10 @@ public class AtomicMultiplier extends SonarMachineBlock {
 		return new TileEntityAtomicMultiplier();
 	}
 
-	@Override
-    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-	}
-
     @Override
-    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
         CalculatorHelper.addEnergytoToolTip(stack, world, list);
+        list.add(FontHelper.translate("energy.required") + ": " + FontHelper.formatStorage(TileEntityAtomicMultiplier.requiredEnergy));
     }
 
 	@Override
@@ -71,16 +68,6 @@ public class AtomicMultiplier extends SonarMachineBlock {
 			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
 			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
 		}
-	}
-
-	@Override
-    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
-		list.add(FontHelper.translate("energy.required") + ": " + FontHelper.formatStorage(TileEntityAtomicMultiplier.requiredEnergy));
-    }
-
-    @Override
-    public void standardInfo(ItemStack stack, World world, List<String> list) {
-        list.add(FontHelper.translate("energy.required") + ": " + FontHelper.formatStorage(TileEntityAtomicMultiplier.requiredEnergy));
 	}
 
     @Override

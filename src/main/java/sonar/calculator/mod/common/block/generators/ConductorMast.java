@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -75,27 +76,11 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 		return new TileEntityConductorMast();
 	}
 
-	@Override
-    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-    }
-
     @Override
-    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
         CalculatorHelper.addEnergytoToolTip(stack, world, list);
-    }
-
-    @Override
-    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
-        //list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
-        list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Conductor Mast") + " RF per strike");
-	}
-
-	@Override
-    public void standardInfo(ItemStack stack, World world, List<String> list) {
-		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
 		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Conductor Mast") + " RF per strike");
-	}
+    }
 
     @Override
 	public boolean hasSpecialRenderer() {

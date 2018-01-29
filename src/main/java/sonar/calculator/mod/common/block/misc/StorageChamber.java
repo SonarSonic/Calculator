@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.block.misc;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -45,38 +46,12 @@ public class StorageChamber extends SonarMachineBlock {
 		world.removeTileEntity(pos);
 	}
 
-	@Override
-    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
-		switch (stack.getTagCompound().getInteger("type")) {
-		case 1:
-			list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.analysed"));
-			break;
-		case 2:
-			list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.stable"));
-			break;
-
-		case 3:
-			list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.damaged"));
-			break;
-
-		case 4:
-			list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.dirty"));
-			break;
-		}
-
-		int[] stored = stack.getTagCompound().getIntArray("stored");
-		int total = 0;
-        for (int aStored : stored) {
-            total += aStored;
-		}
-		if (total != 0) {
-			list.add(FontHelper.translate("circuit.stored") + ": " + total);
-		}
-	}
-
     @Override
-    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
-        switch (stack.getTagCompound().getInteger("type")) {
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+    	if(tag==null){
+    		return;
+    	}
+        switch (tag.getInteger("type")) {
             case 1:
                 list.add(FontHelper.translate("circuit.type") + ": " + FontHelper.translate("circuit.analysed"));
                 break;
@@ -93,7 +68,7 @@ public class StorageChamber extends SonarMachineBlock {
                 break;
         }
 
-        int[] stored = stack.getTagCompound().getIntArray("stored");
+        int[] stored = tag.getIntArray("stored");
         int total = 0;
         for (int aStored : stored) {
             total += aStored;

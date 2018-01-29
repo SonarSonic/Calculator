@@ -48,6 +48,9 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 
 			Calculator.logger.info("Registering Recipe Handler: " + handler.getUUID());
 		}
+		//item blacklist
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(Calculator.calculatorScreen);
+		
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 
 		registry.addRecipeCatalyst(new ItemStack(Calculator.dynamicCalculator, 1), Handlers.CALCULATOR.getUUID(), Handlers.SCIENTIFIC.getUUID(), Handlers.ATOMIC.getUUID());

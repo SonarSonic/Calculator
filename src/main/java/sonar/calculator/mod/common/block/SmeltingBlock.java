@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -164,100 +165,43 @@ public class SmeltingBlock extends SonarSidedBlock {
 		return false;
 	}
 
-	@Override
-    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-    }
-
     @Override
-    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
         CalculatorHelper.addEnergytoToolTip(stack, world, list);
-    }
-
-    @Override
-    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-            int energyUsage = 0;
-            int speed = 0;
-
-            switch (type.ordinal()) {
-                case 0:
-                    energyUsage = CalculatorConfig.getInteger("Extraction Chamber" + "Energy Usage");
-                    speed = CalculatorConfig.getInteger("Extraction Chamber" + "Base Speed");
-                    break;
-                case 1:
-                    energyUsage = CalculatorConfig.getInteger("Restoration Chamber" + "Energy Usage");
-                    speed = CalculatorConfig.getInteger("Restoration Chamber" + "Base Speed");
-                    break;
-                case 2:
-                    energyUsage = CalculatorConfig.getInteger("Reassembly Chamber" + "Energy Usage");
-                    speed = CalculatorConfig.getInteger("Reassembly Chamber" + "Base Speed");
-                    break;
-                case 3:
-                    energyUsage = CalculatorConfig.getInteger("Processing Chamber" + "Energy Usage");
-                    speed = CalculatorConfig.getInteger("Processing Chamber" + "Base Speed");
-                    break;
-                case 4:
-                    energyUsage = CalculatorConfig.getInteger("Stone Seperator" + "Energy Usage");
-                    speed = CalculatorConfig.getInteger("Stone Seperator" + "Base Speed");
-                    break;
-                case 5:
-                    energyUsage = CalculatorConfig.getInteger("Algorithm Seperator" + "Energy Usage");
-                    speed = CalculatorConfig.getInteger("Algorithm Seperator" + "Base Speed");
-                    break;
-                case 6:
-                    energyUsage = CalculatorConfig.getInteger("Precision Chamber" + "Energy Usage");
-                    speed = CalculatorConfig.getInteger("Precision Chamber" + "Base Speed");
-                    break;
-                case 7:
-                    energyUsage = CalculatorConfig.getInteger("Reinforced Furnace" + "Energy Usage");
-                    speed = CalculatorConfig.getInteger("Reinforced Furnace" + "Base Speed");
-                    break;
-            }
-            list.add(FontHelper.translate("Process Speed: ") + TextFormatting.WHITE + speed + " ticks");
-            list.add(FontHelper.translate("Energy Usage: ") + TextFormatting.WHITE + energyUsage + " RF per operation");
-            list.add(FontHelper.translate("Consumption: ") + TextFormatting.WHITE + energyUsage / speed + " RF/t");
-        } else {
-            list.add("Hold" + TextFormatting.YELLOW + " SHIFT " + TextFormatting.RESET + "for more info");
-        }
-	}
-
-	@Override
-    public void standardInfo(ItemStack stack, World world, List<String> list) {
-		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
 			int energyUsage = 0;
 			int speed = 0;
 
-			switch (type.ordinal()) {
-			case 0:
+			switch (type) {
+			case EXTRACTION:
 				energyUsage = CalculatorConfig.getInteger("Extraction Chamber" + "Energy Usage");
 				speed = CalculatorConfig.getInteger("Extraction Chamber" + "Base Speed");
 				break;
-			case 1:
+			case RESTORATION:
 				energyUsage = CalculatorConfig.getInteger("Restoration Chamber" + "Energy Usage");
 				speed = CalculatorConfig.getInteger("Restoration Chamber" + "Base Speed");
 				break;
-			case 2:
+			case REASSEMBLY:
 				energyUsage = CalculatorConfig.getInteger("Reassembly Chamber" + "Energy Usage");
 				speed = CalculatorConfig.getInteger("Reassembly Chamber" + "Base Speed");
 				break;
-			case 3:
+			case PROCESSING:
 				energyUsage = CalculatorConfig.getInteger("Processing Chamber" + "Energy Usage");
 				speed = CalculatorConfig.getInteger("Processing Chamber" + "Base Speed");
 				break;
-			case 4:
+			case STONE:
 				energyUsage = CalculatorConfig.getInteger("Stone Seperator" + "Energy Usage");
 				speed = CalculatorConfig.getInteger("Stone Seperator" + "Base Speed");
 				break;
-			case 5:
+			case ALGORITHM:
 				energyUsage = CalculatorConfig.getInteger("Algorithm Seperator" + "Energy Usage");
 				speed = CalculatorConfig.getInteger("Algorithm Seperator" + "Base Speed");
 				break;
-			case 6:
+			case PRECISION:
 				energyUsage = CalculatorConfig.getInteger("Precision Chamber" + "Energy Usage");
 				speed = CalculatorConfig.getInteger("Precision Chamber" + "Base Speed");
 				break;
-			case 7:
+			case FURNACE:
 				energyUsage = CalculatorConfig.getInteger("Reinforced Furnace" + "Energy Usage");
 				speed = CalculatorConfig.getInteger("Reinforced Furnace" + "Base Speed");
 				break;
@@ -268,7 +212,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 		} else {
 			list.add("Hold" + TextFormatting.YELLOW +  " SHIFT " + TextFormatting.RESET + "for more info");
 		}
-	}
+    }
 
     @Override
 	public boolean isAnimated(IBlockState state, IBlockAccess w, BlockPos pos) {

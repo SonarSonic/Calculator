@@ -35,10 +35,4 @@ public class ModuleWorkstation extends SonarMachineBlock {
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityModuleWorkstation();
 	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {}
-
-	@Override
-	public void standardInfo(ItemStack stack, World world, List<String> list) {}
 }

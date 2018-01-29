@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.block.machines;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -53,26 +54,9 @@ public class Assimilator extends SonarMachineBlock {
 		}
 	}
 
-	@Override
-    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
-		super.addSpecialToolTip(stack, player, list);
-		if (type == 0) {
-			if (stack.hasTagCompound()) {
-				int hunger = stack.getTagCompound().getInteger("hunger");
-				if (hunger != 0) {
-					list.add(FontHelper.translate("points.hunger") + ": " + hunger);
-				}
-				int health = stack.getTagCompound().getInteger("health");
-				if (health != 0) {
-					list.add(FontHelper.translate("points.health") + ": " + health);
-				}
-			}
-		}
-	}
-
     @Override
-    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
-        super.addSpecialToolTip(stack, world, list);
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+        super.addSpecialToolTip(stack, world, list, tag);
         if (type == 0) {
             if (stack.hasTagCompound()) {
                 int hunger = stack.getTagCompound().getInteger("hunger");

@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.block.machines;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -23,14 +24,14 @@ public class HealthProcessor extends SonarSidedBlock {
 		super(SonarMaterials.machine, true, true);
 	}
 
-    @Override
+	@Override
 	public boolean hasAnimatedFront() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
-        if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == Calculator.wrench) {
+		if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == Calculator.wrench) {
 			return false;
 		}
 		if (player != null && !world.isRemote) {
@@ -45,18 +46,10 @@ public class HealthProcessor extends SonarSidedBlock {
 	}
 
 	@Override
-    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
-		int health = stack.getTagCompound().getInteger("Food");
+	public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+		int health = tag == null ? 0 : tag.getInteger("Food");
 		if (health != 0) {
 			list.add(FontHelper.translate("points.health") + ": " + health);
 		}
 	}
-
-    @Override
-    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
-        int health = stack.getTagCompound().getInteger("Food");
-        if (health != 0) {
-            list.add(FontHelper.translate("points.health") + ": " + health);
-        }
-    }
 }

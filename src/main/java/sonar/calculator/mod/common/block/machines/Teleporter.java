@@ -53,13 +53,8 @@ public class Teleporter extends SonarMachineBlock {
 		return new TileEntityTeleporter();
 	}
 
-	@Override
-    public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
-        list.add("A simple teleporter");
-    }
-
     @Override
-    public void standardInfo(ItemStack stack, World world, List<String> list) {
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
 		list.add("A simple teleporter");
 	}
 

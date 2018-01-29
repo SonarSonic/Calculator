@@ -39,7 +39,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	private static final int[] slotsSides = new int[] { 1 };
 
 	public TileEntityGenerator() {
-		super.storage.setCapacity(1000000).setMaxTransfer(800);
+		super.storage.setCapacity(1000000).setMaxTransfer(2000);
 		super.inv = new SonarInventory(this, 2);
 		super.energyMode = EnergyMode.SEND;
 		super.maxTransfer = 2000;

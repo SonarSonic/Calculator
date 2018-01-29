@@ -1,6 +1,5 @@
 package sonar.calculator.mod;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -40,6 +39,7 @@ import sonar.calculator.mod.common.block.machines.Transmitter;
 import sonar.calculator.mod.common.block.machines.WeatherStation;
 import sonar.calculator.mod.common.block.misc.BasicLantern;
 import sonar.calculator.mod.common.block.misc.CO2Generator;
+import sonar.calculator.mod.common.block.misc.CalculatorScreen;
 import sonar.calculator.mod.common.block.misc.GasLantern;
 import sonar.calculator.mod.common.block.misc.MagneticFlux;
 import sonar.calculator.mod.common.block.misc.Piping;
@@ -77,6 +77,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherControll
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
+import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculatorScreen;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
@@ -85,7 +86,6 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
 import sonar.core.SonarRegister;
 import sonar.core.common.block.ConnectedBlock;
 import sonar.core.common.block.SonarBlockTip;
-import sonar.core.common.block.SonarMetaBlock;
 import sonar.core.common.block.SonarStairs;
 import sonar.core.registries.SonarRegistryBlock;
 import sonar.core.registries.SonarRegistryMetablock;
@@ -249,10 +249,9 @@ public class CalculatorBlocks extends Calculator {
 		diamondStairs = SonarRegister.addBlock(modid, tab, "DiamondStairs", new SonarStairs(diamondPlanks));
 		diamondFence = SonarRegister.addBlock(modid, tab, "DiamondFence", new BlockFence(Material.WOOD, MapColor.CYAN));
 		diamondLeaves = SonarRegister.addBlock(modid, tab, "DiamondLeaves", new CalculatorLeaves(3));
-		diamondSapling = SonarRegister.addBlock(modid, tab, "DiamondSapling", new CalculatorSaplings(3));
-		/* calculatorScreen = new CalculatorScreen().setUnlocalizedName("calculatorScreen").setHardness(1.0F).setResistance(20.0F); GameRegistry.SonarRegister.addBlock(modid, tab, calculatorScreen, SonarBlockTip.class, "calculatorScreen"); GameRegistry.registerTileEntity(TileEntityCalculatorScreen.class, "calculatorScreen"); */
+		diamondSapling = SonarRegister.addBlock(modid, tab, "DiamondSapling", new CalculatorSaplings(3));				
+		calculatorScreen = SonarRegister.addBlock(modid, new SonarRegistryBlock(new CalculatorScreen(), "CalculatorScreenBlock", TileEntityCalculatorScreen.class).setProperties());				
 		material_block = SonarRegister.addBlock(modid, tab, new SonarRegistryMetablock(new MaterialBlock(), "Material"));
-
 		cropBroccoliPlant = SonarRegister.addBlock(modid, tab, "CropBroccoli", new CalculatorCrops(0, 0));
 		cropPrunaePlant = SonarRegister.addBlock(modid, tab, "CropPrunae", new CalculatorCrops(1, 2));
 		cropFiddledewPlant = SonarRegister.addBlock(modid, tab, "CropFiddledew", new CalculatorCrops(2, 3));

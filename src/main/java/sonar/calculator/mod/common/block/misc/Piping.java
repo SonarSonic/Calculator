@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -109,22 +110,10 @@ public class Piping extends ConnectedBlock implements ISpecialTooltip {
 	 * @SideOnly(Side.CLIENT) public AxisAlignedBB getSelectedBoundingBox(World
 	 * world, BlockPos pos) { return getCollisionBoundingBox(world, pos,
 	 * world.getBlockState(pos)); } */
+	
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {
+	public void addSpecialToolTip(ItemStack itemStack, World world, List<String> list, NBTTagCompound tag) {
 		list.add("W.I.P");
-	}
-
-	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {}
-
-	@Override
-	public void addSpecialToolTip(ItemStack itemStack, World world, List<String> list) {
-
-	}
-
-	@Override
-	public void standardInfo(ItemStack itemStack, World world, List<String> list) {
-
 	}
 
 	public static class Amethyst extends Piping {

@@ -14,7 +14,7 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
 
-public class TileEntityWeatherController extends TileEntityEnergyInventory implements IByteBufTile,IProcessMachine, IGuiTile {
+public class TileEntityWeatherController extends TileEntityEnergyInventory implements IByteBufTile, IProcessMachine, IGuiTile {
 
 	public int type, data, buffer, coolDown;
 
@@ -31,7 +31,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 		syncList.addPart(inv);
 	}
 
-    @Override
+	@Override
 	public void update() {
 		super.update();
 		startProcess();
@@ -59,7 +59,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 
 	public void startProcess() {
 		boolean power = this.world.isBlockPowered(pos);
-		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= requiredPower && this.processType(type, true) && (power || this.world.isBlockIndirectlyGettingPowered(pos)>0)) {
+		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= requiredPower && this.processType(type, true) && (power || this.world.isBlockIndirectlyGettingPowered(pos) > 0)) {
 			buffer = 1;
 		}
 	}
@@ -73,7 +73,14 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 				return false;
 			}
 			if (!simulate) {
-				this.world.setWorldTime(data == 0 ? 1000 : 13000);
+				long i = world.getWorldTime() + 24000L;
+				long newTime = i - i % 24000L;
+				long oldTime = world.getWorldTime();
+				if (data == 0) { // set to daytime
+					world.setWorldTime(newTime);
+				} else {// set to night time
+					world.setWorldTime(newTime - 12000 > oldTime ? newTime - 12000 : oldTime + 12000);
+				}
 			}
 			return true;
 		case RAIN:
@@ -83,7 +90,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 				return false;
 			}
 			if (!simulate) {
-                    this.world.getWorldInfo().setRaining(data != 0);
+				this.world.getWorldInfo().setRaining(data != 0);
 			}
 			return true;
 		case THUNDER:
@@ -93,8 +100,8 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 				return false;
 			}
 			if (!simulate) {
-                    this.world.getWorldInfo().setRaining(data != 0);
-                    this.world.getWorldInfo().setThundering(data != 0);
+				this.world.getWorldInfo().setRaining(data != 0);
+				this.world.getWorldInfo().setThundering(data != 0);
 			}
 			return true;
 		}
@@ -105,20 +112,20 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 		this.type = type;
 	}
 
-    @Override
+	@Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
-		if(type.isType(SyncType.SAVE,SyncType.DEFAULT_SYNC)){
+		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
 			this.type = nbt.getInteger("type");
 			this.data = nbt.getInteger("data");
 			this.buffer = nbt.getInteger("buffer");
 		}
 	}
 
-    @Override
+	@Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
-		if(type.isType(SyncType.SAVE,SyncType.DEFAULT_SYNC)){
+		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
 			nbt.setInteger("type", this.type);
 			nbt.setInteger("data", data);
 			nbt.setInteger("buffer", buffer);
@@ -127,8 +134,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 	}
 
 	@Override
-	public void writePacket(ByteBuf buf, int id) {
-	}
+	public void writePacket(ByteBuf buf, int id) {}
 
 	@Override
 	public void readPacket(ByteBuf buf, int id) {
@@ -155,7 +161,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 
 	@Override
 	public double getEnergyUsage() {
-		return requiredPower/getProcessTime();
+		return requiredPower / getProcessTime();
 	}
 
 	@Override

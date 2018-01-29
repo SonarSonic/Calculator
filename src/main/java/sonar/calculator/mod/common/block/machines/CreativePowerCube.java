@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.block.machines;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -33,16 +34,4 @@ public class CreativePowerCube extends SonarMachineBlock {
 	public TileEntity createNewTileEntity(World world, int i) {
 		return new TileEntityCreativePowerCube();
 	}
-
-	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {}
-
-	@Override
-	public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List<String> list) {}
-
-	@Override
-	public void standardInfo(ItemStack stack, World world, List<String> list) {}
 }

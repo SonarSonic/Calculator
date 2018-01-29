@@ -25,7 +25,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 	public void update() {
         super.update();
 		if (this.world != null && !this.world.isRemote) {
-			EnumFacing front = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
+			EnumFacing front = EnumFacing.getFront(getBlockMetadata()).getOpposite();
 			TileEntity target = SonarHelper.getAdjacentTileEntity(this, front);
 			if (target == null) {
                 //return;

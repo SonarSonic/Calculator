@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.block.machines;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -98,14 +99,8 @@ public abstract class Greenhouse extends SonarMachineBlock {
 		return true;
 	}
 
-	@Override
-    public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List<String> list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-		CalculatorHelper.addGasToolTip(stack, player, list);
-	}
-
     @Override
-    public void addSpecialToolTip(ItemStack stack, World world, List<String> list) {
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
         CalculatorHelper.addEnergytoToolTip(stack, world, list);
         CalculatorHelper.addGasToolTip(stack, world, list);
     }

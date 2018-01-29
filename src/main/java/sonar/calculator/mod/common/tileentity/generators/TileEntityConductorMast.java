@@ -45,7 +45,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	public Random rand = new Random();
 
 	public TileEntityConductorMast() {
-		super.storage.setCapacity(50000000);
+		super.storage.setCapacity(50000000).setMaxTransfer(Integer.MAX_VALUE);;
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 5000000;
 		super.energyMode = EnergyMode.SEND;
