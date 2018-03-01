@@ -5,11 +5,11 @@ import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
@@ -21,6 +21,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.upgrades.MachineUpgrade;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class DockingStation extends SonarMachineBlock {
 
@@ -41,7 +42,7 @@ public class DockingStation extends SonarMachineBlock {
 						TileEntity target = world.getTileEntity(pos);
 						if (target != null && target instanceof TileEntityDockingStation) {
 							TileEntityDockingStation station = (TileEntityDockingStation) target;
-							if (station.getInputStackSize(station.calcStack) != 0) {
+							if (TileEntityDockingStation.getInputStackSize(station.calcStack) != 0) {
 								player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 							} else {
 								FontHelper.sendMessage(FontHelper.translate("docking.noCalculator"), world, player);
@@ -50,7 +51,6 @@ public class DockingStation extends SonarMachineBlock {
 					}
 				}
 			}
-
 		}
 		return true;
 	}
@@ -60,14 +60,12 @@ public class DockingStation extends SonarMachineBlock {
 			TileEntity target = world.getTileEntity(pos);
 			if (target != null && target instanceof TileEntityDockingStation) {
 				TileEntityDockingStation station = (TileEntityDockingStation) target;
-
-				if (station.calcStack == null) {
+				if (SonarCompat.isEmpty(station.calcStack)) {
 					station.calcStack = player.getHeldItemMainhand().copy();
-					player.getHeldItemMainhand().stackSize--;
+					SonarCompat.shrink(player.getHeldItemMainhand(), 1);
 					return true;
 				}
 			}
-
 		}
 		return false;
 	}
@@ -78,19 +76,15 @@ public class DockingStation extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
+	public void addSpecialToolTip(ItemStack stack, World player, List<String> list, NBTTagCompound tag) {
 		CalculatorHelper.addEnergytoToolTip(stack, player, list);
 	}
-	
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
-	}
-	
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
 
+	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}

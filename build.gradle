@@ -7,22 +7,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
-}
-apply plugin: 'net.minecraftforge.gradle.forge'
-
-version = "${minecraft_version}-${mod_version}"
-group= "sonar.calculator.mod"
-archivesBaseName = "Calculator"
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-minecraft {
-    version = "1.10.2-12.18.3.2422"
-    runDir = "run"
-    mappings = "snapshot_20161111"
-    makeObfSourceJar = false
 }
 
 repositories {
@@ -30,49 +16,61 @@ repositories {
         name = "CurseForge"
         url = "https://minecraft.curseforge.com/api/maven/"
     }
-    maven { url 'http://dvs1.progwml6.com/files/maven' }        // JEI & Tinkers
-    maven { url 'http://maven.epoxide.org' }                    // Darkhax / Tesla
-    maven { url "http://maven.amadornes.com/" }                 // MC MultiPart
-    maven { url "http://maven.cil.li/" }                        // Open Computers
-    maven { url "https://dl.bintray.com/raoulvdberge/dev/" }    // Refined Storage
-    maven { url "http://maven.blamejared.com/" }                // CraftTweaker (aka MineTweaker3)
-    maven { url "http://maven.ic2.player.to/" }     // IC2
-    maven { url "http://mobiusstrip.eu/maven" }     // Waila
-    maven { url "http://chickenbones.net/maven/" }  // NEI (used by Waila)
-    maven { url "http://maven.k-4u.nl" }            // McJtyLib && McJtyCompat
-    maven { url "http://maven.tterrag.com" }        // EnderCore && Ender IO
+    maven {
+        name = "CoFH Maven"
+        url = "http://maven.covers1624.net"
+    }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "modmaven.k-4u.nl"
+    }
+    flatDir {
+        dirs 'libs'
+    }
 }
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "${minecraft_version}-${mod_version}"
+group= "sonar.calculator.mod"
+archivesBaseName = "calculator"
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+minecraft {
+    version = "${forge_version}"
+    runDir = "run"
+    mappings = "snapshot_20161111"
+    makeObfSourceJar = false
+
+}
+
+task deobfJar(type: Jar) { // Generate deobfuscated
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+tasks.build.dependsOn('deobfJar')
+artifacts {
+    archives deobfJar
+    archives jar
+}
+
 dependencies {
-    compileOnly "mezz.jei:jei_${minecraft_version}:${jei_version}:api"
-    compileOnly "net.darkhax.tesla:Tesla:${tesla_version}"
-    compileOnly "MCMultiPart:MCMultiPart:${mcmp_version}:universal"
-    compileOnly "li.cil.oc:OpenComputers:${opencomputers_version}:api"
-    compileOnly "refinedstorage:refinedstorage:${refinedstorage_version}:api"
-    compileOnly "MineTweaker3:MineTweaker3-MC1102-Main:${minetweaker3_version}"
-    compileOnly "net.industrial-craft:industrialcraft-2:${ic2_version}"
-    compileOnly "mcp.mobius.waila:Waila:${waila_version}"
-    compileOnly "com.github.mcjty:mcjtylib:${mcjtylib_version}"
-    compileOnly "com.github.mcjty:compatlayer:${compatlayer_version}"
-    compileOnly "com.enderio.core:EnderCore:${endercore_version}"
-    compileOnly "com.enderio:EnderIO:${enderio_version}"
-
-    //curseforge
-    compileOnly "codechicken:CodeChickenCore:${codechickencore_version}:deobf"
-    compileOnly "cofhcore:CoFHCore-${minecraft_version}:release:universal"
-    compileOnly "appeng:appliedenergistics2:rv4-stable-1"
-    compileOnly "chameleon:Chameleon:${chameleon_version}"
-    compileOnly "storage-drawers:StorageDrawers:${storagedrawers_version}"
-    compileOnly "immersive-engineering:ImmersiveEngineering:${immersiveengineering_version}"
-    compileOnly "deep-resonance:deepresonance:${deep_resonance_version}"
-    compileOnly "eleccore-rendering-library:ElecCore:${elec_core_version}"
-    compileOnly "mekanism:Mekanism:${mekanism_version}"
-    compileOnly "extreme-reactors:ExtremeReactors:${extreme_reactors_version}"
-    compileOnly "extra-utilities:extrautils2:${extra_utilities_version}"
-    
-
-    //help if you can minefactoryreloaded does not want to download automatically from curse!
-    compileOnly files("./lib/MineFactoryReloaded-[1.10.2]2.9.0B1-229.jar")
-    
+    compileOnly "tesla:Tesla:${tesla_version}"
+    deobfCompile "cofh:CoFHCore:${cofh_version}"
+    // compile against the JEI API but do not include it at runtime
+    deobfProvided "mezz.jei:jei_${jei_version}:api"
+    // at runtime, use the full JEI jar
+    runtime "mezz.jei:jei_${jei_version}"
+    compileOnly "crafttweaker:CraftTweaker2:${crafttweaker_version}"
 }
 
 processResources

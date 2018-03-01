@@ -15,8 +15,7 @@ public class PacketCalculatorScreen extends PacketCoords {
 	public int type;
 	public long energy;
 
-	public PacketCalculatorScreen() {
-	}
+	public PacketCalculatorScreen() {}
 
 	public PacketCalculatorScreen(BlockPos pos, int type, long energy) {
 		super(pos);

@@ -20,29 +20,29 @@ import sonar.calculator.mod.utils.helpers.NutritionHelper;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 
-
 public class HealthModule extends SonarItem implements IHealthStore {
 
 	public HealthModule() {
-		this.setCreativeTab(Calculator.Calculator);
+		this.setCreativeTab(Calculator.tab);
 		this.maxStackSize = 1;
 	}
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		NutritionHelper.chargeHealth(stack, world, player, "points");
-		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);		
+		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
-	
+
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {		
 		NutritionHelper.useHealth(stack, player, world, pos, side, "points");
 		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4) {
+        super.addInformation(stack, player, list, par4);
 		if (stack.hasTagCompound()) {
 			list.add(FontHelper.translate("points.health") + ": " + getHealthPoints(stack));
 		}
@@ -86,5 +86,4 @@ public class HealthModule extends SonarItem implements IHealthStore {
 			nbtData.setInteger("points", health);
 		}
 	}
-
 }

@@ -8,8 +8,10 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.core.api.SonarAPI;
+import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;
+import sonar.core.utils.SonarCompat;
 
 public class ContainerDockingStation extends ContainerSync {
 
@@ -20,17 +22,9 @@ public class ContainerDockingStation extends ContainerSync {
 	public ContainerDockingStation(InventoryPlayer inventory, TileEntityDockingStation entity) {
 		super(entity);
 		this.entity = entity;
-		INV_START=entity.getInputStackSize(entity.calcStack) + 2;
+        INV_START = TileEntityDockingStation.getInputStackSize(entity.calcStack) + 2;
 		addSlots(entity);
-
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-			}
-		}
-
-		for (int i = 0; i < 9; i++)
-			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
+		addInventory(inventory, 8, 84);
 	}
 
 	public void addSlots(TileEntityDockingStation entity) {
@@ -49,60 +43,58 @@ public class ContainerDockingStation extends ContainerSync {
 				addSlotToContainer(new Slot(entity, 4, 28, 60));
 				addSlotToContainer(new SlotBlockedInventory(entity, 5, 135, 30));
 			} else {
-
 				addSlotToContainer(new Slot(entity, 0, 26, 30));
 				addSlotToContainer(new Slot(entity, 1, 80, 30));
 				addSlotToContainer(new Slot(entity, 4, 28, 60));
 				addSlotToContainer(new SlotBlockedInventory(entity, 5, 135, 30));
 			}
-
 		}
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(id);
+		ItemStack itemstack = SonarCompat.getEmpty();
+        Slot slot = this.inventorySlots.get(id);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			int start = entity.getInputStackSize(entity.calcStack) + 2;
+            int start = TileEntityDockingStation.getInputStackSize(entity.calcStack) + 2;
 			if (id < start) {
 				if (!this.mergeItemStack(itemstack1, start, HOTBAR_END + 1, true)) {
-					return null;
+					return SonarCompat.getEmpty();
 				}
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 
-				if (id >= entity.getInputStackSize(entity.calcStack)) {
-					if (SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1)!=null) {
+                if (id >= TileEntityDockingStation.getInputStackSize(entity.calcStack)) {
+					if (DischargeValues.getValueOf(itemstack1) > 0 || SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1) != null) {
 						if (!mergeItemStack(itemstack1, start - 2, start - 1, false)) {
-							return null;
+							return SonarCompat.getEmpty();
 						}
-					}else if (!this.mergeItemStack(itemstack1, 0, entity.getInputStackSize(entity.calcStack), false)) {
-						return null;
+                    } else if (!this.mergeItemStack(itemstack1, 0, TileEntityDockingStation.getInputStackSize(entity.calcStack), false)) {
+						return SonarCompat.getEmpty();
 					}
-
 				} else if (id >= start && id < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
-						return null;
+						return SonarCompat.getEmpty();
 					}
 				} else if (id >= HOTBAR_START && id < HOTBAR_END + 1) {
 					if (!this.mergeItemStack(itemstack1, start, INV_END + 1, false)) {
-						return null;
+						return SonarCompat.getEmpty();
 					}
 				}
 			}
 
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
+			if (SonarCompat.getCount(itemstack1) == 0) {
+				slot.putStack(SonarCompat.getEmpty());
 			} else {
 				slot.onSlotChanged();
 			}
 
-			if (itemstack1.stackSize == itemstack.stackSize) {
-				return null;
+			if (SonarCompat.getCount(itemstack1) == SonarCompat.getCount(itemstack)) {
+				return SonarCompat.getEmpty();
 			}
 
 			slot.onPickupFromSlot(player, itemstack1);

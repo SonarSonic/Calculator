@@ -40,7 +40,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 
 	public void update() {
 		super.update();
-		if (this.getWorld().isBlockPowered(pos)) {
+		if (this.world.isBlockPowered(pos)) {
 			this.paused = true;
 			return;
 		} else {
@@ -51,7 +51,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 			for (int i = 0; i < size; i++) {
 				if (this.cookTime[i].getObject() > 0) {
 					this.cookTime[i].increaseBy(1);
-					if (!this.getWorld().isRemote) {
+					if (!this.world.isRemote) {
 						energyBuffer += (energyUsage() / speed) * 8;
 						int energyUsage = (int) Math.round(energyBuffer);
 						if (energyBuffer - energyUsage < 0) {
@@ -63,7 +63,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 					}
 				}
 				if (this.canProcess(i)) {
-					if (!this.getWorld().isRemote) {
+					if (!this.world.isRemote) {
 						if (this.cookTime[i].getObject() == 0) {
 							this.cookTime[i].increaseBy(1);
 							energyBuffer += energyUsage() / speed;
@@ -103,7 +103,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	}
 
 	public boolean canProcess(int slot) {
-		if (slots()[slot] == null) {
+		if (slots().get(slot) == null) {
 			return false;
 		}
 
@@ -112,7 +112,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 			// return false;
 			// }
 		}
-		ItemStack[] output = getOutput(true, slots()[slot]);
+		ItemStack[] output = getOutput(true, slots().get(slot));
 		if (output == null || output.length == 0) {
 			return false;
 		}
@@ -135,7 +135,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	}
 
 	public void finishProcess(int slot) {
-		ItemStack[] output = getOutput(false, slots()[slot]);
+		ItemStack[] output = getOutput(false, slots().get(slot));
 		for (int o = 0; o < output.length; o++) {
 			if (output[o] != null) {
 				if (this.slots()[slot + ((o + 1) * size)] == null) {
@@ -150,7 +150,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 				}
 			}
 		}
-		slots()[slot] = ItemStackHelper.reduceStackSize(slots()[slot], recipeHelper() != null ? recipeHelper().getInputSize(0, output) : 1);
+		slots().get(slot) = ItemStackHelper.reduceStackSize(slots().get(slot), recipeHelper() != null ? recipeHelper().getInputSize(0, output) : 1);
 
 	}
 
@@ -216,7 +216,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 	public void onPause() {
 		paused = !paused;
 		markBlockForUpdate();
-		this.getWorld().addBlockEvent(pos, blockType, 1, 1);
+		this.world.addBlockEvent(pos, blockType, 1, 1);
 	}
 
 	@Override

@@ -25,6 +25,12 @@ public class GuiDockingStation extends GuiContainer {
 		this.entity = entity;
 	}
 
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		//this.renderHoveredToolTip(mouseX, mouseY);
+	}
+
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
@@ -72,6 +78,5 @@ public class GuiDockingStation extends GuiContainer {
 		int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
-
 	}
 }

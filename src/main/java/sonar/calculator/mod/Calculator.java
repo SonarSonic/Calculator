@@ -33,15 +33,16 @@ import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.research.ResearchRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 
-@Mod(modid = Calculator.modid, name = "Calculator", version = Calculator.version, dependencies = "required-after:sonarcore@[" + Calculator.SONAR_VERSION + ",);")
+@Mod(modid = Calculator.modid, name = Calculator.name, version = Calculator.version, acceptedMinecraftVersions = Calculator.mc_versions, dependencies = "required-after:sonarcore@[" + Calculator.SONAR_VERSION + ",);")
 public class Calculator {
-
 	@SidedProxy(clientSide = "sonar.calculator.mod.network.CalculatorClient", serverSide = "sonar.calculator.mod.network.CalculatorCommon")
 	public static CalculatorCommon calculatorProxy;
 
+	public static final String name = "Calculator";
 	public static final String modid = "calculator";
-	public static final String version = "3.2.2";
-	public static final String SONAR_VERSION = "3.2.7";
+	public static final String version = "5.0.4";
+	public static final String mc_versions = "[1.12,1.12.2]";
+	public static final String SONAR_VERSION = "5.0.6";
 
 	public static final int saveDimension = 0;
 
@@ -54,7 +55,7 @@ public class Calculator {
 	@Instance(modid)
 	public static Calculator instance;
 
-	public static CreativeTabs Calculator = new CreativeTabs("Calculator") {
+	public static CreativeTabs tab = new CreativeTabs("Calculator") {
 		@Override
 		public Item getTabIconItem() {
 			return itemCalculator;
@@ -63,7 +64,7 @@ public class Calculator {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		if (!(Loader.instance().isModLoaded("SonarCore") || Loader.instance().isModLoaded("sonarcore"))) {
+		if (!(Loader.isModLoaded("SonarCore") || Loader.isModLoaded("sonarcore"))) {
 			logger.fatal("Sonar Core is not loaded");
 		} else {
 			logger.info("Successfully loaded with Sonar Core");
@@ -120,7 +121,6 @@ public class Calculator {
 		research.register();
 		modules.register();
 		moduleItems.register();
-
 	}
 
 	@EventHandler
@@ -131,10 +131,9 @@ public class Calculator {
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(soil, new CalculatorThrow(3));
 		Recipes.printRecipeInfo();
 
-		if (Loader.isModLoaded("MineTweaker3") || Loader.isModLoaded("MineTweaker3".toLowerCase())) {
+		if (Loader.isModLoaded("CraftTweaker2") || Loader.isModLoaded("CraftTweaker2".toLowerCase())) {
 			MineTweakerIntegration.init();
 		}
-
 	}
 
 	@EventHandler
@@ -241,5 +240,4 @@ public class Calculator {
 	public static Block material_block;
 	// tools
 	public static Item sickle, obsidianKey;
-
 }

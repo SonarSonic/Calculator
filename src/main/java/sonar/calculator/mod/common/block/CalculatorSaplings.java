@@ -4,7 +4,6 @@ import java.util.Random;
 
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -26,23 +25,27 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 
 	public CalculatorSaplings(int i) {
 		this.type = i;
-		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
 		float f = 0.4F;
 	}
 
+    @Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		IBlockState soil = worldIn.getBlockState(pos.down());
-		return type != 3 ? (super.canPlaceBlockAt(worldIn, pos) && soil.getBlock().canSustainPlant(soil, worldIn, pos.down(), net.minecraft.util.EnumFacing.UP, this)) : (soil.getBlock() == Calculator.material_block && soil.getValue(MaterialBlock.VARIANTS) == Variants.END_DIAMOND);
+        return type != 3 ? super.canPlaceBlockAt(worldIn, pos) && soil.getBlock().canSustainPlant(soil, worldIn, pos.down(), net.minecraft.util.EnumFacing.UP, this) : soil.getBlock() == Calculator.material_block && soil.getValue(MaterialBlock.VARIANTS) == Variants.END_DIAMOND;
 	}
 
+    @Override
 	public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
 		return type == 3 ? this.canSustainBush(worldIn.getBlockState(pos.down())) : super.canBlockStay(worldIn, pos, state);
 	}
 
+    @Override
 	protected boolean canSustainBush(IBlockState state) {
-		return type != 3 ? (state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.FARMLAND) : (state.getBlock() == Calculator.material_block && state.getValue(MaterialBlock.VARIANTS) == Variants.END_DIAMOND);
+        return type != 3 ? state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.FARMLAND : state.getBlock() == Calculator.material_block && state.getValue(MaterialBlock.VARIANTS) == Variants.END_DIAMOND;
 	}
 
+    @Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		if (!worldIn.isRemote) {
 			super.updateTick(worldIn, pos, state, rand);
@@ -54,7 +57,7 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 	}
 
 	public void grow(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if (((Integer) state.getValue(STAGE)).intValue() == 0) {
+        if (state.getValue(STAGE) == 0) {
 			worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
 		} else {
 			generateTree(worldIn, pos, state, rand);
@@ -64,7 +67,7 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 	public void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		if (!net.minecraftforge.event.terraingen.TerrainGen.saplingGrowTree(worldIn, rand, pos))
 			return;
-		WorldGenerator worldgenerator = (WorldGenerator) (rand.nextInt(10) == 0 ? new WorldGenBigTree(true) : new WorldGenTrees(true));
+        WorldGenerator worldgenerator = rand.nextInt(10) == 0 ? new WorldGenBigTree(true) : new WorldGenTrees(true);
 		int i = 0;
 		int j = 0;
 		boolean flag = false;
@@ -110,31 +113,38 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 		}
 	}
 
+    @Override
 	public int damageDropped(IBlockState state) {
 		return 0;
 	}
 
+    @Override
 	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
 		return true;
 	}
 
+    @Override
 	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
 		return (double) worldIn.rand.nextFloat() < 0.45D;
 	}
 
+    @Override
 	public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
 		this.grow(worldIn, pos, state, rand);
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(STAGE, meta);
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(STAGE).intValue();
+        return state.getValue(STAGE);
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { STAGE });
+        return new BlockStateContainer(this, STAGE);
 	}
 }

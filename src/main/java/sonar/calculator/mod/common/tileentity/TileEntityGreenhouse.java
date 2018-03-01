@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -38,11 +36,12 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.SonarCompat;
 
 public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory implements IGreenhouse, IPausable, IByteBufTile {
 
 	public enum State {
-		INCOMPLETE, BUILDING, COMPLETED, DEMOLISHING;
+		INCOMPLETE, BUILDING, COMPLETED, DEMOLISHING
 	}
 
 	public SyncEnum<State> houseState = new SyncEnum(State.values(), 0);
@@ -66,6 +65,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		syncList.addParts(houseState, carbon, wasBuilt, paused);
 	}
 
+	@Override
 	public void update() {
 		super.update();
 		forward = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
@@ -101,7 +101,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	public enum GreenhouseAction {
-		CAN_BUILD, CHECK, BUILD, DEMOLISH;
+		CAN_BUILD, CHECK, BUILD, DEMOLISH
 	}
 
 	public abstract FailedCoords checkStructure(GreenhouseAction action);
@@ -111,7 +111,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public abstract void addFarmland();
 
 	public static boolean isSeed(ItemStack stack) {
-		return stack != null && stack.getItem() instanceof IPlantable;
+		return !SonarCompat.isEmpty(stack) && stack.getItem() instanceof IPlantable;
 	}
 
 	protected void growCrops(int repeat) {
@@ -120,7 +120,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 		ArrayList<BlockPos> plantArea = (ArrayList<BlockPos>) getPlantArea().clone();
 		for (int i = 0; i < repeat; i++) {
-			if ((this.storage.getEnergyStored() > this.growthRF)) {
+			if (this.storage.getEnergyStored() > this.growthRF) {
 				int rand = SonarCore.randInt(0, plantArea.size() - 1);
 				BlockPos pos = plantArea.get(rand);
 				IBlockState state = getWorld().getBlockState(pos);
@@ -138,10 +138,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	protected void harvestCrops() {
-		if (isClient()) {
-			return;
-		}
-		if (this.storage.getEnergyStored() < this.growthRF) {
+		if (isClient() || this.storage.getEnergyStored() < this.plantRF) {
 			return;
 		}
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
@@ -165,7 +162,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	protected void addHarvestedStacks(List<ItemStack> array, BlockPos pos, boolean keepBlock, boolean isCrops) {
 		boolean keptBlock = !keepBlock;
 		for (ItemStack stack : array) {
-			if (stack != null) {
+			if (!SonarCompat.isEmpty(stack)) {
 				if (!keptBlock && stack.getItem() instanceof IPlantable) {
 					keptBlock = true;
 					continue;
@@ -173,9 +170,8 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				StoredItemStack storedstack = new StoredItemStack(stack.copy());
 				for (TileEntity tile : Arrays.asList(this, this.getWorld().getTileEntity(this.pos.offset(forward.getOpposite())))) {
 					StoredItemStack returned = SonarAPI.getItemHelper().addItems(tile, storedstack, isCrops ? EnumFacing.getFront(0) : EnumFacing.UP, ActionType.PERFORM, null);
-					if (returned != null) {
+					if (returned != null)
 						storedstack.stored -= returned.getStackSize();
-					}
 					if (!isCrops) {
 						break;
 					}
@@ -185,9 +181,8 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 					getWorld().spawnEntityInWorld(drop);
 				}
 
-				if (isCrops && this.type == 3) {
+				if (isCrops && this.type == 3)
 					this.plantsHarvested++;
-				}
 			}
 		}
 	}
@@ -199,38 +194,35 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
 			IBlockState oldState = getWorld().getBlockState(pos);
 			Block block = oldState.getBlock();
-
 			if (!block.isAir(oldState, getWorld(), pos) && !block.isReplaceable(getWorld(), pos)) {
 				// can't plant here!
 				continue;
 			}
-
 			ItemStack seeds = getAvailableSeedStack();
-
-			if (seeds != null) {
+			if (!SonarCompat.isEmpty(seeds)) {
 				IPlanter planter = getPlanter(seeds);
+
 				if (planter != null) {
 					IBlockState state = planter.getPlant(seeds, getWorld(), pos);
 					plantCrop(pos, state, seeds);
 				}
 			}
+
 		}
 	}
 
 	private ItemStack getAvailableSeedStack() {
 		for (ItemStack stack : getCropStacks()) {
-			if (stack != null && stack.stackSize > 0) {
+			if (!SonarCompat.isEmpty(stack) && SonarCompat.getCount(stack) > 0) {
 				return stack;
 			}
 		}
-		return null;
+		return SonarCompat.getEmpty();
 	}
 
 	private IPlanter getPlanter(ItemStack stack) {
-		if (stack == null) {
+		if (SonarCompat.isEmpty(stack))
 			return null;
-		}
-
 		for (IPlanter planter : SonarCore.planters.getObjects()) {
 			if (planter.canTierPlant(stack, type)) {
 				return planter;
@@ -245,24 +237,13 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 
 		this.storage.modifyEnergyStored(-plantRF);
-		stack.stackSize--;
+		int size = SonarCompat.getCount(stack) - 1;
+		stack = SonarCompat.setCount(stack, size);
 
-		if (stack.stackSize == 0) {
-			removeStack(stack);
-		}
 
 		getWorld().setBlockState(pos, state, 3);
 	}
-
-	private void removeStack(ItemStack stack) {
-		ItemStack[] slotInventories = slots();
-		for (Integer i = 0; i < slots().length; i++) {
-			if (slotInventories[i] == stack) {
-				slotInventories[i] = null;
-			}
-		}
-	}
-
+	
 	private int getSlotOffset() {
 		switch (type) {
 		case 2:
@@ -275,13 +256,12 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	public List<ItemStack> getCropStacks() {
-		List<ItemStack> stacks = Lists.newArrayList();
-		ItemStack[] seedSlots = slots();
+		List<ItemStack> stacks = new ArrayList<>();
+		List<ItemStack> seedSlots = slots();
 		int offset = getSlotOffset();
-
 		for (int j = 0; j < 9; j++) {
-			ItemStack stack = seedSlots[j + offset];
-			if (stack != null && isSeed(stack)) {
+			ItemStack stack = seedSlots.get(j + offset);
+			if (!SonarCompat.isEmpty(stack) && isSeed(stack)) {
 				stacks.add(stack);
 			}
 		}
@@ -295,14 +275,17 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 	}
 
+	@Override
 	public int getTier() {
 		return type;
 	}
 
+	@Override
 	public int getOxygen() {
 		return maxLevel - carbon.getObject();
 	}
 
+	@Override
 	public int getCarbon() {
 		return carbon.getObject();
 	}
@@ -330,7 +313,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 
 	public int type(String string) {
 		int meta = this.getBlockMetadata();
-		if (string == "r") {
+		if (string.equals("r")) {
 			if (meta == 3) {
 				return 1;
 			}
@@ -344,7 +327,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				return 0;
 			}
 		}
-		if (string == "l") {
+		if (string.equals("l")) {
 			if (meta == 3) {
 				return 0;
 			}
@@ -358,7 +341,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				return 1;
 			}
 		}
-		if (string == "d") {
+		if (string.equals("d")) {
 			if (meta == 3) {
 				return 4;
 			}
@@ -372,7 +355,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				return 5;
 			}
 		}
-		if (string == "d2") {
+		if (string.equals("d2")) {
 			if (meta == 3) {
 				return 5;
 			}
@@ -387,7 +370,6 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			}
 		}
 		return 0;
-
 	}
 
 	@Override
@@ -395,6 +377,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		return houseState.getObject();
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		switch (houseState.getObject()) {
@@ -418,23 +401,25 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		int oxygen = getOxygen();
 		int carbon = getCarbon();
 		if (carbon != 0) {
-			String carbonString = FontHelper.translate("greenhouse.carbon") + ": " + dec.format(carbon * 100 / 100000) + "%";
+			String carbonString = FontHelper.translate("greenhouse.carbon") + ": " + dec.format(carbon * 100 / 100000) + '%';
 			currenttip.add(carbonString);
 		}
 		if (oxygen != 0) {
-			String oxygenString = FontHelper.translate("greenhouse.oxygen") + ": " + dec.format(oxygen * 100 / 100000) + "%";
+			String oxygenString = FontHelper.translate("greenhouse.oxygen") + ": " + dec.format(oxygen * 100 / 100000) + '%';
 			currenttip.add(oxygenString);
 		}
-		currenttip.add("" + storage.getEnergyStored());
+		currenttip.add(String.valueOf(storage.getEnergyStored()));
 		return currenttip;
 	}
 
+	@Override
 	public void writePacket(ByteBuf buf, int id) {
 		if (id == 3) {
 			onPause();
 		}
 	}
 
+	@Override
 	public void readPacket(ByteBuf buf, int id) {
 		if (id == 3) {
 			onPause();

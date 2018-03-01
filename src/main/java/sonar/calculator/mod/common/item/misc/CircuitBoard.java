@@ -10,10 +10,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.items.IStability;
+import sonar.core.SonarCore;
+import sonar.core.api.utils.ICalculatorCircuit;
 import sonar.core.common.item.SonarMetaItem;
 import sonar.core.helpers.FontHelper;
 
-public class CircuitBoard extends SonarMetaItem implements IStability {
+public class CircuitBoard extends SonarMetaItem implements IStability, ICalculatorCircuit {
 
 	public CircuitBoard() {
 		super(14);
@@ -21,7 +23,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
 		if (stack.hasTagCompound()) {
 			int stable = stack.getTagCompound().getInteger("Stable");
@@ -35,32 +37,23 @@ public class CircuitBoard extends SonarMetaItem implements IStability {
 
 	public static void setData(ItemStack stack) {
 		NBTTagCompound nbtData = stack.getTagCompound();
-		if (stack != null) {
-			if (nbtData == null) {
-				int energy = 1 + (int) (Math.random() * 200.0D);
-				int item1 = 1 + (int) (Math.random() * 50.0D);
-				int item2 = 1 + (int) (Math.random() * 100.0D);
-				int item3 = 1 + (int) (Math.random() * 1000.0D);
-				int item4 = 1 + (int) (Math.random() * 2000.0D);
-				int item5 = 1 + (int) (Math.random() * 10000.0D);
-				int item6 = 1 + (int) (Math.random() * 20000.0D);
-				int stable = 1 + (int) (Math.random() * 6.0D);
-				nbtData = new NBTTagCompound();
-				nbtData.setInteger("Energy", energy);
-				nbtData.setInteger("Item1", item1);
-				nbtData.setInteger("Item2", item2);
-				nbtData.setInteger("Item3", item3);
-				nbtData.setInteger("Item4", item4);
-				nbtData.setInteger("Item5", item5);
-				nbtData.setInteger("Item6", item6);
-				nbtData.setInteger("Stable", stable);
-				stack.setTagCompound(nbtData);
-			}
-
+		if (stack != null && nbtData == null) {
+			nbtData = new NBTTagCompound();
+			nbtData.setInteger("Energy", SonarCore.randInt(1, 200));
+			nbtData.setInteger("Item1", SonarCore.randInt(1, 50));
+			nbtData.setInteger("Item2", SonarCore.randInt(1, 100));
+			nbtData.setInteger("Item3", SonarCore.randInt(1, 1000));
+			nbtData.setInteger("Item4", SonarCore.randInt(1, 2000));
+			nbtData.setInteger("Item5", SonarCore.randInt(1, 10000));
+			nbtData.setInteger("Item6", SonarCore.randInt(1, 20000));
+			nbtData.setInteger("Stable", SonarCore.randInt(1, 6));
+			stack.setTagCompound(nbtData);
 		}
 	}
 
+	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int par, boolean bool) {
+		super.onUpdate(stack, world, entity, par, bool);
 		if (stack.getTagCompound() == null && !stack.hasTagCompound()) {
 			setData(stack);
 		}
@@ -68,10 +61,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability {
 
 	@Override
 	public boolean getStability(ItemStack stack) {
-		if (stack.hasTagCompound()) {
-			return stack.getTagCompound().getInteger("Stable") == 1;
-		}
-		return false;
+		return stack.hasTagCompound() && stack.getTagCompound().getInteger("Stable") == 1;
 	}
 
 	@Override
@@ -79,6 +69,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability {
 		stack.getTagCompound().setInteger("Stable", 0);
 	}
 
+	@Override
 	public boolean hasEffect(ItemStack stack) {
 		return getStability(stack);
 	}

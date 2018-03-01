@@ -26,6 +26,7 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.recipes.DefaultSonarRecipe;
 import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
 
@@ -37,7 +38,6 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	public final SyncTagType.INT rfPerStrike = new SyncTagType.INT(5);
 	public final SyncTagType.DOUBLE rfPerTick = new SyncTagType.DOUBLE(6);
 
-	
 	public int energyUsage;
 	public int lastStations, strikes, avgTicks;
 	public static int furnaceSpeed = 50;
@@ -46,7 +46,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	public Random rand = new Random();
 
 	public TileEntityConductorMast() {
-		super.storage.setCapacity(50000000).setMaxTransfer(64000);
+		super.storage.setCapacity(50000000).setMaxTransfer(Integer.MAX_VALUE);
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 5000000;
 		super.energyMode = EnergyMode.SEND;
@@ -64,7 +64,6 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	@Override
 	public void update() {
 		super.update();
-
 		if (this.cookTime.getObject() > 0) {
 			this.cookTime.increaseBy(1);
 		}
@@ -104,22 +103,19 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 				this.lastStations = this.getStations();
 				lightTicks.increaseBy(1);
 				if (isServer()) {
-					rfPerStrike.setObject(((((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes) * 4) * 200);
-					rfPerTick.setObject((double) ((double) rfPerStrike.getObject() / lastSpeed));
+                    rfPerStrike.setObject((strikeRF / 200 + this.lastStations * weatherStationRF / 200) * strikes * 4 * 200);
+                    rfPerTick.setObject((double) rfPerStrike.getObject() / lastSpeed);
 				}
-
 			} else {
 				lightingTicks.increaseBy(1);
 			}
-
 		}
 		if (lightTicks.getObject() > 0) {
-			int add = (((strikeRF / 200) + (this.lastStations * (weatherStationRF / 200))) * strikes) * 4;
+            int add = (strikeRF / 200 + this.lastStations * weatherStationRF / 200) * strikes * 4;
 			if (lightTicks.getObject() < 200) {
 				if (this.storage.getEnergyStored() + add <= this.storage.getMaxEnergyStored()) {
 					lightTicks.increaseBy(1);
 					storage.receiveEnergy(add, false);
-
 				} else {
 					lightTicks.increaseBy(1);
 					storage.setEnergyStored(this.storage.getMaxEnergyStored());
@@ -141,32 +137,32 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	private void lightningStrike(World world, int x, int y, int z) {
 		if (storage.getEnergyStored() < storage.getMaxEnergyStored()) {
-			world.spawnEntityInWorld(new EntityLightningBolt(world, x, y, z, true));
+			getWorld().spawnEntityInWorld(new EntityLightningBolt(getWorld(), x, y, z, true));
 		}
-
 	}
 
 	public boolean canCook() {
-		if (this.storage.getEnergyStored() == 0 || slots()[0] == null) {
+		ItemStack toCook = slots().get(0);
+		if (this.storage.getEnergyStored() == 0 || SonarCompat.isEmpty(toCook)) {
 			return false;
 		}
 
 		if (cookTime.getObject() >= furnaceSpeed) {
 			return true;
 		}
-		DefaultSonarRecipe.Value recipe = this.getRecipe(slots()[0]);
+		DefaultSonarRecipe.Value recipe = this.getRecipe(toCook);
 		if (recipe == null) {
 			return false;
 		}
 		ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), 0);
-		if (slots()[1] != null) {
-			if (!slots()[1].isItemEqual(stack)) {
+		ItemStack outputStack = slots().get(1);
+		if (!SonarCompat.isEmpty(outputStack)) {
+			if (!outputStack.isItemEqual(stack)) {
 				return false;
-			} else if (slots()[1].stackSize + stack.stackSize > slots()[1].getMaxStackSize()) {
+			} else if (SonarCompat.getCount(outputStack) + SonarCompat.getCount(stack) > outputStack.getMaxStackSize()) {
 				return false;
 			}
 		}
-
 		energyUsage = recipe.getValue();
 		if (cookTime.getObject() == 0) {
 			if (this.storage.getEnergyStored() < energyUsage) {
@@ -175,40 +171,36 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		}
 
 		return true;
-
 	}
 
 	private void cookItem() {
-		DefaultSonarRecipe.Value recipe = this.getRecipe(slots()[0]);
+		ItemStack inputStack = slots().get(0);
+		DefaultSonarRecipe.Value recipe = this.getRecipe(inputStack);
 		if (recipe == null)
 			return;
 		ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), 0);
 		energyUsage = recipe.getValue();
 		this.storage.extractEnergy(energyUsage, false);
+		ItemStack outputStack = slots().get(1);
 
-		if (this.slots()[1] == null) {
-			this.slots()[1] = stack.copy();
-
-		} else if (this.slots()[1].isItemEqual(stack)) {
-			this.slots()[1].stackSize++;
+		if (SonarCompat.isEmpty(outputStack)) {
+			slots().set(1, stack.copy());
+		} else if (outputStack.isItemEqual(stack)) {
+			outputStack = SonarCompat.grow(outputStack, 1);
 		}
-		this.slots()[0].stackSize--;
-
-		if (this.slots()[0].stackSize <= 0) {
-			this.slots()[0] = null;
-		}
-
+		inputStack = SonarCompat.shrink(stack, 1);
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE) {
 			this.lastStations = nbt.getInteger("lastStations");
 			this.strikes = nbt.getInteger("strikes");
 		}
-
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE) {
@@ -268,7 +260,6 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			}
 		}
 		return 1;
-
 	}
 
 	public int getNextTime() {
@@ -277,11 +268,10 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			if (trans > 9) {
 				return 250;
 			} else {
-				return 1500 - (135 * trans);
+                return 1500 - 135 * trans;
 			}
 		}
 		return 1500;
-
 	}
 
 	public int getTransmitters() {
@@ -305,15 +295,8 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		if (slot == 0) {
-			if (stack != null && ConductorMastRecipes.instance().isValidInput(stack)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+        return slot != 0 || stack != null && ConductorMastRecipes.instance().isValidInput(stack);
 
-		return true;
 	}
 
 	@Override
@@ -351,6 +334,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		return furnaceSpeed;
 	}
 
+    @Override
 	public boolean maxRender() {
 		return true;
 	}

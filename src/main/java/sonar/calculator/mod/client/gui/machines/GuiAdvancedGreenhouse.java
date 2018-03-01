@@ -17,12 +17,13 @@ import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.core.SonarCore;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
+import sonar.core.utils.SonarCompat;
 
-public class GuiAdvancedGreenhouse extends GuiSonar {
+public class GuiAdvancedGreenhouse extends GuiSonarTile {
 	DecimalFormat dec = new DecimalFormat("##.##");
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/advancedgreenhouse.png");
 
@@ -34,6 +35,7 @@ public class GuiAdvancedGreenhouse extends GuiSonar {
 		this.ySize = 192;
 	}
 
+    @Override
 	public void initGui() {
 		super.initGui();
 		buttonList.add(new GreenhouseButton(0, guiLeft + 18, guiTop + 68, 14, 14, FontHelper.translate("greenhouse.build")));
@@ -52,13 +54,15 @@ public class GuiAdvancedGreenhouse extends GuiSonar {
 			this.name = name;
 		}
 
-		public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+        @Override
+        public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 			// if (this.isMouseOver())
 			// drawCreativeTabHoveringText(FontHelper.translate(name), mouseX, mouseY);
-			// super.drawButton(mc, mouseX, mouseY);
+            // super.drawButton(mc, mouseX, mouseY, partialTicks);
 		}
 	}
 
+    @Override
 	protected void actionPerformed(GuiButton button) {
 		if (button != null && button instanceof SonarButtons.SonarButton) {
 			SonarButton sButton = (SonarButton) button;
@@ -73,17 +77,17 @@ public class GuiAdvancedGreenhouse extends GuiSonar {
 		super.drawGuiContainerForegroundLayer(x, y);
 		if (entity.houseState.getObject() != State.BUILDING) {
 			double car = (double) this.entity.carbon.getObject() * 100 / this.entity.maxLevel;
-			String carbon = dec.format(car) + "%";
+            String carbon = dec.format(car) + '%';
 			FontHelper.textOffsetCentre(carbon, 115, 79, 2);
 			double oxy = (double) this.entity.getOxygen() * 100 / this.entity.maxLevel;
-			String oxygen = dec.format(oxy) + "%";
+            String oxygen = dec.format(oxy) + '%';
 			FontHelper.textOffsetCentre(oxygen, 151, 79, 2);
 		}
 		for (GuiButton b : buttonList) {
 			if (b instanceof GreenhouseButton) {
 				GreenhouseButton button = (GreenhouseButton) b;
-				if (x >= button.xPosition && y >= button.yPosition && x < button.xPosition + button.width && y < button.yPosition + button.height) {
-					drawCreativeTabHoveringText(FontHelper.translate(button.name), x - guiLeft, y - guiTop);
+                if (x >= button.xPosition && y >= button.yPosition && x < button.xPosition + button.width && y < button.yPosition + button.height) {
+                    drawSonarCreativeTabHoveringText(FontHelper.translate(button.name), x - guiLeft, y - guiTop);
 				}
 			}
 		}
@@ -104,25 +108,25 @@ public class GuiAdvancedGreenhouse extends GuiSonar {
 			this.drawTexturedModalRect(this.guiLeft + 137, this.guiTop + 11 + 66 - o, 218, 66 - o, 28, 66);
 		}
 		GL11.glDisable(GL11.GL_LIGHTING);
-		if (entity.slots()[1] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(1))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS, 64), this.guiLeft + 12 - 4 + 9, this.guiTop + 33 - 4);
 		}
-		if (entity.slots()[2] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(2))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS, 64), this.guiLeft + 30 - 4 + 9, this.guiTop + 33 - 4);
 		}
-		if (entity.slots()[3] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(3))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS, 52), this.guiLeft + 48 - 4 + 9, this.guiTop + 33 - 4);
 		}
-		if (entity.slots()[0] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(4))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.LOG, 30), this.guiLeft + 30 - 4 + 9, this.guiTop + 15 - 4);
 		}
-		if (entity.slots()[4] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(5))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.GLASS, 64), this.guiLeft + 12 - 4 + 9, this.guiTop + 51 - 4);
 		}
-		if (entity.slots()[5] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(6))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.GLASS, 26), this.guiLeft + 30 - 4 + 9, this.guiTop + 51 - 4);
 		}
-		if (entity.slots()[6] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(7))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.PLANKS, 40), this.guiLeft + 48 - 4 + 9, this.guiTop + 51 - 4);
 		}
 		GL11.glEnable(GL11.GL_LIGHTING);

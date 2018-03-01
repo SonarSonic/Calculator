@@ -7,11 +7,11 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.block.MaterialBlock.Variants;
 import sonar.core.recipes.DefinedRecipeHelper;
 
-public class AtomicCalculatorRecipes extends DefinedRecipeHelper {
+public class AtomicCalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 
 	private static final AtomicCalculatorRecipes recipes = new AtomicCalculatorRecipes();
 
-	public static final AtomicCalculatorRecipes instance() {
+    public static AtomicCalculatorRecipes instance() {
 		return recipes;
 	}
 

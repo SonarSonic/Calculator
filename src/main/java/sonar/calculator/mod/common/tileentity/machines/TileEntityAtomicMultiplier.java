@@ -21,8 +21,10 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
-public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
+public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory
+		implements ISidedInventory, IProcessMachine, IGuiTile {
 
 	public SyncTagType.INT cookTime = new SyncTagType.INT(0);
 	public SyncTagType.INT active = new SyncTagType.INT(1);
@@ -67,7 +69,6 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 				this.storage.modifyEnergyStored(-energy);
 				markBlockForUpdate();
 			}
-
 		} else {
 			if (this.cookTime.getObject() != 0 || this.active.getObject() != 0) {
 				this.cookTime.setObject(0);
@@ -77,7 +78,6 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		}
 
 		this.markDirty();
-
 	}
 
 	public boolean canCook() {
@@ -85,19 +85,19 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			return false;
 		}
 		for (int i = 0; i < 8; i++) {
-			if (slots()[i] == null) {
+			if (SonarCompat.isEmpty(slots().get(i))) {
 				return false;
 			}
 		}
-		if (!isAllowed(slots()[0])) {
+		if (!isAllowed(slots().get(0))) {
 			return false;
 		}
-
-		if (slots()[8] != null) {
-			if (slots()[8].stackSize + 4 > 64) {
+		ItemStack output = slots().get(8);
+		if (!SonarCompat.isEmpty(output)) {
+			if (SonarCompat.getCount(output) + 4 > 64) {
 				return false;
 			}
-			if (!slots()[0].isItemEqual(slots()[8])) {
+			if (!slots().get(0).isItemEqual(output)) {
 				return false;
 			}
 		}
@@ -107,12 +107,12 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 				return false;
 			}
 		}
-		if (!(slots()[0].getMaxStackSize() >= 4)) {
+		if (!(slots().get(0).getMaxStackSize() >= 4)) {
 			return false;
 		}
 
 		for (int i = 1; i < 8; i++) {
-			if (slots()[i].getItem() != Calculator.circuitBoard) {
+			if (slots().get(i).getItem() != Calculator.circuitBoard) {
 				return false;
 			}
 		}
@@ -121,7 +121,6 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			return true;
 		}
 		return true;
-
 	}
 
 	public static boolean isAllowed(ItemStack stack) {
@@ -129,20 +128,17 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	}
 
 	private void cookItem() {
-		ItemStack itemstack = new ItemStack(slots()[0].getItem(), 4, slots()[0].getItemDamage());
-		if (this.slots()[8] == null) {
-			this.slots()[8] = itemstack;
-		} else if (this.slots()[8].isItemEqual(itemstack)) {
-			this.slots()[8].stackSize = this.slots()[8].stackSize + 4;
+		ItemStack itemstack = new ItemStack(slots().get(0).getItem(), 4, slots().get(0).getItemDamage());
+		ItemStack output = slots().get(8);
+		if (SonarCompat.isEmpty(output)) {
+			slots().set(8, itemstack);
+		} else if (output.isItemEqual(itemstack)) {
+			output = SonarCompat.grow(output, 4);
 		}
 
 		for (int i = 0; i < 8; i++) {
-			this.slots()[i].stackSize--;
-			if (this.slots()[i].stackSize <= 0) {
-				this.slots()[i] = null;
-			}
+			slots().set(i, SonarCompat.shrink(slots().get(i), 1)) ;
 		}
-
 	}
 
 	@Override
@@ -159,12 +155,16 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			return true;
 		}
 		return false;
-
 	}
 
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-		return EnumFacing.DOWN == side ? output : EnumFacing.UP == side ? input : EnumFacing.VALUES[2] == side ? circuits : EnumFacing.VALUES[3] == side ? circuits : EnumFacing.VALUES[4] == side ? circuits : EnumFacing.VALUES[5] == side ? circuits : input;
+		return EnumFacing.DOWN == side ? output
+				: EnumFacing.UP == side ? input
+						: EnumFacing.VALUES[2] == side ? circuits
+								: EnumFacing.VALUES[3] == side ? circuits
+										: EnumFacing.VALUES[4] == side ? circuits
+												: EnumFacing.VALUES[5] == side ? circuits : input;
 	}
 
 	@Override
@@ -174,12 +174,10 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		if (slot == 8) {
-			return true;
-		}
-		return false;
+		return slot == 8;
 	}
 
+	@Override
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1) {
 			markBlockForUpdate();
@@ -187,6 +185,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		return true;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		super.getWailaInfo(currenttip, state);
@@ -212,7 +211,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 	@Override
 	public double getEnergyUsage() {
-		return requiredEnergy / getProcessTime();
+		return requiredEnergy / furnaceSpeed;
 	}
 
 	@Override
@@ -229,5 +228,4 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	public int getBaseProcessTime() {
 		return furnaceSpeed;
 	}
-
 }

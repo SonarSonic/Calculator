@@ -3,12 +3,12 @@ package sonar.calculator.mod.common.block.generators;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
@@ -36,6 +36,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, true));
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -47,7 +48,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null && !world.isRemote) {
-			TileEntity locator = (TileEntity) world.getTileEntity(pos);
+            TileEntity locator = world.getTileEntity(pos);
 			if (locator != null) {
 				SonarCore.sendFullSyncAround(locator, 64);
 			}
@@ -93,13 +94,13 @@ public class CalculatorLocator extends SonarMachineBlock {
 			}
 		}
 
-		for (int XZ = -(size); XZ <= (size); XZ++) {
+        for (int XZ = -size; XZ <= size; XZ++) {
 			for (int Y = -1; Y <= 0; Y++) {
 				if (!(world.getBlockState(pos.add(XZ, Y, size + 1)).getBlock() instanceof IStableBlock)) {
 					return false;
 				} else if (!(world.getBlockState(pos.add(XZ, Y, -(size + 1))).getBlock() instanceof IStableBlock)) {
 					return false;
-				} else if (!(world.getBlockState(pos.add((size + 1), Y, XZ)).getBlock() instanceof IStableBlock)) {
+                } else if (!(world.getBlockState(pos.add(size + 1, Y, XZ)).getBlock() instanceof IStableBlock)) {
 					return false;
 				} else if (!(world.getBlockState(pos.add(-(size + 1), Y, XZ)).getBlock() instanceof IStableBlock)) {
 					return false;
@@ -107,8 +108,8 @@ public class CalculatorLocator extends SonarMachineBlock {
 			}
 		}
 
-		for (int X = -(size); X <= (size); X++) {
-			for (int Z = -(size); Z <= (size); Z++) {
+        for (int X = -size; X <= size; X++) {
+            for (int Z = -size; Z <= size; Z++) {
 				if (!(X == 0 && Z == 0)) {
 					if (!(world.getBlockState(pos.add(X, 0, Z)).getBlock() == Calculator.calculatorplug)) {
 						return false;
@@ -124,26 +125,29 @@ public class CalculatorLocator extends SonarMachineBlock {
 		return new TileEntityCalculatorLocator();
 	}
 
-	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-	}
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+    }
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public IBlockState getStateForEntityRender(IBlockState state) {
 		return this.getDefaultState().withProperty(ACTIVE, true);
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(ACTIVE, meta==1 ? true : false);
-
+        return this.getDefaultState().withProperty(ACTIVE, meta == 1);
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(ACTIVE) ? 1 : 0;
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
+        return new BlockStateContainer(this, ACTIVE);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +28,6 @@ public class CrankedGenerator extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (!world.isRemote && player != null) {
 			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
-
 		}
 		return true;
 	}
@@ -37,15 +37,9 @@ public class CrankedGenerator extends SonarMachineBlock {
 		return new TileEntityCrankedGenerator();
 	}
 
-	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
-	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add(FontHelper.translate("energy.generate") + ": " + 18 + " RF/t");
-
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+        list.add(FontHelper.translate("energy.generate") + ": " + 18 + " RF/t");
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
 	}
 }

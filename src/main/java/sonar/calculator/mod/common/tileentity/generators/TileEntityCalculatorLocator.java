@@ -34,6 +34,7 @@ import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class TileEntityCalculatorLocator extends TileEntityEnergyInventory implements IByteBufTile, ICalculatorLocator, IGuiTile {
 
@@ -45,7 +46,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	private int sizeTicks, luckTicks;
 
 	public TileEntityCalculatorLocator() {
-		super.storage.setCapacity(25000000).setMaxTransfer(128000);
+		super.storage.setCapacity(25000000).setMaxTransfer(Integer.MAX_VALUE);
 		super.inv = new SonarInventory(this, 2);
 		super.maxTransfer = 100000;
 		super.energyMode = EnergyMode.SEND;
@@ -89,15 +90,16 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		//markDirty();
 	}
 
+    @Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
 
 	public int currentOutput() {
 		int size = this.size.getObject();
-		if (size != 0 && (((int) (2 * size + 1) * (2 * size + 1)) - 1) != 0) {
-			int stable = (int) (stability.getObject() * 100) / ((int) (2 * size + 1) * (2 * size + 1));
-			return (int) (((5 + ((int) (1000 * (Math.sqrt(size * 1.8)) - 100 * (Math.sqrt(100 - stable))) / (int) (11 - Math.sqrt(stable))) * size)) * CalculatorConfig.locatorMultiplier);
+        if (size != 0 && (2 * size + 1) * (2 * size + 1) - 1 != 0) {
+            int stable = stability.getObject() * 100 / ((2 * size + 1) * (2 * size + 1));
+            return (int) ((5 + (int) (1000 * Math.sqrt(size * 1.8) - 100 * Math.sqrt(100 - stable)) / (int) (11 - Math.sqrt(stable)) * size) * CalculatorConfig.locatorMultiplier);
 		}
 		return 0;
 	}
@@ -111,8 +113,8 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 			this.stability.setObject(0);
 		}
 
-		for (int Z = -(size.getObject()); Z <= (size.getObject()); Z++) {
-			for (int X = -(size.getObject()); X <= (size.getObject()); X++) {
+        for (int Z = -size.getObject(); Z <= size.getObject(); Z++) {
+            for (int X = -size.getObject(); X <= size.getObject(); X++) {
 				TileEntity target = getWorld().getTileEntity(pos.add(X, 0, Z));
 				if (target != null && target instanceof TileEntityCalculatorPlug) {
 					TileEntityCalculatorPlug plug = (TileEntityCalculatorPlug) target;
@@ -178,12 +180,11 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 			double y = player.posY;
 			double z = player.posZ;
 			int stability = this.stability.getObject();
-			int luck = 1 + (int) (Math.random() * ((20 * (stability + 1) - 1) + 20 * (stability + 1)));
+            int luck = 1 + (int) (Math.random() * (20 * (stability + 1) - 1 + 20 * (stability + 1)));
 
 			if (stability == 0) {
 				getWorld().createExplosion(player, x, y, z, 4F, true);
 				player.setHealth(player.getHealth() - 4);
-
 			} else {
 				if (stability < 2) {
 					switch (luck) {
@@ -247,7 +248,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 						break;
 					case 16:
 						if (luck == 16) {
-							int luck2 = 1 + (int) (Math.random() * ((5) - 1) + 5);
+                                int luck2 = 1 + (int) (Math.random() * (5 - 1) + 5);
 							if (luck2 == 16) {
 								getWorld().createExplosion(player, x, y, z, 80F, true);
 								player.setHealth(player.getHealth() - 40);
@@ -262,7 +263,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 
 	protected boolean isLocated() {
 		ItemStack stack = this.getStackInSlot(1);
-		if (stack == null) {
+		if (SonarCompat.isEmpty(stack)) {
 			return false;
 		}
 		if (stack.getItem() instanceof ILocatorModule) {
@@ -273,7 +274,6 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		}
 
 		return false;
-
 	}
 
 	public void createOwner() {
@@ -289,7 +289,6 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 				this.owner.setObject(name);
 			}
 		}
-
 	}
 
 	public void createStructure() {
@@ -299,6 +298,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		}
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE) {
@@ -306,6 +306,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE) {
@@ -325,6 +326,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		return EnergyMode.BLOCKED;
 	}
 
+    @Override
 	public boolean maxRender() {
 		return true;
 	}
@@ -339,6 +341,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		return 256;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add(FontHelper.translate("locator.active") + ": " + (!state.getValue(CalculatorLocator.ACTIVE) ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
@@ -346,6 +349,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		return currenttip;
 	}
 
+    @Override
 	public void onFirstTick() {
 		super.onFirstTick();
 		createOwner();
@@ -390,7 +394,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 
 	@Override
 	public double getStabilityPercent() {
-		return (stability.getObject() * 100 / (((2 * size.getObject()) + 1) * ((2 * size.getObject()) + 1) - 1));
+        return stability.getObject() * 100 / ((2 * size.getObject() + 1) * (2 * size.getObject() + 1) - 1);
 	}
 
 	@Override
@@ -402,5 +406,4 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiCalculatorLocator(player.inventory, this);
 	}
-
 }

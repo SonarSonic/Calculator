@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -33,16 +31,18 @@ import sonar.core.network.utils.IByteBufTile;
 import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class TileEntityFabricationChamber extends TileEntityInventory implements IGuiTile, IByteBufTile {
 
-	public ItemStack selected = null;
+	public ItemStack selected = SonarCompat.getEmpty();
 	public final int fabricateTime = 200;
 	public final int moveTime = 100;
 	public SyncTagType.BOOLEAN canMove = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.BOOLEAN moved = new SyncTagType.BOOLEAN(1);
 	public SyncTagType.INT currentFabricateTime = new SyncTagType.INT(2);
 	public SyncTagType.INT currentMoveTime = new SyncTagType.INT(3);
+
 	{
 		syncList.addParts(canMove, moved, currentFabricateTime, currentMoveTime);
 	}
@@ -52,6 +52,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		syncList.addPart(inv);
 	}
 
+    @Override
 	public void update() {
 		super.update();
 		if (canMove.getObject()) {
@@ -68,7 +69,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 				if (currentFabricateTime.getObject() != fabricateTime) {
 					currentFabricateTime.increaseBy(1);
 					if (this.isClient()) {
-						if ((currentFabricateTime.getObject() & 1) == 0 && ((currentFabricateTime.getObject() / 2) & 1) == 0) {
+                        if ((currentFabricateTime.getObject() & 1) == 0 && (currentFabricateTime.getObject() / 2 & 1) == 0) {
 							EnumFacing face = getWorld().getBlockState(getPos()).getValue(SonarBlock.FACING);
 							int fX = face.getFrontOffsetX();
 							int fZ = face.getFrontOffsetZ();
@@ -95,7 +96,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	}
 
 	public ArrayList<TileEntityStorageChamber> getChambers() {
-		ArrayList<TileEntityStorageChamber> chambers = new ArrayList<TileEntityStorageChamber>();
+        ArrayList<TileEntityStorageChamber> chambers = new ArrayList<>();
 
 		ArrayList<BlockCoords> connected = SonarHelper.getConnectedBlocks(Calculator.storageChamber, Arrays.asList(EnumFacing.VALUES), getWorld(), pos, 256);
 		for (BlockCoords chamber : connected) {
@@ -105,11 +106,10 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 			}
 		}
 		return chambers;
-
 	}
 
 	public ArrayList<StoredItemStack> getAvailableCircuits(ArrayList<TileEntityStorageChamber> chambers) {
-		ArrayList<StoredItemStack> circuits = new ArrayList<StoredItemStack>();
+        ArrayList<StoredItemStack> circuits = new ArrayList<>();
 		for (TileEntityStorageChamber chamber : chambers) {
 			for (StoredItemStack storedstack : chamber.getTileInv().slots) {
 				if (storedstack != null && storedstack.getItemStack().getItem() == Calculator.circuitBoard) {
@@ -121,28 +121,28 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	}
 
 	public void fabricate() {
-		if (selected == null || this.isClient()) {
+		if (SonarCompat.isEmpty(selected) || this.isClient()) {
 			return;
 		}
 		ItemStack selected = this.selected.copy();
-		if (selected.stackSize == 0)
-			selected.stackSize++;
+		if (SonarCompat.getCount(selected) == 0)
+			selected = SonarCompat.grow(selected, 1);
 		ArrayList<TileEntityStorageChamber> chambers = getChambers();
 		ArrayList<StoredItemStack> available = getAvailableCircuits(chambers);
 		ISonarRecipe recipe = FabricationChamberRecipes.instance().getRecipeFromOutputs(null, new Object[] { selected });
 		if (recipe != null && recipe.matchingInputs(available.toArray())) {
-			ItemStack current = slots()[0];
+			ItemStack current = slots().get(0);
 			boolean fabricated = false;
-			if (current == null) {
-				slots()[0] = selected.copy();
+			if (SonarCompat.isEmpty(current)) {
+				slots().set(0, selected.copy());
 				fabricated = true;
-			} else if (ItemStackHelper.equalStacksRegular(current, selected) && current.stackSize + selected.stackSize <= getInventoryStackLimit() && current.stackSize + selected.stackSize <= selected.getMaxStackSize()) {
-				slots()[0].stackSize += selected.copy().stackSize;
+			} else if (ItemStackHelper.equalStacksRegular(current, selected) && SonarCompat.getCount(current) + SonarCompat.getCount(selected) <= getInventoryStackLimit() && SonarCompat.getCount(current) + SonarCompat.getCount(selected) <= selected.getMaxStackSize()) {
+				current = SonarCompat.grow(current, SonarCompat.getCount(selected));
 				fabricated = true;
 			}
 			if (fabricated) {
 				final List<ISonarRecipeObject> inputs = recipe.inputs();
-				List<StoredItemStack> stacks = Lists.newArrayList();
+                List<StoredItemStack> stacks = new ArrayList<>();
 				inputs.forEach(input -> stacks.add(new StoredItemStack((ItemStack) input.getValue())));
 				for (TileEntityStorageChamber chamber : chambers) {
 					if (stacks.isEmpty()) {
@@ -160,21 +160,23 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		}
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			if (nbt.hasKey("selected")) {
-				selected = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("selected"));
+				selected = SonarCompat.getItem((NBTTagCompound) nbt.getTag("selected"));
 			} else {
-				selected = null;
+				selected = SonarCompat.getEmpty();
 			}
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
-			if (selected != null) {
+			if (!SonarCompat.isEmpty(selected)) {
 				NBTTagCompound tag = new NBTTagCompound();
 				selected.writeToNBT(tag);
 				nbt.setTag("selected", tag);
@@ -224,5 +226,4 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiFabricationChamber(player.inventory, this);
 	}
-
 }

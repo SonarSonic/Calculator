@@ -24,7 +24,7 @@ import sonar.core.helpers.FontHelper;
 public class NutritionModule extends SonarItem implements IHealthStore, IHungerStore {
 
 	public NutritionModule() {
-		setCreativeTab(Calculator.Calculator);
+		setCreativeTab(Calculator.tab);
 		maxStackSize = 1;
 	}
 
@@ -42,7 +42,6 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 					stack.getTagCompound().setInteger("hunger", 0);
 					stack.getTagCompound().setInteger("ticks", 0);
 				}
-
 				int ticks = stack.getTagCompound().getInteger("ticks");
 				if (ticks < 10) {
 					stack.getTagCompound().setInteger("ticks", ticks + 1);
@@ -75,17 +74,16 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 		if (points != 0) {
 			int current = (int) player.getHealth();
 			int max = (int) player.getMaxHealth();
-			if (current != max & (current < max)) {
+			if (current != max & current < max) {
 				int maxpoints = max - current;
 				int usedpoints = Math.min(maxpoints, 2);
 				if (!(points - usedpoints < 0)) {
 					nbtData.setInteger("health", points - usedpoints);
 					player.setHealth(player.getHealth() + usedpoints);
-				} else if ((points - usedpoints < 0)) {
+				} else if (points - usedpoints < 0) {
 					nbtData.setInteger("health", 0);
 					player.setHealth(nbtData.getInteger("health") + current);
 				}
-
 			}
 		}
 		return stack;
@@ -93,7 +91,7 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4) {
 		super.addInformation(stack, player, list, par4);
 		if (stack.hasTagCompound()) {
 			list.add(FontHelper.translate("points.hunger") + ": " + getHungerPoints(stack));
@@ -186,5 +184,4 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 			nbtData.setInteger("health", health);
 		}
 	}
-
 }

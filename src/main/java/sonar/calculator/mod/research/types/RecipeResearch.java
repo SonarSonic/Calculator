@@ -2,8 +2,6 @@ package sonar.calculator.mod.research.types;
 
 import java.util.ArrayList;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
@@ -16,7 +14,7 @@ import sonar.core.helpers.NBTHelper.SyncType;
 
 public class RecipeResearch extends Research {
 
-	public ArrayList<String> recipes = Lists.newArrayList();
+    public ArrayList<String> recipes = new ArrayList<>();
 
 	public RecipeResearch() {
 		super(ResearchTypes.RECIPES, "tile.ResearchChamber.name", Item.getItemFromBlock(Calculator.researchChamber));
@@ -27,8 +25,9 @@ public class RecipeResearch extends Research {
 		return "Discover new recipes for the Calculator!";
 	}
 
+    @Override
 	public ArrayList<RecipeReward> getUnlockedRecipes() {
-		ArrayList<RecipeReward> unlocked = Lists.newArrayList();
+        ArrayList<RecipeReward> unlocked = new ArrayList<>();
 		unlocked.add(new RecipeReward("Calculator", recipes));
 		return unlocked;
 	}
@@ -45,10 +44,8 @@ public class RecipeResearch extends Research {
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		NBTTagCompound recipeList = (NBTTagCompound) nbt.getTag("recipeList");
-		recipes = Lists.newArrayList();
-		for (String recipeID : recipeList.getKeySet()) {
-			recipes.add(recipeID);
-		}
+        recipes = new ArrayList<>();
+        recipes.addAll(recipeList.getKeySet());
 	}
 
 	@Override
@@ -64,7 +61,7 @@ public class RecipeResearch extends Research {
 
 	@Override
 	public byte getProgress() {
-		return (byte) ((recipes.size() * 100) / ResearchRecipeType.values().length);
+        return (byte) (recipes.size() * 100 / ResearchRecipeType.values().length);
 	}
 
 	@Override
@@ -76,5 +73,4 @@ public class RecipeResearch extends Research {
 	public IResearch getInstance() {
 		return new RecipeResearch();
 	}
-
 }

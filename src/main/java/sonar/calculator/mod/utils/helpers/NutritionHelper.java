@@ -35,7 +35,6 @@ public class NutritionHelper {
 					points -= usedpoints;
 					nbtData.setInteger(tag, points);
 					player.getFoodStats().addStats(20, 2.0F);
-
 				} else if (points - usedpoints < 1) {
 					nbtData.setInteger(tag, 0);
 					player.getFoodStats().addStats(points, 2.0F);
@@ -60,12 +59,12 @@ public class NutritionHelper {
 			if (points != 0) {
 				int current = (int) player.getHealth();
 				int max = (int) player.getMaxHealth();
-				if (current != max & (current < max)) {
+                if (current != max & current < max) {
 					int used = max - current;
 					if (!(points - used < 0)) {
 						nbtData.setInteger(tag, points - used);
 						player.setHealth(player.getMaxHealth());
-					} else if ((points - used < 0)) {
+                    } else if (points - used < 0) {
 						nbtData.setInteger(tag, 0);
 						player.setHealth(nbtData.getInteger(tag) + current);
 					}
@@ -100,7 +99,6 @@ public class NutritionHelper {
 				}
 				nbtData.setInteger(tag, points);
 			}
-
 		}
 		return true;
 	}
@@ -145,7 +143,6 @@ public class NutritionHelper {
 			stack.getTagCompound().setInteger(tag, 0);
 		}
 		return stack.getTagCompound().getInteger(tag);
-
 	}
 
 	public int getPoints(ItemStack stack, String tag) {
@@ -157,7 +154,5 @@ public class NutritionHelper {
 			stack.getTagCompound().setInteger(tag, 0);
 		}
 		return stack.getTagCompound().getInteger(tag);
-
 	}
-
 }

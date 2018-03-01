@@ -1,9 +1,12 @@
 package sonar.calculator.mod.integration.jei;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
 import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
@@ -19,7 +22,6 @@ public class Recipes {
 		public Processing(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
-
 	}
 
 	public static class Restoration extends JEIRecipeV2<Restoration> {
@@ -56,6 +58,7 @@ public class Recipes {
 			super(helper, recipe);
 		}
 
+        @Override
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 			ItemStack stack = this.outputs.get(1);
 			if (stack.getItem() == sonar.calculator.mod.Calculator.circuitBoard
@@ -63,7 +66,7 @@ public class Recipes {
 					|| stack.getItem() == sonar.calculator.mod.Calculator.circuitDirty) {
 				GL11.glPushMatrix();
 				GL11.glScaled(0.7, 0.7, 0.7);
-				minecraft.fontRendererObj.drawString("12.5%", 123, 39, 0);
+                minecraft.fontRendererObj.drawString("12.5%", 123, 39, 0);
 				GL11.glPopMatrix();
 			}
 		}
@@ -81,7 +84,6 @@ public class Recipes {
 		public Calculator(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
-
 	}
 
 	public static class Scientific extends JEIRecipeV2<Scientific> {
@@ -89,7 +91,6 @@ public class Recipes {
 		public Scientific(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
-
 	}
 
 	public static class Atomic extends JEIRecipeV2<Atomic> {
@@ -97,7 +98,6 @@ public class Recipes {
 		public Atomic(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
-
 	}
 
 	public static class Flawless extends JEIRecipeV2<Flawless> {
@@ -105,7 +105,6 @@ public class Recipes {
 		public Flawless(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
-
 	}
 
 	public static class Health extends JEIRecipeV2<Health> {
@@ -114,6 +113,7 @@ public class Recipes {
 			super(helper, recipe);
 		}
 
+        @Override
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 			GL11.glPushMatrix();
 			GL11.glScaled(0.7, 0.7, 0.7);
@@ -132,6 +132,7 @@ public class Recipes {
 			super(helper, recipe);
 		}
 
+        @Override
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 			int outputPos = recipe.inputs().get(0).getStackSize();
 			GL11.glPushMatrix();
@@ -167,6 +168,7 @@ public class Recipes {
 			return new Discharge().setRecipe(recipeID, inputs, outputs);
 		}
 
+        @Override
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 			GL11.glPushMatrix();
 			GL11.glScaled(0.7, 0.7, 0.7);

@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumHand;
@@ -54,29 +55,28 @@ public class AnalysingChamber extends SonarSidedBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+        list.add("Doesn't require power to operate");
 	}
 
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		list.add("Doesn't require power to opperate");
-	}
-
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
 
+    @Override
 	public boolean hasAnimatedFront() {
 		return false;
 	}
 
+    @Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
+    @Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
-
 }

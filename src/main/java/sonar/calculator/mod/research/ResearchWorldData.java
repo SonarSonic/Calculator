@@ -23,6 +23,7 @@ public class ResearchWorldData extends WorldSavedData {
 		return nbt;
 	}
 
+    @Override
 	public boolean isDirty() {
 		return true;
 	}

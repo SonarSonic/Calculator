@@ -23,6 +23,7 @@ import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class TileEntityCO2Generator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile {
 
@@ -43,7 +44,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		super.energyMode = EnergyMode.RECIEVE;
 		syncList.addPart(inv);
 	}
-	
+
 	@Override
 	public void update() {
 		super.update();
@@ -53,16 +54,15 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 			boolean flag1 = this.burnTime > 0;
 			boolean flag2 = false;
 			EnumFacing hoz = SonarHelper.getHorizontal(forward).getOpposite();
-			TileEntity tile = this.worldObj.getTileEntity(pos.add((hoz.getFrontOffsetX() * 3), 0, (hoz.getFrontOffsetZ() * 3)));
-
-			if (this.maxBurnTime == 0 && !this.worldObj.isRemote && this.slots()[0] != null) {
-				if (TileEntityFurnace.isItemFuel(slots()[0]) && this.storage.getEnergyStored() >= energyAmount) {
+            TileEntity tile = this.getWorld().getTileEntity(pos.add(hoz.getFrontOffsetX() * 3, 0, hoz.getFrontOffsetZ() * 3));
+			ItemStack burnStack = slots().get(0);
+			if (this.maxBurnTime == 0 && !this.getWorld().isRemote && !SonarCompat.isEmpty(burnStack)) {
+				if (TileEntityFurnace.isItemFuel(burnStack) && this.storage.getEnergyStored() >= energyAmount) {
 					if (tile != null && tile instanceof TileEntityFlawlessGreenhouse) {
 						burn();
 						this.storage.modifyEnergyStored(-energyAmount);
 					}
 				}
-
 			}
 			if (!this.controlled) {
 				if (this.maxBurnTime != 0 && this.burnTime >= 0 && this.burnTime < this.maxBurnTime) {
@@ -85,7 +85,6 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 						} else {
 							this.control = false;
 						}
-
 					}
 					if (!control) {
 						if (carbon <= 92000) {
@@ -107,30 +106,21 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 			}
 		}
 		discharge(1);
-
 	}
 
 	public void burn() {
+		ItemStack burnStack = slots().get(0);		
 		this.maxBurnTime = maxBurn;
-		this.gasAdd = TileEntityFurnace.getItemBurnTime(this.slots()[0]) / 100;
-		this.controlled = slots()[0].getItem() == Calculator.controlled_Fuel;
-		this.slots()[0].stackSize--;
-
-		if (this.slots()[0].stackSize <= 0) {
-			this.slots()[0] = null;
-		}
-
+		this.gasAdd = TileEntityFurnace.getItemBurnTime(burnStack) / 100;
+		this.controlled = burnStack.getItem() == Calculator.controlled_Fuel;
+		burnStack = SonarCompat.shrink(burnStack, 1);
 	}
 
 	public boolean isBurning() {
-
-		if (this.maxBurnTime == 0) {
-			return false;
-		}
-
-		return true;
+        return this.maxBurnTime != 0;
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -142,6 +132,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -161,11 +152,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (slot == 0 && TileEntityFurnace.isItemFuel(stack)) {
-			return true;
-		}
-		return false;
-
+        return slot == 0 && TileEntityFurnace.isItemFuel(stack);
 	}
 
 	@Override
@@ -178,6 +165,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		return false;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		if (burnTime > 0 && maxBurn != 0 && gasAdd == 0) {

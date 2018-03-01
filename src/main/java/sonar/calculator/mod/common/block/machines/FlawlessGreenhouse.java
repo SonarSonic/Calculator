@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -39,13 +40,11 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedB
 				if (house.houseState.getObject() == State.INCOMPLETE) {
 					FailedCoords coords = house.checkStructure(null);
 					if (!coords.getBoolean()) {
-						FontHelper.sendMessage("X: " + coords.getCoords().getX() + " Y: " + coords.getCoords().getY() + " Z: " + coords.getCoords().getZ() + " - " + FontHelper.translate("greenhouse.equal") + " " + coords.getBlock(), world, player);
+                        FontHelper.sendMessage("X: " + coords.getCoords().getX() + " Y: " + coords.getCoords().getY() + " Z: " + coords.getCoords().getZ() + " - " + FontHelper.translate("greenhouse.equal") + ' ' + coords.getBlock(), world, player);
 					}
 				} else if (house.houseState.getObject() == State.COMPLETED) {
 					FontHelper.sendMessage(FontHelper.translate("greenhouse.complete"), world, player);
-
 				}
-
 			} else {
 				if (player != null) {
 					if (!world.isRemote) {
@@ -55,7 +54,6 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedB
 			}
 		}
 		return true;
-
 	}
 
 	@Override
@@ -63,15 +61,13 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedB
 		return new TileEntityFlawlessGreenhouse();
 	}
 
-	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
 	}
 
 	@Override
 	public int[] getConnections() {
 		return connections;
 	}
-
 }

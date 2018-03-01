@@ -26,10 +26,10 @@ import sonar.core.recipes.RecipeHelperV2;
 
 public class Recipes {
 
-	public static HashMap<Types, RecipeHelperV2> recipes = new HashMap<Types, RecipeHelperV2>();
+    public static HashMap<Types, RecipeHelperV2> recipes = new HashMap<>();
 
 	public enum Types {
-		ALGORITHM, ANALYSING, ATOMIC, CALCULATOR, CONDUCTOR_MAST, EXTRACTION, FABRICATION, FLAWLESS, GLOWSTONE, HEALTH, PRECISION, PROCESSING, REASSEMBLY, REDSTONE, RESTORATION, SCIENTIFIC, STARCH, STONE, HARVEST;
+        ALGORITHM, ANALYSING, ATOMIC, CALCULATOR, CONDUCTOR_MAST, EXTRACTION, FABRICATION, FLAWLESS, GLOWSTONE, HEALTH, PRECISION, PROCESSING, REASSEMBLY, REDSTONE, RESTORATION, SCIENTIFIC, STARCH, STONE, HARVEST
 	}
 	
 	public static void registerRecipes() {
@@ -64,5 +64,4 @@ public class Recipes {
 	public static RecipeHelperV2 getRecipeHelper(Types type) {
 		return recipes.get(type);
 	}
-
 }

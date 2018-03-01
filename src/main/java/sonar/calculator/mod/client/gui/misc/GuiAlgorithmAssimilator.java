@@ -4,10 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerAlgorithmAssimilator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 
-public class GuiAlgorithmAssimilator extends GuiSonar {
+public class GuiAlgorithmAssimilator extends GuiSonarTile {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/assimilator.png");
 
 	public TileEntityAssimilator.Algorithm entity;
@@ -27,5 +27,4 @@ public class GuiAlgorithmAssimilator extends GuiSonar {
 	public ResourceLocation getBackground() {
 		return bground;
 	}
-
 }

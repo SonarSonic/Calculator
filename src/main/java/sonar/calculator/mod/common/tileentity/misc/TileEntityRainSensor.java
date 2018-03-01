@@ -7,16 +7,16 @@ import sonar.calculator.mod.common.block.misc.RainSensor;
 
 public class TileEntityRainSensor extends TileEntity implements ITickable {
 
+    @Override
 	public void update() {
-		if (this.worldObj != null && !this.worldObj.isRemote) {
+		if (this.getWorld() != null && !this.getWorld().isRemote) {
 			IBlockState state = getWorld().getBlockState(pos);	
 			boolean meta = state.getValue(RainSensor.bool);
-			boolean current = this.worldObj.isRaining();
+			boolean current = this.getWorld().isRaining();
 			if(meta!=current){
-				this.worldObj.setBlockState(pos, state.withProperty(RainSensor.bool, current), 2);
-				this.worldObj.notifyNeighborsOfStateChange(pos, blockType);
+				this.getWorld().setBlockState(pos, state.withProperty(RainSensor.bool, current), 2);
+				this.getWorld().notifyNeighborsOfStateChange(pos, blockType);
 			}
 		}
 	}
-
 }

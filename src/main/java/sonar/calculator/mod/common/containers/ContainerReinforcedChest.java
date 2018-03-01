@@ -7,6 +7,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.inventory.ContainerLargeInventory;
 import sonar.core.inventory.slots.SlotLarge;
+import sonar.core.utils.SonarCompat;
 
 public class ContainerReinforcedChest extends ContainerLargeInventory {
 	public TileEntityReinforcedChest entity;
@@ -24,25 +25,18 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 				this.addSlotToContainer(new SlotLarge(entity.getTileInv(), k + j * 9, 8 + k * 18, 24 + j * 18));
 			}
 		}
-
-		for (j = 0; j < 3; ++j) {
-			for (k = 0; k < 9; ++k) {
-				this.addSlotToContainer(new Slot(player.inventory, k + j * 9 + 9, 8 + k * 18, 102 + j * 18 + i));
-			}
-		}
-
-		for (j = 0; j < 9; ++j) {
-			this.addSlotToContainer(new Slot(player.inventory, j, 8 + j * 18, 160 + i));
-		}
+		addInventory(player.inventory, 8, 84);
 	}
 
+    @Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return this.entity.isUseableByPlayer(player);
+		return this.entity.isUsableByPlayer(player);
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(slotID);
+		ItemStack itemstack = SonarCompat.getEmpty();
+        Slot slot = this.inventorySlots.get(slotID);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
@@ -53,21 +47,21 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 			itemstack = itemstack1.copy();
 			if (slotID < 27) {
 				if (!this.mergeItemStack(itemstack1, 3 * 9, this.inventorySlots.size(), true)) {
-					return null;
+					return SonarCompat.getEmpty();
 				}
 				StoredItemStack stored = entity.getTileInv().getLargeStack(slotID);
-				stored.stored -= itemstack.stackSize - itemstack1.stackSize;
+				stored.stored -= SonarCompat.getCount(itemstack) - SonarCompat.getCount(itemstack1);
 				if (stored.stored == 0) {
 					entity.getTileInv().setLargeStack(slotID, null);
 				}
 				entity.getTileInv().setLargeStack(slotID, stored);
-				return null;
+				return SonarCompat.getEmpty();
 			} else if (!this.mergeSpecial(itemstack1, 0, 3 * 9, false)) {
-				return null;
+				return SonarCompat.getEmpty();
 			}
 
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
+			if (SonarCompat.getCount(itemstack1) == 0) {
+				slot.putStack(SonarCompat.getEmpty());
 			} else {
 				slot.onSlotChanged();
 			}
@@ -76,6 +70,7 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 		return itemstack;
 	}
 
+    @Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
 		this.entity.closeInventory(player);

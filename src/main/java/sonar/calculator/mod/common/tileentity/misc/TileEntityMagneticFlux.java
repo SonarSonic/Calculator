@@ -28,12 +28,13 @@ import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class TileEntityMagneticFlux extends TileEntityInventory implements ISidedInventory, IByteBufTile, IGuiTile {
 
 	public boolean whitelisted, exact;
 	public Random rand = new Random();
-	public float rotate = 0;
+    public float rotate;
 	public boolean disabled;
 
 	public TileEntityMagneticFlux() {
@@ -46,14 +47,15 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		return 1;
 	}
 
+    @Override
 	public void update() {
 		super.update();
-		if (this.worldObj.isBlockIndirectlyGettingPowered(pos) > 0) {
+		if (this.getWorld().isBlockIndirectlyGettingPowered(pos) > 0) {
 			disabled = true;
 			return;
 		}
 		disabled = false;
-		if (this.worldObj.isRemote) {
+		if (this.getWorld().isRemote) {
 			if (!(rotate >= 1)) {
 				rotate += (float) 1 / 100;
 			} else {
@@ -63,6 +65,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		this.magnetizeItems();
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -71,6 +74,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -83,20 +87,20 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	public void magnetizeItems() {
 		int range = 10;
 		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
-		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, aabb, null);
+		List<EntityItem> items = this.getWorld().getEntitiesWithinAABB(EntityItem.class, aabb, null);
 		for (EntityItem entity : items) {
-			if (validItemStack(((EntityItem) entity).getEntityItem())) {
+            if (validItemStack(entity.getEntityItem())) {
 				double x = pos.getX() + 0.5D - entity.posX;
 				double y = pos.getY() + 0.2D - entity.posY;
 				double z = pos.getZ() + 0.5D - entity.posZ;
 
 				double distance = Math.sqrt(x * x + y * y + z * z);
 				if (distance < 1.5) {
-					ItemStack itemstack = addToInventory((EntityItem) entity);
-					if (itemstack == null || itemstack.stackSize <= 0) {
+                    ItemStack itemstack = addToInventory(entity);
+					if (SonarCompat.isEmpty(itemstack) || SonarCompat.getCount(itemstack) <= 0) {
 						entity.setDead();
 					} else {
-						((EntityItem) entity).setEntityItemStack(itemstack);
+                        entity.setEntityItemStack(itemstack);
 					}
 				} else {
 					double speed = entity.isBurning() ? 5.2 : 0.1;
@@ -112,12 +116,9 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	}
 
 	public boolean validItemStack(ItemStack stack) {
-		if (slots() == null) {
-			return true;
-		}
-		for (int i = 0; i < slots().length; i++) {
-			if (slots()[i] != null) {
-				boolean matches = matchingStack(slots()[i], stack);
+		for (ItemStack slot : slots()) {
+			if (!SonarCompat.isEmpty(slot)) {
+				boolean matches = matchingStack(slot, stack);
 				if (!this.whitelisted && matches) {
 					return false;
 				} else if (whitelisted && matches) {
@@ -132,9 +133,9 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		if (exact) {
 			int[] stackDict = OreDictionary.getOreIDs(stack2);
 			int[] storedDict = OreDictionary.getOreIDs(stack);
-			for (int i = 0; i < stackDict.length; i++) {
-				for (int s = 0; s < storedDict.length; s++) {
-					if (stackDict[i] == storedDict[s]) {
+            for (int aStackDict : stackDict) {
+                for (int aStoredDict : storedDict) {
+                    if (aStackDict == aStoredDict) {
 						return true;
 					}
 				}
@@ -144,21 +145,21 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	}
 
 	public ItemStack addToInventory(EntityItem item) {
-		if (!this.worldObj.isRemote) {
-			EntityItem entity = (EntityItem) this.worldObj.getEntityByID(item.getEntityId());
+		if (!this.getWorld().isRemote) {
+			EntityItem entity = (EntityItem) this.getWorld().getEntityByID(item.getEntityId());
 			if (entity == null) {
 				return null;
 			}
-			ItemStack itemstack = entity.getEntityItem();
+            ItemStack itemstack = entity.getEntityItem();
 			if (itemstack != null) {
-				int i = itemstack.stackSize;
+				int i = SonarCompat.getCount(itemstack);
 				TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
 				if (target != null)
-					itemstack = SonarAPI.getItemHelper().getStackToAdd(itemstack.stackSize, new StoredItemStack(itemstack), SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), EnumFacing.getFront(1), ActionType.PERFORM, null)).getFullStack();
+					itemstack = SonarAPI.getItemHelper().getStackToAdd(SonarCompat.getCount(itemstack), new StoredItemStack(itemstack), SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), EnumFacing.getFront(1), ActionType.PERFORM, null)).getFullStack();
 			}
 			return itemstack;
 		}
-		return item.getEntityItem();
+        return item.getEntityItem();
 	}
 
 	@Override
@@ -176,6 +177,7 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 		return false;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		if (!disabled) {
@@ -224,5 +226,4 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiMagneticFlux(player.inventory, this);
 	}
-
 }

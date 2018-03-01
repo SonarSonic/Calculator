@@ -7,6 +7,7 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.inventory.ContainerLargeInventory;
 import sonar.core.inventory.slots.SlotLarge;
+import sonar.core.utils.SonarCompat;
 
 public class ContainerStorageChamber extends ContainerLargeInventory {
 	private TileEntityStorageChamber entity;
@@ -29,50 +30,43 @@ public class ContainerStorageChamber extends ContainerLargeInventory {
 		addSlotToContainer(new SlotLarge(entity.getTileInv(), 11, 80, 58 + 17));
 		addSlotToContainer(new SlotLarge(entity.getTileInv(), 12, 116, 58 + 17));
 		addSlotToContainer(new SlotLarge(entity.getTileInv(), 13, 152, 58 + 17));
-
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 17));
-			}
-		}
-
-		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142 + 17));
-		}
+		addInventory(player.inventory, 8, 101);
 	}
 
+    @Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return true;
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(slotID);
+		ItemStack itemstack = SonarCompat.getEmpty();
+        Slot slot = this.inventorySlots.get(slotID);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			if (slot instanceof SlotLarge) {
 				StoredItemStack stored = entity.getTileInv().getLargeStack(slotID);
-				itemstack1 = stored == null ? null : stored.copy().setStackSize(Math.min(stored.stored, stored.getItemStack().getMaxStackSize())).getFullStack();
+				itemstack1 = stored == null ? SonarCompat.getEmpty() : stored.copy().setStackSize(Math.min(stored.stored, stored.getItemStack().getMaxStackSize())).getFullStack();
 			}
 			itemstack = itemstack1.copy();
 			if (slotID < 14) {
 				if (!this.mergeItemStack(itemstack1, 14, this.inventorySlots.size(), true)) {
-					return null;
+					return SonarCompat.getEmpty();
 				}
 				StoredItemStack stored = entity.getTileInv().getLargeStack(slotID);
-				stored.stored -= itemstack.stackSize - itemstack1.stackSize;
+				stored.stored -= SonarCompat.getCount(itemstack) - SonarCompat.getCount(itemstack1);
 				if (stored.stored == 0) {
 					entity.getTileInv().setLargeStack(slotID, null);
 				}
 				entity.getTileInv().setLargeStack(slotID, stored.copy());
-				return null;
+				return SonarCompat.getEmpty();
 			} else if (!this.mergeSpecial(itemstack1, 0, 14, false)) {
-				return null;
+				return SonarCompat.getEmpty();
 			}
 
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
+			if (SonarCompat.getCount(itemstack1) == 0) {
+				slot.putStack(SonarCompat.getEmpty());
 			} else {
 				slot.onSlotChanged();
 			}
@@ -81,6 +75,7 @@ public class ContainerStorageChamber extends ContainerLargeInventory {
 		return itemstack;
 	}
 
+    @Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
 		//this.entity.closeInventory(player);

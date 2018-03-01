@@ -5,8 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -16,7 +14,7 @@ import sonar.core.helpers.NBTHelper.SyncType;
 
 public class PlayerResearchRegistry {
 
-	private static LinkedHashMap<UUID, ArrayList<IResearch>> research = new LinkedHashMap<UUID, ArrayList<IResearch>>();
+    private static LinkedHashMap<UUID, ArrayList<IResearch>> research = new LinkedHashMap<>();
 	public static final String UUID = "uuid", LIST = "list", RESEARCH = "rese";
 
 	public static void writeData(NBTTagCompound nbt, SyncType type) {
@@ -33,7 +31,7 @@ public class PlayerResearchRegistry {
 	}
 
 	public static void writePlayerData(EntityPlayer player, NBTTagCompound nbt, SyncType type) {
-		ArrayList<IResearch> playerResearch = Lists.newArrayList();
+        ArrayList<IResearch> playerResearch = new ArrayList<>();
 		if (research.get(player.getName()) != null) {
 			playerResearch = research.get(player.getName());
 		}
@@ -64,7 +62,7 @@ public class PlayerResearchRegistry {
 	}
 
 	public static ArrayList<IResearch> readPlayerData(NBTTagCompound nbt, SyncType type) {
-		ArrayList<IResearch> playerResearch = new ArrayList<IResearch>();
+        ArrayList<IResearch> playerResearch = new ArrayList<>();
 		if (nbt.hasKey(RESEARCH)) {
 			NBTTagList researchList = nbt.getTagList(RESEARCH, 10);
 			for (int j = 0; j < researchList.tagCount(); j++) {
@@ -98,11 +96,9 @@ public class PlayerResearchRegistry {
 
 	public static ArrayList<IResearch> getPlayerResearch(UUID uuid) {
 		if (uuid != null) {
-			if (research.get(uuid) == null) {
-				research.put(uuid, Lists.newArrayList());
-			}
+            research.computeIfAbsent(uuid, k -> new ArrayList<>());
 			return research.get(uuid);
 		}
-		return Lists.newArrayList();
+        return new ArrayList<>();
 	}
 }

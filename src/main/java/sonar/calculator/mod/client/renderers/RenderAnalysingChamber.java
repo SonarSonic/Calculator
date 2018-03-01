@@ -8,14 +8,15 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
+import sonar.core.utils.SonarCompat;
 
 public class RenderAnalysingChamber extends TileEntitySpecialRenderer<TileEntityAnalysingChamber> {
 
 	@Override
-	public void renderTileEntityAt(TileEntityAnalysingChamber te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void renderTileEntityAt(TileEntityAnalysingChamber te, double x, double y, double z, float partialTicks, int destroyStage) {
 		if (te.getWorld() != null) {
-			ItemStack stack = te.getTileInv().getStackInSlot(0);
-			if (stack != null) {
+			ItemStack stack = te.inv().getStackInSlot(0);
+			if (!SonarCompat.isEmpty(stack)) {
 				GL11.glPushMatrix();
 				GL11.glTranslatef((float) x, (float) y, (float) z);
 				GL11.glRotatef(180.0F, 180.0F, 0.0F, 1.0F);
@@ -69,5 +70,4 @@ public class RenderAnalysingChamber extends TileEntitySpecialRenderer<TileEntity
 			}
 		}
 	}
-
 }

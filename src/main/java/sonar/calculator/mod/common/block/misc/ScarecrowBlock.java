@@ -41,6 +41,7 @@ public class ScarecrowBlock extends SonarBlock {
 		}
 	}
 
+    @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player){
     	return new ItemStack(Calculator.scarecrow, 1);
     }
@@ -50,10 +51,12 @@ public class ScarecrowBlock extends SonarBlock {
 		return 0;
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
 
+    @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
@@ -68,22 +71,24 @@ public class ScarecrowBlock extends SonarBlock {
 		return false;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public IBlockState getStateForEntityRender(IBlockState state) {
 		return this.getDefaultState();
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState();
-
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
 		return 0;
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this);
 	}
-
 }

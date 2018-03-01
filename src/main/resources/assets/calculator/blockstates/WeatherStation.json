@@ -10,7 +10,7 @@
     "variants": { 
         "inventory": [{            
             "textures": {
-              "layer0":"calculator:items/item_weatherStation"
+              "layer0":"calculator:items/item_weatherstation"
             }}],
         "facing":{  
             "north":{},

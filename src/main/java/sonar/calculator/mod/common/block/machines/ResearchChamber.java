@@ -23,9 +23,10 @@ public class ResearchChamber extends SonarMachineBlock {
 
 	public ResearchChamber() {
 		super(SonarMaterials.machine, true, true);
-		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - (0.0625F * 8), 1.0F);
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - 0.0625F * 8, 1.0F);
 	}
 
+	@Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}

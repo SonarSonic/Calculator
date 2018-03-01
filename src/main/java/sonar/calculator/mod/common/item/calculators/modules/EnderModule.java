@@ -27,7 +27,7 @@ public class EnderModule extends ModuleBase implements IModuleClickable {
 	@Override
 	public void onModuleActivated(ItemStack stack, NBTTagCompound tag, World world, EntityPlayer player) {
 		if (this.isEnergyAvailable(stack, player, world, 1000)) {
-			world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.NEUTRAL, 0.5F,0.8F);
+            world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.NEUTRAL, 0.5F, 0.8F);
 			if (!world.isRemote)
 				world.spawnEntityInWorld(new EntityEnderPearl(world, player));
 		}
@@ -37,5 +37,4 @@ public class EnderModule extends ModuleBase implements IModuleClickable {
 	public boolean onBlockClicked(ItemStack stack, NBTTagCompound tag, EntityPlayer player, World world, BlockPos pos, BlockInteraction interaction) {
 		return false;
 	}
-
 }

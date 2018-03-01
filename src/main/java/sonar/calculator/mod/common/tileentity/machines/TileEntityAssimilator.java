@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,6 +33,7 @@ import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public abstract class TileEntityAssimilator extends TileEntityInventory implements IGuiTile {
 	public boolean hasTree;
@@ -43,6 +42,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 
 	public abstract boolean harvestBlock(BlockCoords block);
 
+    @Override
 	public void update() {
 		super.update();
 		if (isClient()) {
@@ -97,27 +97,28 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 
 	public List<BlockCoords> getLeaves() {
 		EnumFacing dir = this.getWorld().getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
-		List<BlockCoords> leafList = Lists.newArrayList();
+        List<BlockCoords> leafList = new ArrayList<>();
 		for (int X = -2; X < 3; X++) {
 			for (int Z = -2; Z < 3; Z++) {
 				for (int leaves = 1; leaves < 8; leaves++) {
 					BlockPos pos = this.pos.offset(dir).add(X, leaves, Z);
-					if ((this.getWorld().getBlockState(pos).getBlock() instanceof CalculatorLeaves)) {
+                    if (this.getWorld().getBlockState(pos).getBlock() instanceof CalculatorLeaves) {
 						leafList.add(new BlockCoords(pos));
 					}
-
 				}
 			}
 		}
 		return leafList;
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type == SyncType.SAVE)
 			tick = nbt.getInteger("tick");
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type == SyncType.SAVE)
@@ -132,17 +133,19 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 			syncList.addPart(inv);
 		}
 
-		public int healthPoints, hungerPoints, speed = 4;;
+        public int healthPoints, hungerPoints, speed = 4;
 
+        @Override
 		public void update() {
 			super.update();
 			if (this.getWorld().isRemote) {
 				return;
 			}
-			chargeHunger(slots()[0]);
-			chargeHealth(slots()[0]);
+			chargeHunger(slots().get(0));
+			chargeHealth(slots().get(0));
 		}
 
+        @Override
 		public boolean harvestBlock(BlockCoords coords) {
 			IBlockState state = coords.getBlockState(this.getWorld());
 			if (state.getBlock() == Calculator.tanzaniteLeaves || state.getBlock() == Calculator.amethystLeaves) {
@@ -163,7 +166,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		}
 
 		public void chargeHunger(ItemStack stack) {
-			if (!(stack == null) && this.hungerPoints != 0) {
+            if (!SonarCompat.isEmpty(stack) && this.hungerPoints != 0) {
 				if (stack.getItem() instanceof IHungerStore) {
 					IHungerStore module = (IHungerStore) stack.getItem();
 					int hunger = module.getHungerPoints(stack);
@@ -192,7 +195,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		}
 
 		public void chargeHealth(ItemStack stack) {
-			if (!(stack == null) && this.healthPoints != 0) {
+            if (!SonarCompat.isEmpty(stack) && this.healthPoints != 0) {
 				if (stack.getItem() instanceof IHealthStore) {
 					IHealthStore module = (IHealthStore) stack.getItem();
 					int health = module.getHealthPoints(stack);
@@ -218,9 +221,9 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 					}
 				}
 			}
-
 		}
 
+        @Override
 		public void readData(NBTTagCompound nbt, SyncType type) {
 			super.readData(nbt, type);
 			healthPoints = nbt.getInteger("health");
@@ -229,6 +232,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 				hasTree = nbt.getBoolean("hasTree");
 		}
 
+        @Override
 		public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 			super.writeData(nbt, type);
 			nbt.setInteger("health", healthPoints);
@@ -256,6 +260,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 			syncList.addPart(inv);
 		}
 
+        @Override
 		public boolean harvestBlock(BlockCoords block) {
 			IBlockState state = block.getBlockState(getWorld());
 			if (state.getValue(CalculatorLeaves.GROWTH).getMeta() > 2) {
@@ -263,7 +268,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 				EnumFacing forward = EnumFacing.getFront(getBlockMetadata());
 				if (stacks != null && !stacks.isEmpty()) {
 					for (ItemStack s : stacks) {
-						if (s != null) {
+						if (!SonarCompat.isEmpty(s)) {
 							ItemStack stack = s.copy();
 							StoredItemStack storedstack = new StoredItemStack(stack);
 							StoredItemStack harvest = SonarAPI.getItemHelper().addItems(this, storedstack.copy(), EnumFacing.DOWN, ActionType.PERFORM, null);
@@ -279,7 +284,6 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 				return true;
 			}
 			return false;
-
 		}
 
 		@Override
@@ -306,7 +310,5 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiAlgorithmAssimilator(player, this);
 		}
-
 	}
-
 }

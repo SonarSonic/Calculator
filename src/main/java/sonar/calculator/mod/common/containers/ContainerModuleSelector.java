@@ -2,8 +2,8 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import sonar.core.utils.SonarCompat;
 
 public class ContainerModuleSelector extends Container {
 	public EntityPlayer player;
@@ -19,10 +19,8 @@ public class ContainerModuleSelector extends Container {
 		return true;
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(slotID);
-		return itemstack;
+		return SonarCompat.getEmpty();
 	}
-
 }

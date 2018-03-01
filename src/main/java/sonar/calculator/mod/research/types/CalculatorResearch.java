@@ -93,8 +93,8 @@ public abstract class CalculatorResearch extends Research {
 		return (byte) ((double) (current / required) * 100);
 	}
 
+    @Override
 	public ResearchCategory getResearchType() {
 		return ResearchCategory.CALCULATORS;
 	}
-
 }

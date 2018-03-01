@@ -6,6 +6,7 @@ import java.util.Random;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumHand;
@@ -50,9 +51,21 @@ public class FabricationChamber extends SonarMachineBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
-		/* TileEntity target = world.getTileEntity(pos); if (target != null && target instanceof TileEntityFabricationChamber) { TileEntityFabricationChamber chamber = (TileEntityFabricationChamber) target; if (chamber.currentFabricateTime != 0) { float x1 = pos.getX() + random.nextFloat(); float y1 = pos.getY() + 0.5F; float z1 = pos.getZ() + random.nextFloat();
+		/* TileEntity target = world.getTileEntity(pos); if (target != null &&
+		 * target instanceof TileEntityFabricationChamber) {
+		 * TileEntityFabricationChamber chamber = (TileEntityFabricationChamber)
+		 * target; if (chamber.currentFabricateTime != 0) { float x1 =
+		 * pos.getX() + random.nextFloat(); float y1 = pos.getY() + 0.5F; float
+		 * z1 = pos.getZ() + random.nextFloat();
 		 * 
-		 * world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D); world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D); world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D); world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38, y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D); } } */
+		 * world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38,
+		 * y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D);
+		 * world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38,
+		 * y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D);
+		 * world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38,
+		 * y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D);
+		 * world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38,
+		 * y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D); } } */
 	}
 
 	@Override
@@ -66,16 +79,11 @@ public class FabricationChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
+	public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+		CalculatorHelper.addEnergytoToolTip(stack, world, list);
 	}
-
+	
 	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "New Feature!");
-		// list.add("Doesn't require power to opperate");
-	}
-
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -84,8 +92,8 @@ public class FabricationChamber extends SonarMachineBlock {
 		return false;
 	}
 
+	@Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
-
 }

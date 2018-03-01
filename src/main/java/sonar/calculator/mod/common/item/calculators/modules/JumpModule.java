@@ -30,7 +30,7 @@ public class JumpModule extends ModuleBase implements IModuleClickable {
 	public void onModuleActivated(ItemStack stack, NBTTagCompound modeTag, World world, EntityPlayer player) {
 		long last = modeTag.getLong("last");
 		long current = world.getWorldTime();
-		if (current < last || (current > last + 50)) {
+        if (current < last || current > last + 50) {
 			if (world.isRemote) {
 				RayTraceResult position = player.rayTrace(500, 1);
 				BlockPos pos = position.getBlockPos();
@@ -47,7 +47,7 @@ public class JumpModule extends ModuleBase implements IModuleClickable {
 				modeTag.setLong("last", world.getWorldTime());
 			}
 		} else if (!world.isRemote) {
-			FontHelper.sendMessage("" + "Cool Down: " + (current - last)*2 + "%", world, player);
+            FontHelper.sendMessage("Cool Down: " + (current - last) * 2 + "/100 ", world, player);
 		}
 	}
 
@@ -55,5 +55,4 @@ public class JumpModule extends ModuleBase implements IModuleClickable {
 	public boolean onBlockClicked(ItemStack stack, NBTTagCompound modeTag, EntityPlayer player, World world, BlockPos pos, BlockInteraction interaction) {
 		return false;
 	}
-
 }

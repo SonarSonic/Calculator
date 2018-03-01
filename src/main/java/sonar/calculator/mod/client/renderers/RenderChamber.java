@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -16,8 +15,9 @@ import sonar.calculator.mod.common.tileentity.TileEntityMachine;
 import sonar.calculator.mod.common.tileentity.TileEntityProcess;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.RenderHelper;
+import sonar.core.utils.SonarCompat;
 
-public abstract class RenderChamber extends TileEntitySpecialRenderer {
+public abstract class RenderChamber extends TileEntitySpecialRenderer<TileEntity> {
 	public ModelChamber model;
 	public String texture;
 	public ModelProcessing process = new ModelProcessing();
@@ -28,7 +28,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 
 	public RenderChamber(boolean white) {
 		this.model = new ModelChamber();
-		if (white == true) {
+        if (white) {
 			this.texture = "Calculator:textures/model/machine_frame.png";
 		} else {
 			this.texture = "Calculator:textures/model/machine_frame_black.png";
@@ -40,25 +40,24 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 	public abstract String getName(TileEntity entity);
 
 	@Override
-	public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void renderTileEntityAt(TileEntity entity, double x, double y, double z, float partialTicks, int destroyStage) {
 		RenderHelper.beginRender(x + 0.5F, y + 1.5F, z + 0.5F, RenderHelper.setMetaData(entity), texture);
-
-        if (destroyStage < 0)
-        {
+		
+        if (destroyStage < 0) {
             //GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         }
-		model.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+        model.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 		this.renderAnimation(entity, x, y, z);
 		if (entity != null && entity.getWorld() != null && entity instanceof TileEntityProcess) {
 			TileEntityProcess inv = (TileEntityProcess) entity;
-			ItemStack target = null;
+            ItemStack target;
 			if (inv.cookTime.getObject() == 0 && inv.getStackInSlot(2) != null) {
 				target = inv.getStackInSlot(2);
 			} else {
 				target = inv.getStackInSlot(0);
 			}
 
-			if (target != null) {
+			if (!SonarCompat.isEmpty(target)) {
 				if (!Minecraft.getMinecraft().getRenderItem().shouldRenderItemIn3D(target)) {
 					GL11.glRotated(90, 1, 0, 0);
 					GL11.glTranslated(0, -0.0, -1.17);
@@ -114,14 +113,15 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 			super(true);
 		}
 
+        @Override
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
 			if (entity != null && entity.getWorld() != null) {
-				float tick = (((TileEntityProcess) entity).getRenderPosition()) / 2F;
+                float tick = ((TileEntityProcess) entity).getRenderPosition() / 2F;
 				GL11.glTranslated(0, 0, -tick);
-				process.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+                process.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 				GL11.glTranslated(0, 0, +tick);
 			} else {
-				process.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+                process.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 			}
 		}
 
@@ -137,14 +137,15 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 			super(false);
 		}
 
+        @Override
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
 			if (entity != null && entity.getWorld() != null) {
-				float tick = (((TileEntityProcess) entity).getRenderPosition()) / 2F;
+                float tick = ((TileEntityProcess) entity).getRenderPosition() / 2F;
 				GL11.glTranslated(0, 0, -tick);
-				process.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+                process.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 				GL11.glTranslated(0, 0, +tick);
 			} else {
-				process.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+                process.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 			}
 		}
 
@@ -163,17 +164,17 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 			super(false);
 		}
 
+        @Override
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
 			if (entity != null && entity.getWorld() != null) {
-				float tick = (((TileEntityProcess) entity).getRenderPosition()) / 4.5F;
+                float tick = ((TileEntityProcess) entity).getRenderPosition() / 4.5F;
 				GL11.glTranslated(0, tick, 0);
-				splitter.renderSplitter((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+                splitter.renderSplitter(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 				GL11.glTranslated(0, -tick, 0);
-				splitter.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
-
+                splitter.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 			} else {
-				splitter.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
-				splitter.renderSplitter((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+                splitter.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+                splitter.renderSplitter(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 			}
 		}
 
@@ -189,17 +190,17 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer {
 			super(true);
 		}
 
+        @Override
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
 			if (entity != null && entity.getWorld() != null) {
-				float tick = (((TileEntityProcess) entity).getRenderPosition()) / 4.5F;
+                float tick = ((TileEntityProcess) entity).getRenderPosition() / 4.5F;
 				GL11.glTranslated(0, tick, 0);
-				splitter.renderSplitter((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+                splitter.renderSplitter(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 				GL11.glTranslated(0, -tick, 0);
-				splitter.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
-
+                splitter.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 			} else {
-				splitter.render((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
-				splitter.renderSplitter((Entity) null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+                splitter.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
+                splitter.renderSplitter(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 			}
 		}
 

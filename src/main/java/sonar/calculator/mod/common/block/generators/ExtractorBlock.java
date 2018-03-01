@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -29,6 +30,7 @@ public class ExtractorBlock extends SonarMachineBlock {
 		this.setBlockBounds(0.0625F, 0.0625F, 0.0625F, 1 - 0.0625F, 1 - 0.0625F, 1 - 0.0625F);
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -58,7 +60,6 @@ public class ExtractorBlock extends SonarMachineBlock {
 			TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(pos);
 			//generator.updateAdjacentHandlers();
 		}
-
 	}
 
 	@Override
@@ -74,17 +75,11 @@ public class ExtractorBlock extends SonarMachineBlock {
 		return new TileEntityGenerator.StarchExtractor();
 	}
 
-	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-		CalculatorHelper.addItemLevelToolTip(stack, player, list);
-
-	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-
-		switch (type) {
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+        CalculatorHelper.addItemLevelToolTip(stack, world, list);
+        switch (type) {
 		case 0:
 			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Starch Extractor") + " RF/t");
 			break;

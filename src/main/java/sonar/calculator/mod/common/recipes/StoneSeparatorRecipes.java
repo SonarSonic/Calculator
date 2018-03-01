@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.core.recipes.DefinedRecipeHelper;
 
-public class StoneSeparatorRecipes extends DefinedRecipeHelper {
+public class StoneSeparatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 
 	private static final StoneSeparatorRecipes recipes = new StoneSeparatorRecipes();
 
@@ -14,7 +14,7 @@ public class StoneSeparatorRecipes extends DefinedRecipeHelper {
 		super(1, 2, false);
 	}
 
-	public static final StoneSeparatorRecipes instance() {
+    public static StoneSeparatorRecipes instance() {
 		return recipes;
 	}
 
@@ -32,7 +32,6 @@ public class StoneSeparatorRecipes extends DefinedRecipeHelper {
 		addRecipe(new ItemStack(Blocks.LOG2, 1, 1), new ItemStack(Blocks.PLANKS, 4, 5), new ItemStack(Items.STICK, 2, 0));
 		addRecipe(Calculator.amethystLeaves, new ItemStack(Blocks.LEAVES, 1, 0), new ItemStack(Calculator.shard_amethyst, 2));
 		addRecipe(Calculator.amethystLog, new ItemStack(Blocks.LOG, 1, 0), new ItemStack(Calculator.small_amethyst, 1));
-
 	}
 
 	@Override

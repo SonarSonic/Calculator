@@ -19,8 +19,9 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
-public class TileEntityHungerProcessor extends TileEntitySidedInventory implements IHungerProcessor, IGuiTile {
+public class TileEntityHungerProcessor extends TileEntitySidedInventory implements IGuiTile, IHungerProcessor {
 
 	public SyncTagType.INT storedpoints = new SyncTagType.INT(0);
 	public final int speed = 4;
@@ -36,14 +37,14 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	public void update() {
 		super.update();
 		if (!this.getWorld().isRemote)
-			food(slots()[0]);
-		charge(slots()[1]);
+			food(slots().get(0));
+		charge(slots().get(1));
 
 		this.markDirty();
 	}
 
 	public void charge(ItemStack stack) {
-		if (!(stack == null) && this.storedpoints.getObject() != 0) {
+        if (!SonarCompat.isEmpty(stack) && this.storedpoints.getObject() != 0) {
 			if (stack.getItem() instanceof IHungerStore) {
 				IHungerStore module = (IHungerStore) stack.getItem();
 				int hunger = module.getHungerPoints(stack);
@@ -69,18 +70,14 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 				}
 			}
 		}
-
 	}
 
 	private void food(ItemStack stack) {
-		if (!(stack == null)) {
+        if (!SonarCompat.isEmpty(stack)) {
 			if (stack.getItem() instanceof ItemFood) {
 				ItemFood food = (ItemFood) stack.getItem();
 				storedpoints.increaseBy(food.getHealAmount(stack));
-				this.slots()[0].stackSize--;
-				if (this.slots()[0].stackSize <= 0) {
-					this.slots()[0] = null;
-				}
+				SonarCompat.shrink(slots().get(0), 1);
 			}
 			if (stack.getItem() instanceof IHungerStore) {
 
@@ -118,13 +115,13 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 		return true;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add(FontHelper.translate("points.hunger") + ": " + storedpoints);
 		return currenttip;
 	}
 
-	@Override
 	public int getHungerPoints() {
 		return storedpoints.getObject();
 	}
@@ -138,5 +135,4 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiHungerProcessor(player.inventory, this);
 	}
-
 }

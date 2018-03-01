@@ -36,5 +36,4 @@ public class Sickle extends SonarItem {
 
 		return EnumActionResult.PASS;
 	}
-
 }

@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -50,24 +51,25 @@ public class WeatherController extends SonarMachineBlock {
 			TileEntityWeatherController controller = (TileEntityWeatherController) target;
 			controller.startProcess();
 		}
-
 	}
 
+    @Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityWeatherController();
 	}
 
-	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
-	}
+    @Override
+    public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+        CalculatorHelper.addEnergytoToolTip(stack, world, list);
+    }
 
+    @Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
+    @Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-
 }

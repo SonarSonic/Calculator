@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -19,6 +18,7 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
 import sonar.core.inventory.ILargeInventory;
 import sonar.core.inventory.SonarLargeInventory;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class ReinforcedChest extends BlockChest {
 	public ReinforcedChest() {
@@ -26,13 +26,14 @@ public class ReinforcedChest extends BlockChest {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
 		if (player != null && !world.isRemote) {
 			FMLNetworkHandler.openGui(player, Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
 
+	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
@@ -41,8 +42,7 @@ public class ReinforcedChest extends BlockChest {
 
 			for (int i = 0; i < inventory.getSlots(); ++i) {
 				ItemStack itemstack = inventory.getStackInSlot(i);
-
-				if (itemstack != null) {
+				if (!SonarCompat.isEmpty(itemstack)) {
 					InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack);
 				}
 			}
@@ -57,6 +57,7 @@ public class ReinforcedChest extends BlockChest {
 		return new TileEntityReinforcedChest();
 	}
 
+	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		return true;
 	}

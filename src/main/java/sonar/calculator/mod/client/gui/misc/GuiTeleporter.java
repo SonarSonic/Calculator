@@ -17,13 +17,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.machines.TeleportLink;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.SonarCore;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons.ImageButton;
 import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.ContainerEmpty;
 import sonar.core.network.PacketByteBuf;
 
-public class GuiTeleporter extends GuiSonar {
+public class GuiTeleporter extends GuiSonarTile {
 	public static ResourceLocation network = new ResourceLocation("Calculator:textures/gui/teleporter.png");
 
 	public TileEntityTeleporter entity;
@@ -54,9 +54,9 @@ public class GuiTeleporter extends GuiSonar {
 			for (int i = start; i < finish; i++) {
 				if (links.get(i) != null) {
 					if (links.get(i).networkID == entity.linkID) {
-						FontHelper.text(links.get(i).networkName, 90, 7 + (12 * i) - (12 * start), Color.GREEN.getRGB());
+                        FontHelper.text(links.get(i).networkName, 90, 7 + 12 * i - 12 * start, Color.GREEN.getRGB());
 					} else {
-						FontHelper.text(links.get(i).networkName, 90, 7 + (12 * i) - (12 * start), 2);
+                        FontHelper.text(links.get(i).networkName, 90, 7 + 12 * i - 12 * start, 2);
 					}
 				}
 			}
@@ -71,18 +71,19 @@ public class GuiTeleporter extends GuiSonar {
 		FontHelper.text("Password: ", 97, 56, Color.GREEN.getRGB());
 	}
 
+    @Override
 	public void initGui() {
 		super.initGui();
 		Keyboard.enableRepeatEvents(true);
-		name = new GuiTextField(0, this.fontRendererObj, 8, 40, 70, 12);
+        name = new GuiTextField(0, this.fontRendererObj, 8, 40, 70, 12);
 		name.setMaxStringLength(10);
 		name.setText(String.valueOf(entity.name));
 
-		password = new GuiTextField(1, this.fontRendererObj, 8, 66, 70, 12);
+        password = new GuiTextField(1, this.fontRendererObj, 8, 66, 70, 12);
 		password.setMaxStringLength(10);
 		password.setText(String.valueOf(entity.password));
 
-		destinationPassword = new GuiTextField(2, this.fontRendererObj, 87, 66, 70, 12);
+        destinationPassword = new GuiTextField(2, this.fontRendererObj, 87, 66, 70, 12);
 		destinationPassword.setMaxStringLength(10);
 		destinationPassword.setText(String.valueOf(entity.linkPassword));
 
@@ -112,7 +113,6 @@ public class GuiTeleporter extends GuiSonar {
 		name.mouseClicked(i - guiLeft, j - guiTop, k);
 		password.mouseClicked(i - guiLeft, j - guiTop, k);
 		destinationPassword.mouseClicked(i - guiLeft, j - guiTop, k);
-
 	}
 
 	@Override
@@ -120,6 +120,7 @@ public class GuiTeleporter extends GuiSonar {
 		return new ResourceLocation("Calculator:textures/gui/teleporter.png");
 	}
 
+    @Override
 	public void handleMouseInput() {
 		float lastScroll = currentScroll;
 		int i = Mouse.getEventDWheel();
@@ -145,9 +146,9 @@ public class GuiTeleporter extends GuiSonar {
 				this.currentScroll = 1.0F;
 			}
 		}
-
 	}
 
+    @Override
 	public void drawScreen(int x, int y, float var) {
 		super.drawScreen(x, y, var);
 		float lastScroll = currentScroll;
@@ -173,9 +174,7 @@ public class GuiTeleporter extends GuiSonar {
 			if (this.currentScroll > 1.0F) {
 				this.currentScroll = 1.0F;
 			}
-
 		}
-
 	}
 
 	@Override
@@ -186,71 +185,58 @@ public class GuiTeleporter extends GuiSonar {
 			} else {
 				name.textboxKeyTyped(c, i);
 				final String text = name.getText();
-				if (text.isEmpty() || text == "" || text == null)
+                if (text == null || text.isEmpty() || text.equals(""))
 					this.entity.name.setObject("");
 				else
 					this.entity.name.setObject(text);
-				if (text.isEmpty() || text == "" || text == null) {
+                if (text == null || text.isEmpty() || text.equals("")) {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 1));
 				} else {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 1));
 				}
-
 			}
-
 		} else if (password.isFocused()) {
 			if (c == 13 || c == 27) {
 				password.setFocused(false);
 			} else {
 				password.textboxKeyTyped(c, i);
 				final String text = password.getText();
-				if (text.isEmpty() || text == "" || text == null)
+                if (text == null || text.isEmpty() || text.equals(""))
 					this.entity.password.setObject("");
 				else
 					this.entity.password.setObject(text);
-				if (text.isEmpty() || text == "" || text == null) {
+                if (text == null || text.isEmpty() || text.equals("")) {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 2));
 				} else {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 2));
 				}
-
 			}
-
 		} else if (destinationPassword.isFocused()) {
 			if (c == 13 || c == 27) {
 				destinationPassword.setFocused(false);
 			} else {
 				destinationPassword.textboxKeyTyped(c, i);
 				final String text = destinationPassword.getText();
-				if (text.isEmpty() || text == "" || text == null)
+                if (text == null || text.isEmpty() || text.equals(""))
 					this.entity.linkPassword.setObject("");
 				else
 					this.entity.linkPassword.setObject(text);
-				if (text.isEmpty() || text == "" || text == null) {
+                if (text == null || text.isEmpty() || text.equals("")) {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 3));
 				} else {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 3));
 				}
-
 			}
-
 		} else {
 			 super.keyTyped(c, i);
-
 		}
-
 	}
 
 	private boolean needsScrollBars() {
-		if (entity.links == null)
-			return false;
-		if (entity.links.size() <= 4)
-			return false;
-
-		return true;
-
+        return entity.links != null && entity.links.size() > 4;
 	}
 
+    @Override
 	protected void actionPerformed(GuiButton button) {
 		if (button.id >= 10) {
 			if (entity.links != null) {
@@ -290,7 +276,7 @@ public class GuiTeleporter extends GuiSonar {
 		super.drawGuiContainerBackgroundLayer(var1, var2, var3);
 		int pos = this.getLinkPosition();
 		for (int i = 0; i < 4; i++) {
-			drawTexturedModalRect(this.guiLeft + 86, this.guiTop + 19 + 12 - 26 + (12 * i), 0, i == pos ? 178 : 166, 154, 12);
+            drawTexturedModalRect(this.guiLeft + 86, this.guiTop + 19 + 12 - 26 + 12 * i, 0, i == pos ? 178 : 166, 154, 12);
 		}
 		this.drawTexturedModalRect(scrollerLeft, scrollerStart + (int) ((float) (scrollerEnd - scrollerStart - 17) * this.currentScroll), 176, 0, 10, 15);
 		if (entity.passwordMatch)
@@ -304,5 +290,4 @@ public class GuiTeleporter extends GuiSonar {
 			super(id, x, y, network, 0, 190, 72, 11);
 		}
 	}
-
 }

@@ -1,7 +1,7 @@
 package sonar.calculator.mod.common.item.calculators;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
@@ -49,6 +49,7 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 		return null;
 	}
 
+    @Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
 		if (module instanceof IModuleUpdate) {
 			NBTTagCompound tag = getTagCompound(stack);
@@ -57,6 +58,7 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 		}
 	}
 
+    @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		if (module instanceof IModuleClickable) {
 			NBTTagCompound tag = getTagCompound(stack);
@@ -66,6 +68,7 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
+    @Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (module instanceof IModuleClickable) {
 			NBTTagCompound tag = getTagCompound(stack);
@@ -76,8 +79,9 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 		return EnumActionResult.PASS;
 	}
 
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4) {
+        super.addInformation(stack, player, list, par4);
 		if (module instanceof IModuleInventory) {
 			int items = ((IModuleInventory) module).getInventory(stack, invTag, true).getItemsStored(stack);
 			if (items != 0) {
@@ -101,7 +105,7 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 
 	@Override
 	public ArrayList<IModule> getModules(ItemStack stack) {
-		return (ArrayList<IModule>) Arrays.asList(module);
+        return (ArrayList<IModule>) Collections.singletonList(module);
 	}
 
 	@Override
@@ -114,8 +118,8 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 		return ((IGuiItem) module).getGuiScreen(player, stack);
 	}
 
+    @Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
 	}
-
 }

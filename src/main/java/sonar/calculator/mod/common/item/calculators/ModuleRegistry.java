@@ -30,5 +30,4 @@ public class ModuleRegistry extends RegistryHelper<IModule> {
 	public String registeryType() {
 		return "Flawless Calculator Modes";
 	}
-
 }

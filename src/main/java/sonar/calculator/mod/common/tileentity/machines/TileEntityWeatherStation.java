@@ -12,7 +12,9 @@ public class TileEntityWeatherStation extends TileEntitySonar implements ITickab
 	public boolean loaded;
 	public int x, z, ticks;
 
+    @Override
 	public void update() {
+        super.update();
 		if (!loaded) {
 			this.setAngle();
 			loaded = true;
@@ -54,7 +56,7 @@ public class TileEntityWeatherStation extends TileEntitySonar implements ITickab
 				if (target != null && target instanceof TileEntityConductorMast) {
 					TileEntityConductorMast tile = (TileEntityConductorMast) target;
 					double mastDist = target.getDistanceSq(pos.getX(), pos.getY(), pos.getZ());
-					if (distance == 0 || distance > mastDist || ((mastDist == distance && mast != null) && (mast.lastStations >= tile.lastStations))) {
+                    if (distance == 0 || distance > mastDist || mastDist == distance && mast != null && mast.lastStations >= tile.lastStations) {
 						distance = mastDist;
 						angle = Math.toDegrees(Math.atan2(Z, X)) - 90;
 						mast = tile;
@@ -69,9 +71,9 @@ public class TileEntityWeatherStation extends TileEntitySonar implements ITickab
 			z = mast.getPos().getZ();
 		}
 		markBlockForUpdate();
-
 	}
 
+    @Override
 	public boolean maxRender() {
 		return true;
 	}

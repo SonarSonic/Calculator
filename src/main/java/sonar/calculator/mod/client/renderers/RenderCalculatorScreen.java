@@ -17,7 +17,8 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer<TileEntity
 	private static final ResourceLocation tex = new ResourceLocation("Calculator:textures/model/calculatorScreen.png");
 	private final ModelSign modelSign = new ModelSign();
 
-	public void renderTileEntityAt(TileEntityCalculatorScreen te, double x, double y, double z, float partialTicks, int destroyStage) {
+    @Override
+    public void renderTileEntityAt(TileEntityCalculatorScreen te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GL11.glPushMatrix();
 
 		float f1 = 0.6666667F;
@@ -59,7 +60,6 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer<TileEntity
 			String max = "M: " +FontHelper.formatStorage(te.latestMax);
 			fontrenderer.drawString(energy, -fontrenderer.getStringWidth(energy) / 2, -8, b0);
 			fontrenderer.drawString(max, -fontrenderer.getStringWidth(max) / 2, 4, b0);
-
 		}
 		GL11.glDepthMask(true);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -67,6 +67,6 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer<TileEntity
 	}
 
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float var) {
-		this.renderTileEntityAt((TileEntityCalculatorScreen) tile, x, y, z, var);
+        this.renderTileEntityAt(tile, x, y, z, var);
 	}
 }

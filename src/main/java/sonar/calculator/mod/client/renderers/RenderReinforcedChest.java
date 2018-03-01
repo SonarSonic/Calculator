@@ -22,18 +22,19 @@ public class RenderReinforcedChest extends TileEntitySpecialRenderer<TileEntityR
 	public RenderReinforcedChest() {
 		Calendar calendar = Calendar.getInstance();
 
-		if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
+        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
 			this.isChristams = true;
 		}
 	}
 
-	public void renderTileEntityAt(TileEntityReinforcedChest te, double x, double y, double z, float partialTicks, int destroyStage) {
+    @Override
+    public void renderTileEntityAt(TileEntityReinforcedChest te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GlStateManager.enableDepth();
 		GlStateManager.depthFunc(515);
 		GlStateManager.depthMask(true);
 		int i;
 
-		if (!te.hasWorldObj()) {
+		if (te.getWorld()==null) {
 			i = 0;
 		} else {
 			Block block = te.getBlockType();
@@ -97,6 +98,5 @@ public class RenderReinforcedChest extends TileEntitySpecialRenderer<TileEntityR
 			GlStateManager.popMatrix();
 			GlStateManager.matrixMode(5888);
 		}
-
 	}
 }

@@ -1,7 +1,6 @@
 package sonar.calculator.mod.common.block.misc;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -49,21 +48,25 @@ public class RainSensor extends SonarMachineBlock {
 		return state.getValue(bool) ? 15 : 0;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public IBlockState getStateForEntityRender(IBlockState state) {
 		return this.getDefaultState().withProperty(bool, false);
 	}
 
+    @Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(bool) ? 1 : 0;
 	}
 
+    @Override
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(bool, meta == 1 ? true : false);
+        return this.getDefaultState().withProperty(bool, meta == 1);
 	}
 
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { bool });
+        return new BlockStateContainer(this, bool);
 	}
 
 	@Override
@@ -71,10 +74,12 @@ public class RainSensor extends SonarMachineBlock {
 		return new TileEntityRainSensor();
 	}
 
+    @Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
+    @Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
@@ -84,6 +89,7 @@ public class RainSensor extends SonarMachineBlock {
 		return true;
 	}
 
+    @Override
 	public boolean shouldCheckWeakPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return false;
 	}

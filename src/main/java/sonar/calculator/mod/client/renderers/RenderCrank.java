@@ -3,7 +3,6 @@ package sonar.calculator.mod.client.renderers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.client.models.ModelCrankHandle;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankHandle;
@@ -16,7 +15,8 @@ public class RenderCrank extends TileEntitySpecialRenderer<TileEntityCrankHandle
 		this.model = new ModelCrankHandle();
 	}
 
-	public void renderTileEntityAt(TileEntityCrankHandle tileentity, double x, double y, double z, float partialTicks, int destroyStage) {
+    @Override
+    public void renderTileEntityAt(TileEntityCrankHandle tileentity, double x, double y, double z, float partialTicks, int destroyStage) {
 		int i;
 		if (tileentity.getWorld() == null || tileentity==null) {
 			return;
@@ -43,7 +43,7 @@ public class RenderCrank extends TileEntitySpecialRenderer<TileEntityCrankHandle
 		case 4:
 			GlStateManager.rotate(270.0F, 0.0F, 1.0F, 0.0F);
 		}
-		this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+        this.model.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		GlStateManager.popMatrix();
 		GlStateManager.popMatrix();
 	}

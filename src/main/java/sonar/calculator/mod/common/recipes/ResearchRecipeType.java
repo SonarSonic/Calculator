@@ -73,7 +73,7 @@ public enum ResearchRecipeType {
 	}
 
 	public static ArrayList<ResearchRecipeType> getUnlocked(ItemStack stack) {
-		ArrayList<ResearchRecipeType> unlocked = new ArrayList<ResearchRecipeType>();
+        ArrayList<ResearchRecipeType> unlocked = new ArrayList<>();
 		int[] ids = OreDictionary.getOreIDs(stack);
 		for (ResearchRecipeType type : ResearchRecipeType.values()) {
 			for (Object object : type.items) {

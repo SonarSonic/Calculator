@@ -4,6 +4,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLocator;
+import sonar.core.utils.SonarCompat;
 
 public class SlotLocatorModule extends Slot {
 
@@ -14,13 +15,12 @@ public class SlotLocatorModule extends Slot {
 		this.locator = locator;
 	}
 
+    @Override
 	public boolean isItemValid(ItemStack stack) {
-		if (stack != null && stack.getItem() == Calculator.itemLocatorModule) {
-			return true;
-		}
-		return false;
+        return !SonarCompat.isEmpty(stack) && stack.getItem() == Calculator.itemLocatorModule;
 	}
 
+    @Override
 	public void onSlotChanged() {
 		super.onSlotChanged();
 		locator.createOwner();

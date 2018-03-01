@@ -13,6 +13,7 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import sonar.calculator.mod.Calculator;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategoryV2;
 
@@ -35,26 +36,25 @@ public class FabricationCategory extends JEICategoryV2 {
 	}
 
 	@Override
-	public void drawAnimations(Minecraft minecraft) {
+	public void drawExtras(Minecraft minecraft) {
 		arrow.draw(minecraft, 95, 20);
 	}
 
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
-		List<ItemStack> outputs = recipeWrapper.getInputs();
+		List<List<ItemStack>> outputs = ingredients.getInputs(ItemStack.class);
 		int left = 0;
 		int top = 0;
 		int cPos = 0;
-		for (Object stack : outputs) {
-			int cLeft = left + ((cPos - ((cPos / 5) * 5)) * 18);
-			int cTop = top + (cPos / 5) * 18;
+		for (List<ItemStack> stack : outputs) {
+            int cLeft = left + (cPos - cPos / 5 * 5) * 18;
+            int cTop = top + cPos / 5 * 18;
 			stacks.init(cPos, true, cLeft, cTop);
-			stacks.setFromRecipe(cPos, stack);
+			stacks.set(cPos, stack);
 			cPos++;
 		}
 		stacks.init(-1, false, 129, 20);
-		stacks.setFromRecipe(-1, recipeWrapper.getOutputs());
-
+		stacks.set(-1, ingredients.getOutputs(ItemStack.class).get(0));
 	}
 }

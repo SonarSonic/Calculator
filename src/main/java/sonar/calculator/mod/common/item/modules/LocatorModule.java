@@ -42,11 +42,11 @@ public class LocatorModule extends SonarItem implements ILocatorModule {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4) {
+        super.addInformation(stack, player, list, par4);
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbtData = stack.getTagCompound();
-			if (stack.getTagCompound().getString("Player") != "None") {
+            if (!stack.getTagCompound().getString("Player").equals("None")) {
 				list.add(FontHelper.translate("locator.owner") + ": " + stack.getTagCompound().getString("Player"));
 			} else {
 				list.add(FontHelper.translate("locator.owner") + ": " + FontHelper.translate("locator.none"));
@@ -54,17 +54,16 @@ public class LocatorModule extends SonarItem implements ILocatorModule {
 		}
 	}
 
+    @Override
 	public String getPlayer(ItemStack stack) {
 		if (stack.hasTagCompound()) {
 			String playerName = stack.getTagCompound().getString("Player");
-			if (playerName == "None") {
+            if (playerName.equals("None")) {
 				return null;
 			} else {
 				return playerName;
 			}
 		}
 		return null;
-
 	}
-
 }

@@ -6,7 +6,7 @@ public class GlowstoneExtractorRecipes extends SimpleValueHelper {
 
 	private static final GlowstoneExtractorRecipes recipes = new GlowstoneExtractorRecipes();
 
-	public static final GlowstoneExtractorRecipes instance() {
+    public static GlowstoneExtractorRecipes instance() {
 		return recipes;
 	}
 
@@ -21,5 +21,4 @@ public class GlowstoneExtractorRecipes extends SimpleValueHelper {
 	public String getRecipeID() {
 		return "Glowstone Values";
 	}
-
 }

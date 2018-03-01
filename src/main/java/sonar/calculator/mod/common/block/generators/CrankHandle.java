@@ -22,13 +22,15 @@ public class CrankHandle extends SonarMachineBlock {
 
 	public CrankHandle() {
 		super(SonarMaterials.machine, true, true);
-		setBlockBounds((float) (0.0625 * 3), 0.0F, (float) (0.0625 * 3), (float) (1 - (0.0625 * 3)), 0.625F, (float) (1 - (0.0625 * 3)));
+        setBlockBounds((float) (0.0625 * 3), 0.0F, (float) (0.0625 * 3), (float) (1 - 0.0625 * 3), 0.625F, (float) (1 - 0.0625 * 3));
 	}
 
+    @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
 
+    @Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
@@ -38,7 +40,7 @@ public class CrankHandle extends SonarMachineBlock {
 		TileEntity target = world.getTileEntity(pos);
 		if (target instanceof TileEntityCrankHandle) {
 			TileEntityCrankHandle crank = (TileEntityCrankHandle) target;
-			int rand1 = 0 + (int) (Math.random() * 100.0D);
+            int rand1 = (int) (Math.random() * 100.0D);
 			if (!crank.cranked) {
 				crank.cranked = true;
 				if (rand1 < 1) {
@@ -54,7 +56,7 @@ public class CrankHandle extends SonarMachineBlock {
 	@Override
 	public boolean canPlaceBlockAt(World world, BlockPos pos) {
 		super.canPlaceBlockAt(world, pos);
-		if ((pos.getY() >= 0) && (pos.getY() < 256)) {
+        if (pos.getY() >= 0 && pos.getY() < 256) {
 			Block block = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
 			if (block == Calculator.handcrankedGenerator) {
 				return true;
@@ -94,5 +96,4 @@ public class CrankHandle extends SonarMachineBlock {
 	public boolean dropStandard(IBlockAccess world, BlockPos pos) {
 		return true;
 	}
-
 }

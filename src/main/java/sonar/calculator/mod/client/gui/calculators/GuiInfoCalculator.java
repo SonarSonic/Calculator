@@ -7,14 +7,10 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,9 +21,11 @@ import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.calculator.mod.guide.IItemInfo;
 import sonar.calculator.mod.guide.IItemInfo.Category;
 import sonar.calculator.mod.guide.InfoRegistry;
+import sonar.core.client.gui.GuiSonar;
 import sonar.core.helpers.FontHelper;
+import sonar.core.utils.SonarCompat;
 
-public class GuiInfoCalculator extends GuiContainer {
+public class GuiInfoCalculator extends GuiSonar {
 
 	public static final ResourceLocation list = new ResourceLocation("Calculator:textures/gui/info_calculator.png");
 	public static final ResourceLocation info = new ResourceLocation("Calculator:textures/gui/info_calculator_item.png");
@@ -39,11 +37,11 @@ public class GuiInfoCalculator extends GuiContainer {
 	private boolean wasClicking;
 	public int scrollerLeft, scrollerStart, scrollerEnd, scrollerWidth;
 	public Category currentCategory = Category.All;
-	public ArrayList<IItemInfo> infoList = new ArrayList<IItemInfo>();
-	public HashMap<Integer, ArrayList<String[]>> itemInfo = new HashMap<Integer, ArrayList<String[]>>();
+    public ArrayList<IItemInfo> infoList = new ArrayList<>();
+    public HashMap<Integer, ArrayList<String[]>> itemInfo = new HashMap<>();
 	public int currentPos = -1;
 	public int lastPos = -1;
-	public int pageNum = 0;
+    public int pageNum;
 	public GuiState currentState = GuiState.LIST;
 	public String bulletPoint = "\u2022";
 	public final int maxPerPage = 12;
@@ -70,9 +68,7 @@ public class GuiInfoCalculator extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(currentState.getBackground());
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		if (currentState == GuiState.LIST) {
 			drawTexturedModalRect(scrollerLeft, scrollerStart + (int) ((float) (scrollerEnd - scrollerStart - 17) * this.currentScroll), 119, 166, 8, 15);
 			int offsetTop = 29;
@@ -88,8 +84,8 @@ public class GuiInfoCalculator extends GuiContainer {
 			for (Category cat : IItemInfo.Category.values()) {
 				if (cat != Category.All) {
 					Minecraft.getMinecraft().getTextureManager().bindTexture(currentState.getBackground());
-					drawTexturedModalRect(guiLeft + 136, guiTop + 2 + (pos * 18), cat == currentCategory ? 136 + 18 : 136, 2, 18, 18);
-					renderItem(cat.stack, guiLeft + 137, guiTop + 4 + (pos * 18));
+                    drawTexturedModalRect(guiLeft + 136, guiTop + 2 + pos * 18, cat == currentCategory ? 136 + 18 : 136, 2, 18, 18);
+                    renderItem(cat.stack, guiLeft + 137, guiTop + 4 + pos * 18);
 					pos++;
 				}
 			}
@@ -99,10 +95,10 @@ public class GuiInfoCalculator extends GuiContainer {
 				int pos = 0;
 				prepareItemRender();
 				for (ItemStack stack : info.getRelatedItems()) {
-					if (stack != null) {
+					if (!SonarCompat.isEmpty(stack)) {
 						Minecraft.getMinecraft().getTextureManager().bindTexture(list);
-						drawTexturedModalRect(guiLeft + 136, guiTop + 2 + (pos * 18), 136, 2, 18, 18);
-						renderItem(stack, guiLeft + 137, guiTop + 4 + (pos * 18));
+                        drawTexturedModalRect(guiLeft + 136, guiTop + 2 + pos * 18, 136, 2, 18, 18);
+                        renderItem(stack, guiLeft + 137, guiTop + 4 + pos * 18);
 						pos++;
 					}
 				}
@@ -117,13 +113,13 @@ public class GuiInfoCalculator extends GuiContainer {
 	}
 
 	public void renderItem(ItemStack item, int x, int y) {
-		if (item == null) {
+		if (SonarCompat.isEmpty(item)) {
 			return;
 		}
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(0.0F, 0.0F, 32.0F);
 		this.itemRender.renderItemAndEffectIntoGUI(item, x, y);
-		this.itemRender.renderItemOverlayIntoGUI(fontRendererObj, item, x, y, "");
+        this.itemRender.renderItemOverlayIntoGUI(fontRendererObj, item, x, y, "");
 		GlStateManager.popMatrix();
 	}
 
@@ -154,7 +150,7 @@ public class GuiInfoCalculator extends GuiContainer {
 		ArrayList<IItemInfo> newInfo = InfoRegistry.getInfo(currentCategory);
 		String search = getSearch();
 		if (!search.isEmpty() && search != null) {
-			newInfo = Lists.newArrayList();
+            newInfo = new ArrayList<>();
 			for (IItemInfo item : InfoRegistry.getInfo(currentCategory)) {
 				if (item != null) {
 					if (item.getItem().getDisplayName().toLowerCase().contains(search.toLowerCase())) {
@@ -169,20 +165,20 @@ public class GuiInfoCalculator extends GuiContainer {
 	}
 
 	public void changeItemInfo(IItemInfo info) {
-		HashMap<Integer, ArrayList<String[]>> itemInfo = new HashMap<Integer, ArrayList<String[]>>();
+        HashMap<Integer, ArrayList<String[]>> itemInfo = new HashMap<>();
 		String[] strings = FontHelper.translate(info.getItemInfo()).split("-");
 		int pageNum = 0;
 		int pageSize = 0;
-		for (int i = 0; i < strings.length; i++) {
-			String name = bulletPoint + " " + strings[i];
-			List<String> lineInfo = fontRendererObj.listFormattedStringToWidth(name, ((int) ((xSize) * (1 / 0.8))) - 6);
+        for (String string : strings) {
+            String name = bulletPoint + ' ' + string;
+            List<String> lineInfo = fontRendererObj.listFormattedStringToWidth(name, (int) (xSize / 0.8) - 6);
 			if (pageSize + lineInfo.size() < maxPerPage) {
 				pageSize += lineInfo.size();
 			} else {
 				pageSize = lineInfo.size();
 				pageNum++;
 			}
-			itemInfo.putIfAbsent(pageNum, Lists.newArrayList());
+            itemInfo.putIfAbsent(pageNum, new ArrayList<>());
 			itemInfo.get(pageNum).add((String[]) lineInfo.toArray());
 		}
 		this.itemInfo = itemInfo;
@@ -207,26 +203,28 @@ public class GuiInfoCalculator extends GuiContainer {
 				offsetTop = offsetTop + 2;
 			}
 			if (search == null) {
-				search = new GuiTextField(0, this.fontRendererObj, 5, 16, 125, 12);
+                search = new GuiTextField(0, this.fontRendererObj, 5, 16, 125, 12);
 				search.setMaxStringLength(16);
 			}
 
 			int pos = 0;
 			for (Category cat : IItemInfo.Category.values()) {
 				if (cat != Category.All) {
-					buttonList.add(new GuiButton(pos + 1, guiLeft + 136, guiTop + 2 + (pos * 18), 18, 18, "" + pos) {
-						public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+                    buttonList.add(new GuiButton(pos + 1, guiLeft + 136, guiTop + 2 + pos * 18, 18, 18, String.valueOf(pos)) {
+                        @Override
+                        public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 							if (this.visible) {
-								this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+                                this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 								int i = this.getHoverState(this.hovered);
 								if (this.isMouseOver()) {
-									drawCreativeTabHoveringText("" + Category.values()[this.id], mouseX, mouseY);
+									drawCreativeTabHoveringText(String.valueOf(Category.values()[this.id]), mouseX, mouseY);
 								}
 							}
 						}
 
+                        @Override
 						public void drawButtonForegroundLayer(int x, int y) {
-							drawCreativeTabHoveringText("" + Category.values()[this.id], x, y);
+                        	drawCreativeTabHoveringText(String.valueOf(Category.values()[this.id]), x, y);
 						}
 					});
 					pos++;
@@ -239,15 +237,16 @@ public class GuiInfoCalculator extends GuiContainer {
 			if (info != null) {
 				int pos = 0;
 				while (pos != 10) {
-					buttonList.add(new GuiButton(10 + pos, guiLeft + 136, guiTop + 2 + (pos * 18), 18, 18, "") {
-						public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+                    buttonList.add(new GuiButton(10 + pos, guiLeft + 136, guiTop + 2 + pos * 18, 18, 18, "") {
+                        @Override
+                        public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 							if (this.visible) {
-								this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+                                this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 								int i = this.getHoverState(this.hovered);
 								if (this.isMouseOver()) {
 									if (info != null && info.getRelatedItems() != null) {
 										if (this.id - 10 < info.getRelatedItems().length) {
-											drawCreativeTabHoveringText("" + info.getRelatedItems()[id - 10].getDisplayName(), mouseX, mouseY);
+											drawCreativeTabHoveringText(info.getRelatedItems()[id - 10].getDisplayName(), mouseX, mouseY);
 										}
 									}
 								}
@@ -256,7 +255,6 @@ public class GuiInfoCalculator extends GuiContainer {
 						}
 					});
 					pos++;
-
 				}
 			}
 			buttonList.add(new GuiButton(0, guiLeft + 6, guiTop + 140, 20, 20, "<<"));
@@ -266,6 +264,7 @@ public class GuiInfoCalculator extends GuiContainer {
 		}
 	}
 
+    @Override
 	public void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
 		if (button == null) {
@@ -277,10 +276,10 @@ public class GuiInfoCalculator extends GuiContainer {
 		} else if (currentState == GuiState.INFO) {
 			if (button.id >= 10) {
 				IItemInfo info = infoList.get(this.currentPos);
-				if (info == null || !((button.id - 10) < info.getRelatedItems().length))
+                if (info == null || !(button.id - 10 < info.getRelatedItems().length))
 					return;
 				ItemStack stack = info.getRelatedItems()[button.id - 10];
-				if (stack == null)
+				if (SonarCompat.isEmpty(stack))
 					return;
 
 				int pos = 0;
@@ -356,20 +355,19 @@ public class GuiInfoCalculator extends GuiContainer {
 				for (int i = start; i < finish; i++) {
 					IItemInfo info = infoList.get(i);
 					ItemStack item = info.getItem();
-					if (item != null) {
-						this.renderItem(item, 5, 31 + ((i - start) * 18));
+					if (!SonarCompat.isEmpty(item)) {
+                        this.renderItem(item, 5, 31 + (i - start) * 18);
 						GlStateManager.pushMatrix();
 						GlStateManager.scale(0.8, 0.8, 0.8);
 						String name = item.getDisplayName();
-						if (fontRendererObj.getStringWidth(name) > 120) {
-							name = fontRendererObj.trimStringToWidth(name, 120 - 6) + "...";
+                        if (fontRendererObj.getStringWidth(name) > 120) {
+                            name = fontRendererObj.trimStringToWidth(name, 120 - 6) + "...";
 						}
-						FontHelper.text(name, 33, (int) (45 + ((i - start) * (18.0)) * (1.0 / 0.8)), -1);
+                        FontHelper.text(name, 33, (int) (45 + (i - start) * 18.0 * (1.0 / 0.8)), -1);
 						GlStateManager.popMatrix();
 					} else {
-						FontHelper.text("Opps: error", 28, 35 + ((i - start) * 18), -1);
+                        FontHelper.text("Opps: error", 28, 35 + (i - start) * 18, -1);
 					}
-
 				}
 			}
 			search.drawTextBox();
@@ -377,7 +375,7 @@ public class GuiInfoCalculator extends GuiContainer {
 			prepareItemRender();
 			IItemInfo info = infoList.get(currentPos);
 			ItemStack item = info.getItem();
-			if (item != null) {
+			if (!SonarCompat.isEmpty(item)) {
 				this.renderItem(item, 5, 5);
 				GlStateManager.pushMatrix();
 				GlStateManager.scale(0.8, 0.8, 0.8);
@@ -403,8 +401,8 @@ public class GuiInfoCalculator extends GuiContainer {
 				}
 			}
 			GlStateManager.popMatrix();
-			FontHelper.textCentre(currentPos + 1 + " / " + (infoList.size()), xSize, 152, 0);
-			FontHelper.textCentre(pageNum + 1 + " / " + (itemInfo.size()), xSize, 142, 0);
+            FontHelper.textCentre(currentPos + 1 + " / " + infoList.size(), xSize, 152, 0);
+            FontHelper.textCentre(pageNum + 1 + " / " + itemInfo.size(), xSize, 142, 0);
 		}
 	}
 
@@ -420,7 +418,7 @@ public class GuiInfoCalculator extends GuiContainer {
 				int finish = Math.min(start + this.getViewableSize(), infoList.size());
 				for (int i = start; i < finish; i++) {
 					if (i < infoList.size()) {
-						if (y > (29 + (i - start) * 18) && y < (29 + (i - start) * 18) + 18) {
+                        if (y > 29 + (i - start) * 18 && y < 29 + (i - start) * 18 + 18) {
 							IItemInfo info = infoList.get(i);
 							if (info != null) {
 								resetPosition();
@@ -447,9 +445,8 @@ public class GuiInfoCalculator extends GuiContainer {
 				search.textboxKeyTyped(c, i);
 				resetInfoList();
 			}
-
 		} else {
-			if ((i == 1 || i == this.mc.gameSettings.keyBindInventory.getKeyCode())) {
+            if (i == 1 || i == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
 				if (currentState == GuiState.INFO && lastPos != -1) {
 					int last = lastPos;
 					resetPosition();
@@ -457,7 +454,7 @@ public class GuiInfoCalculator extends GuiContainer {
 					currentCategory = Category.All;
 					resetInfo();
 					return;
-				} else if ((currentState == GuiState.INFO || currentCategory != Category.All)) {
+                } else if (currentState == GuiState.INFO || currentCategory != Category.All) {
 					resetPosition();
 					if (currentState == GuiState.LIST)
 						currentCategory = Category.All;
@@ -471,6 +468,7 @@ public class GuiInfoCalculator extends GuiContainer {
 		}
 	}
 
+    @Override
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		if (currentState == GuiState.LIST) {
@@ -498,6 +496,7 @@ public class GuiInfoCalculator extends GuiContainer {
 		}
 	}
 
+    @Override
 	public void drawScreen(int x, int y, float var) {
 		super.drawScreen(x, y, var);
 		if (currentState == GuiState.LIST) {
@@ -523,13 +522,12 @@ public class GuiInfoCalculator extends GuiContainer {
 				if (this.currentScroll > 1.0F) {
 					this.currentScroll = 1.0F;
 				}
-
 			}
 		}
 	}
 
 	public void drawSelectionBackground(int offsetTop, int i, int pos) {
-		drawTexturedModalRect(this.guiLeft + 4, this.guiTop + offsetTop + (getSelectionHeight() * i), 0, i == pos ? 166 + getSelectionHeight() : 166, 119, getSelectionHeight());
+        drawTexturedModalRect(this.guiLeft + 4, this.guiTop + offsetTop + getSelectionHeight() * i, 0, i == pos ? 166 + getSelectionHeight() : 166, 119, getSelectionHeight());
 	}
 
 	public int getViewableSize() {
@@ -541,11 +539,11 @@ public class GuiInfoCalculator extends GuiContainer {
 	}
 
 	private boolean needsScrollBars() {
-		if (infoList.size() <= getViewableSize())
-			return false;
-
-		return true;
-
+        return infoList.size() > getViewableSize();
 	}
 
+	@Override
+	public ResourceLocation getBackground() {
+		return currentState.getBackground();
+	}
 }

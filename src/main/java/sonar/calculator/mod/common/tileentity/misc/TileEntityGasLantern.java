@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,12 +16,13 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class TileEntityGasLantern extends TileEntityInventory implements IGuiTile {
 
 	public SyncTagType.INT burnTime = new SyncTagType.INT("burnTime");
 	public SyncTagType.INT maxBurnTime = new SyncTagType.INT("maxBurnTime");
-	
+
 	public TileEntityGasLantern() {
 		super.inv = new SonarInventory(this, 1);
 		syncList.addParts(burnTime, maxBurnTime, inv);
@@ -28,7 +30,8 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 
 	@Override
 	public void update() {
-		if (this.worldObj.isRemote) {
+        super.update();
+		if (this.getWorld().isRemote) {
 			return;
 		}
 		boolean flag1 = burnTime.getObject() > 0;
@@ -36,12 +39,11 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 		if (burnTime.getObject() > 0) {
 			burnTime.increaseBy(1);
 		}
-		if (!this.worldObj.isRemote) {
+		if (!this.getWorld().isRemote) {
 			if (maxBurnTime.getObject() == 0) {
-				if (this.slots()[0] != null) {
-					if (TileEntityFurnace.isItemFuel(slots()[0])) {
-						burn();
-					}
+				ItemStack burnStack = slots().get(0);
+				if (!SonarCompat.isEmpty(burnStack) && TileEntityFurnace.isItemFuel(burnStack)) {
+					burn();
 				}
 			}
 			if (maxBurnTime.getObject() != 0 && burnTime.getObject() == 0) {
@@ -58,33 +60,26 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 
 		if (flag1 != this.burnTime.getObject() > 0) {
 			flag1 = true;
-			GasLantern.setState(this.isBurning(), worldObj, pos);
+			GasLantern.setState(this.isBurning(), getWorld(), pos);
 			markBlockForUpdate();
 		}
 
 		if (flag2) {
 			this.markDirty();
 		}
-
 	}
 
 	private void burn() {
-		this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(this.slots()[0]) * 10);
-		this.slots()[0].stackSize--;
-
-		if (this.slots()[0].stackSize <= 0) {
-			this.slots()[0] = null;
-		}
-
+		ItemStack burnStack = slots().get(0);
+		this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(burnStack) * 10);
+		burnStack = SonarCompat.shrink(burnStack, 1);
 	}
 
 	public boolean isBurning() {
-		if (this.maxBurnTime.getObject() == 0) {
-			return false;
-		}
-		return true;
+        return this.maxBurnTime.getObject() != 0;
 	}
-	
+
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		if (burnTime.getObject() > 0 && maxBurnTime.getObject() != 0) {

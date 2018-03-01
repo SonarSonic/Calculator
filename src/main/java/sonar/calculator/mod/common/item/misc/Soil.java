@@ -15,22 +15,22 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.common.entities.EntitySoil;
 import sonar.core.common.item.SonarItem;
+import sonar.core.utils.SonarCompat;
 
 public class Soil extends SonarItem implements IStability {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		if (!player.capabilities.isCreativeMode) {
-			stack.stackSize -= 1;
+			stack = SonarCompat.shrink(stack, 1);
 		}
-		world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 		if (!world.isRemote) {
 			EntitySoil entity = new EntitySoil(world, player);
 			entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 			world.spawnEntityInWorld(entity);
 		}
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
-
 	}
 
 	@Override
@@ -43,11 +43,11 @@ public class Soil extends SonarItem implements IStability {
 
 			if (block == Blocks.DIRT) {
 				world.setBlockState(pos, Blocks.FARMLAND.getDefaultState());
-				stack.stackSize -= 1;
+				stack = SonarCompat.shrink(stack, 1);
 			}
 			if (block == Blocks.GRASS) {
 				world.setBlockState(pos, Blocks.FARMLAND.getDefaultState());
-				stack.stackSize -= 1;
+				stack = SonarCompat.shrink(stack, 1);
 			} else {
 				return EnumActionResult.PASS;
 			}

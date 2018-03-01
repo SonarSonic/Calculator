@@ -10,7 +10,7 @@
     "variants": { 
         "inventory": [{            
             "textures": {
-              "layer0":"calculator:items/item_conductorMast"
+              "layer0":"calculator:items/item_conductormast"
             }}],
         "facing":{  
             "north":{},

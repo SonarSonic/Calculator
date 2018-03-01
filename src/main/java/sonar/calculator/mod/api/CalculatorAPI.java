@@ -1,10 +1,9 @@
 package sonar.calculator.mod.api;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Lists;
 
 import gnu.trove.map.hash.THashMap;
 import net.minecraft.item.ItemStack;
@@ -16,41 +15,24 @@ public class CalculatorAPI {
 
 	}
 
-	private static final List<ResourceLocation> multiplierBlacklist = Lists.newArrayList();
-	private static final List<String> multiplierModBlacklist = Lists.newArrayList();
-	private static final Map<String, List<Object[]>> recipes = new THashMap<String, List<Object[]>>();
+    private static final List<ResourceLocation> multiplierBlacklist = new ArrayList<>();
+    private static final List<String> multiplierModBlacklist = new ArrayList<>();
+    private static final Map<String, List<Object[]>> recipes = new THashMap<>();
 	public static final String VERSION = "1.9.4 - 1.0";
 	public static final String MODID = "calculator";
 	public static final String NAME = "calculatorapi";
 
 	public static List<Object[]> getRecipes(String recipeID) {
-		List<Object[]> recipe = recipes.get(recipeID);
-		return recipe;
+        return recipes.get(recipeID);
 	}
 	
 	/**
 	 * @param recipeID the id of the machine
 	 * @param obj inputs followed by outputs in any of the following formats 
-	 * @param [ItemStack, ItemStack[], OreDict String, OreStack]
-	 * 
-	 * <pre>
-	 * List of Compatible Recipe IDs
-	 * "AlgorithmSeparator"
-	 * "ExtractionChamber"
-	 * "PrecisionChamber"
-	 * "ProcessingChamber"
-	 * "ReassemblyChamber"
-	 * "RestorationChamber"
-	 * "StoneSeparator"
-	 * </pre>
-	 * 
 	 */
 	public static void registerRecipe(String recipeID, Object... obj) {
-		if (recipes.get(recipeID) == null) {
-			recipes.put(recipeID, Lists.newArrayList());
-		}
+        recipes.computeIfAbsent(recipeID, k -> new ArrayList<>());
 		recipes.get(recipeID).add(obj);
-
 	}
 
 	public static List<ResourceLocation> getItemBlackList() {
@@ -61,23 +43,22 @@ public class CalculatorAPI {
 		return multiplierModBlacklist;
 	}
 
-	/** adds a Item/Block to Atomic Multiplier blacklist */
+    /**
+     * adds a Item/Block to Atomic Multiplier blacklist
+     */
 	public static void addItemStackToBlackList(ItemStack stack) {
 		multiplierBlacklist.add(stack.getItem().getRegistryName());
 	}
 
-	/** adds a mod to Atomic Multiplier blacklist */
+    /**
+     * adds a mod to Atomic Multiplier blacklist
+     */
 	public static void addModToBlackList(String string) {
 		multiplierModBlacklist.add(string);
 	}
 
 	/**
-	 * 
 	 * @param objects four parameters, see below
-	 * @param output (ItemStack)
-	 * @param input1 (ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input2 (ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param hidden Does the recipe require research? (Boolean)
 	 */
 	public static void registerCalculatorRecipe(Object... objects) {
 		try {
@@ -91,9 +72,6 @@ public class CalculatorAPI {
 
 	/**
 	 * @param objects three parameters, see below
-	 * @param input1 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input2 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param output (Item, Block, ItemStack)
 	 */
 	public static void registerScientificRecipe(Object... objects) {
 		try {
@@ -107,10 +85,6 @@ public class CalculatorAPI {
 
 	/**
 	 * @param objects four parameters, see below
-	 * @param input1 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input2 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input3 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param output (Item, Block, ItemStack)
 	 */
 	public static void registerAtomicRecipe(Object... objects) {
 		try {
@@ -124,11 +98,6 @@ public class CalculatorAPI {
 
 	/**
 	 * @param objects five parameters, see below
-	 * @param input1 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input2 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input3 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param input4 (Item, Block, ItemStack, ItemStack[], OreDict String, OreStack)
-	 * @param output (Item, Block, ItemStack)
 	 */
 	public static void registerFlawlessRecipe(Object... objects) {
 		try {

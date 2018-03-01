@@ -7,5 +7,4 @@ public class CalcHoe extends ItemHoe {
 	public CalcHoe(Item.ToolMaterial material) {
 		super(material);
 	}
-
 }

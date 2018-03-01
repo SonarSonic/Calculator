@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import sonar.calculator.mod.api.modules.IModule;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
 import sonar.core.SonarCore;
+import sonar.core.utils.SonarCompat;
 
 public class PacketModuleSelection implements IMessage {
 
@@ -41,11 +42,12 @@ public class PacketModuleSelection implements IMessage {
 
 	public static class Handler implements IMessageHandler<PacketModuleSelection, IMessage> {
 
+        @Override
 		public IMessage onMessage(PacketModuleSelection message, MessageContext ctx) {
 			EntityPlayer player = SonarCore.proxy.getPlayerEntity(ctx);
 			if (player != null && ctx.side == Side.SERVER) {
 				ItemStack held = player.getHeldItemMainhand();
-				if (held != null) {
+				if (!SonarCompat.isEmpty(held)) {
 					Item item = held.getItem();
 					if (item instanceof FlawlessCalculator) {
 						FlawlessCalculator calc = (FlawlessCalculator) item;

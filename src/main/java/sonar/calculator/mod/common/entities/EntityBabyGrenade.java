@@ -1,6 +1,5 @@
 package sonar.calculator.mod.common.entities;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.RayTraceResult;
@@ -23,8 +22,7 @@ public class EntityBabyGrenade extends EntityThrowable {
 	protected void onImpact(RayTraceResult result) {
 		if (!this.getEntityWorld().isRemote) {
 			setDead();
-			this.getEntityWorld().createExplosion((Entity) null, this.posX, this.posY, this.posZ, 1.0F, true);
-
+            this.getEntityWorld().createExplosion(null, this.posX, this.posY, this.posZ, 1.0F, true);
 		}
 	}
 }

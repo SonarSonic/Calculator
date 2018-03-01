@@ -1,10 +1,9 @@
 package sonar.calculator.mod;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Lists;
 
 import gnu.trove.map.hash.THashMap;
 import net.minecraft.item.ItemStack;
@@ -14,8 +13,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class CalculatorConfig extends Calculator {
 
-	private static final List<IntegerConfig> integerConfigs = Lists.newArrayList();
-	private static final Map<String, Integer> integers = new THashMap<String, Integer>();
+    private static final List<IntegerConfig> integerConfigs = new ArrayList<>();
+    private static final Map<String, Integer> integers = new THashMap<>();
 
 	public static boolean timeEffect;
 	public static boolean beamEffect;
@@ -108,7 +107,6 @@ public class CalculatorConfig extends Calculator {
 
 		addInteger("Processing Chamber", "Energy Usage", 1000, 1, 50000, true);
 		addInteger("Processing Chamber", "Base Speed", 500, 20, 10000, true);
-
 	}
 
 	public static void loadMainConfig() {
@@ -130,7 +128,6 @@ public class CalculatorConfig extends Calculator {
 		locatorMultiplier = config.getFloat("Calculator Locator Multiplier", "Generation", 2F, 0.1F, 64F, "Calculator Locator Multiplier");
 
 		config.save();
-
 	}
 
 	public static void loadAtomicBlacklist() {
@@ -149,7 +146,6 @@ public class CalculatorConfig extends Calculator {
 
 		atomicblackList = blacklist.get("Atomic Multiplier Blacklist", "disabled", blackDefaults);
 		blacklist.save();
-
 	}
 
 	public static void loadBlocks() {
@@ -177,8 +173,8 @@ public class CalculatorConfig extends Calculator {
 	private static boolean isBlockEnabled(String block) {
 		if (block != null) {
 			String[] blacklisted = blocksblackList.getStringList();
-			for (int i = 0; i < blacklisted.length; i++) {
-				if (blacklisted[i] != null && blacklisted[i].equals(block)) {
+            for (String aBlacklisted : blacklisted) {
+                if (aBlacklisted != null && aBlacklisted.equals(block)) {
 					return false;
 				}
 			}
@@ -191,8 +187,8 @@ public class CalculatorConfig extends Calculator {
 	private static boolean isItemEnabled(String item) {
 		if (item != null) {
 			String[] blacklisted = itemsblackList.getStringList();
-			for (int i = 0; i < blacklisted.length; i++) {
-				if (blacklisted[i] != null && blacklisted[i].equals(item)) {
+            for (String aBlacklisted : blacklisted) {
+                if (aBlacklisted != null && aBlacklisted.equals(item)) {
 					return false;
 				}
 			}
@@ -202,8 +198,10 @@ public class CalculatorConfig extends Calculator {
 		}
 	}
 
-	/** @param stack the ItemStack you wish to check
-	 * @return if the Item/Block is enabled */
+    /**
+     * @param stack the ItemStack you wish to check
+     * @return if the Item/Block is enabled
+     */
 	public static boolean isEnabled(ItemStack stack) {
 		/* if (stack == null) { return true; } Block block = Block.getBlockFromItem(stack.getItem()); Item item = stack.getItem(); if (block != null && item instanceof ItemBlock && GameRegistry.findUniqueIdentifierFor(block) != null) { if (CalculatorConfig.isBlockEnabled(GameRegistry.findUniqueIdentifierFor(block).name)) { return true; } else { return false; } } else if (item != null && GameRegistry.findUniqueIdentifierFor(item) != null) { if (CalculatorConfig.isItemEnabled(GameRegistry.findUniqueIdentifierFor(item).name)) { return true;
 		 * 

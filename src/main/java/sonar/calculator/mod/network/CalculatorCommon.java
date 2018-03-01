@@ -22,10 +22,11 @@ import sonar.calculator.mod.network.packets.PacketTeleportLinks;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.utils.IGuiItem;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class CalculatorCommon implements IGuiHandler {
 
-	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
+    private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<>();
 
 	public static void registerPackets() {
 		Calculator.network.registerMessage(PacketCalculatorScreen.Handler.class, PacketCalculatorScreen.class, 0, Side.CLIENT);
@@ -39,7 +40,7 @@ public class CalculatorCommon implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
-		if (entity != null) {
+		if (entity != null && entity instanceof IGuiTile) {
 			if(entity instanceof TileEntitySonar){
 				((TileEntitySonar) entity).forceNextSync();
 			}
@@ -49,7 +50,7 @@ public class CalculatorCommon implements IGuiHandler {
 			}
 		} else {
 			ItemStack equipped = player.getHeldItemMainhand();
-			if (equipped != null) {
+			if (!SonarCompat.isEmpty(equipped)) {
 				switch (ID) {
 				case IGuiItem.ID:
 					return ((IGuiItem) equipped.getItem()).getGuiContainer(player, equipped);
@@ -61,7 +62,6 @@ public class CalculatorCommon implements IGuiHandler {
 					return new ContainerModuleSelector(player, equipped);
 				}
 			}
-
 		}
 		return null;
 	}
@@ -69,7 +69,7 @@ public class CalculatorCommon implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
-		if (entity != null) {
+		if (entity != null && entity instanceof IGuiTile) {
 			switch (ID) {
 			case IGuiTile.ID:
 				return ((IGuiTile) entity).getGuiScreen(player);
@@ -86,7 +86,6 @@ public class CalculatorCommon implements IGuiHandler {
 					return new GuiModuleSelector(player, equipped);
 				}
 			}
-
 		}
 
 		return null;
@@ -102,5 +101,4 @@ public class CalculatorCommon implements IGuiHandler {
 	public static NBTTagCompound getEntityData(String name) {
 		return extendedEntityData.remove(name);
 	}
-
 }

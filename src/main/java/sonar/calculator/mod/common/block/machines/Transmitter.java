@@ -6,6 +6,7 @@ import java.util.Random;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -29,14 +30,16 @@ public class Transmitter extends SonarMachineBlock {
 		this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 1.0F, 0.7F);
 	}
 
+	@Override
 	public boolean hasSpecialRenderer() {
 		return true;
 	}
 
+	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
-	
+
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		return false;
@@ -48,16 +51,13 @@ public class Transmitter extends SonarMachineBlock {
 	}
 
 	@Override
-	public void addSpecialToolTip(ItemStack stack, EntityPlayer player, List list) {
-		CalculatorHelper.addEnergytoToolTip(stack, player, list);
+	public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
+		CalculatorHelper.addEnergytoToolTip(stack, world, list);
 	}
 
 	@Override
 	public boolean canPlaceBlockAt(World world, BlockPos pos) {
-		if (!world.getBlockState(pos.offset(EnumFacing.UP)).getBlock().isReplaceable(world, pos.offset(EnumFacing.UP))) {
-			return false;
-		}
-		return true;
+		return world.getBlockState(pos.offset(EnumFacing.UP)).getBlock().isReplaceable(world, pos.offset(EnumFacing.UP));
 	}
 
 	@Override
@@ -71,7 +71,6 @@ public class Transmitter extends SonarMachineBlock {
 		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
 		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1 + 1.0F, z1, 0.0D, 0.0D, 0.0D);
 		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1 + 1.0F, z1, 0.0D, 0.0D, 0.0D);
-
 	}
 
 	@Override
@@ -93,10 +92,4 @@ public class Transmitter extends SonarMachineBlock {
 	private void removeBlocks(World world, BlockPos pos, IBlockState state) {
 		world.setBlockToAir(pos.offset(EnumFacing.UP));
 	}
-
-	@Override
-	public void standardInfo(ItemStack stack, EntityPlayer player, List list) {
-		//list.add(TextFormatting.YELLOW + "" + TextFormatting.ITALIC + "Returning Feature!");
-	}
-
 }

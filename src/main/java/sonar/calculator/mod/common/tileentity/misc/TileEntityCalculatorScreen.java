@@ -21,13 +21,14 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 	public long latestMax, latestEnergy;
 	public long lastMax, lastEnergy;
 
+    @Override
 	public void update() {
-
-		if (this.worldObj != null && !this.worldObj.isRemote) {
-			EnumFacing front = EnumFacing.getFront(this.getBlockMetadata()).getOpposite();
+        super.update();
+		if (this.getWorld() != null && !this.getWorld().isRemote) {
+			EnumFacing front = EnumFacing.getFront(getBlockMetadata()).getOpposite();
 			TileEntity target = SonarHelper.getAdjacentTileEntity(this, front);
 			if (target == null) {
-				return;
+                //return;
 			} else {
 				ISonarEnergyHandler handler = SonarAPI.getEnergyHelper().canTransferEnergy(target, front);
 				if(handler!=null){
@@ -45,7 +46,6 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 					}
 				}
 			}
-
 		}
 	}
 
@@ -53,19 +53,19 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 		markDirty();
 		this.lastMax = this.latestMax;
 		this.latestMax = max;
-		if (!this.worldObj.isRemote)
-			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 0, max), new TargetPoint(this.worldObj.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
-
+		if (!this.getWorld().isRemote)
+			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 0, max), new TargetPoint(this.getWorld().provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
 	}
 
 	public void sendEnergy(long energy) {
 		markDirty();
 		this.lastEnergy = this.latestEnergy;
 		this.latestEnergy = energy;
-		if (!this.worldObj.isRemote)
-			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 1, energy), new TargetPoint(this.worldObj.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
+		if (!this.getWorld().isRemote)
+			Calculator.network.sendToAllAround(new PacketCalculatorScreen(pos, 1, energy), new TargetPoint(this.getWorld().provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			this.latestMax = nbt.getLong("latestMax");
@@ -73,9 +73,9 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 			this.lastMax = nbt.getLong("lastMax");
 			this.lastEnergy = nbt.getLong("lastEnergy");
 		}
-
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
 			nbt.setLong("latestMax", this.latestMax);
@@ -86,6 +86,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 		return nbt;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;

@@ -31,11 +31,12 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 		syncList.addParts(ticks, playerUUID, inv);
 	}
 
+    @Override
 	public void update() {
 		super.update();
-		if (slots()[0] == null) {
+		if (slots().get(0) == null) {
 			ticks.setObject(0);
-			return;
+            //return;
 		} else {
 			if (ticks.getObject() == 0)
 				ticks.setObject(1);
@@ -52,7 +53,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 
 	public void addRecipes() {
 		if (isServer()) {
-			ArrayList<ResearchRecipeType> types = ResearchRecipeType.getUnlocked(slots()[0]);
+			ArrayList<ResearchRecipeType> types = ResearchRecipeType.getUnlocked(slots().get(0));
 			if (!types.isEmpty()) {
 				IResearch research = PlayerResearchRegistry.getSpecificResearch(playerUUID.getUUID(), ResearchTypes.RECIPES);
 				if (research != null && research instanceof RecipeResearch) {
@@ -63,6 +64,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 		}
 	}
 
+    @Override
 	public boolean receiveClientEvent(int action, int param) {
 		if (action == 1)
 			markBlockForUpdate();
@@ -76,6 +78,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 		this.getWorld().addBlockEvent(pos, blockType, 1, 0);
 	}
 
+    @Override
 	public void openInventory(EntityPlayer player) {
 		super.openInventory(player);
 		if (isServer())
@@ -91,5 +94,4 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiResearchChamber(player, this);
 	}
-
 }

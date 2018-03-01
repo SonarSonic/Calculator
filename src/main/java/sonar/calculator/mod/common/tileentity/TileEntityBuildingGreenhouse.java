@@ -3,8 +3,6 @@ package sonar.calculator.mod.common.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -17,17 +15,17 @@ import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.helpers.FontHelper;
-import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.SonarCompat;
 
-public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse implements IByteBufTile {
+public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse {
 
 	public int requiredStairs = 183;
 	public int requiredLogs = 30;
 	public int requiredPlanks = 42;
 	public int requiredGlass = 94;
 	public int levelTicks, growTicks, growTick;
-	public int requiredBuildEnergy = 0;
+    public int requiredBuildEnergy;
 
 	public abstract int[] getSlotsForType(BlockType type);
 
@@ -50,7 +48,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	@Override
 	public void update() {
 		super.update();
-		if(this.isClient()){
+		if (this.isClient()) {
 			return;
 		}
 		if (this.getWorld().isBlockPowered(pos)) {
@@ -119,6 +117,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 
 	public enum BlockType {
 		LOG, GLASS, PLANKS, STAIRS, NONE;
+
 		public boolean checkBlock(Item item) {
 			Block block = Block.getBlockFromItem(item);
 			if (block == null) {
@@ -171,24 +170,22 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 
 	public void setBlockType(BlockPos pos, int[] slots, BlockType type, int meta) {
 		boolean found = false;
-		for (int i = 0; i < slots.length; i++) {
-			int slot = slots[i];
-			if (slot < slots().length) {
-				ItemStack target = slots()[slot];
-				if (target != null && type.checkBlock(target.getItem())) {
+        for (int slot : slots) {
+			if (slot < slots().size()) {
+				ItemStack target = slots().get(slot);
+				if (!SonarCompat.isEmpty(target) && type.checkBlock(target.getItem())) {
 					Block block = Block.getBlockFromItem(target.getItem());
-					slots()[slot].stackSize--;
-					if (slots()[slot].stackSize == 1) {
-						slots()[slot] = null;
+					if (block != null) {
+						target = SonarCompat.shrink(target, 1);
+						if (meta == -1) {
+							this.getWorld().setBlockState(pos, block.getStateFromMeta(target.getItemDamage()), 2);
+						} else {
+							this.getWorld().setBlockState(pos, block.getStateFromMeta(meta), 3);
+						}
+						this.storage.modifyEnergyStored(-buildRF);
+						found = true;
+						break;
 					}
-					if (meta == -1) {
-						this.getWorld().setBlockState(pos, block.getStateFromMeta(target.getItemDamage()), 2);
-					} else {
-						this.getWorld().setBlockState(pos, block.getStateFromMeta(meta), 3);
-					}
-					this.storage.modifyEnergyStored(-buildRF);
-					found = true;
-					break;
 				}
 			}
 		}
@@ -197,21 +194,23 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		}
 	}
 
-	/** Checks inventory has resources **/
+    /**
+     * Checks inventory has resources
+     **/
 	public boolean hasRequiredStacks() {
 		int logs = 0, stairs = 0, planks = 0, glass = 0;
 		for (int i = 0; i < 7; i++) {
-			ItemStack stack = slots()[i];
-			if (stack == null) {
+			ItemStack stack = slots().get(i);
+			if (SonarCompat.isEmpty(stack)) {
 				return false;
 			} else if (GreenhouseHelper.checkLog(Block.getBlockFromItem(stack.getItem()))) {
-				logs += stack.stackSize;
+				logs += SonarCompat.getCount(stack);
 			} else if (GreenhouseHelper.checkStairs(Block.getBlockFromItem(stack.getItem()))) {
-				stairs += stack.stackSize;
+				stairs += SonarCompat.getCount(stack);
 			} else if (GreenhouseHelper.checkPlanks(Block.getBlockFromItem(stack.getItem()))) {
-				planks += stack.stackSize;
+				planks += SonarCompat.getCount(stack);
 			} else if (GreenhouseHelper.checkGlass(Block.getBlockFromItem(stack.getItem()))) {
-				glass += stack.stackSize;
+				glass += SonarCompat.getCount(stack);
 			}
 		}
 		return logs >= requiredLogs && stairs >= requiredStairs && planks >= requiredPlanks && glass >= requiredGlass;
@@ -220,20 +219,20 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	public ArrayList<String> getRequiredStacks() {
 		int logs = 0, stairs = 0, planks = 0, glass = 0;
 		for (int i = 0; i < 7; i++) {
-			ItemStack stack = slots()[i];
-			if (stack == null) {
-				continue;
+			ItemStack stack = slots().get(i);
+			if (SonarCompat.isEmpty(stack)) {
+                //continue;//It continues anyways so no need for the statement
 			} else if (GreenhouseHelper.checkLog(Block.getBlockFromItem(stack.getItem()))) {
-				logs += stack.stackSize;
+				logs += SonarCompat.getCount(stack);
 			} else if (GreenhouseHelper.checkStairs(Block.getBlockFromItem(stack.getItem()))) {
-				stairs += stack.stackSize;
+				stairs += SonarCompat.getCount(stack);
 			} else if (GreenhouseHelper.checkPlanks(Block.getBlockFromItem(stack.getItem()))) {
-				planks += stack.stackSize;
+				planks += SonarCompat.getCount(stack);
 			} else if (GreenhouseHelper.checkGlass(Block.getBlockFromItem(stack.getItem()))) {
-				glass += stack.stackSize;
+				glass += SonarCompat.getCount(stack);
 			}
 		}
-		ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
 		list.add("greenhouse.requires");
 		if (logs < requiredLogs) {
 			list.add(requiredLogs - logs + " " + FontHelper.translate("greenhouse.logs"));
@@ -248,7 +247,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			list.add(requiredGlass - glass + " " + FontHelper.translate("greenhouse.glass"));
 		}
 		if (list.size() == 1) {
-			return Lists.newArrayList();
+            return new ArrayList<>();
 		}
 		return list;
 	}
@@ -267,9 +266,12 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		return coords;
 	}
 
-	/** Checks Green House Structure **/
+    /**
+     * Checks Green House Structure
+     **/
+    @Override
 	public FailedCoords checkStructure(GreenhouseAction action) {
-		FailedCoords current = null;
+        FailedCoords current;
 		ArrayList<BlockPlace> blocks = getStructure();
 		for (BlockPlace block : blocks) {
 			if (block.pos.equals(this.getPos())) {
@@ -281,10 +283,10 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			}
 		}
 		if (action == GreenhouseAction.DEMOLISH) {
-			ArrayList<BlockCoords> coords = Lists.newArrayList();
+            ArrayList<BlockCoords> coords = new ArrayList<>();
 			for (int Z = -5; Z <= 5; Z++) {
 				for (int X = -5; X <= 5; X++) {
-					BlockPos pos = this.pos.add((forward.getFrontOffsetX() * 4) + X, -1, (forward.getFrontOffsetZ() * 4) + Z);
+                    BlockPos pos = this.pos.add(forward.getFrontOffsetX() * 4 + X, -1, forward.getFrontOffsetZ() * 4 + Z);
 					Block target = getWorld().getBlockState(pos).getBlock();
 					if (target == Blocks.DIRT || target == Blocks.FARMLAND || target == Blocks.WATER || target.isReplaceable(getWorld(), pos)) {
 						getWorld().setBlockState(pos, Blocks.GRASS.getDefaultState(), 2);
@@ -355,7 +357,9 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		return null;
 	}
 
-	/** gets metadata for stairs **/
+    /**
+     * gets metadata for stairs
+     **/
 	public int intValues(int par, BlockType block) {
 		if (type == 2) {
 			if (block == BlockType.STAIRS) {
@@ -386,39 +390,26 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			}
 		}
 		return 0;
-
 	}
 
 	public boolean checkLog(BlockPos pos) {
 		Block block = this.getWorld().getBlockState(pos).getBlock();
-		if (block == null || !GreenhouseHelper.checkLog(block)) {
-			return false;
-		}
-		return true;
+        return block != null && GreenhouseHelper.checkLog(block);
 	}
 
 	public boolean checkGlass(BlockPos pos) {
 		Block block = this.getWorld().getBlockState(pos).getBlock();
-		if (block == null || !GreenhouseHelper.checkGlass(block)) {
-			return false;
-		}
-		return true;
+        return block != null && GreenhouseHelper.checkGlass(block);
 	}
 
 	public boolean checkPlanks(BlockPos pos) {
 		Block block = this.getWorld().getBlockState(pos).getBlock();
-		if (block == null || !GreenhouseHelper.checkPlanks(block)) {
-			return false;
-		}
-		return true;
+        return block != null && GreenhouseHelper.checkPlanks(block);
 	}
 
 	public boolean checkStairs(BlockPos pos) {
 		Block block = this.getWorld().getBlockState(pos).getBlock();
-		if (block == null || !GreenhouseHelper.checkStairs(block)) {
-			return false;
-		}
-		return true;
+        return block != null && GreenhouseHelper.checkStairs(block);
 	}
 
 	@Override

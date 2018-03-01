@@ -3,8 +3,6 @@ package sonar.calculator.mod.research;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
@@ -13,10 +11,10 @@ import sonar.calculator.mod.research.types.ResearchTypes;
 @SideOnly(Side.CLIENT)
 public class ClientResearch {
 
-	public static ArrayList<IResearch> research = setResearch(Lists.newArrayList());
+    public static ArrayList<IResearch> research = setResearch(new ArrayList<>());
 
 	public static ArrayList<IResearch> setResearch(ArrayList<IResearch> research) {
-		ArrayList<IResearch> newList = Lists.newArrayList();
+        ArrayList<IResearch> newList = new ArrayList<>();
 		List<IResearch> types = Calculator.research.getObjects();
 		for (IResearch type : types) {
 			boolean found = false;
@@ -36,7 +34,7 @@ public class ClientResearch {
 
 	public static IResearch getSpecificResearch(ResearchTypes researchType) {
 		for (IResearch r : research) {
-			if (r.getName() == researchType.name()) {
+            if (r.getName().equals(researchType.name())) {
 				return r;
 			}
 		}

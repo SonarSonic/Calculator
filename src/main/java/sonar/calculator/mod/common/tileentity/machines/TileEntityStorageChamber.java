@@ -13,11 +13,13 @@ import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.ILargeInventory;
 import sonar.core.inventory.SonarLargeInventory;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class TileEntityStorageChamber extends TileEntityLargeInventory implements IGuiTile, ILargeInventory {
 
 	public CircuitType circuitType = CircuitType.None;
 
+	@Override
 	public void update() {
 		super.update();
 		this.resetCircuitType();
@@ -25,9 +27,10 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 
 	public TileEntityStorageChamber() {
 		super.inv = new SonarLargeInventory(14, 1024) {
-			//needs fixing I think
-			public boolean isItemValidForPos(int slot, ItemStack item) {
-				if (item != null && item.getMetadata() == slot) {
+			// needs fixing I think
+			@Override
+			public boolean isItemValidForSlot(int slot, ItemStack item) {
+				if (!SonarCompat.isEmpty(item) && item.getMetadata() == slot) {
 					CircuitType stackType = getCircuitType(item);
 					if (stackType == null) {
 						return false;
@@ -37,8 +40,8 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 							return false;
 						}
 					}
-					
-					return super.isItemValidForPos(slot, item);
+
+					return super.isItemValidForSlot(slot, item);
 				}
 				return false;
 			}
@@ -46,13 +49,14 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 		syncList.addParts(inv);
 	}
 
+	@Override
 	public SonarLargeInventory getTileInv() {
-		return (SonarLargeInventory) inv;
+		return inv;
 	}
 
 	public void resetCircuitType() {
 		if (isServer()) {
-			StoredItemStack[] slots = getTileInv().slots;
+			StoredItemStack[] slots = inv.slots;
 			for (StoredItemStack stack : slots) {
 				if (stack != null && stack.getStackSize() != 0) {
 					CircuitType type = getCircuitType(stack.item);
@@ -64,9 +68,9 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 			}
 			circuitType = CircuitType.None;
 		}
-
 	}
 
+	@Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
@@ -84,6 +88,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 		}
 	}
 
+	@Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
@@ -97,31 +102,28 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 	}
 
 	public static CircuitType getCircuitType(ItemStack stack) {
-		if (stack != null) {
-			if (stack.getItem() == Calculator.circuitBoard && stack.getItem() instanceof IStability) {
-				IStability stability = (IStability) stack.getItem();
-				if (stability.getStability(stack) && stack.hasTagCompound()) {
-					if (stack.getTagCompound().getBoolean("Analysed")) {
-						return CircuitType.Stable;
-					}
-				} else if (!stack.hasTagCompound()) {
-					return CircuitType.Analysed;
-				} else if (stack.hasTagCompound()) {
-					if (stack.getTagCompound().getBoolean("Analysed")) {
-						return CircuitType.Analysed;
-					}
+		if (stack.getItem() == Calculator.circuitBoard && stack.getItem() instanceof IStability) {
+			IStability stability = (IStability) stack.getItem();
+			if (stability.getStability(stack) && stack.hasTagCompound()) {
+				if (stack.getTagCompound().getBoolean("Analysed")) {
+					return CircuitType.Stable;
 				}
-			} else if (stack.getItem() == Calculator.circuitDamaged) {
-				return CircuitType.Damaged;
-			} else if (stack.getItem() == Calculator.circuitDirty) {
-				return CircuitType.Dirty;
+			} else if (!stack.hasTagCompound()) {
+				return CircuitType.Analysed;
+			} else if (stack.getTagCompound().getBoolean("Analysed")) {
+				return CircuitType.Analysed;
 			}
+		} else if (stack.getItem() == Calculator.circuitDamaged) {
+			return CircuitType.Damaged;
+		} else if (stack.getItem() == Calculator.circuitDirty) {
+			return CircuitType.Dirty;
 		}
 		return null;
 	}
 
 	public enum CircuitType {
 		Analysed, Stable, Damaged, Dirty, None;
+
 		public boolean isProcessed() {
 			return this == Analysed || this == Stable;
 		}
@@ -140,5 +142,4 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiStorageChamber(player, this);
 	}
-
 }

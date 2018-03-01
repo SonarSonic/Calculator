@@ -5,6 +5,7 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,6 +20,7 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class TileEntityCalculatorPlug extends TileEntityInventory implements IGuiTile, IByteBufTile {
 
@@ -26,7 +28,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 
 	public TileEntityCalculatorPlug() {
 		super.inv = new SonarInventory(this, 1);
-		syncList.addParts(stable,inv);
+		syncList.addParts(stable, inv);
 	}
 
 	@Override
@@ -40,33 +42,33 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			fill(0);
 		}
 		if (flag != this.stable.getObject()) {
-			getWorld().setBlockState(pos, getWorld().getBlockState(pos).withProperty(CalculatorPlug.ACTIVE, stable.getObject()==2), 2);
+			getWorld().setBlockState(pos, getWorld().getBlockState(pos).withProperty(CalculatorPlug.ACTIVE, stable.getObject() == 2), 2);
 		}
 	}
 
+    @Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
 
 	public boolean testStable() {
-		if (this.slots()[0] == null) {
+		ItemStack testItem = slots().get(0);
+		if (SonarCompat.isEmpty(testItem)) {
 			stable.setObject(0);
 			return false;
 		}
-		if (this.slots()[0].getItem() instanceof IStability) {
-			return true;
-		}
-		return false;
+        return testItem.getItem() instanceof IStability;
 	}
 
 	public void fill(int slot) {
-		IStability item = (IStability) slots()[slot].getItem();
-		boolean stability = item.getStability(slots()[slot]);
+		ItemStack circuit = slots().get(slot);
+		IStability item = (IStability) circuit.getItem();
+		boolean stability = item.getStability(circuit);
 		if (stability) {
 			if (this.stable.getObject() != 2) {
 				this.stable.setObject(2);
 			}
-		} else if (!stability && slots()[slot].getItem() instanceof IStability) {
+		} else if (!stability && circuit.getItem() instanceof IStability) {
 			stable.setObject(1);
 		} else {
 			stable.setObject(0);
@@ -80,6 +82,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 		return 0;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add(FontHelper.translate("circuit.stable") + ": " + (!state.getValue(CalculatorPlug.ACTIVE) ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
@@ -114,5 +117,4 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			break;
 		}
 	}
-
 }

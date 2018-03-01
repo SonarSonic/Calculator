@@ -7,8 +7,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,26 +25,26 @@ public class GuiModuleSelector extends GuiContainer {
 
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/module_selection.png");
 
-	public ItemStack calc;
+	public ItemStack stack;
+	public IFlawlessCalculator calc;
 	public EntityPlayer player;
 	public float currentScroll;
 	private boolean isScrolling;
 	private boolean wasClicking;
 	public int scrollerLeft, scrollerStart, scrollerEnd, scrollerWidth;
-	public ArrayList<IModule> modules = Lists.newArrayList();
+	public ArrayList<IModule> modules = new ArrayList<>();
 	public IModule current = EmptyModule.EMPTY;
 	public int currentSlot = -1;
 
-	public GuiModuleSelector(EntityPlayer player, ItemStack calc) {
-		super(new ContainerModuleSelector(player, calc));
-		this.calc = calc;
+	public GuiModuleSelector(EntityPlayer player, ItemStack stack) {
+		super(new ContainerModuleSelector(player, stack));
+		this.stack = stack;
 		this.player = player;
-		Item item = calc.getItem();
-		if (item instanceof IFlawlessCalculator) {
-			modules = ((IFlawlessCalculator) item).getModules(calc);
-			current = ((IFlawlessCalculator) item).getCurrentModule(calc);
-			currentSlot = ((IFlawlessCalculator) item).getCurrentSlot(calc);
-		}
+		calc = (IFlawlessCalculator) stack.getItem();
+		modules = calc.getModules(stack);
+		current = calc.getCurrentModule(stack);
+		currentSlot = calc.getCurrentSlot(stack);
+
 	}
 
 	@Override
@@ -64,7 +62,6 @@ public class GuiModuleSelector extends GuiContainer {
 		for (int i = 0; i < getViewableSize(); i++) {
 			drawSelectionBackground(offsetTop, i, pos);
 		}
-
 	}
 
 	@Override
@@ -76,7 +73,7 @@ public class GuiModuleSelector extends GuiContainer {
 
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
-		scrollerLeft = this.guiLeft + 136-12;
+		scrollerLeft = this.guiLeft + 136 - 12;
 		scrollerStart = this.guiTop + 30;
 		scrollerEnd = scrollerStart + 128;
 		scrollerWidth = 10;
@@ -118,26 +115,27 @@ public class GuiModuleSelector extends GuiContainer {
 				if (module != null && module != EmptyModule.EMPTY) {
 					Item item = Calculator.moduleItems.getPrimaryObject(module.getName());
 					if (item != null) {
-						itemRender.renderItemIntoGUI(new ItemStack(item, 1), 5, 31 + ((i - start) * 18));
+						itemRender.renderItemIntoGUI(new ItemStack(item, 1), 5, 31 + (i - start) * 18);
 					}
-					FontHelper.text(module.getClientName(), 28, 35 + ((i - start) * 18), -1);
-				}else{
-					FontHelper.text("-empty-", 28, 35 + ((i - start) * 18), -1);
+					FontHelper.text(module.getClientName(), 28, 35 + (i - start) * 18, -1);
+				} else {
+					FontHelper.text("-empty-", 28, 35 + (i - start) * 18, -1);
 				}
 			}
 		}
 	}
+
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		int x = mouseX-guiLeft;
-		int y = mouseY-guiTop;
+		int x = mouseX - guiLeft;
+		int y = mouseY - guiTop;
 		if (x > 3 && x < 124) {
 			int start = (int) (modules.size() * this.currentScroll);
 			int finish = Math.min(start + this.getViewableSize(), modules.size());
 			for (int i = start; i < finish; i++) {
 				if (i < modules.size()) {
-					if (y > (29 + (i - start)*18) && y < (29 + (i - start)*18) + 18) {
+					if (y > 29 + (i - start) * 18 && y < 29 + (i - start) * 18 + 18) {
 						IModule module = modules.get(i);
 						if (module != null && module != EmptyModule.EMPTY) {
 							this.current = module;
@@ -150,6 +148,7 @@ public class GuiModuleSelector extends GuiContainer {
 		}
 	}
 
+	@Override
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		float lastScroll = currentScroll;
@@ -173,10 +172,11 @@ public class GuiModuleSelector extends GuiContainer {
 				this.currentScroll = 1.0F;
 			}
 		}
-
 	}
 
+	@Override
 	public void drawScreen(int x, int y, float var) {
+		this.drawDefaultBackground();
 		super.drawScreen(x, y, var);
 		float lastScroll = currentScroll;
 		boolean flag = Mouse.isButtonDown(0);
@@ -200,13 +200,11 @@ public class GuiModuleSelector extends GuiContainer {
 			if (this.currentScroll > 1.0F) {
 				this.currentScroll = 1.0F;
 			}
-
 		}
-
 	}
 
 	public void drawSelectionBackground(int offsetTop, int i, int pos) {
-		drawTexturedModalRect(this.guiLeft + 4, this.guiTop + offsetTop + (getSelectionHeight() * i), 0, i == pos ? 166 + getSelectionHeight() : 166, 154 + 72, getSelectionHeight());
+		drawTexturedModalRect(this.guiLeft + 4, this.guiTop + offsetTop + getSelectionHeight() * i, 0, i == pos ? 166 + getSelectionHeight() : 166, 154 + 72, getSelectionHeight());
 	}
 
 	public int getViewableSize() {
@@ -218,11 +216,6 @@ public class GuiModuleSelector extends GuiContainer {
 	}
 
 	private boolean needsScrollBars() {
-		if (modules.size() <= getViewableSize())
-			return false;
-
-		return true;
-
+		return modules.size() > getViewableSize();
 	}
-
 }

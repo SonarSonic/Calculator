@@ -19,8 +19,9 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
-public class TileEntityHealthProcessor extends TileEntitySidedInventory implements IHealthProcessor, IGuiTile {
+public class TileEntityHealthProcessor extends TileEntitySidedInventory implements IGuiTile, IHealthProcessor {
 
 	public SyncTagType.INT storedpoints = new SyncTagType.INT(0);
 	public final int speed = 4;
@@ -36,9 +37,9 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	public void update() {
 		super.update();
 		if (!this.getWorld().isRemote)
-			loot(slots()[0]);
+			loot(slots().get(0));
 
-		charge(slots()[1]);
+		charge(slots().get(1));
 		this.markDirty();
 	}
 
@@ -69,24 +70,18 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 				}
 			}
 		}
-
 	}
 
-	@Override
 	public int getHealthPoints() {
 		return storedpoints.getObject();
 	}
 
 	private void loot(ItemStack stack) {
-		if (!(stack == null)) {
+        if (!SonarCompat.isEmpty(stack)) {
 			int value = HealthProcessorRecipes.instance().getValue(null, stack);
 			if (value > 0) {
-				int add = value;
-				storedpoints.increaseBy(add);
-				this.slots()[0].stackSize--;
-				if (this.slots()[0].stackSize <= 0) {
-					this.slots()[0] = null;
-				}
+                storedpoints.increaseBy(value);
+				SonarCompat.shrink(slots().get(0), 1);
 			}
 			if (stack.getItem() instanceof IHealthStore) {
 				IHealthStore module = (IHealthStore) stack.getItem();
@@ -106,10 +101,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	}
 
 	private boolean isLoot(ItemStack stack) {
-		if (HealthProcessorRecipes.instance().getValue(null, stack) > 0) {
-			return true;
-		}
-		return false;
+        return HealthProcessorRecipes.instance().getValue(null, stack) > 0;
 	}
 
 	@Override
@@ -130,6 +122,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 		return true;
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add(FontHelper.translate("points.health") + ": " + storedpoints);
@@ -145,5 +138,4 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiHealthProcessor(player.inventory, this);
 	}
-
 }

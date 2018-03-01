@@ -12,7 +12,7 @@ public class RenderCalculatorLocatorBeam extends TileEntitySpecialRenderer<TileE
 	private static final ResourceLocation beam = new ResourceLocation("Calculator:textures/blocks/locator_beam.png");
 
 	@Override
-	public void renderTileEntityAt(TileEntityCalculatorLocator te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void renderTileEntityAt(TileEntityCalculatorLocator te, double x, double y, double z, float partialTicks, int destroyStage) {
 		if (CalculatorConfig.beamEffect && te.getWorld() != null) {
 			if (te.active.getObject()) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(beam);
@@ -112,5 +112,4 @@ public class RenderCalculatorLocatorBeam extends TileEntitySpecialRenderer<TileE
 			}
 		}
 	}
-
 }

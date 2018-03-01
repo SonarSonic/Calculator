@@ -46,15 +46,12 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 		addEnergy(EnumFacing.VALUES);
 	}
 
-
 	public boolean cranked() {
 		Block crank = this.getWorld().getBlockState(pos.offset(EnumFacing.UP)).getBlock();
-		if (crank != null && crank == Calculator.crankHandle) {
-			return true;
-		}
-		return false;
+        return crank != null && crank == Calculator.crankHandle;
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
@@ -63,6 +60,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.SAVE, SyncType.DEFAULT_SYNC)) {
@@ -72,6 +70,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 		return nbt;
 	}
 
+    @Override
 	public List<String> getWailaInfo(List<String> tooltip, IBlockState state) {
 		tooltip.add(FontHelper.translate("crank.cranked") + ": " + (this.cranked ? FontHelper.translate("locator.true") : FontHelper.translate("locator.false")));
 		return tooltip;

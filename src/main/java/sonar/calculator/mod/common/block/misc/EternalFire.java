@@ -10,6 +10,7 @@ public class EternalFire extends BlockFire {
 		this.setTickRandomly(false);
 	}
 
+    @Override
 	public int quantityDropped(Random p_149745_1_) {
 		return 1;
 	}
@@ -26,6 +27,7 @@ public class EternalFire extends BlockFire {
 		return 3;
 	}
 
+    @Override
 	public boolean isCollidable() {
 		return true;
 	}

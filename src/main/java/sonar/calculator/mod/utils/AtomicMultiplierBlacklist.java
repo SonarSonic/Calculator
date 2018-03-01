@@ -1,10 +1,9 @@
 package sonar.calculator.mod.utils;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -12,11 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.CalculatorAPI;
 
-/** Uses the config BlackList file to create a Map which can be easily accessed */
+/**
+ * Uses the config BlackList file to create a Map which can be easily accessed
+ */
 public class AtomicMultiplierBlacklist {
 	private static final AtomicMultiplierBlacklist blacklist = new AtomicMultiplierBlacklist();
 
-	private Map bannedList = Maps.newHashMap();
+    private Map<Item, Boolean> bannedList = new HashMap<>();
 
 	public static AtomicMultiplierBlacklist blacklist() {
 		return blacklist;
@@ -24,21 +25,19 @@ public class AtomicMultiplierBlacklist {
 
 	public AtomicMultiplierBlacklist() {
 		String[] blacklisted = CalculatorConfig.atomicblackList.getStringList();
-		for (int i = 0; i < blacklisted.length; i++) {
-			String[] parts = blacklisted[i].split(":");			
+        for (String aBlacklisted : blacklisted) {
+            String[] parts = aBlacklisted.split(":");
 			Item itemBan = Item.REGISTRY.getObject(new ResourceLocation(parts[0], parts[1]));
 			if (itemBan != null) {
 				addBan(itemBan);
 			} else {
-				Block blockBan = Block.REGISTRY.getObject(new ResourceLocation(parts[0], parts[1]));
-				if (blockBan != null) {
-					addBan(blockBan);
-				}
+                addBan(Block.REGISTRY.getObject(new ResourceLocation(parts[0], parts[1])));
 			}
 		}
 		List<ResourceLocation> apiBlocked = CalculatorAPI.getItemBlackList();
 		for (ResourceLocation item : apiBlocked) {		
-			Item itemBan; Block blockBan;
+            Item itemBan;
+            Block blockBan;
 			if ((itemBan = Item.REGISTRY.getObject(item)) != null) {
 				addBan(itemBan);
 			} else if ((blockBan = Block.REGISTRY.getObject(item)) != null) {
@@ -62,21 +61,21 @@ public class AtomicMultiplierBlacklist {
 				return false;
 			}
 		}
-		Iterator iterator = this.bannedList.entrySet().iterator();
+        Iterator<Map.Entry<Item, Boolean>> iterator = this.bannedList.entrySet().iterator();
 
-		Map.Entry entry;
+        Map.Entry<Item, Boolean> entry;
 		do {
 			if (!iterator.hasNext()) {
 				return true;
 			}
 
-			entry = (Map.Entry) iterator.next();
-		} while (!(item == (Item) entry.getKey()));
+            entry = iterator.next();
+        } while (!(item == entry.getKey()));
 
-		return (Boolean) entry.getValue();
+        return entry.getValue();
 	}
-	public Map getSmeltingList() {
+
+    public Map<Item, Boolean> getSmeltingList() {
 		return this.bannedList;
 	}
-
 }

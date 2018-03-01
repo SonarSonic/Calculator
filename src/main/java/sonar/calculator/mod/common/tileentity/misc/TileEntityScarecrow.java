@@ -1,9 +1,12 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
@@ -17,11 +20,10 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
-		if (this.worldObj.isRemote) {
+		if (this.getWorld().isRemote) {
 			return;
 		}
 		grow();
-
 	}
 
 	public void grow() {
@@ -31,22 +33,19 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 		if (this.growTicks == speed) {
 			growCrop();
 			this.growTicks = 0;
-
 		}
-
 	}
 
 	public boolean growCrop() {
-		int X = (0 + (int) (Math.random() * ((range - 0) + range))) - (range - 1);
-		int Z = (0 + (int) (Math.random() * ((range - 0) + range))) - (range - 1);
-		return GreenhouseHelper.applyBonemeal(worldObj, pos.add(X, 0, Z), false);
+        int X = (int) (Math.random() * (range + range)) - (range - 1);
+        int Z = (int) (Math.random() * (range + range)) - (range - 1);
+		return GreenhouseHelper.applyBonemeal(getWorld(), pos.add(X, 0, Z), false);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.growTicks = nbt.getInteger("Grow");
-
 	}
 
 	@Override
@@ -56,6 +55,7 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 		return nbt;
 	}
 	
+    @Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
@@ -65,5 +65,10 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB;
+	}
+
+    @Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 }

@@ -6,6 +6,7 @@ import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.modules.IModule;
@@ -13,6 +14,7 @@ import sonar.core.api.energy.ISonarEnergyItem;
 import sonar.core.api.utils.ActionType;
 import sonar.core.helpers.FontHelper;
 
+@Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")})
 public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, IEnergyContainerItem {
 
 	public int storage;
@@ -24,11 +26,10 @@ public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4) {
 		list.add(FontHelper.translate("energy.stored") + ": " + getEnergyLevel(stack) + " RF");
-		super.addInformation(stack, player, list, par4);
+        super.addInformation(stack, player, list, par4);
 	}
-
 
 	@Override
 	public long addEnergy(ItemStack stack, long maxReceive, ActionType action) {
@@ -36,7 +37,7 @@ public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, I
 			stack.setTagCompound(new NBTTagCompound());
 		}
 		long energy = stack.getTagCompound().getLong("Energy");
-		long energyReceived = Math.min(getMaxEnergyStored(stack) - energy, Math.min(storage / 10, maxReceive));
+		long energyReceived = Math.min(getFullCapacity(stack) - energy, Math.min(storage / 10, maxReceive));
 
 		if (!action.shouldSimulate()) {
 			energy += energyReceived;
@@ -47,7 +48,7 @@ public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, I
 
 	@Override
 	public long removeEnergy(ItemStack stack, long maxExtract, ActionType action) {
-		if ((stack.getTagCompound() == null) || (!stack.getTagCompound().hasKey("Energy"))) {
+        if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("Energy")) {
 			return 0;
 		}
 		long energy = stack.getTagCompound().getLong("Energy");
@@ -62,7 +63,7 @@ public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, I
 
 	@Override
 	public long getEnergyLevel(ItemStack stack) {
-		if ((!stack.hasTagCompound())) {
+        if (!stack.hasTagCompound()) {
 			return 0;
 		}
 		return stack.getTagCompound().getLong("Energy");
@@ -72,29 +73,33 @@ public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, I
 	public long getFullCapacity(ItemStack stack) {
 		return storage;
 	}
-
+	
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int receiveEnergy(ItemStack stack, int maxReceive, boolean simulate) {
 		return (int) addEnergy(stack, maxReceive, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int extractEnergy(ItemStack stack, int maxExtract, boolean simulate) {
 		return (int) removeEnergy(stack, maxExtract, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int getEnergyStored(ItemStack stack) {
 		return (int) getEnergyLevel(stack);
 	}
 
 	@Override
+    @Optional.Method(modid = "redstoneflux")
 	public int getMaxEnergyStored(ItemStack stack) {
 		return (int) getFullCapacity(stack);
 	}
-
+	
+    @Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
 	}
-
 }

@@ -18,10 +18,11 @@ import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.IAdditionalInventory;
 import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.utils.IGuiTile;
+import sonar.core.utils.SonarCompat;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess implements IGuiTile, IAdditionalInventory {
 
-	public ItemStack calcStack;
+	public ItemStack calcStack = SonarCompat.getEmpty();
 
 	public TileEntityDockingStation() {
 		super(4, 1, 200, 10);
@@ -87,23 +88,26 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	}
 
 	public static int getInputStackSize(ItemStack itemstack1) {
-		if (itemstack1 != null) {
+		if (!SonarCompat.isEmpty(itemstack1)) {
 			return ProcessType.getType(itemstack1.getItem()).inputStacks;
 		}
 		return 0;
 	}
 
+    @Override
 	public RecipeHelperV2 recipeHelper() {
-		if (calcStack != null) {
+		if (!SonarCompat.isEmpty(calcStack)) {
 			return ProcessType.getType(calcStack.getItem()).getRecipeHelper();
 		}
 		return CalculatorRecipes.instance();
 	}
 
+    @Override
 	public int getProcessTime() {
 		return Math.max(1, super.getProcessTime() / 8);
 	}
 
+    @Override
 	public int requiredEnergy() {
 		return 10;
 	}
@@ -116,18 +120,20 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		}
 		ItemStack[] input = new ItemStack[size];
 		for (int i = 0; i < size; i++) {
-			input[i] = slots()[i];
+			input[i] = slots().get(i);
 		}
 		return input;
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
-			this.calcStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("calcStack"));
+			this.calcStack = SonarCompat.getItem(nbt.getCompoundTag("calcStack"));
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -142,10 +148,10 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		this.slots()[i] = itemstack;
+		this.slots().set(i, itemstack);
 
-		if ((itemstack != null) && (itemstack.stackSize > getInventoryStackLimit())) {
-			itemstack.stackSize = getInventoryStackLimit();
+        if (!SonarCompat.isEmpty(itemstack) && SonarCompat.getCount(itemstack) > getInventoryStackLimit()) {
+			itemstack = SonarCompat.setCount(itemstack, getInventoryStackLimit());
 		}
 	}
 
@@ -158,7 +164,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	public int[] getSlotsForFace(EnumFacing side) {
 		int[] outputSlot = new int[] { 5 };
 		int[] emptySlot = new int[0];
-		int size = this.getInputStackSize(calcStack);
+        int size = getInputStackSize(calcStack);
 		EnumFacing dir = EnumFacing.getFront(getBlockMetadata());
 		if (dir == null || size == 0) {
 			return emptySlot;
@@ -201,8 +207,9 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		return new GuiDockingStation(player.inventory, this);
 	}
 
+    @Override
 	public ItemStack[] getAdditionalStacks() {
-		if (calcStack != null) {
+		if (!SonarCompat.isEmpty(calcStack)) {
 			return new ItemStack[] { calcStack };
 		} else {
 			return new ItemStack[0];

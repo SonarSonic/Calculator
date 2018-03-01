@@ -28,7 +28,7 @@ public class HungerModule extends SonarItem implements IHungerStore {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		NutritionHelper.chargeHunger(stack, world, player, "points");
-		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);		
+		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
 	@Override
@@ -39,8 +39,8 @@ public class HungerModule extends SonarItem implements IHungerStore {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-		super.addInformation(stack, player, list, par4);
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4) {
+        super.addInformation(stack, player, list, par4);
 
 		if (stack.hasTagCompound()) {
 			list.add(FontHelper.translate("points.hunger") + ": " + getHungerPoints(stack));
@@ -85,5 +85,4 @@ public class HungerModule extends SonarItem implements IHungerStore {
 			nbtData.setInteger("points", health);
 		}
 	}
-
 }

@@ -2,8 +2,6 @@ package sonar.calculator.mod.network.packets;
 
 import java.util.ArrayList;
 
-import com.google.common.collect.Lists;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,9 +19,10 @@ import sonar.core.helpers.NBTHelper.SyncType;
 public class PacketPlayerResearch implements IMessage {
 
 	public EntityPlayer player;
-	public ArrayList<IResearch> research = Lists.newArrayList();
+    public ArrayList<IResearch> research = new ArrayList<>();
 
-	public PacketPlayerResearch() {}
+    public PacketPlayerResearch() {
+    }
 
 	public PacketPlayerResearch(EntityPlayer player) {
 		this.player = player;
@@ -43,6 +42,7 @@ public class PacketPlayerResearch implements IMessage {
 
 	public static class Handler implements IMessageHandler<PacketPlayerResearch, IMessage> {
 
+        @Override
 		public IMessage onMessage(PacketPlayerResearch message, MessageContext ctx) {
 			EntityPlayer player = SonarCore.proxy.getPlayerEntity(ctx);
 			if (player != null && ctx.side == Side.CLIENT) {

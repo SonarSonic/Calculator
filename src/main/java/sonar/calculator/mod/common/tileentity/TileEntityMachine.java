@@ -17,8 +17,8 @@ import sonar.calculator.mod.common.recipes.ProcessingChamberRecipes;
 import sonar.calculator.mod.common.recipes.ReassemblyChamberRecipes;
 import sonar.calculator.mod.common.recipes.RestorationChamberRecipes;
 import sonar.calculator.mod.common.recipes.StoneSeparatorRecipes;
-import sonar.core.helpers.ItemStackHelper;
 import sonar.core.recipes.RecipeHelperV2;
+import sonar.core.utils.SonarCompat;
 
 public class TileEntityMachine {
 
@@ -74,19 +74,21 @@ public class TileEntityMachine {
 			return null;
 		}
 
+        @Override
 		public boolean canProcess() {
-			if (slots()[0] == null || (cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy())) {
+            if (slots().get(0) == null || cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy()) {
 				return false;
 			}
 			ItemStack result = getFurnaceOutput(inputStacks()[0]);
-			if (result == null) {
+			if (SonarCompat.isEmpty(result)) {
 				return false;
 			}
 			for (int o = 0; o < outputSize(); o++) {
-				if (slots()[o + inputSize() + 1] != null) {
-					if (!slots()[o + inputSize() + 1].isItemEqual(result)) {
+				ItemStack output = slots().get(o + inputSize() + 1);
+				if (!SonarCompat.isEmpty(output)) {
+					if (!output.isItemEqual(result)) {
 						return false;
-					} else if (slots()[o + inputSize() + 1].stackSize + result.stackSize > slots()[o + inputSize() + 1].getMaxStackSize()) {
+					} else if (SonarCompat.getCount(output) + SonarCompat.getCount(result) > output.getMaxStackSize()) {
 						return false;
 					}
 				}
@@ -94,35 +96,34 @@ public class TileEntityMachine {
 			return true;
 		}
 
+        @Override
 		public void finishProcess() {
 			ItemStack stack = getFurnaceOutput(inputStacks()[0]);
-			if (stack != null) {
-				if (slots()[inputSize() + 1] == null) {
+			if (!SonarCompat.isEmpty(stack)) {
+				ItemStack currentO = slots().get(inputSize() + 1);
+				if (SonarCompat.isEmpty(currentO)) {
 					ItemStack outputStack = stack.copy();
 					if (outputStack.getItem() == Calculator.circuitBoard) {
 						CircuitBoard.setData(outputStack);
 					}
-					slots()[inputSize() + 1] = outputStack;
-				} else if (slots()[inputSize() + 1].isItemEqual(stack)) {
-					slots()[inputSize() + 1].stackSize += stack.stackSize;
+					slots().set(inputSize() + 1, outputStack);
+				} else if (currentO.isItemEqual(stack)) {
+					currentO = SonarCompat.grow(currentO, SonarCompat.getCount(stack));
 				}
 			}
-			slots()[0] = ItemStackHelper.reduceStackSize(slots()[0], 1);
+			SonarCompat.shrink(slots().get(0), 1);
 		}
 
 		@Override
 		public boolean isItemValidForSlot(int slot, ItemStack stack) {
-			if (slot < this.inputSize() && FurnaceRecipes.instance().getSmeltingResult(stack) != null) {
-				return true;
-			}
-			return false;
+            return slot < this.inputSize() && FurnaceRecipes.instance().getSmeltingResult(stack) != null;
 		}
 	}
 
-	public static class StoneSeperator extends DualOutput {
+    public static class StoneSeparator extends DualOutput {
 
-		public StoneSeperator() {
-			super(1, 2, CalculatorConfig.getInteger("Stone Seperator" + "Base Speed"), CalculatorConfig.getInteger("Stone Seperator" + "Energy Usage"));
+        public StoneSeparator() {
+            super(1, 2, CalculatorConfig.getInteger("Stone Seperator" + "Base Speed"), CalculatorConfig.getInteger("Stone Seperator" + "Energy Usage"));
 		}
 
 		@Override
@@ -136,7 +137,9 @@ public class TileEntityMachine {
 		}
 	}
 
-	/** single process machines */
+    /**
+     * single process machines
+     */
 	public static class ReassemblyChamber extends SingleOutput {
 
 		public ReassemblyChamber() {
@@ -152,7 +155,6 @@ public class TileEntityMachine {
 		public Object getGuiScreen(EntityPlayer player) {
 			return new GuiSmeltingBlock.ReassemblyChamber(player.inventory, this);
 		}
-
 	}
 
 	public static class RestorationChamber extends SingleOutput {
@@ -189,11 +191,13 @@ public class TileEntityMachine {
 		}
 	}
 
-	/** dual process machines */
-	public static class AlgorithmSeperator extends DualOutput {
+    /**
+     * dual process machines
+     */
+    public static class AlgorithmSeparator extends DualOutput {
 
-		public AlgorithmSeperator() {
-			super(1, 2, CalculatorConfig.getInteger("Algorithm Seperator" + "Base Speed"), CalculatorConfig.getInteger("Algorithm Seperator" + "Energy Usage"));
+        public AlgorithmSeparator() {
+            super(1, 2, CalculatorConfig.getInteger("Algorithm Seperator" + "Base Speed"), CalculatorConfig.getInteger("Algorithm Seperator" + "Energy Usage"));
 		}
 
 		@Override
@@ -224,6 +228,7 @@ public class TileEntityMachine {
 			return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, this);
 		}
 
+        @Override
 		public boolean isOutputVoided(int slot, ItemStack outputStack) {
 			return slot == 2 && upgrades.getUpgradesInstalled("VOID") == 1;
 		}
@@ -246,6 +251,7 @@ public class TileEntityMachine {
 			return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, this);
 		}
 
+        @Override
 		public boolean isOutputVoided(int slot, ItemStack outputStack) {
 			return slot == 2 && upgrades.getUpgradesInstalled("VOID") == 1;
 		}

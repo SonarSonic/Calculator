@@ -14,15 +14,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.core.common.item.SonarItem;
+import sonar.core.utils.SonarCompat;
 
 public class SmallStone extends SonarItem {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 		if (!player.capabilities.isCreativeMode) {
-			stack.stackSize -= 1;
+			stack = SonarCompat.shrink(stack, 1);
 		}
-		world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
 		if (!world.isRemote) {
 			EntitySmallStone entity = new EntitySmallStone(world, player);
@@ -30,7 +31,6 @@ public class SmallStone extends SonarItem {
 			world.spawnEntityInWorld(entity);
 		}
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
-
 	}
 
 	@Override
@@ -43,11 +43,11 @@ public class SmallStone extends SonarItem {
 
 			if (block == Blocks.DIRT) {
 				world.setBlockState(pos, Blocks.GRAVEL.getDefaultState());
-				stack.stackSize -= 1;
+				stack = SonarCompat.shrink(stack, 1);
 			}
 			if (block == Blocks.GRASS) {
 				world.setBlockState(pos, Blocks.GRAVEL.getDefaultState());
-				stack.stackSize -= 1;
+				stack = SonarCompat.shrink(stack, 1);
 			} else {
 				return EnumActionResult.PASS;
 			}

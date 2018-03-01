@@ -32,5 +32,4 @@ public class ModuleItemRegistry extends LinkedRegistryHelper<String, Item> {
 	public String registeryType() {
 		return "Module Item";
 	}
-
 }

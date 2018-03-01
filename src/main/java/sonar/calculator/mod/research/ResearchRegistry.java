@@ -19,5 +19,4 @@ public class ResearchRegistry extends RegistryHelper<IResearch> {
 	public String registeryType() {
 		return "Research";
 	}
-
 }

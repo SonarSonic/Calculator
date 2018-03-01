@@ -13,12 +13,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.core.SonarCore;
-import sonar.core.client.gui.GuiSonar;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
+import sonar.core.utils.SonarCompat;
 
-public class GuiBasicGreenhouse extends GuiSonar {
+public class GuiBasicGreenhouse extends GuiSonarTile {
 	DecimalFormat dec = new DecimalFormat("##.##");
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/basicgreenhouse.png");
 
@@ -31,6 +32,7 @@ public class GuiBasicGreenhouse extends GuiSonar {
 		this.ySize = 192;
 	}
 
+    @Override
 	public void initGui() {
 		super.initGui();
 		buttonList.add(new GreenhouseButton(0, guiLeft + 18, guiTop + 62, 14, 14, FontHelper.translate("greenhouse.build")));
@@ -48,10 +50,12 @@ public class GuiBasicGreenhouse extends GuiSonar {
 			this.name = name;
 		}
 
-		public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+        @Override
+        public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		}
 	}
 
+    @Override
 	protected void actionPerformed(GuiButton button) {
 		if (button != null && button instanceof SonarButtons.SonarButton) {
 			SonarButton sButton = (SonarButton) button;
@@ -65,18 +69,18 @@ public class GuiBasicGreenhouse extends GuiSonar {
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		if (entity.wasBuilt.getObject()) {
 			double car = (double) this.entity.carbon.getObject() * 100 / this.entity.maxLevel;
-			String carbon = dec.format(car) + "%";
+            String carbon = dec.format(car) + '%';
 			FontHelper.textOffsetCentre(carbon, 115, 79, 2);
 			double oxy = (double) this.entity.getOxygen() * 100 / this.entity.maxLevel;
-			String oxygen = dec.format(oxy) + "%";
+            String oxygen = dec.format(oxy) + '%';
 			FontHelper.textOffsetCentre(oxygen, 151, 79, 2);
 		}
 
 		for (GuiButton b : buttonList) {
 			if (b instanceof GreenhouseButton) {
 				GreenhouseButton button = (GreenhouseButton) b;
-				if (x >= button.xPosition && y >= button.yPosition && x < button.xPosition + button.width && y < button.yPosition + button.height) {
-					drawCreativeTabHoveringText(FontHelper.translate(button.name), x - guiLeft, y - guiTop);
+                if (x >= button.xPosition && y >= button.yPosition && x < button.xPosition + button.width && y < button.yPosition + button.height) {
+                    drawSonarCreativeTabHoveringText(FontHelper.translate(button.name), x - guiLeft, y - guiTop);
 				}
 			}
 		}
@@ -96,16 +100,16 @@ public class GuiBasicGreenhouse extends GuiSonar {
 			int o = this.entity.getOxygen() * 66 / this.entity.maxLevel;
 			this.drawTexturedModalRect(this.guiLeft + 137, this.guiTop + 11 + 66 - o, 218, 66 - o, 28, 66);
 		}
-		if (entity.slots()[0] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(0))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.LOG), this.guiLeft + 19 + 7, this.guiTop + 28 - 6);
 		}
-		if (entity.slots()[1] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(1))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.OAK_STAIRS), this.guiLeft + 37 + 7, this.guiTop + 28 - 6);
 		}
-		if (entity.slots()[2] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(2))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.GLASS), this.guiLeft + 19 + 7, this.guiTop + 46 - 6);
 		}
-		if (entity.slots()[3] == null) {
+		if (SonarCompat.isEmpty(entity.slots().get(3))) {
 			itemRender.renderItemIntoGUI(new ItemStack(Blocks.PLANKS), this.guiLeft + 37 + 7, this.guiTop + 46 - 6);
 		}
 	}

@@ -1,37 +1,31 @@
 package sonar.calculator.mod.client.gui.generators;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerGenerator;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityGenerator;
+import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 
-public abstract class GuiExtractor extends GuiContainer {
+public abstract class GuiExtractor extends GuiSonarTile {
 
 	public TileEntityGenerator entity;
 
 	public GuiExtractor(InventoryPlayer inventoryPlayer, TileEntityGenerator entity) {
-		super(new ContainerGenerator(inventoryPlayer, entity));
+		super(new ContainerGenerator(inventoryPlayer, entity), entity);
 		this.entity = entity;
 	}
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {
+		super.drawGuiContainerForegroundLayer(x, y);
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
 		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
 	}
 
-	public abstract ResourceLocation getResource();
-
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(getResource());
-		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+	protected void drawGuiContainerBackgroundLayer(float var1, int x, int y) {
+		super.drawGuiContainerBackgroundLayer(var1, x, y);
 
 		int k = this.entity.storage.getEnergyStored() * 160 / 1000000;
 		drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 63, 0, 186, k, 10);
@@ -53,10 +47,9 @@ public abstract class GuiExtractor extends GuiContainer {
 		}
 
 		@Override
-		public ResourceLocation getResource() {
+		public ResourceLocation getBackground() {
 			return starch;
 		}
-
 	}
 
 	public static class Redstone extends GuiExtractor {
@@ -68,10 +61,9 @@ public abstract class GuiExtractor extends GuiContainer {
 		}
 
 		@Override
-		public ResourceLocation getResource() {
+		public ResourceLocation getBackground() {
 			return redstone;
 		}
-
 	}
 
 	public static class Glowstone extends GuiExtractor {
@@ -83,9 +75,8 @@ public abstract class GuiExtractor extends GuiContainer {
 		}
 
 		@Override
-		public ResourceLocation getResource() {
+		public ResourceLocation getBackground() {
 			return glowstone;
 		}
-
 	}
 }

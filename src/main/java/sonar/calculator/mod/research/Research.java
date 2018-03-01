@@ -10,7 +10,7 @@ import sonar.core.helpers.NBTHelper.SyncType;
 
 public abstract class Research implements IResearch {
 
-	public boolean wasAwarded = false;
+    public boolean wasAwarded;
 	public final ResearchTypes type;
 	public final String clientName;
 	public final Item logo;
@@ -21,14 +21,17 @@ public abstract class Research implements IResearch {
 		this.logo = logo;
 	}
 
+    @Override
 	public String getName() {
 		return type.name();
 	}
 
+    @Override
 	public String getClientName() {
 		return clientName;
 	}
 
+    @Override
 	public Item getItemLogo() {
 		return logo;
 	}
@@ -44,12 +47,14 @@ public abstract class Research implements IResearch {
 		return nbt;
 	}
 
+    @Override
 	public ArrayList<ItemStack> getItemRewards() {
-		return new ArrayList<ItemStack>();
+        return new ArrayList<>();
 	}
 
+    @Override
 	public ArrayList<RecipeReward> getUnlockedRecipes() {
-		return new ArrayList<RecipeReward>();
+        return new ArrayList<>();
 	}
 
 	@Override

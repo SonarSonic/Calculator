@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.containers;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,6 +8,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
 import sonar.core.inventory.ContainerSync;
+import sonar.core.utils.SonarCompat;
 
 public class ContainerModuleWorkstation extends ContainerSync {
 	private final InventoryPlayer inventory;
@@ -25,10 +24,12 @@ public class ContainerModuleWorkstation extends ContainerSync {
 		for (int j = 0; j < 2; ++j) {
 			for (int k = 0; k < 8; ++k) {
 				this.addSlotToContainer(new Slot(entity, k + j * 8, 10 + k * 20, 40 + j * 22) {
-					public boolean isItemValid(@Nullable ItemStack stack) {
-						return stack != null && Calculator.moduleItems.getSecondaryObject(stack.getItem()) != null;
+                    @Override
+					public boolean isItemValid(ItemStack stack) {
+						return !SonarCompat.isEmpty(stack) && Calculator.moduleItems.getSecondaryObject(stack.getItem()) != null;
 					}
 
+                    @Override
 					public int getSlotStackLimit() {
 						return 1;
 					}
@@ -37,21 +38,12 @@ public class ContainerModuleWorkstation extends ContainerSync {
 		}
 
 		addSlotToContainer(new Slot(entity, 16, 8, 8) {
-			public boolean isItemValid(@Nullable ItemStack stack) {
-				return stack != null && stack.getItem() instanceof IFlawlessCalculator;
+            @Override
+			public boolean isItemValid(ItemStack stack) {
+				return !SonarCompat.isEmpty(stack) && stack.getItem() instanceof IFlawlessCalculator;
 			}
 		});
-
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < 9; ++j) {
-				this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-			}
-		}
-
-		for (int i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
-		}
-
+		addInventory(inventory, 8, 84);
 	}
 
 	@Override
@@ -59,16 +51,17 @@ public class ContainerModuleWorkstation extends ContainerSync {
 		return inventory.isUseableByPlayer(player);
 	}
 
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(slotID);
+		ItemStack itemstack = SonarCompat.getEmpty();
+        Slot slot = this.inventorySlots.get(slotID);
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
 			if (slotID < INV_START) {
 				if (!this.mergeItemStack(itemstack1, INV_START, HOTBAR_END + 1, true)) {
-					return null;
+					return SonarCompat.getEmpty();
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
@@ -76,36 +69,34 @@ public class ContainerModuleWorkstation extends ContainerSync {
 				if (slotID >= INV_START) {
 					if (itemstack1 != null && itemstack1.getItem() instanceof IFlawlessCalculator) {
 						if (!this.mergeItemStack(itemstack1, 16, 17, false)) {
-							return null;
+							return SonarCompat.getEmpty();
 						}
 					} else if (!this.mergeItemStack(itemstack1, 0, INV_START - 1, false)) {
-						return null;
+						return SonarCompat.getEmpty();
 					}
 				} else if (slotID >= INV_START && slotID < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
-						return null;
+						return SonarCompat.getEmpty();
 					}
 				} else if (slotID >= HOTBAR_START && slotID < HOTBAR_END + 1) {
 					if (!this.mergeItemStack(itemstack1, INV_START, INV_END + 1, false)) {
-						return null;
+						return SonarCompat.getEmpty();
 					}
 				}
 			}
 
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
+			if (SonarCompat.getCount(itemstack1) == 0) {
+				slot.putStack(SonarCompat.getEmpty());
 			} else {
 				slot.onSlotChanged();
 			}
 
-			if (itemstack1.stackSize == itemstack.stackSize) {
-				return null;
+			if (SonarCompat.getCount(itemstack1) == SonarCompat.getCount(itemstack)) {
+				return SonarCompat.getEmpty();
 			}
 
 			slot.onPickupFromSlot(player, itemstack1);
 		}
-
 		return itemstack;
 	}
-
 }

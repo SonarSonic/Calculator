@@ -36,20 +36,23 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	public SyncTagType.STRING linkPassword = (STRING) new SyncTagType.STRING(3).setDefault("");
 
 	public boolean coolDown, passwordMatch;
-	public int coolDownTicks = 0;
+    public int coolDownTicks;
 
 	public int linkID;
 
-	/** client only list */
+    /**
+     * client only list
+     */
 	public List<TeleportLink> links;
 
 	public TileEntityTeleporter(){
 		syncList.addParts(name, destinationName, linkPassword, password);
 	}
 	
+    @Override
 	public void update() {
 		super.update();
-		if (this.worldObj.isRemote) {
+		if (this.getWorld().isRemote) {
 			return;
 		}
 		if (coolDownTicks != 0) {
@@ -60,7 +63,6 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 					return;
 				}
 				startTeleportation();
-
 			} else {
 				List<EntityPlayer> players = this.getPlayerList();
 				if (players == null || players.size() == 0) {
@@ -90,7 +92,6 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 				} else if (tile.teleporterID == 0) {
 					tile.resetFrequency();
 				}
-
 			}
 		} else {
 			this.passwordMatch = false;
@@ -107,18 +108,17 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	public boolean canTeleportPlayer() {
 		boolean flag = true;
 		for (int i = 1; i < 3; i++) {
-			Block block = worldObj.getBlockState(pos.offset(EnumFacing.DOWN, i)).getBlock();
+			Block block = getWorld().getBlockState(pos.offset(EnumFacing.DOWN, i)).getBlock();
 			if (!(block == Blocks.AIR || block == null)) {
 				flag = false;
 			}
 		}
 		EnumFacing[] dirs = new EnumFacing[] { EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.EAST, EnumFacing.WEST };
 		int stable = 0;
-		for (int i = 0; i < dirs.length; i++) {
-			EnumFacing dir = dirs[i];
+        for (EnumFacing dir : dirs) {
 			int blocks = 0;
 			for (int j = 0; j < 3; j++) {
-				Block block = worldObj.getBlockState(pos.add(dir.getFrontOffsetX(), -j, dir.getFrontOffsetZ())).getBlock();
+				Block block = getWorld().getBlockState(pos.add(dir.getFrontOffsetX(), -j, dir.getFrontOffsetZ())).getBlock();
 				if (block instanceof StableStone) {
 					blocks++;
 				}
@@ -134,19 +134,18 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 
 	public List<EntityPlayer> getPlayerList() {
 		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - 1, pos.getY() - 2, pos.getZ() - 1, pos.getX() + 1, pos.getY() - 1, pos.getZ() + 1);
-		List<EntityPlayer> players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, aabb, null);
-		return players;
+        return this.getWorld().getEntitiesWithinAABB(EntityPlayer.class, aabb, null);
 	}
 
 	public void resetFrequency() {
-		if (!this.worldObj.isRemote) {
+		if (!this.getWorld().isRemote) {
 			this.removeFromFrequency();
 			this.addToFrequency();
 		}
 	}
 
 	public void addToFrequency() {
-		if (!this.worldObj.isRemote) {
+		if (!this.getWorld().isRemote) {
 			if (this.teleporterID == 0) {
 				teleporterID = TeleporterRegistry.nextID();
 			}
@@ -155,7 +154,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	}
 
 	public void removeFromFrequency() {
-		if (!this.worldObj.isRemote) {
+		if (!this.getWorld().isRemote) {
 			TeleporterRegistry.removeTeleporter(this);
 		}
 	}
@@ -166,6 +165,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 		addToFrequency();
 	}
 
+    @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -177,6 +177,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 		}
 	}
 
+    @Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE)) {
@@ -189,12 +190,13 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 		return nbt;
 	}
 
+    @Override
 	public void onChunkUnload() {
 		this.removeFromFrequency();
 	}
 
 	public void onLoaded() {
-		if (!this.worldObj.isRemote) {
+		if (!this.getWorld().isRemote) {
 			this.addToFrequency();
 		}
 	}
@@ -202,11 +204,12 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	@Override
 	public void invalidate() {
 		super.invalidate();
-		if (!this.worldObj.isRemote) {
+		if (!this.getWorld().isRemote) {
 			this.removeFromFrequency();
 		}
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		currenttip.add("Link Name: " + name);
@@ -226,6 +229,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 		return name.getObject();
 	}
 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
@@ -273,7 +277,6 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 			linkPassword.readFromBuf(buf);
 			break;
 		}
-
 	}
 
 	@Override
@@ -285,5 +288,4 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	public Object getGuiScreen(EntityPlayer player) {
 		return new GuiTeleporter(player.inventory, this);
 	}
-
 }

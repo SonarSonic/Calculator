@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import sonar.calculator.mod.common.containers.ICalculatorCrafter;
+import sonar.core.utils.SonarCompat;
 
 public class SlotPortableResult extends SlotPortable {
 	private EntityPlayer thePlayer;
@@ -13,13 +14,14 @@ public class SlotPortableResult extends SlotPortable {
 	private int[] craftSlots;
 	private ICalculatorCrafter container;
 
-	public SlotPortableResult(EntityPlayer player, IInventory inv, ICalculatorCrafter container, int[] craftSlots, int index, int x, int y, boolean isRemote) {
-		super(inv, index, x, y, isRemote, null);
+	public SlotPortableResult(EntityPlayer player, IInventory inv, ICalculatorCrafter container, int[] craftSlots, int index, int x, int y) {
+		super(inv, index, x, y, null);
 		this.thePlayer = player;
 		this.craftSlots = craftSlots;
 		this.container = container;
 	}
 
+    @Override
 	public boolean isItemValid(ItemStack stack) {
 		return false;
 	}
@@ -27,7 +29,7 @@ public class SlotPortableResult extends SlotPortable {
 	@Override
 	public ItemStack decrStackSize(int size) {
 		if (this.getHasStack()) {
-			this.amountCrafted += Math.min(size, this.getStack().stackSize);
+			this.amountCrafted += Math.min(size, SonarCompat.getCount(getStack()));
 		}
 		return super.decrStackSize(size);
 	}
@@ -41,11 +43,11 @@ public class SlotPortableResult extends SlotPortable {
 	public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
 		this.container.removeEnergy(amountCrafted);
 		amountCrafted=0;
-		for (int i = 0; i < this.craftSlots.length; ++i) {
-			ItemStack itemstack1 = this.invItem.getStackInSlot(craftSlots[i]);
+        for (int craftSlot : this.craftSlots) {
+            ItemStack itemstack1 = this.invItem.getStackInSlot(craftSlot);
 
-			if (itemstack1 != null) {
-				decrIngredientSize(craftSlots[i], 1);
+			if (!SonarCompat.isEmpty(itemstack1)) {
+                decrIngredientSize(craftSlot, 1);
 				if (itemstack1.getItem().hasContainerItem(itemstack1)) {
 					ItemStack itemstack2 = itemstack1.getItem().getContainerItem(itemstack1);
 
@@ -55,8 +57,8 @@ public class SlotPortableResult extends SlotPortable {
 					}
 
 					if (!this.thePlayer.inventory.addItemStackToInventory(itemstack2)) {
-						if (this.invItem.getStackInSlot(craftSlots[i]) == null) {
-							this.invItem.setInventorySlotContents(craftSlots[i], itemstack2);
+                        if (this.invItem.getStackInSlot(craftSlot) == null) {
+                            this.invItem.setInventorySlotContents(craftSlot, itemstack2);
 						} else {
 							this.thePlayer.dropItem(itemstack2, false);
 						}
@@ -70,24 +72,18 @@ public class SlotPortableResult extends SlotPortable {
 		if (invItem.getStackInSlot(slot) != null) {
 			ItemStack itemstack;
 
-			if (invItem.getStackInSlot(slot).stackSize <= size) {
+			if (SonarCompat.getCount(invItem.getStackInSlot(slot)) <= size) {
 				itemstack = invItem.getStackInSlot(slot);
-				invItem.setInventorySlotContents(slot, null);
+				invItem.setInventorySlotContents(slot, SonarCompat.getEmpty());
 				container.onItemCrafted();
 				return itemstack;
 			} else {
 				itemstack = invItem.getStackInSlot(slot).splitStack(size);
-
-				if (invItem.getStackInSlot(slot).stackSize == 0) {
-					invItem.setInventorySlotContents(slot, null);
-				}
-
 				container.onItemCrafted();
 				return itemstack;
 			}
 		} else {
-			return null;
+			return SonarCompat.getEmpty();
 		}
 	}
-
 }

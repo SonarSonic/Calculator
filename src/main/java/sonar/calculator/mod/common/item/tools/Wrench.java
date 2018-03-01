@@ -34,5 +34,4 @@ public class Wrench extends SonarItem implements IWrench {
 		}
 		return EnumActionResult.SUCCESS;
 	}
-
 }
