@@ -2,15 +2,15 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {              
-            "particle":"calculator:blocks/advancedPowerCube_front_slot1",  
-	        "north":"calculator:blocks/advancedPowerCube_front_slot1",           
-	        "east":"calculator:blocks/advancedPowerCube_side_slot1",            
-	        "south":"calculator:blocks/advancedPowerCube_side_slot1",               
-	        "west":"calculator:blocks/advancedPowerCube_side_slot1",
-	        "up":"calculator:blocks/advancedPowerCube_side_slot1",  
-	        "down":"calculator:blocks/advancedPowerCube_side_slot1"  
+            "particle":"calculator:blocks/advancedpowercube_front_slot1",  
+	        "north":"calculator:blocks/advancedpowercube_front_slot1",           
+	        "east":"calculator:blocks/advancedpowercube_side_slot1",            
+	        "south":"calculator:blocks/advancedpowercube_side_slot1",               
+	        "west":"calculator:blocks/advancedpowercube_side_slot1",
+	        "up":"calculator:blocks/advancedpowercube_side_slot1",  
+	        "down":"calculator:blocks/advancedpowercube_side_slot1"  
         },    
-        "model":"calculator:SonarMachine",        
+        "model":"calculator:sonarmachine",        
         "transform":"forge:default-block",
         "uvlock": true
     },
@@ -32,7 +32,7 @@
             "input":{},
             "output":{             
                "textures": {        
-                    "north":"calculator:blocks/advancedPowerCube_front_slot2"     
+                    "north":"calculator:blocks/advancedpowercube_front_slot2"     
                 }         
             }
         },
@@ -40,7 +40,7 @@
             "input":{},
             "output":{
                  "textures": {        
-                    "east":"calculator:blocks/advancedPowerCube_side_slot2"     
+                    "east":"calculator:blocks/advancedpowercube_side_slot2"     
                  }
             }
         },
@@ -48,7 +48,7 @@
             "input":{},
             "output":{
                  "textures": {        
-                    "south":"calculator:blocks/advancedPowerCube_side_slot2"     
+                    "south":"calculator:blocks/advancedpowercube_side_slot2"     
                  }
             }
         },
@@ -56,7 +56,7 @@
             "input":{},
             "output":{
                  "textures": {        
-                    "west":"calculator:blocks/advancedPowerCube_side_slot2"     
+                    "west":"calculator:blocks/advancedpowercube_side_slot2"     
                  }
             }
         },
@@ -64,7 +64,7 @@
             "input":{},
             "output":{
                  "textures": {        
-                    "up":"calculator:blocks/advancedPowerCube_side_slot2"     
+                    "up":"calculator:blocks/advancedpowercube_side_slot2"     
                  }
             }
         },
@@ -72,7 +72,7 @@
             "input":{},
             "output":{
                  "textures": {        
-                    "down":"calculator:blocks/advancedPowerCube_side_slot2"     
+                    "down":"calculator:blocks/advancedpowercube_side_slot2"     
                  }
             }
         }

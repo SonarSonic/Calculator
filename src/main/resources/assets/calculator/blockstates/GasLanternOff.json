@@ -4,25 +4,25 @@
         "textures": {
             "0":"calculator:model/gas_lantern_off"
         },
-        "model":"calculator:Lantern",
+        "model":"calculator:lantern",
         "transform":"forge:default-block"
     },
     "variants": {
         "inventory": [{}], 
         "dir":{            
             "north":{  
-                "model":"calculator:Lantern_Side",   
+                "model":"calculator:lantern_side",   
                 "y":90       
             },
             "south":{                
-                "model":"calculator:Lantern_Side",   
+                "model":"calculator:lantern_side",   
                 "y":270 
             },
             "west":{                         
-                "model":"calculator:Lantern_Side"   
+                "model":"calculator:lantern_side"   
             },
             "east":{                         
-                "model":"calculator:Lantern_Side",   
+                "model":"calculator:lantern_side",   
                 "y":180 
             },
             "up":{

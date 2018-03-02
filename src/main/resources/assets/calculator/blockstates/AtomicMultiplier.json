@@ -6,7 +6,7 @@
 	        "0":"calculator:model/atomic_multiplier",        
 	        "1":"sonarcore:blocks/connected/stablestonerimmed"
         },  
-        "model":"calculator:AtomicMultiplier",        
+        "model":"calculator:atomicmultiplier",        
         "transform":"forge:default-block"
     },
     "variants": { 

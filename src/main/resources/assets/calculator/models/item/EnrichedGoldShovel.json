@@ -1,5 +1,5 @@
 {
-    "parent":"calculator:item/SonarShovel",
+    "parent":"calculator:item/sonarshovel",
     "textures": {
         "0":"calculator:model/tools/gold_0",
         "1":"calculator:model/tools/gold_1",

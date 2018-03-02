@@ -1,7 +1,7 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "model":"calculator:ReinforcedChest",        
+        "model":"calculator:reinforcedchest",        
         "transform":"forge:default-block"
     },
     "variants": { 

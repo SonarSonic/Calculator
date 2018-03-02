@@ -10,7 +10,7 @@
     },
      "variants": { 
         "inventory": [{            
-	        "model":"calculator:Chamber_Hammer"
+	        "model":"calculator:chamber_hammer"
         }], 
         "facing":{  
             "north":{},

@@ -15,7 +15,7 @@
 	            "0":"calculator:model/black_chamber",
 	            "1":"calculator:model/black_chamber_name"
 	        },
-	        "model":"calculator:Chamber_Scanner"
+	        "model":"calculator:chamber_scanner"
         }], 
         "facing":{  
             "north":{},

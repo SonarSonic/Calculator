@@ -7,7 +7,7 @@
 	        "1":"calculator:model/calculator_locator_off_1",
 	        "2":"calculator:model/calculator_locator_off_2"
         },
-        "model":"calculator:CalculatorLocator",    
+        "model":"calculator:calculatorlocator",    
         "transform":"forge:default-block"
     },
     "variants": {

@@ -1,5 +1,5 @@
 {
-    "parent":"calculator:item/SonarHoe",
+    "parent":"calculator:item/sonarhoe",
     "textures": {
         "0":"calculator:model/tools/redstone_0",
         "1":"calculator:model/tools/redstone_1",

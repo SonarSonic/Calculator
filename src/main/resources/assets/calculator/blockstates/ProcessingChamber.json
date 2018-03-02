@@ -10,7 +10,7 @@
     },
      "variants": { 
         "inventory": [{            
-	        "model":"calculator:Chamber_Scanner"
+	        "model":"calculator:chamber_scanner"
         }], 
         "facing":{  
             "north":{},

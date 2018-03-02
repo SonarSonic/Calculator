@@ -32,12 +32,13 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 public class MineTweakerIntegration {
+	
     /*
     If there are issues with recipes not showing up implement the bifunction in
     https://github.com/SonarSonic/Calculator/commit/2ef61a30e84ccef0de0e400c660d58eddf3b69db
     and https://github.com/SonarSonic/Sonar-Core/commit/893e718347d55aaa645f973fbcb199fc88c13533
-     */
-
+    */
+	
 	public static void init() {
         MineTweakerAPI.registerClass(CalculatorHandler.class);
         MineTweakerAPI.registerClass(AtomicHandler.class);

@@ -11,12 +11,12 @@
             "west":"calculator:model/analysing_chamber_side_1",
             "arm":"calculator:model/fabrication_arm"
 	    },   
-        "model":"calculator:FabricationChamber_Fixed",        
+        "model":"calculator:fabricationchamber_fixed",        
         "transform":"forge:default-block"
     },
     "variants": { 
         "inventory": [{            
-            "model":"calculator:FabricationChamber"
+            "model":"calculator:fabricationchamber"
         }], 
         "facing":{  
             "north":{},

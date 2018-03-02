@@ -6,7 +6,7 @@
 	        "0":"calculator:model/stone_assimilator_base",
 	        "1":"calculator:model/stone_assimilator_sap"
 	    },
-        "model":"calculator:Assimilator",        
+        "model":"calculator:assimilator",        
         "transform":"forge:default-block"
     },
     "variants": {  

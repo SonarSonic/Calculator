@@ -1,5 +1,5 @@
 {
-    "parent":"calculator:item/SonarPickaxe",
+    "parent":"calculator:item/sonarpickaxe",
     "textures": {
         "0":"calculator:model/tools/iron_0",
         "1":"calculator:model/tools/iron_1",

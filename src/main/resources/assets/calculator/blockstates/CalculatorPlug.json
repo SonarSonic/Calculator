@@ -6,7 +6,7 @@
 	        "0":"calculator:model/calculator_plug_base_off",
 	        "1":"calculator:model/calculator_plug_off"
         },
-        "model":"calculator:CalculatorPlug",    
+        "model":"calculator:calculatorplug",    
         "transform":"forge:default-block"
     },
     "variants": {

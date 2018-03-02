@@ -10,7 +10,7 @@
 	        "up":"calculator:blocks/on_powercube",  
 	        "down":"calculator:blocks/on_powercube"   
         },    
-        "model":"calculator:SonarMachine",        
+        "model":"calculator:sonarmachine",        
         "transform":"forge:default-block",
         "uvlock": true
     },

@@ -1,5 +1,5 @@
 {
-    "parent":"calculator:item/SonarAxe",
+    "parent":"calculator:item/sonaraxe",
     "textures": {
         "particle":"calculator:model/tools/electric_diamond_0",
         "0":"calculator:model/tools/electric_diamond_0",

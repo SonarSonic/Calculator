@@ -10,7 +10,7 @@
 	        "up":"calculator:blocks/module_workstation_front",  
 	        "down":"calculator:blocks/module_workstation_front"   
         },    
-        "model":"calculator:SonarMachine",        
+        "model":"calculator:sonarmachine",        
         "transform":"forge:default-block",
         "uvlock": true
     },

@@ -1,5 +1,5 @@
 {
-    "parent":"calculator:block/SonarMachine",
+    "parent":"calculator:block/sonarmachine",
     "textures": {
         "north":"calculator:blocks/healthprocessor_front2",             
         "east":"calculator:blocks/healthprocessor_slot2",            

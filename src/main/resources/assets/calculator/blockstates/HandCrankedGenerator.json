@@ -10,7 +10,7 @@
 	        "up":"calculator:blocks/crank_top",  
 	        "down":"calculator:blocks/crank_top"    
         },  
-        "model":"calculator:SonarMachine",        
+        "model":"calculator:sonarmachine",        
         "transform":"forge:default-block",
         "uvlock": true
     },

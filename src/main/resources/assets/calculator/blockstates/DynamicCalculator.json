@@ -10,7 +10,7 @@
             "up":"calculator:blocks/atomiccalculatoranimate2",  
             "down":"calculator:blocks/atomiccalculatoranimate2"   
         },    
-        "model":"calculator:SonarMachine",        
+        "model":"calculator:sonarmachine",        
         "transform":"forge:default-block",
         "uvlock": true
     },

@@ -1,5 +1,5 @@
 {
-    "parent":"calculator:block/SonarMachine",
+    "parent":"calculator:block/sonarmachine",
     "textures": {
         "north":"calculator:blocks/hungerprocessor_front2",             
         "east":"calculator:blocks/hungerprocessor_slot2",            

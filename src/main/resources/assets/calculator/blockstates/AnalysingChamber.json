@@ -10,7 +10,7 @@
 	        "south":"calculator:model/analysing_chamber_side_1",
 	        "west":"calculator:model/analysing_chamber_side_1" 
         },    
-        "model":"calculator:AnalysingChamber",        
+        "model":"calculator:analysingchamber",        
         "transform":"forge:default-block",
         "uvlock": true
     },

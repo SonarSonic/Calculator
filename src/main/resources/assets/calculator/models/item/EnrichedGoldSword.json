@@ -1,5 +1,5 @@
 {
-    "parent":"calculator:item/SonarSword",
+    "parent":"calculator:item/sonarsword",
     "textures": {
         "particle":"calculator:model/tools/gold_0",
         "0":"calculator:model/tools/gold_0",

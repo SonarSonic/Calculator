@@ -1,5 +1,5 @@
 {
-    "parent":"calculator:item/SonarShovel",
+    "parent":"calculator:item/sonarshovel",
     "textures": {
         "0":"calculator:model/tools/flawless_diamond_0",
         "1":"calculator:model/tools/flawless_diamond_1",

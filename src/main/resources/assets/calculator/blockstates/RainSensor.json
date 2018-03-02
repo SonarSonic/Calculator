@@ -6,7 +6,7 @@
 	        "top":"calculator:blocks/rain_sensor_top",
 	        "side":"calculator:blocks/rain_sensor_bottom"
         },
-        "model":"calculator:MachineSlab",
+        "model":"calculator:machineslab",
         "transform":"forge:default-block"
      },
     "variants": {

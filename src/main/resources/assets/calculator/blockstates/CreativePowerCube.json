@@ -2,15 +2,15 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {            
-	        "particle":"calculator:blocks/creativePowerCube_front",          
-	        "north":"calculator:blocks/creativePowerCube_front",             
-	        "east":"calculator:blocks/creativePowerCube_side",            
-	        "south":"calculator:blocks/creativePowerCube_side",               
-	        "west":"calculator:blocks/creativePowerCube_side",
-	        "up":"calculator:blocks/creativePowerCube_side",  
-	        "down":"calculator:blocks/creativePowerCube_side"   
+	        "particle":"calculator:blocks/creativepowercube_front",          
+	        "north":"calculator:blocks/creativepowercube_front",             
+	        "east":"calculator:blocks/creativepowercube_side",            
+	        "south":"calculator:blocks/creativepowercube_side",               
+	        "west":"calculator:blocks/creativepowercube_side",
+	        "up":"calculator:blocks/creativepowercube_side",  
+	        "down":"calculator:blocks/creativepowercube_side"   
         },    
-        "model":"calculator:SonarMachine",        
+        "model":"calculator:sonarmachine",        
         "transform":"forge:default-block",
         "uvlock": true
     },

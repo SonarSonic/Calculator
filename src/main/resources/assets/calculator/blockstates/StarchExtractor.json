@@ -5,7 +5,7 @@
             "0":"calculator:model/starch_generator_0",        
             "1":"calculator:model/starch_generator_1"
         },    
-        "model":"calculator:Extractor",        
+        "model":"calculator:extractor",        
         "transform":"forge:default-block",
         "uvlock": true
     },

@@ -10,7 +10,7 @@
             "up":"calculator:blocks/greenhouse_side",  
             "down":"calculator:blocks/greenhouse_side"   
         },
-        "model":"calculator:SonarMachine",        
+        "model":"calculator:sonarmachine",        
         "transform":"forge:default-block",
         "uvlock": true
     },

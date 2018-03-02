@@ -10,7 +10,7 @@
 	        "up":"calculator:blocks/analysis_side_slot1",
 	        "down":"calculator:blocks/analysis_side_slot1"
         },     
-        "model":"calculator:StorageChamber",        
+        "model":"calculator:storagechamber",        
         "transform":"forge:default-block",
         "uvlock": true
     },

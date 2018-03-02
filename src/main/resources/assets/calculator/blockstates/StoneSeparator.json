@@ -10,7 +10,7 @@
 	        "up":"calculator:blocks/stoneseperator_slot1",  
 	        "down":"calculator:blocks/stoneseperator_slot1"  
         },    
-        "model":"calculator:SonarMachine",        
+        "model":"calculator:sonarmachine",        
         "transform":"forge:default-block",
         "uvlock": true
     },
