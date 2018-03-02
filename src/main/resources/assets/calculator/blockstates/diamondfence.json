@@ -1,0 +1,50 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {"texture":"calculator:blocks/wood/planks_diamond"},
+        "model":"fence_post",
+        "transform":"forge:default-block", 
+        "uvlock": true
+     },
+    "variants": {
+        "inventory": [{            
+            "model":"fence_inventory"
+        }],
+        "north":{
+            "true":{
+                "model":"fence_post",
+                 "submodel": {
+                    "north": { "model":"fence_side", "uvlock": true }
+                }
+            },
+            "false":{}
+        },
+        "east":{
+            "true":{
+                "model":"fence_post",
+                 "submodel": {
+                    "east": { "model":"fence_side", "y": 90, "uvlock": true }
+                }
+            },
+            "false":{}
+        },
+        "south":{
+            "true":{
+                "model":"fence_post",
+                 "submodel": {
+                    "south": { "model":"fence_side", "y": 180, "uvlock": true }
+                }
+            },
+            "false":{}
+        },
+        "west":{
+            "true":{
+                "model":"fence_post",
+                 "submodel": {
+                    "west": { "model":"fence_side", "y": 270, "uvlock": true }
+                }
+            },
+            "false":{}
+        }    
+    }
+}

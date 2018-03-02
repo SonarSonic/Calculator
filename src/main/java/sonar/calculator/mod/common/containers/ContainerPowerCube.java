@@ -9,6 +9,7 @@ import sonar.core.api.SonarAPI;
 import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.utils.SonarCompat;
 
 public class ContainerPowerCube extends ContainerSync {
 

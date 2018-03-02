@@ -137,7 +137,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 				slots().set(0, selected.copy());
 				fabricated = true;
 			} else if (ItemStackHelper.equalStacksRegular(current, selected) && SonarCompat.getCount(current) + SonarCompat.getCount(selected) <= getInventoryStackLimit() && SonarCompat.getCount(current) + SonarCompat.getCount(selected) <= selected.getMaxStackSize()) {
-				current = SonarCompat.grow(current, SonarCompat.getCount(selected));
+				current = SonarCompat.growAndSet(slots(), 0, SonarCompat.getCount(selected));
 				fabricated = true;
 			}
 			if (fabricated) {

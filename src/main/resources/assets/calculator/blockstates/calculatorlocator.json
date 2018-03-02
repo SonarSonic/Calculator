@@ -1,0 +1,36 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {        
+	        "particle":"calculator:model/calculator_locator_off_2",
+	        "0":"calculator:model/calculator_locator_off_0",
+	        "1":"calculator:model/calculator_locator_off_1",
+	        "2":"calculator:model/calculator_locator_off_2"
+        },
+        "model":"calculator:calculatorlocator",    
+        "transform":"forge:default-block"
+    },
+    "variants": {
+        "inventory": [{
+            "textures": {
+				"particle":"calculator:model/calculator_locator_on_2",
+				"0":"calculator:model/calculator_locator_on_0",
+				"1":"calculator:model/calculator_locator_on_1",
+				"2":"calculator:model/calculator_locator_on_2"               
+                }
+                }], 
+        "active":{
+            "true":{
+                "textures": {
+                        "particle":"calculator:model/calculator_locator_on_2",
+                        "0":"calculator:model/calculator_locator_on_0",
+                        "1":"calculator:model/calculator_locator_on_1",
+                        "2":"calculator:model/calculator_locator_on_2"               
+                }
+            },
+            "false":{
+                
+            }
+        }
+    }
+}

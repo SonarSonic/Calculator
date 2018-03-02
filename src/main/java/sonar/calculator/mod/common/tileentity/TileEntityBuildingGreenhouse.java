@@ -176,12 +176,12 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 				if (!SonarCompat.isEmpty(target) && type.checkBlock(target.getItem())) {
 					Block block = Block.getBlockFromItem(target.getItem());
 					if (block != null) {
-						target = SonarCompat.shrink(target, 1);
 						if (meta == -1) {
 							this.getWorld().setBlockState(pos, block.getStateFromMeta(target.getItemDamage()), 2);
 						} else {
 							this.getWorld().setBlockState(pos, block.getStateFromMeta(meta), 3);
 						}
+						target = SonarCompat.shrinkAndSet(slots(), slot, 1);
 						this.storage.modifyEnergyStored(-buildRF);
 						found = true;
 						break;

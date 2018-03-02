@@ -1,0 +1,16 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model":"calculator:magneticflux",        
+        "transform":"forge:default-block"
+    },
+    "variants": { 
+        "inventory": [{}], 
+        "facing":{  
+            "north":{},
+            "south":{},
+            "west":{},
+            "east":{}
+        }
+    }
+}

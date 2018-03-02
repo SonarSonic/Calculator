@@ -133,11 +133,11 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory
 		if (SonarCompat.isEmpty(output)) {
 			slots().set(8, itemstack);
 		} else if (output.isItemEqual(itemstack)) {
-			output = SonarCompat.grow(output, 4);
+			output = SonarCompat.growAndSet(slots(), 8, 4);
 		}
 
 		for (int i = 0; i < 8; i++) {
-			slots().set(i, SonarCompat.shrink(slots().get(i), 1)) ;
+			SonarCompat.shrinkAndSet(slots(), i, 1);
 		}
 	}
 

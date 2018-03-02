@@ -186,9 +186,9 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		if (SonarCompat.isEmpty(outputStack)) {
 			slots().set(1, stack.copy());
 		} else if (outputStack.isItemEqual(stack)) {
-			outputStack = SonarCompat.grow(outputStack, 1);
+			outputStack = SonarCompat.growAndSet(slots(), 1, 1);
 		}
-		inputStack = SonarCompat.shrink(stack, 1);
+		inputStack = SonarCompat.shrinkAndSet(slots(), 0, 1);
 	}
 
     @Override

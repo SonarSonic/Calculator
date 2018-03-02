@@ -44,7 +44,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 	}
 
 	public void charge(ItemStack stack) {
-		if (!(stack == null) && this.storedpoints.getObject() != 0) {
+		if (!(SonarCompat.isEmpty(stack)) && this.storedpoints.getObject() != 0) {
 			if (stack.getItem() instanceof IHealthStore) {
 				IHealthStore module = (IHealthStore) stack.getItem();
 				int health = module.getHealthPoints(stack);
@@ -81,7 +81,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 			int value = HealthProcessorRecipes.instance().getValue(null, stack);
 			if (value > 0) {
                 storedpoints.increaseBy(value);
-				SonarCompat.shrink(slots().get(0), 1);
+                SonarCompat.shrinkAndSet(slots(), 0, 1);
 			}
 			if (stack.getItem() instanceof IHealthStore) {
 				IHealthStore module = (IHealthStore) stack.getItem();

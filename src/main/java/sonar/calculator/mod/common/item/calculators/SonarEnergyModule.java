@@ -13,7 +13,7 @@ import sonar.core.api.energy.ISonarEnergyItem;
 import sonar.core.api.utils.ActionType;
 import sonar.core.helpers.FontHelper;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")})
+@Optional.InterfaceList({@Optional.Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = "cofhcore")})
 public class SonarEnergyModule extends SonarModule implements ISonarEnergyItem, IEnergyContainerItem {
 
 	public SonarEnergyModule(IModuleEnergy module) {
@@ -48,25 +48,25 @@ public class SonarEnergyModule extends SonarModule implements ISonarEnergyItem, 
 	}
 
 	@Override
-    @Optional.Method(modid = "redstoneflux")
+    @Optional.Method(modid = "cofhcore")
 	public int receiveEnergy(ItemStack stack, int maxReceive, boolean simulate) {
 		return (int) addEnergy(stack, maxReceive, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
-    @Optional.Method(modid = "redstoneflux")
+    @Optional.Method(modid = "cofhcore")
 	public int extractEnergy(ItemStack stack, int maxExtract, boolean simulate) {
 		return (int) removeEnergy(stack, maxExtract, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
-    @Optional.Method(modid = "redstoneflux")
+    @Optional.Method(modid = "cofhcore")
 	public int getEnergyStored(ItemStack stack) {
 		return (int) getEnergyLevel(stack);
 	}
 
 	@Override
-    @Optional.Method(modid = "redstoneflux")
+    @Optional.Method(modid = "cofhcore")
 	public int getMaxEnergyStored(ItemStack stack) {
 		return (int) getFullCapacity(stack);
 	}

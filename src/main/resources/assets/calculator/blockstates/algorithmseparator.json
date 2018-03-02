@@ -1,0 +1,90 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {            
+	        "particle":"calculator:blocks/algorithmseperator_front_1",           
+	        "north":"calculator:blocks/algorithmseperator_front_1",                     
+	        "east":"calculator:blocks/algorithmseperator_slot1",             
+	        "south":"calculator:blocks/algorithmseperator_slot1",               
+	        "west":"calculator:blocks/algorithmseperator_slot1",
+	        "up":"calculator:blocks/algorithmseperator_slot1",  
+	        "down":"calculator:blocks/algorithmseperator_slot1"   
+        },    
+        "model":"calculator:sonarmachine",        
+        "transform":"forge:default-block",
+        "uvlock": true
+    },
+    "variants": { 
+        "inventory": [{}], 
+        "facing":{  
+            "north":{},
+            "south":{
+                "y": 180
+            },
+            "west":{
+                "y": 270
+            },
+            "east":{
+                "y": 90
+            }
+        },
+        "north":{
+            "input":{},
+            "output":{             
+               "textures": {        
+                    "north":"calculator:blocks/algorithmseperator_front_2"     
+                }         
+            },
+            "input_animate":{
+                 "textures": {        
+                    "north":"calculator:blocks/algorithmseperatoranimate_front1"     
+                }  
+            },
+            "output_animate":{                           
+               "textures": {        
+                    "north":"calculator:blocks/algorithmseperatoranimate_front2"     
+                }    
+            }
+        },
+        "east":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "east":"calculator:blocks/algorithmseperator_slot2"     
+                 }
+            }
+        },
+        "south":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "south":"calculator:blocks/algorithmseperator_slot2"     
+                 }
+            }
+        },
+        "west":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "west":"calculator:blocks/algorithmseperator_slot2"     
+                 }
+            }
+        },
+        "up":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "up":"calculator:blocks/algorithmseperator_slot2"     
+                 }
+            }
+        },
+        "down":{
+            "input":{},
+            "output":{
+                 "textures": {        
+                    "down":"calculator:blocks/algorithmseperator_slot2"     
+                 }
+            }
+        }
+    }
+}

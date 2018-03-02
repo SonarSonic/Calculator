@@ -77,7 +77,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 			if (stack.getItem() instanceof ItemFood) {
 				ItemFood food = (ItemFood) stack.getItem();
 				storedpoints.increaseBy(food.getHealAmount(stack));
-				SonarCompat.shrink(slots().get(0), 1);
+				SonarCompat.shrinkAndSet(slots(), 0, 1);
 			}
 			if (stack.getItem() instanceof IHungerStore) {
 

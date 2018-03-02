@@ -9,7 +9,7 @@ import sonar.core.api.utils.ActionType;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.helpers.SonarHelper;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyConnection", modid = "redstoneflux")})
+@Optional.InterfaceList({@Optional.Interface(iface = "cofh.api.energy.IEnergyConnection", modid = "cofhcore")})
 public class TileEntityCreativePowerCube extends TileEntitySonar implements IEnergyConnection {
 
 	public int maxTransfer = Integer.MAX_VALUE;
@@ -25,7 +25,7 @@ public class TileEntityCreativePowerCube extends TileEntitySonar implements IEne
 	}
 	
 	@Override
-    @Optional.Method(modid = "redstoneflux")
+    @Optional.Method(modid = "cofhcore")
 	public boolean canConnectEnergy(EnumFacing from) {
 		return true;
 	}

@@ -108,10 +108,10 @@ public class TileEntityMachine {
 					}
 					slots().set(inputSize() + 1, outputStack);
 				} else if (currentO.isItemEqual(stack)) {
-					currentO = SonarCompat.grow(currentO, SonarCompat.getCount(stack));
+					currentO = SonarCompat.growAndSet(slots(), inputSize() + 1, SonarCompat.getCount(stack));
 				}
 			}
-			SonarCompat.shrink(slots().get(0), 1);
+			stack = SonarCompat.shrinkAndSet(slots(), 0, 1);
 		}
 
 		@Override

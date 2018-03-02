@@ -143,7 +143,8 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 	}
 
 	public boolean hasFlawlessCalculator() {
-		return slots().get(FlawlessCalculator.moduleCapacity).getItem() instanceof IFlawlessCalculator;
+		ItemStack calc = slots().get(FlawlessCalculator.moduleCapacity);
+		return !SonarCompat.isEmpty(calc) && calc.getItem() instanceof IFlawlessCalculator;
 	}
 
 	@Override

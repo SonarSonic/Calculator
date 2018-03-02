@@ -46,13 +46,14 @@ public class CalculatorPlug extends SonarMachineBlock {
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (!world.isRemote) {
-			ItemStack held = player.getHeldItemMainhand();
+			ItemStack held = player.getHeldItem(hand);
 			if (!SonarCompat.isEmpty(held) && held.getItem() instanceof IStability) {
 				TileEntity tile = world.getTileEntity(pos);
 				StoredItemStack item = new StoredItemStack(held).setStackSize(1);
 				StoredItemStack stack = SonarAPI.getItemHelper().getStackToAdd(1, item, SonarAPI.getItemHelper().addItems(tile, item.copy(), EnumFacing.UP, ActionType.PERFORM, null));
-				if (stack == null || stack.getStackSize() == 0)
-					held = SonarCompat.shrink(held, 1);
+				if (stack == null || stack.getStackSize() == 0){
+					player.setHeldItem(hand, held = SonarCompat.shrink(held, 1));
+				}
 				return true;
 			}
 			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());

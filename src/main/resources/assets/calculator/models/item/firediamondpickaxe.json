@@ -1,0 +1,8 @@
+{
+    "parent":"calculator:item/sonarpickaxe",
+    "textures": {
+        "0":"calculator:model/tools/fire_diamond_0",
+        "1":"calculator:model/tools/fire_diamond_1",
+        "2":"calculator:model/tools/fire_diamond_2"
+    }
+}

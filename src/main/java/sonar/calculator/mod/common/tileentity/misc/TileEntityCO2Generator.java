@@ -113,7 +113,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		this.maxBurnTime = maxBurn;
 		this.gasAdd = TileEntityFurnace.getItemBurnTime(burnStack) / 100;
 		this.controlled = burnStack.getItem() == Calculator.controlled_Fuel;
-		burnStack = SonarCompat.shrink(burnStack, 1);
+		burnStack = SonarCompat.shrinkAndSet(slots(), 0, 1);
 	}
 
 	public boolean isBurning() {

@@ -72,7 +72,8 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 
 	@Override
 	public boolean canProcess() {
-		if (SonarCompat.isEmpty(slots().get(0)) || cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy()) {
+		if (SonarCompat.isEmpty(slots().get(0))
+				|| cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy()) {
 			return false;
 		}
 		ISonarRecipe recipe = getRecipe(inputStacks());
@@ -88,7 +89,8 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 				if (!SonarCompat.isEmpty(stackInSlot)) {
 					if (!stackInSlot.isItemEqual(outputStack)) {
 						return false;
-					} else if (SonarCompat.getCount(stackInSlot) + SonarCompat.getCount(outputStack) > stackInSlot.getMaxStackSize()) {
+					} else if (SonarCompat.getCount(stackInSlot) + SonarCompat.getCount(outputStack) > stackInSlot
+							.getMaxStackSize()) {
 						return false;
 					}
 				}
@@ -115,7 +117,8 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		for (int o = 0; o < outputSize(); o++) {
 			ISonarRecipeObject outputObject = recipe.outputs().get(o);
 			if (SonarCompat.isEmpty(slots().get(o + inputSize() + 1)) && outputObject != null) {
-				size = Math.max((getInventoryStackLimit() - SonarCompat.getCount(slots().get(o + inputSize() + 1))) / outputObject.getStackSize(), size);
+				size = Math.max((getInventoryStackLimit() - SonarCompat.getCount(slots().get(o + inputSize() + 1)))
+						/ outputObject.getStackSize(), size);
 			} else {
 				size = 0;
 			}
@@ -142,26 +145,26 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 					}
 					slots().set(o + inputSize() + 1, outputStack);
 				} else if (stackInSlot.isItemEqual(stack)) {
-					stackInSlot = SonarCompat.grow(stackInSlot, outputObject.getStackSize());
+					stackInSlot = SonarCompat.growAndSet(slots(), o + inputSize() + 1, outputObject.getStackSize());
 				}
 			}
 		}
 		for (int i = 0; i < Math.min(recipe.inputs().size(), inputSize()); i++) {
 			ItemStack input = slots().get(i).copy();
 			int shrinkSize = recipeHelper() != null ? recipe.inputs().get(i).getStackSize() : 1;
-			boolean hasContainer = (SonarCompat.getCount(input) - shrinkSize) <= 0;
-			slots().set(i, SonarCompat.shrink(slots().get(i), shrinkSize));
-			if (hasContainer && input.getItem().hasContainerItem(input)) {
-				ItemStack itemstack2 = input.getItem().getContainerItem(input);
-
-				if (this.isItemValidForSlot(i, itemstack2)) {
+			boolean stackFinished = (SonarCompat.getCount(input) - shrinkSize) <= 0;
+			ItemStack container = stackFinished ? input.getItem().getContainerItem(input) : null;
+			input = SonarCompat.shrinkAndSet(slots(), i, shrinkSize);
+			if (container != null) {
+				if (isItemValidForSlot(i, container)) {
 					if (SonarCompat.isEmpty(inv.getStackInSlot(i))) {
-						inv.setInventorySlotContents(i, itemstack2);
+						inv.setInventorySlotContents(i, container);
 					} else {
-						InventoryHelper.spawnItemStack(this.getWorld(), pos.getX(), pos.getY(), pos.getZ(), itemstack2);
+						InventoryHelper.spawnItemStack(this.getWorld(), pos.getX(), pos.getY(), pos.getZ(), container);
 					}
 				}
 			}
+
 		}
 	}
 

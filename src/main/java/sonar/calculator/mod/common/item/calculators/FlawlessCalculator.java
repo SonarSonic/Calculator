@@ -39,7 +39,7 @@ import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.IGuiItem;
 
 
-@Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")})
+@Optional.InterfaceList({@Optional.Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = "cofhcore")})
 public class FlawlessCalculator extends SonarItem implements IItemInventory, IModuleProvider, ISonarEnergyItem, IEnergyContainerItem, IFlawlessCalculator, IGuiItem {
 	public final String invTag = "inv";
 	public final String emptyModule = "";
@@ -236,25 +236,25 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	}
 
 	@Override
-    @Optional.Method(modid = "redstoneflux")
+    @Optional.Method(modid = "cofhcore")
 	public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
 		return (int) addEnergy(container, maxReceive, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
-    @Optional.Method(modid = "redstoneflux")
+    @Optional.Method(modid = "cofhcore")
 	public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
 		return (int) removeEnergy(container, maxExtract, ActionType.getTypeForAction(simulate));
 	}
 
 	@Override
-    @Optional.Method(modid = "redstoneflux")
+    @Optional.Method(modid = "cofhcore")
 	public int getEnergyStored(ItemStack container) {
 		return (int) getEnergyLevel(container);
 	}
 
 	@Override
-    @Optional.Method(modid = "redstoneflux")
+    @Optional.Method(modid = "cofhcore")
 	public int getMaxEnergyStored(ItemStack container) {
 		return (int) getFullCapacity(container);
 	}

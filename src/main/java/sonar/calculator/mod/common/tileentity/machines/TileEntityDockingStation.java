@@ -151,7 +151,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		this.slots().set(i, itemstack);
 
         if (!SonarCompat.isEmpty(itemstack) && SonarCompat.getCount(itemstack) > getInventoryStackLimit()) {
-			itemstack = SonarCompat.setCount(itemstack, getInventoryStackLimit());
+        	this.slots().set(i, SonarCompat.setCount(itemstack, getInventoryStackLimit()));
 		}
 	}
 

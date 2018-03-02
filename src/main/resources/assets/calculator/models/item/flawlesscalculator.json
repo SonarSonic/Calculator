@@ -1,0 +1,6 @@
+{
+    "parent":"calculator:item/sonaritembase",
+    "textures": {
+        "layer0":"calculator:items/flawlesscalculator"
+    }
+}

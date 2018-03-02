@@ -34,10 +34,11 @@ public class DockingStation extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null) {
 			if (interact.type == BlockInteractionType.RIGHT) {
-				if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof MachineUpgrade) {
+				ItemStack held = player.getHeldItem(hand);
+				if (held != null && held.getItem() instanceof MachineUpgrade) {
 					return false;
 				}
-				if (!insertCalculator(player, world, pos)) {
+				if (!insertCalculator(player, hand, world, pos)) {
 					if (!world.isRemote) {
 						TileEntity target = world.getTileEntity(pos);
 						if (target != null && target instanceof TileEntityDockingStation) {
@@ -55,14 +56,15 @@ public class DockingStation extends SonarMachineBlock {
 		return true;
 	}
 
-	public boolean insertCalculator(EntityPlayer player, World world, BlockPos pos) {
-		if (player.getHeldItemMainhand() != null && TileEntityDockingStation.getInputStackSize(player.getHeldItemMainhand()) > 0) {
+	public boolean insertCalculator(EntityPlayer player, EnumHand hand, World world, BlockPos pos) {
+		ItemStack held = player.getHeldItem(hand);
+		if (held != null && TileEntityDockingStation.getInputStackSize(held) > 0) {
 			TileEntity target = world.getTileEntity(pos);
 			if (target != null && target instanceof TileEntityDockingStation) {
 				TileEntityDockingStation station = (TileEntityDockingStation) target;
 				if (SonarCompat.isEmpty(station.calcStack)) {
-					station.calcStack = player.getHeldItemMainhand().copy();
-					SonarCompat.shrink(player.getHeldItemMainhand(), 1);
+					station.calcStack = held.copy();
+					player.setHeldItem(hand, held = SonarCompat.shrink(held, 1));
 					return true;
 				}
 			}

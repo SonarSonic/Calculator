@@ -72,7 +72,7 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 	private void burn() {
 		ItemStack burnStack = slots().get(0);
 		this.maxBurnTime.setObject(TileEntityFurnace.getItemBurnTime(burnStack) * 10);
-		burnStack = SonarCompat.shrink(burnStack, 1);
+		burnStack = SonarCompat.shrinkAndSet(slots(), 0, 1);
 	}
 
 	public boolean isBurning() {

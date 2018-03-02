@@ -47,20 +47,19 @@ public class SlotPortableResult extends SlotPortable {
             ItemStack itemstack1 = this.invItem.getStackInSlot(craftSlot);
 
 			if (!SonarCompat.isEmpty(itemstack1)) {
+				ItemStack container = itemstack1.getItem().getContainerItem(itemstack1);
                 decrIngredientSize(craftSlot, 1);
-				if (itemstack1.getItem().hasContainerItem(itemstack1)) {
-					ItemStack itemstack2 = itemstack1.getItem().getContainerItem(itemstack1);
-
-					if (itemstack2 != null && itemstack2.isItemStackDamageable() && itemstack2.getItemDamage() > itemstack2.getMaxDamage()) {
-						MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, itemstack2, player.getActiveHand()));
+				if (container!=null) {
+					if (container != null && container.isItemStackDamageable() && container.getItemDamage() > container.getMaxDamage()) {
+						MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, container, player.getActiveHand()));
 						continue;
 					}
 
-					if (!this.thePlayer.inventory.addItemStackToInventory(itemstack2)) {
+					if (!this.thePlayer.inventory.addItemStackToInventory(container)) {
                         if (this.invItem.getStackInSlot(craftSlot) == null) {
-                            this.invItem.setInventorySlotContents(craftSlot, itemstack2);
+                            this.invItem.setInventorySlotContents(craftSlot, container);
 						} else {
-							this.thePlayer.dropItem(itemstack2, false);
+							this.thePlayer.dropItem(container, false);
 						}
 					}
 				}

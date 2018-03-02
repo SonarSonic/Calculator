@@ -1,0 +1,9 @@
+{
+    "parent":"calculator:item/sonarsword",
+    "textures": {
+        "particle":"calculator:model/tools/gold_0",
+        "0":"calculator:model/tools/gold_0",
+        "1":"calculator:model/tools/gold_1",
+        "2":"calculator:model/tools/gold_2"
+    }
+}

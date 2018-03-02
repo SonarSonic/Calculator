@@ -1,0 +1,36 @@
+{    
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "0":"calculator:model/gas_lantern_on"
+        },
+        "model":"calculator:lantern",
+        "transform":"forge:default-block"
+    },
+    "variants": {
+        "inventory": [{}], 
+        "dir":{            
+            "north":{  
+                "model":"calculator:lantern_side",   
+                "y":90       
+            },
+            "south":{                
+                "model":"calculator:lantern_side",   
+                "y":270 
+            },
+            "west":{                         
+                "model":"calculator:lantern_side"   
+            },
+            "east":{                         
+                "model":"calculator:lantern_side",   
+                "y":180 
+            },
+            "up":{
+                
+            },
+            "down":{
+                
+            }
+        }      
+    }
+}

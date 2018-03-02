@@ -278,7 +278,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 
 	public void createOwner() {
 		ItemStack stack = this.getStackInSlot(1);
-		if (stack == null) {
+		if (SonarCompat.isEmpty(stack)) {
 			this.owner.setObject("None");
 			return;
 		}

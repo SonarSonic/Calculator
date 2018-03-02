@@ -1,0 +1,11 @@
+{
+    "parent":"calculator:block/sonarmachine",
+    "textures": {
+        "north":"calculator:blocks/hungerprocessor_front2",             
+        "east":"calculator:blocks/hungerprocessor_slot2",            
+        "south":"calculator:blocks/hungerprocessor_slot2",               
+        "west":"calculator:blocks/hungerprocessor_slot2",
+        "up":"calculator:blocks/hungerprocessor_slot2",  
+        "down":"calculator:blocks/hungerprocessor_slot2"    
+    }
+}

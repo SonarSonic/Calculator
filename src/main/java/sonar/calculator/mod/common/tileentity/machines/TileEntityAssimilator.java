@@ -280,8 +280,8 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 							}
 						}
 					}
+					return true;
 				}
-				return true;
 			}
 			return false;
 		}

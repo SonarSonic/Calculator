@@ -30,6 +30,7 @@ import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
 import sonar.calculator.mod.common.containers.ContainerCalculator;
 import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.containers.ContainerCraftingCalculator;
+import sonar.calculator.mod.common.containers.ContainerDockingStation;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
 import sonar.calculator.mod.common.containers.ContainerFlawlessCalculator;
@@ -85,7 +86,7 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 			Calculator.logger.info("Registering Recipe Handler: " + handler.getUUID());
 		}
 		//item blacklist
-		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(Calculator.calculatorScreen);
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Calculator.calculatorScreen));
 		
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 
@@ -133,7 +134,7 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerScientificCalculator.class, Handlers.SCIENTIFIC.getUUID(), 0, 2, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerAtomicCalculator.class, Handlers.ATOMIC.getUUID(), 0, 3, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFlawlessCalculator.class, Handlers.FLAWLESS.getUUID(), 0, 4, 5, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerCraftingCalculator.class, VanillaRecipeCategoryUid.CRAFTING, 0, 9, 10, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerCraftingCalculator.class, VanillaRecipeCategoryUid.CRAFTING, 0, 10, 11, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDynamicCalculator.class, Handlers.CALCULATOR.getUUID(), 1, 2, 10, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDynamicCalculator.class, Handlers.SCIENTIFIC.getUUID(), 4, 2, 10, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDynamicCalculator.class, Handlers.ATOMIC.getUUID(), 7, 3, 10, 36);

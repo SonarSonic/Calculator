@@ -34,12 +34,13 @@ import sonar.core.utils.IGuiTile;
 import sonar.core.utils.MachineSideConfig;
 import sonar.core.utils.SonarCompat;
 
-public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements IUpgradableTile, IAdditionalInventory, IGuiTile {
+public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory
+		implements IUpgradableTile, IAdditionalInventory, IGuiTile {
 
 	public SyncTagType.INT stable = new SyncTagType.INT(0);
 	public SyncTagType.INT analysed = new SyncTagType.INT(2);
 	public int maxTransfer = 2000;
-    public int transferTicks;
+	public int transferTicks;
 	public final int transferTime = 20;
 	public final int[] itemSlots = new int[] { 2, 3, 4, 5, 6, 7 };
 
@@ -50,9 +51,9 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
 		super.storage.setCapacity(100000).setMaxTransfer(64000);
 		super.inv = new SonarInventory(this, 8) {
-            @Override
+			@Override
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
-               super.setInventorySlotContents(i, itemstack);
+				super.setInventorySlotContents(i, itemstack);
 				if (i == 0) {
 					markBlockForUpdate();
 				}
@@ -88,15 +89,18 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public void transferItems() {
 		ArrayList<EnumFacing> outputs = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
 		for (EnumFacing side : outputs) {
-			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side, side.getOpposite(), null);
+			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side,
+					side.getOpposite(), null);
 		}
 		ArrayList<EnumFacing> inputs = sides.getSidesWithConfig(MachineSideConfig.INPUT);
 		if (!inputs.isEmpty()) {
-			ArrayList<BlockCoords> chambers = SonarHelper.getConnectedBlocks(Calculator.storageChamber, inputs, getWorld(), pos, 256);
+			ArrayList<BlockCoords> chambers = SonarHelper.getConnectedBlocks(Calculator.storageChamber, inputs,
+					getWorld(), pos, 256);
 			for (BlockCoords chamber : chambers) {
 				TileEntity tile = chamber.getTileEntity(getWorld());
 				if (tile != null && tile instanceof TileEntityStorageChamber) {
-					SonarAPI.getItemHelper().transferItems(this, tile, inputs.get(0), inputs.get(0).getOpposite(), null);
+					SonarAPI.getItemHelper().transferItems(this, tile, inputs.get(0), inputs.get(0).getOpposite(),
+							null);
 					if (SonarCompat.isEmpty(this.slots().get(0))) {
 						return;
 					}
@@ -113,7 +117,9 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 				this.storage.receiveEnergy(storedEnergy, false);
 				for (int i = 1; i < 7; i++) {
 					if (i > 2 || upgrades.getUpgradesInstalled("VOID") == 0) {
-                        add(RecipeHelperV2.getItemStackFromList(AnalysingChamberRecipes.instance().getOutputs(null, i, tag.getInteger("Item" + i)), 0), i + 1);
+						add(RecipeHelperV2.getItemStackFromList(
+								AnalysingChamberRecipes.instance().getOutputs(null, i, tag.getInteger("Item" + i)), 0),
+								i + 1);
 					}
 					tag.removeTag("Item" + i);
 				}
@@ -125,11 +131,13 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	}
 
 	private void add(ItemStack item, int slotID) {
-		slots().set(slotID, new ItemStack(item.getItem(), 1, item.getItemDamage()));
+		if (!SonarCompat.isEmpty(item)) {
+			slots().set(slotID, new ItemStack(item.getItem(), 1, item.getItemDamage()));
+		}
 	}
 
 	private boolean canAnalyse() {
-		if (slots().get(0).getItem() == Calculator.circuitBoard) {
+		if (SonarCompat.getItem(slots().get(0)) == Calculator.circuitBoard) {
 			for (int slot : itemSlots) {
 				if (!SonarCompat.isEmpty(slots().get(slot))) {
 					return false;
@@ -175,7 +183,8 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 
 	private int stable(int par) {
 		ItemStack stableStack = slots().get(par);
-		if (stableStack.hasTagCompound() && stableStack.getItem() instanceof IStability) {
+		if (!SonarCompat.isEmpty(stableStack) && stableStack.hasTagCompound()
+				&& stableStack.getItem() instanceof IStability) {
 			IStability item = (IStability) stableStack.getItem();
 			boolean stable = item.getStability(stableStack);
 			if (!stable) {
@@ -227,14 +236,14 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		return slot != 1;
 	}
 
-    @Override
+	@Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE))
 			upgrades.readData(nbt, type);
 	}
 
-    @Override
+	@Override
 	public NBTTagCompound writeData(NBTTagCompound nbt, SyncType type) {
 		super.writeData(nbt, type);
 		if (type.isType(SyncType.DEFAULT_SYNC, SyncType.SAVE))
@@ -242,7 +251,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		return nbt;
 	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
 		int vUpgrades = upgrades.getUpgradesInstalled("VOID");

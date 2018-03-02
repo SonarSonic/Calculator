@@ -1,0 +1,79 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model":"calculator:pipingcentre",
+        "textures": {
+            "0":"calculator:model/amethyst_piping",
+            "particle":"calculator:blocks/amethyst_block"
+        },
+        "transform":"forge:default-block"
+     },
+    "variants": {
+        "inventory": [{            
+                 "submodel": {
+                    "down": { "model": "calculator:pipingconnection"},                    
+                    "up": { "model": "calculator:pipingconnection", "x": 180}
+                  }
+                }],
+         "north":{
+            "true":{
+                 "submodel": {
+                    "north": { "model": "calculator:pipingconnection", "x": 90, "y": 180 }
+                }
+            },
+            "false":{
+                
+            }
+        },
+        "east":{
+            "true":{
+                 "submodel": {
+                    "east": { "model": "calculator:pipingconnection", "x": 90, "y": 270 }
+                }
+            },
+            "false":{
+                
+            }
+        },
+        "south":{
+            "true":{
+                 "submodel": {
+                    "south": { "model": "calculator:pipingconnection", "x": 90, "y": 0 }
+                }
+            },
+            "false":{
+                
+            }
+        },
+        "west":{
+            "true":{
+                 "submodel": {
+                    "west": { "model": "calculator:pipingconnection", "x": 90, "y": 90 }
+                }
+            },
+            "false":{
+                
+            }
+        },
+        "down":{
+            "true":{
+                 "submodel": {
+                    "down": { "model": "calculator:pipingconnection"}
+                }
+            },
+            "false":{
+                
+            }
+        },
+        "up":{
+            "true":{
+                 "submodel": {
+                    "up": { "model": "calculator:pipingconnection", "x": 180}
+                }
+            },
+            "false":{
+                
+            }
+        }
+    }
+}

@@ -69,7 +69,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 					ItemStack burnStack = slots().get(0);
 
 					if (!SonarCompat.isEmpty(burnStack)) {
-						burnStack = SonarCompat.shrink(burnStack, 1);
+						burnStack = SonarCompat.shrinkAndSet(slots(), 0, 1);
 					}
 				}
 			}
@@ -92,7 +92,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		}
 		if (!(itemLevel.getObject() + getItemValue(stack) > levelMax)) {
 			addItem(getItemValue(stack));
-			stack = SonarCompat.shrink(stack, 1);
+			stack = SonarCompat.shrinkAndSet(slots(), 1, 1);
 		}
 	}
 

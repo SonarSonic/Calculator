@@ -42,11 +42,12 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			fill(0);
 		}
 		if (flag != this.stable.getObject()) {
-			getWorld().setBlockState(pos, getWorld().getBlockState(pos).withProperty(CalculatorPlug.ACTIVE, stable.getObject() == 2), 2);
+			getWorld().setBlockState(pos,
+					getWorld().getBlockState(pos).withProperty(CalculatorPlug.ACTIVE, stable.getObject() == 2), 2);
 		}
 	}
 
-    @Override
+	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
@@ -57,20 +58,24 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			stable.setObject(0);
 			return false;
 		}
-        return testItem.getItem() instanceof IStability;
+		return testItem.getItem() instanceof IStability;
 	}
 
 	public void fill(int slot) {
 		ItemStack circuit = slots().get(slot);
-		IStability item = (IStability) circuit.getItem();
-		boolean stability = item.getStability(circuit);
-		if (stability) {
-			if (this.stable.getObject() != 2) {
-				this.stable.setObject(2);
+		if (!SonarCompat.isEmpty(circuit)) {
+			IStability item = (IStability) circuit.getItem();
+			boolean stability = item.getStability(circuit);
+			if (stability) {
+				if (this.stable.getObject() != 2) {
+					this.stable.setObject(2);
+				}
+			} else if (!stability && circuit.getItem() instanceof IStability) {
+				stable.setObject(1);
+			} else {
+				stable.setObject(0);
 			}
-		} else if (!stability && circuit.getItem() instanceof IStability) {
-			stable.setObject(1);
-		} else {
+		}else{
 			stable.setObject(0);
 		}
 	}
@@ -82,10 +87,11 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 		return 0;
 	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
-		currenttip.add(FontHelper.translate("circuit.stable") + ": " + (!state.getValue(CalculatorPlug.ACTIVE) ? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
+		currenttip.add(FontHelper.translate("circuit.stable") + ": " + (!state.getValue(CalculatorPlug.ACTIVE)
+				? FontHelper.translate("locator.false") : FontHelper.translate("locator.true")));
 		return currenttip;
 	}
 

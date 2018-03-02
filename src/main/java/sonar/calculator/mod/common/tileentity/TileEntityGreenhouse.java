@@ -239,8 +239,6 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		this.storage.modifyEnergyStored(-plantRF);
 		int size = SonarCompat.getCount(stack) - 1;
 		stack = SonarCompat.setCount(stack, size);
-
-
 		getWorld().setBlockState(pos, state, 3);
 	}
 	
