@@ -19,6 +19,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.core.common.block.properties.IMetaRenderer;
 import sonar.core.common.block.properties.IMetaVariant;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class MaterialBlock extends Block implements IMetaRenderer {
@@ -129,6 +130,7 @@ public class MaterialBlock extends Block implements IMetaRenderer {
 		}
 	}
 
+    @Nonnull
     @Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(VARIANTS, getVariant(meta));
@@ -139,6 +141,7 @@ public class MaterialBlock extends Block implements IMetaRenderer {
         return state.getValue(VARIANTS).getMeta();
 	}
 
+    @Nonnull
     @Override
 	protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, VARIANTS);

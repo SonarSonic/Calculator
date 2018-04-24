@@ -30,6 +30,7 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,7 +158,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	private int getGasAdd() {
         TileEntity tile = this.world.getTileEntity(pos.add(SonarHelper.getHorizontal(forward).getFrontOffsetX() * 3, 0, SonarHelper.getHorizontal(forward).getFrontOffsetZ() * 3));
-		if (tile != null && tile instanceof TileEntityCO2Generator) {
+		if (tile instanceof TileEntityCO2Generator) {
 			TileEntityCO2Generator generator = (TileEntityCO2Generator) tile;
 			return generator.gasAdd;
 		}
@@ -266,12 +267,12 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 
 	public boolean stableStone(int x, int y, int z) {
 		Block block = this.world.getBlockState(new BlockPos(x, y, z)).getBlock();
-        return block != null && !GreenhouseHelper.stableStone(block);
+        return !GreenhouseHelper.stableStone(block);
 	}
 
 	public boolean flawlessGlass(int x, int y, int z) {
 		Block block = this.world.getBlockState(new BlockPos(x, y, z)).getBlock();
-        return block != null && !GreenhouseHelper.flawlessGlass(block);
+        return !GreenhouseHelper.flawlessGlass(block);
 	}
 
 	public boolean slabQuartz(int x, int y, int z) {
@@ -346,19 +347,20 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		return new FailedCoords(true, BlockCoords.EMPTY, FontHelper.translate("locator.none"));
 	}
 
+	@Nonnull
 	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
+	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
 		return new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	}
 
 	@Override
-	public boolean canInsertItem(int index, ItemStack stack, EnumFacing direction) {
+	public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
 		return true;
 	}
 
 	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-		return stack != null && stack.getItem() instanceof IPlantable;
+	public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
+		return stack.getItem() instanceof IPlantable;
 	}
 
     @Override

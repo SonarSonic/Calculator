@@ -7,6 +7,8 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityResearchChamber
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 
+import javax.annotation.Nonnull;
+
 public class ContainerResearchChamber extends ContainerSync {
 	private TileEntityResearchChamber entity;
 	public static TransferSlotsManager<TileEntityResearchChamber> transfer = new TransferSlotsManager() {
@@ -31,6 +33,7 @@ public class ContainerResearchChamber extends ContainerSync {
 		}
 	}
 
+    @Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, entity, player, slotID);

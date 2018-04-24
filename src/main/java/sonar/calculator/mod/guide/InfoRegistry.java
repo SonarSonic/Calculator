@@ -131,7 +131,7 @@ public class InfoRegistry {
 	}
 
 	public void addInfo(Category category, ItemStack stack, String info, Object... objs) {
-		if (stack == null || stack.getItem() == null) {
+		if (stack == null) {
 			return;
 		}
 		try {

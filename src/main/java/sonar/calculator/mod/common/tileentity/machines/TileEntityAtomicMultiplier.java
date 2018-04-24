@@ -20,6 +20,7 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
@@ -140,33 +141,27 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+	public boolean isItemValidForSlot(int slot, @Nonnull ItemStack stack) {
 		if (0 < slot && slot < 8) {
-			if (stack.getItem() == Calculator.circuitBoard) {
-				return true;
-			}
+            return stack.getItem() == Calculator.circuitBoard;
 		} else if (slot == 0) {
-			if (stack.getMaxStackSize() >= 4) {
-				return true;
-			}
-		} else if (slot == 9 && DischargeValues.getValueOf(stack) > 0) {
-			return true;
-		}
-		return false;
-	}
+            return stack.getMaxStackSize() >= 4;
+		} else return slot == 9 && DischargeValues.getValueOf(stack) > 0;
+    }
 
-	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
+	@Nonnull
+    @Override
+	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
 		return EnumFacing.DOWN == side ? output : EnumFacing.UP == side ? input : EnumFacing.VALUES[2] == side ? circuits : EnumFacing.VALUES[3] == side ? circuits : EnumFacing.VALUES[4] == side ? circuits : EnumFacing.VALUES[5] == side ? circuits : input;
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
+	public boolean canInsertItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
 		return this.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
+	public boolean canExtractItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
         return slot == 8;
 	}
 

@@ -19,6 +19,7 @@ import sonar.calculator.mod.utils.helpers.NutritionHelper;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class HealthModule extends SonarItem implements IHealthStore {
@@ -28,14 +29,16 @@ public class HealthModule extends SonarItem implements IHealthStore {
 		this.maxStackSize = 1;
 	}
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	@Nonnull
+    @Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		NutritionHelper.chargeHealth(stack, world, player, "points");
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {		
 		ItemStack stack = player.getHeldItem(hand);
 		NutritionHelper.useHealth(stack, player, world, pos, side, "points");
@@ -53,17 +56,16 @@ public class HealthModule extends SonarItem implements IHealthStore {
 
 	@Override
 	public void transferHealth(int transfer, ItemStack stack, ProcessType process) {
-		if (!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbtData = stack.getTagCompound();
-		if (nbtData == null) {
-			stack.getTagCompound().setInteger("points", 0);
+		NBTTagCompound tag = stack.getTagCompound();
+		if (tag==null) {
+			stack.setTagCompound((tag = new NBTTagCompound()));
 		}
-		int points = stack.getTagCompound().getInteger("points");
+		tag.setInteger("points", 0);
+		int points = tag.getInteger("points");
 		if (process == ProcessType.REMOVE) {
-			nbtData.setInteger("points", points - transfer);
+			tag.setInteger("points", points - transfer);
 		} else if (process == ProcessType.ADD) {
-			nbtData.setInteger("points", points + transfer);
+			tag.setInteger("points", points + transfer);
 		}
 	}
 

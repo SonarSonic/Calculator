@@ -35,7 +35,7 @@ public class CalculatorCommon implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
-		if (entity != null && entity instanceof IGuiTile) {
+		if (entity instanceof IGuiTile) {
 			if(entity instanceof TileEntitySonar){
 				((TileEntitySonar) entity).forceNextSync();
 			}
@@ -64,22 +64,20 @@ public class CalculatorCommon implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
-		if (entity != null && entity instanceof IGuiTile) {
+		if (entity instanceof IGuiTile) {
 			switch (ID) {
 			case IGuiTile.ID:
 				return ((IGuiTile) entity).getGuiScreen(player);
 			}
 		} else {
 			ItemStack equipped = player.getHeldItemMainhand();
-			if (equipped != null) {
-				switch (ID) {
-				case IGuiItem.ID:
-					return ((IGuiItem) equipped.getItem()).getGuiScreen(player, equipped);
-					// case CalculatorGui.SmeltingModule:
-					// return new GuiSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(equipped), equipped);
-				case CalculatorGui.ModuleSelect:
-					return new GuiModuleSelector(player, equipped);
-				}
+			switch (ID) {
+			case IGuiItem.ID:
+				return ((IGuiItem) equipped.getItem()).getGuiScreen(player, equipped);
+				// case CalculatorGui.SmeltingModule:
+				// return new GuiSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(equipped), equipped);
+			case CalculatorGui.ModuleSelect:
+				return new GuiModuleSelector(player, equipped);
 			}
 		}
 

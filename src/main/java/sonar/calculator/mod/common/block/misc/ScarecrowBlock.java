@@ -19,6 +19,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class ScarecrowBlock extends SonarBlock {
@@ -41,8 +42,9 @@ public class ScarecrowBlock extends SonarBlock {
 		}
 	}
 
+    @Nonnull
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player){
+    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player){
     	return new ItemStack(Calculator.scarecrow, 1);
     }
     
@@ -56,6 +58,7 @@ public class ScarecrowBlock extends SonarBlock {
 		return true;
 	}
 
+    @Nonnull
     @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;

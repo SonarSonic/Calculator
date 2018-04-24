@@ -25,6 +25,7 @@ import sonar.core.recipes.DefaultSonarRecipe;
 import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
@@ -164,9 +165,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		}
 		energyUsage = recipe.getValue();
 		if (cookTime.getObject() == 0) {
-			if (this.storage.getEnergyStored() < energyUsage) {
-				return false;
-			}
+            return this.storage.getEnergyStored() >= energyUsage;
 		}
 
 		return true;
@@ -224,7 +223,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		for (int x = -10; x <= 10; x++) {
 			for (int z = -10; z <= 10; z++) {
 				TileEntity target = world.getTileEntity(pos.add(x, 0, z));
-				if (target != null && target instanceof TileEntityWeatherStation) {
+				if (target instanceof TileEntityWeatherStation) {
 					TileEntityWeatherStation station = (TileEntityWeatherStation) target;
 					station.setAngle();
 					station.markBlockForUpdate();
@@ -238,7 +237,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		for (int x = -10; x <= 10; x++) {
 			for (int z = -10; z <= 10; z++) {
 				TileEntity target = world.getTileEntity(pos.add(x, 0, z));
-				if (target != null && target instanceof TileEntityWeatherStation) {
+				if (target instanceof TileEntityWeatherStation) {
 					TileEntityWeatherStation station = (TileEntityWeatherStation) target;
 					if (station.x == pos.getX() && station.z == pos.getZ()) {
 						stations++;
@@ -278,7 +277,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		for (int x = -20; x <= 20; x++) {
 			for (int z = -20; z <= 20; z++) {
 				TileEntity target = world.getTileEntity(pos.add(x, 0, z));
-				if (target != null && target instanceof TileEntityTransmitter) {
+				if (target instanceof TileEntityTransmitter) {
 					TileEntityTransmitter station = (TileEntityTransmitter) target;
 					transmitter++;
 				}
@@ -287,19 +286,20 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		return transmitter;
 	}
 
-	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
+	@Nonnull
+    @Override
+	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
 		return side == EnumFacing.DOWN ? new int[] { 1 } : new int[] { 0 };
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-        return slot != 0 || stack != null && ConductorMastRecipes.instance().isValidInput(stack);
+	public boolean canInsertItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
+        return slot != 0 || ConductorMastRecipes.instance().isValidInput(stack);
 
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
+	public boolean canExtractItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
 		return slot == 1;
 	}
 

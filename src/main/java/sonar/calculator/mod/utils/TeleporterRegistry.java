@@ -55,12 +55,9 @@ public class TeleporterRegistry {
 		}
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         World world = server.getWorld(teleport.teleporterID());
-		if (world != null) {
-			TileEntity target = world.getTileEntity(teleport.getCoords().getBlockPos());
-			return (TileEntityTeleporter) (target instanceof TileEntityTeleporter ? target : null);
-		}
-		return null;
-	}
+        TileEntity target = world.getTileEntity(teleport.getCoords().getBlockPos());
+        return (TileEntityTeleporter) (target instanceof TileEntityTeleporter ? target : null);
+    }
 
 	public static ITeleport getPoint(ITeleport flux) {
 		TileEntity target = getTile(flux);

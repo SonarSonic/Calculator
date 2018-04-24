@@ -16,6 +16,7 @@ import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class HealthProcessor extends SonarSidedBlock {
@@ -31,17 +32,18 @@ public class HealthProcessor extends SonarSidedBlock {
 
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
-		if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == Calculator.wrench) {
+        player.getHeldItemMainhand();
+        if (player.getHeldItemMainhand().getItem() == Calculator.wrench) {
 			return false;
 		}
-		if (player != null && !world.isRemote) {
+		if (!world.isRemote) {
 			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int i) {
 		return new TileEntityHealthProcessor();
 	}
 

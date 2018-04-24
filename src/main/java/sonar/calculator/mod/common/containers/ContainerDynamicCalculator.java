@@ -15,6 +15,8 @@ import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.ActionType;
 import sonar.core.recipes.RecipeHelperV2;
 
+import javax.annotation.Nonnull;
+
 public class ContainerDynamicCalculator extends Container implements ICalculatorCrafter {
 
 	private static final int INV_START = 10, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
@@ -78,11 +80,12 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer player) {
+	public boolean canInteractWith(@Nonnull EntityPlayer player) {
 		return dynamic.isUsableByPlayer(player);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(par2);
@@ -98,30 +101,20 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 				int current = this.getCurrentUsage();
-				if (par2 >= INV_START) {
-					if (current == 0 || current == 1) {
-						if (!this.mergeItemStack(itemstack1, 0, 2, false)) {
-							return ItemStack.EMPTY;
-						}
-					} else if (current == 2) {
-						if (!this.mergeItemStack(itemstack1, 3, 5, false)) {
-							return ItemStack.EMPTY;
-						}
-					} else if (current == 3) {
-						if (!this.mergeItemStack(itemstack1, 6, 9, false)) {
-							return ItemStack.EMPTY;
-						}
-					}
-				} else if (par2 >= INV_START && par2 < HOTBAR_START) {
-					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END, false)) {
-						return ItemStack.EMPTY;
-					}
-				} else if (par2 >= HOTBAR_START && par2 < HOTBAR_END) {
-					if (!this.mergeItemStack(itemstack1, INV_START, INV_END, false)) {
-						return ItemStack.EMPTY;
-					}
-				}
-			}
+                if (current == 0 || current == 1) {
+                    if (!this.mergeItemStack(itemstack1, 0, 2, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (current == 2) {
+                    if (!this.mergeItemStack(itemstack1, 3, 5, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (current == 3) {
+                    if (!this.mergeItemStack(itemstack1, 6, 9, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+            }
 			if (itemstack1.getCount() == 0) {
 				slot.putStack(ItemStack.EMPTY);
 			} else {

@@ -23,6 +23,7 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public abstract class TileEntityGenerator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile, ICalculatorGenerator {
@@ -106,33 +107,32 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+	public boolean isItemValidForSlot(int slot, @Nonnull ItemStack stack) {
 		if (slot == 0) {
 			if (TileEntityFurnace.isItemFuel(stack)) {
 				return true;
 			}
 		}
 		if (slot == 1) {
-			if (getItemValue(stack) > 0) {
-				return true;
-			}
+            return getItemValue(stack) > 0;
 		}
 		return false;
 	}
 
-	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
+	@Nonnull
+    @Override
+	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
         return side == EnumFacing.DOWN ? slotsSides : side == EnumFacing.UP ? slotsTop : slotsSides;
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
+	public boolean canInsertItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
 		return this.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		return direction != EnumFacing.DOWN || slot != 1 || stack != null && stack.getItem() == Items.BUCKET;
+	public boolean canExtractItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
+		return direction != EnumFacing.DOWN || slot != 1 || stack.getItem() == Items.BUCKET;
 	}
 
 	@Override

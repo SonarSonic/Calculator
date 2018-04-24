@@ -3,7 +3,6 @@ package sonar.calculator.mod.client.renderers;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelSign;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -55,18 +54,13 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer<TileEntity
 		GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
 		GL11.glDepthMask(false);
 		byte b0 = 0;
-		if (te.getWorld() != null) {
-			String energy = "C: " + FontHelper.formatStorage(te.latestEnergy);
-			String max = "M: " +FontHelper.formatStorage(te.latestMax);
-			fontrenderer.drawString(energy, -fontrenderer.getStringWidth(energy) / 2, -8, b0);
-			fontrenderer.drawString(max, -fontrenderer.getStringWidth(max) / 2, 4, b0);
-		}
-		GL11.glDepthMask(true);
+        te.getWorld();
+        String energy = "C: " + FontHelper.formatStorage(te.latestEnergy);
+        String max = "M: " +FontHelper.formatStorage(te.latestMax);
+        fontrenderer.drawString(energy, -fontrenderer.getStringWidth(energy) / 2, -8, b0);
+        fontrenderer.drawString(max, -fontrenderer.getStringWidth(max) / 2, 4, b0);
+        GL11.glDepthMask(true);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glPopMatrix();
-	}
-
-	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float var) {
-        this.renderTileEntityAt(tile, x, y, z, var);
 	}
 }

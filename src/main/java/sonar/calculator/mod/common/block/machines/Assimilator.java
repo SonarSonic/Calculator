@@ -16,6 +16,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class Assimilator extends SonarMachineBlock {
@@ -46,7 +47,7 @@ public class Assimilator extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		if (this.type == 0) {
 			return new TileEntityAssimilator.Stone();
 		} else {

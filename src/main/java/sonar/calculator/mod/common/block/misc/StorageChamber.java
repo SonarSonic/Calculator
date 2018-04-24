@@ -16,6 +16,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class StorageChamber extends SonarMachineBlock {
@@ -37,7 +38,7 @@ public class StorageChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int i) {
 		return new TileEntityStorageChamber();
 	}
 

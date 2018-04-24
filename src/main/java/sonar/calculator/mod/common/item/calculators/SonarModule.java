@@ -27,6 +27,7 @@ import sonar.core.inventory.ContainerCraftInventory;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.IGuiItem;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,8 +60,9 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 		}
 	}
 
+    @Nonnull
     @Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (module instanceof IModuleClickable) {
 			NBTTagCompound tag = getTagCompound(stack);
@@ -70,6 +72,7 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
+    @Nonnull
     @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
@@ -122,7 +125,7 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 	}
 
     @Override
-	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, @Nonnull ItemStack newStack, boolean slotChanged) {
 		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
 	}
 }

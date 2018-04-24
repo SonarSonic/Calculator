@@ -8,6 +8,8 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherControll
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 
+import javax.annotation.Nonnull;
+
 public class ContainerWeatherController extends ContainerSync {
 	private TileEntityWeatherController entity;
 	public static TransferSlotsManager<TileEntityWeatherController> transfer = new TransferSlotsManager() {
@@ -24,7 +26,8 @@ public class ContainerWeatherController extends ContainerSync {
 		addInventory(inventory, 8, 84);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}

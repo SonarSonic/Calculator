@@ -15,6 +15,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.block.MaterialBlock.Variants;
 import sonar.calculator.mod.utils.helpers.CalculatorTreeBuilder;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class CalculatorSaplings extends BlockBush implements IGrowable {
@@ -46,7 +47,7 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 	}
 
     @Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
 		if (!worldIn.isRemote) {
 			super.updateTick(worldIn, pos, state, rand);
 
@@ -92,25 +93,11 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 
 		IBlockState iblockstate2 = Blocks.AIR.getDefaultState();
 
-		if (flag) {
-			worldIn.setBlockState(pos.add(i, 0, j), iblockstate2, 4);
-			worldIn.setBlockState(pos.add(i + 1, 0, j), iblockstate2, 4);
-			worldIn.setBlockState(pos.add(i, 0, j + 1), iblockstate2, 4);
-			worldIn.setBlockState(pos.add(i + 1, 0, j + 1), iblockstate2, 4);
-		} else {
-			worldIn.setBlockState(pos, iblockstate2, 4);
-		}
+        worldIn.setBlockState(pos, iblockstate2, 4);
 
-		if (!worldgenerator.generate(worldIn, rand, pos.add(i, 0, j))) {
-			if (flag) {
-				worldIn.setBlockState(pos.add(i, 0, j), state, 4);
-				worldIn.setBlockState(pos.add(i + 1, 0, j), state, 4);
-				worldIn.setBlockState(pos.add(i, 0, j + 1), state, 4);
-				worldIn.setBlockState(pos.add(i + 1, 0, j + 1), state, 4);
-			} else {
-				worldIn.setBlockState(pos, state, 4);
-			}
-		}
+        if (!worldgenerator.generate(worldIn, rand, pos.add(i, 0, j))) {
+            worldIn.setBlockState(pos, state, 4);
+        }
 	}
 
     @Override
@@ -119,20 +106,21 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
 	}
 
     @Override
-	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+	public boolean canGrow(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
 		return true;
 	}
 
     @Override
-	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+	public boolean canUseBonemeal(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		return (double) worldIn.rand.nextFloat() < 0.45D;
 	}
 
     @Override
-	public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+	public void grow(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		this.grow(worldIn, pos, state, rand);
 	}
 
+    @Nonnull
     @Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(STAGE, meta);
@@ -143,6 +131,7 @@ public class CalculatorSaplings extends BlockBush implements IGrowable {
         return state.getValue(STAGE);
 	}
 
+    @Nonnull
     @Override
 	protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, STAGE);

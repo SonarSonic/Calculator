@@ -55,10 +55,8 @@ public class PlayerResearchRegistry {
 		NBTTagList research = nbt.getTagList(LIST, 10);
 		for (int i = 0; i < research.tagCount(); i++) {
 			NBTTagCompound playerTag = research.getCompoundTagAt(i);
-			if (playerTag != null) {
-				PlayerResearchRegistry.research.put(playerTag.getUniqueId(UUID), readPlayerData(playerTag, type));
-			}
-		}
+            PlayerResearchRegistry.research.put(playerTag.getUniqueId(UUID), readPlayerData(playerTag, type));
+        }
 	}
 
 	public static ArrayList<IResearch> readPlayerData(NBTTagCompound nbt, SyncType type) {

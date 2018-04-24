@@ -8,6 +8,8 @@ import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.inventory.ContainerLargeInventory;
 import sonar.core.inventory.slots.SlotLarge;
 
+import javax.annotation.Nonnull;
+
 public class ContainerReinforcedChest extends ContainerLargeInventory {
 	public TileEntityReinforcedChest entity;
 
@@ -32,6 +34,7 @@ public class ContainerReinforcedChest extends ContainerLargeInventory {
 		return this.entity.isUsableByPlayer(player);
 	}
 
+    @Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = ItemStack.EMPTY;

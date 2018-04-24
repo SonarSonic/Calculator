@@ -12,6 +12,8 @@ import sonar.calculator.mod.Calculator;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategoryV2;
 
+import javax.annotation.Nonnull;
+
 public class AnalysingCategory extends JEICategoryV2 {
 
 	private final IDrawable background;
@@ -22,12 +24,14 @@ public class AnalysingCategory extends JEICategoryV2 {
 		background = guiHelper.createDrawable(location, 75, 29, 26, 36);
 	}
 
+    @Nonnull
     @Override
     public String getModName() {
         return Calculator.name;
     }
 
-	@Override
+	@Nonnull
+    @Override
 	public IDrawable getBackground() {
 		return background;
 	}

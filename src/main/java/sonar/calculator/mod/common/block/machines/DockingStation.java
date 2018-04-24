@@ -8,7 +8,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
@@ -21,6 +20,7 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.upgrades.MachineUpgrade;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class DockingStation extends SonarMachineBlock {
@@ -34,13 +34,14 @@ public class DockingStation extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null) {
 			if (interact.type == BlockInteractionType.RIGHT) {
-				if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof MachineUpgrade) {
+				player.getHeldItemMainhand();
+				if (player.getHeldItemMainhand().getItem() instanceof MachineUpgrade) {
 					return false;
 				}
 				if (!insertCalculator(player, world, pos)) {
 					if (!world.isRemote) {
 						TileEntity target = world.getTileEntity(pos);
-						if (target != null && target instanceof TileEntityDockingStation) {
+						if (target instanceof TileEntityDockingStation) {
 							TileEntityDockingStation station = (TileEntityDockingStation) target;
 							if (TileEntityDockingStation.getInputStackSize(station.calcStack) != 0) {
 								player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
@@ -56,9 +57,10 @@ public class DockingStation extends SonarMachineBlock {
 	}
 
 	public boolean insertCalculator(EntityPlayer player, World world, BlockPos pos) {
-		if (player.getHeldItemMainhand() != null && TileEntityDockingStation.getInputStackSize(player.getHeldItemMainhand()) > 0) {
+		player.getHeldItemMainhand();
+		if (TileEntityDockingStation.getInputStackSize(player.getHeldItemMainhand()) > 0) {
 			TileEntity target = world.getTileEntity(pos);
-			if (target != null && target instanceof TileEntityDockingStation) {
+			if (target instanceof TileEntityDockingStation) {
 				TileEntityDockingStation station = (TileEntityDockingStation) target;
 				if (station.calcStack.isEmpty()) {
 					station.calcStack = player.getHeldItemMainhand().copy();
@@ -71,7 +73,7 @@ public class DockingStation extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityDockingStation();
 	}
 
@@ -84,6 +86,7 @@ public class DockingStation extends SonarMachineBlock {
 		return true;
 	}
 
+	@Nonnull
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;

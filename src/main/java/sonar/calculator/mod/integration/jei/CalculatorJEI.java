@@ -1,7 +1,6 @@
 package sonar.calculator.mod.integration.jei;
 
 import mezz.jei.api.*;
-import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import net.minecraft.item.ItemStack;
@@ -228,7 +227,7 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
         @Override
 		public ArrayList<JEIRecipeV2> getJEIRecipes() {
             ArrayList<JEIRecipeV2> recipesV2 = new ArrayList<>();
-			if (helper != null && helper instanceof RecipeHelperV2) {
+			if (helper instanceof RecipeHelperV2) {
 				RecipeHelperV2 helper = (RecipeHelperV2) this.helper;
 				for (ISonarRecipe recipe : (ArrayList<ISonarRecipe>) helper.getRecipes()) {
 					try {

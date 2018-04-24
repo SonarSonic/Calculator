@@ -4,6 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
+import javax.annotation.Nonnull;
+
 public class CalculatorTeleporter extends Teleporter {
 
 	private final WorldServer world;
@@ -18,7 +20,7 @@ public class CalculatorTeleporter extends Teleporter {
 	}
 
     @Override
-    public void placeInPortal(Entity entity, float rotationYaw){
+    public void placeInPortal(@Nonnull Entity entity, float rotationYaw){
     	entity.setPosition(x, y, z);
 		entity.motionX = 0F;
 		entity.motionY = 0F;

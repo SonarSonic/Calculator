@@ -8,6 +8,8 @@ import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
+import javax.annotation.Nonnull;
+
 public class ContainerFabricationChamber extends ContainerSync {
 	private TileEntityFabricationChamber entity;
 	public static TransferSlotsManager<TileEntityFabricationChamber> transfer = new TransferSlotsManager() {
@@ -25,7 +27,8 @@ public class ContainerFabricationChamber extends ContainerSync {
 		addInventory(inventory, 8, 118);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}

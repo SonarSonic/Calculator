@@ -18,6 +18,8 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 
+import javax.annotation.Nonnull;
+
 public class RainSensor extends SonarMachineBlock {
 
 	public static final PropertyBool bool = PropertyBool.create("active");
@@ -70,7 +72,7 @@ public class RainSensor extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
 		return new TileEntityRainSensor();
 	}
 

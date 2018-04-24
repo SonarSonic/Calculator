@@ -184,11 +184,11 @@ public class GuiTeleporter extends GuiSonarTile {
 			} else {
 				name.textboxKeyTyped(c, i);
 				final String text = name.getText();
-                if (text == null || text.isEmpty() || text.equals(""))
+                if (text == null || text.isEmpty())
 					this.entity.name.setObject("");
 				else
 					this.entity.name.setObject(text);
-                if (text == null || text.isEmpty() || text.equals("")) {
+                if (text == null || text.isEmpty()) {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 1));
 				} else {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 1));
@@ -200,11 +200,11 @@ public class GuiTeleporter extends GuiSonarTile {
 			} else {
 				password.textboxKeyTyped(c, i);
 				final String text = password.getText();
-                if (text == null || text.isEmpty() || text.equals(""))
+                if (text == null || text.isEmpty())
 					this.entity.password.setObject("");
 				else
 					this.entity.password.setObject(text);
-                if (text == null || text.isEmpty() || text.equals("")) {
+                if (text == null || text.isEmpty()) {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 2));
 				} else {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 2));
@@ -216,11 +216,11 @@ public class GuiTeleporter extends GuiSonarTile {
 			} else {
 				destinationPassword.textboxKeyTyped(c, i);
 				final String text = destinationPassword.getText();
-                if (text == null || text.isEmpty() || text.equals(""))
+                if (text == null || text.isEmpty())
 					this.entity.linkPassword.setObject("");
 				else
 					this.entity.linkPassword.setObject(text);
-                if (text == null || text.isEmpty() || text.equals("")) {
+                if (text == null || text.isEmpty()) {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 3));
 				} else {
 					SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), 3));

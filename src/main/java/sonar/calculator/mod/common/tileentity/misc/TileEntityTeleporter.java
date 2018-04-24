@@ -109,7 +109,7 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 		boolean flag = true;
 		for (int i = 1; i < 3; i++) {
 			Block block = world.getBlockState(pos.offset(EnumFacing.DOWN, i)).getBlock();
-			if (!(block == Blocks.AIR || block == null)) {
+			if (!(block == Blocks.AIR)) {
 				flag = false;
 			}
 		}

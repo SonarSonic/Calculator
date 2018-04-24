@@ -10,6 +10,8 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 
+import javax.annotation.Nonnull;
+
 public class ContainerAssimilator extends ContainerSync {
 	private TileEntityAssimilator entity;
 	public static TransferSlotsManager<TileEntityAssimilator> assimilatorTransfer = new TransferSlotsManager() {
@@ -32,7 +34,8 @@ public class ContainerAssimilator extends ContainerSync {
 		addInventory(inventory, 8, 84);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return assimilatorTransfer.transferStackInSlot(this, entity, player, slotID);
 	}

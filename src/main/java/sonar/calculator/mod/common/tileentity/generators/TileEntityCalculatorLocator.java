@@ -115,7 +115,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
         for (int Z = -size.getObject(); Z <= size.getObject(); Z++) {
             for (int X = -size.getObject(); X <= size.getObject(); X++) {
 				TileEntity target = world.getTileEntity(pos.add(X, 0, Z));
-				if (target != null && target instanceof TileEntityCalculatorPlug) {
+				if (target instanceof TileEntityCalculatorPlug) {
 					TileEntityCalculatorPlug plug = (TileEntityCalculatorPlug) target;
 					currentStable += plug.getS();
 				}
@@ -133,9 +133,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 				return true;
 			} else {
 				EntityPlayer player = this.world.getPlayerEntityByName(getOwner());
-				if (player != null) {
-					return true;
-				}
+                return player != null;
 			}
 		}
 
@@ -246,14 +244,12 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 						addItem(player, Items.MILK_BUCKET);
 						break;
 					case 16:
-						if (luck == 16) {
-                                int luck2 = 1 + (int) (Math.random() * (5 - 1) + 5);
-							if (luck2 == 16) {
-								world.createExplosion(player, x, y, z, 80F, true);
-								player.setHealth(player.getHealth() - 40);
-							}
-						}
-						break;
+                        int luck2 = 1 + (int) (Math.random() * (5 - 1) + 5);
+                        if (luck2 == 16) {
+                            world.createExplosion(player, x, y, z, 80F, true);
+                            player.setHealth(player.getHealth() - 40);
+                        }
+                        break;
 					}
 				}
 			}
@@ -267,9 +263,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		}
 		if (stack.getItem() instanceof ILocatorModule) {
 			String name = ((ILocatorModule) stack.getItem()).getPlayer(stack);
-			if (name != null && !name.equals("None")) {
-				return true;
-			}
+            return name != null && !name.equals("None");
 		}
 
 		return false;

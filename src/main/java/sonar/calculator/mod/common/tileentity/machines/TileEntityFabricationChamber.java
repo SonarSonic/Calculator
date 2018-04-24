@@ -100,7 +100,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 		ArrayList<BlockCoords> connected = SonarHelper.getConnectedBlocks(Calculator.storageChamber, Arrays.asList(EnumFacing.VALUES), world, pos, 256);
 		for (BlockCoords chamber : connected) {
 			TileEntity tile = chamber.getTileEntity(world);
-			if (tile != null && tile instanceof TileEntityStorageChamber) {
+			if (tile instanceof TileEntityStorageChamber) {
 				chambers.add((TileEntityStorageChamber) tile);
 			}
 		}

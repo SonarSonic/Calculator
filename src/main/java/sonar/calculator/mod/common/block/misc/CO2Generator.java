@@ -17,6 +17,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class CO2Generator extends SonarMachineBlock implements IConnectedBlock {
@@ -37,7 +38,7 @@ public class CO2Generator extends SonarMachineBlock implements IConnectedBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityCO2Generator();
 	}
 

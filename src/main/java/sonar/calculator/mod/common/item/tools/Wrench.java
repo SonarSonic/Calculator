@@ -14,9 +14,12 @@ import sonar.core.api.blocks.IWrenchable;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.IMachineSides;
 
+import javax.annotation.Nonnull;
+
 public class Wrench extends SonarItem implements IWrench {
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (!player.canPlayerEdit(pos, side, stack)) {
@@ -29,7 +32,7 @@ public class Wrench extends SonarItem implements IWrench {
 				((IWrenchable) block).wrenchBlock(player, world, pos, true);
 			// DISMANTLE needs to be added again.
 		} else {
-			if (te != null && te instanceof IMachineSides) {
+			if (te instanceof IMachineSides) {
 				((IMachineSides) te).getSideConfigs().increaseSide(side);
 			}
 		}

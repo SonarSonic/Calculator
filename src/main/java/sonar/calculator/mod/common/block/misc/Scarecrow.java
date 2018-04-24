@@ -15,6 +15,8 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.helpers.FontHelper;
 
+import javax.annotation.Nonnull;
+
 public class Scarecrow extends SonarMachineBlock {
 
 	public Scarecrow() {
@@ -27,6 +29,7 @@ public class Scarecrow extends SonarMachineBlock {
 		return true;
 	}
 
+    @Nonnull
     @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
@@ -38,7 +41,7 @@ public class Scarecrow extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, BlockPos pos) {
+	public boolean canPlaceBlockAt(World world, @Nonnull BlockPos pos) {
 		return world.isAirBlock(pos.offset(EnumFacing.UP, 1)) && world.isAirBlock(pos.offset(EnumFacing.UP, 2));
 	}
 
@@ -56,7 +59,7 @@ public class Scarecrow extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityScarecrow();
 	}
 

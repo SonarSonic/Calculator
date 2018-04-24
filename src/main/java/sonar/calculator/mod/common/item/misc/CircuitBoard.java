@@ -37,7 +37,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability, ICalculat
 
 	public static void setData(ItemStack stack) {
 		NBTTagCompound nbtData = stack.getTagCompound();
-		if (stack != null && nbtData == null) {
+		if (nbtData == null) {
 			nbtData = new NBTTagCompound();
 			nbtData.setInteger("Energy", SonarCore.randInt(1, 200));
 			nbtData.setInteger("Item1", SonarCore.randInt(1, 50));

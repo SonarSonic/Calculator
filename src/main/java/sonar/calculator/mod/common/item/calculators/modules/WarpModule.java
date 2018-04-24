@@ -59,8 +59,7 @@ public class WarpModule extends ModuleBase implements IModuleClickable {
 				} else {
 					message = "calc.dimension";
 				}
-				if (!message.equals(""))
-					FontHelper.sendMessage(FontHelper.translate(message), world, player);
+                FontHelper.sendMessage(FontHelper.translate(message), world, player);
 			} else {
 				tag.setBoolean("click", false);
 			}

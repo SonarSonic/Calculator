@@ -7,6 +7,8 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityCrankedGenera
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 
+import javax.annotation.Nonnull;
+
 public class ContainerCrankedGenerator extends ContainerSync {
 
 	private TileEntityCrankedGenerator entity;
@@ -17,7 +19,8 @@ public class ContainerCrankedGenerator extends ContainerSync {
 		addInventory(inventory, 8, 84);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
         return TransferSlotsManager.DEFAULT.transferStackInSlot(this, null, player, slotID);
 	}

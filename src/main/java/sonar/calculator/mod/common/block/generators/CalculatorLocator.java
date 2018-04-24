@@ -23,6 +23,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
@@ -61,7 +62,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
 		TileEntity target = world.getTileEntity(pos);
-		if (target != null && target instanceof TileEntityCalculatorLocator) {
+		if (target instanceof TileEntityCalculatorLocator) {
 			TileEntityCalculatorLocator locator = (TileEntityCalculatorLocator) target;
 			if (locator.active.getObject()) {
 				float x1 = pos.getX() + random.nextFloat();
@@ -121,7 +122,7 @@ public class CalculatorLocator extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityCalculatorLocator();
 	}
 

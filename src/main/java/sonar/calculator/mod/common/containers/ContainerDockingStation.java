@@ -12,6 +12,8 @@ import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
+import javax.annotation.Nonnull;
+
 public class ContainerDockingStation extends ContainerSync {
 
 	public TileEntityDockingStation entity;
@@ -50,6 +52,7 @@ public class ContainerDockingStation extends ContainerSync {
 		}
 	}
 
+    @Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
 		ItemStack itemstack = ItemStack.EMPTY;

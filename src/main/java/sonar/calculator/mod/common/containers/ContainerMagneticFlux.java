@@ -10,6 +10,8 @@ import sonar.core.inventory.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.inventory.slots.SlotList;
 
+import javax.annotation.Nonnull;
+
 public class ContainerMagneticFlux extends ContainerSonar {
 	public TileEntityMagneticFlux flux;
 	public static TransferSlotsManager<TileEntityMagneticFlux> transfer = new TransferSlotsManager() {
@@ -32,11 +34,13 @@ public class ContainerMagneticFlux extends ContainerSonar {
 		return true;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, flux, player, slotID);
 	}
 
+    @Nonnull
     @Override
 	public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player) {
         Slot targetSlot = slot < 0 ? null : this.inventorySlots.get(slot);
@@ -44,7 +48,8 @@ public class ContainerMagneticFlux extends ContainerSonar {
 			if (click == ClickType.SWAP) {
 				targetSlot.putStack(null);
 			} else {
-				targetSlot.putStack(player.inventory.getItemStack() == null ? null : player.inventory.getItemStack().copy());
+                player.inventory.getItemStack();
+                targetSlot.putStack(player.inventory.getItemStack().copy());
 			}
 			return player.inventory.getItemStack();
 		}

@@ -5,6 +5,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.containers.ICalculatorCrafter;
 
+import javax.annotation.Nonnull;
+
 public class SlotPortableCrafting extends SlotPortable {
 
 	private ICalculatorCrafter container;
@@ -14,6 +16,7 @@ public class SlotPortableCrafting extends SlotPortable {
 		this.container = container;
 	}
 
+    @Nonnull
     @Override
 	public ItemStack decrStackSize(int size) {
 		if (!invItem.getStackInSlot(this.slotNumber).isEmpty()) {

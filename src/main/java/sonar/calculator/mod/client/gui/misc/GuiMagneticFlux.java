@@ -10,8 +10,6 @@ import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.helpers.FontHelper;
 import sonar.core.network.PacketByteBuf;
 
-import java.io.IOException;
-
 public class GuiMagneticFlux extends GuiSonarTile {
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/magnetic_flux.png");
 
@@ -30,15 +28,13 @@ public class GuiMagneticFlux extends GuiSonarTile {
 	}
 
     @Override
-	protected void actionPerformed(GuiButton button) throws IOException {
+	protected void actionPerformed(GuiButton button) {
 		if (button == null) {
 			return;
 		}
-		if (button instanceof GuiButton) {
-			SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), button.id));
-			this.reset();
-		}
-	}
+        SonarCore.network.sendToServer(new PacketByteBuf(entity, entity.getPos(), button.id));
+        this.reset();
+    }
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {

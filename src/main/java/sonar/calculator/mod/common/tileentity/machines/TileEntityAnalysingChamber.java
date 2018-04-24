@@ -94,7 +94,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			ArrayList<BlockCoords> chambers = SonarHelper.getConnectedBlocks(Calculator.storageChamber, inputs, world, pos, 256);
 			for (BlockCoords chamber : chambers) {
 				TileEntity tile = chamber.getTileEntity(world);
-				if (tile != null && tile instanceof TileEntityStorageChamber) {
+				if (tile instanceof TileEntityStorageChamber) {
 					SonarAPI.getItemHelper().transferItems(this, tile, inputs.get(0), inputs.get(0).getOpposite(), null);
 					if (this.slots().get(0).isEmpty()) {
 						return;
@@ -203,9 +203,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			if (stack.getItem() == Calculator.circuitBoard) {
 				return true;
 			}
-			if (stack.getItem() == Calculator.circuitBoard) {
-				return true;
-			}
+            return stack.getItem() == Calculator.circuitBoard;
 		}
 		return false;
 	}

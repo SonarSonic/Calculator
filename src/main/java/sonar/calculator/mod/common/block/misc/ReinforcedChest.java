@@ -17,21 +17,23 @@ import sonar.core.inventory.ILargeInventory;
 import sonar.core.inventory.SonarLargeInventory;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
+
 public class ReinforcedChest extends BlockChest {
 	public ReinforcedChest() {
 		super(BlockChest.Type.BASIC);
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (player != null && !world.isRemote) {
+	public boolean onBlockActivated(World world, @Nonnull BlockPos pos, IBlockState state, @Nonnull EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (!world.isRemote) {
 			FMLNetworkHandler.openGui(player, Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
 
 	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+	public void breakBlock(World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
 		if (tileentity instanceof ILargeInventory) {

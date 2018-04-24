@@ -10,6 +10,8 @@ import sonar.core.energy.DischargeValues;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 
+import javax.annotation.Nonnull;
+
 public class ContainerPowerCube extends ContainerSync {
 
 	private TileEntityPowerCube entity;
@@ -39,7 +41,8 @@ public class ContainerPowerCube extends ContainerSync {
 		addInventory(inventory, 8, 84);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return powerCubeTransfer.transferStackInSlot(this, entity, player, slotID);
 	}

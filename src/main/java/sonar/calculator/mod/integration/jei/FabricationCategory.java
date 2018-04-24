@@ -11,6 +11,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategoryV2;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class FabricationCategory extends JEICategoryV2 {
@@ -26,7 +27,8 @@ public class FabricationCategory extends JEICategoryV2 {
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 100, IDrawableAnimated.StartDirection.LEFT, false);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public IDrawable getBackground() {
 		return background;
 	}
@@ -36,6 +38,7 @@ public class FabricationCategory extends JEICategoryV2 {
 		arrow.draw(minecraft, 95, 20);
 	}
 
+    @Nonnull
     @Override
     public String getModName() {
         return Calculator.name;

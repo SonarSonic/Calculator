@@ -10,6 +10,8 @@ import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
+import javax.annotation.Nonnull;
+
 public class ContainerAnalysingChamber extends ContainerSync {
 
 	private TileEntityAnalysingChamber entity;
@@ -48,7 +50,8 @@ public class ContainerAnalysingChamber extends ContainerSync {
 		addInventory(inventory, 8, 84);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return analysingChamberTransfer.transferStackInSlot(this, entity, player, slotID);
 	}

@@ -14,6 +14,8 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
+
 public class AtomicCalculator extends SonarMachineBlock {
 
 	public AtomicCalculator() {
@@ -27,7 +29,7 @@ public class AtomicCalculator extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int i) {
 		return new TileEntityCalculator.Atomic();
 	}
 

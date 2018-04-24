@@ -124,14 +124,12 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 				BlockPos pos = plantArea.get(rand);
 				IBlockState state = world.getBlockState(pos);
 				Block block = state.getBlock();
-				if (block != null) {
-					for (IFertiliser fertiliser : SonarCore.fertilisers.getObjects()) {
-						if (fertiliser.canFertilise(world, pos, state) && fertiliser.canGrow(world, pos, state, false)) {
-							fertiliser.grow(world, SonarCore.rand, pos, state);
-						}
-					}
-				}
-				this.storage.modifyEnergyStored(-growthRF);
+                for (IFertiliser fertiliser : SonarCore.fertilisers.getObjects()) {
+                    if (fertiliser.canFertilise(world, pos, state) && fertiliser.canGrow(world, pos, state, false)) {
+                        fertiliser.grow(world, SonarCore.rand, pos, state);
+                    }
+                }
+                this.storage.modifyEnergyStored(-growthRF);
 			}
 		}
 	}
@@ -143,19 +141,17 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
 			IBlockState state = world.getBlockState(pos);
 			Block block = state.getBlock();
-			if (block != null) {
-				for (IHarvester harvester : SonarCore.harvesters.getObjects()) {
-					if (harvester.canHarvest(world, pos, state) && harvester.isReady(world, pos, state)) {
-						List<ItemStack> stacks = harvester.getDrops(world, pos, state, type);
-						if (stacks != null) {
-							addHarvestedStacks(stacks, pos, false, true);
-							harvester.harvest(world, pos, state, false);
-						}
-						this.storage.modifyEnergyStored(-growthRF);
-					}
-				}
-			}
-		}
+            for (IHarvester harvester : SonarCore.harvesters.getObjects()) {
+                if (harvester.canHarvest(world, pos, state) && harvester.isReady(world, pos, state)) {
+                    List<ItemStack> stacks = harvester.getDrops(world, pos, state, type);
+                    if (stacks != null) {
+                        addHarvestedStacks(stacks, pos, false, true);
+                        harvester.harvest(world, pos, state, false);
+                    }
+                    this.storage.modifyEnergyStored(-growthRF);
+                }
+            }
+        }
 	}
 
 	protected void addHarvestedStacks(List<ItemStack> array, BlockPos pos, boolean keepBlock, boolean isCrops) {
@@ -175,7 +171,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 						break;
 					}
 				}
-				if (storedstack != null && storedstack.stored > 0) {
+				if (storedstack.stored > 0) {
 					EntityItem drop = new EntityItem(world, this.pos.offset(forward.getOpposite()).getX(), this.pos.offset(forward.getOpposite()).getY(), this.pos.offset(forward.getOpposite()).getZ(), storedstack.getFullStack());
 					world.spawnEntity(drop);
 				}

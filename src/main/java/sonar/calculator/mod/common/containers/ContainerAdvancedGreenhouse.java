@@ -11,6 +11,8 @@ import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 
+import javax.annotation.Nonnull;
+
 public class ContainerAdvancedGreenhouse extends ContainerSync {
 	private TileEntityAdvancedGreenhouse entity;
 	public static TransferSlotsManager<TileEntityAdvancedGreenhouse> transfer = new TransferSlotsManager() {
@@ -69,7 +71,8 @@ public class ContainerAdvancedGreenhouse extends ContainerSync {
 		addInventory(inventory, 8, 110);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}

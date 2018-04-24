@@ -4,7 +4,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import sonar.calculator.mod.common.item.calculators.*;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
@@ -21,7 +20,7 @@ import sonar.core.common.item.SonarSeeds;
 import sonar.core.common.item.SonarSeedsFood;
 import sonar.core.upgrades.MachineUpgrade;
 
-import java.util.ArrayList;
+import javax.annotation.Nonnull;
 
 public class CalculatorItems extends Calculator {
 
@@ -50,7 +49,8 @@ public class CalculatorItems extends Calculator {
 			this.type = type;
 		}
 
-		@Override
+		@Nonnull
+        @Override
 		public String getName() {
 			return name();
 		}

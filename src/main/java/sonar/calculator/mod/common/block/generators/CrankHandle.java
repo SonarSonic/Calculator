@@ -18,6 +18,8 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 
+import javax.annotation.Nonnull;
+
 public class CrankHandle extends SonarMachineBlock {
 
 	public CrankHandle() {
@@ -25,6 +27,7 @@ public class CrankHandle extends SonarMachineBlock {
         setBlockBounds((float) (0.0625 * 3), 0.0F, (float) (0.0625 * 3), (float) (1 - 0.0625 * 3), 0.625F, (float) (1 - 0.0625 * 3));
 	}
 
+    @Nonnull
     @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
@@ -54,13 +57,11 @@ public class CrankHandle extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, BlockPos pos) {
+	public boolean canPlaceBlockAt(World world, @Nonnull BlockPos pos) {
 		super.canPlaceBlockAt(world, pos);
         if (pos.getY() >= 0 && pos.getY() < 256) {
 			Block block = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
-			if (block == Calculator.handcrankedGenerator) {
-				return true;
-			}
+            return block == Calculator.handcrankedGenerator;
 		}
 
 		return false;
@@ -69,10 +70,12 @@ public class CrankHandle extends SonarMachineBlock {
 	@Override
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor){
 		Block block = world.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock();
+		/*
 		if (block != Calculator.handcrankedGenerator) {
-			//world..destroyBlock(pos, true);
-			//world.markBlockForUpdate(pos);
+			world.destroyBlock(pos, true);
+			world.markBlockForUpdate(pos);
 		}
+		*/
 	}
 
 	@Override
@@ -88,7 +91,7 @@ public class CrankHandle extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityCrankHandle();
 	}
 

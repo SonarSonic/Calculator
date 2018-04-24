@@ -17,6 +17,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public class ResearchChamber extends SonarMachineBlock {
@@ -35,7 +36,7 @@ public class ResearchChamber extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null && !world.isRemote) {
 			TileEntity target = world.getTileEntity(pos);
-			if (target != null && target instanceof TileEntityResearchChamber) {
+			if (target instanceof TileEntityResearchChamber) {
 				TileEntityResearchChamber chamber = (TileEntityResearchChamber) target;
 				UUID playerUUID = chamber.playerUUID.getUUID();
 				if (playerUUID.equals(player.getName())) {
@@ -52,16 +53,16 @@ public class ResearchChamber extends SonarMachineBlock {
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack itemstack) {
 		super.onBlockPlacedBy(world, pos, state, player, itemstack);
 		TileEntity target = world.getTileEntity(pos);
-		if (target != null && target instanceof TileEntityResearchChamber) {
+		if (target instanceof TileEntityResearchChamber) {
 			TileEntityResearchChamber chamber = (TileEntityResearchChamber) target;
-			if (player != null && player instanceof EntityPlayer) {
+			if (player instanceof EntityPlayer) {
 				chamber.playerUUID.setObject(((EntityPlayer) player).getGameProfile().getId());
 			}
 		}
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityResearchChamber();
 	}
 }

@@ -8,6 +8,8 @@ import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.inventory.ContainerLargeInventory;
 import sonar.core.inventory.slots.SlotLarge;
 
+import javax.annotation.Nonnull;
+
 public class ContainerStorageChamber extends ContainerLargeInventory {
 	private TileEntityStorageChamber entity;
 
@@ -37,6 +39,7 @@ public class ContainerStorageChamber extends ContainerLargeInventory {
 		return true;
 	}
 
+    @Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = ItemStack.EMPTY;

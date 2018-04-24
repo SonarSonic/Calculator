@@ -9,7 +9,7 @@ import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
 import sonar.core.inventory.ContainerSync;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 public class ContainerModuleWorkstation extends ContainerSync {
 	private final InventoryPlayer inventory;
@@ -52,6 +52,7 @@ public class ContainerModuleWorkstation extends ContainerSync {
 		return inventory.isUsableByPlayer(player);
 	}
 
+    @Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		ItemStack itemstack = ItemStack.EMPTY;
@@ -67,24 +68,14 @@ public class ContainerModuleWorkstation extends ContainerSync {
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 
-				if (slotID >= INV_START) {
-					if (itemstack1 != null && itemstack1.getItem() instanceof IFlawlessCalculator) {
-						if (!this.mergeItemStack(itemstack1, 16, 17, false)) {
-							return ItemStack.EMPTY;
-						}
-					} else if (!this.mergeItemStack(itemstack1, 0, INV_START - 1, false)) {
-						return ItemStack.EMPTY;
-					}
-				} else if (slotID >= INV_START && slotID < HOTBAR_START) {
-					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
-						return ItemStack.EMPTY;
-					}
-				} else if (slotID >= HOTBAR_START && slotID < HOTBAR_END + 1) {
-					if (!this.mergeItemStack(itemstack1, INV_START, INV_END + 1, false)) {
-						return ItemStack.EMPTY;
-					}
-				}
-			}
+                if (itemstack1.getItem() instanceof IFlawlessCalculator) {
+                    if (!this.mergeItemStack(itemstack1, 16, 17, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (!this.mergeItemStack(itemstack1, 0, INV_START - 1, false)) {
+                    return ItemStack.EMPTY;
+                }
+            }
 
 			if (itemstack1.getCount() == 0) {
 				slot.putStack(ItemStack.EMPTY);

@@ -17,6 +17,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.core.common.item.SonarEnergyItem;
 import sonar.core.helpers.FontHelper;
 
+import javax.annotation.Nonnull;
+
 public class BaseTerrainModule extends SonarEnergyItem {
 
 	public Block[] replacable;
@@ -34,7 +36,8 @@ public class BaseTerrainModule extends SonarEnergyItem {
 		}
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (player.capabilities.isCreativeMode || this.getEnergyLevel(stack) > 0) {
@@ -93,11 +96,8 @@ public class BaseTerrainModule extends SonarEnergyItem {
 	public boolean canReplace(ItemStack stack, World world, BlockPos pos) {
 		if (getCurrentBlock(stack) == world.getBlockState(pos).getBlock()) {
 			return false;
-		} else if (replaceableBlock(world.getBlockState(pos).getBlock())) {
-			return true;
-		}
-		return false;
-	}
+		} else return replaceableBlock(world.getBlockState(pos).getBlock());
+    }
 
 	public boolean replaceableBlock(Block block) {
 		for (Block aReplacable : replacable) {

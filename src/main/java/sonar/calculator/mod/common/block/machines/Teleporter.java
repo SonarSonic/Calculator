@@ -18,6 +18,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class Teleporter extends SonarMachineBlock {
@@ -37,7 +38,7 @@ public class Teleporter extends SonarMachineBlock {
 			if (!world.isRemote) {
 				NBTTagCompound tag = new NBTTagCompound();
 				TileEntity target = world.getTileEntity(pos);
-				if (target != null && target instanceof TileEntityTeleporter) {
+				if (target instanceof TileEntityTeleporter) {
 					TileEntityTeleporter tele = (TileEntityTeleporter) target;
 					tele.sendSyncPacket(player);
 					Calculator.network.sendTo(new PacketTeleportLinks(pos, TeleporterRegistry.getTeleportLinks(tele.teleporterID)), (EntityPlayerMP) player);
@@ -49,7 +50,7 @@ public class Teleporter extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityTeleporter();
 	}
 
@@ -61,7 +62,7 @@ public class Teleporter extends SonarMachineBlock {
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile != null && tile instanceof TileEntityTeleporter) {
+		if (tile instanceof TileEntityTeleporter) {
 			TileEntityTeleporter teleporter = (TileEntityTeleporter) tile;
 			teleporter.removeFromFrequency();
 		}

@@ -67,7 +67,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 			if (this.stable.getObject() != 2) {
 				this.stable.setObject(2);
 			}
-		} else if (!stability && circuit.getItem() instanceof IStability) {
+		} else if (circuit.getItem() instanceof IStability) {
 			stable.setObject(1);
 		} else {
 			stable.setObject(0);

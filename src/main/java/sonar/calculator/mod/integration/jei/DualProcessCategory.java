@@ -15,6 +15,8 @@ import sonar.core.integration.jei.JEICategoryV2;
 import sonar.core.integration.jei.JEIHelper.RecipeMapper;
 import sonar.core.recipes.RecipeObjectType;
 
+import javax.annotation.Nonnull;
+
 public class DualProcessCategory extends JEICategoryV2 {
 
 	private final IDrawable background;
@@ -28,7 +30,8 @@ public class DualProcessCategory extends JEICategoryV2 {
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 100, IDrawableAnimated.StartDirection.LEFT, false);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public IDrawable getBackground() {
 		return background;
 	}
@@ -38,6 +41,7 @@ public class DualProcessCategory extends JEICategoryV2 {
 		arrow.draw(minecraft, 29, 5);
 	}
 
+    @Nonnull
     @Override
     public String getModName() {
         return Calculator.name;

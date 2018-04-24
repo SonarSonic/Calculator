@@ -19,6 +19,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ExtractorBlock extends SonarMachineBlock {
@@ -47,7 +48,7 @@ public class ExtractorBlock extends SonarMachineBlock {
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 		super.onBlockAdded(world, pos, state);
 		TileEntity tileentity = world.getTileEntity(pos);
-		if (tileentity != null && tileentity instanceof TileEntityGenerator) {
+		if (tileentity instanceof TileEntityGenerator) {
 			TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(pos);
 			//generator.updateAdjacentHandlers();
 		}
@@ -56,14 +57,14 @@ public class ExtractorBlock extends SonarMachineBlock {
 	@Override
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) {
 		TileEntity tileentity = world.getTileEntity(pos);
-		if (tileentity != null && tileentity instanceof TileEntityGenerator) {
+		if (tileentity instanceof TileEntityGenerator) {
 			TileEntityGenerator generator = (TileEntityGenerator) world.getTileEntity(pos);
 			//generator.updateAdjacentHandlers();
 		}
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int var) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int var) {
 		switch (type) {
 		case 0:
 			return new TileEntityGenerator.StarchExtractor();

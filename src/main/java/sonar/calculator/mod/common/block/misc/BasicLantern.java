@@ -14,11 +14,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.Calculator;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -50,11 +50,7 @@ public class BasicLantern extends SonarBlock {
     @Override
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) {
 		super.onNeighborChange(world, pos, neighbour);
-		try {
-			// setDefaultFacing((World) world, pos, world.getBlockState(pos));
-		} catch (ClassCastException exception) {
-			Calculator.logger.error("Lantern: Tried to cast IBlockAccess to World");
-		}
+		// setDefaultFacing(world, pos, state);
 	}
 
 	private EnumFacing getDefaultFacing(IBlockAccess world, BlockPos pos, IBlockState state) {
@@ -63,13 +59,9 @@ public class BasicLantern extends SonarBlock {
 			boolean vertical = false;
 			do {
 				if (!iterator.hasNext()) {
-					if (!vertical) {
-						vertical = true;
-						iterator = EnumFacing.Plane.HORIZONTAL.iterator();
-					} else {
-						return EnumFacing.DOWN;
-					}
-				}
+                    vertical = true;
+                    iterator = EnumFacing.Plane.HORIZONTAL.iterator();
+                }
 				EnumFacing facing = iterator.next();
 				IBlockState stateOff = world.getBlockState(pos.offset(facing));
 				Block block = stateOff.getBlock();
@@ -140,8 +132,9 @@ public class BasicLantern extends SonarBlock {
         return state.getValue(DIR).getIndex();
 	}
 
-    @Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
+    @Nonnull
+	@Override
+	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
 		return state.withProperty(DIR, getDefaultFacing(world, pos, state));
 	}
 

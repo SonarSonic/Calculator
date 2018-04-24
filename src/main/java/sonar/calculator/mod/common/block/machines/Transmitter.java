@@ -20,6 +20,7 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
@@ -35,7 +36,8 @@ public class Transmitter extends SonarMachineBlock {
 		return true;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
@@ -46,7 +48,7 @@ public class Transmitter extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityTransmitter();
 	}
 
@@ -56,7 +58,7 @@ public class Transmitter extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, BlockPos pos) {
+	public boolean canPlaceBlockAt(World world, @Nonnull BlockPos pos) {
 		return world.getBlockState(pos.offset(EnumFacing.UP)).getBlock().isReplaceable(world, pos.offset(EnumFacing.UP));
 	}
 

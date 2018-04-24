@@ -32,6 +32,7 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.inventory.IItemInventory;
 import sonar.core.utils.IGuiItem;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		NBTTagCompound tag = getTagCompound(stack);
 		try {
 			String moduleName = tag.getString("slot" + slot);
-			if (!moduleName.isEmpty() && !moduleName.equals(emptyModule)) {
+			if (!moduleName.isEmpty()) {
 				IModule module = Calculator.modules.getRegisteredObject(moduleName);
 				if (module != null) {
 					return module;
@@ -121,8 +122,9 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		}
 	}
 
+    @Nonnull
     @Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		NBTTagCompound tag = getTagCompound(stack);
 		if (!player.isSneaking()) {
@@ -150,6 +152,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
+    @Nonnull
     @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
@@ -347,7 +350,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	}
 
     @Override
-	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, @Nonnull ItemStack newStack, boolean slotChanged) {
 		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
 	}
 }

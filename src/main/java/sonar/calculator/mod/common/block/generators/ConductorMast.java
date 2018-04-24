@@ -23,6 +23,7 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 import sonar.core.utils.ISpecialTooltip;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip {
@@ -53,7 +54,7 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, BlockPos pos) {
+	public boolean canPlaceBlockAt(World world, @Nonnull BlockPos pos) {
         return world.getBlockState(pos.offset(EnumFacing.UP, 1)).getBlock() == Blocks.AIR &&
                 world.getBlockState(pos.offset(EnumFacing.UP, 2)).getBlock() == Blocks.AIR &&
                 world.getBlockState(pos.offset(EnumFacing.UP, 3)).getBlock() == Blocks.AIR;
@@ -72,7 +73,7 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityConductorMast();
 	}
 
@@ -87,6 +88,7 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
 		return true;
 	}
 
+    @Nonnull
     @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;

@@ -14,6 +14,7 @@ import sonar.calculator.mod.api.items.ILocatorModule;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class LocatorModule extends SonarItem implements ILocatorModule {
@@ -22,8 +23,9 @@ public class LocatorModule extends SonarItem implements ILocatorModule {
 		setMaxStackSize(1);
 	}
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	@Nonnull
+    @Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		NBTTagCompound nbtData = stack.getTagCompound();
 		if (nbtData == null) {

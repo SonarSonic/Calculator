@@ -9,7 +9,6 @@ import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.SonarCore;
 import sonar.core.client.gui.GuiSonarTile;
-import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 
@@ -36,7 +35,7 @@ public class GuiFlawlessGreenhouse extends GuiSonarTile {
 
     @Override
 	protected void actionPerformed(GuiButton button) {
-		if (button != null && button instanceof SonarButtons.SonarButton) {
+		if (button instanceof SonarButton) {
 			SonarButton sButton = (SonarButton) button;
 			sButton.onClicked();
 		} else {

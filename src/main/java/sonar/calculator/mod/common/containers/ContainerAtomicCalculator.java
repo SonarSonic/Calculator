@@ -10,6 +10,8 @@ import sonar.core.inventory.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.recipes.RecipeHelperV2;
 
+import javax.annotation.Nonnull;
+
 public class ContainerAtomicCalculator extends ContainerSonar implements ICalculatorCrafter {
 
 	private TileEntityCalculator.Atomic atomic;
@@ -51,7 +53,8 @@ public class ContainerAtomicCalculator extends ContainerSonar implements ICalcul
 		}
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, atomic, player, slotID);
 	}

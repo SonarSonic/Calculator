@@ -28,6 +28,7 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.upgrades.MachineUpgrade;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
@@ -140,23 +141,27 @@ public class SmeltingBlock extends SonarSidedBlock {
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null) {
-			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof MachineUpgrade) {
-				return false;
-			} else if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == Calculator.wrench) {
+            player.getHeldItemMainhand();
+            if (player.getHeldItemMainhand().getItem() instanceof MachineUpgrade) {
 				return false;
 			} else {
-				if (!world.isRemote) {
-					player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
-				}
-				return true;
-			}
+                player.getHeldItemMainhand();
+                if (player.getHeldItemMainhand().getItem() == Calculator.wrench) {
+                    return false;
+                } else {
+                    if (!world.isRemote) {
+                        player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
+                    }
+                    return true;
+                }
+            }
 		}
 
 		return false;
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int i) {
 		return type.getTile(world, i);
 	}
 
@@ -224,6 +229,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 		return false;
 	}
 
+    @Nonnull
     @Override
 	public BlockRenderLayer getBlockLayer() {
 		return !type.isOpaqueCube() ? BlockRenderLayer.CUTOUT_MIPPED : super.getBlockLayer();

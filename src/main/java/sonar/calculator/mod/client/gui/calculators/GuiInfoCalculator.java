@@ -3,7 +3,6 @@ package sonar.calculator.mod.client.gui.calculators;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.calculator.mod.guide.IItemInfo;
 import sonar.calculator.mod.guide.IItemInfo.Category;
@@ -20,6 +18,7 @@ import sonar.calculator.mod.guide.InfoRegistry;
 import sonar.core.client.gui.GuiSonar;
 import sonar.core.helpers.FontHelper;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,7 +138,7 @@ public class GuiInfoCalculator extends GuiSonar {
 	}
 
 	public String getSearch() {
-		if (search == null || search.getText() == null) {
+		if (search == null) {
 			return "";
 		} else {
 			return search.getText();
@@ -149,7 +148,7 @@ public class GuiInfoCalculator extends GuiSonar {
 	public void resetInfoList() {
 		ArrayList<IItemInfo> newInfo = InfoRegistry.getInfo(currentCategory);
 		String search = getSearch();
-		if (!search.isEmpty() && search != null) {
+		if (!search.isEmpty()) {
             newInfo = new ArrayList<>();
 			for (IItemInfo item : InfoRegistry.getInfo(currentCategory)) {
 				if (item != null) {
@@ -212,7 +211,7 @@ public class GuiInfoCalculator extends GuiSonar {
 				if (cat != Category.All) {
                     buttonList.add(new GuiButton(pos + 1, guiLeft + 136, guiTop + 2 + pos * 18, 18, 18, String.valueOf(pos)) {
                         @Override
-                        public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+                        public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 							if (this.visible) {
                                 this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 								int i = this.getHoverState(this.hovered);
@@ -239,12 +238,12 @@ public class GuiInfoCalculator extends GuiSonar {
 				while (pos != 10) {
                     buttonList.add(new GuiButton(10 + pos, guiLeft + 136, guiTop + 2 + pos * 18, 18, 18, "") {
                         @Override
-                        public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+                        public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 							if (this.visible) {
                                 this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 								int i = this.getHoverState(this.hovered);
 								if (this.isMouseOver()) {
-									if (info != null && info.getRelatedItems() != null) {
+									if (info.getRelatedItems() != null) {
 										if (this.id - 10 < info.getRelatedItems().length) {
                                             drawHoveringText(info.getRelatedItems()[id - 10].getDisplayName(), mouseX, mouseY);
 										}

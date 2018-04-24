@@ -24,6 +24,7 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public abstract class Greenhouse extends SonarMachineBlock {
@@ -49,7 +50,7 @@ public abstract class Greenhouse extends SonarMachineBlock {
 	}
 	
     @Override
-	public abstract TileEntity createNewTileEntity(World var1, int var2);
+	public abstract TileEntity createNewTileEntity(@Nonnull World var1, int var2);
 	
 	@Override
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {

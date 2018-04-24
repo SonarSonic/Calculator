@@ -5,6 +5,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 public class TileEntityTransmitter extends TileEntity {
 	
     @Override
@@ -13,7 +15,8 @@ public class TileEntityTransmitter extends TileEntity {
 		return 65536.0D;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB;

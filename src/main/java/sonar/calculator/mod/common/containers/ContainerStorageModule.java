@@ -9,6 +9,8 @@ import sonar.calculator.mod.utils.SlotPortable;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.inventory.ContainerSonar;
 
+import javax.annotation.Nonnull;
+
 public class ContainerStorageModule extends ContainerSonar {
 	private final InventoryItem inventory;
 
@@ -34,6 +36,7 @@ public class ContainerStorageModule extends ContainerSonar {
 		return inventory.isUsableByPlayer(player);
 	}
 
+    @Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
 		ItemStack itemstack = ItemStack.EMPTY;
@@ -51,20 +54,10 @@ public class ContainerStorageModule extends ContainerSonar {
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 
-				if (id >= INV_START) {
-					if (!this.mergeItemStack(itemstack1, 0, INV_START, false)) {
-						return ItemStack.EMPTY;
-					}
-				} else if (id >= INV_START && id < HOTBAR_START) {
-					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END + 1, false)) {
-						return ItemStack.EMPTY;
-					}
-				} else if (id >= HOTBAR_START && id < HOTBAR_END + 1) {
-					if (!this.mergeItemStack(itemstack1, INV_START, INV_END + 1, false)) {
-						return ItemStack.EMPTY;
-					}
-				}
-			}
+                if (!this.mergeItemStack(itemstack1, 0, INV_START, false)) {
+                    return ItemStack.EMPTY;
+                }
+            }
 
 			if (itemstack1.getCount() == 0) {
 				slot.putStack(ItemStack.EMPTY);
@@ -82,9 +75,10 @@ public class ContainerStorageModule extends ContainerSonar {
 		return itemstack;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player) {
-		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
+		if (slot >= 0 && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
 			return ItemStack.EMPTY;
 		}
 		return super.slotClick(slot, drag, click, player);

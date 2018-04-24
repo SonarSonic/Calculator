@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import sonar.calculator.mod.Calculator;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -117,17 +118,18 @@ public class CalculatorLeaves extends Block implements IShearable {
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+	public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
 		return true;
 	}
 
 	@Override
-	public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos) {
+	public boolean isShearable(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos) {
 		return true;
 	}
 
-	@Override
-	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+	@Nonnull
+    @Override
+	public List<ItemStack> onSheared(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
         ArrayList<ItemStack> ret = new ArrayList<>();
 		switch (leafType) {
 		case 0:
@@ -160,6 +162,7 @@ public class CalculatorLeaves extends Block implements IShearable {
 		return LeafGrowth.FRESH;
 	}
 
+    @Nonnull
     @Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(GROWTH, getVariant(meta));
@@ -170,11 +173,13 @@ public class CalculatorLeaves extends Block implements IShearable {
         return state.getValue(GROWTH).getMeta();
 	}
 
+    @Nonnull
     @Override
 	protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, GROWTH);
 	}
 
+    @Nonnull
     @Override
 	public BlockRenderLayer getBlockLayer() {
 		return Minecraft.isFancyGraphicsEnabled() ? BlockRenderLayer.CUTOUT_MIPPED : BlockRenderLayer.SOLID;

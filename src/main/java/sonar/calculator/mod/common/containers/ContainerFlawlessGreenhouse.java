@@ -9,6 +9,8 @@ import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenho
 import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 
+import javax.annotation.Nonnull;
+
 public class ContainerFlawlessGreenhouse extends ContainerSync {
 
 	private TileEntityFlawlessGreenhouse entity;
@@ -36,7 +38,8 @@ public class ContainerFlawlessGreenhouse extends ContainerSync {
 		addInventory(inventory, 8, 110);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}

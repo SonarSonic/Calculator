@@ -53,7 +53,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 						if (max == -1 || max >= hunger + speed) {
 							module.transferHunger(speed, stack, ProcessType.ADD);
 							storedpoints.increaseBy(-speed);
-						} else if (max != -1) {
+						} else {
 							module.transferHunger(max - hunger, stack, ProcessType.ADD);
 							storedpoints.increaseBy(-(max - hunger));
 						}
@@ -61,7 +61,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 						if (max == -1 | max >= hunger + speed) {
 							module.transferHunger(speed, stack, ProcessType.ADD);
 							storedpoints.setObject(0);
-						} else if (max != -1) {
+						} else {
 							module.transferHunger(max - hunger, stack, ProcessType.ADD);
 							storedpoints.increaseBy(-(max - hunger));
 						}
@@ -87,7 +87,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 					if (hunger >= speed) {
 						module.transferHunger(speed, stack, ProcessType.REMOVE);
 						storedpoints.increaseBy(speed);
-					} else if (hunger <= speed) {
+					} else {
 						module.transferHunger(hunger, stack, ProcessType.REMOVE);
 						storedpoints.increaseBy(hunger);
 					}
@@ -107,9 +107,7 @@ public class TileEntityHungerProcessor extends TileEntitySidedInventory implemen
 			if (this.storedpoints.getObject() == 0) {
 				return true;
 			}
-			if (!(this.storedpoints.getObject() == 0)) {
-				return false;
-			}
+            return this.storedpoints.getObject() == 0;
 		}
 		return true;
 	}

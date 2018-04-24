@@ -20,6 +20,7 @@ import sonar.calculator.mod.utils.helpers.NutritionHelper;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class NutritionModule extends SonarItem implements IHealthStore, IHungerStore {
@@ -100,7 +101,8 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 		}
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
 		NutritionHelper.useHunger(stack, player, world, pos, side, "hunger");

@@ -14,7 +14,7 @@ public class RenderCalculatorLocatorBeam extends TileEntitySpecialRenderer<TileE
 	@Override
     //public void renderTileEntityAt(TileEntityCalculatorLocator te, double x, double y, double z, float partialTicks, int destroyStage) {
     public void render(TileEntityCalculatorLocator te, double x, double y, double z, float partialTicks, int destroyStage, float f) {
-		if (CalculatorConfig.beamEffect && te.getWorld() != null) {
+		if (CalculatorConfig.beamEffect) {
 			if (te.active.getObject()) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(beam);
 				TileEntityBeaconRenderer.renderBeamSegment(x, y, z, partialTicks, 1.0F, te.getWorld().getTotalWorldTime(), te.beamHeight(), 2, new float[]{256,256,256});

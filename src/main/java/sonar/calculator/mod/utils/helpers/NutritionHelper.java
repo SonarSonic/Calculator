@@ -89,7 +89,7 @@ public class NutritionHelper {
 			return false;
 		}
 		Block block = world.getBlockState(pos).getBlock();
-		if (block != null && block == Calculator.amethystLeaves) {
+		if (block == Calculator.amethystLeaves) {
 			IBlockState state = world.getBlockState(pos);
 			LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
 			if (growth == LeafGrowth.READY || growth == LeafGrowth.MATURED) {
@@ -120,7 +120,7 @@ public class NutritionHelper {
 		}
 
 		Block block = world.getBlockState(pos).getBlock();	
-		if (block != null && block == Calculator.tanzaniteLeaves) {
+		if (block == Calculator.tanzaniteLeaves) {
 			IBlockState state = world.getBlockState(pos);
 			LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
 			if (growth == LeafGrowth.READY || growth == LeafGrowth.MATURED) {

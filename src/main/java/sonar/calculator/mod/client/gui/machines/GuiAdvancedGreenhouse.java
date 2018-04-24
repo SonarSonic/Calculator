@@ -15,10 +15,10 @@ import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.core.SonarCore;
 import sonar.core.client.gui.GuiSonarTile;
-import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 
+import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 
 public class GuiAdvancedGreenhouse extends GuiSonarTile {
@@ -53,7 +53,7 @@ public class GuiAdvancedGreenhouse extends GuiSonarTile {
 		}
 
         @Override
-        public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+        public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 			// if (this.isMouseOver())
 			// drawCreativeTabHoveringText(FontHelper.translate(name), mouseX, mouseY);
             // super.drawButton(mc, mouseX, mouseY, partialTicks);
@@ -62,7 +62,7 @@ public class GuiAdvancedGreenhouse extends GuiSonarTile {
 
     @Override
 	protected void actionPerformed(GuiButton button) {
-		if (button != null && button instanceof SonarButtons.SonarButton) {
+		if (button instanceof SonarButton) {
 			SonarButton sButton = (SonarButton) button;
 			sButton.onClicked();
 		} else {

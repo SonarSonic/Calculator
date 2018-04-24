@@ -109,7 +109,7 @@ public class TileEntityMachine {
 
 		@Override
 		public boolean isItemValidForSlot(int slot, ItemStack stack) {
-            return slot < this.inputSize() && FurnaceRecipes.instance().getSmeltingResult(stack) != null;
+            return slot < this.inputSize();
 		}
 	}
 

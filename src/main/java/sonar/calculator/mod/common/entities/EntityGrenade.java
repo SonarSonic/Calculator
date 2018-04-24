@@ -6,6 +6,8 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class EntityGrenade extends EntityThrowable {
 	public EntityGrenade(World world) {
 		super(world);
@@ -20,7 +22,7 @@ public class EntityGrenade extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult result) {
+	protected void onImpact(@Nonnull RayTraceResult result) {
 
 		if (!this.world.isRemote) {
 			setDead();

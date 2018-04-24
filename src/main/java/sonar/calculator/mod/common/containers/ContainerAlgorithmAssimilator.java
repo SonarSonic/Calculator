@@ -9,6 +9,8 @@ import sonar.core.inventory.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
+import javax.annotation.Nonnull;
+
 public class ContainerAlgorithmAssimilator extends ContainerSonar {
 	private TileEntityAssimilator entity;
 	public static TransferSlotsManager<TileEntityAssimilator> transfer = new TransferSlotsManager() {
@@ -44,6 +46,7 @@ public class ContainerAlgorithmAssimilator extends ContainerSonar {
 		return this.entity.isUsableByPlayer(player);
 	}
 
+    @Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, entity, player, slotID);

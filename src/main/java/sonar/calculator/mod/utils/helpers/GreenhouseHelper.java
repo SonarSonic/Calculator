@@ -109,10 +109,7 @@ public class GreenhouseHelper {
      */
 	public static boolean r(World world, BlockPos pos) {
 		Block block = world.getBlockState(pos).getBlock();
-		if (block == null) {
-			return true;
-		} 
-		if (block.isReplaceable(world, pos)) {
+        if (block.isReplaceable(world, pos)) {
 			return true;
 		}else if (world.isAirBlock(pos)) {
 			return true;
@@ -138,11 +135,8 @@ public class GreenhouseHelper {
 			return true;
 		} else if (block == Blocks.VINE) {
 			return true;
-		} else if (block == Blocks.DEADBUSH) {
-			return true;
-		}
-		return false;
-	}
+		} else return block == Blocks.DEADBUSH;
+    }
 
     /**
      * @param block block to check
@@ -163,9 +157,7 @@ public class GreenhouseHelper {
 	public static boolean slabQuartz(World world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
 		if (state.getBlock() == Blocks.STONE_SLAB) {
-			if (state.getBlock().getMetaFromState(state) == 7) {
-				return true;
-			}
+            return state.getBlock().getMetaFromState(state) == 7;
 		}
 		return false;
 	}

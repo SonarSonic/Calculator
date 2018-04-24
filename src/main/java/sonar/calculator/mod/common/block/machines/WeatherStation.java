@@ -18,6 +18,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class WeatherStation extends SonarMachineBlock {
@@ -31,6 +32,7 @@ public class WeatherStation extends SonarMachineBlock {
 		return true;
 	}
 	
+    @Nonnull
     @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
@@ -45,7 +47,7 @@ public class WeatherStation extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityWeatherStation();
 	}
 
@@ -55,7 +57,7 @@ public class WeatherStation extends SonarMachineBlock {
     }
 
 	@Override
-	public boolean canPlaceBlockAt(World world, BlockPos pos) {
+	public boolean canPlaceBlockAt(World world, @Nonnull BlockPos pos) {
 		for (int X = -1; X <= 1; X++) {
 			for (int Z = -1; Z <= 1; Z++) {
 				if (!world.getBlockState(pos.add(X, 1, Z)).getBlock().isReplaceable(world, pos.add(X, 1, Z))) {

@@ -23,6 +23,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -85,13 +86,9 @@ public class GasLantern extends SonarMachineBlock {
 			boolean vertical = false;
 			do {
 				if (!iterator.hasNext()) {
-					if (!vertical) {
-						vertical = true;
-						iterator = EnumFacing.Plane.HORIZONTAL.iterator();
-					} else {
-						return EnumFacing.DOWN;
-					}
-				}
+                    vertical = true;
+                    iterator = EnumFacing.Plane.HORIZONTAL.iterator();
+                }
 				EnumFacing facing = iterator.next();
 				IBlockState stateOff = world.getBlockState(pos.offset(facing));
 				Block block = stateOff.getBlock();
@@ -140,11 +137,12 @@ public class GasLantern extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 
 		return new TileEntityGasLantern();
 	}
 
+    @Nonnull
     @Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(Calculator.gas_lantern_off);
@@ -170,8 +168,9 @@ public class GasLantern extends SonarMachineBlock {
         return state.getValue(DIR).getIndex();
 	}
 
+    @Nonnull
     @Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
+	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
 		return state.withProperty(DIR, getDefaultFacing(world, pos, state));
 	}
 

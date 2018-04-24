@@ -45,7 +45,7 @@ public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRe
 	}
 
 	private boolean isValidInputType(Object input) {
-		return input != null && input instanceof ItemStack;
+		return input instanceof ItemStack;
 	}
 
 	public void addRecipe(Object... objs) {

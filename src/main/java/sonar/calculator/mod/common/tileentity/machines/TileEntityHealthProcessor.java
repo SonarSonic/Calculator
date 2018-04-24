@@ -53,7 +53,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 						if (max == -1 || max >= health + speed) {
 							module.transferHealth(speed, stack, ProcessType.ADD);
 							storedpoints.increaseBy(-speed);
-						} else if (max != -1) {
+						} else {
 							module.transferHealth(max - health, stack, ProcessType.ADD);
 							storedpoints.increaseBy(-(max - health));
 						}
@@ -61,7 +61,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 						if (max == -1 | max >= health + speed) {
 							module.transferHealth(speed, stack, ProcessType.ADD);
 							storedpoints.setObject(0);
-						} else if (max != -1) {
+						} else {
 							module.transferHealth(max - health, stack, ProcessType.ADD);
 							storedpoints.increaseBy(-(max - health));
 						}
@@ -114,9 +114,7 @@ public class TileEntityHealthProcessor extends TileEntitySidedInventory implemen
 			if (this.storedpoints.getObject() == 0) {
 				return true;
 			}
-			if (!(this.storedpoints.getObject() == 0)) {
-				return false;
-			}
+            return this.storedpoints.getObject() == 0;
 		}
 		return true;
 	}

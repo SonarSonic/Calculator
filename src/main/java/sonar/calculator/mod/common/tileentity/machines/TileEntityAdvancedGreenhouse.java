@@ -19,6 +19,7 @@ import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse implements ISidedInventory, IGuiTile {
@@ -177,7 +178,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
                     blocks.add(new BlockPlace(BlockType.GLASS, x + hX * j, y + i, z + hZ * j, -1));
                     blocks.add(new BlockPlace(BlockType.GLASS, x + hoX * j, y + i, z + hoZ * j, -1));
 				}
-			} else if (j == 3) {
+			} else {
 				for (int i = 0; i <= 4; i++) {
                     blocks.add(new BlockPlace(BlockType.GLASS, x + hX * j, y + i, z + hZ * j, -1));
                     blocks.add(new BlockPlace(BlockType.GLASS, x + hoX * j, y + i, z + hoZ * j, -1));
@@ -260,11 +261,11 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 		//under-roof
 		for (int i = -1; i <= 9; i++) {
 			if (i != 0) {
-				if (i != 0 && i != 4 && i != 8) {
+				if (i != 4 && i != 8) {
                     blocks.add(new BlockPlace(BlockType.STAIRS, x + hX * 4 + fX * i, y + 3, z + hZ * 4 + fZ * i, type("d")));
                     blocks.add(new BlockPlace(BlockType.STAIRS, x + hoX * 4 + fX * i, y + 3, z + hoZ * 4 + fZ * i, type("d2")));
 				}
-				if (i != 0 && i != 8) {
+				if (i != 8) {
                     blocks.add(new BlockPlace(BlockType.STAIRS, x + hX * 3 + fX * i, y + 4, z + hZ * 3 + fZ * i, type("d")));
                     blocks.add(new BlockPlace(BlockType.STAIRS, x + hX * 2 + fX * i, y + 5, z + hZ * 2 + fZ * i, type("d")));
                     blocks.add(new BlockPlace(BlockType.STAIRS, x + hX + fX * i, y + 6, z + hZ + fZ * i, type("d")));
@@ -278,8 +279,9 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 		return blocks;
 	}
 
-	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
+	@Nonnull
+    @Override
+	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
 		if (side == EnumFacing.UP) {
 			return new int[] { 0, 1, 2, 3, 4, 5, 6 };
 		}
@@ -287,7 +289,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 	}
 
 	@Override
-	public boolean canInsertItem(int index, ItemStack stack, EnumFacing side) {
+	public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
 		if (side == EnumFacing.UP && !stack.isEmpty()) {
 			BlockType type = BlockType.getTypeForItem(stack.getItem());
 			if (type != BlockType.NONE) {
@@ -319,7 +321,7 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 	}
 
 	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+	public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
 		return false;
 	}
 

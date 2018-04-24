@@ -2,7 +2,6 @@ package sonar.calculator.mod.common.block.misc;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -14,12 +13,11 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.nutrition.IHealthProcessor;
 import sonar.calculator.mod.api.nutrition.IHungerProcessor;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityHealthProcessor;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityHungerProcessor;
 import sonar.core.common.block.ConnectedBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.ISpecialTooltip;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class Piping extends ConnectedBlock implements ISpecialTooltip {
@@ -40,7 +38,8 @@ public class Piping extends ConnectedBlock implements ISpecialTooltip {
 		return false;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.MODEL;
 	}
@@ -126,7 +125,7 @@ public class Piping extends ConnectedBlock implements ISpecialTooltip {
 		public boolean checkBlockInDirection(IBlockAccess world, int x, int y, int z, EnumFacing dir) {
 			IBlockState state = world.getBlockState(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
 			TileEntity tile = world.getTileEntity(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
-			return tile != null && tile instanceof IHungerProcessor || state.getBlock() == Calculator.amethystLog || super.checkBlockInDirection(world, x, y, z, dir);
+			return tile instanceof IHungerProcessor || state.getBlock() == Calculator.amethystLog || super.checkBlockInDirection(world, x, y, z, dir);
 		}
 	}
 
@@ -140,7 +139,7 @@ public class Piping extends ConnectedBlock implements ISpecialTooltip {
 		public boolean checkBlockInDirection(IBlockAccess world, int x, int y, int z, EnumFacing dir) {
 			IBlockState state = world.getBlockState(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
 			TileEntity tile = world.getTileEntity(new BlockPos(x + dir.getFrontOffsetX(), y + dir.getFrontOffsetY(), z + dir.getFrontOffsetZ()));
-			return tile != null && tile instanceof IHealthProcessor || state.getBlock() == Calculator.tanzaniteLog || super.checkBlockInDirection(world, x, y, z, dir);
+			return tile instanceof IHealthProcessor || state.getBlock() == Calculator.tanzaniteLog || super.checkBlockInDirection(world, x, y, z, dir);
 		}
 	}
 }

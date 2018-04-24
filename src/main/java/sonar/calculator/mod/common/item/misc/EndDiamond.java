@@ -11,10 +11,13 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import sonar.core.common.item.SonarItem;
 
+import javax.annotation.Nonnull;
+
 public class EndDiamond extends SonarItem {
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	@Nonnull
+    @Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
         world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 		if (!world.isRemote) {

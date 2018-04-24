@@ -1,10 +1,7 @@
 package sonar.calculator.mod.common.block.machines;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +13,8 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
+
+import javax.annotation.Nonnull;
 
 public class ModuleWorkstation extends SonarMachineBlock {
 
@@ -32,7 +31,7 @@ public class ModuleWorkstation extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int i) {
 		return new TileEntityModuleWorkstation();
 	}
 }

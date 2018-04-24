@@ -12,6 +12,8 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.api.blocks.IObsidianDrop;
 import sonar.core.common.item.SonarItem;
 
+import javax.annotation.Nonnull;
+
 public class ObsidianKey extends SonarItem {
 
 	public ObsidianKey() {
@@ -19,7 +21,8 @@ public class ObsidianKey extends SonarItem {
 		this.maxStackSize = 1;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (!player.canPlayerEdit(pos, side, stack)) {

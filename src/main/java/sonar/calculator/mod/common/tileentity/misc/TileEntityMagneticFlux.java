@@ -26,6 +26,7 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
@@ -150,29 +151,28 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 				return null;
 			}
             ItemStack itemstack = entity.getItem();
-			if (itemstack != null) {
-				int i = itemstack.getCount();
-				TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
-				if (target != null)
-					itemstack = SonarAPI.getItemHelper().getStackToAdd(itemstack.getCount(), new StoredItemStack(itemstack), SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), EnumFacing.getFront(1), ActionType.PERFORM, null)).getFullStack();
-			}
-			return itemstack;
+            int i = itemstack.getCount();
+            TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
+            if (target != null)
+                itemstack = SonarAPI.getItemHelper().getStackToAdd(itemstack.getCount(), new StoredItemStack(itemstack), SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), EnumFacing.getFront(1), ActionType.PERFORM, null)).getFullStack();
+            return itemstack;
 		}
         return item.getItem();
 	}
 
-	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
+	@Nonnull
+    @Override
+	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
 		return new int[0];
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack item, EnumFacing side) {
+	public boolean canInsertItem(int slot, @Nonnull ItemStack item, @Nonnull EnumFacing side) {
 		return false;
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack item, EnumFacing side) {
+	public boolean canExtractItem(int slot, @Nonnull ItemStack item, @Nonnull EnumFacing side) {
 		return false;
 	}
 

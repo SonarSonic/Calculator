@@ -7,7 +7,6 @@ import net.minecraft.util.text.TextFormatting;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.core.client.gui.GuiSonarTile;
-import sonar.core.client.gui.SonarButtons;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 
@@ -73,7 +72,7 @@ public class GuiSmeltingBlock extends GuiSonarTile {
     @Override
 	protected void actionPerformed(GuiButton button) {
 		if (entity.getWorld().isRemote) {
-			if (button != null && button instanceof SonarButtons.SonarButton) {
+			if (button instanceof SonarButton) {
 				SonarButton sButton = (SonarButton) button;
 				sButton.onClicked();
 			}

@@ -13,6 +13,8 @@ import sonar.calculator.mod.common.entities.EntityBabyGrenade;
 import sonar.calculator.mod.common.entities.EntityGrenade;
 import sonar.core.common.item.SonarItem;
 
+import javax.annotation.Nonnull;
+
 public class Grenade extends SonarItem {
 	int type;
 
@@ -20,8 +22,9 @@ public class Grenade extends SonarItem {
 		type = par;
 	}
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	@Nonnull
+    @Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (!player.capabilities.isCreativeMode) {
 			stack.shrink(1);

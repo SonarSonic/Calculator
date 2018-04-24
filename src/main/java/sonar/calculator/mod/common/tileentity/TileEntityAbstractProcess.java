@@ -3,8 +3,6 @@ package sonar.calculator.mod.common.tileentity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
@@ -178,9 +176,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (slot < this.inputSize()) {
-			if (recipeHelper() != null && recipeHelper().isValidInput(stack)) {
-				return true;
-			}
+            return recipeHelper() != null && recipeHelper().isValidInput(stack);
 		}
 		return false;
 	}

@@ -21,6 +21,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
@@ -47,7 +48,7 @@ public class AtomicMultiplier extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityAtomicMultiplier();
 	}
 
@@ -70,6 +71,7 @@ public class AtomicMultiplier extends SonarMachineBlock {
 		}
 	}
 
+    @Nonnull
     @Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT_MIPPED;

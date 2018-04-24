@@ -21,6 +21,7 @@ import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse implements ISidedInventory, IGuiTile {
@@ -117,9 +118,7 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 			if (slots().get(0).getCount() >= requiredLogs && GreenhouseHelper.checkLog(Block.getBlockFromItem(slots().get(0).getItem()))) {
 				if (slots().get(1).getCount() >= requiredStairs && GreenhouseHelper.checkStairs(Block.getBlockFromItem(slots().get(1).getItem()))) {
 					if (slots().get(2).getCount() >= requiredGlass && GreenhouseHelper.checkGlass(Block.getBlockFromItem(slots().get(2).getItem()))) {
-						if (slots().get(3).getCount() >= requiredPlanks && GreenhouseHelper.checkPlanks(Block.getBlockFromItem(slots().get(3).getItem()))) {
-							return true;
-						}
+                        return slots().get(3).getCount() >= requiredPlanks && GreenhouseHelper.checkPlanks(Block.getBlockFromItem(slots().get(3).getItem()));
 					}
 				}
 			}
@@ -300,18 +299,19 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 		}
 	}
 
-	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
+	@Nonnull
+    @Override
+	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
 		return new int[] { 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 	}
 
 	@Override
-	public boolean canInsertItem(int index, ItemStack stack, EnumFacing direction) {
+	public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
 		return !stack.isEmpty() && stack.getItem() instanceof IPlantable;
 	}
 
 	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+	public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
 		return false;
 	}
 

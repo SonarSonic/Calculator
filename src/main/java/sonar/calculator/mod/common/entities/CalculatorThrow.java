@@ -6,6 +6,8 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class CalculatorThrow extends BehaviorProjectileDispense {
 
 	public int entity;
@@ -14,8 +16,9 @@ public class CalculatorThrow extends BehaviorProjectileDispense {
 		this.entity = entity;
 	}
 
-	@Override
-	protected IProjectile getProjectileEntity(World world, IPosition pos, ItemStack stack) {
+	@Nonnull
+    @Override
+	protected IProjectile getProjectileEntity(@Nonnull World world, @Nonnull IPosition pos, @Nonnull ItemStack stack) {
 		switch (entity) {
 		case 0:
 			return new EntityBabyGrenade(world, pos.getX(), pos.getY(), pos.getZ());

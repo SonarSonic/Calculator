@@ -19,6 +19,7 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class WeatherController extends SonarMachineBlock {
@@ -47,14 +48,14 @@ public class WeatherController extends SonarMachineBlock {
 
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		TileEntity target = worldIn.getTileEntity(pos);
-		if (target != null && target instanceof TileEntityWeatherController) {
+		if (target instanceof TileEntityWeatherController) {
 			TileEntityWeatherController controller = (TileEntityWeatherController) target;
 			controller.startProcess();
 		}
 	}
 
     @Override
-	public TileEntity createNewTileEntity(World world, int meta) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
 		return new TileEntityWeatherController();
 	}
 

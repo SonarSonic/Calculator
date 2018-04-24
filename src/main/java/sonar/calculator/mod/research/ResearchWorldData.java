@@ -4,6 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.storage.WorldSavedData;
 import sonar.core.helpers.NBTHelper.SyncType;
 
+import javax.annotation.Nonnull;
+
 public class ResearchWorldData extends WorldSavedData {
 
 	public static final String tag = "sonar.calculator.research";
@@ -13,12 +15,13 @@ public class ResearchWorldData extends WorldSavedData {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(@Nonnull NBTTagCompound nbt) {
 		PlayerResearchRegistry.readData(nbt, SyncType.SAVE);
 	}
 
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+	@Nonnull
+    @Override
+	public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound nbt) {
 		PlayerResearchRegistry.writeData(nbt, SyncType.SAVE);
 		return nbt;
 	}

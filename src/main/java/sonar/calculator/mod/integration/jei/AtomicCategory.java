@@ -12,6 +12,8 @@ import sonar.core.integration.jei.JEICategoryV2;
 import sonar.core.integration.jei.JEIHelper.RecipeMapper;
 import sonar.core.recipes.RecipeObjectType;
 
+import javax.annotation.Nonnull;
+
 public class AtomicCategory extends JEICategoryV2 {
 
 	private final IDrawable background;
@@ -22,12 +24,14 @@ public class AtomicCategory extends JEICategoryV2 {
 		background = guiHelper.createDrawable(location, 19, 30, 136, 27);
 	}
 
+    @Nonnull
     @Override
     public String getModName() {
         return Calculator.name;
     }
 
-	@Override
+	@Nonnull
+    @Override
 	public IDrawable getBackground() {
 		return background;
 	}

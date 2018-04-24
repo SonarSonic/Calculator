@@ -15,6 +15,7 @@ import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.core.common.item.SonarItem;
 import sonar.core.utils.IGuiItem;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class InfoCalculator extends SonarItem implements IGuiItem {
@@ -29,8 +30,9 @@ public class InfoCalculator extends SonarItem implements IGuiItem {
         super.addInformation(stack, world, list, par4);
 	}
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	@Nonnull
+    @Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (world.isRemote) {
 			player.openGui(Calculator.instance, IGuiItem.ID, world, -1000, -1000, -1000);

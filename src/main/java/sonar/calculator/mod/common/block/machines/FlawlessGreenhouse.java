@@ -21,6 +21,7 @@ import sonar.core.helpers.FontHelper;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedBlock {
@@ -57,7 +58,7 @@ public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedB
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
 		return new TileEntityFlawlessGreenhouse();
 	}
 

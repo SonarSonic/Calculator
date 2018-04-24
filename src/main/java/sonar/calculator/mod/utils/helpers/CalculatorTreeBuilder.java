@@ -11,6 +11,7 @@ import sonar.calculator.mod.common.block.CalculatorLeaves;
 import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.block.CalculatorSaplings;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class CalculatorTreeBuilder extends WorldGenAbstractTree {
@@ -39,7 +40,7 @@ public class CalculatorTreeBuilder extends WorldGenAbstractTree {
 	}
 
     @Override
-	public boolean generate(World world, Random rand, BlockPos pos) {
+	public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos) {
 		int l = rand.nextInt(3) + this.minTreeHeight;
 		boolean flag = true;
 

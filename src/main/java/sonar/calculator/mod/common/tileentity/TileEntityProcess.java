@@ -247,11 +247,8 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public boolean canStack(ItemStack current, ItemStack stack) {
 		if (current.isEmpty()) {
 			return true;
-		} else if (current.getCount() == current.getMaxStackSize()) {
-			return false;
-		}
-		return true;
-	}
+		} else return current.getCount() != current.getMaxStackSize();
+    }
 
     @Override
 	@SideOnly(Side.CLIENT)
@@ -320,8 +317,6 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	@Override
 	public void writePacket(ByteBuf buf, int id) {
-		if (id == 0) {
-		}
 		if (id == 1) {
 			invertPaused.invert();
 			invertPaused.writeToBuf(buf);

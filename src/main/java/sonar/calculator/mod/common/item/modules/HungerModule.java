@@ -18,6 +18,7 @@ import sonar.calculator.mod.utils.helpers.NutritionHelper;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class HungerModule extends SonarItem implements IHungerStore {
@@ -26,14 +27,16 @@ public class HungerModule extends SonarItem implements IHungerStore {
 		maxStackSize = 1;
 	}
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	@Nonnull
+    @Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		NutritionHelper.chargeHunger(stack, world, player, "points");
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
 		NutritionHelper.useHunger(stack, player, world, pos, side, "points");

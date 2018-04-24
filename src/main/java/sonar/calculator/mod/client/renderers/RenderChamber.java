@@ -46,7 +46,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer<TileEntity
         }
         model.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
 		this.renderAnimation(entity, x, y, z);
-		if (entity != null && entity.getWorld() != null && entity instanceof TileEntityProcess) {
+		if (entity != null && entity instanceof TileEntityProcess) {
 			TileEntityProcess inv = (TileEntityProcess) entity;
             ItemStack target;
 			if (inv.cookTime.getObject() == 0 && inv.getStackInSlot(2) != null) {
@@ -113,7 +113,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer<TileEntity
 
         @Override
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
-			if (entity != null && entity.getWorld() != null) {
+			if (entity != null) {
                 float tick = ((TileEntityProcess) entity).getRenderPosition() / 2F;
 				GL11.glTranslated(0, 0, -tick);
                 process.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
@@ -137,7 +137,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer<TileEntity
 
         @Override
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
-			if (entity != null && entity.getWorld() != null) {
+			if (entity != null) {
                 float tick = ((TileEntityProcess) entity).getRenderPosition() / 2F;
 				GL11.glTranslated(0, 0, -tick);
                 process.render(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
@@ -164,7 +164,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer<TileEntity
 
         @Override
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
-			if (entity != null && entity.getWorld() != null) {
+			if (entity != null) {
                 float tick = ((TileEntityProcess) entity).getRenderPosition() / 4.5F;
 				GL11.glTranslated(0, tick, 0);
                 splitter.renderSplitter(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);
@@ -190,7 +190,7 @@ public abstract class RenderChamber extends TileEntitySpecialRenderer<TileEntity
 
         @Override
 		public void renderAnimation(TileEntity entity, double x, double y, double z) {
-			if (entity != null && entity.getWorld() != null) {
+			if (entity != null) {
                 float tick = ((TileEntityProcess) entity).getRenderPosition() / 4.5F;
 				GL11.glTranslated(0, tick, 0);
                 splitter.renderSplitter(null, 0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0625F);

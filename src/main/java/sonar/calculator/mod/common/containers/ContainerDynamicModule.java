@@ -14,6 +14,8 @@ import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.recipes.RecipeHelperV2;
 
+import javax.annotation.Nonnull;
+
 public class ContainerDynamicModule extends Container implements ICalculatorCrafter {
 	private final InventoryItem inventory;
 	public EntityPlayer player;
@@ -60,10 +62,11 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 	public void removeEnergy(int remove) {}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer player) {
+	public boolean canInteractWith(@Nonnull EntityPlayer player) {
 		return inventory.isUsableByPlayer(player);
 	}
 
+    @Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
 		ItemStack itemstack = ItemStack.EMPTY;
@@ -80,23 +83,23 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 				slot.onSlotChange(itemstack1, itemstack);
 			} else {
 				int current = this.getCurrentUsage();
-				if (par2 >= INV_START && (current == 0 || current == 1)) {
+				if (current == 0 || current == 1) {
 					if (!this.mergeItemStack(itemstack1, 0, 2, false)) {
 						return ItemStack.EMPTY;
 					}
-				} else if (par2 >= INV_START && current == 2) {
+				} else if (current == 2) {
 					if (!this.mergeItemStack(itemstack1, 3, 5, false)) {
 						return ItemStack.EMPTY;
 					}
-				} else if (par2 >= INV_START && current == 3) {
+				} else if (current == 3) {
 					if (!this.mergeItemStack(itemstack1, 6, 9, false)) {
 						return ItemStack.EMPTY;
 					}
-                } else if (par2 >= INV_START && par2 < HOTBAR_START) {
+                } else if (par2 < HOTBAR_START) {
 					if (!this.mergeItemStack(itemstack1, HOTBAR_START, HOTBAR_END, false)) {
 						return ItemStack.EMPTY;
 					}
-				} else if (par2 >= HOTBAR_START && par2 < HOTBAR_END) {
+				} else if (par2 < HOTBAR_END) {
 					if (!this.mergeItemStack(itemstack1, INV_START, INV_END, false)) {
 						return ItemStack.EMPTY;
 					}
@@ -130,9 +133,10 @@ public class ContainerDynamicModule extends Container implements ICalculatorCraf
 		return 0;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player) {
-		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
+		if (slot >= 0 && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
 			return ItemStack.EMPTY;
 		}
 		return super.slotClick(slot, drag, click, player);

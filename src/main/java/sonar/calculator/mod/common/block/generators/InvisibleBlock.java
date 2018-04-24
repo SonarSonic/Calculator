@@ -22,6 +22,7 @@ import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class InvisibleBlock extends SonarBlock {
@@ -98,8 +99,9 @@ public class InvisibleBlock extends SonarBlock {
 		}
 	}
 
+    @Nonnull
     @Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+	public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player) {
 		switch (type) {
 		case 0:
 			return new ItemStack(Calculator.conductorMast, 1);
@@ -132,6 +134,7 @@ public class InvisibleBlock extends SonarBlock {
 		return false;
 	}
 
+    @Nonnull
     @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;

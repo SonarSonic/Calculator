@@ -27,9 +27,7 @@ public class TileEntityCalculatorScreen extends TileEntitySonar {
 		if (this.world != null && !this.world.isRemote) {
 			EnumFacing front = EnumFacing.getFront(getBlockMetadata()).getOpposite();
 			TileEntity target = SonarHelper.getAdjacentTileEntity(this, front);
-			if (target == null) {
-                //return;
-			} else {
+			if (target != null) {
 				ISonarEnergyHandler handler = SonarAPI.getEnergyHelper().canTransferEnergy(target, front);
 				if(handler!=null){
 					StoredEnergyStack stack = new StoredEnergyStack(handler.getProvidedType());

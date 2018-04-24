@@ -9,6 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class CalculatorCrops extends BlockCrops {
@@ -25,7 +26,8 @@ public class CalculatorCrops extends BlockCrops {
 		return 1;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected Item getSeed() {
 		if (crop == 0) {
 			return Calculator.broccoliSeeds;
@@ -37,7 +39,8 @@ public class CalculatorCrops extends BlockCrops {
 		return Calculator.fiddledewFruit;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected Item getCrop() {
 		if (crop == 0) {
 			return Calculator.broccoli;
@@ -58,7 +61,8 @@ public class CalculatorCrops extends BlockCrops {
 		return tier >= this.greenhouseTier;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@SideOnly(Side.CLIENT)
 	public CreativeTabs getCreativeTabToDisplayOn() {
 		return null;

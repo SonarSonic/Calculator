@@ -10,6 +10,8 @@ import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
+import javax.annotation.Nonnull;
+
 public class ContainerAtomicMultiplier extends ContainerSync {
 
 	private TileEntityAtomicMultiplier entity;
@@ -43,11 +45,8 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 			public boolean isItemValid(ItemStack stack) {
 				if (!TileEntityAtomicMultiplier.isAllowed(stack)) {
 					return false;
-				} else if (stack.getMaxStackSize() < 4) {
-					return false;
-				}
-				return true;
-			}
+				} else return stack.getMaxStackSize() >= 4;
+            }
 		});
 		addSlotToContainer(new Slot(entity, 1, 26, 41));
 		addSlotToContainer(new Slot(entity, 2, 44, 41));
@@ -61,7 +60,8 @@ public class ContainerAtomicMultiplier extends ContainerSync {
 		addInventory(inventory, 8, 84);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}

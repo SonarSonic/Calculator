@@ -165,7 +165,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		int[] emptySlot = new int[0];
         int size = getInputStackSize(calcStack);
 		EnumFacing dir = EnumFacing.getFront(getBlockMetadata());
-		if (dir == null || size == 0) {
+		if (size == 0) {
 			return emptySlot;
 		}
 		if (side == EnumFacing.DOWN || side == EnumFacing.UP) {
@@ -187,7 +187,7 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 
 	public int convertMeta(int meta) {
 		EnumFacing dir = EnumFacing.getFront(meta);
-		SonarHelper.getHorizontal(dir);
+		//SonarHelper.getHorizontal(dir);
 		if (meta <= 1) {
 			meta = 5;
 		} else if ((meta & 5) <= 1) {

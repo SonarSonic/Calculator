@@ -17,6 +17,7 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class AdvancedPowerCube extends SonarSidedBlock {
@@ -43,7 +44,7 @@ public class AdvancedPowerCube extends SonarSidedBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int i) {
 		return new TileEntityAdvancedPowerCube();
 	}
 

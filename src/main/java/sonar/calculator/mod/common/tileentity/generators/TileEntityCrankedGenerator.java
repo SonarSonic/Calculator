@@ -48,7 +48,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 
 	public boolean cranked() {
 		Block crank = this.world.getBlockState(pos.offset(EnumFacing.UP)).getBlock();
-        return crank != null && crank == Calculator.crankHandle;
+        return crank == Calculator.crankHandle;
 	}
 
     @Override

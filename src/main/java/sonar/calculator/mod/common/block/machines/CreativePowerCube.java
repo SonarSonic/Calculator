@@ -2,8 +2,6 @@ package sonar.calculator.mod.common.block.machines;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +12,7 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 
-import java.util.List;
+import javax.annotation.Nonnull;
 
 public class CreativePowerCube extends SonarMachineBlock {
 
@@ -31,7 +29,7 @@ public class CreativePowerCube extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int i) {
 		return new TileEntityCreativePowerCube();
 	}
 }

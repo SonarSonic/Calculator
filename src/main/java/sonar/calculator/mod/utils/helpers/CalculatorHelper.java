@@ -1,6 +1,5 @@
 package sonar.calculator.mod.utils.helpers;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -33,11 +32,8 @@ public class CalculatorHelper {
 	public static boolean canProvideEnergy(ItemStack stack) {
 		if (DischargeValues.getValueOf(stack) > 0) {
 			return true;
-		} else if (SonarAPI.getEnergyHelper().canTransferEnergy(stack) != null) {
-			return true;
-		}
-		return false;
-	}
+		} else return SonarAPI.getEnergyHelper().canTransferEnergy(stack) != null;
+    }
 
 
 	/** Adds stored Item Level for Generators to the Tool Tip

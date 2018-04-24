@@ -11,10 +11,13 @@ import net.minecraft.world.World;
 import sonar.calculator.mod.common.entities.EntitySmallStone;
 import sonar.core.common.item.SonarItem;
 
+import javax.annotation.Nonnull;
+
 public class SmallStone extends SonarItem {
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	@Nonnull
+    @Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (!player.capabilities.isCreativeMode) {
 			stack.shrink(1);
@@ -29,7 +32,8 @@ public class SmallStone extends SonarItem {
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (player.isSneaking()) {

@@ -20,6 +20,8 @@ import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.FailedCoords;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
+
 public abstract class TileEntityCalculator extends TileEntityInventory implements ISidedInventory, IGuiTile {
 
 	public static class Dynamic extends TileEntityCalculator implements IDropInventory {
@@ -143,18 +145,19 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 		}
 	}
 
-	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
+	@Nonnull
+    @Override
+	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
 		return new int[0];
 	}
 
 	@Override
-	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+	public boolean canInsertItem(int index, @Nonnull ItemStack itemStackIn, @Nonnull EnumFacing direction) {
 		return false;
 	}
 
 	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+	public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
 		return false;
 	}
 }

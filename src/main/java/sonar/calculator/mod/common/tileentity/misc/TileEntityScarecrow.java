@@ -12,6 +12,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 
+import javax.annotation.Nonnull;
+
 public class TileEntityScarecrow extends TileEntity implements ITickable {
 
 	public int growTicks;
@@ -48,7 +50,8 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 		this.growTicks = nbt.getInteger("Grow");
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("Grow", this.growTicks);
@@ -61,14 +64,15 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 		return 65536.0D;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB;
 	}
 
     @Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+	public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
 }

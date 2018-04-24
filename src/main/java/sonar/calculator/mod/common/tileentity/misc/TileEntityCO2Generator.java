@@ -22,6 +22,7 @@ import sonar.core.helpers.SonarHelper;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileEntityCO2Generator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile {
@@ -57,7 +58,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 			ItemStack burnStack = slots().get(0);
 			if (this.maxBurnTime == 0 && !this.world.isRemote && !burnStack.isEmpty()) {
 				if (TileEntityFurnace.isItemFuel(burnStack) && this.storage.getEnergyStored() >= energyAmount) {
-					if (tile != null && tile instanceof TileEntityFlawlessGreenhouse) {
+					if (tile instanceof TileEntityFlawlessGreenhouse) {
 						burn();
 						this.storage.modifyEnergyStored(-energyAmount);
 					}
@@ -71,7 +72,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 			}
 
 			if (this.controlled) {
-				if (tile != null && tile instanceof TileEntityFlawlessGreenhouse) {
+				if (tile instanceof TileEntityFlawlessGreenhouse) {
 					TileEntityFlawlessGreenhouse greenhouse = (TileEntityFlawlessGreenhouse) tile;
 					int carbon = greenhouse.getCarbon();
 					if (control) {
@@ -144,23 +145,24 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		return nbt;
 	}
 
+	@Nonnull
 	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
+	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
 		return input;
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+	public boolean isItemValidForSlot(int slot, @Nonnull ItemStack stack) {
         return slot == 0 && TileEntityFurnace.isItemFuel(stack);
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing par) {
+	public boolean canInsertItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing par) {
 		return this.isItemValidForSlot(slot, stack);
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
+	public boolean canExtractItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
 		return false;
 	}
 

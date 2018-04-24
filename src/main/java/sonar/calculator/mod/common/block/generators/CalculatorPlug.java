@@ -23,6 +23,8 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
+
 public class CalculatorPlug extends SonarMachineBlock {
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
@@ -60,7 +62,7 @@ public class CalculatorPlug extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
 		return new TileEntityCalculatorPlug();
 	}
 

@@ -6,6 +6,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
+import javax.annotation.Nonnull;
+
 public class CalculatorLogs extends BlockLog {
 	public CalculatorLogs() {
 		setHarvestLevel("axe", 0);
@@ -23,6 +25,7 @@ public class CalculatorLogs extends BlockLog {
 		return true;
 	}
 
+    @Nonnull
     @Override
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState iblockstate = this.getDefaultState();
@@ -46,8 +49,6 @@ public class CalculatorLogs extends BlockLog {
     @Override
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
-		i = i | 0;
-
         switch (state.getValue(LOG_AXIS)) {
 		case X:
 			i |= 4;
@@ -64,6 +65,7 @@ public class CalculatorLogs extends BlockLog {
 		return i;
 	}
 
+    @Nonnull
     @Override
 	protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, LOG_AXIS);

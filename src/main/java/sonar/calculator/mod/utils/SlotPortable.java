@@ -5,6 +5,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import javax.annotation.Nonnull;
+
 public class SlotPortable extends Slot {
 	public IInventory invItem;
 	private Item type;
@@ -24,7 +26,7 @@ public class SlotPortable extends Slot {
 	}
 
 	@Override
-	public void putStack(ItemStack stack) {
+	public void putStack(@Nonnull ItemStack stack) {
 		invItem.setInventorySlotContents(getSlotIndex(), stack);
 	}
 

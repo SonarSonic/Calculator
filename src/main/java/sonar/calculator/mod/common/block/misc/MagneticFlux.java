@@ -13,6 +13,8 @@ import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
+
 public class MagneticFlux extends SonarMachineBlock {
 
 	public MagneticFlux() {
@@ -34,7 +36,7 @@ public class MagneticFlux extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int i) {
 		return new TileEntityMagneticFlux();
 	}
 
@@ -47,7 +49,7 @@ public class MagneticFlux extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, BlockPos pos) {
+	public boolean canPlaceBlockAt(World world, @Nonnull BlockPos pos) {
 		super.canPlaceBlockAt(world, pos);
 		for (int Y = Math.max(pos.getY() - 4, 0); Y < Math.min(256, pos.getY() + 4); Y++) {
 			for (int X = pos.getX() - 4; X <= pos.getX() + 4; X++) {

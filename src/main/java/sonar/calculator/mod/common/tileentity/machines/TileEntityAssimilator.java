@@ -30,6 +30,7 @@ import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -149,7 +150,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 			IBlockState state = coords.getBlockState(this.world);
 			if (state.getBlock() == Calculator.tanzaniteLeaves || state.getBlock() == Calculator.amethystLeaves) {
 				LeafGrowth growth = state.getValue(CalculatorLeaves.GROWTH);
-				if (growth != null && (growth == LeafGrowth.MATURED || growth == LeafGrowth.READY)) {
+				if (growth == LeafGrowth.MATURED || growth == LeafGrowth.READY) {
 					if (state.getBlock() == Calculator.tanzaniteLeaves) {
 						this.healthPoints++;
 						this.world.setBlockState(coords.getBlockPos(), state.withProperty(CalculatorLeaves.GROWTH, LeafGrowth.FRESH));
@@ -175,7 +176,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 							if (max == -1 || max >= hunger + speed) {
 								module.transferHunger(speed, stack, ProcessType.ADD);
 								hungerPoints = hungerPoints - speed;
-							} else if (max != -1) {
+							} else {
 								module.transferHunger(max - hunger, stack, ProcessType.ADD);
 								hungerPoints = hungerPoints - (max - hunger);
 							}
@@ -183,7 +184,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 							if (max == -1 | max >= hunger + speed) {
 								module.transferHunger(speed, stack, ProcessType.ADD);
 								hungerPoints = 0;
-							} else if (max != -1) {
+							} else {
 								module.transferHunger(max - hunger, stack, ProcessType.ADD);
 								hungerPoints = hungerPoints - max - hunger;
 							}
@@ -204,7 +205,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 							if (max == -1 || max >= health + speed) {
 								module.transferHealth(speed, stack, ProcessType.ADD);
 								healthPoints = healthPoints - speed;
-							} else if (max != -1) {
+							} else {
 								module.transferHealth(max - health, stack, ProcessType.ADD);
 								healthPoints = healthPoints - (max - health);
 							}
@@ -212,7 +213,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 							if (max == -1 | max >= health + speed) {
 								module.transferHealth(speed, stack, ProcessType.ADD);
 								healthPoints = 0;
-							} else if (max != -1) {
+							} else {
 								module.transferHealth(max - health, stack, ProcessType.ADD);
 								healthPoints = healthPoints - max - health;
 							}
@@ -272,7 +273,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 							StoredItemStack storedstack = new StoredItemStack(stack);
 							StoredItemStack harvest = SonarAPI.getItemHelper().addItems(this, storedstack.copy(), EnumFacing.DOWN, ActionType.PERFORM, null);
 							storedstack.remove(harvest);
-							if (storedstack != null && storedstack.stored > 0) {
+							if (storedstack.stored > 0) {
 								BlockPos pos = this.pos.offset(forward.getOpposite());
 								EntityItem drop = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), storedstack.getFullStack());
 								world.spawnEntity(drop);
@@ -285,18 +286,19 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 			return false;
 		}
 
-		@Override
-		public int[] getSlotsForFace(EnumFacing side) {
+		@Nonnull
+        @Override
+		public int[] getSlotsForFace(@Nonnull EnumFacing side) {
 			return new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
 		}
 
 		@Override
-		public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+		public boolean canInsertItem(int index, @Nonnull ItemStack itemStackIn, @Nonnull EnumFacing direction) {
 			return true;
 		}
 
 		@Override
-		public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+		public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
 			return true;
 		}
 

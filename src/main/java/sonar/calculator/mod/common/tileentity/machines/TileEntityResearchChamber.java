@@ -56,7 +56,7 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 			ArrayList<ResearchRecipeType> types = ResearchRecipeType.getUnlocked(slots().get(0));
 			if (!types.isEmpty()) {
 				IResearch research = PlayerResearchRegistry.getSpecificResearch(playerUUID.getUUID(), ResearchTypes.RECIPES);
-				if (research != null && research instanceof RecipeResearch) {
+				if (research instanceof RecipeResearch) {
 					RecipeResearch recipes = (RecipeResearch) research;
 					recipes.addRecipes(types);
 				}

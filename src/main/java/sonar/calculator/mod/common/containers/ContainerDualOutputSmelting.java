@@ -9,6 +9,8 @@ import sonar.core.inventory.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
+import javax.annotation.Nonnull;
+
 public class ContainerDualOutputSmelting extends ContainerSync {
 
 	public TileEntityAbstractProcess entity;
@@ -36,7 +38,8 @@ public class ContainerDualOutputSmelting extends ContainerSync {
 		addInventory(inventory, 8, 84);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, entity, player, slotID);
 	}

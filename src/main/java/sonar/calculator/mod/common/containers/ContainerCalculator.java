@@ -14,6 +14,8 @@ import sonar.core.inventory.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.recipes.RecipeHelperV2;
 
+import javax.annotation.Nonnull;
+
 public class ContainerCalculator extends ContainerSonar implements ICalculatorCrafter {
 	private final InventoryItem inventory;
 	public static TransferSlotsManager<InventoryItem> transfer = new TransferSlotsManager() {
@@ -54,14 +56,16 @@ public class ContainerCalculator extends ContainerSonar implements ICalculatorCr
 		return inventory.isUsableByPlayer(player);
 	}
 
+    @Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
 		return transfer.transferStackInSlot(this, inventory, player, slotID);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack slotClick(int slot, int drag, ClickType click, EntityPlayer player) {
-		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
+		if (slot >= 0 && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
 			return ItemStack.EMPTY;
 		}
 		return super.slotClick(slot, drag, click, player);

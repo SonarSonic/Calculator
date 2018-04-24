@@ -17,6 +17,8 @@ import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.utils.IGuiTile;
 
+import javax.annotation.Nonnull;
+
 public class DynamicCalculator extends SonarMachineBlock {
 	public DynamicCalculator() {
 		super(SonarMaterials.machine, true, true);
@@ -41,7 +43,7 @@ public class DynamicCalculator extends SonarMachineBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(@Nonnull World world, int i) {
 		return new TileEntityCalculator.Dynamic();
 	}
 
