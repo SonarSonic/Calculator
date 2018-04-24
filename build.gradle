@@ -30,6 +30,10 @@ repositories {
         name = "ModMaven"
         url = "modmaven.k-4u.nl"
     }
+    maven {
+        name = "ic2"
+        url = "http://maven.ic2.player.to/"
+    }
     flatDir {
         dirs 'libs'
     }
@@ -48,7 +52,7 @@ compileJava {
 minecraft {
     version = "${forge_version}"
     runDir = "run"
-    mappings = "snapshot_20170919"
+    mappings = "snapshot_20171003"
     makeObfSourceJar = false
 
 }
@@ -71,6 +75,8 @@ dependencies {
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${jei_version}"
     compileOnly "crafttweaker:CraftTweaker2:${crafttweaker_version}"
+    compile group: "net.industrial-craft", name: "industrialcraft-2", version: "2.8.75-ex112", classifier: "api"
+    compile group: "net.industrial-craft", name: "industrialcraft-2", version: "2.8.75-ex112", classifier: "dev"
 }
 
 processResources
