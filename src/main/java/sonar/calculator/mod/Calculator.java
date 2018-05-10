@@ -30,26 +30,20 @@ import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.research.ResearchRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 
-@Mod(modid = Calculator.modid, name = Calculator.name, version = Calculator.version, acceptedMinecraftVersions = Calculator.mc_versions, dependencies = "required-after:sonarcore@[" + Calculator.SONAR_VERSION + ",);")
+@Mod(modid = CalculatorConstants.modid, name = CalculatorConstants.name, version = CalculatorConstants.version, acceptedMinecraftVersions = CalculatorConstants.mc_versions, dependencies = "required-after:sonarcore@[" + CalculatorConstants.SONAR_VERSION + ",);")
 public class Calculator {
 	@SidedProxy(clientSide = "sonar.calculator.mod.network.CalculatorClient", serverSide = "sonar.calculator.mod.network.CalculatorCommon")
 	public static CalculatorCommon calculatorProxy;
 
-	public static final String name = "Calculator";
-	public static final String modid = "calculator";
-	public static final String version = "5.0.4";
-	public static final String mc_versions = "[1.12,1.12.2]";
-	public static final String SONAR_VERSION = "5.0.6";
-
 	public static final int saveDimension = 0;
 
 	public static SimpleNetworkWrapper network;
-	public static Logger logger = (Logger) LogManager.getLogger(modid);
+	public static Logger logger = (Logger) LogManager.getLogger(CalculatorConstants.modid);
 	public static ResearchRegistry research = new ResearchRegistry();
 	public static ModuleRegistry modules = new ModuleRegistry();
 	public static ModuleItemRegistry moduleItems = new ModuleItemRegistry();
 
-	@Instance(modid)
+	@Instance(CalculatorConstants.modid)
 	public static Calculator instance;
 
 	public static CreativeTabs tab = new CreativeTabs("Calculator") {
@@ -66,7 +60,7 @@ public class Calculator {
 		} else {
 			logger.info("Successfully loaded with Sonar Core");
 		}
-		network = NetworkRegistry.INSTANCE.newSimpleChannel(modid);
+		network = NetworkRegistry.INSTANCE.newSimpleChannel(CalculatorConstants.modid);
 		logger.info("Registered Network");
 
 		CalculatorCommon.registerPackets();
@@ -83,10 +77,10 @@ public class Calculator {
 		calculatorProxy.registerRenderThings();
 		logger.info("Registered Renderers");
 
-		EntityRegistry.registerModEntity(new ResourceLocation(modid, "BabyGrenade"), EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(modid, "Grenade"), EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(modid, "Stone"), EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(modid, "Soil"), EntitySoil.class, "Soil", 3, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(CalculatorConstants.modid, "BabyGrenade"), EntityBabyGrenade.class, "BabyGrenade", 0, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(CalculatorConstants.modid, "Grenade"), EntityGrenade.class, "Grenade", 1, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(CalculatorConstants.modid, "Stone"), EntitySmallStone.class, "Stone", 2, instance, 64, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(CalculatorConstants.modid, "Soil"), EntitySoil.class, "Soil", 3, instance, 64, 10, true);
 		logger.info("Registered Entities");
 
 		CalculatorIntegration.addSonarCore();

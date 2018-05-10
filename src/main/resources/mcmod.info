@@ -12,9 +12,6 @@ Thank you for trying Calculator!",
 "authors": ["Ollie Lansdell"],
 "credits": "Created by Ollie Lansdell",
 "logoFile": "logo_calculator.png",
-"screenshots": [],
-"requiredMods": [ "forge", "sonarcore" ],
-"dependencies": ["sonarcore"],
-"useDependencyInformation": true
+"screenshots": []
 }
 ]

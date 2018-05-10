@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConstants;
 import sonar.core.integration.jei.IJEIHandler;
 import sonar.core.integration.jei.JEICategoryV2;
 
@@ -29,7 +30,7 @@ public class ConductorMastCategory extends JEICategoryV2 {
     @Nonnull
     @Override
     public String getModName() {
-        return Calculator.name;
+        return CalculatorConstants.name;
     }
 
 	@Nonnull
