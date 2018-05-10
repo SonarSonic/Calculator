@@ -46,10 +46,9 @@ public class ContainerMagneticFlux extends ContainerSonar {
         Slot targetSlot = slot < 0 ? null : this.inventorySlots.get(slot);
         if (targetSlot instanceof SlotList) {
 			if (click == ClickType.SWAP) {
-				targetSlot.putStack(null);
-			} else {
-                player.inventory.getItemStack();
-                targetSlot.putStack(player.inventory.getItemStack().copy());
+				targetSlot.putStack(ItemStack.EMPTY);
+			} else {;
+                targetSlot.putStack(player.inventory.getItemStack().isEmpty() ? ItemStack.EMPTY : player.inventory.getItemStack().copy());
 			}
 			return player.inventory.getItemStack();
 		}

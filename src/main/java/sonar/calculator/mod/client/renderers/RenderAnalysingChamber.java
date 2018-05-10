@@ -13,7 +13,9 @@ public class RenderAnalysingChamber extends TileEntitySpecialRenderer<TileEntity
 	@Override
     //public void renderTileEntityAt(TileEntityAnalysingChamber te, double x, double y, double z, float partialTicks, int destroyStage) {
     public void render(TileEntityAnalysingChamber te, double x, double y, double z, float partialTicks, int destroyStage, float f) {
-        te.getWorld();
+        if(te.getWorld()==null){
+            return;
+        }
         ItemStack stack = te.inv().getStackInSlot(0);
         if (!stack.isEmpty()) {
             GL11.glPushMatrix();

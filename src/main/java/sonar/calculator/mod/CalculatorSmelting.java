@@ -21,7 +21,9 @@ public class CalculatorSmelting extends Calculator implements IFuelHandler {
 
 	@Override
 	public int getBurnTime(ItemStack fuel) {
-        fuel.getItem();
+		if(fuel.isEmpty()){
+			return 0;
+		}
         if (fuel.getItem() == enriched_coal)
 			return 5000;
 		if (fuel.getItem() == coal_dust)

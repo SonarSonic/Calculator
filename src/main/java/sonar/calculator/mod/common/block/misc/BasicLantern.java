@@ -14,11 +14,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.calculator.mod.Calculator;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 
-import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -41,27 +41,19 @@ public class BasicLantern extends SonarBlock {
 		return false;
 	}
 
-	@Override
-	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-		super.onBlockAdded(world, pos, state);
-		// setDefaultFacing(world, pos, state);
-	}
-
-    @Override
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) {
-		super.onNeighborChange(world, pos, neighbour);
-		// setDefaultFacing(world, pos, state);
-	}
-
 	private EnumFacing getDefaultFacing(IBlockAccess world, BlockPos pos, IBlockState state) {
 		if (world != null) {
 			Iterator<EnumFacing> iterator = EnumFacing.Plane.VERTICAL.iterator();
 			boolean vertical = false;
 			do {
 				if (!iterator.hasNext()) {
-                    vertical = true;
-                    iterator = EnumFacing.Plane.HORIZONTAL.iterator();
-                }
+					if (!vertical) {
+						vertical = true;
+						iterator = EnumFacing.Plane.HORIZONTAL.iterator();
+					} else {
+						return EnumFacing.DOWN;
+					}
+				}
 				EnumFacing facing = iterator.next();
 				IBlockState stateOff = world.getBlockState(pos.offset(facing));
 				Block block = stateOff.getBlock();
@@ -132,9 +124,8 @@ public class BasicLantern extends SonarBlock {
         return state.getValue(DIR).getIndex();
 	}
 
-    @Nonnull
-	@Override
-	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
+    @Override
+	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return state.withProperty(DIR, getDefaultFacing(world, pos, state));
 	}
 

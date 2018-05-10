@@ -70,11 +70,12 @@ public class SlotPortableResult extends SlotPortable {
 	}
 
 	public ItemStack decrIngredientSize(int slot, int size) {
-        invItem.getStackInSlot(slot);
-        ItemStack itemstack;
+		ItemStack itemstack = invItem.getStackInSlot(slot);
+		if(itemstack.isEmpty()){
+			return ItemStack.EMPTY;
+		}
 
         if (invItem.getStackInSlot(slot).getCount() <= size) {
-            itemstack = invItem.getStackInSlot(slot);
             invItem.setInventorySlotContents(slot, ItemStack.EMPTY);
             container.onItemCrafted();
             return itemstack;

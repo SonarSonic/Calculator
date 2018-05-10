@@ -78,7 +78,7 @@ public class GasLantern extends SonarMachineBlock {
 	}
 
 	/* @Override public void onBlockAdded(World world, BlockPos pos, IBlockState state) { super.onBlockAdded(world, pos, state); setDefaultFacing(world, pos, state); }
-	 * 
+	 *
 	 * public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbour) { super.onNeighborChange(world, pos, neighbour); try { //setDefaultFacing((World) world, pos, world.getBlockState(pos)); } catch (ClassCastException exception) { Calculator.logger.error("Lantern: Tried to cast IBlockAccess to World"); } } */
 	private EnumFacing getDefaultFacing(IBlockAccess world, BlockPos pos, IBlockState state) {
 		if (world != null) {
@@ -123,8 +123,8 @@ public class GasLantern extends SonarMachineBlock {
 		if (customBB != null) {
 			return customBB;
 		}
-		
-		EnumFacing dir = getDefaultFacing(world, pos, state);	
+
+		EnumFacing dir = getDefaultFacing(world, pos, state);
         return new AxisAlignedBB(0.3F + dir.getFrontOffsetX() * 0.32F, 0.0F + getY(dir), 0.3F + dir.getFrontOffsetZ() * 0.32F, 0.7F + dir.getFrontOffsetX() * 0.32F, 0.7F + getY(dir), 0.7F + dir.getFrontOffsetZ() * 0.32F);
 	}
 

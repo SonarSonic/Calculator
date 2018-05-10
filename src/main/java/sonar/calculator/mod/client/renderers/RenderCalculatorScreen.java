@@ -54,7 +54,6 @@ public class RenderCalculatorScreen extends TileEntitySpecialRenderer<TileEntity
 		GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
 		GL11.glDepthMask(false);
 		byte b0 = 0;
-        te.getWorld();
         String energy = "C: " + FontHelper.formatStorage(te.latestEnergy);
         String max = "M: " +FontHelper.formatStorage(te.latestMax);
         fontrenderer.drawString(energy, -fontrenderer.getStringWidth(energy) / 2, -8, b0);
