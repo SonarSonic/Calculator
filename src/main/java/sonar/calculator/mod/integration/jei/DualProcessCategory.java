@@ -45,7 +45,7 @@ public class DualProcessCategory extends JEICategoryV2 {
     @Nonnull
     @Override
     public String getModName() {
-        return CalculatorConstants.name;
+		return CalculatorConstants.NAME;
     }
 
 	@Override

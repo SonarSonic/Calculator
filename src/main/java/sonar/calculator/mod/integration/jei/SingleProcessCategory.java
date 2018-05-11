@@ -34,7 +34,7 @@ public class SingleProcessCategory extends JEICategoryV2 {
     @Nonnull
     @Override
     public String getModName() {
-        return CalculatorConstants.name;
+        return CalculatorConstants.NAME;
     }
 
 	@Nonnull
