@@ -40,15 +40,13 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	public int energyUsage;
 	public int lastStations, strikes, avgTicks;
-	public static int furnaceSpeed = 50;
-	public final int weatherStationRF = CalculatorConfig.getInteger("Weather Station");
-	public final int strikeRF = CalculatorConfig.getInteger("Conductor Mast");
 	public Random rand = new Random();
 
 	public TileEntityConductorMast() {
-		super.storage.setCapacity(50000000).setMaxTransfer(Integer.MAX_VALUE);
+		super.storage.setCapacity(CalculatorConfig.CONDUCTOR_MAST_STORAGE);
+		super.storage.setMaxTransfer(CalculatorConfig.CONDUCTOR_MAST_TRANSFER_RATE);
 		super.inv = new SonarInventory(this, 2);
-		super.maxTransfer = 5000000;
+		super.CHARGING_RATE = CalculatorConfig.CONDUCTOR_MAST_CHARGING_RATE;
 		super.energyMode = EnergyMode.SEND;
 		syncList.addParts(cookTime, lightingTicks, lightTicks, lightningSpeed, random, rfPerStrike, rfPerTick, inv);
 	}
@@ -71,7 +69,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			if (cookTime.getObject() == 0) {
 				cookTime.increaseBy(1);
 			}
-			if (cookTime.getObject() == furnaceSpeed) {
+			if (cookTime.getObject() >= CalculatorConfig.CONDUCTOR_MAST_SPEED) {
 				cookTime.setObject(0);
 				cookItem();
 			}
@@ -103,7 +101,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 				this.lastStations = this.getStations();
 				lightTicks.increaseBy(1);
 				if (isServer()) {
-                    rfPerStrike.setObject((strikeRF / 200 + this.lastStations * weatherStationRF / 200) * strikes * 4 * 200);
+                    rfPerStrike.setObject((CalculatorConfig.CONDUCTOR_MAST_PER_TICK / 200 + this.lastStations * CalculatorConfig.WEATHER_STATION_PER_TICK / 200) * strikes * 4 * 200);
                     rfPerTick.setObject((double) rfPerStrike.getObject() / lastSpeed);
 				}
 			} else {
@@ -111,7 +109,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			}
 		}
 		if (lightTicks.getObject() > 0) {
-            int add = (strikeRF / 200 + this.lastStations * weatherStationRF / 200) * strikes * 4;
+            int add = (CalculatorConfig.CONDUCTOR_MAST_PER_TICK / 200 + this.lastStations * CalculatorConfig.WEATHER_STATION_PER_TICK / 200) * strikes * 4;
 			if (lightTicks.getObject() < 200) {
 				if (this.storage.getEnergyStored() + add <= this.storage.getMaxEnergyStored()) {
 					lightTicks.increaseBy(1);
@@ -147,7 +145,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			return false;
 		}
 
-		if (cookTime.getObject() >= furnaceSpeed) {
+		if (cookTime.getObject() >= CalculatorConfig.CONDUCTOR_MAST_SPEED) {
 			return true;
 		}
 		DefaultSonarRecipe.Value recipe = this.getRecipe(toCook);
@@ -310,7 +308,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	@Override
 	public int getProcessTime() {
-		return furnaceSpeed;
+		return getBaseProcessTime();
 	}
 
 	@Override
@@ -330,7 +328,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 
 	@Override
 	public int getBaseProcessTime() {
-		return furnaceSpeed;
+		return CalculatorConfig.CONDUCTOR_MAST_SPEED;
 	}
 
     @Override

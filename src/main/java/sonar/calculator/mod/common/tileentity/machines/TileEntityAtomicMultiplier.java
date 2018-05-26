@@ -8,6 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiAtomicMultiplier;
 import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.utils.AtomicMultiplierBlacklist;
@@ -28,17 +29,16 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	public SyncTagType.INT cookTime = new SyncTagType.INT(0);
 	public SyncTagType.INT active = new SyncTagType.INT(1);
 
-	public static int furnaceSpeed = 1000;
-	public static int requiredEnergy = 1500000000;
-
 	private static final int[] input = new int[] { 0 };
 	private static final int[] circuits = new int[] { 1, 2, 3, 4, 5, 6, 7 };
 	private static final int[] output = new int[] { 8 };
 
 	public TileEntityAtomicMultiplier() {
-		super.storage.setCapacity(requiredEnergy).setMaxTransfer(requiredEnergy);
+		super.storage.setCapacity(CalculatorConfig.ATOMIC_MULTIPLIER_STORAGE);
+		super.storage.setMaxTransfer(CalculatorConfig.ATOMIC_MULTIPLIER_TRANSFER_RATE);
 		super.inv = new SonarInventory(this, 10);
 		super.energyMode = EnergyMode.RECIEVE;
+		super.CHARGING_RATE = CalculatorConfig.ATOMIC_MULTIPLIER_TRANSFER_RATE;
 		syncList.addParts(cookTime, active, inv);
 	}
 
@@ -49,7 +49,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		if (this.cookTime.getObject() > 0) {
 			this.active.setObject(1);
 			this.cookTime.increaseBy(1);
-			int energy = requiredEnergy / furnaceSpeed;
+			int energy = CalculatorConfig.ATOMIC_MULTIPLIER_USAGE / CalculatorConfig.ATOMIC_MULTIPLIER_SPEED;
 			this.storage.modifyEnergyStored(-energy);
 		}
 		if (this.canCook()) {
@@ -58,13 +58,13 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 					this.cookTime.increaseBy(1);
 				}
 			}
-			if (this.cookTime.getObject() == furnaceSpeed) {
+			if (this.cookTime.getObject() >= CalculatorConfig.ATOMIC_MULTIPLIER_SPEED) {
 
 				this.cookTime.setObject(0);
 				this.cookItem();
 				this.active.setObject(0);
 
-				int energy = requiredEnergy / furnaceSpeed;
+				int energy = CalculatorConfig.ATOMIC_MULTIPLIER_USAGE / CalculatorConfig.ATOMIC_MULTIPLIER_SPEED;
 				this.storage.modifyEnergyStored(-energy);
 				markBlockForUpdate();
 			}
@@ -102,7 +102,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		}
 
 		if (cookTime.getObject() == 0) {
-			if (this.storage.getEnergyStored() < requiredEnergy) {
+			if (this.storage.getEnergyStored() < CalculatorConfig.ATOMIC_MULTIPLIER_USAGE) {
 				return false;
 			}
 		}
@@ -116,7 +116,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 			}
 		}
 
-		if (cookTime.getObject() >= furnaceSpeed) {
+		if (cookTime.getObject() >= CalculatorConfig.ATOMIC_MULTIPLIER_SPEED) {
 			return true;
 		}
 		return true;
@@ -194,12 +194,12 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 	@Override
 	public int getProcessTime() {
-		return furnaceSpeed;
+		return CalculatorConfig.ATOMIC_MULTIPLIER_SPEED;
 	}
 
 	@Override
 	public double getEnergyUsage() {
-        return requiredEnergy / furnaceSpeed;
+        return CalculatorConfig.ATOMIC_MULTIPLIER_USAGE / CalculatorConfig.ATOMIC_MULTIPLIER_SPEED;
 	}
 
 	@Override
@@ -214,6 +214,6 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 
 	@Override
 	public int getBaseProcessTime() {
-		return furnaceSpeed;
+		return CalculatorConfig.ATOMIC_MULTIPLIER_SPEED;
 	}
 }

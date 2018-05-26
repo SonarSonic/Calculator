@@ -31,19 +31,17 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	public SyncTagType.INT itemLevel = new SyncTagType.INT(0);
 	public SyncTagType.INT burnTime = new SyncTagType.INT(1);
 	public SyncTagType.INT maxBurnTime = new SyncTagType.INT(2);
-	public int levelMax = 5000;
-	public int requiredLevel = 400;
-	public int energyMultiplier;
+	public int GENERATOR_CAPACITY;
+	public int GENERATOR_REQUIRED;
+	public int ENERGY_PER_TICK;
 
 	private static final int[] slotsTop = new int[] { 0 };
 	private static final int[] slotsBottom = new int[] { 2, 1 };
 	private static final int[] slotsSides = new int[] { 1 };
 
 	public TileEntityGenerator() {
-		super.storage.setCapacity(1000000).setMaxTransfer(2000);
 		super.inv = new SonarInventory(this, 2);
 		super.energyMode = EnergyMode.SEND;
-		super.maxTransfer = 2000;
 		syncList.addParts(itemLevel, burnTime, maxBurnTime, inv);
 	}
 
@@ -61,7 +59,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	public void generateEnergy() {
 		ItemStack stack = this.getStackInSlot(0);
         if (!stack.isEmpty() && burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
-			if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel.getObject() >= requiredLevel) {
+			if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel.getObject() >= GENERATOR_REQUIRED) {
 				int itemBurnTime = TileEntityFurnace.getItemBurnTime(stack);
 				if (itemBurnTime != 0) {
 					this.maxBurnTime.setObject(itemBurnTime);
@@ -75,13 +73,13 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 			}
 		}
 		if (burnTime.getObject() > 0 && !(burnTime.getObject() >= maxBurnTime.getObject())) {
-			this.storage.receiveEnergy(energyMultiplier, false);
+			this.storage.receiveEnergy(ENERGY_PER_TICK, false);
 			burnTime.increaseBy(1);
 		}
 		if (maxBurnTime.getObject() != 0 && burnTime.getObject() >= maxBurnTime.getObject()) {
-			this.storage.receiveEnergy(energyMultiplier, false);
+			this.storage.receiveEnergy(ENERGY_PER_TICK, false);
 			burnTime.setObject(0);
-			this.removeItem(requiredLevel);
+			this.removeItem(GENERATOR_REQUIRED);
 		}
 	}
 
@@ -90,7 +88,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 		if (stack.isEmpty() || !(getItemValue(stack) > 0)) {
 			return;
 		}
-		if (!(itemLevel.getObject() + getItemValue(stack) > levelMax)) {
+		if (!(itemLevel.getObject() + getItemValue(stack) > GENERATOR_CAPACITY)) {
 			addItem(getItemValue(stack));
 			stack.shrink(1);
 		}
@@ -142,18 +140,23 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	@Override
 	public int getMaxItemLevel() {
-		return levelMax;
+		return GENERATOR_CAPACITY;
 	}
 
 	public static class StarchExtractor extends TileEntityGenerator {
 		public StarchExtractor() {
-			super.energyMultiplier = CalculatorConfig.getInteger("Starch Extractor");
+			super();
+			super.ENERGY_PER_TICK = CalculatorConfig.STARCH_EXTRACTOR_PER_TICK;
+			super.GENERATOR_CAPACITY = CalculatorConfig.STARCH_EXTRACTOR_GENERATOR_CAPACITY;
+			super.GENERATOR_REQUIRED = CalculatorConfig.STARCH_EXTRACTOR_GENERATOR_REQUIRED;
+			super.storage.setCapacity(CalculatorConfig.STARCH_EXTRACTOR_STORAGE);
+			super.storage.setMaxTransfer(CalculatorConfig.STARCH_EXTRACTOR_TRANSFER_RATE);
 		}
 
         @Override
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
-            currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel.getObject() * 100 / 5000 + '%');
+            currenttip.add(FontHelper.translate("generator.starch") + ": " + this.itemLevel.getObject() * 100 / GENERATOR_CAPACITY + '%');
 			return currenttip;
 		}
 
@@ -170,7 +173,12 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	public static class RedstoneExtractor extends TileEntityGenerator {
 		public RedstoneExtractor() {
-			super.energyMultiplier = CalculatorConfig.getInteger("Redstone Extractor");
+			super();
+			super.ENERGY_PER_TICK = CalculatorConfig.REDSTONE_EXTRACTOR_PER_TICK;
+			super.GENERATOR_CAPACITY = CalculatorConfig.REDSTONE_EXTRACTOR_GENERATOR_CAPACITY;
+			super.GENERATOR_REQUIRED = CalculatorConfig.REDSTONE_EXTRACTOR_GENERATOR_REQUIRED;
+			super.storage.setCapacity(CalculatorConfig.REDSTONE_EXTRACTOR_STORAGE);
+			super.storage.setMaxTransfer(CalculatorConfig.REDSTONE_EXTRACTOR_TRANSFER_RATE);
 		}
 
         @Override
@@ -181,7 +189,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
         @Override
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
-            currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel.getObject() * 100 / 5000 + '%');
+            currenttip.add(FontHelper.translate("generator.redstone") + ": " + this.itemLevel.getObject() * 100 / GENERATOR_CAPACITY + '%');
 			return currenttip;
 		}
 
@@ -193,7 +201,12 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 
 	public static class GlowstoneExtractor extends TileEntityGenerator {
 		public GlowstoneExtractor() {
-			super.energyMultiplier = CalculatorConfig.getInteger("Glowstone Extractor");
+			super();
+			super.ENERGY_PER_TICK = CalculatorConfig.GLOWSTONE_EXTRACTOR_PER_TICK;
+			super.GENERATOR_CAPACITY = CalculatorConfig.GLOWSTONE_EXTRACTOR_GENERATOR_CAPACITY;
+			super.GENERATOR_REQUIRED = CalculatorConfig.GLOWSTONE_EXTRACTOR_GENERATOR_REQUIRED;
+			super.storage.setCapacity(CalculatorConfig.GLOWSTONE_EXTRACTOR_STORAGE);
+			super.storage.setMaxTransfer(CalculatorConfig.GLOWSTONE_EXTRACTOR_TRANSFER_RATE);
 		}
 
         @Override
@@ -204,7 +217,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
         @Override
 		@SideOnly(Side.CLIENT)
 		public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
-            currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel.getObject() * 100 / 5000 + '%');
+            currenttip.add(FontHelper.translate("generator.glowstone") + ": " + this.itemLevel.getObject() * 100 / GENERATOR_CAPACITY + '%');
 			return currenttip;
 		}
 

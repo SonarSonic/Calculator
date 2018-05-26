@@ -45,9 +45,10 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	private int sizeTicks, luckTicks;
 
 	public TileEntityCalculatorLocator() {
-		super.storage.setCapacity(25000000).setMaxTransfer(Integer.MAX_VALUE);
+		super.storage.setCapacity(CalculatorConfig.CALCULATOR_LOCATOR_STORAGE);
+		super.storage.setMaxTransfer(CalculatorConfig.CALCULATOR_LOCATOR_TRANSFER_RATE);
+		super.CHARGING_RATE = CalculatorConfig.CALCULATOR_LOCATOR_CHARGING_RATE;
 		super.inv = new SonarInventory(this, 2);
-		super.maxTransfer = 100000;
 		super.energyMode = EnergyMode.SEND;
 		syncList.addParts(active, size, stability, owner, currentGen, inv);
 	}
@@ -98,7 +99,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		int size = this.size.getObject();
         if (size != 0 && (2 * size + 1) * (2 * size + 1) - 1 != 0) {
             int stable = stability.getObject() * 100 / ((2 * size + 1) * (2 * size + 1));
-            return (int) ((5 + (int) (1000 * Math.sqrt(size * 1.8) - 100 * Math.sqrt(100 - stable)) / (int) (11 - Math.sqrt(stable)) * size) * CalculatorConfig.locatorMultiplier);
+            return (int) ((5 + (int) (1000 * Math.sqrt(size * 1.8) - 100 * Math.sqrt(100 - stable)) / (int) (11 - Math.sqrt(stable)) * size) * CalculatorConfig.CALCULATOR_LOCATOR_MULTIPLIER);
 		}
 		return 0;
 	}
@@ -150,7 +151,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 				this.luckTicks = 0;
 				this.effectStart();
 			}
-			if (CalculatorConfig.timeEffect) {
+			if (CalculatorConfig.CALCULATOR_LOCATOR_CAN_CHANGE_TIME) {
 				if (stability.getObject() * 4 < 20) {
 					this.timeStart();
 				}

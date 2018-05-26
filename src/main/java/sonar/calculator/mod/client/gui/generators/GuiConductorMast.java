@@ -3,6 +3,7 @@ package sonar.calculator.mod.client.gui.generators;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.core.client.gui.GuiSonarTile;
@@ -89,7 +90,7 @@ public class GuiConductorMast extends GuiSonarTile {
 	protected void drawGuiContainerBackgroundLayer(float var1, int x, int y) {
 		super.drawGuiContainerBackgroundLayer(var1, x, y);
 
-        int c = this.entity.cookTime.getObject() * 18 / TileEntityConductorMast.furnaceSpeed;
+        int c = this.entity.cookTime.getObject() * 18 / CalculatorConfig.CONDUCTOR_MAST_SPEED;
 		drawTexturedModalRect(this.guiLeft + 79, this.guiTop + 26, 176, 0, c, 9);
 		int changedEnergy = this.entity.storage.getEnergyStored() / 50000;
 		int newEnergy = changedEnergy * 145 / 1000;

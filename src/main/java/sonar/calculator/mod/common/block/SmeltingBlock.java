@@ -179,36 +179,36 @@ public class SmeltingBlock extends SonarSidedBlock {
 
 			switch (type) {
 			case EXTRACTION:
-				energyUsage = CalculatorConfig.getInteger("Extraction Chamber" + "Energy Usage");
-				speed = CalculatorConfig.getInteger("Extraction Chamber" + "Base Speed");
+				energyUsage = CalculatorConfig.EXTRACTION_CHAMBER_USAGE;
+				speed = CalculatorConfig.EXTRACTION_CHAMBER_SPEED;
 				break;
 			case RESTORATION:
-				energyUsage = CalculatorConfig.getInteger("Restoration Chamber" + "Energy Usage");
-				speed = CalculatorConfig.getInteger("Restoration Chamber" + "Base Speed");
+				energyUsage = CalculatorConfig.RESTORATION_CHAMBER_USAGE;
+				speed = CalculatorConfig.RESTORATION_CHAMBER_SPEED;
 				break;
 			case REASSEMBLY:
-				energyUsage = CalculatorConfig.getInteger("Reassembly Chamber" + "Energy Usage");
-				speed = CalculatorConfig.getInteger("Reassembly Chamber" + "Base Speed");
+				energyUsage = CalculatorConfig.REASSEMBLY_CHAMBER_USAGE;
+				speed = CalculatorConfig.REASSEMBLY_CHAMBER_SPEED;
 				break;
 			case PROCESSING:
-				energyUsage = CalculatorConfig.getInteger("Processing Chamber" + "Energy Usage");
-				speed = CalculatorConfig.getInteger("Processing Chamber" + "Base Speed");
+				energyUsage = CalculatorConfig.PROCESSING_CHAMBER_USAGE;
+				speed = CalculatorConfig.PROCESSING_CHAMBER_SPEED;
 				break;
 			case STONE:
-				energyUsage = CalculatorConfig.getInteger("Stone Seperator" + "Energy Usage");
-				speed = CalculatorConfig.getInteger("Stone Seperator" + "Base Speed");
+				energyUsage = CalculatorConfig.STONE_SEPERATOR_USAGE;
+				speed = CalculatorConfig.STONE_SEPERATOR_SPEED;
 				break;
 			case ALGORITHM:
-				energyUsage = CalculatorConfig.getInteger("Algorithm Seperator" + "Energy Usage");
-				speed = CalculatorConfig.getInteger("Algorithm Seperator" + "Base Speed");
+				energyUsage = CalculatorConfig.ALGORITHM_SEPERATOR_USAGE;
+				speed = CalculatorConfig.ALGORITHM_SEPERATOR_SPEED;
 				break;
 			case PRECISION:
-				energyUsage = CalculatorConfig.getInteger("Precision Chamber" + "Energy Usage");
-				speed = CalculatorConfig.getInteger("Precision Chamber" + "Base Speed");
+				energyUsage = CalculatorConfig.PRECISION_CHAMBER_USAGE;
+				speed = CalculatorConfig.PRECISION_CHAMBER_SPEED;
 				break;
 			case FURNACE:
-				energyUsage = CalculatorConfig.getInteger("Reinforced Furnace" + "Energy Usage");
-				speed = CalculatorConfig.getInteger("Reinforced Furnace" + "Base Speed");
+				energyUsage = CalculatorConfig.REINFORCED_FURNACE_USAGE;
+				speed = CalculatorConfig.REINFORCED_FURNACE_SPEED;
 				break;
 			}
 			list.add(FontHelper.translate("Process Speed: ") + TextFormatting.WHITE + speed + " ticks");

@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -9,6 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
@@ -37,9 +39,6 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 
 	public SyncTagType.INT stable = new SyncTagType.INT(0);
 	public SyncTagType.INT analysed = new SyncTagType.INT(2);
-	public int maxTransfer = 2000;
-    public int transferTicks;
-	public final int transferTime = 20;
 	public final int[] itemSlots = new int[] { 2, 3, 4, 5, 6, 7 };
 
 	public UpgradeInventory upgrades = new UpgradeInventory(3, 1, "VOID", "TRANSFER");
@@ -47,7 +46,8 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public TileEntityAnalysingChamber() {
 		super.input = new int[] { 0 };
 		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
-		super.storage.setCapacity(100000).setMaxTransfer(64000);
+		super.storage.setCapacity(CalculatorConfig.ANALYSING_CHAMBER_STORAGE);
+		super.storage.setMaxTransfer(CalculatorConfig.ANALYSING_CHAMBER_TRANSFER_RATE);
 		super.inv = new SonarInventory(this, 8) {
             @Override
 			public void setInventorySlotContents(int i, ItemStack itemstack) {
@@ -57,7 +57,6 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 				}
 			}
 		};
-		super.maxTransfer = 2000;
 		super.energyMode = EnergyMode.SEND;
 		syncList.addParts(stable, analysed, inv);
 	}
@@ -143,33 +142,10 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		return false;
 	}
 
+	public static List<Integer> energyValues = Lists.newArrayList(0,1000,500,250,10000,5000, 100000, 100, 175, 400, 750, 800);
+
 	public static int itemEnergy(int n) {
-		if (n == 0) {
-			return 0;
-		} else if (n == 1) {
-			return 1000;
-		} else if (n == 2) {
-			return 500;
-		} else if (n == 3) {
-			return 250;
-		} else if (n == 4) {
-			return 10000;
-		} else if (n == 5) {
-			return 5000;
-		} else if (n == 6) {
-			return 100000;
-		} else if (n == 7) {
-			return 100;
-		} else if (n == 8) {
-			return 175;
-		} else if (n == 9) {
-			return 400;
-		} else if (n == 10) {
-			return 750;
-		} else if (n == 11) {
-			return 800;
-		}
-		return 0;
+		return n < energyValues.size() ? energyValues.get(n) : 0;
 	}
 
 	private int stable(int par) {

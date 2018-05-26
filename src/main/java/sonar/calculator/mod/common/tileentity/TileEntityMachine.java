@@ -52,7 +52,7 @@ public class TileEntityMachine {
 	public static class ReinforcedFurnace extends SingleOutput {
 
 		public ReinforcedFurnace() {
-			super(1, 1, CalculatorConfig.getInteger("Reinforced Furnace" + "Base Speed"), CalculatorConfig.getInteger("Reinforced Furnace" + "Energy Usage"));
+			super(1, 1, CalculatorConfig.REINFORCED_FURNACE_SPEED, CalculatorConfig.REINFORCED_FURNACE_USAGE);
 		}
 
 		@Override
@@ -116,7 +116,9 @@ public class TileEntityMachine {
     public static class StoneSeparator extends DualOutput {
 
         public StoneSeparator() {
-            super(1, 2, CalculatorConfig.getInteger("Stone Seperator" + "Base Speed"), CalculatorConfig.getInteger("Stone Seperator" + "Energy Usage"));
+            super(1, 2, CalculatorConfig.STONE_SEPERATOR_SPEED, CalculatorConfig.STONE_SEPERATOR_USAGE);
+            super.storage.setCapacity(CalculatorConfig.STONE_SEPERATOR_STORAGE);
+			super.storage.setMaxTransfer(CalculatorConfig.STONE_SEPERATOR_TRANSFER_RATE);
 		}
 
 		@Override
@@ -136,7 +138,9 @@ public class TileEntityMachine {
 	public static class ReassemblyChamber extends SingleOutput {
 
 		public ReassemblyChamber() {
-			super(1, 1, CalculatorConfig.getInteger("Reassembly Chamber" + "Base Speed"), CalculatorConfig.getInteger("Reassembly Chamber" + "Energy Usage"));
+			super(1, 1, CalculatorConfig.REASSEMBLY_CHAMBER_SPEED, CalculatorConfig.REASSEMBLY_CHAMBER_USAGE);
+			super.storage.setCapacity(CalculatorConfig.REASSEMBLY_CHAMBER_STORAGE);
+			super.storage.setMaxTransfer(CalculatorConfig.REASSEMBLY_CHAMBER_TRANSFER_RATE);
 		}
 
 		@Override
@@ -153,7 +157,9 @@ public class TileEntityMachine {
 	public static class RestorationChamber extends SingleOutput {
 
 		public RestorationChamber() {
-			super(1, 1, CalculatorConfig.getInteger("Restoration Chamber" + "Base Speed"), CalculatorConfig.getInteger("Restoration Chamber" + "Energy Usage"));
+			super(1, 1, CalculatorConfig.RESTORATION_CHAMBER_SPEED, CalculatorConfig.RESTORATION_CHAMBER_USAGE);
+			super.storage.setCapacity(CalculatorConfig.RESTORATION_CHAMBER_STORAGE);
+			super.storage.setMaxTransfer(CalculatorConfig.RESTORATION_CHAMBER_TRANSFER_RATE);
 		}
 
 		@Override
@@ -170,7 +176,9 @@ public class TileEntityMachine {
 	public static class ProcessingChamber extends SingleOutput {
 
 		public ProcessingChamber() {
-			super(1, 1, CalculatorConfig.getInteger("Processing Chamber" + "Base Speed"), CalculatorConfig.getInteger("Processing Chamber" + "Energy Usage"));
+			super(1, 1, CalculatorConfig.PROCESSING_CHAMBER_SPEED, CalculatorConfig.PROCESSING_CHAMBER_USAGE);
+			super.storage.setCapacity(CalculatorConfig.PROCESSING_CHAMBER_STORAGE);
+			super.storage.setMaxTransfer(CalculatorConfig.PROCESSING_CHAMBER_TRANSFER_RATE);
 		}
 
 		@Override
@@ -190,7 +198,9 @@ public class TileEntityMachine {
     public static class AlgorithmSeparator extends DualOutput {
 
         public AlgorithmSeparator() {
-            super(1, 2, CalculatorConfig.getInteger("Algorithm Seperator" + "Base Speed"), CalculatorConfig.getInteger("Algorithm Seperator" + "Energy Usage"));
+            super(1, 2, CalculatorConfig.ALGORITHM_SEPERATOR_SPEED, CalculatorConfig.ALGORITHM_SEPERATOR_USAGE);
+			super.storage.setCapacity(CalculatorConfig.ALGORITHM_SEPERATOR_STORAGE);
+			super.storage.setMaxTransfer(CalculatorConfig.ALGORITHM_SEPERATOR_TRANSFER_RATE);
 		}
 
 		@Override
@@ -207,7 +217,9 @@ public class TileEntityMachine {
 	public static class ExtractionChamber extends DualOutput {
 
 		public ExtractionChamber() {
-			super(1, 2, CalculatorConfig.getInteger("Extraction Chamber" + "Base Speed"), CalculatorConfig.getInteger("Extraction Chamber" + "Energy Usage"));
+			super(1, 2, CalculatorConfig.EXTRACTION_CHAMBER_SPEED, CalculatorConfig.EXTRACTION_CHAMBER_USAGE);
+			super.storage.setCapacity(CalculatorConfig.EXTRACTION_CHAMBER_STORAGE);
+			super.storage.setMaxTransfer(CalculatorConfig.EXTRACTION_CHAMBER_TRANSFER_RATE);
 			upgrades = upgrades.setAllowed(16, "ENERGY", "SPEED", "TRANSFER", "VOID").addMaxiumum("TRANSFER", 1).addMaxiumum("VOID", 1);
 		}
 
@@ -230,7 +242,9 @@ public class TileEntityMachine {
 	public static class PrecisionChamber extends DualOutput {
 
 		public PrecisionChamber() {
-			super(1, 2, CalculatorConfig.getInteger("Precision Chamber" + "Base Speed"), CalculatorConfig.getInteger("Precision Chamber" + "Energy Usage"));
+			super(1, 2, CalculatorConfig.PRECISION_CHAMBER_SPEED, CalculatorConfig.PRECISION_CHAMBER_USAGE);
+			super.storage.setCapacity(CalculatorConfig.PRECISION_CHAMBER_STORAGE);
+			super.storage.setMaxTransfer(CalculatorConfig.PRECISION_CHAMBER_TRANSFER_RATE);
 			upgrades = upgrades.setAllowed(16, "ENERGY", "SPEED", "TRANSFER", "VOID").addMaxiumum("TRANSFER", 1).addMaxiumum("VOID", 1);
 		}
 

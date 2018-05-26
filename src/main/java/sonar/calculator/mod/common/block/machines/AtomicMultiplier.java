@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.api.utils.BlockInteraction;
@@ -55,7 +56,7 @@ public class AtomicMultiplier extends SonarMachineBlock {
     @Override
     public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
         CalculatorHelper.addEnergytoToolTip(stack, world, list);
-        list.add(FontHelper.translate("energy.required") + ": " + FontHelper.formatStorage(TileEntityAtomicMultiplier.requiredEnergy));
+        list.add(FontHelper.translate("energy.required") + ": " + FontHelper.formatStorage(CalculatorConfig.ATOMIC_MULTIPLIER_USAGE));
     }
 
 	@Override

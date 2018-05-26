@@ -12,6 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.IPlantable;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiBasicGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityBuildingGreenhouse;
@@ -30,7 +31,8 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 
 	public TileEntityBasicGreenhouse() {
 		super(56, 18, 30, 14);
-		super.storage.setCapacity(350000).setMaxTransfer(800);
+		super.storage.setCapacity(CalculatorConfig.BASIC_GREENHOUSE_STORAGE);
+		super.storage.setMaxTransfer(CalculatorConfig.BASIC_GREENHOUSE_TRANSFER_RATE);
 		super.inv = new SonarInventory(this, 14);
 		super.energyMode = EnergyMode.RECIEVE;
 		super.type = 1;

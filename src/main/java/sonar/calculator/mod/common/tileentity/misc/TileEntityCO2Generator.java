@@ -11,6 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.misc.GuiCO2Generator;
 import sonar.calculator.mod.common.containers.ContainerCO2Generator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
@@ -29,8 +30,8 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 
 	public int burnTime;
 	public int maxBurnTime;
-	public int maxBurn = 10000;
-	public int energyAmount = 100000;
+	public final int maxBurn = 10000;
+	public final int energyAmount = 100000;
 	public int gasAdd;
 	public boolean controlled;
 	public boolean control;
@@ -39,7 +40,8 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 	public EnumFacing horizontal = EnumFacing.EAST;
 
 	public TileEntityCO2Generator() {
-		super.storage.setCapacity(1000000).setMaxTransfer(64000);
+		super.storage.setCapacity(CalculatorConfig.C02_GENERATOR_STORAGE);
+		super.storage.setMaxTransfer(CalculatorConfig.C02_GENERATOR_TRANSFER_RATE);
 		super.inv = new SonarInventory(this, 2);
 		super.energyMode = EnergyMode.RECIEVE;
 		syncList.addPart(inv);
