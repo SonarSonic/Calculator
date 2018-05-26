@@ -22,11 +22,10 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 	public static final int RAIN = 1;
 	public static final int THUNDER = 2;
 
-	public int requiredPower = CalculatorConfig.getInteger("Weather Controller");
-
 	public TileEntityWeatherController() {
 		super.inv = new SonarInventory(this, 1);
-		super.storage.setCapacity(1000000).setMaxTransfer(64000);
+		super.storage.setCapacity(CalculatorConfig.WEATHER_CONTROLLER_STORAGE);
+		super.storage.setMaxTransfer(CalculatorConfig.WEATHER_CONTROLLER_TRANSFER_RATE);
 		super.energyMode = EnergyMode.RECIEVE;
 		syncList.addPart(inv);
 	}
@@ -37,7 +36,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 		startProcess();
 		this.discharge(0);
 		if (buffer > 0) {
-			storage.modifyEnergyStored(-(requiredPower / 100));
+			storage.modifyEnergyStored(-(CalculatorConfig.WEATHER_CONTROLLER_USAGE / 100));
 			if (buffer != 100) {
 				buffer++;
 			} else {
@@ -59,7 +58,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 
 	public void startProcess() {
 		boolean power = this.world.isBlockPowered(pos);
-		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= requiredPower && this.processType(type, true) && (power || this.world.isBlockIndirectlyGettingPowered(pos) > 0)) {
+		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= CalculatorConfig.WEATHER_CONTROLLER_USAGE && this.processType(type, true) && (power || this.world.isBlockIndirectlyGettingPowered(pos) > 0)) {
 			buffer = 1;
 		}
 	}
@@ -161,7 +160,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 
 	@Override
 	public double getEnergyUsage() {
-		return requiredPower / getProcessTime();
+		return CalculatorConfig.WEATHER_CONTROLLER_USAGE / getProcessTime();
 	}
 
 	@Override

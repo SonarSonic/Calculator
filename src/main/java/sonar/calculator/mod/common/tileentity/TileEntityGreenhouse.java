@@ -52,11 +52,11 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	public int plantsHarvested, plantsGrown;
 	public int plantTick;
 	public int type;
-	public final int growthRF = CalculatorConfig.getInteger("Growth Energy");
-	public final int plantRF = CalculatorConfig.getInteger("Plant Energy");
-	public final int buildRF = CalculatorConfig.getInteger("Build Energy");
-	public final int farmlandRF = CalculatorConfig.getInteger("Adding Farmland");
-	public final int waterRF = CalculatorConfig.getInteger("Adding Water");
+	public final int growthRF = CalculatorConfig.GROWTH_ENERGY_USAGE;
+	public final int plantRF = CalculatorConfig.PLANTING_ENERGY_USAGE;
+	public final int buildRF = CalculatorConfig.BUILD_ENERGY_USAGE;
+	public final int farmlandRF = CalculatorConfig.FARMLAND_GENERATION_USAGE;
+	public final int waterRF = CalculatorConfig.WATER_GENERATION_USAGE;
 	public EnumFacing forward = EnumFacing.NORTH;
 	public EnumFacing horizontal = EnumFacing.EAST;
 

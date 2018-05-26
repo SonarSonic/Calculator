@@ -57,6 +57,6 @@ public class EnergyModule implements IModuleEnergy {
 
     @Override
 	public long getMaxEnergyStored(ItemStack container, NBTTagCompound tag) {
-		return CalculatorConfig.getInteger("Energy Module");
+		return CalculatorConfig.ENERGY_MODULE_STORAGE;
 	}
 }

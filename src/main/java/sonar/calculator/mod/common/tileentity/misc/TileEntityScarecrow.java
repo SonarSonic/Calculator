@@ -11,14 +11,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.SonarCore;
 
 import javax.annotation.Nonnull;
 
 public class TileEntityScarecrow extends TileEntity implements ITickable {
 
 	public int growTicks;
-	public int range = CalculatorConfig.getInteger("Scarecrow Range");
-	public int speed = CalculatorConfig.getInteger("Scarecrow Tick Rate");
 
 	@Override
 	public void update() {
@@ -29,18 +28,18 @@ public class TileEntityScarecrow extends TileEntity implements ITickable {
 	}
 
 	public void grow() {
-		if (this.growTicks >= 0 && this.growTicks != speed) {
+		if (this.growTicks >= 0 && this.growTicks != CalculatorConfig.SCARECROW_TICK_RATE) {
 			growTicks++;
 		}
-		if (this.growTicks == speed) {
+		if (this.growTicks == CalculatorConfig.SCARECROW_TICK_RATE) {
 			growCrop();
 			this.growTicks = 0;
 		}
 	}
 
 	public boolean growCrop() {
-        int X = (int) (Math.random() * (range + range)) - (range - 1);
-        int Z = (int) (Math.random() * (range + range)) - (range - 1);
+		int X = SonarCore.randInt(0, CalculatorConfig.SCARECROW_RANGE*2) - CalculatorConfig.SCARECROW_RANGE;
+		int Z = SonarCore.randInt(0, CalculatorConfig.SCARECROW_RANGE*2) - CalculatorConfig.SCARECROW_RANGE;
 		return GreenhouseHelper.applyBonemeal(world, pos.add(X, 0, Z), false);
 	}
 

@@ -19,8 +19,9 @@ public class TileEntityCreativePowerCube extends TileEntitySonar implements IEne
         super.update();
 		for (EnumFacing face : EnumFacing.VALUES) {
 			TileEntity tile = SonarHelper.getAdjacentTileEntity(this, face);
-			if (tile != null)
+			if (tile != null) {
 				SonarAPI.getEnergyHelper().receiveEnergy(tile, maxTransfer, face, ActionType.PERFORM);
+			}
 		}
 	}
 	

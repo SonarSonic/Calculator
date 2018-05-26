@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.generators.GuiCrankedGenerator;
 import sonar.calculator.mod.common.containers.ContainerCrankedGenerator;
 import sonar.core.api.energy.EnergyMode;
@@ -23,8 +24,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 	public int ticksforpower = 2;
 
 	public TileEntityCrankedGenerator() {
-		super.storage.setCapacity(1000).setMaxTransfer(200);
-		super.maxTransfer = 32;
+		super.storage.setCapacity(CalculatorConfig.HAND_CRANK_STORAGE).setMaxTransfer(CalculatorConfig.HAND_CRANK_TRANSFER_RATE);
 		super.energyMode=EnergyMode.SEND;
 	}
 
@@ -35,7 +35,7 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 			TileEntityCrankHandle crank = (TileEntityCrankHandle) this.world.getTileEntity(pos.offset(EnumFacing.UP));
 			if (crank.angle > 0) {
 				if (ticks == 0) {
-					this.storage.modifyEnergyStored(8);
+					this.storage.modifyEnergyStored(CalculatorConfig.HAND_CRANK_PER_TICK);
 				}
 				ticks++;
 				if (ticks == ticksforpower) {

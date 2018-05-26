@@ -3,6 +3,7 @@ package sonar.calculator.mod.client.gui.machines;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.core.client.gui.GuiSonarTile;
@@ -43,11 +44,10 @@ public class GuiAtomicMultiplier extends GuiSonarTile {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		super.drawGuiContainerBackgroundLayer(var1, var2, var3);
-		int changedEnergy = this.entity.storage.getEnergyStored() / 100000;
-		int newEnergy = changedEnergy * 126 / 15000;
-		drawTexturedModalRect(this.guiLeft + 41, this.guiTop + 65, 0, 166, newEnergy, 10);
+		int energy_level = (int)((double)this.entity.storage.getEnergyStored() * 128D / (double)this.entity.storage.getMaxEnergyStored());
+		drawTexturedModalRect(this.guiLeft + 41, this.guiTop + 65, 0, 166, energy_level, 10);
 
-        int c = this.entity.cookTime.getObject() * 18 / TileEntityAtomicMultiplier.furnaceSpeed;
+        int c = this.entity.cookTime.getObject() * 18 / CalculatorConfig.ATOMIC_MULTIPLIER_SPEED;
 		drawTexturedModalRect(this.guiLeft + 79, this.guiTop + 20, 176, 0, c, 9);
 	}
 

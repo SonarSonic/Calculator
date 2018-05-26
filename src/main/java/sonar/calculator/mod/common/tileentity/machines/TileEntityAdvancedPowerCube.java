@@ -3,6 +3,7 @@ package sonar.calculator.mod.common.tileentity.machines;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.energy.EnergyMode;
@@ -20,8 +21,9 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 
 	public TileEntityAdvancedPowerCube() {
 		syncList.addParts(sides);
-		super.storage.setCapacity(100000).setMaxTransfer(64000);
-		super.maxTransfer = 100000;
+		super.storage.setCapacity(CalculatorConfig.ADVANCED_POWER_CUBE_STORAGE);
+		super.storage.setMaxTransfer(CalculatorConfig.ADVANCED_POWER_CUBE_TRANSFER_RATE);
+		super.CHARGING_RATE = CalculatorConfig.ADVANCED_POWER_CUBE_CHARGING_RATE;
 		super.energyMode = EnergyMode.SEND_RECIEVE;
 	}
 
@@ -40,7 +42,7 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 		if (facing.isEmpty()) {
 			return;
 		}
-		int transfer = maxTransfer / facing.size();
+		int transfer = CHARGING_RATE / facing.size();
 		for (EnumFacing dir : facing) {
 			TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
             SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir, dir.getOpposite(), transfer);

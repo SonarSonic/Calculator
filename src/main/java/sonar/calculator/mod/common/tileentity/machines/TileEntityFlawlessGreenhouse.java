@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IFlawlessGreenhouse;
 import sonar.calculator.mod.client.gui.machines.GuiFlawlessGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
@@ -40,7 +41,8 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	public int plantsGrown;
 
 	public TileEntityFlawlessGreenhouse() {
-		super.storage.setCapacity(500000).setMaxTransfer(64000);
+		super.storage.setCapacity(CalculatorConfig.FLAWLESS_GREENHOUSE_STORAGE);
+		super.storage.setMaxTransfer(CalculatorConfig.FLAWLESS_GREENHOUSE_TRANSFER_RATE);
 		super.inv = new SonarInventory(this, 10);
 		super.energyMode = EnergyMode.RECIEVE;
 		super.type = 3;

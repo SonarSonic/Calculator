@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiDockingStation;
 import sonar.calculator.mod.common.containers.ContainerDockingStation;
 import sonar.calculator.mod.common.recipes.AtomicCalculatorRecipes;
@@ -24,7 +25,9 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	public ItemStack calcStack = ItemStack.EMPTY;
 
 	public TileEntityDockingStation() {
-		super(4, 1, 200, 10);
+		super(4, 1, CalculatorConfig.DOCKING_STATION_SPEED, CalculatorConfig.DOCKING_STATION_USAGE);
+		super.storage.setCapacity(CalculatorConfig.DOCKING_STATION_STORAGE);
+		super.storage.setMaxTransfer(CalculatorConfig.DOCKING_STATION_TRANSFER_RATE);
 	}
 
 	@Override

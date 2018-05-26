@@ -61,7 +61,6 @@ public class CalculatorCrops extends BlockCrops {
 		return tier >= this.greenhouseTier;
 	}
 
-	@Nonnull
     @Override
 	@SideOnly(Side.CLIENT)
 	public CreativeTabs getCreativeTabToDisplayOn() {

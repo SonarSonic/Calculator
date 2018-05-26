@@ -82,13 +82,13 @@ public class ExtractorBlock extends SonarMachineBlock {
         CalculatorHelper.addItemLevelToolTip(stack, world, list);
         switch (type) {
 		case 0:
-			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Starch Extractor") + " RF/t");
+			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.STARCH_EXTRACTOR_PER_TICK + " RF/t");
 			break;
 		case 1:
-			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Redstone Extractor") + " RF/t");
+			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.REDSTONE_EXTRACTOR_PER_TICK + " RF/t");
 			break;
 		case 2:
-			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Glowstone Extractor") + " RF/t");
+			list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.GLOWSTONE_EXTRACTOR_PER_TICK + " RF/t");
 			break;
 		}
 	}

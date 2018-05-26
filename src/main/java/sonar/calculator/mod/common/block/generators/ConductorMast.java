@@ -80,7 +80,7 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
     @Override
     public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
         CalculatorHelper.addEnergytoToolTip(stack, world, list);
-		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.getInteger("Conductor Mast") + " RF per strike");
+		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.CONDUCTOR_MAST_PER_TICK + " RF per strike");
     }
 
     @Override
