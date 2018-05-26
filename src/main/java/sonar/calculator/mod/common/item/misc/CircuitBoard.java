@@ -21,18 +21,43 @@ public class CircuitBoard extends SonarMetaItem implements IStability, ICalculat
 		super(14);
 	}
 
+	public static enum CircuitState{
+		STABLE("circuit.stable", "A"),
+		ANALYSED("circuit.analysed", "B"),
+		NOT_ANALYSED("Not analysed", "");
+
+		String translate;
+		String suffix;
+
+		CircuitState(String translate, String suffix){
+			this.translate = translate;
+			this.suffix = suffix;
+		}
+	}
+
+	public static CircuitState getState(ItemStack stack){
+		if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Analysed")) {
+			int stable = stack.getTagCompound().getInteger("Stable");
+			return stable == 1 ? CircuitState.STABLE : CircuitState.ANALYSED;
+		}
+		return CircuitState.NOT_ANALYSED;
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
 		super.addInformation(stack, world, list, par4);
-		if (stack.hasTagCompound()) {
-			int stable = stack.getTagCompound().getInteger("Stable");
-			if (stack.getTagCompound().getBoolean("Analysed")) {
-				list.add(FontHelper.translate(stable == 1 ? "circuit.stable" : "circuit.analysed"));
-			} else {
-				list.add(FontHelper.translate("Not analysed"));
-			}
+		CircuitState state = getState(stack);
+		if(state.suffix.isEmpty()) {
+			list.add(FontHelper.translate(state.translate));
+		}else{
+			list.add(state.suffix + ": " +FontHelper.translate(state.translate));
 		}
+	}
+	@Override
+	public String getItemStackDisplayName(ItemStack stack)
+	{
+		return super.getItemStackDisplayName(stack) + getState(stack).suffix;
 	}
 
 	public static void setData(ItemStack stack) {
