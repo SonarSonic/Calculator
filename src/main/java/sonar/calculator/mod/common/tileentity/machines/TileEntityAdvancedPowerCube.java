@@ -1,21 +1,23 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.utils.IGuiTile;
 import sonar.core.utils.IMachineSides;
 import sonar.core.utils.MachineSideConfig;
 import sonar.core.utils.MachineSides;
 
 import java.util.ArrayList;
 
-public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IGuiTile, IMachineSides {
+public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements IFlexibleGui, IMachineSides {
 
 	public MachineSides sides = new MachineSides(MachineSideConfig.INPUT, this, MachineSideConfig.NONE);
 
@@ -55,11 +57,6 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 			return sides.getSideConfig(side).isInput() ? EnergyMode.RECIEVE : sides.getSideConfig(side).isOutput() ? EnergyMode.SEND : EnergyMode.BLOCKED;
 		}
 		return super.getModeForSide(side);
-	}
-
-	@Override
-	public Object getGuiScreen(EntityPlayer player) {
-		return new GuiPowerCube(player.inventory, this);
 	}
 
 	@Override

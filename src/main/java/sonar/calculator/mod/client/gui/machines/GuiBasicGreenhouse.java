@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.calculator.mod.client.gui.buttons.GreenhouseButton;
+import sonar.calculator.mod.client.gui.buttons.PauseButton;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.core.SonarCore;
@@ -37,21 +39,7 @@ public class GuiBasicGreenhouse extends GuiSonarTile {
 		buttonList.add(new GreenhouseButton(0, guiLeft + 18, guiTop + 62, 14, 14, FontHelper.translate("greenhouse.build")));
 		buttonList.add(new GreenhouseButton(1, guiLeft + 36, guiTop + 62, 14, 14, FontHelper.translate("greenhouse.rebuild")));
 		buttonList.add(new GreenhouseButton(2, guiLeft + 54, guiTop + 62, 14, 14, FontHelper.translate("greenhouse.demolish")));
-		this.buttonList.add(new PauseButton(this, entity, 3, guiLeft + 6, guiTop + 6, entity.isPaused()));
-	}
-
-	@SideOnly(Side.CLIENT)
-	public class GreenhouseButton extends GuiButton {
-		public String name;
-
-		public GreenhouseButton(int id, int x, int y, int texX, int texY, String name) {
-			super(id, x, y, texX, texY, name);
-			this.name = name;
-		}
-
-        @Override
-        public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		}
+		this.buttonList.add(new PauseButton(this, entity, 3, guiLeft + 6, guiTop + 6, () -> entity.isPaused()));
 	}
 
     @Override

@@ -2,12 +2,12 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
@@ -15,18 +15,19 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.misc.GuiCO2Generator;
 import sonar.calculator.mod.common.containers.ContainerCO2Generator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.SonarInventory;
-import sonar.core.utils.IGuiTile;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.filters.IExtractFilter;
+import sonar.core.inventory.handling.filters.SlotHelper;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileEntityCO2Generator extends TileEntityEnergyInventory implements ISidedInventory, IGuiTile {
+public class TileEntityCO2Generator extends TileEntityEnergyInventory implements IFlexibleGui {
 
 	public int burnTime;
 	public int maxBurnTime;
@@ -42,9 +43,12 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 	public TileEntityCO2Generator() {
 		super.storage.setCapacity(CalculatorConfig.C02_GENERATOR_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.C02_GENERATOR_TRANSFER_RATE);
-		super.inv = new SonarInventory(this, 2);
+		super.inv.setSize(2);
+		super.inv.getInsertFilters().put((SLOT,STACK, FACE) -> SLOT == 0, EnumFilterType.EXTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.filterSlot(0, TileEntityFurnace::isItemFuel), EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.dischargeSlot(1), EnumFilterType.INTERNAL);
+		super.inv.getExtractFilters().put(IExtractFilter.BLOCK_EXTRACT, EnumFilterType.EXTERNAL);
 		super.energyMode = EnergyMode.RECIEVE;
-		syncList.addPart(inv);
 	}
 
 	@Override
@@ -147,27 +151,6 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 		return nbt;
 	}
 
-	@Nonnull
-	@Override
-	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-		return input;
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int slot, @Nonnull ItemStack stack) {
-        return slot == 0 && TileEntityFurnace.isItemFuel(stack);
-	}
-
-	@Override
-	public boolean canInsertItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing par) {
-		return this.isItemValidForSlot(slot, stack);
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
-		return false;
-	}
-
     @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
@@ -185,12 +168,12 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerCO2Generator(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiCO2Generator(player.inventory, this);
 	}
 }

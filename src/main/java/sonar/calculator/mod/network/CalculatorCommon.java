@@ -12,16 +12,11 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.misc.GuiModuleSelector;
 import sonar.calculator.mod.common.containers.ContainerModuleSelector;
 import sonar.calculator.mod.network.packets.*;
-import sonar.core.common.tileentity.TileEntitySonar;
-import sonar.core.utils.IGuiItem;
-import sonar.core.utils.IGuiTile;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CalculatorCommon implements IGuiHandler {
-
-    private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<>();
+public class CalculatorCommon {
 
 	public static void registerPackets() {
 		Calculator.network.registerMessage(PacketCalculatorScreen.Handler.class, PacketCalculatorScreen.class, 0, Side.CLIENT);
@@ -32,66 +27,5 @@ public class CalculatorCommon implements IGuiHandler {
 		Calculator.network.registerMessage(PacketPlayerResearch.Handler.class, PacketPlayerResearch.class, 5, Side.CLIENT);
 	}
 
-	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
-		if (entity instanceof IGuiTile) {
-			if(entity instanceof TileEntitySonar){
-				((TileEntitySonar) entity).forceNextSync();
-			}
-			switch (ID) {
-			case IGuiTile.ID:
-				return ((IGuiTile) entity).getGuiContainer(player);
-			}
-		} else {
-			ItemStack equipped = player.getHeldItemMainhand();
-			if (!equipped.isEmpty()) {
-				switch (ID) {
-				case IGuiItem.ID:
-					return ((IGuiItem) equipped.getItem()).getGuiContainer(player, equipped);
-					// case CalculatorGui.SmeltingModule:
-					// return new ContainerSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(equipped), equipped);
-				case CalculatorGui.RecipeInfo:
-					break;
-				case CalculatorGui.ModuleSelect:
-					return new ContainerModuleSelector(player, equipped);
-				}
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
-		if (entity instanceof IGuiTile) {
-			switch (ID) {
-			case IGuiTile.ID:
-				return ((IGuiTile) entity).getGuiScreen(player);
-			}
-		} else {
-			ItemStack equipped = player.getHeldItemMainhand();
-			switch (ID) {
-			case IGuiItem.ID:
-				return ((IGuiItem) equipped.getItem()).getGuiScreen(player, equipped);
-				// case CalculatorGui.SmeltingModule:
-				// return new GuiSmeltingModule(player, player.inventory, new WIPSmeltingModule.SmeltingInventory(equipped), equipped);
-			case CalculatorGui.ModuleSelect:
-				return new GuiModuleSelector(player, equipped);
-			}
-		}
-
-		return null;
-	}
-
-	public void registerRenderThings() {
-	}
-
-	public static void storeEntityData(String name, NBTTagCompound compound) {
-		extendedEntityData.put(name, compound);
-	}
-
-	public static NBTTagCompound getEntityData(String name) {
-		return extendedEntityData.remove(name);
-	}
+	public void registerRenderThings() {}
 }

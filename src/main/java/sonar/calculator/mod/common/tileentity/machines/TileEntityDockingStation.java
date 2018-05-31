@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiDockingStation;
@@ -16,11 +17,11 @@ import sonar.calculator.mod.common.recipes.ScientificRecipes;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.IAdditionalInventory;
+import sonar.core.api.inventories.IAdditionalInventory;
+import sonar.core.inventory.handling.EnumFilterType;
 import sonar.core.recipes.RecipeHelperV2;
-import sonar.core.utils.IGuiTile;
 
-public class TileEntityDockingStation extends TileEntityAbstractProcess implements IGuiTile, IAdditionalInventory {
+public class TileEntityDockingStation extends TileEntityAbstractProcess implements IAdditionalInventory {
 
 	public ItemStack calcStack = ItemStack.EMPTY;
 
@@ -28,6 +29,32 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		super(4, 1, CalculatorConfig.DOCKING_STATION_SPEED, CalculatorConfig.DOCKING_STATION_USAGE);
 		super.storage.setCapacity(CalculatorConfig.DOCKING_STATION_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.DOCKING_STATION_TRANSFER_RATE);
+		super.inv.getInsertFilters().put((SLOT,STACK, FACE) -> SonarHelper.intContains(getSlotConfig(FACE), SLOT),  EnumFilterType.EXTERNAL);
+	}
+
+	public int[] getSlotConfig(EnumFacing side) {
+		int[] outputSlot = new int[] { 5 };
+		int[] emptySlot = new int[0];
+		int size = getInputStackSize(calcStack);
+		EnumFacing dir = EnumFacing.getFront(getBlockMetadata());
+		if (size == 0) {
+			return emptySlot;
+		}
+		if (side == EnumFacing.DOWN || side == EnumFacing.UP) {
+			return outputSlot;
+		}
+		if (size != 1) {
+			if (side == SonarHelper.getHorizontal(dir)) {
+				return new int[] { 0 };
+			} else if (side == SonarHelper.getHorizontal(dir).getOpposite()) {
+				return new int[] { 1 };
+			} else if ((size == 4 || size == 3) && side == dir.getOpposite()) {
+				return new int[] { 2 };
+			} else if (size == 4 && side == dir) {
+				return new int[] { 3 };
+			}
+		}
+		return outputSlot;
 	}
 
 	@Override
@@ -157,37 +184,6 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		}
 	}
 
-	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-		return true;
-	}
-
-	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
-		int[] outputSlot = new int[] { 5 };
-		int[] emptySlot = new int[0];
-        int size = getInputStackSize(calcStack);
-		EnumFacing dir = EnumFacing.getFront(getBlockMetadata());
-		if (size == 0) {
-			return emptySlot;
-		}
-		if (side == EnumFacing.DOWN || side == EnumFacing.UP) {
-			return outputSlot;
-		}
-		if (size != 1) {
-			if (side == SonarHelper.getHorizontal(dir)) {
-				return new int[] { 0 };
-			} else if (side == SonarHelper.getHorizontal(dir).getOpposite()) {
-				return new int[] { 1 };
-			} else if ((size == 4 || size == 3) && side == dir.getOpposite()) {
-				return new int[] { 2 };
-			} else if (size == 4 && side == dir) {
-				return new int[] { 3 };
-			}
-		}
-		return outputSlot;
-	}
-
 	public int convertMeta(int meta) {
 		EnumFacing dir = EnumFacing.getFront(meta);
 		//SonarHelper.getHorizontal(dir);
@@ -200,12 +196,12 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerDockingStation(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiDockingStation(player.inventory, this);
 	}
 

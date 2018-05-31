@@ -21,7 +21,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability, ICalculat
 		super(14);
 	}
 
-	public static enum CircuitState{
+	public enum CircuitState{
 		STABLE("circuit.stable", "A"),
 		ANALYSED("circuit.analysed", "B"),
 		NOT_ANALYSED("Not analysed", "");
@@ -36,7 +36,7 @@ public class CircuitBoard extends SonarMetaItem implements IStability, ICalculat
 	}
 
 	public static CircuitState getState(ItemStack stack){
-		if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Analysed")) {
+		if (!stack.isEmpty() && stack.getItem() instanceof CircuitBoard && stack.hasTagCompound() && stack.getTagCompound().getBoolean("Analysed")) {
 			int stable = stack.getTagCompound().getInteger("Stable");
 			return stable == 1 ? CircuitState.STABLE : CircuitState.ANALYSED;
 		}

@@ -18,21 +18,20 @@ import sonar.calculator.mod.api.modules.IModule;
 import sonar.calculator.mod.api.modules.IModuleClickable;
 import sonar.calculator.mod.api.modules.IModuleInventory;
 import sonar.calculator.mod.api.modules.IModuleUpdate;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.ContainerCraftInventory;
-import sonar.core.inventory.IItemInventory;
-import sonar.core.utils.IGuiItem;
+import sonar.core.api.inventories.IItemInventory;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SonarModule extends SonarItem implements IItemInventory, IModuleProvider, IGuiItem {
+public class SonarModule extends SonarItem implements IItemInventory, IModuleProvider, IFlexibleGui<ItemStack> {
 	public IModule module;
 	public final String invTag = "inv";
 
@@ -98,7 +97,7 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 
 	@Override
 	public boolean onDroppedByPlayer(ItemStack itemstack, EntityPlayer player) {
-		if (module instanceof IModuleInventory && itemstack != null && player instanceof EntityPlayerMP && player.openContainer instanceof ContainerCraftInventory) {
+		if (module instanceof IModuleInventory && itemstack != null && player instanceof EntityPlayerMP) {
 			player.closeScreen();
 		}
 		return super.onDroppedByPlayer(itemstack, player);
@@ -115,13 +114,13 @@ public class SonarModule extends SonarItem implements IItemInventory, IModulePro
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
-		return ((IGuiItem) module).getGuiContainer(player, stack);
+	public Object getServerElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
+		return ((IFlexibleGui<ItemStack>) module).getServerElement(stack, id, world, player, tag);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
-		return ((IGuiItem) module).getGuiScreen(player, stack);
+	public Object getClientElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
+		return ((IFlexibleGui<ItemStack>) module).getClientElement(stack, id, world, player, tag);
 	}
 
     @Override

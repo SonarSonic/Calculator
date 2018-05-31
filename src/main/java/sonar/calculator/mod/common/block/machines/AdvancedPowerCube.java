@@ -15,7 +15,7 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
-import sonar.core.utils.IGuiTile;
+import sonar.core.network.FlexibleGuiHandler;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -36,7 +36,7 @@ public class AdvancedPowerCube extends SonarSidedBlock {
 					world.markBlockRangeForRenderUpdate(pos, pos);
 				}
 			} else {
-				player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
+				FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
 			}
 		}
 

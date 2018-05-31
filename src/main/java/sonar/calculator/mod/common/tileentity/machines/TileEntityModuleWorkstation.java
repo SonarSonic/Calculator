@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.api.modules.IModule;
@@ -11,95 +12,38 @@ import sonar.calculator.mod.client.gui.misc.GuiModuleWorkstation;
 import sonar.calculator.mod.common.containers.ContainerModuleWorkstation;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.inventory.SonarInventory;
-import sonar.core.utils.IGuiTile;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.filters.SlotHelper;
 
 import java.util.ArrayList;
 
-public class TileEntityModuleWorkstation extends TileEntityInventory implements IGuiTile {
+public class TileEntityModuleWorkstation extends TileEntityInventory implements IFlexibleGui {
 
 	public boolean updateCalc;
 	public boolean newCalc;
 
 	public TileEntityModuleWorkstation() {
-		super.inv = new SonarInventory(this, 1 + FlawlessCalculator.moduleCapacity) {
+		super.inv.setSize(1 + FlawlessCalculator.moduleCapacity);
+		super.inv.slotLimit = 1;
+		super.inv.getInsertFilters().put((SLOT, STACK, FACE) -> 0 <= SLOT && SLOT < FlawlessCalculator.moduleCapacity ? isModule(STACK) : null, EnumFilterType.INTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.filterSlot(FlawlessCalculator.moduleCapacity, s -> s.getItem() instanceof IFlawlessCalculator), EnumFilterType.INTERNAL);
+	}
 
-			@Override
-			public void setInventorySlotContents(int i, ItemStack itemstack) {
-				if (i != 16) {
-					updateCalc = true;
-				} else {
-					if (itemstack.isEmpty()) {
-						clear();
-					} else {
-						newCalc = true;
-					}
-				}
-				super.setInventorySlotContents(i, itemstack);
-			}
-
-			@Override
-			public boolean isItemValidForSlot(int slot, ItemStack stack) {
-				if (hasFlawlessCalculator() && !stack.isEmpty()) {
-					IModule module = Calculator.modules.getRegisteredObject(Calculator.moduleItems.getSecondaryObject(stack.getItem()));
-					if (module != null) {
-						ItemStack calcStack = slots().get(FlawlessCalculator.moduleCapacity);
-						IFlawlessCalculator calc = (IFlawlessCalculator) calcStack.getItem();
-						if (calc.canAddModule(calcStack, module, slot)) {
-							return true;
-						}
-					}
-				}
-				return true;
-			}
-
-			@Override
-			public ItemStack decrStackSize(int slot, int var2) {
-				updateCalc = true;
-				ItemStack toReturn = super.decrStackSize(slot, var2);
-				if (slot == 16) {
-					clear();
-				}
-				return toReturn;
-			}
-
-			@Override
-			public ItemStack removeStackFromSlot(int i) {
-				updateCalc = true;
-				ItemStack toReturn = super.removeStackFromSlot(i);
-				if (i == 16) {
-					clear();
-				}
-				return toReturn;
-			}
-
-			@Override
-			public void closeInventory(EntityPlayer player) {
+	@Override
+	public void onInventoryContentsChanged(int slot){
+		super.onInventoryContentsChanged(slot);
+		if (slot != 16) {
+			updateCalc = true;
+		}else{
+			ItemStack stack = this.getStackInSlot(slot);
+			if (stack.isEmpty()) {
+				clear();
+			} else {
 				updateCalc = true;
 			}
-
-			@Override
-			public int getInventoryStackLimit() {
-				return 1;
-			}
-
-			@Override
-			public void clear() {
-				updateCalc = true;
-				for (int i = 0; i < getSizeInventory(); i++) {
-					if (i != 16) {
-						setInventorySlotContents(i, ItemStack.EMPTY);
-					}
-				}
-			}
-
-			public boolean isUsableByPlayer(EntityPlayer player) {
-				// does the player own this FLAWLESS CALCULATOR?
-				return true;
-			}
-		};
-		syncList.addPart(inv);
+		}
 	}
 
 	@Override
@@ -145,13 +89,17 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 		return slots().get(FlawlessCalculator.moduleCapacity).getItem() instanceof IFlawlessCalculator;
 	}
 
+	public boolean isModule(ItemStack stack){
+		return !stack.isEmpty() && Calculator.moduleItems.getSecondaryObject(stack.getItem()) != null;
+	}
+
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerModuleWorkstation(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiModuleWorkstation(player.inventory, this);
 	}
 }

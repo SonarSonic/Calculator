@@ -2,9 +2,10 @@ package sonar.calculator.mod.common.tileentity.machines;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
@@ -12,34 +13,40 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiAtomicMultiplier;
 import sonar.calculator.mod.common.containers.ContainerAtomicMultiplier;
 import sonar.calculator.mod.utils.AtomicMultiplierBlacklist;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
-import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.filters.SlotFilter;
+import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.network.sync.SyncTagType;
-import sonar.core.utils.IGuiTile;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
+public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implements IProcessMachine, IFlexibleGui {
+
+	public static final SlotFilter input_slot = new SlotFilter(null, new int[] { 0 }, EnumFacing.UP);
+	public static final SlotFilter circuit_slots = new SlotFilter(null, new int[] { 1, 2, 3, 4, 5, 6, 7 }, EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST);
 
 	public SyncTagType.INT cookTime = new SyncTagType.INT(0);
 	public SyncTagType.INT active = new SyncTagType.INT(1);
 
-	private static final int[] input = new int[] { 0 };
-	private static final int[] circuits = new int[] { 1, 2, 3, 4, 5, 6, 7 };
-	private static final int[] output = new int[] { 8 };
-
 	public TileEntityAtomicMultiplier() {
 		super.storage.setCapacity(CalculatorConfig.ATOMIC_MULTIPLIER_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.ATOMIC_MULTIPLIER_TRANSFER_RATE);
-		super.inv = new SonarInventory(this, 10);
+		super.inv.setSize(10);
+		super.inv.getInsertFilters().put(input_slot, EnumFilterType.EXTERNAL);
+		super.inv.getInsertFilters().put(circuit_slots, EnumFilterType.EXTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> circuit_slots.checkSlot(SLOT) ? STACK.getItem() == Calculator.circuitBoard : null, EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> input_slot.checkSlot(SLOT) ? (STACK.getMaxStackSize() >= 4 && isAllowed(STACK)) : null, EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.dischargeSlot(9), EnumFilterType.INTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.blockSlot(8), EnumFilterType.INTERNAL);
+		super.inv.getExtractFilters().put((SLOT,COUNT,FACE) -> SLOT == 8, EnumFilterType.EXTERNAL);
 		super.energyMode = EnergyMode.RECIEVE;
 		super.CHARGING_RATE = CalculatorConfig.ATOMIC_MULTIPLIER_TRANSFER_RATE;
-		syncList.addParts(cookTime, active, inv);
+		syncList.addParts(cookTime, active);
 	}
 
 	@Override
@@ -140,30 +147,6 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		}
 	}
 
-	@Override
-	public boolean isItemValidForSlot(int slot, @Nonnull ItemStack stack) {
-		if (0 < slot && slot < 8) {
-            return stack.getItem() == Calculator.circuitBoard;
-		} else if (slot == 0) {
-            return stack.getMaxStackSize() >= 4;
-		} else return slot == 9 && DischargeValues.getValueOf(stack) > 0;
-    }
-
-	@Nonnull
-    @Override
-	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-		return EnumFacing.DOWN == side ? output : EnumFacing.UP == side ? input : EnumFacing.VALUES[2] == side ? circuits : EnumFacing.VALUES[3] == side ? circuits : EnumFacing.VALUES[4] == side ? circuits : EnumFacing.VALUES[5] == side ? circuits : input;
-	}
-
-	@Override
-	public boolean canInsertItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-		return this.isItemValidForSlot(slot, stack);
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-        return slot == 8;
-	}
 
     @Override
 	public boolean receiveClientEvent(int action, int param) {
@@ -203,12 +186,12 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerAtomicMultiplier(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiAtomicMultiplier(player.inventory, this);
 	}
 

@@ -1,13 +1,16 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHealthStore;
@@ -20,22 +23,20 @@ import sonar.calculator.mod.common.block.CalculatorLogs;
 import sonar.calculator.mod.common.containers.ContainerAlgorithmAssimilator;
 import sonar.calculator.mod.common.containers.ContainerAssimilator;
 import sonar.calculator.mod.common.recipes.TreeHarvestRecipes;
-import sonar.core.api.SonarAPI;
-import sonar.core.api.inventories.StoredItemStack;
-import sonar.core.api.utils.ActionType;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.SonarInventory;
-import sonar.core.utils.IGuiTile;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.ItemTransferHelper;
+import sonar.core.inventory.handling.filters.SlotHelper;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class TileEntityAssimilator extends TileEntityInventory implements IGuiTile {
+public abstract class TileEntityAssimilator extends TileEntityInventory implements IFlexibleGui {
 	public boolean hasTree;
 	public Random rand = new Random();
 	public int tickRate = 30, tick;
@@ -53,7 +54,8 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		} else {
 			if (this instanceof Algorithm) {
 				EnumFacing dir = EnumFacing.getFront(this.getBlockMetadata());
-				SonarAPI.getItemHelper().transferItems(this, this.getWorld().getTileEntity(pos.offset(dir.getOpposite())), dir, dir.getOpposite(), null);
+				IItemHandler handler = ItemTransferHelper.getItemHandlerOffset(world, pos, dir);
+				ItemTransferHelper.doSimpleTransfer(Lists.newArrayList(handler), Lists.newArrayList(inv().getItemHandler(dir)), IS -> true, 32);
 			}
 			tick = 0;
 			this.hasTree = hasTree();
@@ -129,8 +131,8 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 	public static class Stone extends TileEntityAssimilator {
 
 		public Stone() {
-			super.inv = new SonarInventory(this, 1);
-			syncList.addPart(inv);
+			super.inv.setSize(1);
+			super.inv.getInsertFilters().put(SlotHelper.filterSlot(0, s -> s.getItem() instanceof IHungerStore || s.getItem() instanceof IHealthStore), EnumFilterType.INTERNAL);
 		}
 
         public int healthPoints, hungerPoints, speed = 4;
@@ -243,21 +245,22 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player) {
+		public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerAssimilator(player.inventory, this);
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiStoneAssimilator(player.inventory, this);
 		}
 	}
 
-	public static class Algorithm extends TileEntityAssimilator implements ISidedInventory {
+	public static class Algorithm extends TileEntityAssimilator {
 
 		public Algorithm() {
-			super.inv = new SonarInventory(this, 27);
-			syncList.addPart(inv);
+			super.inv.setSize(27);
+			super.inv.default_external_insert_result = false;
+			super.inv.default_external_extract_result = true;
 		}
 
         @Override
@@ -265,19 +268,11 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 			IBlockState state = block.getBlockState(world);
 			if (state.getValue(CalculatorLeaves.GROWTH).getMeta() > 2) {
 				ArrayList<ItemStack> stacks = TreeHarvestRecipes.harvestLeaves(world, block.getBlockPos(), rand.nextBoolean());
-				EnumFacing forward = EnumFacing.getFront(getBlockMetadata());
-				if (stacks != null && !stacks.isEmpty()) {
-					for (ItemStack s : stacks) {
-						if (!s.isEmpty()) {
-							ItemStack stack = s.copy();
-							StoredItemStack storedstack = new StoredItemStack(stack);
-							StoredItemStack harvest = SonarAPI.getItemHelper().addItems(this, storedstack.copy(), EnumFacing.DOWN, ActionType.PERFORM, null);
-							storedstack.remove(harvest);
-							if (storedstack.stored > 0) {
-								BlockPos pos = this.pos.offset(forward.getOpposite());
-								EntityItem drop = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), storedstack.getFullStack());
-								world.spawnEntity(drop);
-							}
+				for(ItemStack stack : stacks){
+					if(!stack.isEmpty()){
+						stack = ItemHandlerHelper.insertItem(inv(), stack, false);
+						if (!stack.isEmpty()) {
+							InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 						}
 					}
 				}
@@ -286,29 +281,13 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 			return false;
 		}
 
-		@Nonnull
-        @Override
-		public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-			return new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
-		}
-
 		@Override
-		public boolean canInsertItem(int index, @Nonnull ItemStack itemStackIn, @Nonnull EnumFacing direction) {
-			return true;
-		}
-
-		@Override
-		public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-			return true;
-		}
-
-		@Override
-		public Object getGuiContainer(EntityPlayer player) {
+		public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerAlgorithmAssimilator(player, this);
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiAlgorithmAssimilator(player, this);
 		}
 	}

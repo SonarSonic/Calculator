@@ -10,6 +10,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+import sonar.calculator.mod.client.gui.buttons.GreenhouseButton;
+import sonar.calculator.mod.client.gui.buttons.PauseButton;
 import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
@@ -22,8 +24,9 @@ import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 
 public class GuiAdvancedGreenhouse extends GuiSonarTile {
-	DecimalFormat dec = new DecimalFormat("##.##");
+
 	public static final ResourceLocation bground = new ResourceLocation("Calculator:textures/gui/advancedgreenhouse.png");
+	DecimalFormat dec = new DecimalFormat("##.##");
 
 	public TileEntityAdvancedGreenhouse entity;
 
@@ -39,25 +42,7 @@ public class GuiAdvancedGreenhouse extends GuiSonarTile {
 		buttonList.add(new GreenhouseButton(0, guiLeft + 18, guiTop + 68, 14, 14, FontHelper.translate("greenhouse.build")));
 		buttonList.add(new GreenhouseButton(1, guiLeft + 36, guiTop + 68, 14, 14, FontHelper.translate("greenhouse.rebuild")));
 		buttonList.add(new GreenhouseButton(2, guiLeft + 54, guiTop + 68, 14, 14, FontHelper.translate("greenhouse.demolish")));
-		buttonList.add(new PauseButton(this, entity, 3, guiLeft + 8, guiTop + 8, entity.isPaused()));
-	}
-
-	@SideOnly(Side.CLIENT)
-	public class GreenhouseButton extends GuiButton {
-		public String name;
-
-		public GreenhouseButton(int id, int x, int y, int texX, int texY, String name) {
-			super(id, x, y, texX, texY, name);
-			// this.visible = false;
-			this.name = name;
-		}
-
-        @Override
-        public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-			// if (this.isMouseOver())
-			// drawCreativeTabHoveringText(FontHelper.translate(name), mouseX, mouseY);
-            // super.drawButton(mc, mouseX, mouseY, partialTicks);
-		}
+		buttonList.add(new PauseButton(this, entity, 3, guiLeft + 8, guiTop + 8, () -> entity.isPaused()));
 	}
 
     @Override

@@ -2,17 +2,16 @@ package sonar.calculator.mod.common.tileentity;
 
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import sonar.calculator.mod.Calculator;
-import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.api.IFlexibleGui;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.recipes.RecipeHelperV2;
-import sonar.core.utils.IGuiTile;
 
-public abstract class TileEntityAbstractProcess extends TileEntityProcess implements IGuiTile {
+public abstract class TileEntityAbstractProcess extends TileEntityProcess implements IFlexibleGui {
 
 	public final int inputSize, outputSize, baseProcess, baseEnergy;
 
@@ -30,11 +29,15 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		for (int o = inputSize; o < inputSize + outputSize; o++) {
 			outputs[o - inputSize] = o + 1;
 		}
-		super.input = inputs;
-		super.output = outputs;
+		super.sides.input = inputs;
+		super.sides.output = outputs;
 		super.storage.setCapacity(50000).setMaxTransfer(32000);
-		super.inv = new SonarInventory(this, 1 + inputSize + outputSize);
-		syncList.addPart(inv);
+		super.inv.setSize(1 + inputSize + outputSize);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE)-> (!(isInputSlot(SLOT)) || recipeHelper() == null) ? null : recipeHelper().isValidInput(STACK), EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> isInputSlot(SLOT) ? (recipeHelper() == null || recipeHelper().isValidInput(STACK)) : null , EnumFilterType.INTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.dischargeSlot(inputSize), EnumFilterType.INTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE)-> !isOutputSlot(SLOT), EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getExtractFilters().put((SLOT,COUNT,FACE)-> isOutputSlot(SLOT), EnumFilterType.EXTERNAL);
 	}
 
 	@Override
@@ -49,6 +52,14 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 
 	public int outputSize() {
 		return outputSize;
+	}
+
+	public boolean isInputSlot(int slot){
+		return slot < inputSize();
+	}
+
+	public boolean isOutputSlot(int slot){
+		return slot > inputSize() + 1;
 	}
 
 	@Override
@@ -156,7 +167,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 
 				if (this.isItemValidForSlot(i, itemstack2)) {
 					if (inv.getStackInSlot(i).isEmpty()) {
-						inv.setInventorySlotContents(i, itemstack2);
+						inv.setStackInSlot(i, itemstack2);
 					} else {
 						InventoryHelper.spawnItemStack(this.getWorld(), pos.getX(), pos.getY(), pos.getZ(), itemstack2);
 					}
@@ -171,18 +182,5 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 			input[i] = slots().get(i);
 		}
 		return input;
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (slot < this.inputSize()) {
-            return recipeHelper() != null && recipeHelper().isValidInput(stack);
-		}
-		return false;
-	}
-
-	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
-		return isItemValidForSlot(slot, stack) && canStack(slots().get(slot), stack);
 	}
 }

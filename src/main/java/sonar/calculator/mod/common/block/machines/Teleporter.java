@@ -16,7 +16,7 @@ import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
-import sonar.core.utils.IGuiTile;
+import sonar.core.network.FlexibleGuiHandler;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -42,7 +42,7 @@ public class Teleporter extends SonarMachineBlock {
 					TileEntityTeleporter tele = (TileEntityTeleporter) target;
 					tele.sendSyncPacket(player);
 					Calculator.network.sendTo(new PacketTeleportLinks(pos, TeleporterRegistry.getTeleportLinks(tele.teleporterID)), (EntityPlayerMP) player);
-					player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
+					FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
 				}
 			}
 		}

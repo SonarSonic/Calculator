@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import sonar.calculator.mod.client.gui.buttons.PauseButton;
 import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.core.SonarCore;
@@ -30,7 +31,7 @@ public class GuiFlawlessGreenhouse extends GuiSonarTile {
     @Override
 	public void initGui() {
 		super.initGui();
-		this.buttonList.add(new PauseButton(this, entity, 3, guiLeft + 6, guiTop + 6, entity.isPaused()));
+		this.buttonList.add(new PauseButton(this, entity, 3, guiLeft + 6, guiTop + 6, () -> entity.isPaused()));
 	}
 
     @Override

@@ -4,27 +4,29 @@ import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.IPlantable;
+import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiAdvancedGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityBuildingGreenhouse;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.SonarInventory;
-import sonar.core.utils.IGuiTile;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.filters.IExtractFilter;
+import sonar.core.inventory.handling.filters.SlotFilter;
+import sonar.core.inventory.handling.filters.SlotHelper;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
-public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse implements ISidedInventory, IGuiTile {
+public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse implements IFlexibleGui {
 
+	public static final SlotFilter resource_slots = new SlotFilter(null, new int[] { 0, 1, 2, 3, 4, 5, 6 }, new int[]{1});
+	public static final SlotFilter plant_slots = new SlotFilter(null, new int[] { 8, 9, 10, 11, 12, 13, 14, 15, 16 }, new int[]{0,2,3,4,5});
 	public int plants, lanterns, checkTicks, growTicks, growTick;
 
 	public int[] logStack = new int[] { 0 };
@@ -36,12 +38,15 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 		super(183, 30, 42, 94);
 		super.storage.setCapacity(CalculatorConfig.ADVANCED_GREENHOUSE_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.ADVANCED_GREENHOUSE_TRANSFER_RATE);
-		super.inv = new SonarInventory(this, 17);
+		super.inv.setSize(17);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> resource_slots.checkFilter(SLOT, FACE) ? checkInsert(SLOT,STACK,FACE) : null, EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> plant_slots.checkFilter(SLOT, FACE) ? isSeed(STACK) : null, EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.dischargeSlot(7), EnumFilterType.INTERNAL);
+		super.inv.getExtractFilters().put(IExtractFilter.BLOCK_EXTRACT, EnumFilterType.EXTERNAL);
 		super.energyMode = EnergyMode.RECIEVE;
 		super.type = 2;
 		super.maxLevel = 100000;
 		super.plantTick = 10;
-		syncList.addPart(inv);
 	}
 
 	@Override
@@ -281,30 +286,6 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 		return blocks;
 	}
 
-	@Nonnull
-    @Override
-	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-		if (side == EnumFacing.UP) {
-			return new int[] { 0, 1, 2, 3, 4, 5, 6 };
-		}
-		return new int[] { 8, 9, 10, 11, 12, 13, 14, 15, 16 };
-	}
-
-	@Override
-	public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
-		if (side == EnumFacing.UP && !stack.isEmpty()) {
-			BlockType type = BlockType.getTypeForItem(stack.getItem());
-			if (type != BlockType.NONE) {
-				for (int slot : getSlotsForType(type)) {
-					if (slot == index) {
-						return true;
-					}
-				}
-			}
-		}
-		return !stack.isEmpty() && stack.getItem() instanceof IPlantable;
-	}
-
     @Override
 	public int[] getSlotsForType(BlockType type) {
 		switch (type) {
@@ -322,18 +303,14 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 		return new int[0];
 	}
 
-	@Override
-	public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-		return false;
-	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerAdvancedGreenhouse(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiAdvancedGreenhouse(player.inventory, this);
 	}
 }

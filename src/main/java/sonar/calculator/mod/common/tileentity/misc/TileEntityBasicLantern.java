@@ -5,6 +5,4 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Only required to enable special rendering
  */
-public class TileEntityBasicLantern extends TileEntity {
-
-}
+public class TileEntityBasicLantern extends TileEntity {}

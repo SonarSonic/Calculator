@@ -3,70 +3,52 @@ package sonar.calculator.mod.common.tileentity.machines;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.machines.GuiStorageChamber;
 import sonar.calculator.mod.common.containers.ContainerStorageChamber;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.common.tileentity.TileEntityLargeInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.ILargeInventory;
 import sonar.core.inventory.SonarLargeInventory;
-import sonar.core.utils.IGuiTile;
+import sonar.core.inventory.handling.EnumFilterType;
 
-public class TileEntityStorageChamber extends TileEntityLargeInventory implements IGuiTile, ILargeInventory {
+public class TileEntityStorageChamber extends TileEntityLargeInventory implements IFlexibleGui{
 
 	public CircuitType circuitType = CircuitType.None;
 
 	@Override
 	public void update() {
 		super.update();
-		this.resetCircuitType();
 	}
 
 	public TileEntityStorageChamber() {
-		super.inv = new SonarLargeInventory(14, 1024) {
-			// needs fixing I think
-			@Override
-			public boolean isItemValidForSlot(int slot, ItemStack item) {
-				if (!item.isEmpty() && item.getMetadata() == slot) {
-					CircuitType stackType = getCircuitType(item);
-					if (stackType == null) {
-						return false;
-					}
-					if (((TileEntityStorageChamber) listener).circuitType != CircuitType.None) {
-						if (((TileEntityStorageChamber) listener).circuitType != stackType) {
-							return false;
-						}
-					}
-
-					return super.isItemValidForSlot(slot, item);
-				}
-				return false;
+		super(14, 4);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> SLOT == STACK.getMetadata(), EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> {
+			CircuitType type = getCircuitType(STACK);
+			if(type != null){
+				return circuitType == CircuitType.None || circuitType == type;
 			}
-		};
+			return false;
+		}, EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.default_external_extract_result = true;
 		syncList.addParts(inv);
 	}
 
 	@Override
-	public SonarLargeInventory getTileInv() {
-		return inv;
-	}
-
-	public void resetCircuitType() {
-		if (isServer()) {
-			StoredItemStack[] slots = inv.slots;
-			for (StoredItemStack stack : slots) {
-				if (stack != null && stack.getStackSize() != 0) {
-					CircuitType type = getCircuitType(stack.item);
-					if (type != null && type != CircuitType.None) {
-						circuitType = type;
-						return;
-					}
-				}
+	public void onInventoryContentsChanged(int slot){
+		CircuitType type = CircuitType.None;
+		for(SonarLargeInventory.InventoryLargeSlot largeSlot : inv.slots){
+			CircuitType slotType = getCircuitType(largeSlot.getLargeStack().getItemStack());
+			if(slotType != null && slotType != CircuitType.None){
+				type = slotType;
+				break;
 			}
-			circuitType = CircuitType.None;
 		}
+		circuitType = type;
 	}
 
 	@Override
@@ -133,12 +115,12 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerStorageChamber(player, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiStorageChamber(player, this);
 	}
 }

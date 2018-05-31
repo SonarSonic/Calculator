@@ -6,7 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessFurnace;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.inventory.ContainerSync;
+import sonar.core.inventory.containers.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
 public class ContainerFlawlessFurnace extends ContainerSync {

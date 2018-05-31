@@ -3,6 +3,8 @@ package sonar.calculator.mod.common.tileentity.machines;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.machines.GuiResearchChamber;
 import sonar.calculator.mod.common.containers.ContainerResearchChamber;
@@ -12,23 +14,22 @@ import sonar.calculator.mod.research.IResearch;
 import sonar.calculator.mod.research.PlayerResearchRegistry;
 import sonar.calculator.mod.research.types.RecipeResearch;
 import sonar.calculator.mod.research.types.ResearchTypes;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.inventory.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncUUID;
-import sonar.core.utils.IGuiTile;
 
 import java.util.ArrayList;
 
-public class TileEntityResearchChamber extends TileEntityInventory implements IGuiTile {
+public class TileEntityResearchChamber extends TileEntityInventory implements IFlexibleGui {
 
 	public static final int researchSpeed = 100;
 	public SyncTagType.INT ticks = new SyncTagType.INT(0);
 	public SyncUUID playerUUID = new SyncUUID(1);
 
 	public TileEntityResearchChamber() {
-		super.inv = new SonarInventory(this, 1);
-		syncList.addParts(ticks, playerUUID, inv);
+		super.inv.setSize(1);
+		syncList.addParts(ticks, playerUUID);
 	}
 
     @Override
@@ -86,12 +87,12 @@ public class TileEntityResearchChamber extends TileEntityInventory implements IG
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerResearchChamber(player, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiResearchChamber(player, this);
 	}
 }

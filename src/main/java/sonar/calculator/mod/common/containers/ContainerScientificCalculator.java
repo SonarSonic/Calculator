@@ -10,7 +10,7 @@ import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.ActionType;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.inventory.ContainerSonar;
+import sonar.core.inventory.containers.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.recipes.RecipeHelperV2;
 
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 
 public class ContainerScientificCalculator extends ContainerSonar implements ICalculatorCrafter {
 	private final InventoryItem inventory;
-	public static TransferSlotsManager<InventoryItem> transfer = new TransferSlotsManager() {
+	public static TransferSlotsManager<InventoryItem> transfer = new TransferSlotsManager<InventoryItem>() {
 		{
 			addTransferSlot(new TransferSlots<InventoryItem>(TransferType.TILE_INV, 2));
 			addTransferSlot(new DisabledSlots<InventoryItem>(TransferType.TILE_INV, 1));

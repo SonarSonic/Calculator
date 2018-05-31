@@ -2,7 +2,6 @@ package sonar.calculator.mod.common.tileentity.generators;
 
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -15,20 +14,19 @@ import sonar.calculator.mod.common.containers.ContainerConductorMast;
 import sonar.calculator.mod.common.recipes.ConductorMastRecipes;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherStation;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.inventory.handling.EnumFilterType;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.recipes.DefaultSonarRecipe;
 import sonar.core.recipes.RecipeHelperV2;
-import sonar.core.utils.IGuiTile;
 
-import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class TileEntityConductorMast extends TileEntityEnergyInventory implements ISidedInventory, IProcessMachine, IGuiTile {
+public class TileEntityConductorMast extends TileEntityEnergyInventory implements IProcessMachine, IFlexibleGui {
 
 	public final SyncTagType.INT cookTime = new SyncTagType.INT(0);
 	public final SyncTagType.INT lightningSpeed = new SyncTagType.INT(1);
@@ -45,11 +43,14 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	public TileEntityConductorMast() {
 		super.storage.setCapacity(CalculatorConfig.CONDUCTOR_MAST_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.CONDUCTOR_MAST_TRANSFER_RATE);
-		super.inv = new SonarInventory(this, 2);
 		super.CHARGING_RATE = CalculatorConfig.CONDUCTOR_MAST_CHARGING_RATE;
 		super.energyMode = EnergyMode.SEND;
-		syncList.addParts(cookTime, lightingTicks, lightTicks, lightningSpeed, random, rfPerStrike, rfPerTick, inv);
+		super.inv.setSize(2);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> SLOT == 0 && ConductorMastRecipes.instance().isValidInput(STACK), EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getExtractFilters().put((SLOT,COUNT,FACE) -> SLOT == 1, EnumFilterType.EXTERNAL);
+		syncList.addParts(cookTime, lightingTicks, lightTicks, lightningSpeed, random, rfPerStrike, rfPerTick);
 	}
+
 
 	public DefaultSonarRecipe.Value getRecipe(ItemStack stack) {
 		return ConductorMastRecipes.instance().getRecipeFromInputs(null, new Object[] { stack });
@@ -284,23 +285,6 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		return transmitter;
 	}
 
-	@Nonnull
-    @Override
-	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-		return side == EnumFacing.DOWN ? new int[] { 1 } : new int[] { 0 };
-	}
-
-	@Override
-	public boolean canInsertItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-        return slot != 0 || ConductorMastRecipes.instance().isValidInput(stack);
-
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-		return slot == 1;
-	}
-
 	@Override
 	public int getCurrentProcessTime() {
 		return cookTime.getObject();
@@ -317,12 +301,12 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerConductorMast(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiConductorMast(player.inventory, this);
 	}
 

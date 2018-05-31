@@ -6,20 +6,16 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
-import sonar.core.inventory.ContainerSonar;
+import sonar.core.inventory.containers.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.inventory.slots.SlotList;
 
 import javax.annotation.Nonnull;
 
 public class ContainerMagneticFlux extends ContainerSonar {
+
+	public static TransferSlotsManager<TileEntityMagneticFlux> TRANSFER = new TransferSlotsManager<>(7);
 	public TileEntityMagneticFlux flux;
-	public static TransferSlotsManager<TileEntityMagneticFlux> transfer = new TransferSlotsManager() {
-		{
-			addTransferSlot(new TransferSlots<TileEntityMagneticFlux>(TransferType.TILE_INV, 7));
-			addPlayerInventory();
-		}
-	};
 
 	public ContainerMagneticFlux(InventoryPlayer inv, TileEntityMagneticFlux flux) {
 		this.flux = flux;
@@ -30,14 +26,14 @@ public class ContainerMagneticFlux extends ContainerSonar {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer p_75145_1_) {
+	public boolean canInteractWith(@Nonnull EntityPlayer player) {
 		return true;
 	}
 
 	@Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		return transfer.transferStackInSlot(this, flux, player, slotID);
+		return TRANSFER.transferStackInSlot(this, flux, player, slotID);
 	}
 
     @Nonnull

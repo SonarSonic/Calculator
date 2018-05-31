@@ -11,6 +11,7 @@ import sonar.calculator.mod.common.block.CalculatorLeaves.LeafGrowth;
 import sonar.core.recipes.DefinedRecipeHelper;
 import sonar.core.recipes.ISonarRecipe;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 public class TreeHarvestRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
@@ -36,6 +37,7 @@ public class TreeHarvestRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 		return recipes;
 	}
 
+	@Nonnull
 	public static ArrayList<ItemStack> harvestLeaves(World world, BlockPos pos, boolean override) {
         ArrayList<ItemStack> stacks = new ArrayList<>();
 		Block target = world.getBlockState(pos).getBlock();

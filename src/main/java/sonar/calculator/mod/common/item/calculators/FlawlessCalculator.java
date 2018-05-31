@@ -18,10 +18,12 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.api.items.IModuleProvider;
 import sonar.calculator.mod.api.modules.*;
+import sonar.calculator.mod.client.gui.misc.GuiModuleSelector;
+import sonar.calculator.mod.common.containers.ContainerModuleSelector;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
-import sonar.calculator.mod.network.CalculatorGui;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.ISonarEnergyItem;
 import sonar.core.api.utils.ActionType;
 import sonar.core.api.utils.BlockInteraction;
@@ -29,8 +31,8 @@ import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.IItemInventory;
-import sonar.core.utils.IGuiItem;
+import sonar.core.api.inventories.IItemInventory;
+import sonar.core.network.FlexibleGuiHandler;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ import java.util.List;
 
 
 @Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")})
-public class FlawlessCalculator extends SonarItem implements IItemInventory, IModuleProvider, ISonarEnergyItem, IEnergyContainerItem, IFlawlessCalculator, IGuiItem {
+public class FlawlessCalculator extends SonarItem implements IItemInventory, IModuleProvider, ISonarEnergyItem, IEnergyContainerItem, IFlawlessCalculator, IFlexibleGui<ItemStack> {
 	public final String invTag = "inv";
 	public final String emptyModule = "";
 	public static final int moduleCapacity = 16;
@@ -143,7 +145,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 			if (!tag.hasNoTags() && !world.isRemote)
                 stack.setTagInfo(String.valueOf(slot), tag);
 		} else if (!world.isRemote) {
-			player.openGui(Calculator.instance, CalculatorGui.ModuleSelect, world, -1000, -1000, -1000);
+			FlexibleGuiHandler.instance().openBasicTile(player, world, player.getPosition(), 1);
 			/* int slot = this.getCurrentSlot(stack); slot++; if (!(slot < moduleCapacity)) { slot = 0; } tag.setInteger("slot", slot); stack.setTagCompound(tag);
 			 * 
 			 * IModule module = this.getCurrentModule(stack); FontHelper.sendMessage("Module " + " : " + module.getClientName(), world, player); */
@@ -335,13 +337,25 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
-		return ((IGuiItem) getCurrentModule(stack)).getGuiContainer(player, stack);
+	public Object getServerElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
+		switch(id){
+			case 0:
+				return ((IFlexibleGui) getCurrentModule(stack)).getServerElement(stack, id, world, player, tag);
+			case 1:
+				return new ContainerModuleSelector(player, stack);
+		}
+		return null;
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
-		return ((IGuiItem) getCurrentModule(stack)).getGuiScreen(player, stack);
+	public Object getClientElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
+		switch(id){
+			case 0:
+				return ((IFlexibleGui) getCurrentModule(stack)).getClientElement(stack, id, world, player, tag);
+			case 1:
+				return new GuiModuleSelector(player, stack);
+		}
+		return null;
 	}
 
     @Override

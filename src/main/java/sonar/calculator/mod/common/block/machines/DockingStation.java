@@ -17,8 +17,8 @@ import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
+import sonar.core.network.FlexibleGuiHandler;
 import sonar.core.upgrades.MachineUpgrade;
-import sonar.core.utils.IGuiTile;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -34,7 +34,6 @@ public class DockingStation extends SonarMachineBlock {
 	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
 		if (player != null) {
 			if (interact.type == BlockInteractionType.RIGHT) {
-				player.getHeldItemMainhand();
 				if (player.getHeldItemMainhand().getItem() instanceof MachineUpgrade) {
 					return false;
 				}
@@ -44,7 +43,7 @@ public class DockingStation extends SonarMachineBlock {
 						if (target instanceof TileEntityDockingStation) {
 							TileEntityDockingStation station = (TileEntityDockingStation) target;
 							if (TileEntityDockingStation.getInputStackSize(station.calcStack) != 0) {
-								player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
+								FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
 							} else {
 								FontHelper.sendMessage(FontHelper.translate("docking.noCalculator"), world, player);
 							}

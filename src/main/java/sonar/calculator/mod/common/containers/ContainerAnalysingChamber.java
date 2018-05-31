@@ -2,62 +2,37 @@ package sonar.calculator.mod.common.containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
-import sonar.core.inventory.ContainerSync;
+import sonar.core.inventory.containers.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.slots.SlotBlockedInventory;
+import sonar.core.inventory.handling.SlotSonarFiltered;
 
 import javax.annotation.Nonnull;
 
 public class ContainerAnalysingChamber extends ContainerSync {
 
+	public static TransferSlotsManager<TileEntityAnalysingChamber> TRANSFER = new TransferSlotsManager<>(8);
 	private TileEntityAnalysingChamber entity;
-	public static TransferSlotsManager<TileEntityAnalysingChamber> analysingChamberTransfer = new TransferSlotsManager() {
-		{
-
-			addTransferSlot(new TransferSlots<TileEntityAnalysingChamber>(TransferType.TILE_INV, 1) {
-                @Override
-				public boolean canInsert(EntityPlayer player, TileEntityAnalysingChamber inv, Slot slot, int pos, int slotID, ItemStack stack) {
-					return stack.getItem() == Calculator.circuitBoard;
-				}
-			});
-			addTransferSlot(TransferSlotsManager.DISCHARGE_SLOT);
-			addTransferSlot(new TransferSlots<TileEntityAnalysingChamber>(TransferType.TILE_INV, 6) {
-                @Override
-				public boolean canInsert(EntityPlayer player, TileEntityAnalysingChamber inv, Slot slot, int pos, int slotID, ItemStack stack) {
-					return false;
-				}
-			});
-			addPlayerInventory();
-		}
-	};
 	
 	public ContainerAnalysingChamber(InventoryPlayer inventory, TileEntityAnalysingChamber entity) {
 		super(entity);
 		this.entity = entity;
 
-		addSlotToContainer(new Slot(entity, 0, 16, 6));
-		addSlotToContainer(new Slot(entity, 1, 28, 60));
-		addSlotToContainer(new SlotBlockedInventory(entity, 2, 35, 34));
-		addSlotToContainer(new SlotBlockedInventory(entity, 3, 53, 34));
-		addSlotToContainer(new SlotBlockedInventory(entity, 4, 71, 34));
-		addSlotToContainer(new SlotBlockedInventory(entity, 5, 89, 34));
-		addSlotToContainer(new SlotBlockedInventory(entity, 6, 107, 34));
-		addSlotToContainer(new SlotBlockedInventory(entity, 7, 125, 34));
+		addSlotToContainer(new SlotSonarFiltered(entity, 0, 16, 6));
+		addSlotToContainer(new SlotSonarFiltered(entity, 1, 28, 60));
+		addSlotToContainer(new SlotSonarFiltered(entity, 2, 35, 34));
+		addSlotToContainer(new SlotSonarFiltered(entity, 3, 53, 34));
+		addSlotToContainer(new SlotSonarFiltered(entity, 4, 71, 34));
+		addSlotToContainer(new SlotSonarFiltered(entity, 5, 89, 34));
+		addSlotToContainer(new SlotSonarFiltered(entity, 6, 107, 34));
+		addSlotToContainer(new SlotSonarFiltered(entity, 7, 125, 34));
 		addInventory(inventory, 8, 84);
 	}
 
 	@Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		return analysingChamberTransfer.transferStackInSlot(this, entity, player, slotID);
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return entity.isUsableByPlayer(player);
+		return TRANSFER.transferStackInSlot(this, entity, player, slotID);
 	}
 }

@@ -5,10 +5,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.items.IStability;
@@ -16,7 +17,7 @@ import sonar.calculator.mod.client.gui.machines.GuiAnalysingChamber;
 import sonar.calculator.mod.common.containers.ContainerAnalysingChamber;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.AnalysingChamberRecipes;
-import sonar.core.api.SonarAPI;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.upgrades.IUpgradableTile;
 import sonar.core.api.utils.BlockCoords;
@@ -24,18 +25,19 @@ import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.IAdditionalInventory;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.api.inventories.IAdditionalInventory;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.ItemTransferHelper;
+import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.upgrades.UpgradeInventory;
-import sonar.core.utils.IGuiTile;
 import sonar.core.utils.MachineSideConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements IUpgradableTile, IAdditionalInventory, IGuiTile {
+public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory implements IUpgradableTile, IAdditionalInventory, IFlexibleGui {
 
 	public SyncTagType.INT stable = new SyncTagType.INT(0);
 	public SyncTagType.INT analysed = new SyncTagType.INT(2);
@@ -44,21 +46,16 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public UpgradeInventory upgrades = new UpgradeInventory(3, 1, "VOID", "TRANSFER");
 
 	public TileEntityAnalysingChamber() {
-		super.input = new int[] { 0 };
-		super.output = new int[] { 2, 3, 4, 5, 6, 7 };
+		super.sides.input = new int[] { 0 };
+		super.sides.output = new int[] { 2, 3, 4, 5, 6, 7 };
 		super.storage.setCapacity(CalculatorConfig.ANALYSING_CHAMBER_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.ANALYSING_CHAMBER_TRANSFER_RATE);
-		super.inv = new SonarInventory(this, 8) {
-            @Override
-			public void setInventorySlotContents(int i, ItemStack itemstack) {
-               super.setInventorySlotContents(i, itemstack);
-				if (i == 0) {
-					markBlockForUpdate();
-				}
-			}
-		};
+		super.inv.setSize(8);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> SLOT != 1 ? SLOT == 0 && CircuitBoard.getState(STACK) == CircuitBoard.CircuitState.NOT_ANALYSED: null, EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.chargeSlot(1), EnumFilterType.INTERNAL);
+		super.inv.getExtractFilters().put((SLOT,STACK,FACE)-> CircuitBoard.getState(inv.getStackInSlot(STACK)) != CircuitBoard.CircuitState.NOT_ANALYSED, EnumFilterType.EXTERNAL);
 		super.energyMode = EnergyMode.SEND;
-		syncList.addParts(stable, analysed, inv);
+		syncList.addParts(stable, analysed);
 	}
 
 	@Override
@@ -83,23 +80,32 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		this.markDirty();
 	}
 
+	@Override
+	public void onInventoryContentsChanged(int slot){
+		super.onInventoryContentsChanged(slot);
+		if (slot == 0) {
+			markBlockForUpdate();
+		}
+	}
+
 	public void transferItems() {
 		ArrayList<EnumFacing> outputs = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
 		for (EnumFacing side : outputs) {
-			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side, side.getOpposite(), null);
+			IItemHandler handler = ItemTransferHelper.getItemHandler(world, getPos().offset(side), side);
+			if(handler != null)
+				ItemTransferHelper.doSimpleTransfer(Lists.newArrayList(this.inv.getItemHandler(side)), Lists.newArrayList(handler), IS -> !IS.isEmpty(), 4);
 		}
 		ArrayList<EnumFacing> inputs = sides.getSidesWithConfig(MachineSideConfig.INPUT);
 		if (!inputs.isEmpty()) {
 			ArrayList<BlockCoords> chambers = SonarHelper.getConnectedBlocks(Calculator.storageChamber, inputs, world, pos, 256);
+			List<IItemHandler> handlers = new ArrayList<>();
 			for (BlockCoords chamber : chambers) {
-				TileEntity tile = chamber.getTileEntity(world);
-				if (tile instanceof TileEntityStorageChamber) {
-					SonarAPI.getItemHelper().transferItems(this, tile, inputs.get(0), inputs.get(0).getOpposite(), null);
-					if (this.slots().get(0).isEmpty()) {
-						return;
-					}
+				IItemHandler handler = ItemTransferHelper.getItemHandler(world, chamber.getBlockPos(), EnumFacing.DOWN);
+				if(!ItemTransferHelper.isInvalidItemHandler(handler)){
+					handlers.add(handler);
 				}
 			}
+			ItemTransferHelper.doSimpleTransfer(handlers, Lists.newArrayList(inv()), IS -> true, 32);
 		}
 	}
 
@@ -173,33 +179,6 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		return EnergyMode.BLOCKED;
 	}
 
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (slot == 0) {
-			if (stack.getItem() == Calculator.circuitBoard) {
-				return true;
-			}
-            return stack.getItem() == Calculator.circuitBoard;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
-		return this.isItemValidForSlot(slot, stack);
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
-		if (stack.getItem() instanceof CircuitBoard) {
-			NBTTagCompound tag = slots().get(slot).getTagCompound();
-			if (!tag.getBoolean("Analysed")) {
-				return false;
-			}
-		}
-		return slot != 1;
-	}
-
     @Override
 	public void readData(NBTTagCompound nbt, SyncType type) {
 		super.readData(nbt, type);
@@ -243,12 +222,12 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerAnalysingChamber(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiAnalysingChamber(player.inventory, this);
 	}
 

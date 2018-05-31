@@ -102,10 +102,6 @@ public class Calculator {
 		CalculatorSmelting.addSmeltingRecipes();
 		logger.info("Added Smelting Recipes");
 
-		GameRegistry.registerFuelHandler(new CalculatorSmelting());
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CalculatorCommon());
-		logger.info("Registered Handlers");
-
 		MinecraftForge.EVENT_BUS.register(new CalculatorEvents());
 		logger.info("Registered Events");
 

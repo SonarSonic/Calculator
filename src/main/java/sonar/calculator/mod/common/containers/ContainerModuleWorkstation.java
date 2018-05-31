@@ -4,10 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
-import sonar.core.inventory.ContainerSync;
+import sonar.core.inventory.containers.ContainerSync;
+import sonar.core.inventory.handling.SlotSonarFiltered;
 
 import javax.annotation.Nonnull;
 
@@ -24,26 +24,11 @@ public class ContainerModuleWorkstation extends ContainerSync {
 
 		for (int j = 0; j < 2; ++j) {
 			for (int k = 0; k < 8; ++k) {
-				this.addSlotToContainer(new Slot(entity, k + j * 8, 10 + k * 20, 40 + j * 22) {
-                    @Override
-					public boolean isItemValid(ItemStack stack) {
-						return !stack.isEmpty() && Calculator.moduleItems.getSecondaryObject(stack.getItem()) != null;
-					}
-
-                    @Override
-					public int getSlotStackLimit() {
-						return 1;
-					}
-				});
+				this.addSlotToContainer(new SlotSonarFiltered(entity, k + j * 8, 10 + k * 20, 40 + j * 22));
 			}
 		}
 
-		addSlotToContainer(new Slot(entity, 16, 8, 8) {
-            @Override
-			public boolean isItemValid(ItemStack stack) {
-				return !stack.isEmpty() && stack.getItem() instanceof IFlawlessCalculator;
-			}
-		});
+		addSlotToContainer(new SlotSonarFiltered(entity, 16, 8, 8));
 		addInventory(inventory, 8, 84);
 	}
 

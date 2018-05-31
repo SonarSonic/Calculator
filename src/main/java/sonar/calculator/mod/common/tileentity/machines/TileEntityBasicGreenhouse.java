@@ -4,28 +4,30 @@ import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.IPlantable;
+import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiBasicGreenhouse;
 import sonar.calculator.mod.common.containers.ContainerBasicGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityBuildingGreenhouse;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.SonarInventory;
-import sonar.core.utils.IGuiTile;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.filters.IExtractFilter;
+import sonar.core.inventory.handling.filters.SlotFilter;
+import sonar.core.inventory.handling.filters.SlotHelper;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
-public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse implements ISidedInventory, IGuiTile {
+public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse implements IFlexibleGui {
+
+	public static final SlotFilter resource_slots = new SlotFilter(null, new int[] { 0, 1, 2, 3 });
+	public static final SlotFilter plant_slots = new SlotFilter(null, new int[] { 5, 6, 7, 8, 9, 10, 11, 12, 13 });
 
 	public int plants, lanterns, growTicks, growTick;
 
@@ -33,13 +35,17 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 		super(56, 18, 30, 14);
 		super.storage.setCapacity(CalculatorConfig.BASIC_GREENHOUSE_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.BASIC_GREENHOUSE_TRANSFER_RATE);
-		super.inv = new SonarInventory(this, 14);
+		super.inv.setSize(14);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> resource_slots.checkFilter(SLOT, FACE) ? checkInsert(SLOT,STACK,FACE) : null, EnumFilterType.EXTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> plant_slots.checkFilter(SLOT, FACE) ? isSeed(STACK) : null, EnumFilterType.EXTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.dischargeSlot(4), EnumFilterType.INTERNAL);
+		super.inv.getExtractFilters().put(IExtractFilter.BLOCK_EXTRACT, EnumFilterType.EXTERNAL);
 		super.energyMode = EnergyMode.RECIEVE;
 		super.type = 1;
 		super.maxLevel = 100000;
 		super.plantTick = 60;
-		syncList.addPart(inv);
 	}
+
 
 	@Override
 	public void update() {
@@ -301,29 +307,13 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 		}
 	}
 
-	@Nonnull
-    @Override
-	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-		return new int[] { 5, 6, 7, 8, 9, 10, 11, 12, 13 };
-	}
-
 	@Override
-	public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-		return !stack.isEmpty() && stack.getItem() instanceof IPlantable;
-	}
-
-	@Override
-	public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-		return false;
-	}
-
-	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerBasicGreenhouse(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiBasicGreenhouse(player.inventory, this);
 	}
 }

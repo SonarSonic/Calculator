@@ -9,23 +9,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import sonar.calculator.mod.Calculator;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.inventory.ContainerSonar;
-import sonar.core.inventory.InventoryStoredCrafting;
-import sonar.core.inventory.InventoryStoredResult;
+import sonar.core.inventory.containers.ContainerSonar;
+import sonar.core.inventory.slots.InventoryStoredCrafting;
+import sonar.core.inventory.slots.InventoryStoredResult;
 import sonar.core.inventory.TransferSlotsManager;
 
 import javax.annotation.Nonnull;
 
 public class ContainerCraftingCalculator extends ContainerSonar{
 	private final InventoryItem inventory;
-	public static TransferSlotsManager<InventoryItem> transfer = new TransferSlotsManager() {
-		{
-			addTransferSlot(new TransferSlots<InventoryItem>(TransferType.TILE_INV, 9));
-			addTransferSlot(new DisabledSlots<InventoryItem>(TransferType.TILE_INV, 1));
-			addPlayerInventory();
-		}
-	};
-	private boolean isRemote;
+	public static TransferSlotsManager<InventoryItem> transfer = new TransferSlotsManager(10);
 
 	public InventoryStoredCrafting craftMatrix;
 	public InventoryStoredResult craftResult;
@@ -33,7 +26,6 @@ public class ContainerCraftingCalculator extends ContainerSonar{
 
 	public ContainerCraftingCalculator(EntityPlayer player, InventoryItem inventoryItem) {
 		this.inventory = inventoryItem;
-		isRemote = player.getEntityWorld().isRemote;
 		craftMatrix = new InventoryStoredCrafting(this, 3, 3, inventory);
 		craftResult = new InventoryStoredResult(inventory);
 		this.player = player;

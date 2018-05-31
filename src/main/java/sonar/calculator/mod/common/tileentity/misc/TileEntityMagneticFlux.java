@@ -1,36 +1,35 @@
 package sonar.calculator.mod.common.tileentity.misc;
 
+import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import sonar.calculator.mod.client.gui.misc.GuiMagneticFlux;
 import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
-import sonar.core.api.SonarAPI;
-import sonar.core.api.inventories.StoredItemStack;
-import sonar.core.api.utils.ActionType;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.ItemTransferHelper;
+import sonar.core.inventory.handling.filters.IExtractFilter;
+import sonar.core.inventory.handling.filters.IInsertFilter;
 import sonar.core.network.utils.IByteBufTile;
-import sonar.core.utils.IGuiTile;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
-public class TileEntityMagneticFlux extends TileEntityInventory implements ISidedInventory, IByteBufTile, IGuiTile {
+public class TileEntityMagneticFlux extends TileEntityInventory implements IByteBufTile, IFlexibleGui {
 
 	public boolean whitelisted, exact;
 	public Random rand = new Random();
@@ -38,8 +37,9 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	public boolean disabled;
 
 	public TileEntityMagneticFlux() {
-		super.inv = new SonarInventory(this, 8);
-		syncList.addPart(inv);
+		super.inv.setSize(8);
+		super.inv.getInsertFilters().put(IInsertFilter.BLOCK_INSERT, EnumFilterType.EXTERNAL);
+		super.inv.getExtractFilters().put(IExtractFilter.BLOCK_EXTRACT, EnumFilterType.EXTERNAL);
 	}
 
 	@Override
@@ -150,30 +150,10 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 			if (entity == null) {
 				return null;
 			}
-            ItemStack itemstack = entity.getItem();
-            int i = itemstack.getCount();
-            TileEntity target = SonarHelper.getAdjacentTileEntity(this, EnumFacing.DOWN);
-            if (target != null)
-                itemstack = SonarAPI.getItemHelper().getStackToAdd(itemstack.getCount(), new StoredItemStack(itemstack), SonarAPI.getItemHelper().addItems(target, new StoredItemStack(itemstack), EnumFacing.getFront(1), ActionType.PERFORM, null)).getFullStack();
-            return itemstack;
+            IItemHandler handler = ItemTransferHelper.getItemHandlerOffset(world, pos, EnumFacing.DOWN);
+			return ItemTransferHelper.doInsert(entity.getItem(), Lists.newArrayList(handler));
 		}
         return item.getItem();
-	}
-
-	@Nonnull
-    @Override
-	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-		return new int[0];
-	}
-
-	@Override
-	public boolean canInsertItem(int slot, @Nonnull ItemStack item, @Nonnull EnumFacing side) {
-		return false;
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, @Nonnull ItemStack item, @Nonnull EnumFacing side) {
-		return false;
 	}
 
     @Override
@@ -217,12 +197,12 @@ public class TileEntityMagneticFlux extends TileEntityInventory implements ISide
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerMagneticFlux(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiMagneticFlux(player.inventory, this);
 	}
 }

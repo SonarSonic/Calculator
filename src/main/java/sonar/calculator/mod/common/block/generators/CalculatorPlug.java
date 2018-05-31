@@ -12,16 +12,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorPlug;
-import sonar.core.api.SonarAPI;
-import sonar.core.api.inventories.StoredItemStack;
-import sonar.core.api.utils.ActionType;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
-import sonar.core.utils.IGuiTile;
+import sonar.core.inventory.handling.ItemTransferHelper;
+import sonar.core.network.FlexibleGuiHandler;
 
 import javax.annotation.Nonnull;
 
@@ -49,14 +49,11 @@ public class CalculatorPlug extends SonarMachineBlock {
 		if (!world.isRemote) {
 			ItemStack held = player.getHeldItemMainhand();
 			if (!held.isEmpty() && held.getItem() instanceof IStability) {
-				TileEntity tile = world.getTileEntity(pos);
-				StoredItemStack item = new StoredItemStack(held).setStackSize(1);
-				StoredItemStack stack = SonarAPI.getItemHelper().getStackToAdd(1, item, SonarAPI.getItemHelper().addItems(tile, item.copy(), EnumFacing.UP, ActionType.PERFORM, null));
-				if (stack == null || stack.getStackSize() == 0)
-					held.shrink(1);
+				IItemHandler handler = ItemTransferHelper.getItemHandler(world, pos, EnumFacing.UP);
+				ItemHandlerHelper.insertItem(handler, held, true);
 				return true;
 			}
-			player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
+			FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
 		}
 		return true;
 	}

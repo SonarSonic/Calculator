@@ -3,6 +3,8 @@ package sonar.calculator.mod.common.tileentity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.machines.GuiDualOutputSmelting;
@@ -11,7 +13,10 @@ import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.*;
+import sonar.core.inventory.handling.EnumFilterType;
 import sonar.core.recipes.RecipeHelperV2;
+
+import javax.annotation.Nonnull;
 
 public class TileEntityMachine {
 
@@ -22,12 +27,12 @@ public class TileEntityMachine {
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player) {
+		public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerDualOutputSmelting(player.inventory, this);
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiDualOutputSmelting(player.inventory, this);
 		}
 	}
@@ -39,12 +44,12 @@ public class TileEntityMachine {
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player) {
+		public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerSmeltingBlock(player.inventory, this);
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiSmeltingBlock(player.inventory, this);
 		}
 	}
@@ -53,18 +58,20 @@ public class TileEntityMachine {
 
 		public ReinforcedFurnace() {
 			super(1, 1, CalculatorConfig.REINFORCED_FURNACE_SPEED, CalculatorConfig.REINFORCED_FURNACE_USAGE);
+			super.inv.getInsertFilters().put((SLOT,STACK,FACE)-> SLOT < this.inputSize(), EnumFilterType.EXTERNAL);
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiSmeltingBlock.ReinforcedFurnace(player.inventory, this);
 		}
 
+		@Nonnull
 		public ItemStack getFurnaceOutput(ItemStack stack) {
-			if (stack != null) {
+			if (!stack.isEmpty()) {
 				return FurnaceRecipes.instance().getSmeltingResult(stack);
 			}
-			return null;
+			return ItemStack.EMPTY;
 		}
 
         @Override
@@ -106,11 +113,6 @@ public class TileEntityMachine {
 			}
 			slots().get(0).shrink(1);
 		}
-
-		@Override
-		public boolean isItemValidForSlot(int slot, ItemStack stack) {
-            return slot < this.inputSize();
-		}
 	}
 
     public static class StoneSeparator extends DualOutput {
@@ -127,7 +129,7 @@ public class TileEntityMachine {
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiDualOutputSmelting.StoneSeperator(player.inventory, this);
 		}
 	}
@@ -149,7 +151,7 @@ public class TileEntityMachine {
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiSmeltingBlock.ReassemblyChamber(player.inventory, this);
 		}
 	}
@@ -168,7 +170,7 @@ public class TileEntityMachine {
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiSmeltingBlock.RestorationChamber(player.inventory, this);
 		}
 	}
@@ -187,7 +189,7 @@ public class TileEntityMachine {
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiSmeltingBlock.ProcessingChamber(player.inventory, this);
 		}
 	}
@@ -209,7 +211,7 @@ public class TileEntityMachine {
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiDualOutputSmelting.AlgorithmSeperator(player.inventory, this);
 		}
 	}
@@ -229,7 +231,7 @@ public class TileEntityMachine {
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiDualOutputSmelting.ExtractionChamber(player.inventory, this);
 		}
 
@@ -254,7 +256,7 @@ public class TileEntityMachine {
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiDualOutputSmelting.PrecisionChamber(player.inventory, this);
 		}
 

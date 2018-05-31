@@ -8,7 +8,7 @@ import sonar.calculator.mod.common.recipes.FlawlessCalculatorRecipes;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.inventory.ContainerSonar;
+import sonar.core.inventory.containers.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.recipes.RecipeHelperV2;
 
@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 
 public class ContainerFlawlessCalculator extends ContainerSonar implements ICalculatorCrafter {
 	public final InventoryItem inventory;
-	public static TransferSlotsManager<InventoryItem> transfer = new TransferSlotsManager() {
+	public static TransferSlotsManager<InventoryItem> transfer = new TransferSlotsManager<InventoryItem>() {
 		{
 			addTransferSlot(new TransferSlots<InventoryItem>(TransferType.TILE_INV, 4));
 			addTransferSlot(new DisabledSlots<InventoryItem>(TransferType.TILE_INV, 1));

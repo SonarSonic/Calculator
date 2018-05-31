@@ -21,8 +21,8 @@ import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.block.SonarMachineBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
+import sonar.core.network.FlexibleGuiHandler;
 import sonar.core.utils.FailedCoords;
-import sonar.core.utils.IGuiTile;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -92,7 +92,7 @@ public abstract class Greenhouse extends SonarMachineBlock {
 			} else {
 				if (player != null) {
 					if (!world.isRemote) {
-						player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
+						FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
 					}
 				}
 			}

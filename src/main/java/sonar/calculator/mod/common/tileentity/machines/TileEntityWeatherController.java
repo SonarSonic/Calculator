@@ -3,18 +3,20 @@ package sonar.calculator.mod.common.tileentity.machines;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.misc.GuiWeatherController;
 import sonar.calculator.mod.common.containers.ContainerWeatherController;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.network.utils.IByteBufTile;
-import sonar.core.utils.IGuiTile;
 
-public class TileEntityWeatherController extends TileEntityEnergyInventory implements IByteBufTile, IProcessMachine, IGuiTile {
+public class TileEntityWeatherController extends TileEntityEnergyInventory implements IByteBufTile, IProcessMachine, IFlexibleGui {
 
 	public int type, data, buffer, coolDown;
 
@@ -23,11 +25,11 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 	public static final int THUNDER = 2;
 
 	public TileEntityWeatherController() {
-		super.inv = new SonarInventory(this, 1);
+		super.inv.setSize(1);
+		super.inv.getInsertFilters().put(SlotHelper.dischargeSlot(0), EnumFilterType.INTERNAL);
 		super.storage.setCapacity(CalculatorConfig.WEATHER_CONTROLLER_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.WEATHER_CONTROLLER_TRANSFER_RATE);
 		super.energyMode = EnergyMode.RECIEVE;
-		syncList.addPart(inv);
 	}
 
 	@Override
@@ -164,12 +166,12 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerWeatherController(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiWeatherController(player.inventory, this);
 	}
 

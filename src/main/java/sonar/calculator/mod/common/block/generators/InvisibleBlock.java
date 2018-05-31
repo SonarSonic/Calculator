@@ -20,7 +20,7 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
-import sonar.core.utils.IGuiTile;
+import sonar.core.network.FlexibleGuiHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -46,7 +46,7 @@ public class InvisibleBlock extends SonarBlock {
 			for (int i = 1; i < 4; i++) {
 				BlockPos offset = pos.offset(EnumFacing.DOWN, i);
 				if (world.getBlockState(offset).getBlock() == Calculator.conductorMast) {
-					player.openGui(Calculator.instance, IGuiTile.ID, world, offset.getX(), offset.getY(), offset.getZ());
+					FlexibleGuiHandler.instance().openBasicTile(player, world, offset, 0);
 					break;
 				}
 			}

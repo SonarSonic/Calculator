@@ -2,35 +2,34 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import sonar.calculator.mod.client.gui.calculators.GuiAtomicCalculator;
 import sonar.calculator.mod.client.gui.calculators.GuiDynamicCalculator;
 import sonar.calculator.mod.common.containers.ContainerAtomicCalculator;
 import sonar.calculator.mod.common.containers.ContainerDynamicCalculator;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.blocks.IStableBlock;
 import sonar.core.api.blocks.IStableGlass;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.inventory.IDropInventory;
-import sonar.core.inventory.SonarInventory;
 import sonar.core.utils.FailedCoords;
-import sonar.core.utils.IGuiTile;
 
-import javax.annotation.Nonnull;
+public abstract class TileEntityCalculator extends TileEntityInventory implements IFlexibleGui {
 
-public abstract class TileEntityCalculator extends TileEntityInventory implements ISidedInventory, IGuiTile {
+	public TileEntityCalculator(){
+		super();
+	}
 
-	public static class Dynamic extends TileEntityCalculator implements IDropInventory {
+	public static class Dynamic extends TileEntityCalculator {
 
 		public int[] dropSlots = new int[] { 0, 1, 3, 4, 6, 7, 8 };
 
 		public Dynamic() {
-			super.inv = new SonarInventory(this, 10);
-			syncList.addPart(inv);
+			super.inv.setSize(10);
 		}
 
 		public FailedCoords checkStructure() {
@@ -95,69 +94,32 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player) {
+		public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerDynamicCalculator(player, this);
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiDynamicCalculator(player, this);
-		}
-
-		@Override
-		public int[] dropSlots() {
-			return dropSlots;
-		}
-
-		@Override
-		public boolean canDrop() {
-			return true;
 		}
 	}
 
-	public static class Atomic extends TileEntityCalculator implements IDropInventory {
+	public static class Atomic extends TileEntityCalculator{
 
 		public int[] dropSlots = new int[] { 0, 1, 2};
 		
 		public Atomic() {
-			super.inv = new SonarInventory(this, 4);
-			syncList.addPart(inv);
+			super.inv.setSize(4);
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player) {
+		public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerAtomicCalculator(player, this);
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player) {
+		public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiAtomicCalculator(player, this);
 		}
-
-		@Override
-		public int[] dropSlots() {
-			return dropSlots;
-		}
-
-		@Override
-		public boolean canDrop() {
-			return true;
-		}
-	}
-
-	@Nonnull
-    @Override
-	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-		return new int[0];
-	}
-
-	@Override
-	public boolean canInsertItem(int index, @Nonnull ItemStack itemStackIn, @Nonnull EnumFacing direction) {
-		return false;
-	}
-
-	@Override
-	public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-		return false;
 	}
 }

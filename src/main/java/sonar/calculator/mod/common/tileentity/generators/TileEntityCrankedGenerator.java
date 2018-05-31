@@ -5,19 +5,20 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.client.gui.generators.GuiCrankedGenerator;
 import sonar.calculator.mod.common.containers.ContainerCrankedGenerator;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.common.tileentity.TileEntityEnergy;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.utils.IGuiTile;
 
 import java.util.List;
 
-public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGuiTile {
+public class TileEntityCrankedGenerator extends TileEntityEnergy implements IFlexibleGui {
 
 	public boolean cranked;
 	public int ticks;
@@ -77,12 +78,12 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IGui
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerCrankedGenerator(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiCrankedGenerator(player.inventory, this);
 	}
 }

@@ -14,7 +14,7 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.network.CalculatorGui;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.common.item.SonarEnergyItem;
-import sonar.core.inventory.IItemInventory;
+import sonar.core.api.inventories.IItemInventory;
 
 public class WIPSmeltingModule extends SonarEnergyItem implements IItemInventory {
 

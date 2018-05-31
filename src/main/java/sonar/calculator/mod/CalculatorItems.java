@@ -14,10 +14,7 @@ import sonar.calculator.mod.common.item.modules.*;
 import sonar.calculator.mod.common.item.tools.*;
 import sonar.core.SonarRegister;
 import sonar.core.common.block.properties.IMetaVariant;
-import sonar.core.common.item.SonarItem;
-import sonar.core.common.item.SonarMetaItem;
-import sonar.core.common.item.SonarSeeds;
-import sonar.core.common.item.SonarSeedsFood;
+import sonar.core.common.item.*;
 import sonar.core.upgrades.MachineUpgrade;
 
 import javax.annotation.Nonnull;
@@ -170,7 +167,7 @@ public class CalculatorItems extends Calculator {
 		redstone_ingot = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstoneIngot", new Item());
 		weakeneddiamond = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamond", new Item());
 		flawlessdiamond = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamond", new Item());
-		firediamond = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamond", new Item());
+		firediamond = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamond", new SonarItemSimpleFuel(160000));
 		electricDiamond = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricDiamond", new Item());
 		endDiamond = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndDiamond", new EndDiamond());
 
@@ -194,11 +191,11 @@ public class CalculatorItems extends Calculator {
 		cookedBroccoli = SonarRegister.addItem(CalculatorConstants.MODID, tab, "CookedBroccoli", new ItemFood(9, 0.6F, false));
 
 		// fuels
-		coal_dust = SonarRegister.addItem(CalculatorConstants.MODID, tab, "CoalDust", new Item());
-		enriched_coal = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedCoal", new Item());
-		purified_coal = SonarRegister.addItem(CalculatorConstants.MODID, tab, "PurifiedCoal", new Item());
-		firecoal = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireCoal", new Item());
-		controlled_Fuel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ControlledFuel", new Item());
+		coal_dust = SonarRegister.addItem(CalculatorConstants.MODID, tab, "CoalDust", new SonarItemSimpleFuel(1000));
+		enriched_coal = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedCoal", new SonarItemSimpleFuel(5000));
+		purified_coal = SonarRegister.addItem(CalculatorConstants.MODID, tab, "PurifiedCoal", new SonarItemSimpleFuel(10000));
+		firecoal = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireCoal", new SonarItemSimpleFuel(25000));
+		controlled_Fuel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ControlledFuel", new SonarItemSimpleFuel(80000));
 
 		// grenades
 		grenadecasing = SonarRegister.addItem(CalculatorConstants.MODID, tab, "GrenadeCasing", new Item());

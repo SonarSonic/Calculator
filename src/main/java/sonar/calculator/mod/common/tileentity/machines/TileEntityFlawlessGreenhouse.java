@@ -1,17 +1,14 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
@@ -21,34 +18,40 @@ import sonar.calculator.mod.common.containers.ContainerFlawlessGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCO2Generator;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
-import sonar.core.api.SonarAPI;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.ItemTransferHelper;
+import sonar.core.inventory.handling.filters.IExtractFilter;
+import sonar.core.inventory.handling.filters.SlotFilter;
+import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.utils.FailedCoords;
-import sonar.core.utils.IGuiTile;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implements ISidedInventory, IFlawlessGreenhouse, IGuiTile {
+public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implements IFlawlessGreenhouse, IFlexibleGui {
 
+	public static final SlotFilter plant_slots = new SlotFilter(true, new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
 	public int plants, levelTicks, checkTicks, houseSize, growTicks, growTick;
 	public int plantsGrown;
 
 	public TileEntityFlawlessGreenhouse() {
 		super.storage.setCapacity(CalculatorConfig.FLAWLESS_GREENHOUSE_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.FLAWLESS_GREENHOUSE_TRANSFER_RATE);
-		super.inv = new SonarInventory(this, 10);
+		super.inv.setSize(10);
+		super.inv.getInsertFilters().put(plant_slots, EnumFilterType.EXTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> TileEntityGreenhouse.isSeed(STACK), EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.dischargeSlot(0), EnumFilterType.INTERNAL);
+		super.inv.getExtractFilters().put(IExtractFilter.BLOCK_EXTRACT, EnumFilterType.EXTERNAL);
 		super.energyMode = EnergyMode.RECIEVE;
 		super.type = 3;
 		super.maxLevel = 100000;
 		super.plantTick = 2;
-		syncList.addPart(inv);
 	}
 
 	@Override
@@ -113,7 +116,7 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		}
 		if (this.levelTicks == 20) {
 			this.levelTicks = 0;
-			SonarAPI.getItemHelper().transferItems(this.getWorld().getTileEntity(pos.offset(forward.getOpposite())), this, EnumFacing.getFront(0), EnumFacing.getFront(0), new PlantableFilter());
+			ItemTransferHelper.doSimpleTransfer(Lists.newArrayList(getAdjacentChestHandler()), Lists.newArrayList(inv().getItemHandler(forward)), TileEntityGreenhouse::isSeed, 32);
 			gasLevels();
 		}
 	}
@@ -349,22 +352,6 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 		return new FailedCoords(true, BlockCoords.EMPTY, FontHelper.translate("locator.none"));
 	}
 
-	@Nonnull
-	@Override
-	public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-		return new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-	}
-
-	@Override
-	public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-		return true;
-	}
-
-	@Override
-	public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
-		return stack.getItem() instanceof IPlantable;
-	}
-
     @Override
 	@SideOnly(Side.CLIENT)
 	public List<String> getWailaInfo(List<String> currenttip, IBlockState state) {
@@ -383,12 +370,12 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerFlawlessGreenhouse(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiFlawlessGreenhouse(player.inventory, this);
 	}
 }

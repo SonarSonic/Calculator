@@ -1,40 +1,38 @@
 package sonar.calculator.mod.common.tileentity;
 
+import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.IGreenhouse;
 import sonar.core.SonarCore;
-import sonar.core.api.SonarAPI;
-import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.api.machines.IPausable;
-import sonar.core.api.utils.ActionType;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
-import sonar.core.helpers.InventoryHelper.IInventoryFilter;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.integration.planting.IFertiliser;
 import sonar.core.integration.planting.IHarvester;
 import sonar.core.integration.planting.IPlanter;
+import sonar.core.inventory.handling.ItemTransferHelper;
 import sonar.core.network.sync.SyncEnum;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.INT;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.utils.FailedCoords;
 
+import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory implements IGreenhouse, IPausable, IByteBufTile {
@@ -91,14 +89,6 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 	}
 
-	public static class PlantableFilter implements IInventoryFilter {
-
-		@Override
-		public boolean allowed(ItemStack stack) {
-			return isSeed(stack);
-		}
-	}
-
 	public enum GreenhouseAction {
 		CAN_BUILD, CHECK, BUILD, DEMOLISH
 	}
@@ -127,6 +117,8 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
                 for (IFertiliser fertiliser : SonarCore.fertilisers.getObjects()) {
                     if (fertiliser.canFertilise(world, pos, state) && fertiliser.canGrow(world, pos, state, false)) {
                         fertiliser.grow(world, SonarCore.rand, pos, state);
+						if (this.type == 3)
+							this.plantsGrown++;
                     }
                 }
                 this.storage.modifyEnergyStored(-growthRF);
@@ -145,7 +137,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
                 if (harvester.canHarvest(world, pos, state) && harvester.isReady(world, pos, state)) {
                     List<ItemStack> stacks = harvester.getDrops(world, pos, state, type);
                     if (stacks != null) {
-                        addHarvestedStacks(stacks, pos, false, true);
+                        addHarvestedStacks(stacks, pos);
                         harvester.harvest(world, pos, state, false);
                     }
                     this.storage.modifyEnergyStored(-growthRF);
@@ -154,30 +146,26 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
         }
 	}
 
-	protected void addHarvestedStacks(List<ItemStack> array, BlockPos pos, boolean keepBlock, boolean isCrops) {
-		boolean keptBlock = !keepBlock;
+	@Nullable
+	protected IItemHandler getAdjacentChestHandler(){
+		return ItemTransferHelper.getItemHandlerOffset(world, pos, forward.getOpposite());
+	}
+
+	protected void addHarvestedStacks(List<ItemStack> array, BlockPos pos) {
+		boolean keptBlock = false;
+		List<IItemHandler> handlers = Lists.newArrayList(this.inv().getItemHandler(forward), getAdjacentChestHandler());
 		for (ItemStack stack : array) {
 			if (!stack.isEmpty()) {
 				if (!keptBlock && stack.getItem() instanceof IPlantable) {
 					keptBlock = true;
+					this.plantsHarvested++;
 					continue;
 				}
-				StoredItemStack storedstack = new StoredItemStack(stack.copy());
-				for (TileEntity tile : Arrays.asList(this, this.getWorld().getTileEntity(this.pos.offset(forward.getOpposite())))) {
-					StoredItemStack returned = SonarAPI.getItemHelper().addItems(tile, storedstack, isCrops ? EnumFacing.getFront(0) : EnumFacing.UP, ActionType.PERFORM, null);
-					if (returned != null)
-						storedstack.stored -= returned.getStackSize();
-					if (!isCrops) {
-						break;
-					}
+				stack = ItemTransferHelper.doInsert(stack, handlers);
+				if(!stack.isEmpty()){
+					BlockPos offset = this.getPos().offset(forward.getOpposite()).offset(EnumFacing.UP);
+					InventoryHelper.spawnItemStack(world, offset.getX(), offset.getY(), offset.getZ(), stack);
 				}
-				if (storedstack.stored > 0) {
-					EntityItem drop = new EntityItem(world, this.pos.offset(forward.getOpposite()).getX(), this.pos.offset(forward.getOpposite()).getY(), this.pos.offset(forward.getOpposite()).getZ(), storedstack.getFullStack());
-					world.spawnEntity(drop);
-				}
-
-				if (isCrops && this.type == 3)
-					this.plantsHarvested++;
 			}
 		}
 	}

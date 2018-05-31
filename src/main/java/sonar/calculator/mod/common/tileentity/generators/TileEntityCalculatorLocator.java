@@ -23,19 +23,20 @@ import sonar.calculator.mod.client.gui.generators.GuiCalculatorLocator;
 import sonar.calculator.mod.common.block.generators.CalculatorLocator;
 import sonar.calculator.mod.common.containers.ContainerCalculatorLocator;
 import sonar.core.SonarCore;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
-import sonar.core.utils.IGuiTile;
 
 import java.util.List;
 
-public class TileEntityCalculatorLocator extends TileEntityEnergyInventory implements IByteBufTile, ICalculatorLocator, IGuiTile {
+public class TileEntityCalculatorLocator extends TileEntityEnergyInventory implements IByteBufTile, ICalculatorLocator, IFlexibleGui {
 
 	public SyncTagType.BOOLEAN active = new SyncTagType.BOOLEAN(0);
 	public SyncTagType.INT size = new SyncTagType.INT(1);
@@ -48,9 +49,11 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		super.storage.setCapacity(CalculatorConfig.CALCULATOR_LOCATOR_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.CALCULATOR_LOCATOR_TRANSFER_RATE);
 		super.CHARGING_RATE = CalculatorConfig.CALCULATOR_LOCATOR_CHARGING_RATE;
-		super.inv = new SonarInventory(this, 2);
+		super.inv.setSize(2);
+		super.inv.getInsertFilters().put(SlotHelper.chargeSlot(0), EnumFilterType.INTERNAL);
+		super.inv.getInsertFilters().put(SlotHelper.filterSlot(1, s -> s.getItem() instanceof ILocatorModule), EnumFilterType.EXTERNAL_INTERNAL);
 		super.energyMode = EnergyMode.SEND;
-		syncList.addParts(active, size, stability, owner, currentGen, inv);
+		syncList.addParts(active, size, stability, owner, currentGen);
 	}
 
 	@Override
@@ -270,9 +273,14 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 		return false;
 	}
 
+	public void onInventoryContentsChanged(int slot){
+		super.onInventoryContentsChanged(slot);
+		if(slot == 1) createOwner();
+	}
+
 	public void createOwner() {
 		ItemStack stack = this.getStackInSlot(1);
-		if (stack == null) {
+		if (stack.isEmpty()) {
 			this.owner.setObject("None");
 			return;
 		}
@@ -392,12 +400,12 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerCalculatorLocator(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiCalculatorLocator(player.inventory, this);
 	}
 }

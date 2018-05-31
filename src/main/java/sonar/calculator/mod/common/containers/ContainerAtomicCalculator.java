@@ -6,7 +6,7 @@ import sonar.calculator.mod.common.recipes.AtomicCalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
-import sonar.core.inventory.ContainerSonar;
+import sonar.core.inventory.containers.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.recipes.RecipeHelperV2;
 
@@ -15,13 +15,7 @@ import javax.annotation.Nonnull;
 public class ContainerAtomicCalculator extends ContainerSonar implements ICalculatorCrafter {
 
 	private TileEntityCalculator.Atomic atomic;
-	public static TransferSlotsManager<TileEntityCalculator.Atomic> transfer = new TransferSlotsManager() {
-		{
-			addTransferSlot(new TransferSlots<TileEntityCalculator.Atomic>(TransferType.TILE_INV, 3));
-			addTransferSlot(new TransferSlots<TileEntityCalculator.Atomic>(TransferType.TILE_INV, 1));
-			addPlayerInventory();
-		}
-	};
+	public static TransferSlotsManager<TileEntityCalculator.Atomic> transfer = new TransferSlotsManager<>(4);
 
 	private static final int INV_START = 4, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 	private EntityPlayer player;

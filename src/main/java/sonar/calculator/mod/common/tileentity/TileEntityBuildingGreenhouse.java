@@ -1,21 +1,25 @@
 package sonar.calculator.mod.common.tileentity;
 
+import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
-import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.helpers.FontHelper;
+import sonar.core.inventory.handling.ItemTransferHelper;
 import sonar.core.utils.FailedCoords;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse {
 
@@ -42,6 +46,18 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		this.requiredPlanks = requiredPlanks;
 		this.requiredGlass = requiredGlass;
 		this.requiredBuildEnergy = (requiredStairs + requiredLogs + requiredPlanks + requiredGlass) * buildRF;
+	}
+
+	public boolean checkInsert(int index, @Nonnull ItemStack stack, @Nullable EnumFacing side) {
+		BlockType type = BlockType.getTypeForItem(stack.getItem());
+		if (type != BlockType.NONE) {
+			for (int slot : getSlotsForType(type)) {
+				if (slot == index) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -109,7 +125,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		}
 		if (this.levelTicks == 20) {
 			this.levelTicks = 0;
-			SonarAPI.getItemHelper().transferItems(this.getWorld().getTileEntity(pos.offset(forward.getOpposite())), this, EnumFacing.getFront(0), EnumFacing.getFront(0), new PlantableFilter());
+			ItemTransferHelper.doSimpleTransfer(Lists.newArrayList(getAdjacentChestHandler()), Lists.newArrayList(inv().getItemHandler(forward)), TileEntityGreenhouse::isSeed, 32);
 			gasLevels();
 		}
 	}
@@ -336,11 +352,17 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			break;
 		case DEMOLISH:
 			if (checkBlock) {
-				List<ItemStack> stacks = state.getBlock().getDrops(world, place.pos, state, 0);
+				NonNullList<ItemStack> stacks = NonNullList.create();
+				state.getBlock().getDrops(stacks, world, place.pos, state, 0);
 				if (stacks.isEmpty() && place.type == BlockType.GLASS) {
 					stacks.add(new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state)));
 				}
-				addHarvestedStacks(stacks, place.pos, true, false);
+				for(ItemStack stack : stacks) {
+					stack = ItemTransferHelper.doInsert(stack, Lists.newArrayList(inv()));
+					if (!stack.isEmpty()) {
+						InventoryHelper.spawnItemStack(world, place.pos.getX(), place.pos.getY(), place.pos.getZ(), stack);
+					}
+				}
 				world.setBlockToAir(place.pos);
 				return null;
 			}

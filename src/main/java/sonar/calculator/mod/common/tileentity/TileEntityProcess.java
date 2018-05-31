@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.tileentity;
 
+import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -8,16 +9,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 import sonar.core.SonarCore;
-import sonar.core.api.SonarAPI;
 import sonar.core.api.machines.IPausable;
 import sonar.core.api.machines.IProcessMachine;
 import sonar.core.api.upgrades.IUpgradableTile;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.IAdditionalInventory;
+import sonar.core.api.inventories.IAdditionalInventory;
+import sonar.core.inventory.handling.ItemTransferHelper;
 import sonar.core.network.sync.IDirtyPart;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.INT;
@@ -132,7 +133,9 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public void transferItems() {
 		ArrayList<EnumFacing> outputs = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
 		for (EnumFacing side : outputs) {
-			SonarAPI.getItemHelper().transferItems(this, SonarHelper.getAdjacentTileEntity(this, side), side, side.getOpposite(), null);
+			IItemHandler handler = ItemTransferHelper.getItemHandler(world, getPos().offset(side), side);
+			if(handler != null)
+				ItemTransferHelper.doSimpleTransfer(Lists.newArrayList(this.inv.getItemHandler(side)), Lists.newArrayList(handler), IS -> !IS.isEmpty(), 4);
 		}
 	}
 

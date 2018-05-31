@@ -25,8 +25,8 @@ import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.helpers.FontHelper;
+import sonar.core.network.FlexibleGuiHandler;
 import sonar.core.upgrades.MachineUpgrade;
-import sonar.core.utils.IGuiTile;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -150,7 +150,7 @@ public class SmeltingBlock extends SonarSidedBlock {
                     return false;
                 } else {
                     if (!world.isRemote) {
-                        player.openGui(Calculator.instance, IGuiTile.ID, world, pos.getX(), pos.getY(), pos.getZ());
+						FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
                     }
                     return true;
                 }

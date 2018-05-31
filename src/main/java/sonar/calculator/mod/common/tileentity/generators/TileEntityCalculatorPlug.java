@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -12,22 +13,24 @@ import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.generators.GuiCalculatorPlug;
 import sonar.calculator.mod.common.block.generators.CalculatorPlug;
 import sonar.calculator.mod.common.containers.ContainerCalculatorPlug;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
-import sonar.core.utils.IGuiTile;
 
 import java.util.List;
 
-public class TileEntityCalculatorPlug extends TileEntityInventory implements IGuiTile, IByteBufTile {
+public class TileEntityCalculatorPlug extends TileEntityInventory implements IFlexibleGui, IByteBufTile {
 
 	public SyncTagType.INT stable = new SyncTagType.INT(0);
 
 	public TileEntityCalculatorPlug() {
-		super.inv = new SonarInventory(this, 1);
-		syncList.addParts(stable, inv);
+		super.inv.setSize(1);
+		super.inv.getInsertFilters().put(SlotHelper.filterSlot(0, s -> s.getItem() instanceof IStability), EnumFilterType.EXTERNAL_INTERNAL);
+		syncList.addParts(stable);
 	}
 
 	@Override
@@ -89,12 +92,12 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IGu
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerCalculatorPlug(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiCalculatorPlug(player.inventory, this);
 	}
 

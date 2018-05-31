@@ -8,6 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.machines.ITeleport;
@@ -16,18 +17,18 @@ import sonar.calculator.mod.client.gui.misc.GuiTeleporter;
 import sonar.calculator.mod.utils.TeleporterRegistry;
 import sonar.calculator.mod.utils.helpers.TeleporterHelper;
 import sonar.core.SonarCore;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.common.block.StableStone;
 import sonar.core.common.tileentity.TileEntitySonar;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.ContainerEmpty;
+import sonar.core.inventory.containers.ContainerEmpty;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.sync.SyncTagType.STRING;
 import sonar.core.network.utils.IByteBufTile;
-import sonar.core.utils.IGuiTile;
 
 import java.util.List;
 
-public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, IGuiTile {
+public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, IByteBufTile, IFlexibleGui {
 
 	public int teleporterID;
 	public SyncTagType.STRING name = (STRING) new SyncTagType.STRING(0).setDefault("LINK NAME");
@@ -280,12 +281,12 @@ public class TileEntityTeleporter extends TileEntitySonar implements ITeleport, 
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerEmpty(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiTeleporter(player.inventory, this);
 	}
 }

@@ -6,33 +6,36 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.items.IItemHandler;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.misc.GuiFabricationChamber;
 import sonar.calculator.mod.common.containers.ContainerFabricationChamber;
 import sonar.calculator.mod.common.recipes.FabricationChamberRecipes;
 import sonar.core.SonarCore;
-import sonar.core.api.SonarAPI;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.inventories.StoredItemStack;
-import sonar.core.api.utils.ActionType;
 import sonar.core.api.utils.BlockCoords;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.ItemStackHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.inventory.SonarLargeInventory;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.ItemTransferHelper;
+import sonar.core.inventory.handling.filters.IInsertFilter;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
-import sonar.core.utils.IGuiTile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TileEntityFabricationChamber extends TileEntityInventory implements IGuiTile, IByteBufTile {
+public class TileEntityFabricationChamber extends TileEntityInventory implements IFlexibleGui, IByteBufTile {
 
 	public ItemStack selected = ItemStack.EMPTY;
 	public final int fabricateTime = 200;
@@ -47,8 +50,8 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	}
 
 	public TileEntityFabricationChamber() {
-		super.inv = new SonarInventory(this, 1);
-		syncList.addPart(inv);
+		super.inv.setSize(1);
+		super.inv.getInsertFilters().put(IInsertFilter.BLOCK_INSERT, EnumFilterType.EXTERNAL_INTERNAL);
 	}
 
     @Override
@@ -110,9 +113,10 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	public ArrayList<StoredItemStack> getAvailableCircuits(ArrayList<TileEntityStorageChamber> chambers) {
         ArrayList<StoredItemStack> circuits = new ArrayList<>();
 		for (TileEntityStorageChamber chamber : chambers) {
-			for (StoredItemStack storedstack : chamber.getTileInv().slots) {
-				if (storedstack != null && storedstack.getItemStack().getItem() == Calculator.circuitBoard) {
-					SonarAPI.getItemHelper().addStackToList(circuits, storedstack);
+			for (SonarLargeInventory.InventoryLargeSlot slot : chamber.inv().slots) {
+				StoredItemStack largeStack = slot.getLargeStack();
+				if (largeStack.getItemStack().getItem() == Calculator.circuitBoard) {
+					ItemTransferHelper.addStackToList(circuits, largeStack.copy());
 				}
 			}
 		}
@@ -141,16 +145,20 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 			}
 			if (fabricated) {
 				final List<ISonarRecipeObject> inputs = recipe.inputs();
-                List<StoredItemStack> stacks = new ArrayList<>();
-				inputs.forEach(input -> stacks.add(new StoredItemStack((ItemStack) input.getValue())));
-				for (TileEntityStorageChamber chamber : chambers) {
-					if (stacks.isEmpty()) {
-						break;
-					}
-					for (StoredItemStack stack : stacks) {
-						if (stack.stored != 0) {
-							StoredItemStack remove = SonarAPI.getItemHelper().removeItems(chamber, stack.copy(), EnumFacing.DOWN, ActionType.PERFORM, null);
-							stack.stored -= remove.stored;
+				INPUTS: for(ISonarRecipeObject input : inputs){
+					ItemStack stack = ((ItemStack) input.getValue()).copy();
+					for (TileEntityStorageChamber chamber : chambers) {
+						IItemHandler handler = ItemTransferHelper.getItemHandler(chamber, EnumFacing.UP);
+						if(!ItemTransferHelper.isInvalidItemHandler(handler)){
+							for(int i = 0; i < handler.getSlots(); i++){
+								ItemStack extract = handler.extractItem(i, stack.getCount(), true);
+								if(!extract.isEmpty() && ItemStack.areItemStacksEqual(stack, extract)){
+									stack = handler.extractItem(i, stack.getCount(), false);
+									if(stack.isEmpty()){
+										continue INPUTS;
+									}
+								}
+							}
 						}
 					}
 				}
@@ -217,12 +225,12 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerFabricationChamber(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiFabricationChamber(player.inventory, this);
 	}
 }

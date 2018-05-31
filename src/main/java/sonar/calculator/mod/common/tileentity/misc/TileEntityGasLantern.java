@@ -3,28 +3,32 @@ package sonar.calculator.mod.common.tileentity.misc;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.client.gui.misc.GuiGasLantern;
 import sonar.calculator.mod.common.block.misc.GasLantern;
 import sonar.calculator.mod.common.containers.ContainerLantern;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.network.sync.SyncTagType;
-import sonar.core.utils.IGuiTile;
 
 import java.util.List;
 
-public class TileEntityGasLantern extends TileEntityInventory implements IGuiTile {
+public class TileEntityGasLantern extends TileEntityInventory implements IFlexibleGui {
 
 	public SyncTagType.INT burnTime = new SyncTagType.INT("burnTime");
 	public SyncTagType.INT maxBurnTime = new SyncTagType.INT("maxBurnTime");
 
 	public TileEntityGasLantern() {
-		super.inv = new SonarInventory(this, 1);
-		syncList.addParts(burnTime, maxBurnTime, inv);
+		super.inv.setSize(1);
+		super.inv.getInsertFilters().put(SlotHelper.filterSlot(0, TileEntityFurnace::isItemFuel), EnumFilterType.EXTERNAL_INTERNAL);
+		syncList.addParts(burnTime, maxBurnTime);
 	}
 
 	@Override
@@ -92,12 +96,12 @@ public class TileEntityGasLantern extends TileEntityInventory implements IGuiTil
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerLantern(player.inventory, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiGasLantern(player.inventory, this);
 	}
 }

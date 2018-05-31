@@ -15,11 +15,12 @@ import sonar.core.SonarCore;
 import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons.ImageButton;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.ContainerEmpty;
+import sonar.core.inventory.containers.ContainerEmpty;
 import sonar.core.network.PacketByteBuf;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class GuiTeleporter extends GuiSonarTile {
@@ -103,7 +104,7 @@ public class GuiTeleporter extends GuiSonarTile {
 		for (int i = 0; i < string.length(); i++) {
 			dots[i] = "*".charAt(0);
 		}
-		return dots.toString();
+		return Arrays.toString(dots);
 	}
 
 	@Override

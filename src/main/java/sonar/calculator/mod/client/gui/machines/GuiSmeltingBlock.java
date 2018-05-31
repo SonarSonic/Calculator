@@ -4,6 +4,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import sonar.calculator.mod.client.gui.buttons.CircuitButton;
+import sonar.calculator.mod.client.gui.buttons.PauseButton;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.core.client.gui.GuiSonarTile;
@@ -31,13 +33,7 @@ public class GuiSmeltingBlock extends GuiSonarTile {
 	public void initGui() {
 		super.initGui();
 		this.buttonList.add(new CircuitButton(this, entity.getUpgradeInventory(), 0, guiLeft + 150 - 14, guiTop + 23));
-		this.buttonList.add(new PauseButton(this, entity, 1, guiLeft + 8 + 14, guiTop + 23, entity.isPaused()));
-	}
-
-	public void initGui(boolean pause) {
-		super.initGui();
-		this.buttonList.add(new CircuitButton(this, entity.getUpgradeInventory(), 0, guiLeft + 150 - 14, guiTop + 23));
-		this.buttonList.add(new PauseButton(this, entity, 1, guiLeft + 8 + 14, guiTop + 23, pause));
+		this.buttonList.add(new PauseButton(this, entity, 1, guiLeft + 8 + 14, guiTop + 23, () -> entity.isPaused()));
 	}
 
 	@Override

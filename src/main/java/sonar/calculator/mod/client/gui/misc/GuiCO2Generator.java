@@ -35,7 +35,7 @@ public class GuiCO2Generator extends GuiSonarTile {
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+	public void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		super.drawGuiContainerBackgroundLayer(var1, var2, var3);
 		int k = this.entity.storage.getEnergyStored() * 78 / 1000000;
 		int j = 78 - k;

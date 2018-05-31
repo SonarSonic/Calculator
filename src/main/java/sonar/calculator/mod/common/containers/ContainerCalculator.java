@@ -10,21 +10,16 @@ import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.api.SonarAPI;
 import sonar.core.api.utils.ActionType;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.inventory.ContainerSonar;
+import sonar.core.inventory.containers.ContainerSonar;
 import sonar.core.inventory.TransferSlotsManager;
 import sonar.core.recipes.RecipeHelperV2;
 
 import javax.annotation.Nonnull;
 
 public class ContainerCalculator extends ContainerSonar implements ICalculatorCrafter {
+
+	public static TransferSlotsManager<InventoryItem> TRANSFER = new TransferSlotsManager(3);
 	private final InventoryItem inventory;
-	public static TransferSlotsManager<InventoryItem> transfer = new TransferSlotsManager() {
-		{
-			addTransferSlot(new TransferSlots<InventoryItem>(TransferType.TILE_INV, 2));
-			addTransferSlot(new DisabledSlots<InventoryItem>(TransferType.TILE_INV, 1));
-			addPlayerInventory();
-		}
-	};
 
 	private EntityPlayer player;
 
@@ -59,7 +54,7 @@ public class ContainerCalculator extends ContainerSonar implements ICalculatorCr
     @Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		return transfer.transferStackInSlot(this, inventory, player, slotID);
+		return TRANSFER.transferStackInSlot(this, inventory, player, slotID);
 	}
 
 	@Nonnull

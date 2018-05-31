@@ -9,7 +9,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
 import sonar.core.api.SonarAPI;
 import sonar.core.energy.DischargeValues;
-import sonar.core.inventory.ContainerSync;
+import sonar.core.inventory.containers.ContainerSync;
 import sonar.core.inventory.slots.SlotBlockedInventory;
 
 import javax.annotation.Nonnull;

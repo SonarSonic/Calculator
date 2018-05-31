@@ -5,18 +5,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.modules.IModuleInventory;
 import sonar.calculator.mod.client.gui.calculators.*;
 import sonar.calculator.mod.client.gui.modules.GuiStorageModule;
 import sonar.calculator.mod.common.containers.*;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.IItemInventory;
-import sonar.core.utils.IGuiItem;
+import sonar.core.api.inventories.IItemInventory;
+import sonar.core.network.FlexibleGuiHandler;
 
-public abstract class GuiModule extends ModuleBase implements IModuleInventory, IGuiItem {
+public abstract class GuiModule extends ModuleBase implements IModuleInventory, IFlexibleGui<ItemStack> {
 
 	public static GuiModule calculator = new CalculatorModule();
 	public static GuiModule scientific = new ScientificModule();
@@ -60,7 +60,7 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 	public void onModuleActivated(ItemStack stack, NBTTagCompound tag, World world, EntityPlayer player) {
 		if (!requiresEnergy || isEnergyAvailable(stack, player, world, 1)/* || this == storage*/) {
 			if (!world.isRemote) {
-				player.openGui(Calculator.instance, ID, world, -1000, -1000, -1000);
+				FlexibleGuiHandler.instance().openBasicItemStack(false, stack, player, world, player.getPosition(), 0);
 			}
 		}
 	}
@@ -77,12 +77,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
+		public Object getServerElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
+		public Object getClientElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 	}
@@ -94,12 +94,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
+		public Object getServerElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerScientificCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
+		public Object getClientElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiScientificCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 	}
@@ -111,12 +111,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
+		public Object getServerElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerFlawlessCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
+		public Object getClientElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiFlawlessCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 	}
@@ -128,12 +128,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
+		public Object getServerElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerDynamicModule(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
+		public Object getClientElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiDynamicModule(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 	}
@@ -145,12 +145,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
+		public Object getServerElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerCraftingCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
+		public Object getClientElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiCraftingCalculator(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 	}
@@ -162,12 +162,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 		}
 
 		@Override
-		public Object getGuiContainer(EntityPlayer player, ItemStack stack) {
+		public Object getServerElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new ContainerStorageModule(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 
 		@Override
-		public Object getGuiScreen(EntityPlayer player, ItemStack stack) {
+		public Object getClientElement(ItemStack stack, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 			return new GuiStorageModule(player, ((IItemInventory) stack.getItem()).getInventory(stack));
 		}
 

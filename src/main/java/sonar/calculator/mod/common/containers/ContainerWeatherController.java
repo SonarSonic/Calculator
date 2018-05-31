@@ -5,19 +5,15 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
-import sonar.core.inventory.ContainerSync;
+import sonar.core.inventory.containers.ContainerSync;
 import sonar.core.inventory.TransferSlotsManager;
 
 import javax.annotation.Nonnull;
 
 public class ContainerWeatherController extends ContainerSync {
+
+	public static TransferSlotsManager<TileEntityWeatherController> TRANSFER = new TransferSlotsManager<>(1);
 	private TileEntityWeatherController entity;
-	public static TransferSlotsManager<TileEntityWeatherController> transfer = new TransferSlotsManager() {
-		{
-			addTransferSlot(TransferSlotsManager.DISCHARGE_SLOT);
-			addPlayerInventory();
-		}
-	};
 
 	public ContainerWeatherController(InventoryPlayer inventory, TileEntityWeatherController entity) {
 		super(entity);
@@ -29,11 +25,6 @@ public class ContainerWeatherController extends ContainerSync {
 	@Nonnull
     @Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		return transfer.transferStackInSlot(this, entity, player, slotID);
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return entity.isUsableByPlayer(player);
+		return TRANSFER.transferStackInSlot(this, entity, player, slotID);
 	}
 }

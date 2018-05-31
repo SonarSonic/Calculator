@@ -2,28 +2,26 @@ package sonar.calculator.mod.common.tileentity.misc;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.World;
 import sonar.calculator.mod.client.gui.misc.GuiReinforcedChest;
 import sonar.calculator.mod.common.containers.ContainerReinforcedChest;
+import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityLargeInventory;
-import sonar.core.inventory.ILargeInventory;
 import sonar.core.inventory.SonarLargeInventory;
-import sonar.core.utils.IGuiTile;
 
-public class TileEntityReinforcedChest extends TileEntityLargeInventory implements IGuiTile {
+public class TileEntityReinforcedChest extends TileEntityLargeInventory implements IFlexibleGui {
 	public float lidAngle;
 	public float prevLidAngle;
 	public int numPlayersUsing;
 	private int ticksSinceSync;
 
 	public TileEntityReinforcedChest() {
-		super(27, 4);
-	}
-
-    @Override
-	public SonarLargeInventory getTileInv() {
-        return inv;
+		super(27, 256);
+		super.inv.default_external_insert_result = true;
+		super.inv.default_external_extract_result = true;
 	}
 
 	public boolean isUsableByPlayer(EntityPlayer player) {
@@ -44,7 +42,7 @@ public class TileEntityReinforcedChest extends TileEntityLargeInventory implemen
 
 			for (EntityPlayer entityplayer : this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double) ((float) i - f), (double) ((float) j - f), (double) ((float) k - f), (double) ((float) (i + 1) + f), (double) ((float) (j + 1) + f), (double) ((float) (k + 1) + f)))) {
 				if (entityplayer.openContainer instanceof ContainerReinforcedChest) {
-					ILargeInventory iinventory = ((ContainerReinforcedChest) entityplayer.openContainer).entity;
+					TileEntityReinforcedChest iinventory = ((ContainerReinforcedChest) entityplayer.openContainer).entity;
 					if (iinventory == this) {
 						++this.numPlayersUsing;
 					}
@@ -124,12 +122,12 @@ public class TileEntityReinforcedChest extends TileEntityLargeInventory implemen
 	}
 
 	@Override
-	public Object getGuiContainer(EntityPlayer player) {
+	public Object getServerElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new ContainerReinforcedChest(player, this);
 	}
 
 	@Override
-	public Object getGuiScreen(EntityPlayer player) {
+	public Object getClientElement(Object obj, int id, World world, EntityPlayer player, NBTTagCompound tag) {
 		return new GuiReinforcedChest(player, this);
 	}
 }
