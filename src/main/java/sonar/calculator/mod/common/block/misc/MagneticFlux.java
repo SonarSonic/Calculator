@@ -3,36 +3,24 @@ package sonar.calculator.mod.common.block.misc;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlockContainer;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.FlexibleGuiHandler;
 
 import javax.annotation.Nonnull;
 
-public class MagneticFlux extends SonarMachineBlock {
+public class MagneticFlux extends SonarBlockContainer {
 
 	public MagneticFlux() {
-		super(SonarMaterials.machine, false, true);
+		super(SonarMaterials.machine, false);
+		this.hasSpecialRenderer = true;
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
-	}
-
-	public int getRenderType() {
-		return 2;
-	}
-	
-    @Override
-	public boolean hasSpecialRenderer() {
-		return true;
-	}
-
-	public boolean isFullCube() {
-		return false;
 	}
 
 	@Override
@@ -41,7 +29,7 @@ public class MagneticFlux extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player != null && !world.isRemote) {
 			FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
 		}

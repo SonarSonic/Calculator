@@ -3,7 +3,7 @@ package sonar.calculator.mod.client.renderers;
 import sonar.calculator.mod.client.models.ModelConductorMast;
 import sonar.calculator.mod.client.models.ModelScarecrow;
 import sonar.calculator.mod.client.models.ModelTransmitter;
-import sonar.core.renderers.SonarTERender;
+import sonar.core.client.SonarTERender;
 
 public class RenderHandlers {
 

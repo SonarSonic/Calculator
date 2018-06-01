@@ -18,12 +18,12 @@ import sonar.calculator.mod.client.gui.misc.GuiMagneticFlux;
 import sonar.calculator.mod.common.containers.ContainerMagneticFlux;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
+import sonar.core.handlers.inventories.handling.ItemTransferHelper;
+import sonar.core.handlers.inventories.handling.filters.IExtractFilter;
+import sonar.core.handlers.inventories.handling.filters.IInsertFilter;
 import sonar.core.helpers.FontHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.handling.EnumFilterType;
-import sonar.core.inventory.handling.ItemTransferHelper;
-import sonar.core.inventory.handling.filters.IExtractFilter;
-import sonar.core.inventory.handling.filters.IInsertFilter;
 import sonar.core.network.utils.IByteBufTile;
 
 import java.util.List;

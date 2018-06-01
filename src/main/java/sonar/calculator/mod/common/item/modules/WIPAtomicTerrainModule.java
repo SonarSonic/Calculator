@@ -39,10 +39,10 @@ public class WIPAtomicTerrainModule extends BaseTerrainModule {
 				incrementMode(stack);
 			} else {
 				if (this.getBlock(stack, 0) != null && this.getBlock(stack, 1) != null && block == this.getBlock(stack, 0)) {
-					for (int s = 0; s < player.inventory.getSizeInventory(); s++) {
-						ItemStack target = player.inventory.getStackInSlot(s);
+					for (int s = 0; s < player.inventories.getSizeInventory(); s++) {
+						ItemStack target = player.inventories.getStackInSlot(s);
 						if (target != null && Block.getBlockFromItem(target.getItem()) != null && Block.getBlockFromItem(target.getItem()) == this.getBlock(stack, 1) && target.getItemDamage() == Item.getItemFromBlock(getBlock(stack, 1)).getDamage(new ItemStack(getBlock(stack, 1)))) {
-							player.inventory.getStackInSlot(s).stackSize--;
+							player.inventories.getStackInSlot(s).stackSize--;
 							world.setBlock(x, y, z, block.getBlockFromItem(target.getItem()));
 							int energy = this.getEnergyStored(stack);
 							stack.getTagCompound().setInteger("Energy", energy - 1);

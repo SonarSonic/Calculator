@@ -11,13 +11,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.common.item.tools.Wrench;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
-import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.FlexibleGuiHandler;
@@ -30,8 +27,9 @@ public class InvisibleBlock extends SonarBlock {
 	public int type;
 
 	public InvisibleBlock(int type) {
-		super(SonarMaterials.machine, false, true);
+		super(SonarMaterials.machine, false);
 		this.type = type;
+		this.hasSpecialRenderer = true;
 		if (type == 2) {
 			// this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 1.0F, 0.7F);
 		}
@@ -41,7 +39,7 @@ public class InvisibleBlock extends SonarBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player != null && !world.isRemote && type == 0) {
 			for (int i = 1; i < 4; i++) {
 				BlockPos offset = pos.offset(EnumFacing.DOWN, i);
@@ -60,13 +58,13 @@ public class InvisibleBlock extends SonarBlock {
             IBlockState mastState;
 			if ((mastState = world.getBlockState(pos.offset(EnumFacing.DOWN, 1))).getBlock() instanceof ConductorMast) {
 				ConductorMast mast = (ConductorMast) mastState.getBlock();
-				mast.wrenchBlock(player, world, pos, true);
+				Wrench.dropBlock(player, player.getActiveHand(), world, pos);
 			} else if ((mastState = world.getBlockState(pos.offset(EnumFacing.DOWN, 2))).getBlock() instanceof ConductorMast) {
 				ConductorMast mast = (ConductorMast) mastState.getBlock();
-				mast.wrenchBlock(player, world, pos, true);
+				Wrench.dropBlock(player, player.getActiveHand(), world, pos);
 			} else if ((mastState = world.getBlockState(pos.offset(EnumFacing.DOWN, 3))).getBlock() instanceof ConductorMast) {
 				ConductorMast mast = (ConductorMast) mastState.getBlock();
-				mast.wrenchBlock(player, world, pos, true);
+				Wrench.dropBlock(player, player.getActiveHand(), world, pos);
 			}
 		} else if (this.type == 1) {
 			for (int X = -1; X < 2; X++) {
@@ -138,17 +136,6 @@ public class InvisibleBlock extends SonarBlock {
     @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
-	}
-
-	@Override
-	public boolean dropStandard(IBlockAccess world, BlockPos pos) {
-		return true;
-	}
-
-    @Override
-	@SideOnly(Side.CLIENT)
-	public IBlockState getStateForEntityRender(IBlockState state) {
-		return this.getDefaultState();
 	}
 
     @Override

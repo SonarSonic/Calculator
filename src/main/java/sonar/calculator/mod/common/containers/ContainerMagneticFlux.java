@@ -6,9 +6,9 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityMagneticFlux;
-import sonar.core.inventory.containers.ContainerSonar;
-import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.slots.SlotList;
+import sonar.core.handlers.inventories.TransferSlotsManager;
+import sonar.core.handlers.inventories.containers.ContainerSonar;
+import sonar.core.handlers.inventories.slots.SlotList;
 
 import javax.annotation.Nonnull;
 

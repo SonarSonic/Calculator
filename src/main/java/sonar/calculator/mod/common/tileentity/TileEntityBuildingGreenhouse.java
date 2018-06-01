@@ -13,8 +13,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.utils.BlockCoords;
+import sonar.core.handlers.inventories.handling.ItemTransferHelper;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.handling.ItemTransferHelper;
 import sonar.core.utils.FailedCoords;
 
 import javax.annotation.Nonnull;
@@ -205,7 +205,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 	}
 
     /**
-     * Checks inventory has resources
+     * Checks inventories has resources
      **/
 	public boolean hasRequiredStacks() {
 		int logs = 0, stairs = 0, planks = 0, glass = 0;

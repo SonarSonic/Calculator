@@ -1,12 +1,12 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import cofh.redstoneflux.api.IEnergyConnection;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.Optional;
-import sonar.core.api.SonarAPI;
+import sonar.core.api.energy.EnergyType;
 import sonar.core.api.utils.ActionType;
 import sonar.core.common.tileentity.TileEntitySonar;
+import sonar.core.handlers.energy.EnergyTransferHandler;
 import sonar.core.helpers.SonarHelper;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyConnection", modid = "redstoneflux")})
@@ -17,12 +17,11 @@ public class TileEntityCreativePowerCube extends TileEntitySonar implements IEne
     @Override
 	public void update() {
         super.update();
-		for (EnumFacing face : EnumFacing.VALUES) {
-			TileEntity tile = SonarHelper.getAdjacentTileEntity(this, face);
-			if (tile != null) {
-				SonarAPI.getEnergyHelper().receiveEnergy(tile, maxTransfer, face, ActionType.PERFORM);
+		EnergyTransferHandler.INSTANCE_SC.getAdjacentHandlers(world, pos, SonarHelper.getEnumFacingValues()).forEach(h -> {
+			if(h.canAddEnergy()){
+				EnergyTransferHandler.INSTANCE_SC.addEnergy(h, maxTransfer, EnergyType.FE, ActionType.PERFORM);
 			}
-		}
+		});
 	}
 	
 	@Override

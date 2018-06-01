@@ -10,7 +10,6 @@ import sonar.calculator.mod.client.gui.misc.GuiReinforcedChest;
 import sonar.calculator.mod.common.containers.ContainerReinforcedChest;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityLargeInventory;
-import sonar.core.inventory.SonarLargeInventory;
 
 public class TileEntityReinforcedChest extends TileEntityLargeInventory implements IFlexibleGui {
 	public float lidAngle;

@@ -12,31 +12,24 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityRainSensor;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlockContainer;
 
 import javax.annotation.Nonnull;
 
-public class RainSensor extends SonarMachineBlock {
+public class RainSensor extends SonarBlockContainer {
 
 	public static final PropertyBool bool = PropertyBool.create("active");
 	protected static final AxisAlignedBB sensor = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625*6, 1.0D);
 
 	public RainSensor() {
-		super(Material.WOOD, false, true);
+		super(Material.WOOD, false);
+		this.hasSpecialRenderer = true;
 		this.setDefaultState(this.blockState.getBaseState().withProperty(bool, true));
 	}
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return RainSensor.sensor;
-	}
-
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
 		return RainSensor.sensor;
 	}
 
@@ -48,12 +41,6 @@ public class RainSensor extends SonarMachineBlock {
 	@Override
 	public int getStrongPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return state.getValue(bool) ? 15 : 0;
-	}
-
-    @Override
-	@SideOnly(Side.CLIENT)
-	public IBlockState getStateForEntityRender(IBlockState state) {
-		return this.getDefaultState().withProperty(bool, false);
 	}
 
     @Override
@@ -97,12 +84,7 @@ public class RainSensor extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean dropStandard(IBlockAccess world, BlockPos pos) {
-		return true;
-	}
-
-	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		return false;
 	}
 }

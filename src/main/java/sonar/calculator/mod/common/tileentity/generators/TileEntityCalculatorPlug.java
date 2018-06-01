@@ -15,9 +15,9 @@ import sonar.calculator.mod.common.block.generators.CalculatorPlug;
 import sonar.calculator.mod.common.containers.ContainerCalculatorPlug;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
+import sonar.core.handlers.inventories.handling.filters.SlotHelper;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.handling.EnumFilterType;
-import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
 

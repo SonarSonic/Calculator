@@ -25,12 +25,12 @@ import sonar.calculator.mod.common.containers.ContainerAssimilator;
 import sonar.calculator.mod.common.recipes.TreeHarvestRecipes;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.api.utils.BlockCoords;
-import sonar.core.common.block.SonarBlock;
+import sonar.core.common.block.properties.SonarProperties;
 import sonar.core.common.tileentity.TileEntityInventory;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
+import sonar.core.handlers.inventories.handling.ItemTransferHelper;
+import sonar.core.handlers.inventories.handling.filters.SlotHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.handling.EnumFilterType;
-import sonar.core.inventory.handling.ItemTransferHelper;
-import sonar.core.inventory.handling.filters.SlotHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 	}
 
 	public boolean hasTree() {
-		EnumFacing dir = this.getWorld().getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
+		EnumFacing dir = this.getWorld().getBlockState(pos).getValue(SonarProperties.FACING).getOpposite();
 		boolean flag = true;
 		for (int log = 0; log < 3; log++) {
 			pos.offset(dir).add(0, log, 0);
@@ -98,7 +98,7 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
 	}
 
 	public List<BlockCoords> getLeaves() {
-		EnumFacing dir = this.getWorld().getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
+		EnumFacing dir = this.getWorld().getBlockState(pos).getValue(SonarProperties.FACING).getOpposite();
         List<BlockCoords> leafList = new ArrayList<>();
 		for (int X = -2; X < 3; X++) {
 			for (int Z = -2; Z < 3; Z++) {

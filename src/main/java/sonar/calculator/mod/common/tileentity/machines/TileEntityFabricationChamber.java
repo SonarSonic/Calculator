@@ -17,15 +17,15 @@ import sonar.core.SonarCore;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.api.utils.BlockCoords;
-import sonar.core.common.block.SonarBlock;
+import sonar.core.common.block.properties.SonarProperties;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.helpers.ItemStackHelper;
+import sonar.core.handlers.inventories.ItemStackHelper;
+import sonar.core.handlers.inventories.SonarLargeInventory;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
+import sonar.core.handlers.inventories.handling.ItemTransferHelper;
+import sonar.core.handlers.inventories.handling.filters.IInsertFilter;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.SonarLargeInventory;
-import sonar.core.inventory.handling.EnumFilterType;
-import sonar.core.inventory.handling.ItemTransferHelper;
-import sonar.core.inventory.handling.filters.IInsertFilter;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.network.utils.IByteBufTile;
 import sonar.core.recipes.ISonarRecipe;
@@ -72,7 +72,7 @@ public class TileEntityFabricationChamber extends TileEntityInventory implements
 					currentFabricateTime.increaseBy(1);
 					if (this.isClient()) {
                         if ((currentFabricateTime.getObject() & 1) == 0 && (currentFabricateTime.getObject() / 2 & 1) == 0) {
-							EnumFacing face = world.getBlockState(getPos()).getValue(SonarBlock.FACING);
+							EnumFacing face = world.getBlockState(getPos()).getValue(SonarProperties.FACING);
 							int fX = face.getFrontOffsetX();
 							int fZ = face.getFrontOffsetZ();
 							// TODO

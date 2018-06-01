@@ -1,7 +1,7 @@
 package sonar.calculator.mod;
 
 import sonar.core.SonarCore;
-import sonar.core.energy.DischargeValues;
+import sonar.core.handlers.energy.DischargeValues;
 
 public class CalculatorIntegration {
 

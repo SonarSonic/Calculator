@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.client.models.ModelFabricationArm;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFabricationChamber;
-import sonar.core.common.block.SonarBlock;
+import sonar.core.common.block.properties.SonarProperties;
 
 public class RenderFabricationChamber extends TileEntitySpecialRenderer<TileEntityFabricationChamber> {
 	private static final ResourceLocation texture = new ResourceLocation("Calculator:textures/model/fabrication_arm_techne.png");
@@ -28,7 +28,7 @@ public class RenderFabricationChamber extends TileEntitySpecialRenderer<TileEnti
 		if (tileentity.getWorld() == null) {
 			i = 0;
 		} else {
-			i = tileentity.getWorld().getBlockState(tileentity.getPos()).getValue(SonarBlock.FACING).getIndex();
+			i = tileentity.getWorld().getBlockState(tileentity.getPos()).getValue(SonarProperties.FACING).getIndex();
 		}
 		GlStateManager.pushMatrix();
 		GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);

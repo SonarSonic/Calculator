@@ -14,8 +14,8 @@ import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.core.SonarCore;
 import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons.ImageButton;
+import sonar.core.handlers.inventories.containers.ContainerEmpty;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.containers.ContainerEmpty;
 import sonar.core.network.PacketByteBuf;
 
 import java.awt.*;

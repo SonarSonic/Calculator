@@ -9,8 +9,8 @@ import sonar.calculator.mod.common.containers.ContainerPowerCube;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
-import sonar.core.inventory.handling.EnumFilterType;
-import sonar.core.inventory.handling.filters.SlotHelper;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
+import sonar.core.handlers.inventories.handling.filters.SlotHelper;
 
 public class TileEntityPowerCube extends TileEntityEnergyInventory implements IFlexibleGui {
 

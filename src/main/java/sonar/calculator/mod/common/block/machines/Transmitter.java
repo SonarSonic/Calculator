@@ -1,13 +1,12 @@
 package sonar.calculator.mod.common.block.machines;
 
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -16,35 +15,26 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityTransmitter;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
+import sonar.core.utils.ISpecialTooltip;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
-public class Transmitter extends SonarMachineBlock {
+public class Transmitter extends SonarBlock implements ITileEntityProvider, ISpecialTooltip {
 
 	public Transmitter() {
-		super(SonarMaterials.machine, false, true);
+		super(SonarMaterials.machine, false);
+		this.hasSpecialRenderer = true;
 		this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 1.0F, 0.7F);
-	}
-
-	@Override
-	public boolean hasSpecialRenderer() {
-		return true;
 	}
 
 	@Nonnull
     @Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
-	}
-
-	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
-		return false;
 	}
 
 	@Override

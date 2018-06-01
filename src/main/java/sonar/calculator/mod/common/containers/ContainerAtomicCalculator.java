@@ -6,8 +6,8 @@ import sonar.calculator.mod.common.recipes.AtomicCalculatorRecipes;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
-import sonar.core.inventory.containers.ContainerSonar;
-import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.handlers.inventories.TransferSlotsManager;
+import sonar.core.handlers.inventories.containers.ContainerSonar;
 import sonar.core.recipes.RecipeHelperV2;
 
 import javax.annotation.Nonnull;

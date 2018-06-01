@@ -14,7 +14,7 @@ import sonar.core.api.IFlexibleGui;
 import sonar.core.api.blocks.IStableBlock;
 import sonar.core.api.blocks.IStableGlass;
 import sonar.core.api.utils.BlockCoords;
-import sonar.core.common.block.SonarBlock;
+import sonar.core.common.block.properties.SonarProperties;
 import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.utils.FailedCoords;
 
@@ -33,7 +33,7 @@ public abstract class TileEntityCalculator extends TileEntityInventory implement
 		}
 
 		public FailedCoords checkStructure() {
-			EnumFacing forward = this.world.getBlockState(pos).getValue(SonarBlock.FACING).getOpposite();
+			EnumFacing forward = this.world.getBlockState(pos).getValue(SonarProperties.FACING).getOpposite();
 			BlockPos centre = pos.add(forward.getFrontOffsetX() * 3, 0, forward.getFrontOffsetZ() * 3);
 
 			FailedCoords bottom = this.outsideLayer(centre.offset(EnumFacing.DOWN, 3));

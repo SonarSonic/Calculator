@@ -16,11 +16,11 @@ import sonar.calculator.mod.common.tileentity.TileEntityBuildingGreenhouse;
 import sonar.calculator.mod.utils.helpers.GreenhouseHelper;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
+import sonar.core.handlers.inventories.handling.filters.IExtractFilter;
+import sonar.core.handlers.inventories.handling.filters.SlotFilter;
+import sonar.core.handlers.inventories.handling.filters.SlotHelper;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.inventory.handling.EnumFilterType;
-import sonar.core.inventory.handling.filters.IExtractFilter;
-import sonar.core.inventory.handling.filters.SlotFilter;
-import sonar.core.inventory.handling.filters.SlotHelper;
 
 import java.util.ArrayList;
 
@@ -118,7 +118,7 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 	}
 
     /**
-     * Checks inventory has resources
+     * Checks inventories has resources
      **/
     @Override
 	public boolean hasRequiredStacks() {

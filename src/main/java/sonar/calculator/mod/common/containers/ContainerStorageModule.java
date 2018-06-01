@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.utils.SlotPortable;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.inventory.containers.ContainerSonar;
+import sonar.core.handlers.inventories.containers.ContainerSonar;
 
 import javax.annotation.Nonnull;
 

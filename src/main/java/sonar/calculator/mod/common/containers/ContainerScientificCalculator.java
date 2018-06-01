@@ -7,11 +7,12 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.recipes.ScientificRecipes;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
-import sonar.core.api.SonarAPI;
+import sonar.core.api.energy.EnergyType;
 import sonar.core.api.utils.ActionType;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.inventory.containers.ContainerSonar;
-import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.handlers.energy.EnergyTransferHandler;
+import sonar.core.handlers.inventories.TransferSlotsManager;
+import sonar.core.handlers.inventories.containers.ContainerSonar;
 import sonar.core.recipes.RecipeHelperV2;
 
 import javax.annotation.Nonnull;
@@ -49,7 +50,7 @@ public class ContainerScientificCalculator extends ContainerSonar implements ICa
 			if (player.capabilities.isCreativeMode) {
 				return;
 			}
-			SonarAPI.getEnergyHelper().extractEnergy(player.getHeldItemMainhand(), remove, ActionType.PERFORM);
+			EnergyTransferHandler.INSTANCE_SC.dischargeItem(player.getHeldItemMainhand(), remove, EnergyType.FE, ActionType.PERFORM);
 		}
 	}
 

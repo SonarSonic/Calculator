@@ -1,16 +1,10 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.client.gui.machines.GuiPowerCube;
 import sonar.core.api.IFlexibleGui;
-import sonar.core.api.SonarAPI;
 import sonar.core.api.energy.EnergyMode;
-import sonar.core.helpers.SonarHelper;
+import sonar.core.handlers.energy.EnergyTransferHandler;
 import sonar.core.utils.IMachineSides;
 import sonar.core.utils.MachineSideConfig;
 import sonar.core.utils.MachineSides;
@@ -41,13 +35,8 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 
 	public void addEnergy() {
 		ArrayList<EnumFacing> facing = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
-		if (facing.isEmpty()) {
-			return;
-		}
-		int transfer = CHARGING_RATE / facing.size();
-		for (EnumFacing dir : facing) {
-			TileEntity entity = SonarHelper.getAdjacentTileEntity(this, dir);
-            SonarAPI.getEnergyHelper().transferEnergy(this, entity, dir, dir.getOpposite(), transfer);
+		if (!facing.isEmpty()) {
+			EnergyTransferHandler.INSTANCE_SC.transferToAdjacent(this, facing, storage.getMaxExtract());
 		}
 	}
 

@@ -7,25 +7,26 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlockContainer;
 import sonar.core.network.FlexibleGuiHandler;
+import sonar.core.utils.ISpecialTooltip;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class WeatherController extends SonarMachineBlock {
+public class WeatherController extends SonarBlockContainer implements ISpecialTooltip {
 
 	public WeatherController() {
-		super(Material.WOOD, false, true);
+		super(Material.WOOD, false);
+		this.hasSpecialRenderer = true;
 	}
 
 	@Override
@@ -34,19 +35,15 @@ public class WeatherController extends SonarMachineBlock {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return RainSensor.sensor;
-	}
-
-	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player != null && !world.isRemote) {
 			FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
 		}
 		return true;
 	}
 
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	@Override
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos){
 		TileEntity target = worldIn.getTileEntity(pos);
 		if (target instanceof TileEntityWeatherController) {
 			TileEntityWeatherController controller = (TileEntityWeatherController) target;

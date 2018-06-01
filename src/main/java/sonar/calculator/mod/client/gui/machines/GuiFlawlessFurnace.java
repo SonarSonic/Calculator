@@ -3,7 +3,7 @@ package sonar.calculator.mod.client.gui.machines;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.inventories.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import sonar.calculator.mod.common.containers.ContainerFlawlessFurnace;

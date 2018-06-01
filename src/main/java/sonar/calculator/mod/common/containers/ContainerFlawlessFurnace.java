@@ -2,19 +2,19 @@ package sonar.calculator.mod.common.containers;
 /*
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventories.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessFurnace;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.inventory.containers.ContainerSync;
-import sonar.core.inventory.slots.SlotBlockedInventory;
+import sonar.core.handlers.inventories.containers.ContainerSync;
+import sonar.core.handlers.inventories.slots.SlotBlockedInventory;
 
 public class ContainerFlawlessFurnace extends ContainerSync {
 	private TileEntityFlawlessFurnace entity;
 
 	private static final int INV_START = 28, INV_END = INV_START + 26, HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
 
-	public ContainerFlawlessFurnace(InventoryPlayer inventory, TileEntityFlawlessFurnace entity) {
+	public ContainerFlawlessFurnace(InventoryPlayer inventories, TileEntityFlawlessFurnace entity) {
 		super(entity);
 		this.entity = entity;
 
@@ -41,12 +41,12 @@ public class ContainerFlawlessFurnace extends ContainerSync {
 		addSlotToContainer(new Slot(entity, slotID, 28, 139));
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 160 + i * 18));
+				addSlotToContainer(new Slot(inventories, j + i * 9 + 9, 8 + j * 18, 160 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 218));
+			addSlotToContainer(new Slot(inventories, i, 8 + i * 18, 218));
 		}
 	}
 

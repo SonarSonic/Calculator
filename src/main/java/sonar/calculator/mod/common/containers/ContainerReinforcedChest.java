@@ -7,10 +7,10 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityReinforcedChest;
-import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.containers.ContainerSync;
-import sonar.core.inventory.handling.ItemTransferHelper;
-import sonar.core.inventory.handling.SlotSonarFiltered;
+import sonar.core.handlers.inventories.TransferSlotsManager;
+import sonar.core.handlers.inventories.containers.ContainerSync;
+import sonar.core.handlers.inventories.handling.ItemTransferHelper;
+import sonar.core.handlers.inventories.handling.SlotSonarFiltered;
 
 import javax.annotation.Nonnull;
 

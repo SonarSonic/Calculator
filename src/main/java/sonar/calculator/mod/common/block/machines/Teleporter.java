@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -13,27 +14,23 @@ import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityTeleporter;
 import sonar.calculator.mod.network.packets.PacketTeleportLinks;
 import sonar.calculator.mod.utils.TeleporterRegistry;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlockContainer;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.FlexibleGuiHandler;
+import sonar.core.utils.ISpecialTooltip;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class Teleporter extends SonarMachineBlock {
+public class Teleporter extends SonarBlockContainer implements ISpecialTooltip {
 
 	public Teleporter() {
-		super(SonarMaterials.machine, false, true);
-	}
-
-    @Override
-	public boolean hasSpecialRenderer() {
-		return true;
+		super(SonarMaterials.machine, false);
+		this.hasSpecialRenderer = true;
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player != null) {
 			if (!world.isRemote) {
 				NBTTagCompound tag = new NBTTagCompound();

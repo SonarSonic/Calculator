@@ -11,8 +11,9 @@ import sonar.calculator.mod.common.recipes.ScientificRecipes;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityCalculator;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
-import sonar.core.api.SonarAPI;
+import sonar.core.api.energy.EnergyType;
 import sonar.core.api.utils.ActionType;
+import sonar.core.handlers.energy.EnergyTransferHandler;
 import sonar.core.recipes.RecipeHelperV2;
 
 import javax.annotation.Nonnull;
@@ -75,7 +76,7 @@ public class ContainerDynamicCalculator extends Container implements ICalculator
 			if (player.capabilities.isCreativeMode) {
 				return;
 			}
-			SonarAPI.getEnergyHelper().extractEnergy(player.getHeldItemMainhand(), remove, ActionType.PERFORM);
+			EnergyTransferHandler.INSTANCE_SC.dischargeItem(player.getHeldItemMainhand(), remove, EnergyType.FE, ActionType.PERFORM);
 		}
 	}
 

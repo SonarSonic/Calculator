@@ -21,18 +21,19 @@ import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
 import sonar.calculator.mod.common.tileentity.TileEntityMachine;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
+import sonar.core.common.block.properties.SonarProperties;
 import sonar.core.helpers.FontHelper;
 import sonar.core.network.FlexibleGuiHandler;
 import sonar.core.upgrades.MachineUpgrade;
+import sonar.core.utils.ISpecialTooltip;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
-public class SmeltingBlock extends SonarSidedBlock {
+public class SmeltingBlock extends SonarSidedBlock implements ISpecialTooltip {
 
 	public enum BlockTypes {
         /**
@@ -100,7 +101,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 	public BlockTypes type;
 
 	public SmeltingBlock(BlockTypes type) {
-		super(SonarMaterials.machine, true, true);
+		super(SonarMaterials.machine, true);
 		this.type = type;
 	}
 
@@ -113,7 +114,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 		if (isAnimated(state, world, pos)) {
-            EnumFacing enumfacing = state.getValue(FACING);
+            EnumFacing enumfacing = state.getValue(SonarProperties.FACING);
 			double d0 = (double) pos.getX() + 0.5D;
 			double d1 = (double) pos.getY() + rand.nextDouble() * 6.0D / 16.0D;
 			double d2 = (double) pos.getZ() + 0.5D;
@@ -139,7 +140,7 @@ public class SmeltingBlock extends SonarSidedBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player != null) {
             player.getHeldItemMainhand();
             if (player.getHeldItemMainhand().getItem() instanceof MachineUpgrade) {
@@ -163,11 +164,6 @@ public class SmeltingBlock extends SonarSidedBlock {
 	@Override
 	public TileEntity createNewTileEntity(@Nonnull World world, int i) {
 		return type.getTile(world, i);
-	}
-
-	@Override
-	public boolean dropStandard(IBlockAccess world, BlockPos pos) {
-		return false;
 	}
 
     @Override

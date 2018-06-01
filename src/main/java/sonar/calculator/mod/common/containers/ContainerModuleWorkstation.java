@@ -6,8 +6,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
-import sonar.core.inventory.containers.ContainerSync;
-import sonar.core.inventory.handling.SlotSonarFiltered;
+import sonar.core.handlers.inventories.containers.ContainerSync;
+import sonar.core.handlers.inventories.handling.SlotSonarFiltered;
 
 import javax.annotation.Nonnull;
 

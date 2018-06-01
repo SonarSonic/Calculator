@@ -5,32 +5,31 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityBuildingGreenhouse;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.GreenhouseAction;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedGreenhouse;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityBasicGreenhouse;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.api.utils.BlockInteractionType;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlockContainer;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.network.FlexibleGuiHandler;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.ISpecialTooltip;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public abstract class Greenhouse extends SonarMachineBlock {
+public abstract class Greenhouse extends SonarBlockContainer implements ISpecialTooltip {
 	
 	public Greenhouse() {
-		super(SonarMaterials.machine, true, true);
+		super(SonarMaterials.machine, true);
 	}
 	
 	public static class Advanced extends Greenhouse{
@@ -53,12 +52,11 @@ public abstract class Greenhouse extends SonarMachineBlock {
 	public abstract TileEntity createNewTileEntity(@Nonnull World var1, int var2);
 	
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileEntityBuildingGreenhouse) {
 			TileEntityBuildingGreenhouse house = (TileEntityBuildingGreenhouse) tile;
-			if (interact.type == BlockInteractionType.SHIFT_RIGHT) {
-				
+			if (player.isSneaking()) {
 				if (house.houseState.getObject() == State.INCOMPLETE) {
 					if (!house.wasBuilt.getObject()) {
 						if (!(house.storage.getEnergyStored() >= house.requiredBuildEnergy)) {

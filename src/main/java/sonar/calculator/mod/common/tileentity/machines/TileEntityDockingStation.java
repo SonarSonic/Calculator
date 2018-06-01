@@ -15,10 +15,10 @@ import sonar.calculator.mod.common.recipes.CalculatorRecipes;
 import sonar.calculator.mod.common.recipes.FlawlessCalculatorRecipes;
 import sonar.calculator.mod.common.recipes.ScientificRecipes;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
+import sonar.core.api.inventories.IAdditionalInventory;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
-import sonar.core.api.inventories.IAdditionalInventory;
-import sonar.core.inventory.handling.EnumFilterType;
 import sonar.core.recipes.RecipeHelperV2;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess implements IAdditionalInventory {

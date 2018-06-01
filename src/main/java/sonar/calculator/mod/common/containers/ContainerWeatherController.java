@@ -5,8 +5,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityWeatherController;
-import sonar.core.inventory.containers.ContainerSync;
-import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.handlers.inventories.TransferSlotsManager;
+import sonar.core.handlers.inventories.containers.ContainerSync;
 
 import javax.annotation.Nonnull;
 

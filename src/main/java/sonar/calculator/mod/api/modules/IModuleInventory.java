@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import sonar.core.common.item.InventoryItem;
 
 /**
- * for modules which contain an inventory of some kind
+ * for modules which contain an inventories of some kind
  */
 public interface IModuleInventory extends IModuleClickable{
 

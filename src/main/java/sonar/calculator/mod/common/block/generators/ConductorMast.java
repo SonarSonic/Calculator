@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.block.generators;
 
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -10,14 +11,12 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.common.tileentity.generators.TileEntityConductorMast;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.network.FlexibleGuiHandler;
@@ -26,22 +25,19 @@ import sonar.core.utils.ISpecialTooltip;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip {
+public class ConductorMast extends SonarBlock implements ISpecialTooltip, ITileEntityProvider {
 
 	public ConductorMast() {
-		super(SonarMaterials.machine, false, true);
+		super(SonarMaterials.machine, false);
+		this.hasSpecialRenderer = true;
 	}
 
     @Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
 			FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
 		}
 		return true;
-	}
-
-	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 4.0F, 1.0F);
 	}
 
 	@Override
@@ -82,11 +78,6 @@ public class ConductorMast extends SonarMachineBlock implements ISpecialTooltip 
         CalculatorHelper.addEnergytoToolTip(stack, world, list);
 		list.add(FontHelper.translate("energy.generate") + ": " + CalculatorConfig.CONDUCTOR_MAST_PER_TICK + " RF per strike");
     }
-
-    @Override
-	public boolean hasSpecialRenderer() {
-		return true;
-	}
 
     @Nonnull
     @Override

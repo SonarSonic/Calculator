@@ -9,10 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import sonar.calculator.mod.Calculator;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.inventory.containers.ContainerSonar;
-import sonar.core.inventory.slots.InventoryStoredCrafting;
-import sonar.core.inventory.slots.InventoryStoredResult;
-import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.handlers.inventories.TransferSlotsManager;
+import sonar.core.handlers.inventories.containers.ContainerSonar;
+import sonar.core.handlers.inventories.slots.InventoryStoredCrafting;
+import sonar.core.handlers.inventories.slots.InventoryStoredResult;
 
 import javax.annotation.Nonnull;
 

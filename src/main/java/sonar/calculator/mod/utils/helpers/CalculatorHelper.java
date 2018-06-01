@@ -4,8 +4,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
-import sonar.core.api.SonarAPI;
-import sonar.core.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
 
 import java.text.DecimalFormat;
@@ -28,13 +26,6 @@ public class CalculatorHelper {
 			}
 		}
 	}
-
-	public static boolean canProvideEnergy(ItemStack stack) {
-		if (DischargeValues.getValueOf(stack) > 0) {
-			return true;
-		} else return SonarAPI.getEnergyHelper().canTransferEnergy(stack) != null;
-    }
-
 
 	/** Adds stored Item Level for Generators to the Tool Tip
 	 * @param stack Item that will feature list

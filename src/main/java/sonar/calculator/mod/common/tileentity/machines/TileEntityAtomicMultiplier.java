@@ -17,10 +17,10 @@ import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
+import sonar.core.handlers.inventories.handling.filters.SlotFilter;
+import sonar.core.handlers.inventories.handling.filters.SlotHelper;
 import sonar.core.helpers.FontHelper;
-import sonar.core.inventory.handling.EnumFilterType;
-import sonar.core.inventory.handling.filters.SlotFilter;
-import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.network.sync.SyncTagType;
 
 import java.util.List;

@@ -112,7 +112,7 @@ public class WIPSmeltingModule extends SonarEnergyItem implements IItemInventory
 	}
 
 	public void cookItem(ItemStack stack) {
-		// a instance of inventory not always updated
+		// a instance of inventories not always updated
 		InventoryItem inv = this.getInventory(stack);
 		ItemStack itemstack = recipe(inv.getStackInSlot(0));
 		if (itemstack != null) {

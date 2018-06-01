@@ -16,9 +16,9 @@ import sonar.calculator.mod.common.recipes.machines.AlgorithmSeparatorRecipes;
 import sonar.core.api.machines.IPausable;
 import sonar.core.common.tileentity.TileEntityEnergySidedInventory;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.helpers.ItemStackHelper;
+import sonar.core.handlers.inventories.ItemStackHelper;
 import sonar.core.helpers.RecipeHelper;
-import sonar.core.inventory.SonarInventory;
+import sonar.core.handlers.inventories.SonarInventory;
 import sonar.core.network.sync.SyncTagType;
 import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.utils.IGuiTile;
@@ -251,7 +251,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 
 	@Override
 	public Object getGuiScreen(EntityPlayer player) {
-		return new ContainerFlawlessFurnace(player.inventory, this);
+		return new ContainerFlawlessFurnace(player.inventories, this);
 	}
 
 }

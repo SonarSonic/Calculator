@@ -14,8 +14,8 @@ import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityInventory;
-import sonar.core.inventory.handling.EnumFilterType;
-import sonar.core.inventory.handling.filters.SlotHelper;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
+import sonar.core.handlers.inventories.handling.filters.SlotHelper;
 
 import java.util.ArrayList;
 

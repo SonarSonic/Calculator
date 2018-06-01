@@ -3,9 +3,9 @@ package sonar.calculator.mod.common.containers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAssimilator;
-import sonar.core.inventory.containers.ContainerSync;
-import sonar.core.inventory.TransferSlotsManager;
-import sonar.core.inventory.handling.SlotSonarFiltered;
+import sonar.core.handlers.inventories.TransferSlotsManager;
+import sonar.core.handlers.inventories.containers.ContainerSync;
+import sonar.core.handlers.inventories.handling.SlotSonarFiltered;
 
 import javax.annotation.Nonnull;
 

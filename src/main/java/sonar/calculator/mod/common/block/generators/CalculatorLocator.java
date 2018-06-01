@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.block.generators;
 
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -7,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -18,36 +20,28 @@ import sonar.calculator.mod.common.tileentity.generators.TileEntityCalculatorLoc
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.SonarCore;
 import sonar.core.api.blocks.IStableBlock;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.FlexibleGuiHandler;
+import sonar.core.utils.ISpecialTooltip;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
-public class CalculatorLocator extends SonarMachineBlock {
+public class CalculatorLocator extends SonarBlock implements ITileEntityProvider, ISpecialTooltip {
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	public CalculatorLocator() {
-		super(SonarMaterials.machine, false, true);
-		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
+		super(SonarMaterials.machine, false);
+		this.hasSpecialRenderer = true;
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, true));
 	}
 
-    @Override
-	public boolean hasSpecialRenderer() {
-		return true;
-	}
-
-	public boolean isFullCube() {
-		return false;
-	}
-
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player != null && !world.isRemote) {
             TileEntity locator = world.getTileEntity(pos);
 			if (locator != null) {
@@ -130,12 +124,6 @@ public class CalculatorLocator extends SonarMachineBlock {
     public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
         CalculatorHelper.addEnergytoToolTip(stack, world, list);
     }
-
-    @Override
-	@SideOnly(Side.CLIENT)
-	public IBlockState getStateForEntityRender(IBlockState state) {
-		return this.getDefaultState().withProperty(ACTIVE, true);
-	}
 
     @Override
 	public IBlockState getStateFromMeta(int meta) {

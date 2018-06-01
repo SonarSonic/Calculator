@@ -1,43 +1,43 @@
 package sonar.calculator.mod.common.block.machines;
 
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.TileEntityGreenhouse.State;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityFlawlessGreenhouse;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
 import sonar.core.api.blocks.IConnectedBlock;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.api.utils.BlockInteractionType;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.network.FlexibleGuiHandler;
 import sonar.core.utils.FailedCoords;
+import sonar.core.utils.ISpecialTooltip;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class FlawlessGreenhouse extends SonarMachineBlock implements IConnectedBlock {
+public class FlawlessGreenhouse extends SonarBlock implements IConnectedBlock, ITileEntityProvider, ISpecialTooltip {
 
 	public int[] connections = new int[]{0,5,6};
 	
 	public FlawlessGreenhouse() {
-		super(SonarMaterials.machine, true, true);
+		super(SonarMaterials.machine, true);
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileEntityFlawlessGreenhouse) {
 			TileEntityFlawlessGreenhouse house = (TileEntityFlawlessGreenhouse) tile;
-			if (interact.type == BlockInteractionType.SHIFT_RIGHT) {
+			if (player.isSneaking()) {
 				if (house.houseState.getObject() == State.INCOMPLETE) {
 					FailedCoords coords = house.checkStructure(null);
 					if (!coords.getBoolean()) {

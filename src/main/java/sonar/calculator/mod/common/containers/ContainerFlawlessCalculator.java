@@ -8,8 +8,8 @@ import sonar.calculator.mod.common.recipes.FlawlessCalculatorRecipes;
 import sonar.calculator.mod.utils.SlotPortableCrafting;
 import sonar.calculator.mod.utils.SlotPortableResult;
 import sonar.core.common.item.InventoryItem;
-import sonar.core.inventory.containers.ContainerSonar;
-import sonar.core.inventory.TransferSlotsManager;
+import sonar.core.handlers.inventories.TransferSlotsManager;
+import sonar.core.handlers.inventories.containers.ContainerSonar;
 import sonar.core.recipes.RecipeHelperV2;
 
 import javax.annotation.Nonnull;

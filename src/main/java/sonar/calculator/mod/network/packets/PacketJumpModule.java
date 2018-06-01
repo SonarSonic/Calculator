@@ -13,8 +13,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import sonar.calculator.mod.api.items.IModuleProvider;
 import sonar.core.SonarCore;
-import sonar.core.api.SonarAPI;
+import sonar.core.api.energy.EnergyType;
 import sonar.core.api.utils.ActionType;
+import sonar.core.handlers.energy.EnergyTransferHandler;
 
 import java.util.Random;
 
@@ -50,13 +51,14 @@ public class PacketJumpModule implements IMessage {
 				if (message.pos.getY() <= 0) {
 					return null;
 				}
-				if (!held.isEmpty() && held.getItem() instanceof IModuleProvider && SonarAPI.getEnergyHelper().canTransferEnergy(held) != null) {
-					long maxRemove = SonarAPI.getEnergyHelper().extractEnergy(held, 1000, ActionType.SIMULATE);
+				if (!held.isEmpty() && held.getItem() instanceof IModuleProvider) {
+
+					long maxRemove = EnergyTransferHandler.INSTANCE_SC.dischargeItem(player.getHeldItemMainhand(), 1000, EnergyType.FE, ActionType.SIMULATE);
 					if (player.capabilities.isCreativeMode || maxRemove >= 1000) {
 						player.setPositionAndUpdate(message.pos.getX() + 0.5, message.pos.getY() + 1, message.pos.getZ() + 0.5);
 						player.getEntityWorld().playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDEREYE_LAUNCH, SoundCategory.NEUTRAL, 0.5F, 0.8F);
 						if (!player.capabilities.isCreativeMode) {
-							SonarAPI.getEnergyHelper().extractEnergy(held, 1000, ActionType.PERFORM);
+							EnergyTransferHandler.INSTANCE_SC.dischargeItem(player.getHeldItemMainhand(), 1000, EnergyType.FE, ActionType.PERFORM);
 						}
 						return new PacketJumpModule(message.pos);
 					}

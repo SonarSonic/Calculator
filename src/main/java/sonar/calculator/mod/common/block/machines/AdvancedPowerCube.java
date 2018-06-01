@@ -5,34 +5,33 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAdvancedPowerCube;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.network.FlexibleGuiHandler;
+import sonar.core.utils.ISpecialTooltip;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class AdvancedPowerCube extends SonarSidedBlock {
+public class AdvancedPowerCube extends SonarSidedBlock implements ISpecialTooltip {
 
 	public AdvancedPowerCube() {
-		super(SonarMaterials.machine, true, true);
+		super(SonarMaterials.machine, true);
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player != null) {
-			if (interact.type == BlockInteractionType.SHIFT_RIGHT) {
+			if (player.isSneaking()) {
 				if (world.getTileEntity(pos) instanceof TileEntityAdvancedPowerCube) {
 					TileEntityAdvancedPowerCube cube = (TileEntityAdvancedPowerCube) world.getTileEntity(pos);
-					cube.getSideConfigs().increaseSide(interact.getDir());
+					cube.getSideConfigs().increaseSide(facing);
 					world.markBlockRangeForRenderUpdate(pos, pos);
 				}
 			} else {

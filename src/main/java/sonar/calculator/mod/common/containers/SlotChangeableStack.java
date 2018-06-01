@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.common.tileentity.TileEntityLargeInventory;
-import sonar.core.inventory.handling.SlotSonarFiltered;
+import sonar.core.handlers.inventories.handling.SlotSonarFiltered;
 
 public class SlotChangeableStack extends SlotSonarFiltered {
 

@@ -11,22 +11,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityScarecrow;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlockContainer;
 import sonar.core.helpers.FontHelper;
 
 import javax.annotation.Nonnull;
 
-public class Scarecrow extends SonarMachineBlock {
+public class Scarecrow extends SonarBlockContainer {
 
 	public Scarecrow() {
-		super(Material.CLOTH, true, true);
+		super(Material.CLOTH, true);
+		this.hasSpecialRenderer = true;
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.6F, 1.0F);
-	}
-
-    @Override
-	public boolean hasSpecialRenderer() {
-		return true;
 	}
 
     @Nonnull
@@ -64,7 +59,7 @@ public class Scarecrow extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote){
 			FontHelper.sendMessage("Wow, that's an impressive Scarecrow", world, player);
 			return true;

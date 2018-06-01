@@ -18,8 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.misc.TileEntityGasLantern;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlockContainer;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.network.FlexibleGuiHandler;
 
@@ -27,21 +26,17 @@ import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Random;
 
-public class GasLantern extends SonarMachineBlock {
+public class GasLantern extends SonarBlockContainer {
 
 	private static boolean keepInventory;
 	public final boolean isActive;
 	public static final PropertyDirection DIR = PropertyDirection.create("dir");
 
 	public GasLantern(boolean active) {
-		super(SonarMaterials.machine, false, true);
+		super(SonarMaterials.machine, false);
 		this.isActive = active;
+		this.hasSpecialRenderer = true;
 		this.setDefaultState(this.blockState.getBaseState().withProperty(DIR, EnumFacing.NORTH));
-	}
-
-    @Override
-	public boolean hasSpecialRenderer() {
-		return true;
 	}
 
 	@Override
@@ -50,7 +45,7 @@ public class GasLantern extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote && player != null) {
 			FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
 		}
@@ -120,10 +115,6 @@ public class GasLantern extends SonarMachineBlock {
     @Override
 	@Deprecated
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
-		if (customBB != null) {
-			return customBB;
-		}
-
 		EnumFacing dir = getDefaultFacing(world, pos, state);
         return new AxisAlignedBB(0.3F + dir.getFrontOffsetX() * 0.32F, 0.0F + getY(dir), 0.3F + dir.getFrontOffsetZ() * 0.32F, 0.7F + dir.getFrontOffsetX() * 0.32F, 0.7F + getY(dir), 0.7F + dir.getFrontOffsetZ() * 0.32F);
 	}
@@ -138,7 +129,6 @@ public class GasLantern extends SonarMachineBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(@Nonnull World var1, int var2) {
-
 		return new TileEntityGasLantern();
 	}
 
@@ -146,12 +136,6 @@ public class GasLantern extends SonarMachineBlock {
     @Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(Calculator.gas_lantern_off);
-	}
-
-    @Override
-	@SideOnly(Side.CLIENT)
-	public IBlockState getStateForEntityRender(IBlockState state) {
-		return this.getDefaultState().withProperty(DIR, EnumFacing.SOUTH);
 	}
 
     @Override

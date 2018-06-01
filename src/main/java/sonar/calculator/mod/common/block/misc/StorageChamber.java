@@ -5,24 +5,24 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityStorageChamber;
-import sonar.core.api.utils.BlockInteraction;
-import sonar.core.common.block.SonarMachineBlock;
+import sonar.core.common.block.SonarBlockContainer;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.helpers.FontHelper;
 import sonar.core.network.FlexibleGuiHandler;
+import sonar.core.utils.ISpecialTooltip;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class StorageChamber extends SonarMachineBlock {
+public class StorageChamber extends SonarBlockContainer implements ISpecialTooltip {
 
 	public StorageChamber() {
-		super(SonarMaterials.machine, true, true);
+		super(SonarMaterials.machine, true);
 	}
 
 	public boolean hasAnimatedFront() {
@@ -30,7 +30,7 @@ public class StorageChamber extends SonarMachineBlock {
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player != null && !world.isRemote) {
 			FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);
 		}
@@ -78,9 +78,4 @@ public class StorageChamber extends SonarMachineBlock {
             list.add(FontHelper.translate("circuit.stored") + ": " + total);
         }
     }
-
-    @Override
-	public boolean hasSpecialRenderer() {
-		return true;
-	}
 }

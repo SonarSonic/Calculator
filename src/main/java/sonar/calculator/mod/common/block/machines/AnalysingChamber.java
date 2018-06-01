@@ -6,30 +6,31 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityAnalysingChamber;
 import sonar.calculator.mod.utils.helpers.CalculatorHelper;
-import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarMaterials;
 import sonar.core.common.block.SonarSidedBlock;
 import sonar.core.network.FlexibleGuiHandler;
 import sonar.core.upgrades.MachineUpgrade;
+import sonar.core.utils.ISpecialTooltip;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class AnalysingChamber extends SonarSidedBlock {
+public class AnalysingChamber extends SonarSidedBlock implements ISpecialTooltip {
 
 	public AnalysingChamber() {
-		super(SonarMaterials.machine, true, true);
+		super(SonarMaterials.machine, true);
+		this.hasSpecialRenderer = true;
 	}
 
 	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player != null) {
             player.getHeldItemMainhand();
             if (player.getHeldItemMainhand().getItem() instanceof MachineUpgrade) {
@@ -54,20 +55,11 @@ public class AnalysingChamber extends SonarSidedBlock {
 		return new TileEntityAnalysingChamber();
 	}
 
-	@Override
-	public boolean dropStandard(IBlockAccess world, BlockPos pos) {
-		return false;
-	}
 
 	@Override
     public void addSpecialToolTip(ItemStack stack, World world, List<String> list, NBTTagCompound tag) {
         CalculatorHelper.addEnergytoToolTip(stack, world, list);
         list.add("Doesn't require power to operate");
-	}
-
-    @Override
-	public boolean hasSpecialRenderer() {
-		return true;
 	}
 
     @Override

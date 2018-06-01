@@ -9,11 +9,10 @@ import sonar.calculator.mod.api.items.IStability;
 import sonar.calculator.mod.client.gui.machines.GuiStorageChamber;
 import sonar.calculator.mod.common.containers.ContainerStorageChamber;
 import sonar.core.api.IFlexibleGui;
-import sonar.core.api.inventories.StoredItemStack;
 import sonar.core.common.tileentity.TileEntityLargeInventory;
+import sonar.core.handlers.inventories.SonarLargeInventory;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.SonarLargeInventory;
-import sonar.core.inventory.handling.EnumFilterType;
 
 public class TileEntityStorageChamber extends TileEntityLargeInventory implements IFlexibleGui{
 

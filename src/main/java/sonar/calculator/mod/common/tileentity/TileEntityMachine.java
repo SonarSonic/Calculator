@@ -13,7 +13,7 @@ import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.item.misc.CircuitBoard;
 import sonar.calculator.mod.common.recipes.*;
-import sonar.core.inventory.handling.EnumFilterType;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
 import sonar.core.recipes.RecipeHelperV2;
 
 import javax.annotation.Nonnull;

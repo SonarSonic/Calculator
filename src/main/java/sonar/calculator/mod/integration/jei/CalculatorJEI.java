@@ -16,7 +16,7 @@ import sonar.calculator.mod.client.gui.machines.GuiSmeltingBlock;
 import sonar.calculator.mod.client.gui.misc.GuiFabricationChamber;
 import sonar.calculator.mod.common.containers.*;
 import sonar.calculator.mod.common.recipes.*;
-import sonar.core.helpers.ItemStackHelper;
+import sonar.core.handlers.inventories.ItemStackHelper;
 import sonar.core.integration.jei.*;
 import sonar.core.recipes.IRecipeHelperV2;
 import sonar.core.recipes.ISonarRecipe;
@@ -164,7 +164,7 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 
 		Handlers(IRecipeHelperV2 helper, Object stack, String textureName, Class<? extends JEIRecipeV2> recipeClass) {
 			this.helper = helper;
-			this.crafter = ItemStackHelper.createStack(stack);
+			this.crafter = ItemStackHelper.getOrCreateStack(stack);
 			this.unlocalizedName = crafter.getUnlocalizedName() + ".name";
 			this.textureName = textureName;
 			this.recipeClass = recipeClass;

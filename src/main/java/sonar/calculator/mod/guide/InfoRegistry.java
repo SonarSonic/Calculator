@@ -3,9 +3,8 @@ package sonar.calculator.mod.guide;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.common.tileentity.machines.TileEntityAtomicMultiplier;
 import sonar.calculator.mod.guide.IItemInfo.Category;
-import sonar.core.helpers.ItemStackHelper;
+import sonar.core.handlers.inventories.ItemStackHelper;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -139,7 +138,7 @@ public class InfoRegistry {
 			ItemStack[] stacks = new ItemStack[objs.length];
 			int pos = 0;
 			for (Object obj : objs) {
-				stacks[pos] = ItemStackHelper.createStack(obj);
+				stacks[pos] = ItemStackHelper.getOrCreateStack(obj);
 				pos++;
 			}
 			this.info.get(category).add(new ItemInfo(category, stack, info, stacks));

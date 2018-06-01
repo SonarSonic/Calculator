@@ -7,10 +7,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityDockingStation;
-import sonar.core.api.SonarAPI;
-import sonar.core.energy.DischargeValues;
-import sonar.core.inventory.containers.ContainerSync;
-import sonar.core.inventory.slots.SlotBlockedInventory;
+import sonar.core.handlers.inventories.containers.ContainerSync;
+import sonar.core.handlers.inventories.handling.filters.SlotHelper;
+import sonar.core.handlers.inventories.slots.SlotBlockedInventory;
 
 import javax.annotation.Nonnull;
 
@@ -71,7 +70,7 @@ public class ContainerDockingStation extends ContainerSync {
 			} else {
 
                 if (id >= TileEntityDockingStation.getInputStackSize(entity.calcStack)) {
-					if (DischargeValues.getValueOf(itemstack1) > 0 || SonarAPI.getEnergyHelper().canTransferEnergy(itemstack1) != null) {
+					if (SlotHelper.dischargeSlot(itemstack1)) {
 						if (!mergeItemStack(itemstack1, start - 2, start - 1, false)) {
 							return ItemStack.EMPTY;
 						}

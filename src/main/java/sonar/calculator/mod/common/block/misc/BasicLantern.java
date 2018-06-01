@@ -4,9 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -14,8 +12,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.Calculator;
-import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.block.SonarBlock;
 import sonar.core.common.block.SonarMaterials;
 
@@ -27,13 +23,9 @@ public class BasicLantern extends SonarBlock {
 	public static final PropertyDirection DIR = PropertyDirection.create("dir");
 
 	public BasicLantern() {
-		super(SonarMaterials.machine, false, true);
+		super(SonarMaterials.machine, false);
+		this.hasSpecialRenderer = true;
 		this.setDefaultState(this.blockState.getBaseState().withProperty(DIR, EnumFacing.NORTH));
-	}
-
-    @Override
-	public boolean hasSpecialRenderer() {
-		return true;
 	}
 
 	@Override
@@ -68,10 +60,6 @@ public class BasicLantern extends SonarBlock {
     @Override
 	@Deprecated
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
-		if (customBB != null) {
-			return customBB;
-		}
-
 		EnumFacing dir = getDefaultFacing(world, pos, state);
         return new AxisAlignedBB(0.3F + dir.getFrontOffsetX() * 0.32F, 0.0F + getY(dir), 0.3F + dir.getFrontOffsetZ() * 0.32F, 0.7F + dir.getFrontOffsetX() * 0.32F, 0.7F + getY(dir), 0.7F + dir.getFrontOffsetZ() * 0.32F);
 	}
@@ -92,22 +80,6 @@ public class BasicLantern extends SonarBlock {
 		float z1 = pos.getZ() + rand.nextFloat();
 		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
 		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1, y1, z1, 0.0D, 0.0D, 0.0D);
-	}
-
-	@Override
-	public boolean dropStandard(IBlockAccess world, BlockPos pos) {
-		return true;
-	}
-
-	@Override
-	public boolean operateBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, BlockInteraction interact) {
-		return false;
-	}
-
-    @Override
-	@SideOnly(Side.CLIENT)
-	public IBlockState getStateForEntityRender(IBlockState state) {
-		return this.getDefaultState().withProperty(DIR, EnumFacing.SOUTH);
 	}
 
     @Override

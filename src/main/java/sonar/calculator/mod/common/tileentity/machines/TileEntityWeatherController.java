@@ -11,9 +11,9 @@ import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
 import sonar.core.api.machines.IProcessMachine;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
+import sonar.core.handlers.inventories.handling.EnumFilterType;
+import sonar.core.handlers.inventories.handling.filters.SlotHelper;
 import sonar.core.helpers.NBTHelper.SyncType;
-import sonar.core.inventory.handling.EnumFilterType;
-import sonar.core.inventory.handling.filters.SlotHelper;
 import sonar.core.network.utils.IByteBufTile;
 
 public class TileEntityWeatherController extends TileEntityEnergyInventory implements IByteBufTile, IProcessMachine, IFlexibleGui {

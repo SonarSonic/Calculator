@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
-import sonar.core.energy.DischargeValues;
+import sonar.core.handlers.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
 import sonar.core.integration.jei.JEIRecipe;
 import sonar.core.integration.jei.JEIRecipeV2;
