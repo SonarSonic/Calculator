@@ -13,6 +13,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.common.Optional;
 import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
@@ -25,13 +26,14 @@ import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.ISonarEnergyItem;
+import sonar.core.api.inventories.IItemInventory;
 import sonar.core.api.utils.ActionType;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.common.item.SonarItem;
+import sonar.core.handlers.energy.SonarEnergyItemWrapper;
 import sonar.core.helpers.FontHelper;
-import sonar.core.api.inventories.IItemInventory;
 import sonar.core.network.FlexibleGuiHandler;
 
 import javax.annotation.Nonnull;
@@ -41,8 +43,6 @@ import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")})
 public class FlawlessCalculator extends SonarItem implements IItemInventory, IModuleProvider, ISonarEnergyItem, IEnergyContainerItem, IFlawlessCalculator, IFlexibleGui<ItemStack> {
-	public final String invTag = "inv";
-	public final String emptyModule = "";
 	public static final int moduleCapacity = 16;
 
 	public FlawlessCalculator() {
@@ -274,15 +274,11 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 
 	@Override
 	public boolean onDroppedByPlayer(ItemStack itemstack, EntityPlayer player) {
-		// if (module instanceof IModuleInventory && itemstack != null && player instanceof EntityPlayerMP && player.openContainer instanceof ContainerCraftInventory) {
-		// player.closeScreen();
-		// }
 		return super.onDroppedByPlayer(itemstack, player);
 	}
 
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack) {
-		// return module instanceof IModuleInventory ? 1 : super.getMaxItemUseDuration(stack);
 		return 1;
 	}
 
@@ -334,6 +330,11 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 	@Override
 	public NBTTagCompound getModuleTag(ItemStack stack, int slot) {
         return stack.getOrCreateSubCompound(String.valueOf(slot));
+	}
+
+	@Override
+	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+		return new SonarEnergyItemWrapper(this, stack);
 	}
 
 	@Override

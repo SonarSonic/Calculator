@@ -5,12 +5,14 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.modules.IModule;
 import sonar.core.api.energy.ISonarEnergyItem;
 import sonar.core.api.utils.ActionType;
+import sonar.core.handlers.energy.SonarEnergyItemWrapper;
 import sonar.core.helpers.FontHelper;
 
 import java.util.List;
@@ -102,5 +104,10 @@ public class SonarUsageModule extends SonarModule implements ISonarEnergyItem, I
     @Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
+	}
+
+	@Override
+	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+		return new SonarEnergyItemWrapper(this, stack);
 	}
 }

@@ -45,7 +45,7 @@ public class SlotPortableResult extends SlotPortable {
     @Override
 	public ItemStack onTake(EntityPlayer player, @Nonnull ItemStack stack) {
 		this.container.removeEnergy(amountCrafted);
-		amountCrafted=0;
+		amountCrafted = 0;
         for (int craftSlot : this.craftSlots) {
             ItemStack itemstack1 = this.invItem.getStackInSlot(craftSlot);
 

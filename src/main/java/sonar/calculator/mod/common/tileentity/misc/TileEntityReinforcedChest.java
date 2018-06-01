@@ -41,8 +41,7 @@ public class TileEntityReinforcedChest extends TileEntityLargeInventory implemen
 
 			for (EntityPlayer entityplayer : this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double) ((float) i - f), (double) ((float) j - f), (double) ((float) k - f), (double) ((float) (i + 1) + f), (double) ((float) (j + 1) + f), (double) ((float) (k + 1) + f)))) {
 				if (entityplayer.openContainer instanceof ContainerReinforcedChest) {
-					TileEntityReinforcedChest iinventory = ((ContainerReinforcedChest) entityplayer.openContainer).entity;
-					if (iinventory == this) {
+					if (((ContainerReinforcedChest) entityplayer.openContainer).tile == this) {
 						++this.numPlayersUsing;
 					}
 				}

@@ -3,13 +3,16 @@ package sonar.calculator.mod.common.item.calculators;
 import cofh.redstoneflux.api.IEnergyContainerItem;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.api.modules.IModuleEnergy;
 import sonar.core.api.energy.ISonarEnergyItem;
 import sonar.core.api.utils.ActionType;
+import sonar.core.handlers.energy.SonarEnergyItemWrapper;
 import sonar.core.helpers.FontHelper;
 
 import java.util.List;
@@ -75,5 +78,10 @@ public class SonarEnergyModule extends SonarModule implements ISonarEnergyItem, 
     @Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 		return slotChanged || newStack.getItem() != oldStack.getItem() || newStack.getItemDamage() != oldStack.getItemDamage();
+	}
+
+	@Override
+	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+		return new SonarEnergyItemWrapper(this, stack);
 	}
 }

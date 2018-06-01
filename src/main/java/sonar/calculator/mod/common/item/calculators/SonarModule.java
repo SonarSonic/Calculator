@@ -19,12 +19,12 @@ import sonar.calculator.mod.api.modules.IModuleClickable;
 import sonar.calculator.mod.api.modules.IModuleInventory;
 import sonar.calculator.mod.api.modules.IModuleUpdate;
 import sonar.core.api.IFlexibleGui;
+import sonar.core.api.inventories.IItemInventory;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.api.utils.BlockInteractionType;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.common.item.SonarItem;
 import sonar.core.helpers.FontHelper;
-import sonar.core.api.inventories.IItemInventory;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

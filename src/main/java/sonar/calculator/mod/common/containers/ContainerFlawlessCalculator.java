@@ -45,6 +45,7 @@ public class ContainerFlawlessCalculator extends ContainerSonar implements ICalc
 
     @Override
     public void removeEnergy(int remove) {
+
     }
 
 	@Override
