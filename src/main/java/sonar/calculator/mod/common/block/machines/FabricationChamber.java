@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -58,21 +59,25 @@ public class FabricationChamber extends SonarBlock implements ITileEntityProvide
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
-		/* TileEntity target = world.getTileEntity(pos); if (target != null &&
-		 * target instanceof TileEntityFabricationChamber) {
-		 * TileEntityFabricationChamber chamber = (TileEntityFabricationChamber)
-		 * target; if (chamber.currentFabricateTime != 0) { float x1 =
-		 * pos.getX() + random.nextFloat(); float y1 = pos.getY() + 0.5F; float
-		 * z1 = pos.getZ() + random.nextFloat();
-		 * 
-		 * world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38,
-		 * y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D);
-		 * world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+0.38,
-		 * y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D);
-		 * world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38,
-		 * y1+0.1, pos.getZ()+0.38, 0.0D, 0.0D, 0.0D);
-		 * world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX()+0.38,
-		 * y1+0.1, pos.getZ()+0.38+0.25, 0.0D, 0.0D, 0.0D); } } */
+		TileEntity target = world.getTileEntity(pos);
+		if (target != null && target instanceof TileEntityFabricationChamber) {
+			TileEntityFabricationChamber chamber = (TileEntityFabricationChamber) target;
+			if (chamber.currentFabricateTime.getObject() != 0) {
+				float x1 = pos.getX() + 0.5F;
+				float y1 = pos.getY() + 0.5F;
+				float z1 = pos.getZ() + 0.5F;
+
+				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1+0.1,  y1, z1+0.1, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1+0.1,  y1, z1-0.1, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1-0.1,  y1, z1+0.1, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x1-0.1,  y1, z1-0.1, 0.0D, 0.0D, 0.0D);
+
+				world.spawnParticle(EnumParticleTypes.REDSTONE, x1+0.1,  y1, z1+0.1, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.REDSTONE, x1+0.1,  y1, z1-0.1, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.REDSTONE, x1-0.1,  y1, z1+0.1, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.REDSTONE, x1-0.1,  y1, z1-0.1, 0.0D, 0.0D, 0.0D);
+			}
+		}
 	}
 
 	@Override

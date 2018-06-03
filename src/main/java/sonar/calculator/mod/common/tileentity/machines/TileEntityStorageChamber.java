@@ -24,7 +24,7 @@ public class TileEntityStorageChamber extends TileEntityLargeInventory implement
 	}
 
 	public TileEntityStorageChamber() {
-		super(14, 4);
+		super(14, 1024);
 		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> SLOT == STACK.getMetadata(), EnumFilterType.EXTERNAL_INTERNAL);
 		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> {
 			CircuitType type = getCircuitType(STACK);

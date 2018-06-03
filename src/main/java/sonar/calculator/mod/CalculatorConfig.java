@@ -1,15 +1,15 @@
 package sonar.calculator.mod;
 
-import gnu.trove.map.hash.THashMap;
+import com.google.common.primitives.Floats;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class CalculatorConfig extends Calculator {
 
@@ -32,7 +32,15 @@ public class CalculatorConfig extends Calculator {
 	public static int CALCULATOR_STORAGE, CRAFTING_CALCULATOR_STORAGE, SCIENTIFIC_CALCULATOR_STORAGE;
 
 	//// MODULE ENERGY STORAGE \\\\
-	public static int TERRAIN_MODULE_STORAGE, ADVANCED_TERRAIN_MODULE_STORAGE, ENERGY_MODULE_STORAGE;
+	public static int TERRAIN_MODULE_STORAGE, TERRAIN_MODULE_USAGE;
+	public static int ADVANCED_TERRAIN_MODULE_STORAGE, ADVANCED_TERRAIN_MODULE_USAGE;
+	public static int WARP_MODULE_STORAGE, JUMP_MODULE_STORAGE;
+	public static int ENERGY_MODULE_STORAGE;
+
+	public static int ENDER_PEARL_MODULE_USAGE, GRENADE_MODULE_USAGE;
+
+	//// HEALTH/HUNGER STORAGE \\\\
+	public static int HEALTH_MODULE_CAPACITY, HUNGER_MODULE_CAPACITY, NUTRITION_MODULE_HEALTH_CAPACITY, NUTRITION_MODULE_HUNGER_CAPACITY;
 
 	//// POWER CUBE \\\\
 	public static int POWER_CUBE_STORAGE, POWER_CUBE_TRANSFER_RATE, POWER_CUBE_CHARGING_RATE;
@@ -107,6 +115,17 @@ public class CalculatorConfig extends Calculator {
 	//// PROCESSING CHAMBER \\\\
 	public static int PROCESSING_CHAMBER_STORAGE, PROCESSING_CHAMBER_TRANSFER_RATE, PROCESSING_CHAMBER_USAGE, PROCESSING_CHAMBER_SPEED;
 
+	//// TOOL MATERIALS \\\\
+	public static Item.ToolMaterial TOOL_REINFORCED_STONE;
+	public static Item.ToolMaterial TOOL_REDSTONE_INGOT = EnumHelper.addToolMaterial("RedstoneMaterial", 2, 800, 7.5F, 2.5F, 18);
+	public static Item.ToolMaterial TOOL_ENRICHED_GOLD = EnumHelper.addToolMaterial("EnrichedGold", 3, 1000, 8.0F, 0.0F, 20);
+	public static Item.ToolMaterial TOOL_REINFORCED_IRON = EnumHelper.addToolMaterial("ReinforcedIron", 2, 400, 7.0F, 2.0F, 10);
+	public static Item.ToolMaterial TOOL_WEAKENED_DIAMOND = EnumHelper.addToolMaterial("WeakenedDiamond", 3, 1400, 8.0F, 3.0F, 10);
+	public static Item.ToolMaterial TOOL_FLAWLESS_DIAMOND = EnumHelper.addToolMaterial("FlawlessDiamond", 3, 1800, 14.0F, 5.0F, 30);
+	public static Item.ToolMaterial TOOL_FIRE_DIAMOND = EnumHelper.addToolMaterial("FireDiamond", 3, 2600, 16.0F, 7.0F, 30);
+	public static Item.ToolMaterial TOOL_ELECTRIC_DIAMOND = EnumHelper.addToolMaterial("ElectricDiamond", 4, 10000, 18.0F, 10.0F, 30);
+	public static Item.ToolMaterial TOOL_END_DIAMOND = EnumHelper.addToolMaterial("EndForged", 6, -1, 50F, 16.0F, 30);
+
 	public static void initConfiguration(FMLPreInitializationEvent event) {
 		loadMainConfig();
 		loadAtomicBlacklist();
@@ -125,8 +144,21 @@ public class CalculatorConfig extends Calculator {
 
 		//// MODULE ENERGY STORAGE \\\\
 		TERRAIN_MODULE_STORAGE = INT(config,"Terrain Module", "Energy Storage", 400, 10, Integer.MAX_VALUE);
+		TERRAIN_MODULE_USAGE = INT(config,"Terrain Module", "Energy Usage", 1, 0, Integer.MAX_VALUE);
 		ADVANCED_TERRAIN_MODULE_STORAGE = INT(config,"Advanced Terrain Module", "Energy Storage", 2000, 1, Integer.MAX_VALUE);
-		ENERGY_MODULE_STORAGE = INT(config,"Energy Module", "Energy Storage", 100000, 1000, Integer.MAX_VALUE);
+		ADVANCED_TERRAIN_MODULE_USAGE = INT(config,"Advanced Terrain Module", "Energy Usage", 1, 0, Integer.MAX_VALUE);
+		ENERGY_MODULE_STORAGE = INT(config,"Energy Module", "Energy Storage", 100000, 1, Integer.MAX_VALUE);
+		WARP_MODULE_STORAGE = INT(config,"Warp Module", "Energy Storage", 10000, 1, Integer.MAX_VALUE);
+		JUMP_MODULE_STORAGE = INT(config,"Jump Module", "Energy Storage", 10000, 1, Integer.MAX_VALUE);
+
+		// HEALTH/HUNGER CAPACITY \\\
+		HEALTH_MODULE_CAPACITY = INT(config,"Health Module", "Health Capacity", 1000, -1, Integer.MAX_VALUE);
+		HUNGER_MODULE_CAPACITY = INT(config,"Hunger Module", "Hunger Capacity", 1000, -1, Integer.MAX_VALUE);
+		NUTRITION_MODULE_HUNGER_CAPACITY = INT(config,"Nutrition Module", "Hunger Capacity", -1, -1, Integer.MAX_VALUE);
+		NUTRITION_MODULE_HEALTH_CAPACITY = INT(config,"Nutrition Module", "Health Capacity", -1, -1, Integer.MAX_VALUE);
+
+		ENDER_PEARL_MODULE_USAGE = INT(config,"Flawless Calculator", "Ender Pearl Module - Energy Usage", 1000, 0, Integer.MAX_VALUE);
+		GRENADE_MODULE_USAGE = INT(config,"Flawless Calculator", "Grenade Module - Energy Usage", 10000, 0, Integer.MAX_VALUE);
 
 		//// POWER CUBE \\\\
 		POWER_CUBE_STORAGE = INT(config,"Power Cube", "Energy Storage", 50000, 1, Integer.MAX_VALUE);
@@ -278,6 +310,17 @@ public class CalculatorConfig extends Calculator {
 		PROCESSING_CHAMBER_USAGE = INT(config,"Processing Chamber", "Energy Usage", 1000, 1, Integer.MAX_VALUE);
 		PROCESSING_CHAMBER_SPEED = INT(config,"Processing Chamber", "Base Speed", 500, 1, Integer.MAX_VALUE);
 
+		//// TOOL MATERIALS \\\\
+
+		TOOL_REINFORCED_STONE = loadToolMaterial(config,"Reinforced Stone", 1, 250, 5.0F, 1.5F, 5);
+		TOOL_REDSTONE_INGOT = loadToolMaterial(config, "Redstone Ingot", 2, 800, 7.5F, 2.5F, 18);
+		TOOL_ENRICHED_GOLD = loadToolMaterial(config,"Enriched Gold", 3, 1000, 8.0F, 0.0F, 20);
+		TOOL_REINFORCED_IRON = loadToolMaterial(config,"Reinforced Iron", 2, 400, 7.0F, 2.0F, 10);
+		TOOL_WEAKENED_DIAMOND = loadToolMaterial(config,"Weakened Diamond", 3, 1400, 8.0F, 3.0F, 10);
+		TOOL_FLAWLESS_DIAMOND = loadToolMaterial(config,"Flawless Diamond", 3, 1800, 14.0F, 5.0F, 30);
+		TOOL_FIRE_DIAMOND = loadToolMaterial(config,"Fire Diamond", 3, 2600, 16.0F, 7.0F, 30);
+		TOOL_ELECTRIC_DIAMOND = loadToolMaterial(config,"Electric Diamond", 4, 10000, 18.0F, 10.0F, 30);
+		TOOL_END_DIAMOND = loadToolMaterial(config,"End Diamond", 6, -1, 50F, 16.0F, 30);
 
 		//// GENERAL SETTINGS \\\\
 		enableWaila = config.getBoolean("enable Waila integration", "api", true, "Waila");
@@ -285,6 +328,15 @@ public class CalculatorConfig extends Calculator {
 		enableToolModels = config.getBoolean("Enable Tool Models", "settings", true, "Tool Models");
 
 		config.save();
+	}
+
+	public static Item.ToolMaterial loadToolMaterial(Configuration config, String name, int harvestLevel, int maxUses, float efficiency, float damage, int enchantability){
+		int actual_harvest_level = INT(config,"Tool Material: " + name, "Harvest Level", harvestLevel, 0, Integer.MAX_VALUE);
+		int actual_max_uses = INT(config,"Tool Material: " + name, "Max Uses", maxUses, -1, Integer.MAX_VALUE);
+		int actual_enchant = INT(config,"Tool Material: " + name, "Enchantibility", enchantability, 0, Integer.MAX_VALUE);
+		float actual_efficiency = FLOAT(config,"Tool Material: " + name, "Efficiency", efficiency, 0.0F, 1024.0F);
+		float actual_damage = FLOAT(config,"Tool Material: " + name, "Damage", damage, 0.0F, 1024.0F);
+		return EnumHelper.addToolMaterial(name.replaceAll("\\s+",""), actual_harvest_level, actual_max_uses, actual_efficiency, actual_damage, actual_enchant);
 	}
 
 	public static void loadAtomicBlacklist() {
@@ -372,5 +424,32 @@ public class CalculatorConfig extends Calculator {
 		prop.setMinValue(minValue);
 		prop.setMaxValue(maxValue);
 		return prop.getInt(defaultValue) < minValue ? minValue : (prop.getInt(defaultValue) > maxValue ? maxValue : prop.getInt(defaultValue));
+	}
+
+	public static double DOUBLE(Configuration config, String category, String name, float defaultValue, float minValue, float maxValue){
+		Property prop = config.get(category, name, defaultValue);
+		prop.setLanguageKey(name);
+		prop.setComment("");
+		prop.setMinValue(minValue);
+		prop.setMaxValue(maxValue);
+		return (prop.getDouble(defaultValue) < minValue ? minValue : (prop.getDouble(defaultValue) > maxValue ? maxValue : prop.getDouble(defaultValue)));
+	}
+
+	public static float FLOAT(Configuration config, String name, String category, float defaultValue, float minValue, float maxValue){
+		Property prop = config.get(category, name, Float.toString(defaultValue), name);
+		prop.setLanguageKey(name);
+		prop.setComment("");
+		prop.setMinValue(minValue);
+		prop.setMaxValue(maxValue);
+		try
+		{
+			float parseFloat = Float.parseFloat(prop.getString());
+			return Floats.constrainToRange(parseFloat, minValue, maxValue);
+		}
+		catch (Exception e)
+		{
+			FMLLog.log.error("Failed to get float for {}/{}", name, category, e);
+		}
+		return defaultValue;
 	}
 }

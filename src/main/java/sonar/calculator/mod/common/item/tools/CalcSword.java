@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.CalculatorConfig;
-import sonar.calculator.mod.CalculatorItems;
 import sonar.core.helpers.FontHelper;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class CalcSword extends ItemSword{
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
 		super.onLeftClickEntity(stack, player, entity);
-		if (type == CalculatorItems.FireDiamond) {
+		if (type == CalculatorConfig.TOOL_FIRE_DIAMOND) {
 			entity.setFire(4);
 		}
 		return false;

@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHungerStore;
 import sonar.calculator.mod.utils.helpers.NutritionHelper;
@@ -76,7 +77,7 @@ public class HungerModule extends SonarItem implements IHungerStore {
 
 	@Override
 	public int getMaxHungerPoints(ItemStack stack) {
-		return 1000;
+		return CalculatorConfig.HUNGER_MODULE_CAPACITY;
 	}
 
 	@Override

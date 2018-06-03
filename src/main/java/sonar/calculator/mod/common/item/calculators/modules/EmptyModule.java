@@ -1,5 +1,7 @@
 package sonar.calculator.mod.common.item.calculators.modules;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.api.modules.IModule;
 
 public class EmptyModule implements IModule {
@@ -17,7 +19,12 @@ public class EmptyModule implements IModule {
 	}
 
 	@Override
-	public String getClientName() {
+	public String getClientName(NBTTagCompound tag) {
 		return "Empty Module";
+	}
+
+	@Override
+	public ItemStack getItemStack(NBTTagCompound tag) {
+		return ItemStack.EMPTY;
 	}
 }

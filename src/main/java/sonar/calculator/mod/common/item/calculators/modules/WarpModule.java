@@ -26,11 +26,6 @@ public class WarpModule extends ModuleBase implements IModuleClickable {
 	}
 
 	@Override
-	public String getClientName() {
-		return FontHelper.translate("flawless.mode6");
-	}
-
-	@Override
 	public void onModuleActivated(ItemStack stack, NBTTagCompound tag, World world, EntityPlayer player) {
 		if (!world.isRemote) {
 			if (!tag.hasKey("click") || !tag.getBoolean("click")) {

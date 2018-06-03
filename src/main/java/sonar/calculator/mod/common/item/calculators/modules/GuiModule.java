@@ -10,10 +10,10 @@ import sonar.calculator.mod.client.gui.calculators.*;
 import sonar.calculator.mod.client.gui.modules.GuiStorageModule;
 import sonar.calculator.mod.common.containers.*;
 import sonar.core.api.IFlexibleGui;
+import sonar.core.api.inventories.IItemInventory;
 import sonar.core.api.utils.BlockInteraction;
 import sonar.core.common.item.InventoryItem;
 import sonar.core.helpers.FontHelper;
-import sonar.core.api.inventories.IItemInventory;
 import sonar.core.network.FlexibleGuiHandler;
 
 public abstract class GuiModule extends ModuleBase implements IModuleInventory, IFlexibleGui<ItemStack> {
@@ -25,13 +25,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 	public static GuiModule crafting = new CraftingModule();
 	public static GuiModule storage = new StorageModule();
 	
-	public String name, clientName;
+	public String name;
 	public int size;
 	public boolean requiresEnergy;
 
-	public GuiModule(String name, String clientName, int size, boolean requiresEnergy) {
+	public GuiModule(String name, int size, boolean requiresEnergy) {
 		this.name = name;
-		this.clientName = clientName;
 		this.size = size;
 		this.requiresEnergy = requiresEnergy;
 	}
@@ -41,10 +40,6 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 		return name;
 	}
 
-	@Override
-	public String getClientName() {
-		return FontHelper.translate(clientName);
-	}
 
 	@Override
 	public InventoryItem getInventory(ItemStack stack, String tagName, boolean useStackTag) {
@@ -73,7 +68,7 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 	public static class CalculatorModule extends GuiModule {
 
 		public CalculatorModule() {
-			super("Calculator", "item.Calculator.name", 3, true);
+			super("Calculator", 3, true);
 		}
 
 		@Override
@@ -90,7 +85,7 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 	public static class ScientificModule extends GuiModule {
 
 		public ScientificModule() {
-			super("Scientific", "item.ScientificCalculator.name", 3, true);
+			super("Scientific", 3, true);
 		}
 
 		@Override
@@ -107,7 +102,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 	public static class FlawlessModule extends GuiModule {
 
 		public FlawlessModule() {
-			super("Flawless", "flawless.mode1", 5, false);
+			super("Flawless",  5, false);
+		}
+
+		@Override
+		public String getClientName(NBTTagCompound tag) {
+			return FontHelper.translate("flawless.mode1");
 		}
 
 		@Override
@@ -124,7 +124,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 	public static class DynamicModule extends GuiModule {
 
 		public DynamicModule() {
-			super("Dynamic", "flawless.mode2", 10, false);
+			super("Dynamic", 10, false);
+		}
+
+		@Override
+		public String getClientName(NBTTagCompound tag) {
+			return FontHelper.translate("flawless.mode2");
 		}
 
 		@Override
@@ -141,7 +146,12 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 	public static class CraftingModule extends GuiModule {
 
 		public CraftingModule() {
-			super("Crafting", "flawless.mode3", 10, true);
+			super("Crafting", 10, true);
+		}
+
+		@Override
+		public String getClientName(NBTTagCompound tag) {
+			return FontHelper.translate("flawless.mode3");
 		}
 
 		@Override
@@ -158,7 +168,7 @@ public abstract class GuiModule extends ModuleBase implements IModuleInventory, 
 	public static class StorageModule extends GuiModule {
 
 		public StorageModule() {
-			super("Storage", "Storage Module", 54, false);
+			super("Storage", 54, false);
 		}
 
 		@Override

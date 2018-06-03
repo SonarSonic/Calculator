@@ -17,11 +17,6 @@ import sonar.core.helpers.FontHelper;
 public class JumpModule extends ModuleBase implements IModuleClickable {
 
 	@Override
-	public String getClientName() {
-		return "Jump Module";
-	}
-
-	@Override
 	public String getName() {
 		return "Jump";
 	}

@@ -5,6 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import sonar.calculator.mod.api.items.IFlawlessCalculator;
+import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
 import sonar.calculator.mod.common.tileentity.machines.TileEntityModuleWorkstation;
 import sonar.core.handlers.inventories.containers.ContainerSync;
 import sonar.core.handlers.inventories.handling.SlotSonarFiltered;
@@ -28,7 +29,7 @@ public class ContainerModuleWorkstation extends ContainerSync {
 			}
 		}
 
-		addSlotToContainer(new SlotSonarFiltered(entity, 16, 8, 8));
+		addSlotToContainer(new SlotSonarFiltered(entity, FlawlessCalculator.moduleCapacity, 8, 8));
 		addInventory(inventory, 8, 84);
 	}
 

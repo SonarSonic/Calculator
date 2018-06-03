@@ -26,20 +26,20 @@ public class GrenadeModule extends ModuleBase implements IModuleClickable {
 	}
 
 	@Override
-	public String getClientName() {
+	public String getClientName(NBTTagCompound tag) {
 		return FontHelper.translate("flawless.mode4");
 	}
 
 	@Override
 	public void onModuleActivated(ItemStack stack, NBTTagCompound tag, World world, EntityPlayer player) {
-		if (isEnergyAvailable(stack, player, world, 10000)) {
+		if (isEnergyAvailable(stack, player, world, CalculatorConfig.GRENADE_MODULE_USAGE)) {
 			if (CalculatorConfig.enableGrenades) {
                 world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.NEUTRAL, 0.5F, 0.8F);
 				if (!world.isRemote) {
 					EntityGrenade entity = new EntityGrenade(world, player);
 					entity.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
 					world.spawnEntity(entity);
-					this.extractEnergy(stack, player, 10000, false);
+					this.extractEnergy(stack, player, CalculatorConfig.GRENADE_MODULE_USAGE, false);
 				}
 			} else {
 				FontHelper.sendMessage(FontHelper.translate("calc.ban"), world, player);

@@ -3,7 +3,6 @@ package sonar.calculator.mod;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
-import net.minecraftforge.common.util.EnumHelper;
 import sonar.calculator.mod.common.item.calculators.*;
 import sonar.calculator.mod.common.item.calculators.modules.EnergyModule;
 import sonar.calculator.mod.common.item.calculators.modules.GuiModule;
@@ -13,11 +12,8 @@ import sonar.calculator.mod.common.item.misc.*;
 import sonar.calculator.mod.common.item.modules.*;
 import sonar.calculator.mod.common.item.tools.*;
 import sonar.core.SonarRegister;
-import sonar.core.common.block.properties.IMetaVariant;
 import sonar.core.common.item.*;
 import sonar.core.upgrades.MachineUpgrade;
-
-import javax.annotation.Nonnull;
 
 public class CalculatorItems extends Calculator {
 
@@ -25,53 +21,20 @@ public class CalculatorItems extends Calculator {
         SPEED, ENERGY, VOID, TRANSFER
 	}
 
-	public static final Item.ToolMaterial ReinforcedStone = EnumHelper.addToolMaterial("ReinforcedStone", 1, 250, 5.0F, 1.5F, 5);
-	public static final Item.ToolMaterial RedstoneMaterial = EnumHelper.addToolMaterial("RedstoneMaterial", 2, 800, 7.5F, 2.5F, 18);
-	public static final Item.ToolMaterial EnrichedGold = EnumHelper.addToolMaterial("EnrichedGold", 3, 1000, 8.0F, 0.0F, 20);
-	public static final Item.ToolMaterial ReinforcedIron = EnumHelper.addToolMaterial("ReinforcedIron", 2, 400, 7.0F, 2.0F, 10);
-	public static final Item.ToolMaterial WeakenedDiamond = EnumHelper.addToolMaterial("WeakenedDiamond", 3, 1400, 8.0F, 3.0F, 10);
-	public static final Item.ToolMaterial FlawlessDiamond = EnumHelper.addToolMaterial("FlawlessDiamond", 3, 1800, 14.0F, 5.0F, 30);
-	public static final Item.ToolMaterial FireDiamond = EnumHelper.addToolMaterial("FireDiamond", 3, 2600, 16.0F, 7.0F, 30);
-	public static final Item.ToolMaterial ElectricDiamond = EnumHelper.addToolMaterial("ElectricDiamond", 4, 10000, 18.0F, 10.0F, 30);
-	public static final Item.ToolMaterial EndForged = EnumHelper.addToolMaterial("EndForged", 6, -1, 50F, 16.0F, 30);
-
-    public enum ToolTypes implements IMetaVariant {
-		ReinforcedStone(0, CalculatorItems.ReinforcedStone), Redstone(1, CalculatorItems.RedstoneMaterial), EnrichedGold(2, CalculatorItems.EnrichedGold), ReinforcedIron(3, CalculatorItems.ReinforcedIron), WeakenedDiamond(4, CalculatorItems.WeakenedDiamond), FlawlessDiamond(5, CalculatorItems.FlawlessDiamond), FireDiamond(6, CalculatorItems.FireDiamond), ElectricDiamond(7, CalculatorItems.ElectricDiamond), EndForged(8, CalculatorItems.EndForged);
-
-		Item.ToolMaterial material;
-        int type;
-
-		ToolTypes(int type, Item.ToolMaterial material) {
-			this.material = material;
-			this.type = type;
-		}
-
-		@Nonnull
-        @Override
-		public String getName() {
-			return name();
-		}
-
-		@Override
-		public int getMeta() {
-			return type;
-		}
-
-	}
 
 	public static void registerItems() {
 
 		// calculators
 		itemInfoCalculator = SonarRegister.addItem(CalculatorConstants.MODID, tab, "InfoCalculator", new InfoCalculator());
-		itemCalculator = SonarRegister.addItem(CalculatorConstants.MODID, tab, "Calculator", new SonarUsageModule(GuiModule.calculator, 1000));
-		itemCraftingCalculator = SonarRegister.addItem(CalculatorConstants.MODID, tab, "CraftingCalculator", new SonarUsageModule(GuiModule.crafting, 5000));
-		itemScientificCalculator = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ScientificCalculator", new SonarUsageModule(GuiModule.scientific, 2000));
+		itemCalculator = SonarRegister.addItem(CalculatorConstants.MODID, tab, "Calculator", new SonarUsageModule(GuiModule.calculator, CalculatorConfig.CALCULATOR_STORAGE));
+		itemCraftingCalculator = SonarRegister.addItem(CalculatorConstants.MODID, tab, "CraftingCalculator", new SonarUsageModule(GuiModule.crafting, CalculatorConfig.CRAFTING_CALCULATOR_STORAGE));
+		itemScientificCalculator = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ScientificCalculator", new SonarUsageModule(GuiModule.scientific, CalculatorConfig.SCIENTIFIC_CALCULATOR_STORAGE));
 		itemFlawlessCalculator = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessCalculator", new FlawlessCalculator());
 
 		// modules
 		itemStorageModule = SonarRegister.addItem(CalculatorConstants.MODID, tab, "StorageModule", new SonarModule(GuiModule.storage));
-		itemWarpModule = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WarpModule", new SonarUsageModule(new WarpModule(), 10000));
-		itemJumpModule = SonarRegister.addItem(CalculatorConstants.MODID, tab, "JumpModule", new SonarUsageModule(new JumpModule(), 10000));
+		itemWarpModule = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WarpModule", new SonarUsageModule(new WarpModule(), CalculatorConfig.WARP_MODULE_STORAGE));
+		itemJumpModule = SonarRegister.addItem(CalculatorConstants.MODID, tab, "JumpModule", new SonarUsageModule(new JumpModule(), CalculatorConfig.JUMP_MODULE_STORAGE));
 		itemHungerModule = SonarRegister.addItem(CalculatorConstants.MODID, tab, "HungerModule", new HungerModule());
 		itemHealthModule = SonarRegister.addItem(CalculatorConstants.MODID, tab, "HealthModule", new HealthModule());
 		itemNutritionModule = SonarRegister.addItem(CalculatorConstants.MODID, tab, "NutritionModule", new NutritionModule());
@@ -106,59 +69,59 @@ public class CalculatorItems extends Calculator {
 		obsidianKey = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ObsidianKey", new ObsidianKey());
 
 		// swords
-		reinforced_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedSword", new CalcSword(ReinforcedStone));
-		enrichedgold_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGoldSword", new CalcSword(EnrichedGold));
-		reinforcediron_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedIronSword", new CalcSword(ReinforcedIron));
-		redstone_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstoneSword", new CalcSword(RedstoneMaterial));
-		weakeneddiamond_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamondSword", new CalcSword(WeakenedDiamond));
-		flawlessdiamond_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamondSword", new CalcSword(FlawlessDiamond));
-		firediamond_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamondSword", new CalcSword(FireDiamond));
-		electric_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricSword", new CalcSword(ElectricDiamond));
-		endforged_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndForgedSword", new CalcSword(EndForged));
+		reinforced_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedSword", new CalcSword(CalculatorConfig.TOOL_REINFORCED_STONE));
+		enrichedgold_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGoldSword", new CalcSword(CalculatorConfig.TOOL_ENRICHED_GOLD));
+		reinforcediron_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedIronSword", new CalcSword(CalculatorConfig.TOOL_REINFORCED_IRON));
+		redstone_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstoneSword", new CalcSword(CalculatorConfig.TOOL_REDSTONE_INGOT));
+		weakeneddiamond_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamondSword", new CalcSword(CalculatorConfig.TOOL_WEAKENED_DIAMOND));
+		flawlessdiamond_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamondSword", new CalcSword(CalculatorConfig.TOOL_FLAWLESS_DIAMOND));
+		firediamond_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamondSword", new CalcSword(CalculatorConfig.TOOL_FIRE_DIAMOND));
+		electric_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricSword", new CalcSword(CalculatorConfig.TOOL_ELECTRIC_DIAMOND));
+		endforged_sword = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndForgedSword", new CalcSword(CalculatorConfig.TOOL_END_DIAMOND));
 
 		// pickaxes
-		reinforced_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedPickaxe", new CalcPickaxe(ReinforcedStone));
-		enrichedgold_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGoldPickaxe", new CalcPickaxe(EnrichedGold));
-		reinforcediron_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedIronPickaxe", new CalcPickaxe(ReinforcedIron));
-		redstone_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstonePickaxe", new CalcPickaxe(RedstoneMaterial));
-		weakeneddiamond_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamondPickaxe", new CalcPickaxe(WeakenedDiamond));
-		flawlessdiamond_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamondPickaxe", new CalcPickaxe(FlawlessDiamond));
-		firediamond_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamondPickaxe", new CalcPickaxe(FireDiamond));
-		electric_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricPickaxe", new CalcPickaxe(ElectricDiamond));
-		endforged_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndForgedPickaxe", new CalcPickaxe(EndForged));
+		reinforced_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedPickaxe", new CalcPickaxe(CalculatorConfig.TOOL_REINFORCED_STONE));
+		enrichedgold_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGoldPickaxe", new CalcPickaxe(CalculatorConfig.TOOL_ENRICHED_GOLD));
+		reinforcediron_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedIronPickaxe", new CalcPickaxe(CalculatorConfig.TOOL_REINFORCED_IRON));
+		redstone_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstonePickaxe", new CalcPickaxe(CalculatorConfig.TOOL_REDSTONE_INGOT));
+		weakeneddiamond_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamondPickaxe", new CalcPickaxe(CalculatorConfig.TOOL_WEAKENED_DIAMOND));
+		flawlessdiamond_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamondPickaxe", new CalcPickaxe(CalculatorConfig.TOOL_FLAWLESS_DIAMOND));
+		firediamond_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamondPickaxe", new CalcPickaxe(CalculatorConfig.TOOL_FIRE_DIAMOND));
+		electric_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricPickaxe", new CalcPickaxe(CalculatorConfig.TOOL_ELECTRIC_DIAMOND));
+		endforged_pickaxe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndForgedPickaxe", new CalcPickaxe(CalculatorConfig.TOOL_END_DIAMOND));
 
 		// axes
-		reinforced_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedAxe", new CalcAxe(ReinforcedStone));
-		enrichedgold_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGoldAxe", new CalcAxe(EnrichedGold));
-		reinforcediron_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedIronAxe", new CalcAxe(ReinforcedIron));
-		redstone_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstoneAxe", new CalcAxe(RedstoneMaterial));
-		weakeneddiamond_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamondAxe", new CalcAxe(WeakenedDiamond));
-		flawlessdiamond_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamondAxe", new CalcAxe(FlawlessDiamond));
-		firediamond_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamondAxe", new CalcAxe(FireDiamond));
-		electric_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricAxe", new CalcAxe(ElectricDiamond));
-		endforged_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndForgedAxe", new CalcAxe(EndForged));
+		reinforced_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedAxe", new CalcAxe(CalculatorConfig.TOOL_REINFORCED_STONE));
+		enrichedgold_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGoldAxe", new CalcAxe(CalculatorConfig.TOOL_ENRICHED_GOLD));
+		reinforcediron_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedIronAxe", new CalcAxe(CalculatorConfig.TOOL_REINFORCED_IRON));
+		redstone_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstoneAxe", new CalcAxe(CalculatorConfig.TOOL_REDSTONE_INGOT));
+		weakeneddiamond_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamondAxe", new CalcAxe(CalculatorConfig.TOOL_WEAKENED_DIAMOND));
+		flawlessdiamond_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamondAxe", new CalcAxe(CalculatorConfig.TOOL_FLAWLESS_DIAMOND));
+		firediamond_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamondAxe", new CalcAxe(CalculatorConfig.TOOL_FIRE_DIAMOND));
+		electric_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricAxe", new CalcAxe(CalculatorConfig.TOOL_ELECTRIC_DIAMOND));
+		endforged_axe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndForgedAxe", new CalcAxe(CalculatorConfig.TOOL_END_DIAMOND));
 
 		// shovels
-		reinforced_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedShovel", new CalcShovel(ReinforcedStone));
-		enrichedgold_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGoldShovel", new CalcShovel(EnrichedGold));
-		reinforcediron_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedIronShovel", new CalcShovel(ReinforcedIron));
-		redstone_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstoneShovel", new CalcShovel(RedstoneMaterial));
-		weakeneddiamond_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamondShovel", new CalcShovel(WeakenedDiamond));
-		flawlessdiamond_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamondShovel", new CalcShovel(FlawlessDiamond));
-		firediamond_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamondShovel", new CalcShovel(FireDiamond));
-		electric_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricShovel", new CalcShovel(ElectricDiamond));
-		endforged_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndForgedShovel", new CalcShovel(EndForged));
+		reinforced_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedShovel", new CalcShovel(CalculatorConfig.TOOL_REINFORCED_STONE));
+		enrichedgold_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGoldShovel", new CalcShovel(CalculatorConfig.TOOL_ENRICHED_GOLD));
+		reinforcediron_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedIronShovel", new CalcShovel(CalculatorConfig.TOOL_REINFORCED_IRON));
+		redstone_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstoneShovel", new CalcShovel(CalculatorConfig.TOOL_REDSTONE_INGOT));
+		weakeneddiamond_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamondShovel", new CalcShovel(CalculatorConfig.TOOL_WEAKENED_DIAMOND));
+		flawlessdiamond_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamondShovel", new CalcShovel(CalculatorConfig.TOOL_FLAWLESS_DIAMOND));
+		firediamond_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamondShovel", new CalcShovel(CalculatorConfig.TOOL_FIRE_DIAMOND));
+		electric_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricShovel", new CalcShovel(CalculatorConfig.TOOL_ELECTRIC_DIAMOND));
+		endforged_shovel = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndForgedShovel", new CalcShovel(CalculatorConfig.TOOL_END_DIAMOND));
 
 		// hoes
-		reinforced_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedHoe", new CalcHoe(ReinforcedStone));
-		enrichedgold_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGoldHoe", new CalcHoe(EnrichedGold));
-		reinforcediron_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedIronHoe", new CalcHoe(ReinforcedIron));
-		redstone_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstoneHoe", new CalcHoe(RedstoneMaterial));
-		weakeneddiamond_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamondHoe", new CalcHoe(WeakenedDiamond));
-		flawlessdiamond_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamondHoe", new CalcHoe(FlawlessDiamond));
-		firediamond_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamondHoe", new CalcHoe(FireDiamond));
-		electric_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricHoe", new CalcHoe(ElectricDiamond));
-		endforged_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndForgedHoe", new CalcHoe(EndForged));
+		reinforced_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedHoe", new CalcHoe(CalculatorConfig.TOOL_REINFORCED_STONE));
+		enrichedgold_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGoldHoe", new CalcHoe(CalculatorConfig.TOOL_ENRICHED_GOLD));
+		reinforcediron_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ReinforcedIronHoe", new CalcHoe(CalculatorConfig.TOOL_REINFORCED_IRON));
+		redstone_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "RedstoneHoe", new CalcHoe(CalculatorConfig.TOOL_REDSTONE_INGOT));
+		weakeneddiamond_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "WeakenedDiamondHoe", new CalcHoe(CalculatorConfig.TOOL_WEAKENED_DIAMOND));
+		flawlessdiamond_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FlawlessDiamondHoe", new CalcHoe(CalculatorConfig.TOOL_FLAWLESS_DIAMOND));
+		firediamond_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "FireDiamondHoe", new CalcHoe(CalculatorConfig.TOOL_FIRE_DIAMOND));
+		electric_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "ElectricHoe", new CalcHoe(CalculatorConfig.TOOL_ELECTRIC_DIAMOND));
+		endforged_hoe = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EndForgedHoe", new CalcHoe(CalculatorConfig.TOOL_END_DIAMOND));
 
 		// materials
 		enrichedGold = SonarRegister.addItem(CalculatorConstants.MODID, tab, "EnrichedGold", new Item());

@@ -21,9 +21,6 @@ public class RenderFabricationChamber extends TileEntitySpecialRenderer<TileEnti
     @Override
     public void render(TileEntityFabricationChamber tileentity, double x, double y, double z, float partialTicks, int destroyStage, float f) {
         //public void renderTileEntityAt(TileEntityFabricationChamber tileentity, double x, double y, double z, float partialTicks, int destroyStage) {
-		if(tileentity.getWorld()!=null){
-			return;
-		}
 		int i;
 		if (tileentity.getWorld() == null) {
 			i = 0;

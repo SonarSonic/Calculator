@@ -1,17 +1,14 @@
 package sonar.calculator.mod.common.item.calculators.modules;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.modules.IModuleEnergy;
 import sonar.core.api.utils.ActionType;
 
 public class EnergyModule implements IModuleEnergy {
-
-	@Override
-	public String getClientName() {
-		return "Energy Module";
-	}
 
 	@Override
 	public boolean isLoadable() {
@@ -21,6 +18,22 @@ public class EnergyModule implements IModuleEnergy {
 	@Override
 	public String getName() {
 		return "Energy Module";
+	}
+
+	@Override
+	public String getClientName(NBTTagCompound tag) {
+		return getItemStack(tag).getDisplayName();
+	}
+
+	@Override
+	public ItemStack getItemStack(NBTTagCompound tag){
+		Item item = Calculator.moduleItems.getPrimaryObject(this.getName());
+		if (item != null) {
+			ItemStack moduleStack = new ItemStack(item, 1);
+			moduleStack.setTagCompound(tag);
+			return moduleStack;
+		}
+		return ItemStack.EMPTY;
 	}
 
     @Override

@@ -35,10 +35,10 @@ public class CalculatorPlug extends SonarBlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			ItemStack held = player.getHeldItemMainhand();
+			ItemStack held = player.getHeldItem(hand);
 			if (!held.isEmpty() && held.getItem() instanceof IStability) {
 				IItemHandler handler = ItemTransferHelper.getItemHandler(world, pos, EnumFacing.UP);
-				ItemHandlerHelper.insertItem(handler, held, true);
+				player.setHeldItem(hand, ItemHandlerHelper.insertItem(handler, held, false));
 				return true;
 			}
 			FlexibleGuiHandler.instance().openBasicTile(player, world, pos, 0);

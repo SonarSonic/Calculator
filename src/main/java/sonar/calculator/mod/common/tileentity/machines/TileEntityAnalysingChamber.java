@@ -51,9 +51,9 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		super.storage.setCapacity(CalculatorConfig.ANALYSING_CHAMBER_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.ANALYSING_CHAMBER_TRANSFER_RATE);
 		super.inv.setSize(8);
-		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> SLOT != 1 ? SLOT == 0 && CircuitBoard.getState(STACK) == CircuitBoard.CircuitState.NOT_ANALYSED: null, EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> SLOT != 1 ? SLOT == 0 && CircuitBoard.getState(STACK) == CircuitBoard.CircuitState.NOT_ANALYSED : null, EnumFilterType.EXTERNAL_INTERNAL);
 		super.inv.getInsertFilters().put(SlotHelper.chargeSlot(1), EnumFilterType.INTERNAL);
-		super.inv.getExtractFilters().put((SLOT,STACK,FACE)-> CircuitBoard.getState(inv.getStackInSlot(STACK)) != CircuitBoard.CircuitState.NOT_ANALYSED, EnumFilterType.EXTERNAL);
+		super.inv.getExtractFilters().put((SLOT,COUNT,FACE)-> SLOT == 0 ? CircuitBoard.getState(inv.getStackInSlot(SLOT)) != CircuitBoard.CircuitState.NOT_ANALYSED : SLOT != 1, EnumFilterType.EXTERNAL);
 		super.energyMode = EnergyMode.SEND;
 		syncList.addParts(stable, analysed);
 	}
@@ -92,8 +92,9 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		ArrayList<EnumFacing> outputs = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
 		for (EnumFacing side : outputs) {
 			IItemHandler handler = ItemTransferHelper.getItemHandler(world, getPos().offset(side), side);
-			if(handler != null)
+			if(handler != null) {
 				ItemTransferHelper.doSimpleTransfer(Lists.newArrayList(this.inv.getItemHandler(side)), Lists.newArrayList(handler), IS -> !IS.isEmpty(), 4);
+			}
 		}
 		ArrayList<EnumFacing> inputs = sides.getSidesWithConfig(MachineSideConfig.INPUT);
 		if (!inputs.isEmpty()) {
@@ -105,7 +106,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 					handlers.add(handler);
 				}
 			}
-			ItemTransferHelper.doSimpleTransfer(handlers, Lists.newArrayList(inv()), IS -> true, 32);
+			ItemTransferHelper.doSimpleTransfer(Lists.newArrayList(inv()), handlers, IS -> true, 32);
 		}
 	}
 

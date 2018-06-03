@@ -33,8 +33,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 		super.sides.output = outputs;
 		super.storage.setCapacity(50000).setMaxTransfer(32000);
 		super.inv.setSize(1 + inputSize + outputSize);
-		super.inv.getInsertFilters().put((SLOT,STACK,FACE)-> (!(isInputSlot(SLOT)) || recipeHelper() == null) ? null : recipeHelper().isValidInput(STACK), EnumFilterType.EXTERNAL_INTERNAL);
-		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> isInputSlot(SLOT) ? (recipeHelper() == null || recipeHelper().isValidInput(STACK)) : null , EnumFilterType.INTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> isInputSlot(SLOT) ? (recipeHelper() == null || recipeHelper().isValidInput(STACK)) : null , EnumFilterType.EXTERNAL_INTERNAL);
 		super.inv.getInsertFilters().put(SlotHelper.dischargeSlot(inputSize), EnumFilterType.INTERNAL);
 		super.inv.getInsertFilters().put((SLOT,STACK,FACE)-> !isOutputSlot(SLOT), EnumFilterType.EXTERNAL_INTERNAL);
 		super.inv.getExtractFilters().put((SLOT,COUNT,FACE)-> isOutputSlot(SLOT), EnumFilterType.EXTERNAL);
@@ -59,7 +58,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 	}
 
 	public boolean isOutputSlot(int slot){
-		return slot > inputSize() + 1;
+		return slot >= inputSize() + 1;
 	}
 
 	@Override

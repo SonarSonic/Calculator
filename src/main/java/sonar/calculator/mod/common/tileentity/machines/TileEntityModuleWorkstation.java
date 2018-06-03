@@ -1,6 +1,7 @@
 package sonar.calculator.mod.common.tileentity.machines;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,6 +18,7 @@ import sonar.core.common.tileentity.TileEntityInventory;
 import sonar.core.handlers.inventories.handling.EnumFilterType;
 import sonar.core.handlers.inventories.handling.filters.SlotHelper;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 public class TileEntityModuleWorkstation extends TileEntityInventory implements IFlexibleGui {
@@ -32,16 +34,23 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 	}
 
 	@Override
+	public boolean checkDrop(int slot, @Nonnull ItemStack stack){
+		return slot == FlawlessCalculator.moduleCapacity;
+	}
+
+	@Override
 	public void onInventoryContentsChanged(int slot){
 		super.onInventoryContentsChanged(slot);
-		if (slot != 16) {
+		if (slot != FlawlessCalculator.moduleCapacity) {
 			updateCalc = true;
 		}else{
 			ItemStack stack = this.getStackInSlot(slot);
 			if (stack.isEmpty()) {
-				clear();
+				for(int i = 0; i < FlawlessCalculator.moduleCapacity; i++){
+					slots().set(i, ItemStack.EMPTY);
+				}
 			} else {
-				updateCalc = true;
+				newCalc = true;
 			}
 		}
 	}
@@ -62,6 +71,9 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 				if (item != null) {
 					ItemStack moduleStack = new ItemStack(item, 1);
 					moduleStack.setTagCompound(calc.getModuleTag(stack, i));
+					if(!slots().get(i).isEmpty()){
+						InventoryHelper.spawnItemStack(world, getPos().getX(), getPos().getY(), getPos().getZ(), slots().get(i));
+					}
 					slots().set(i, moduleStack);
 				}
 				i++;

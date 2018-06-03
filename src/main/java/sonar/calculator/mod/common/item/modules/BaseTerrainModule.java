@@ -1,7 +1,5 @@
 package sonar.calculator.mod.common.item.modules;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,17 +12,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import sonar.core.api.utils.ActionType;
 import sonar.core.common.item.SonarEnergyItem;
 import sonar.core.helpers.FontHelper;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class BaseTerrainModule extends SonarEnergyItem {
 
 	public Block[] replacable;
+	public final int usage;
 
-	public BaseTerrainModule(int capacity, int maxReceive, int maxExtract) {
-		super(capacity, maxReceive, maxExtract);
+	public BaseTerrainModule(int capacity, int usage) {
+		super(capacity, capacity, capacity);
+		this.usage = usage;
 	}
 
 	@Override
@@ -40,25 +42,20 @@ public class BaseTerrainModule extends SonarEnergyItem {
     @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (player.capabilities.isCreativeMode || this.getEnergyLevel(stack) > 0) {
-			if (!player.canPlayerEdit(pos, side, stack)) {
-				return EnumActionResult.PASS;
-			}
 			if (player.isSneaking()) {
 				incrementMode(stack);
 				FontHelper.sendMessage(currentBlockString(stack, player), world, player);
-			} else {
-				if (canReplace(stack, world, pos)) {
+			} else if (canReplace(stack, world, pos)) {
+				if (player.capabilities.isCreativeMode || this.getEnergyLevel(stack) >= usage) {
 					world.setBlockState(pos, getCurrentBlock(stack).getStateFromMeta(stack.getMetadata()));
 					if (!player.capabilities.isCreativeMode) {
-						int energy = (int) getEnergyLevel(stack);
-						stack.getTagCompound().setInteger("Energy", energy - 1);
+						removeEnergy(stack, usage, ActionType.PERFORM);
 					}
+				} else {
+					FontHelper.sendMessage(FontHelper.translate("energy.noEnergy"), world, player);
 				}
 			}
-		} else if (this.getEnergyLevel(stack) == 0) {
-			FontHelper.sendMessage(FontHelper.translate("energy.noEnergy"), world, player);
-		}
+
 		return EnumActionResult.SUCCESS;
 	}
 

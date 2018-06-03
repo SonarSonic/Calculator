@@ -1,6 +1,6 @@
 {
     "textures": {
-        "particle":"calculator:blocks/reinforcedstone",
+        "particle":"sonarcore:blocks/reinforcedstone",
         "0":"calculator:model/lantern"
     },
     "elements": [

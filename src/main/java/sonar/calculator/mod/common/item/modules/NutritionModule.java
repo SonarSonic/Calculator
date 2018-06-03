@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sonar.calculator.mod.Calculator;
+import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.machines.ProcessType;
 import sonar.calculator.mod.api.nutrition.IHealthStore;
 import sonar.calculator.mod.api.nutrition.IHungerStore;
@@ -134,7 +135,7 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 
 	@Override
 	public int getMaxHungerPoints(ItemStack stack) {
-		return -1;
+		return CalculatorConfig.HUNGER_MODULE_CAPACITY;
 	}
 
 	@Override
@@ -173,7 +174,7 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 
 	@Override
 	public int getMaxHealthPoints(ItemStack stack) {
-		return -1;
+		return CalculatorConfig.NUTRITION_MODULE_HEALTH_CAPACITY;
 	}
 
 	@Override

@@ -2,8 +2,11 @@ package sonar.calculator.mod.common.item.calculators.modules;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.modules.IModule;
 import sonar.core.api.energy.EnergyType;
 import sonar.core.api.utils.ActionType;
@@ -15,6 +18,22 @@ public abstract class ModuleBase implements IModule {
 	@Override
 	public boolean isLoadable() {
 		return true;
+	}
+
+	@Override
+	public String getClientName(NBTTagCompound tag) {
+		return getItemStack(tag).getDisplayName();
+	}
+
+	@Override
+	public ItemStack getItemStack(NBTTagCompound tag){
+		Item item = Calculator.moduleItems.getPrimaryObject(this.getName());
+		if (item != null) {
+			ItemStack moduleStack = new ItemStack(item, 1);
+			moduleStack.setTagCompound(tag);
+			return moduleStack;
+		}
+		return ItemStack.EMPTY;
 	}
 
 	protected final boolean isCreativeMode(Entity entity) {

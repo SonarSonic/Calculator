@@ -36,8 +36,8 @@ public class TileEntityBasicGreenhouse extends TileEntityBuildingGreenhouse impl
 		super.storage.setCapacity(CalculatorConfig.BASIC_GREENHOUSE_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.BASIC_GREENHOUSE_TRANSFER_RATE);
 		super.inv.setSize(14);
-		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> resource_slots.checkFilter(SLOT, FACE) ? checkInsert(SLOT,STACK,FACE) : null, EnumFilterType.EXTERNAL);
-		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> plant_slots.checkFilter(SLOT, FACE) ? isSeed(STACK) : null, EnumFilterType.EXTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> resource_slots.checkFilter(SLOT, FACE) ? checkInsert(SLOT,STACK,FACE) : null, EnumFilterType.EXTERNAL_INTERNAL);
+		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> plant_slots.checkFilter(SLOT, FACE) ? isSeed(STACK) : null, EnumFilterType.EXTERNAL_INTERNAL);
 		super.inv.getInsertFilters().put(SlotHelper.dischargeSlot(4), EnumFilterType.INTERNAL);
 		super.inv.getExtractFilters().put(IExtractFilter.BLOCK_EXTRACT, EnumFilterType.EXTERNAL);
 		super.energyMode = EnergyMode.RECIEVE;

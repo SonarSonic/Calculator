@@ -133,9 +133,10 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 	public void transferItems() {
 		ArrayList<EnumFacing> outputs = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
 		for (EnumFacing side : outputs) {
-			IItemHandler handler = ItemTransferHelper.getItemHandler(world, getPos().offset(side), side);
-			if(handler != null)
+			IItemHandler handler = ItemTransferHelper.getItemHandlerOffset(world, getPos(), side);
+			if(handler != null) {
 				ItemTransferHelper.doSimpleTransfer(Lists.newArrayList(this.inv.getItemHandler(side)), Lists.newArrayList(handler), IS -> !IS.isEmpty(), 4);
+			}
 		}
 	}
 

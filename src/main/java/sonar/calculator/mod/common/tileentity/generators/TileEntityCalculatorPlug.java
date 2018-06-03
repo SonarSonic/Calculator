@@ -29,6 +29,7 @@ public class TileEntityCalculatorPlug extends TileEntityInventory implements IFl
 
 	public TileEntityCalculatorPlug() {
 		super.inv.setSize(1);
+		super.inv.slotLimit = 1;
 		super.inv.getInsertFilters().put(SlotHelper.filterSlot(0, s -> s.getItem() instanceof IStability), EnumFilterType.EXTERNAL_INTERNAL);
 		syncList.addParts(stable);
 	}

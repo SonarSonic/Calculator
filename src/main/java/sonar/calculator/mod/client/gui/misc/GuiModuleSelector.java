@@ -3,8 +3,8 @@ package sonar.calculator.mod.client.gui.misc;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -112,11 +112,10 @@ public class GuiModuleSelector extends GuiContainer {
 			for (int i = start; i < finish; i++) {
 				IModule module = modules.get(i);
 				if (module != null && module != EmptyModule.EMPTY) {
-					Item item = Calculator.moduleItems.getPrimaryObject(module.getName());
-					if (item != null) {
-						itemRender.renderItemIntoGUI(new ItemStack(item, 1), 5, 31 + (i - start) * 18);
-					}
-					FontHelper.text(module.getClientName(), 28, 35 + (i - start) * 18, -1);
+					NBTTagCompound tag = calc.getModuleTag(stack, i);
+					ItemStack displayStack = module.getItemStack(tag);
+					itemRender.renderItemIntoGUI(displayStack, 5, 31 + (i - start) * 18);
+					FontHelper.text(module.getClientName(tag), 28, 35 + (i - start) * 18, -1);
 				} else {
 					FontHelper.text("-empty-", 28, 35 + (i - start) * 18, -1);
 				}

@@ -145,7 +145,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 			if (!tag.hasNoTags() && !world.isRemote)
                 stack.setTagInfo(String.valueOf(slot), tag);
 		} else if (!world.isRemote) {
-			FlexibleGuiHandler.instance().openBasicTile(player, world, player.getPosition(), 1);
+			FlexibleGuiHandler.instance().openBasicItemStack(false, stack, player, world, player.getPosition(), 1);
 			/* int slot = this.getCurrentSlot(stack); slot++; if (!(slot < moduleCapacity)) { slot = 0; } tag.setInteger("slot", slot); stack.setTagCompound(tag);
 			 * 
 			 * IModule module = this.getCurrentModule(stack); FontHelper.sendMessage("Module " + " : " + module.getClientName(), world, player); */
@@ -177,7 +177,8 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
     public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag par4) {
         super.addInformation(stack, world, list, par4);
 		IModule current = this.getCurrentModule(stack);
-		list.add("Current Module: " + current.getClientName());
+		int currentSlot = getCurrentSlot(stack);
+		list.add("Current Module: " + current.getClientName(getModuleTag(stack, currentSlot)));
 
 		long energyStored = 0;
 		long itemsStored = 0;
