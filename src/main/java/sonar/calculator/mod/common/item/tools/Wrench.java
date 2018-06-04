@@ -25,6 +25,7 @@ public class Wrench extends SonarItem implements IWrench {
 		if (player.isSneaking()) {
 			if (block instanceof IWrenchable && ((IWrenchable) block).canWrench(player, world, pos)){
 				world.getBlockState(pos).getBlock().harvestBlock(world, player, pos, world.getBlockState(pos), te, player.getHeldItem(hand));
+				world.getBlockState(pos).getBlock().removedByPlayer(world.getBlockState(pos), world, pos, player, true);
 				((IWrenchable) block).onWrenched(player, world, pos);
 			}
 		} else {
@@ -36,8 +37,9 @@ public class Wrench extends SonarItem implements IWrench {
 	}
 
 	/**doesn't call onWrenched*/
-	public static void dropBlock(EntityPlayer player, EnumHand hand, World world, BlockPos pos){
+	public static void dropBlock(EntityPlayer player, @Nonnull EnumHand hand, World world, BlockPos pos){
 		TileEntity te = world.getTileEntity(pos);
 		world.getBlockState(pos).getBlock().harvestBlock(world, player, pos, world.getBlockState(pos), te, player.getHeldItem(hand));
+		world.getBlockState(pos).getBlock().removedByPlayer(world.getBlockState(pos), world, pos, player, true);
 	}
 }

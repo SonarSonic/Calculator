@@ -55,16 +55,13 @@ public class InvisibleBlock extends SonarBlock {
 	@Override
 	public final boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		if (this.type == 0) {
-            IBlockState mastState;
-			if ((mastState = world.getBlockState(pos.offset(EnumFacing.DOWN, 1))).getBlock() instanceof ConductorMast) {
-				ConductorMast mast = (ConductorMast) mastState.getBlock();
-				Wrench.dropBlock(player, player.getActiveHand(), world, pos);
-			} else if ((mastState = world.getBlockState(pos.offset(EnumFacing.DOWN, 2))).getBlock() instanceof ConductorMast) {
-				ConductorMast mast = (ConductorMast) mastState.getBlock();
-				Wrench.dropBlock(player, player.getActiveHand(), world, pos);
-			} else if ((mastState = world.getBlockState(pos.offset(EnumFacing.DOWN, 3))).getBlock() instanceof ConductorMast) {
-				ConductorMast mast = (ConductorMast) mastState.getBlock();
-				Wrench.dropBlock(player, player.getActiveHand(), world, pos);
+			BlockPos mastPos;
+			if (world.getBlockState(mastPos = pos.offset(EnumFacing.DOWN, 1)).getBlock() instanceof ConductorMast) {
+				Wrench.dropBlock(player, EnumHand.MAIN_HAND, world, mastPos);
+			} else if (world.getBlockState(mastPos = pos.offset(EnumFacing.DOWN, 2)).getBlock() instanceof ConductorMast) {
+				Wrench.dropBlock(player, EnumHand.MAIN_HAND, world, mastPos);
+			} else if (world.getBlockState(mastPos = pos.offset(EnumFacing.DOWN, 3)).getBlock() instanceof ConductorMast) {
+				Wrench.dropBlock(player, EnumHand.MAIN_HAND, world, mastPos);
 			}
 		} else if (this.type == 1) {
 			for (int X = -1; X < 2; X++) {
