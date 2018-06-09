@@ -1,3 +1,5 @@
+import org.gradle.api.publish.maven.MavenPublication
+
 buildscript {
     repositories {
         jcenter()
@@ -34,14 +36,21 @@ repositories {
         name = "ic2"
         url = "http://maven.ic2.player.to/"
     }
+    maven { url = "http://maven.ironhide.de/" }
     flatDir {
         dirs 'libs'
     }
 }
 
+apply plugin: 'maven-publish'
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${minecraft_version}-${mod_version}"
+if (hasProperty('appendBuildNumber')) {
+    version = version + "-" + appendBuildNumber.toString()
+} else {
+    version = version + "-unofficial"
+}
 group= "sonar.calculator.mod"
 archivesBaseName = "mod"
 sourceCompatibility = targetCompatibility = "1.8"
@@ -55,23 +64,28 @@ minecraft {
     replace "@VERSION@", "${mod_version}"
     replace "sonarcore@[0.0.0,)", "sonarcore@[" + "${sonar_core_version}" +",)"
     mappings = "snapshot_20171003"
-    makeObfSourceJar = false
-
+    makeObfSourceJar = true
 }
 
 task deobfJar(type: Jar) { // Generate deobfuscated
     from sourceSets.main.output
     classifier = 'deobf'
-    archiveName = "calculator-${minecraft_version}-${mod_version}-deobf.jar"
+    archiveName = "calculator-${version}-deobf.jar"
 }
 tasks.build.dependsOn('deobfJar')
+
 artifacts {
     archives deobfJar
+    archives sourceJar
     archives jar
 }
 
 jar {
-    archiveName = "calculator-${minecraft_version}-${mod_version}.jar"
+    archiveName = "calculator-${version}.jar"
+}
+
+sourceJar {
+    archiveName = "calculator-${version}-sources.jar"
 }
 
 def sonarcore_local = false
@@ -90,7 +104,7 @@ dependencies {
     compile group: "net.industrial-craft", name: "industrialcraft-2", version: "2.8.75-ex112", classifier: "api"
     compile group: "net.industrial-craft", name: "industrialcraft-2", version: "2.8.75-ex112", classifier: "dev"
     if (!sonarcore_local) {
-        //compileOnly "sonar-core:sonarcore:${minecraft_version}:${sonar_core_version}:deobf"
+        compileOnly "sonar:sonarcore:${minecraft_version}-${sonar_core_version}-${sonar_core_build_version}:deobf"
     } else {
         compile project(':Sonar-Core')
     }
@@ -101,14 +115,29 @@ processResources
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'                
-
+        include 'mcmod.info'
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }        
 
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+publishing {
+    tasks.publish.dependsOn 'build'
+    publications {
+        mavenJava(MavenPublication) {
+            groupId group_prefix
+            version version
+            artifactId "calculator"
+            artifact jar
+            artifact sourceJar
+            artifact deobfJar
+        }
+    }
+    repositories {
+        mavenLocal()
     }
 }
