@@ -10,7 +10,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.client.gui.calculators.GuiInfoCalculator;
 import sonar.calculator.mod.common.containers.ContainerInfoCalculator;
 import sonar.core.api.IFlexibleGui;
@@ -36,9 +35,7 @@ public class InfoCalculator extends SonarItem implements IFlexibleGui<ItemStack>
     @Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (world.isRemote) {
-			FlexibleGuiHandler.instance().openBasicItemStack(false, stack, player, world, player.getPosition(), 0);
-		}
+		FlexibleGuiHandler.instance().openBasicItemStack(false, stack, player, world, player.getPosition(), 0);
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 

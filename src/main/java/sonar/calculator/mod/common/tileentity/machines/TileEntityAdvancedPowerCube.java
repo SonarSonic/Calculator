@@ -34,6 +34,9 @@ public class TileEntityAdvancedPowerCube extends TileEntityPowerCube implements 
 	}
 
 	public void addEnergy() {
+		if(this.storage.getEnergyStored() == 0){
+			return;
+		}
 		ArrayList<EnumFacing> facing = sides.getSidesWithConfig(MachineSideConfig.OUTPUT);
 		if (!facing.isEmpty()) {
 			EnergyTransferHandler.INSTANCE_SC.transferToAdjacent(this, facing, storage.getMaxExtract());

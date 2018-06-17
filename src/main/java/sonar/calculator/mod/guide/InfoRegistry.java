@@ -88,7 +88,7 @@ public class InfoRegistry {
 		addInfo(Category.Machines, new ItemStack(Calculator.reinforcedFurnace), "info.ReinforcedFurnace.name");
 		addInfo(Category.Machines, new ItemStack(Calculator.stoneSeparator), "info.StoneSeparator.name", Calculator.amethystSapling);
 		addInfo(Category.Machines, new ItemStack(Calculator.algorithmSeparator), "info.AlgorithmSeparator.name", Calculator.tanzaniteSapling);
-		addInfo(Category.Machines, new ItemStack(Calculator.researchChamber), "info.FabricationChamber.name");
+		//addInfo(Category.Machines, new ItemStack(Calculator.researchChamber), "info.FabricationChamber.name");
 		addInfo(Category.Machines, new ItemStack(Calculator.extractionChamber), "info.ExtractionChamber.name", Calculator.precisionChamber);
 		addInfo(Category.Machines, new ItemStack(Calculator.reassemblyChamber), "info.ReassemblyChamber.name", Calculator.restorationChamber, Calculator.processingChamber);
 		addInfo(Category.Machines, new ItemStack(Calculator.restorationChamber), "info.RestorationChamber.name", Calculator.reassemblyChamber, Calculator.processingChamber);
@@ -100,7 +100,7 @@ public class InfoRegistry {
 		addInfo(Category.Machines, new ItemStack(Calculator.rainSensor), "info.RainSensor.name");
 		addInfo(Category.Machines, new ItemStack(Calculator.weatherStation), "Has the ability to-control the weather");
 		addInfo(Category.Machines, new ItemStack(Calculator.magneticFlux), "info.MagneticFlux.name");
-		addInfo(Category.Machines, new ItemStack(Calculator.teleporter), "A simple teleporter -+Can be password protected");
+		//addInfo(Category.Machines, new ItemStack(Calculator.teleporter), "A simple teleporter -+Can be password protected");
 		addInfo(Category.Machines, new ItemStack(Calculator.stoneAssimilator), "Harvests Calculator Trees-+Must be placed next to the Tree-+For Tanzanite and Amethyst-+Doesn't Require Energy");
 		addInfo(Category.Machines, new ItemStack(Calculator.algorithmAssimilator), "Harvests Calculator Trees-+Must be placed next to the Tree-+For Pear and Diamond-+Doesn't Require Energy");
         addInfo(Category.Machines, new ItemStack(Calculator.atomicMultiplier), "Can quadruple almost any item--Requires seven circuits-and " + CalculatorConfig.ATOMIC_MULTIPLIER_USAGE + "RF--or " + CalculatorConfig.ATOMIC_MULTIPLIER_USAGE / 4 + "EU");

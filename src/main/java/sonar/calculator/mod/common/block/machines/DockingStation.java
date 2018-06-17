@@ -2,6 +2,7 @@ package sonar.calculator.mod.common.block.machines;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -67,6 +68,18 @@ public class DockingStation extends SonarBlockContainer implements ISpecialToolt
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void breakBlock(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+		TileEntity tile = world.getTileEntity(pos);
+		if(tile instanceof TileEntityDockingStation){
+			ItemStack stack = ((TileEntityDockingStation) tile).calcStack;
+			if(stack != null && !stack.isEmpty()){
+				InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+			}
+		}
+		super.breakBlock(world, pos, state);
 	}
 
 	@Override
