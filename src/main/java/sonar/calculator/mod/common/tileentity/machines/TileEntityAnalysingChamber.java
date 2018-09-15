@@ -47,7 +47,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 
 	public TileEntityAnalysingChamber() {
 		super.sides.input = new int[] { 0 };
-		super.sides.output = new int[] { 2, 3, 4, 5, 6, 7 };
+		super.sides.output = new int[] { 0, 2, 3, 4, 5, 6, 7 };
 		super.storage.setCapacity(CalculatorConfig.ANALYSING_CHAMBER_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.ANALYSING_CHAMBER_TRANSFER_RATE);
 		super.inv.setSize(8);
