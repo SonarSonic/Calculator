@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 
 public class ContainerAlgorithmAssimilator extends ContainerSync {
 
-	public static TransferSlotsManager<TileEntityAssimilator> TRANSFER = new TransferSlotsManager<>();
+	public static TransferSlotsManager<TileEntityAssimilator> TRANSFER = new TransferSlotsManager<>(27);
 	private TileEntityAssimilator entity;
 
 	public ContainerAlgorithmAssimilator(EntityPlayer player, TileEntityAssimilator entity) {
