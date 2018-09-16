@@ -1,14 +1,11 @@
 package sonar.calculator.mod.client.gui.machines;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.client.gui.buttons.GreenhouseButton;
 import sonar.calculator.mod.client.gui.buttons.PauseButton;
@@ -20,7 +17,6 @@ import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
 
-import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 
 public class GuiAdvancedGreenhouse extends GuiSonarTile {
@@ -80,7 +76,7 @@ public class GuiAdvancedGreenhouse extends GuiSonarTile {
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		super.drawGuiContainerBackgroundLayer(var1, var2, var3);
 
-		int e = this.entity.storage.getEnergyStored() * 46 / this.entity.storage.getMaxEnergyStored();
+		int e = (int)(this.entity.storage.getEnergyLevel() * 46 / this.entity.storage.getFullCapacity());
 		this.drawTexturedModalRect(this.guiLeft + 81, this.guiTop + 46 + 11 - e, 176, 46 - e, 14, 46);
 
 		if (entity.wasBuilt.getObject()) {

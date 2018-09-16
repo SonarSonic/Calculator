@@ -72,7 +72,7 @@ public class GuiFlawlessGreenhouse extends GuiSonarTile {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
-		int e = this.entity.storage.getEnergyStored() * 46 / this.entity.storage.getMaxEnergyStored();
+		int e = (int)(this.entity.storage.getEnergyLevel() * 46 / this.entity.storage.getFullCapacity());
 		this.drawTexturedModalRect(this.guiLeft + 27, this.guiTop + 46 + 11 - e, 176, 46 - e, 14, 46);
 
 		if (entity.wasBuilt.getObject()) {

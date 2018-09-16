@@ -28,13 +28,13 @@ public class GuiCalculatorLocator extends GuiSonarTile {
 		FontHelper.text(FontHelper.translate("locator.multiblock") + ": " + (size != 0 ? FontHelper.translate("locator.true") : FontHelper.translate("locator.false")), 25, 21, size != 0 ? 0 : 2);
 		FontHelper.text(FontHelper.translate("locator.owner") + ": " + (!entity.owner.equals("None") ? entity.getOwner() : FontHelper.translate("locator.none")), 25, 32, !this.entity.owner.equals("None") ? 0 : 2);
         FontHelper.text(FontHelper.translate("circuit.stability") + ": " + (size != 0 ? stability == 0 ? 0 + "%" : String.valueOf(entity.getStabilityPercent()) + '%' : FontHelper.translate("locator.unknown")), 25, 43, !(stability == 0 || size == 0) ? 0 : 2);
-		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), xSize, 64, 2);
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyLevel()), xSize, 64, 2);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		super.drawGuiContainerBackgroundLayer(var1, var2, var3);
-		int k = this.entity.storage.getEnergyStored() * 78 / 25000000;
+		int k = (int)(this.entity.storage.getEnergyLevel() * 78 / 25000000);
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 	}

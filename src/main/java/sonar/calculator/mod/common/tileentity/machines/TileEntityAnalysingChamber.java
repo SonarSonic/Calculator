@@ -34,6 +34,8 @@ import sonar.core.recipes.RecipeHelperV2;
 import sonar.core.upgrades.UpgradeInventory;
 import sonar.core.utils.MachineSideConfig;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,14 +50,29 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 	public TileEntityAnalysingChamber() {
 		super.sides.input = new int[] { 0 };
 		super.sides.output = new int[] { 2, 3, 4, 5, 6, 7 };
+		super.sides.default_extract = null;
 		super.storage.setCapacity(CalculatorConfig.ANALYSING_CHAMBER_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.ANALYSING_CHAMBER_TRANSFER_RATE);
 		super.inv.setSize(8);
-		super.inv.getInsertFilters().put((SLOT,STACK,FACE) -> SLOT != 1 ? SLOT == 0 && CircuitBoard.getState(STACK) == CircuitBoard.CircuitState.NOT_ANALYSED : null, EnumFilterType.EXTERNAL_INTERNAL);
 		super.inv.getInsertFilters().put(SlotHelper.chargeSlot(1), EnumFilterType.INTERNAL);
-		super.inv.getExtractFilters().put((SLOT,COUNT,FACE)-> SLOT == 0 ? CircuitBoard.getState(inv.getStackInSlot(SLOT)) != CircuitBoard.CircuitState.NOT_ANALYSED : SLOT != 1, EnumFilterType.EXTERNAL);
 		super.energyMode = EnergyMode.SEND;
 		syncList.addParts(stable, analysed);
+	}
+
+	@Nullable
+	public Boolean checkExtract(int slot, int amount, @Nullable EnumFacing face, EnumFilterType type){
+		if(type.isExternal() && slot == 0 && sides.getSideConfig(face).isInput()){
+			return CircuitBoard.getState(inv.getStackInSlot(slot)) != CircuitBoard.CircuitState.NOT_ANALYSED;
+		}
+		return null;
+	}
+
+	@Nullable
+	public Boolean checkInsert(int slot, @Nonnull ItemStack stack, @Nullable EnumFacing face, EnumFilterType type){
+		if(slot == 0){
+			return CircuitBoard.getState(stack) == CircuitBoard.CircuitState.NOT_ANALYSED;
+		}
+		return slot == 1; //only allow discharge slot insertion
 	}
 
 	@Override
@@ -98,6 +115,14 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 		}
 		ArrayList<EnumFacing> inputs = sides.getSidesWithConfig(MachineSideConfig.INPUT);
 		if (!inputs.isEmpty()) {
+
+			for (EnumFacing side : inputs) {
+				IItemHandler handler = ItemTransferHelper.getItemHandler(world, getPos().offset(side), side);
+				if(handler != null) {
+					ItemTransferHelper.doTransferFromSlot(this.inv.getItemHandler(side), Lists.newArrayList(handler), 0);
+				}
+			}
+
 			ArrayList<BlockCoords> chambers = SonarHelper.getConnectedBlocks(Calculator.storageChamber, inputs, world, pos, 256);
 			List<IItemHandler> handlers = new ArrayList<>();
 			for (BlockCoords chamber : chambers) {
@@ -115,7 +140,7 @@ public class TileEntityAnalysingChamber extends TileEntityEnergySidedInventory i
 			NBTTagCompound tag = slots().get(slot).getTagCompound();
 			if (!tag.getBoolean("Analysed")) {
 				int storedEnergy = itemEnergy(slots().get(slot).getTagCompound().getInteger("Energy"));
-				this.storage.receiveEnergy(storedEnergy, false);
+				this.storage.getInternalWrapper().receiveEnergy(storedEnergy, false);
 				for (int i = 1; i < 7; i++) {
 					if (i > 2 || upgrades.getUpgradesInstalled("VOID") == 0) {
                         add(RecipeHelperV2.getItemStackFromList(AnalysingChamberRecipes.instance().getOutputs(null, i, tag.getInteger("Item" + i)), 0), i + 1);

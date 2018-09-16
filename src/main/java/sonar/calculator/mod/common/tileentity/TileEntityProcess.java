@@ -294,7 +294,7 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 
 	@Override
 	public int getProcessTime() {
-		if (this.currentProcessTime == -1) {
+		//if (this.currentProcessTime == -1) {
 			int speed = upgrades.getUpgradesInstalled("SPEED");
 			int energy = upgrades.getUpgradesInstalled("ENERGY");
             double i = (double) speed / 17 * getBaseProcessTime();
@@ -302,8 +302,8 @@ public abstract class TileEntityProcess extends TileEntityEnergySidedInventory i
 				return currentProcessTime = 8;
 			}
 			return currentProcessTime = (int) Math.max(getBaseProcessTime() - i, lowestSpeed);
-		}
-		return currentProcessTime;
+		//}
+		//return currentProcessTime;
 	}
 
 	@Override

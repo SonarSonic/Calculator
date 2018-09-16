@@ -41,7 +41,7 @@ public class FlawlessCapacitor extends SonarMachineBlock {
 				if (te != null && te instanceof TileEntityFlawlessCapacitor) {
 					TileEntityFlawlessCapacitor cube = (TileEntityFlawlessCapacitor) te;
 					cube.incrementSide(interact.side);
-					FontHelper.sendMessage("Current Stored: " + cube.storage.getEnergyStored(), world, player);
+					FontHelper.sendMessage("Current Stored: " + cube.storage.getEnergyLevel(), world, player);
 				}
 
 			}

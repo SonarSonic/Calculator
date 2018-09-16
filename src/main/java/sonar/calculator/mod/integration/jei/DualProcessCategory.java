@@ -9,21 +9,20 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConstants;
-import sonar.core.integration.jei.IJEIHandler;
-import sonar.core.integration.jei.JEICategoryV2;
+import sonar.core.integration.jei.IJEIHandlerV3;
+import sonar.core.integration.jei.JEICategoryV3;
 import sonar.core.integration.jei.JEIHelper.RecipeMapper;
 import sonar.core.recipes.RecipeObjectType;
 
 import javax.annotation.Nonnull;
 
-public class DualProcessCategory extends JEICategoryV2 {
+public class DualProcessCategory extends JEICategoryV3 {
 
 	private final IDrawable background;
 	protected final IDrawableAnimated arrow;
 	
-	public DualProcessCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public DualProcessCategory(IGuiHelper guiHelper, IJEIHandlerV3 handler) {
 		super(handler);
 		ResourceLocation location = new ResourceLocation("calculator", "textures/gui/" + handler.getTextureName() + ".png");
 		background = guiHelper.createDrawable(location, 34, 19, 108, 27);

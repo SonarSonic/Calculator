@@ -213,13 +213,13 @@ public class TileEntityFlawlessGreenhouse extends TileEntityGreenhouse implement
 			for (int XZ = 0; XZ <= 3; XZ++) {
                 BlockPos pos = this.pos.add(hX * XZ + fX * (1 + i), 0, hZ * XZ + fZ * (1 + i));
 				if (XZ != 1 && XZ != 2) {
-					if (this.storage.getEnergyStored() >= waterRF) {
+					if (this.storage.getEnergyLevel() >= waterRF) {
 						if (GreenhouseHelper.applyWater(world, pos)) {
 							this.storage.modifyEnergyStored(-waterRF);
 						}
 					}
 				} else {
-					if (this.storage.getEnergyStored() >= farmlandRF) {
+					if (this.storage.getEnergyLevel() >= farmlandRF) {
 						if (GreenhouseHelper.applyFarmland(world, pos)) {
 							this.storage.modifyEnergyStored(-farmlandRF);
 						}

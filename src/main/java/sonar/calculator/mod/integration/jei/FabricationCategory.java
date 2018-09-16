@@ -7,20 +7,19 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConstants;
-import sonar.core.integration.jei.IJEIHandler;
-import sonar.core.integration.jei.JEICategoryV2;
+import sonar.core.integration.jei.IJEIHandlerV3;
+import sonar.core.integration.jei.JEICategoryV3;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class FabricationCategory extends JEICategoryV2 {
+public class FabricationCategory extends JEICategoryV3 {
 
 	private final IDrawable background;
 	protected final IDrawableAnimated arrow;
 
-	public FabricationCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public FabricationCategory(IGuiHelper guiHelper, IJEIHandlerV3 handler) {
 		super(handler);
 		ResourceLocation location = new ResourceLocation("calculator", "textures/gui/" + handler.getTextureName() + ".png");
 		background = guiHelper.createDrawable(location, 0, 0, 151, 55);

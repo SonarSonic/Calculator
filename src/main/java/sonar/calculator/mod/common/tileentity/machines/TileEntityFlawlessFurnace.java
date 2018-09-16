@@ -108,7 +108,7 @@ public class TileEntityFlawlessFurnace extends TileEntityEnergySidedInventory im
 		}
 
 		if (cookTime[slot].getObject() == 0) {
-			// if (this.storage.getEnergyStored() < energyUsage()) {
+			// if (this.storage.getEnergyLevel() < energyUsage()) {
 			// return false;
 			// }
 		}

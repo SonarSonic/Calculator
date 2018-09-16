@@ -77,7 +77,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		} else {
 			cookTime.setObject(0);
 		}
-		if (this.storage.getMaxEnergyStored() != this.storage.getEnergyStored() && this.storage.getEnergyStored() < storage.getMaxEnergyStored() && this.lightningSpeed.getObject() == 0) {
+		if (this.storage.getFullCapacity() != this.storage.getEnergyLevel() && this.storage.getEnergyLevel() < storage.getFullCapacity() && this.lightningSpeed.getObject() == 0) {
 			this.random.setObject((int) (Math.random() * +9));
 			this.lightningSpeed.setObject(rand.nextInt(1800 - 1500) + getNextTime());
 		}
@@ -112,37 +112,38 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		if (lightTicks.getObject() > 0) {
             int add = (CalculatorConfig.CONDUCTOR_MAST_PER_TICK / 200 + this.lastStations * CalculatorConfig.WEATHER_STATION_PER_TICK / 200) * strikes * 4;
 			if (lightTicks.getObject() < 200) {
-				if (this.storage.getEnergyStored() + add <= this.storage.getMaxEnergyStored()) {
+				if (this.storage.getEnergyLevel() + add <= this.storage.getFullCapacity()) {
 					lightTicks.increaseBy(1);
-					storage.receiveEnergy(add, false);
+					storage.modifyEnergyStored(add);
 				} else {
 					lightTicks.increaseBy(1);
-					storage.setEnergyStored(this.storage.getMaxEnergyStored());
+					storage.setEnergyStored(this.storage.getFullCapacity());
 				}
 			} else {
-				if (this.storage.getEnergyStored() + add <= storage.getMaxEnergyStored()) {
+				if (this.storage.getEnergyLevel() + add <= storage.getFullCapacity()) {
 					lightTicks.setObject(0);
-					storage.receiveEnergy(add, false);
+					storage.modifyEnergyStored(add);
 				} else {
 					lightTicks.increaseBy(1);
-					storage.setEnergyStored(this.storage.getMaxEnergyStored());
+					storage.setEnergyStored(this.storage.getFullCapacity());
 				}
 			}
 		}
-
-		addEnergy(EnumFacing.DOWN);
-		this.markDirty();
+		if(isServer()) {
+			addEnergy(EnumFacing.DOWN);
+			this.markDirty();
+		}
 	}
 
 	private void lightningStrike(World world, int x, int y, int z) {
-		if (storage.getEnergyStored() < storage.getMaxEnergyStored()) {
+		if (storage.getEnergyLevel() < storage.getFullCapacity()) {
 			world.spawnEntity(new EntityLightningBolt(world, x, y, z, true));
 		}
 	}
 
 	public boolean canCook() {
 		ItemStack toCook = slots().get(0);
-		if (this.storage.getEnergyStored() == 0 || toCook.isEmpty()) {
+		if (this.storage.getEnergyLevel() == 0 || toCook.isEmpty()) {
 			return false;
 		}
 
@@ -164,7 +165,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 		}
 		energyUsage = recipe.getValue();
 		if (cookTime.getObject() == 0) {
-            return this.storage.getEnergyStored() >= energyUsage;
+            return this.storage.getEnergyLevel() >= energyUsage;
 		}
 
 		return true;
@@ -177,7 +178,7 @@ public class TileEntityConductorMast extends TileEntityEnergyInventory implement
 			return;
 		ItemStack stack = RecipeHelperV2.getItemStackFromList(recipe.outputs(), 0);
 		energyUsage = recipe.getValue();
-		this.storage.extractEnergy(energyUsage, false);
+		this.storage.modifyEnergyStored(-energyUsage);
 		ItemStack outputStack = slots().get(1);
 
 		if (outputStack.isEmpty()) {

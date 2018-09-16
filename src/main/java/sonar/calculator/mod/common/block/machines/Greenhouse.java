@@ -59,7 +59,7 @@ public abstract class Greenhouse extends SonarBlockContainer implements ISpecial
 			if (player.isSneaking()) {
 				if (house.houseState.getObject() == State.INCOMPLETE) {
 					if (!house.wasBuilt.getObject()) {
-						if (!(house.storage.getEnergyStored() >= house.requiredBuildEnergy)) {
+						if (!(house.storage.getEnergyLevel() >= house.requiredBuildEnergy)) {
 							FontHelper.sendMessage(FontHelper.translate("energy.notEnough"), world, player);
 							return true;
 						} else if (house.hasRequiredStacks()) {

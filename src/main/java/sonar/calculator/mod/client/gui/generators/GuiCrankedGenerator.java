@@ -27,14 +27,14 @@ public class GuiCrankedGenerator extends GuiSonarTile {
 		if (!this.entity.cranked()) {
 			FontHelper.textCentre(FontHelper.translate(FontHelper.translate("crank.cranked") + ": " + FontHelper.translate("locator.false")), this.xSize, 50, 0);
 		}
-		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyLevel()), this.xSize, 64, 2);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int x, int y) {
 		super.drawGuiContainerBackgroundLayer(var1, x, y);
 
-		int k = this.entity.storage.getEnergyStored() * 78 / 1000;
+		int k = (int)(this.entity.storage.getEnergyLevel() * 78 / 1000);
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 	}

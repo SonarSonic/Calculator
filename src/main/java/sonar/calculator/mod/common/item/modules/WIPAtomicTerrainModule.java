@@ -25,7 +25,7 @@ public class WIPAtomicTerrainModule extends BaseTerrainModule {
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitx, float hity, float hitz) {
-		if (this.getEnergyStored(stack) > 0) {
+		if (this.getEnergyLevel(stack) > 0) {
 			if (!player.canPlayerEdit(pos, side, stack)) {
 				return false;
 			}
@@ -44,7 +44,7 @@ public class WIPAtomicTerrainModule extends BaseTerrainModule {
 						if (target != null && Block.getBlockFromItem(target.getItem()) != null && Block.getBlockFromItem(target.getItem()) == this.getBlock(stack, 1) && target.getItemDamage() == Item.getItemFromBlock(getBlock(stack, 1)).getDamage(new ItemStack(getBlock(stack, 1)))) {
 							player.inventories.getStackInSlot(s).stackSize--;
 							world.setBlock(x, y, z, block.getBlockFromItem(target.getItem()));
-							int energy = this.getEnergyStored(stack);
+							int energy = this.getEnergyLevel(stack);
 							stack.getTagCompound().setInteger("Energy", energy - 1);
 						}
 					}
@@ -52,7 +52,7 @@ public class WIPAtomicTerrainModule extends BaseTerrainModule {
 			}
 		}
 
-		if (this.getEnergyStored(stack) == 0) {
+		if (this.getEnergyLevel(stack) == 0) {
 			FontHelper.sendMessage("No Energy Stored", world, player);
 		}
 		return true;

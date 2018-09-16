@@ -19,6 +19,7 @@ import sonar.calculator.mod.common.recipes.RedstoneExtractorRecipes;
 import sonar.calculator.mod.common.recipes.StarchExtractorRecipes;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.api.energy.EnergyMode;
+import sonar.core.api.utils.ActionType;
 import sonar.core.common.tileentity.TileEntityEnergyInventory;
 import sonar.core.handlers.inventories.handling.EnumFilterType;
 import sonar.core.handlers.inventories.handling.filters.SlotHelper;
@@ -67,7 +68,7 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 	public void generateEnergy() {
 		ItemStack stack = this.getStackInSlot(0);
         if (!stack.isEmpty() && burnTime.getObject() == 0 && TileEntityFurnace.isItemFuel(stack)) {
-			if (!(this.storage.getEnergyStored() == this.storage.getMaxEnergyStored()) && this.itemLevel.getObject() >= GENERATOR_REQUIRED) {
+			if (!(this.storage.getEnergyLevel() == this.storage.getFullCapacity()) && this.itemLevel.getObject() >= GENERATOR_REQUIRED) {
 				int itemBurnTime = TileEntityFurnace.getItemBurnTime(stack);
 				if (itemBurnTime != 0) {
 					this.maxBurnTime.setObject(itemBurnTime);
@@ -86,11 +87,11 @@ public abstract class TileEntityGenerator extends TileEntityEnergyInventory impl
 			}
 		}
 		if (burnTime.getObject() > 0 && !(burnTime.getObject() >= maxBurnTime.getObject())) {
-			this.storage.receiveEnergy(ENERGY_PER_TICK, false);
+			this.storage.addEnergy(ENERGY_PER_TICK, null, ActionType.PERFORM);
 			burnTime.increaseBy(1);
 		}
 		if (maxBurnTime.getObject() != 0 && burnTime.getObject() >= maxBurnTime.getObject()) {
-			this.storage.receiveEnergy(ENERGY_PER_TICK, false);
+			this.storage.addEnergy(ENERGY_PER_TICK, null, ActionType.PERFORM);
 			burnTime.setObject(0);
 			this.removeItem(GENERATOR_REQUIRED);
 		}

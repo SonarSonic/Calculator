@@ -1,6 +1,7 @@
 package sonar.calculator.mod.integration.jei;
 
 import mezz.jei.api.*;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import net.minecraft.item.ItemStack;
@@ -25,30 +26,47 @@ import sonar.core.recipes.RecipeHelperV2;
 import java.util.ArrayList;
 
 @JEIPlugin
-public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuilder {
+public class CalculatorJEI implements IModPlugin, ISonarJEIRecipeBuilder {
 	{
 		JEIHelper.registerRecipeBuilder(this);
+	}
+
+	@Override
+	public void registerCategories(IRecipeCategoryRegistration registry) {
+		IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
+		for (IJEIHandlerV3 handler : Handlers.values()) {
+			JEICategoryV3 cat = handler.getCategory(guiHelper);
+			registry.addRecipeCategories(cat);
+		}
 	}
 
 	@Override
 	public void register(IModRegistry registry) {
 		Calculator.logger.info("Starting JEI Integration");
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
-		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
+		IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
 		//registry.getIngredientRegistry().getJeiHelpers().getNbtIgnoreList().ignoreNbtTagNames(Calculator.circuitBoard, "Energy", "Item1", "Item2", "Item3", "Item4", "Item5", "Item6", "Stable");
 
-		for (IJEIHandler handler : Handlers.values()) {
-			registry.addRecipes(handler.getJEIRecipes());
-			JEICategoryV2 cat = handler.getCategory(guiHelper);
-			registry.addRecipeCategories(cat);
-			registry.addRecipeHandlers(cat);
+		for (IJEIHandlerV3 handler : Handlers.values()) {
+			JEICategoryV3 cat = handler.getCategory(guiHelper);
+			registry.addRecipes(handler.getJEIRecipes(), handler.getUUID());
+			registry.handleRecipes(handler.getRecipeClass(), R -> (JEIRecipeV2)R, handler.getUUID());
+
 			if (handler.getCrafterItemStack() != null)
 				registry.addRecipeCatalyst(handler.getCrafterItemStack(), handler.getUUID());
 
 			Calculator.logger.info("Registering Recipe Handler: " + handler.getUUID());
 		}
 		//item blacklist
-		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(Calculator.calculatorScreen);
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Calculator.scarecrowBlock));
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Calculator.conductormastBlock));
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Calculator.weatherStationBlock));
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Calculator.transmitterBlock));
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Calculator.calculatorScreen));
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Calculator.gas_lantern_on));
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Calculator.cropBroccoliPlant));
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Calculator.cropPrunaePlant));
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Calculator.cropFiddledewPlant));
 		
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 
@@ -121,7 +139,7 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 		return null;
 	}
 
-	public enum Handlers implements IJEIHandler {
+	public enum Handlers implements IJEIHandlerV3 {
 		PROCESSING(ProcessingChamberRecipes.instance(), Calculator.processingChamber, "restorationchamber", Recipes.Processing.class),
 		/**/
 		RESTORATION(RestorationChamberRecipes.instance(), Calculator.restorationChamber, "restorationchamber", Recipes.Restoration.class),
@@ -171,7 +189,7 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 		}
 
 		@Override
-		public JEICategoryV2 getCategory(IGuiHelper guiHelper) {
+		public JEICategoryV3 getCategory(IGuiHelper guiHelper) {
 			switch (this) {
 			case SCIENTIFIC:
 			case CALCULATOR:
@@ -240,31 +258,6 @@ public class CalculatorJEI extends BlankModPlugin implements ISonarJEIRecipeBuil
 			return recipesV2;
 		}
 
-		/* @Deprecated
-		 * 
-		 * @Override public ArrayList<JEIRecipe> getJEIRecipes() {
-         * ArrayList<JEIRecipe> recipes = new ArrayList<>(); String id =
-		 * helper.getRecipeID(); if (helper instanceof RecipeHelper) {
-		 * RecipeHelper helper = (RecipeHelper) this.helper; for
-		 * (Entry<Object[], Object[]> entry : helper.getRecipes().entrySet()) {
-		 * try { recipes.add(recipeClass.newInstance().getInstance(id,
-		 * helper.convertOutput(entry.getKey()),
-		 * helper.convertOutput(entry.getValue()))); } catch (Exception e) {
-		 * e.printStackTrace(); } } } else if (helper instanceof ValueHelper) {
-		 * ValueHelper helper = (ValueHelper) this.helper; for (Entry<Object,
-		 * Integer> entry : helper.getRecipes().entrySet()) { try {
-		 * recipes.add(recipeClass.newInstance().getInstance(id, new Object[] {
-		 * entry.getKey() }, new Object[] { null })); } catch (Exception e) {
-		 * e.printStackTrace(); } } } else if (helper instanceof
-		 * FabricationChamberRecipes) { FabricationChamberRecipes helper =
-		 * (FabricationChamberRecipes) this.helper; LinkedHashMap<ItemStack,
-		 * CircuitStack[]> chamberRecipes = helper.getRecipes(); for
-		 * (Entry<ItemStack, CircuitStack[]> entry : chamberRecipes.entrySet())
-         * { ArrayList<ItemStack> stacks = new ArrayList<>(); for (CircuitStack
-		 * circuit : entry.getValue()) { stacks.add(circuit.buildItemStack()); }
-		 * try { recipes.add(recipeClass.newInstance().getInstance(id,
-		 * stacks.toArray(), new Object[] { entry.getKey() })); } catch
-		 * (Exception e) { e.printStackTrace(); } } } return recipes; } */
 		@Override
 		public ItemStack getCrafterItemStack() {
 			return crafter;

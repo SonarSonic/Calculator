@@ -109,7 +109,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 		}
 		ArrayList<BlockPos> plantArea = (ArrayList<BlockPos>) getPlantArea().clone();
 		for (int i = 0; i < repeat; i++) {
-			if (this.storage.getEnergyStored() > this.growthRF) {
+			if (this.storage.getEnergyLevel() > this.growthRF) {
 				int rand = SonarCore.randInt(0, plantArea.size() - 1);
 				BlockPos pos = plantArea.get(rand);
 				IBlockState state = world.getBlockState(pos);
@@ -127,7 +127,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	protected void harvestCrops() {
-		if (isClient() || this.storage.getEnergyStored() < this.plantRF) {
+		if (isClient() || this.storage.getEnergyLevel() < this.plantRF) {
 			return;
 		}
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
@@ -171,7 +171,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 	}
 
 	protected void plantCrops() {
-		if (this.storage.getEnergyStored() < this.plantRF) {
+		if (this.storage.getEnergyLevel() < this.plantRF) {
 			return;
 		}
 		for (BlockPos pos : (ArrayList<BlockPos>) getPlantArea().clone()) {
@@ -391,7 +391,7 @@ public abstract class TileEntityGreenhouse extends TileEntityEnergyInventory imp
 			String oxygenString = FontHelper.translate("greenhouse.oxygen") + ": " + dec.format(oxygen * 100 / 100000) + '%';
 			currenttip.add(oxygenString);
 		}
-		currenttip.add(String.valueOf(storage.getEnergyStored()));
+		currenttip.add(String.valueOf(storage.getEnergyLevel()));
 		return currenttip;
 	}
 

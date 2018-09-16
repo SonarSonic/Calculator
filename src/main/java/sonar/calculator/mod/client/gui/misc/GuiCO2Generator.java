@@ -31,13 +31,13 @@ public class GuiCO2Generator extends GuiSonarTile {
 			String burn = FontHelper.translate("co2.burning");
 			FontHelper.textCentre(burn, xSize, 50, 0);
 		}
-		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyLevel()), this.xSize, 64, 2);
 	}
 
 	@Override
 	public void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		super.drawGuiContainerBackgroundLayer(var1, var2, var3);
-		int k = this.entity.storage.getEnergyStored() * 78 / 1000000;
+		int k = (int) (this.entity.storage.getEnergyLevel() * 78 / 1000000);
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 	}

@@ -127,13 +127,13 @@ public class TileEntityAdvancedGreenhouse extends TileEntityBuildingGreenhouse i
 			for (int X = -3; X <= 3; X++) {
                 BlockPos pos = this.pos.add(4 * forward.getFrontOffsetX() + X, 0, 4 * forward.getFrontOffsetZ() + Z);
                 if (X == 3 && Z == 3 || X == -3 && Z == -3 || X == 3 && Z == -3 || X == -3 && Z == 3) {
-					if (this.storage.getEnergyStored() >= waterRF) {
+					if (this.storage.getEnergyLevel() >= waterRF) {
 						if (GreenhouseHelper.applyWater(world, pos)) {
 							this.storage.modifyEnergyStored(-waterRF);
 						}
 					}
 				} else {
-					if (this.storage.getEnergyStored() >= farmlandRF) {
+					if (this.storage.getEnergyLevel() >= farmlandRF) {
 						if (GreenhouseHelper.applyFarmland(world, pos)) {
 							this.storage.modifyEnergyStored(-farmlandRF);
 						}

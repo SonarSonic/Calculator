@@ -71,7 +71,7 @@ public class GuiWeatherController extends GuiSonarTile {
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		super.drawGuiContainerForegroundLayer(x, y);
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
-		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyLevel()), this.xSize, 64, 2);
         FontHelper.textCentre("Buffer: " + this.entity.buffer * 100 / 100 + '%', this.xSize, 45, 0);
 		FontHelper.text(": ", 97, 24, 0);
 	}
@@ -80,7 +80,7 @@ public class GuiWeatherController extends GuiSonarTile {
 	protected void drawGuiContainerBackgroundLayer(float floatTicks, int x, int y) {
 		super.drawGuiContainerBackgroundLayer(floatTicks, x, y);
 
-		int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
+		int k = (int)(this.entity.storage.getEnergyLevel() * 78 / this.entity.storage.getFullCapacity());
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 
 		int b = this.entity.buffer * 120 / 100;

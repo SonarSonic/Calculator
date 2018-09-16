@@ -19,7 +19,7 @@ public class GuiAnalysingChamber extends GuiSonarTile {
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		super.drawGuiContainerForegroundLayer(x, y);
-		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyLevel()), this.xSize, 64, 2);
 
 		if (this.entity.stable.getObject() == 1) {
 			FontHelper.textCentre(FontHelper.translate("circuit.stable"), xSize, 12, 0);
@@ -29,7 +29,7 @@ public class GuiAnalysingChamber extends GuiSonarTile {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int x, int y) {
 		super.drawGuiContainerBackgroundLayer(var1, x, y);
-		int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
+		int k = (int)(this.entity.storage.getEnergyLevel() * 78 / this.entity.storage.getFullCapacity());
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 	}

@@ -60,7 +60,7 @@ public class TileEntityWeatherController extends TileEntityEnergyInventory imple
 
 	public void startProcess() {
 		boolean power = this.world.isBlockPowered(pos);
-		if (buffer == 0 && coolDown == 0 && storage.getEnergyStored() >= CalculatorConfig.WEATHER_CONTROLLER_USAGE && this.processType(type, true) && (power || this.world.isBlockIndirectlyGettingPowered(pos) > 0)) {
+		if (buffer == 0 && coolDown == 0 && storage.getEnergyLevel() >= CalculatorConfig.WEATHER_CONTROLLER_USAGE && this.processType(type, true) && (power || this.world.isBlockIndirectlyGettingPowered(pos) > 0)) {
 			buffer = 1;
 		}
 	}

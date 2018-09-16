@@ -20,6 +20,7 @@ import sonar.core.handlers.inventories.handling.EnumFilterType;
 import sonar.core.helpers.NBTHelper.SyncType;
 import sonar.core.helpers.SonarHelper;
 import sonar.core.recipes.RecipeHelperV2;
+import sonar.core.utils.MachineSideConfig;
 
 public class TileEntityDockingStation extends TileEntityAbstractProcess implements IAdditionalInventory {
 
@@ -30,6 +31,9 @@ public class TileEntityDockingStation extends TileEntityAbstractProcess implemen
 		super.storage.setCapacity(CalculatorConfig.DOCKING_STATION_STORAGE);
 		super.storage.setMaxTransfer(CalculatorConfig.DOCKING_STATION_TRANSFER_RATE);
 		super.inv.getInsertFilters().put((SLOT,STACK, FACE) -> SonarHelper.intContains(getSlotConfig(FACE), SLOT),  EnumFilterType.EXTERNAL);
+		super.inv.getExtractFilters().put((SLOT,STACK, FACE) -> SonarHelper.intContains(getSlotConfig(FACE), SLOT),  EnumFilterType.EXTERNAL);
+		super.sides.setSide(EnumFacing.UP, MachineSideConfig.OUTPUT);
+		super.sides.setSide(EnumFacing.DOWN, MachineSideConfig.OUTPUT);
 	}
 
 	public int[] getSlotConfig(EnumFacing side) {

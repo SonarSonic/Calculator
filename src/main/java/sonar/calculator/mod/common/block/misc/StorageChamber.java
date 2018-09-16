@@ -44,7 +44,8 @@ public class StorageChamber extends SonarBlockContainer implements ISpecialToolt
 
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
-		world.removeTileEntity(pos);
+	    super.breakBlock(world, pos, state);
+		//world.removeTileEntity(pos);
 	}
 
     @Override

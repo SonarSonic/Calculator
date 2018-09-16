@@ -134,7 +134,7 @@ public class WIPSmeltingModule extends SonarEnergyItem implements IItemInventory
 		}
 
 		if (currentCook == 0) {
-			if (this.getEnergyStored(stack) < this.requiredEnergy) {
+			if (this.getEnergyLevel(stack) < this.requiredEnergy) {
 				return false;
 			}
 		}

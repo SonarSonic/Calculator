@@ -43,8 +43,10 @@ public class TileEntityCrankedGenerator extends TileEntityEnergy implements IFle
 					ticks = 0;
 				}
 			}
-		} 
-		addEnergy(EnumFacing.VALUES);
+		}
+		if(isServer()) {
+			addEnergy(EnumFacing.VALUES);
+		}
 	}
 
 	public boolean cranked() {

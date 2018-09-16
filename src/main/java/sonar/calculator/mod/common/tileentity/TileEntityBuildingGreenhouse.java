@@ -106,7 +106,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 			return;
 		}
 		if (growTick != 0 && this.growTicks >= growTick) {
-			if (this.storage.getEnergyStored() >= growthRF) {
+			if (this.storage.getEnergyLevel() >= growthRF) {
 				this.growTicks = 0;
 				growCrops(1);
 			}
@@ -266,7 +266,7 @@ public abstract class TileEntityBuildingGreenhouse extends TileEntityGreenhouse 
 		FailedCoords coords = checkStructure(GreenhouseAction.CAN_BUILD);
 		if (!(houseState.getObject() == State.BUILDING)) {
 			if (coords.getBoolean()) {
-				if (this.storage.getEnergyStored() >= this.requiredBuildEnergy) {
+				if (this.storage.getEnergyLevel() >= this.requiredBuildEnergy) {
 					if (this.hasRequiredStacks()) {
 						this.houseState.setObject(State.BUILDING);
 					}

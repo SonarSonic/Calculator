@@ -129,7 +129,7 @@ public class TileEntityCalculatorLocator extends TileEntityEnergyInventory imple
 	}
 
 	public boolean canGenerate() {
-		if (!(this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) || size.getObject() == 0) {
+		if (!(this.storage.getEnergyLevel() < this.storage.getFullCapacity()) || size.getObject() == 0) {
 			return false;
 		}
 		if (isLocated()) {

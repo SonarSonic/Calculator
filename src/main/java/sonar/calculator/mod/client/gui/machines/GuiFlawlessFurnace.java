@@ -25,7 +25,7 @@ public class GuiFlawlessFurnace extends GuiContainer {
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
-		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 143, 2);
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyLevel()), this.xSize, 143, 2);
 
 	}
 
@@ -43,7 +43,7 @@ public class GuiFlawlessFurnace extends GuiContainer {
 				slotID++;
 			}
 		}
-		 int length = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
+		 int length = this.entity.storage.getEnergyLevel() * 78 / this.entity.storage.getMaxEnergyStored();
 		 drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 142, 176, 4, length, 10);
 	}
 }

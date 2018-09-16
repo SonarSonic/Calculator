@@ -76,7 +76,7 @@ public class TileEntityMachine {
 
         @Override
 		public boolean canProcess() {
-            if (slots().get(0) == null || cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy()) {
+            if (slots().get(0) == null || cookTime.getObject() == 0 && storage.getEnergyLevel() < requiredEnergy()) {
 				return false;
 			}
 			ItemStack result = getFurnaceOutput(inputStacks()[0]);

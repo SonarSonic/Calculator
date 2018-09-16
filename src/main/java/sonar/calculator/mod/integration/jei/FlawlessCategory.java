@@ -6,20 +6,19 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConstants;
-import sonar.core.integration.jei.IJEIHandler;
-import sonar.core.integration.jei.JEICategoryV2;
+import sonar.core.integration.jei.IJEIHandlerV3;
+import sonar.core.integration.jei.JEICategoryV3;
 import sonar.core.integration.jei.JEIHelper.RecipeMapper;
 import sonar.core.recipes.RecipeObjectType;
 
 import javax.annotation.Nonnull;
 
-public class FlawlessCategory extends JEICategoryV2 {
+public class FlawlessCategory extends JEICategoryV3 {
 
 	private final IDrawable background;
 
-	public FlawlessCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public FlawlessCategory(IGuiHelper guiHelper, IJEIHandlerV3 handler) {
 		super(handler);
 		ResourceLocation location = new ResourceLocation("calculator",
 				"textures/gui/" + handler.getTextureName() + ".png");

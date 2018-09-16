@@ -151,8 +151,7 @@ public class Recipes {
 				chance = 0.01;
 				break;
 			}
-			FontHelper.textCentre(FontHelper.translate("info.extractChance") + " = " + chance + " %",
-					(int) (recipeWidth * (1.0 / 0.7)), 40, 0);
+			FontHelper.textCentre(FontHelper.translate("info.extractChance") + " = " + chance + " %", (int) (recipeWidth * (1.0 / 0.7)), 40, 0);
 			GL11.glPopMatrix();
 		}
 	}
@@ -168,8 +167,7 @@ public class Recipes {
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 			GL11.glPushMatrix();
 			GL11.glScaled(0.7, 0.7, 0.7);
-			FontHelper.textCentre(" " + DischargeValues.getValueOf((ItemStack) this.inputs.get(0)) + " Discharge",
-					(int) (recipeWidth * (1.0 / 0.7)), 40, 0);
+			FontHelper.textCentre(" " + DischargeValues.getValueOf((ItemStack) this.inputs.get(0)) + " Discharge",	(int) (recipeWidth * (1.0 / 0.7)), 40, 0);
 			GL11.glPopMatrix();
 		}
 	}

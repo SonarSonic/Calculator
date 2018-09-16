@@ -87,7 +87,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 	}
 
 	public boolean canCook() {
-		if (this.storage.getEnergyStored() == 0) {
+		if (this.storage.getEnergyLevel() == 0) {
 			return false;
 		}
 		for (int i = 0; i < 8; i++) {
@@ -109,7 +109,7 @@ public class TileEntityAtomicMultiplier extends TileEntityEnergyInventory implem
 		}
 
 		if (cookTime.getObject() == 0) {
-			if (this.storage.getEnergyStored() < CalculatorConfig.ATOMIC_MULTIPLIER_USAGE) {
+			if (this.storage.getEnergyLevel() < CalculatorConfig.ATOMIC_MULTIPLIER_USAGE) {
 				return false;
 			}
 		}

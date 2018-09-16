@@ -81,7 +81,7 @@ public abstract class TileEntityAbstractProcess extends TileEntityProcess implem
 
 	@Override
 	public boolean canProcess() {
-		if (slots().get(0).isEmpty() || cookTime.getObject() == 0 && storage.getEnergyStored() < requiredEnergy()) {
+		if (slots().get(0).isEmpty() || cookTime.getObject() == 0 && storage.getEnergyLevel() < requiredEnergy()) {
 			return false;
 		}
 		ISonarRecipe recipe = getRecipe(inputStacks());

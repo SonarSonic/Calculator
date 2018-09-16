@@ -33,7 +33,7 @@ public class GuiDockingStation extends GuiContainer {
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		FontHelper.textCentre(FontHelper.translate(entity.getName()), xSize, 6, 0);
-		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), this.xSize, 64, 2);
+		FontHelper.textCentre(FontHelper.formatStorage(entity.storage.getEnergyLevel()), this.xSize, 64, 2);
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class GuiDockingStation extends GuiContainer {
 			}
 		}
 
-		int k = this.entity.storage.getEnergyStored() * 78 / this.entity.storage.getMaxEnergyStored();
+		int k = (int)(this.entity.storage.getEnergyLevel() * 78 / this.entity.storage.getFullCapacity());
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 	}

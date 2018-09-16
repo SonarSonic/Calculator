@@ -71,7 +71,7 @@ public class GuiConductorMast extends GuiSonarTile {
             this.fontRenderer.drawString(power, this.xSize / 2 - this.fontRenderer.getStringWidth(power) / 2, 46, 4210752);
 		}
 
-		FontHelper.textOffsetCentre(FontHelper.formatStorage(entity.storage.getEnergyStored()), 90, 66, 2);
+		FontHelper.textOffsetCentre(FontHelper.formatStorage(entity.storage.getEnergyLevel()), 90, 66, 2);
         if (x > guiLeft + 2 && x < guiLeft + 16 && y > guiTop + 62 && y < guiTop + 76) {
             ArrayList<String> list = new ArrayList<>();
 			DecimalFormat df = new DecimalFormat("#.##");
@@ -92,7 +92,7 @@ public class GuiConductorMast extends GuiSonarTile {
 
         int c = this.entity.cookTime.getObject() * 18 / CalculatorConfig.CONDUCTOR_MAST_SPEED;
 		drawTexturedModalRect(this.guiLeft + 79, this.guiTop + 26, 176, 0, c, 9);
-		int changedEnergy = this.entity.storage.getEnergyStored() / 50000;
+		int changedEnergy = (int)(this.entity.storage.getEnergyLevel() / 50000);
 		int newEnergy = changedEnergy * 145 / 1000;
 		drawTexturedModalRect(this.guiLeft + 22, this.guiTop + 59, 0, 166, newEnergy, 20);
 	}

@@ -63,7 +63,7 @@ public class TileEntityCO2Generator extends TileEntityEnergyInventory implements
             TileEntity tile = this.world.getTileEntity(pos.add(hoz.getFrontOffsetX() * 3, 0, hoz.getFrontOffsetZ() * 3));
 			ItemStack burnStack = slots().get(0);
 			if (this.maxBurnTime == 0 && !this.world.isRemote && !burnStack.isEmpty()) {
-				if (TileEntityFurnace.isItemFuel(burnStack) && this.storage.getEnergyStored() >= energyAmount) {
+				if (TileEntityFurnace.isItemFuel(burnStack) && this.storage.getEnergyLevel() >= energyAmount) {
 					if (tile instanceof TileEntityFlawlessGreenhouse) {
 						burn();
 						this.storage.modifyEnergyStored(-energyAmount);
