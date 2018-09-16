@@ -212,7 +212,7 @@ curseforge {
 
         mainArtifact(jar) {
             displayName = "Calculator-${minecraft_version}-${mod_version}"
-            releaseType = commit_release_type
+            releaseType = !commit_release_type.equals('none') ? commit_release_type : 'release'
             changelog = file("${projectDir}/change_log.html").text
             changelogType = 'html'
         }
