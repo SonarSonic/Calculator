@@ -9,22 +9,21 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.CalculatorConstants;
-import sonar.core.integration.jei.IJEIHandlerV3;
-import sonar.core.integration.jei.JEICategoryV3;
-import sonar.core.integration.jei.JEIHelper.RecipeMapper;
+import sonar.core.integration.jei.JEISonarCategory;
+import sonar.core.integration.jei.JEISonarMapper;
+import sonar.core.integration.jei.JEISonarProvider;
 import sonar.core.recipes.RecipeObjectType;
 
 import javax.annotation.Nonnull;
 
-public class DualProcessCategory extends JEICategoryV3 {
+public class DualProcessCategory extends JEISonarCategory {
 
 	private final IDrawable background;
 	protected final IDrawableAnimated arrow;
 	
-	public DualProcessCategory(IGuiHelper guiHelper, IJEIHandlerV3 handler) {
-		super(handler);
-		ResourceLocation location = new ResourceLocation("calculator", "textures/gui/" + handler.getTextureName() + ".png");
+	public DualProcessCategory(IGuiHelper guiHelper, JEISonarProvider handler) {
+		super(guiHelper, handler);
+		ResourceLocation location = new ResourceLocation("calculator", "textures/gui/" + handler.background + ".png");
 		background = guiHelper.createDrawable(location, 34, 19, 108, 27);
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, 177, 10, 22, 15);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 100, IDrawableAnimated.StartDirection.LEFT, false);
@@ -41,27 +40,12 @@ public class DualProcessCategory extends JEICategoryV3 {
 		arrow.draw(minecraft, 29, 5);
 	}
 
-    @Nonnull
-    @Override
-    public String getModName() {
-		return CalculatorConstants.NAME;
-    }
-
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
-		RecipeMapper mapper = new RecipeMapper();
+	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
+		JEISonarMapper mapper = new JEISonarMapper();
 		mapper.map(RecipeObjectType.INPUT, 0, 0, 4, 4);
 		mapper.map(RecipeObjectType.OUTPUT, 0, 2, 58, 4);
 		mapper.map(RecipeObjectType.OUTPUT, 1, 3, 86, 4);
 		mapper.mapTo(recipeLayout.getItemStacks(), ingredients);
-		/*
-		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
-		stacks.init(0, true, 4, 4);
-		stacks.init(2, false, 58, 4);
-		stacks.init(3, false, 86, 4);
-		stacks.setFromRecipe(0, recipeWrapper.getInputs());
-		stacks.setFromRecipe(2, recipeWrapper.getOutputs().get(0));
-		stacks.setFromRecipe(3, recipeWrapper.getOutputs().get(1));
-		*/
 	}
 }

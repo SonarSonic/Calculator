@@ -13,7 +13,7 @@ public class ProcessingChamberRecipes extends DefinedRecipeHelper<CalculatorReci
 		super(1, 1, false);
 	}
 
-    public static ProcessingChamberRecipes instance() {
+	public static ProcessingChamberRecipes instance() {
 		return recipes;
 	}
 

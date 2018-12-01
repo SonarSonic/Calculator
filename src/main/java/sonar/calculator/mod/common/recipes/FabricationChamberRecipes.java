@@ -1,5 +1,6 @@
 package sonar.calculator.mod.common.recipes;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import sonar.calculator.mod.Calculator;
@@ -72,16 +73,16 @@ public class FabricationChamberRecipes extends RecipeHelperV2<FabricationSonarRe
 	}
 	
     @Override
-	public FabricationSonarRecipe buildRecipe(ArrayList<ISonarRecipeObject> recipeInputs, ArrayList<ISonarRecipeObject> recipeOutputs, List additionals, boolean shapeless) {
+	public FabricationSonarRecipe buildRecipe(List<ISonarRecipeObject> recipeInputs, List<ISonarRecipeObject> recipeOutputs, List additionals, boolean shapeless) {
 		return new FabricationSonarRecipe(recipeInputs, recipeOutputs, shapeless);
 	}
 
-	public static boolean matchingCircuitIngredients(RecipeObjectType type, ArrayList<ISonarRecipeObject> ingredients, boolean shapeless, Object[] objs) {
-		ArrayList<ISonarRecipeObject> matches = (ArrayList<ISonarRecipeObject>) ingredients.clone();
+	public static boolean matchingCircuitIngredients(RecipeObjectType type, List<ISonarRecipeObject> ingredients, boolean shapeless, Object[] objs) {
+		ArrayList<ISonarRecipeObject> matches = Lists.newArrayList(ingredients);
 		if (ingredients.size() > objs.length) {
 			return false;
 		}
-		ArrayList<ISonarRecipeObject> remaining = (ArrayList<ISonarRecipeObject>) ingredients.clone();
+		ArrayList<ISonarRecipeObject> remaining = Lists.newArrayList(ingredients);
 		int iPos = 0;
         i:
         for (ISonarRecipeObject ingredient : ingredients) {

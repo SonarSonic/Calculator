@@ -34,7 +34,7 @@ public class GuiCalculatorLocator extends GuiSonarTile {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		super.drawGuiContainerBackgroundLayer(var1, var2, var3);
-		int k = (int)(this.entity.storage.getEnergyLevel() * 78 / 25000000);
+		int k = (int)(this.entity.storage.getEnergyLevel() * 78 / entity.storage.getFullCapacity());
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 	}

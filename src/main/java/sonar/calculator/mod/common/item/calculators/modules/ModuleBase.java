@@ -6,8 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.api.modules.IModule;
+import sonar.calculator.mod.common.item.calculators.ModuleItemRegistry;
 import sonar.core.api.energy.EnergyType;
 import sonar.core.api.utils.ActionType;
 import sonar.core.handlers.energy.EnergyTransferHandler;
@@ -27,7 +27,7 @@ public abstract class ModuleBase implements IModule {
 
 	@Override
 	public ItemStack getItemStack(NBTTagCompound tag){
-		Item item = Calculator.moduleItems.getPrimaryObject(this.getName());
+		Item item = ModuleItemRegistry.instance().getValue(getName());
 		if (item != null) {
 			ItemStack moduleStack = new ItemStack(item, 1);
 			moduleStack.setTagCompound(tag);

@@ -4,11 +4,11 @@ import sonar.core.recipes.DefaultSonarRecipe;
 import sonar.core.recipes.ISonarRecipeObject;
 import sonar.core.recipes.RecipeObjectType;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FabricationSonarRecipe extends DefaultSonarRecipe {
 
-	public FabricationSonarRecipe(ArrayList<ISonarRecipeObject> inputs, ArrayList<ISonarRecipeObject> outputs, boolean shapeless) {
+	public FabricationSonarRecipe(List<ISonarRecipeObject> inputs, List<ISonarRecipeObject> outputs, boolean shapeless) {
 		super(inputs, outputs, shapeless);
 	}
 	

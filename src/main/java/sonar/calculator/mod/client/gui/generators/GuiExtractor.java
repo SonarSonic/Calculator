@@ -27,7 +27,7 @@ public abstract class GuiExtractor extends GuiSonarTile {
 	protected void drawGuiContainerBackgroundLayer(float var1, int x, int y) {
 		super.drawGuiContainerBackgroundLayer(var1, x, y);
 
-		int k = (int)(this.entity.storage.getEnergyLevel() * 160 / 1000000);
+		int k = (int)(this.entity.storage.getEnergyLevel() * 160 / this.entity.storage.getFullCapacity());
 		drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 63, 0, 186, k, 10);
 		int k2 = this.entity.itemLevel.getObject() * 138 / 5000;
 		drawTexturedModalRect(this.guiLeft + 30, this.guiTop + 17, 0, 166, k2, 10);

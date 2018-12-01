@@ -34,7 +34,7 @@ public class GuiCrankedGenerator extends GuiSonarTile {
 	protected void drawGuiContainerBackgroundLayer(float var1, int x, int y) {
 		super.drawGuiContainerBackgroundLayer(var1, x, y);
 
-		int k = (int)(this.entity.storage.getEnergyLevel() * 78 / 1000);
+		int k = (int)(this.entity.storage.getEnergyLevel() * 78 / this.entity.storage.getFullCapacity());
 		int j = 78 - k;
 		drawTexturedModalRect(this.guiLeft + 49, this.guiTop + 63, 176, 0, k, 10);
 	}

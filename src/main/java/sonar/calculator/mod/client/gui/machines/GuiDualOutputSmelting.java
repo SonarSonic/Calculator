@@ -8,6 +8,7 @@ import sonar.calculator.mod.client.gui.buttons.CircuitButton;
 import sonar.calculator.mod.client.gui.buttons.PauseButton;
 import sonar.calculator.mod.common.containers.ContainerDualOutputSmelting;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
+import sonar.core.SonarCore;
 import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
@@ -36,13 +37,13 @@ public class GuiDualOutputSmelting extends GuiSonarTile {
 		this.buttonList.add(new PauseButton(this, entity, 1, guiLeft + 8, guiTop + 23, () -> entity.isPaused()));
 	}
 
-    @Override
+	@Override
 	protected void actionPerformed(GuiButton button) {
-		if (entity.getWorld().isRemote) {
-			if (button instanceof SonarButton) {
-				SonarButton sButton = (SonarButton) button;
-				sButton.onClicked();
-			}
+		if(button instanceof PauseButton){
+			SonarCore.sendPacketToServer(entity, 1);
+		}else if (button instanceof SonarButton) {
+			SonarButton sButton = (SonarButton) button;
+			sButton.onClicked();
 		}
 	}
 

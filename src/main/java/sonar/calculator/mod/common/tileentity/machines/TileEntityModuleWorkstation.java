@@ -12,6 +12,7 @@ import sonar.calculator.mod.api.modules.IModule;
 import sonar.calculator.mod.client.gui.misc.GuiModuleWorkstation;
 import sonar.calculator.mod.common.containers.ContainerModuleWorkstation;
 import sonar.calculator.mod.common.item.calculators.FlawlessCalculator;
+import sonar.calculator.mod.common.item.calculators.ModuleItemRegistry;
 import sonar.calculator.mod.common.item.calculators.modules.EmptyModule;
 import sonar.core.api.IFlexibleGui;
 import sonar.core.common.tileentity.TileEntityInventory;
@@ -67,7 +68,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 			ArrayList<IModule> modules = calc.getModules(stack);
 			int i = 0;
 			for (IModule module : modules) {
-				Item item = Calculator.moduleItems.getPrimaryObject(module.getName());
+				Item item = ModuleItemRegistry.instance().getValue(module.getName());
 				if (item != null) {
 					ItemStack moduleStack = new ItemStack(item, 1);
 					moduleStack.setTagCompound(calc.getModuleTag(stack, i));
@@ -85,7 +86,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 			for (int i = 0; i < FlawlessCalculator.moduleCapacity; i++) {
 				ItemStack target = slots().get(i);
 				NBTTagCompound tag = new NBTTagCompound();
-				IModule module = !target.isEmpty() ? Calculator.modules.getRegisteredObject(Calculator.moduleItems.getSecondaryObject(target.getItem())) : EmptyModule.EMPTY;
+				IModule module = !target.isEmpty() ? Calculator.modules.getObject(ModuleItemRegistry.instance().getKey(target.getItem())) : EmptyModule.EMPTY;
 				if (module == null) {
 					module = EmptyModule.EMPTY;
 				} else if (!target.isEmpty()) {
@@ -102,7 +103,7 @@ public class TileEntityModuleWorkstation extends TileEntityInventory implements 
 	}
 
 	public boolean isModule(ItemStack stack){
-		return !stack.isEmpty() && Calculator.moduleItems.getSecondaryObject(stack.getItem()) != null;
+		return !stack.isEmpty() && ModuleItemRegistry.instance().getKey(stack.getItem()) != null;
 	}
 
 	@Override

@@ -19,13 +19,11 @@ import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sonar.calculator.mod.common.entities.*;
 import sonar.calculator.mod.common.item.calculators.ModuleItemRegistry;
 import sonar.calculator.mod.common.item.calculators.ModuleRegistry;
-import sonar.calculator.mod.integration.minetweaker.MineTweakerIntegration;
 import sonar.calculator.mod.network.CalculatorCommon;
 import sonar.calculator.mod.research.ResearchRegistry;
 import sonar.calculator.mod.utils.TeleporterRegistry;
@@ -41,7 +39,7 @@ public class Calculator {
 	public static Logger logger = (Logger) LogManager.getLogger(CalculatorConstants.MODID);
 	public static ResearchRegistry research = new ResearchRegistry();
 	public static ModuleRegistry modules = new ModuleRegistry();
-	public static ModuleItemRegistry moduleItems = new ModuleItemRegistry();
+	public ModuleItemRegistry moduleItems = new ModuleItemRegistry();
 
 	@Instance(CalculatorConstants.MODID)
 	public static Calculator instance;
@@ -117,10 +115,6 @@ public class Calculator {
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(small_stone, new CalculatorThrow(2));
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(soil, new CalculatorThrow(3));
 		Recipes.printRecipeInfo();
-
-		if (Loader.isModLoaded("CraftTweaker2") || Loader.isModLoaded("CraftTweaker2".toLowerCase())) {
-			MineTweakerIntegration.init();
-		}
 	}
 
 	@EventHandler
@@ -202,7 +196,7 @@ public class Calculator {
 	public static Item large_amethyst, small_amethyst, shard_amethyst;
 	public static Item large_tanzanite, small_tanzanite, shard_tanzanite;
 
-	// crops
+	// planting
 	public static Item broccoliSeeds, broccoli, cookedBroccoli;
 	public static Item prunaeSeeds, coal_dust;
 	public static Item fiddledewFruit;

@@ -34,13 +34,13 @@ public class GuiFlawlessGreenhouse extends GuiSonarTile {
 		this.buttonList.add(new PauseButton(this, entity, 3, guiLeft + 6, guiTop + 6, () -> entity.isPaused()));
 	}
 
-    @Override
+	@Override
 	protected void actionPerformed(GuiButton button) {
-		if (button instanceof SonarButton) {
+		if(button instanceof PauseButton){
+			SonarCore.sendPacketToServer(entity, 3);
+		}else if (button instanceof SonarButton) {
 			SonarButton sButton = (SonarButton) button;
 			sButton.onClicked();
-		} else {
-			SonarCore.sendPacketToServer(entity, button.id);
 		}
 	}
 

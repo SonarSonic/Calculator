@@ -8,7 +8,6 @@ import sonar.core.SonarCore;
 import sonar.core.recipes.DefinedRecipeHelper;
 import sonar.core.recipes.ISonarRecipeObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
@@ -213,7 +212,7 @@ public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 		addRecipe(new ItemStack(Calculator.rotten_pear, 2), "slimeball", "slimeball", type);
 		addRecipe(Blocks.STICKY_PISTON, Blocks.PISTON, Calculator.rotten_pear, type);
 
-		// crops
+		// planting
 		type = ResearchRecipeType.CROP;
 		addRecipe(Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, type);
 		addRecipe(new ItemStack(Items.PUMPKIN_SEEDS, 2), Items.MELON_SEEDS, Items.MELON_SEEDS, type);
@@ -450,7 +449,7 @@ public class CalculatorRecipes extends DefinedRecipeHelper<CalculatorRecipe> {
 	}
 
     @Override
-	public CalculatorRecipe buildRecipe(ArrayList<ISonarRecipeObject> recipeInputs, ArrayList<ISonarRecipeObject> recipeOutputs, List additionals, boolean shapeless) {
+	public CalculatorRecipe buildRecipe(List<ISonarRecipeObject> recipeInputs, List<ISonarRecipeObject> recipeOutputs, List additionals, boolean shapeless) {
 		ResearchRecipeType type = additionals.isEmpty() ? ResearchRecipeType.NONE : (ResearchRecipeType) additionals.get(0);
 		if (!enableResearchRecipes() && type != ResearchRecipeType.NONE) {
 			return null;

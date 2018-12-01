@@ -3,9 +3,9 @@ package sonar.calculator.mod.common.item.calculators.modules;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import sonar.calculator.mod.Calculator;
 import sonar.calculator.mod.CalculatorConfig;
 import sonar.calculator.mod.api.modules.IModuleEnergy;
+import sonar.calculator.mod.common.item.calculators.ModuleItemRegistry;
 import sonar.core.api.utils.ActionType;
 
 public class EnergyModule implements IModuleEnergy {
@@ -27,7 +27,7 @@ public class EnergyModule implements IModuleEnergy {
 
 	@Override
 	public ItemStack getItemStack(NBTTagCompound tag){
-		Item item = Calculator.moduleItems.getPrimaryObject(this.getName());
+		Item item = ModuleItemRegistry.instance().getValue(getName());
 		if (item != null) {
 			ItemStack moduleStack = new ItemStack(item, 1);
 			moduleStack.setTagCompound(tag);

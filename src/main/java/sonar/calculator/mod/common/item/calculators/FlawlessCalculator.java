@@ -71,7 +71,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		try {
 			String moduleName = tag.getString("slot" + slot);
 			if (!moduleName.isEmpty()) {
-				IModule module = Calculator.modules.getRegisteredObject(moduleName);
+				IModule module = Calculator.modules.getObject(moduleName);
 				if (module != null) {
 					return module;
 				}
@@ -289,7 +289,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
         NBTTagCompound tag = stack.getSubCompound(String.valueOf(slot));
         stack.setTagInfo(String.valueOf(slot), new NBTTagCompound());
 		stack.getTagCompound().setString("slot" + slot, "");
-		ItemStack toReturn = new ItemStack(Calculator.moduleItems.getPrimaryObject(module.getName()), 1);
+		ItemStack toReturn = new ItemStack(ModuleItemRegistry.instance().getValue(module.getName()), 1);
 		if (tag != null && !tag.hasNoTags())
 			toReturn.setTagCompound(tag);
 		return toReturn;
@@ -317,7 +317,7 @@ public class FlawlessCalculator extends SonarItem implements IItemInventory, IMo
 		if (module.getName().equals("Empty")) {
 			return false;
 		} else {
-			Item item = Calculator.moduleItems.getPrimaryObject(module.getName());
+			Item item = ModuleItemRegistry.instance().getValue(module.getName());
 			return item != null;
 		}
 	}

@@ -2,21 +2,16 @@ package sonar.calculator.mod.research;
 
 import sonar.calculator.mod.research.types.CalculatorResearch;
 import sonar.calculator.mod.research.types.RecipeResearch;
-import sonar.core.helpers.RegistryHelper;
+import sonar.core.helpers.SimpleIDRegistry;
 
-public class ResearchRegistry extends RegistryHelper<IResearch> {
+public class ResearchRegistry extends SimpleIDRegistry<IResearch> {
 
-	@Override
 	public void register() {
-		registerObject(new CalculatorResearch.Basic());
-		registerObject(new CalculatorResearch.Scientific());
-		registerObject(new CalculatorResearch.Atomic());
-		registerObject(new CalculatorResearch.Flawless());
-		registerObject(new RecipeResearch());
+		register(new CalculatorResearch.Basic());
+		register(new CalculatorResearch.Scientific());
+		register(new CalculatorResearch.Atomic());
+		register(new CalculatorResearch.Flawless());
+		register(new RecipeResearch());
 	}
 
-	@Override
-	public String registeryType() {
-		return "Research";
-	}
 }

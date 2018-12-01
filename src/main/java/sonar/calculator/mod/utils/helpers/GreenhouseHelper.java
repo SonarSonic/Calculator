@@ -12,7 +12,7 @@ import sonar.calculator.mod.Calculator;
 import sonar.core.common.block.StableStone;
 
 /**
- * helps with using bonemeal on crops, growth speed and replacing blocks
+ * helps with using bonemeal on planting, growth speed and replacing blocks
  */
 public class GreenhouseHelper {
 	

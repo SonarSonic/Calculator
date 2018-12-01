@@ -12,11 +12,11 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-
+/*
 plugins {
     id "com.matthewprenger.cursegradle" version "1.1.0"
 }
-
+*/
 repositories {
     maven {
         name = "CurseForge"
@@ -189,7 +189,7 @@ def getCommmitReleaseType(){
     System.out.println("SKIPPING CURSE RELEASE - NO CURSE API KEY")
     return 'none'
 }
-
+/*
 tasks.curseforge.enabled = project.hasProperty("curseforge_key") && !commit_release_type.equals('none')
 
 curseforge {
@@ -228,3 +228,4 @@ curseforge {
         }
     }
 }
+*/

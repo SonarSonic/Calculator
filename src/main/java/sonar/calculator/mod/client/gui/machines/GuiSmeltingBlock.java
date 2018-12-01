@@ -8,6 +8,7 @@ import sonar.calculator.mod.client.gui.buttons.CircuitButton;
 import sonar.calculator.mod.client.gui.buttons.PauseButton;
 import sonar.calculator.mod.common.containers.ContainerSmeltingBlock;
 import sonar.calculator.mod.common.tileentity.TileEntityAbstractProcess;
+import sonar.core.SonarCore;
 import sonar.core.client.gui.GuiSonarTile;
 import sonar.core.client.gui.SonarButtons.SonarButton;
 import sonar.core.helpers.FontHelper;
@@ -65,13 +66,13 @@ public class GuiSmeltingBlock extends GuiSonarTile {
 		}
 	}
 
-    @Override
+	@Override
 	protected void actionPerformed(GuiButton button) {
-		if (entity.getWorld().isRemote) {
-			if (button instanceof SonarButton) {
-				SonarButton sButton = (SonarButton) button;
-				sButton.onClicked();
-			}
+		if(button instanceof PauseButton){
+			SonarCore.sendPacketToServer(entity, 1);
+		}else if (button instanceof SonarButton) {
+			SonarButton sButton = (SonarButton) button;
+			sButton.onClicked();
 		}
 	}
 

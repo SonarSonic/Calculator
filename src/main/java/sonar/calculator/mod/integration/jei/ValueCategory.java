@@ -5,22 +5,21 @@ import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import sonar.calculator.mod.CalculatorConstants;
-import sonar.core.integration.jei.IJEIHandlerV3;
-import sonar.core.integration.jei.JEICategoryV3;
+import sonar.core.integration.jei.JEISonarCategory;
+import sonar.core.integration.jei.JEISonarProvider;
 
 import javax.annotation.Nonnull;
 
-public class ValueCategory extends JEICategoryV3 {
+public class ValueCategory extends JEISonarCategory {
 
 	private final IDrawable background;
 
-	public ValueCategory(IGuiHelper guiHelper, IJEIHandlerV3 handler) {
-		super(handler);
-		ResourceLocation location = new ResourceLocation("calculator", "textures/gui/" + handler.getTextureName() + ".png");
+	public ValueCategory(IGuiHelper guiHelper, JEISonarProvider handler) {
+		super(guiHelper, handler);
+		ResourceLocation location = new ResourceLocation("calculator", "textures/gui/" + handler.background + ".png");
 		background = guiHelper.createDrawable(location, 75, 29, 26, 36);
 	}
 
@@ -30,16 +29,10 @@ public class ValueCategory extends JEICategoryV3 {
 		return background;
 	}
 
-    @Nonnull
-    @Override
-    public String getModName() {
-		return CalculatorConstants.NAME;
-    }
-
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 		stacks.init(0, true, 4, 4);
-		stacks.set(0, ingredients.getInputs(ItemStack.class).get(0));
+		stacks.set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
 	}
 }

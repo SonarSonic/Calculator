@@ -6,49 +6,48 @@ import org.lwjgl.opengl.GL11;
 import sonar.calculator.mod.common.recipes.HealthProcessorRecipes;
 import sonar.core.handlers.energy.DischargeValues;
 import sonar.core.helpers.FontHelper;
-import sonar.core.integration.jei.JEIRecipe;
-import sonar.core.integration.jei.JEIRecipeV2;
+import sonar.core.integration.jei.JEISonarRecipe;
 import sonar.core.recipes.ISonarRecipe;
 import sonar.core.recipes.RecipeHelperV2;
 
 public class Recipes {
 
-	public static class Processing extends JEIRecipeV2<Processing> {
+	public static class Processing extends JEISonarRecipe<Processing> {
 
 		public Processing(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Restoration extends JEIRecipeV2<Restoration> {
+	public static class Restoration extends JEISonarRecipe<Restoration> {
 
 		public Restoration(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Reassembly extends JEIRecipeV2<Reassembly> {
+	public static class Reassembly extends JEISonarRecipe<Reassembly> {
 
 		public Reassembly(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Algorithm extends JEIRecipeV2<Algorithm> {
+	public static class Algorithm extends JEISonarRecipe<Algorithm> {
 
 		public Algorithm(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Stone extends JEIRecipeV2<Stone> {
+	public static class Stone extends JEISonarRecipe<Stone> {
 
 		public Stone(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Extraction extends JEIRecipeV2<Extraction> {
+	public static class Extraction extends JEISonarRecipe<Extraction> {
 
 		public Extraction(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
@@ -68,42 +67,42 @@ public class Recipes {
 		}
 	}
 
-	public static class Precision extends JEIRecipeV2<Precision> {
+	public static class Precision extends JEISonarRecipe<Precision> {
 
 		public Precision(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Calculator extends JEIRecipeV2<Calculator> {
+	public static class Calculator extends JEISonarRecipe<Calculator> {
 
 		public Calculator(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Scientific extends JEIRecipeV2<Scientific> {
+	public static class Scientific extends JEISonarRecipe<Scientific> {
 
 		public Scientific(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Atomic extends JEIRecipeV2<Atomic> {
+	public static class Atomic extends JEISonarRecipe<Atomic> {
 
 		public Atomic(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Flawless extends JEIRecipeV2<Flawless> {
+	public static class Flawless extends JEISonarRecipe<Flawless> {
 
 		public Flawless(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Health extends JEIRecipeV2<Health> {
+	public static class Health extends JEISonarRecipe<Health> {
 
 		public Health(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
@@ -122,7 +121,7 @@ public class Recipes {
 		}
 	}
 
-	public static class Analysing extends JEIRecipeV2<Analysing> {
+	public static class Analysing extends JEISonarRecipe<Analysing> {
 
 		public Analysing(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
@@ -156,37 +155,36 @@ public class Recipes {
 		}
 	}
 
-	public static class Discharge extends JEIRecipe<Discharge> {
+	public static class Discharge extends JEISonarRecipe<Discharge> {
 
-		@Override
-		public Discharge getInstance(String recipeID, Object[] inputs, Object[] outputs) {
-			return new Discharge().setRecipe(recipeID, inputs, outputs);
+		public Discharge(RecipeHelperV2 helper, ISonarRecipe recipe) {
+			super(helper, recipe);
 		}
 
         @Override
 		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 			GL11.glPushMatrix();
 			GL11.glScaled(0.7, 0.7, 0.7);
-			FontHelper.textCentre(" " + DischargeValues.getValueOf((ItemStack) this.inputs.get(0)) + " Discharge",	(int) (recipeWidth * (1.0 / 0.7)), 40, 0);
+			FontHelper.textCentre(" " + DischargeValues.instance().getValue((ItemStack) this.inputs.get(0).get(0)) + " Discharge",	(int) (recipeWidth * (1.0 / 0.7)), 40, 0);
 			GL11.glPopMatrix();
 		}
 	}
 
-	public static class Conductor extends JEIRecipeV2<Conductor> {
+	public static class Conductor extends JEISonarRecipe<Conductor> {
 
 		public Conductor(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Fabrication extends JEIRecipeV2<Fabrication> {
+	public static class Fabrication extends JEISonarRecipe<Fabrication> {
 
 		public Fabrication(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);
 		}
 	}
 
-	public static class Harvest extends JEIRecipeV2<Harvest> {
+	public static class Harvest extends JEISonarRecipe<Harvest> {
 
 		public Harvest(RecipeHelperV2 helper, ISonarRecipe recipe) {
 			super(helper, recipe);

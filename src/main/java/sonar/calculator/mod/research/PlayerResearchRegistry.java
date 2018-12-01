@@ -66,7 +66,7 @@ public class PlayerResearchRegistry {
 			for (int j = 0; j < researchList.tagCount(); j++) {
 				NBTTagCompound researchTag = researchList.getCompoundTagAt(j);
 				String researchType = researchTag.getString("researchType");
-				IResearch rtype = Calculator.research.getRegisteredObject(researchType);
+				IResearch rtype = Calculator.research.getObject(researchType);
 				if (rtype != null) {
 					IResearch toAdd = rtype.getInstance();
 					toAdd.readData(researchTag, type);
@@ -84,7 +84,7 @@ public class PlayerResearchRegistry {
 				return research;
 			}
 		}
-		IResearch type = Calculator.research.getRegisteredObject(researchType.name());
+		IResearch type = Calculator.research.getObject(researchType.name());
 		if (type != null) {
 			research.get(uuid).add(type.getInstance());
 			return getSpecificResearch(uuid, researchType);

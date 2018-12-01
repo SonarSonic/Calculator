@@ -43,11 +43,11 @@ public class GuiAdvancedGreenhouse extends GuiSonarTile {
 
     @Override
 	protected void actionPerformed(GuiButton button) {
-		if (button instanceof SonarButton) {
+		if(button instanceof PauseButton){
+			SonarCore.sendPacketToServer(entity, 3);
+		}else if (button instanceof SonarButton) {
 			SonarButton sButton = (SonarButton) button;
 			sButton.onClicked();
-		} else {
-			SonarCore.sendPacketToServer(entity, button.id);
 		}
 	}
 
