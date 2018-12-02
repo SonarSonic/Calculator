@@ -25,28 +25,39 @@ public class JEICalculator extends JEISonarPlugin {
 
     private JEISonarProvider //
     //SINGLE PROCESS
-    PROCESSING = p(ProcessingChamberRecipes.instance(), Calculator.processingChamber, Recipes.Processing.class, Recipes.Processing::new, SingleProcessCategory::new, "restorationchamber", CalculatorConstants.MODID),
-    RESTORATION = p(RestorationChamberRecipes.instance(), Calculator.restorationChamber, Recipes.Restoration.class, Recipes.Restoration::new, SingleProcessCategory::new, "restorationchamber", CalculatorConstants.MODID),
-    REASSEMBLY = p(ReassemblyChamberRecipes.instance(), Calculator.reassemblyChamber, Recipes.Reassembly.class, Recipes.Reassembly::new, SingleProcessCategory::new, "restorationchamber", CalculatorConstants.MODID),
-
+    PROCESSING, RESTORATION, REASSEMBLY,
     //DUEL PROCESS
-    EXTRACTION = p(ExtractionChamberRecipes.instance(), Calculator.extractionChamber, Recipes.Extraction.class, Recipes.Extraction::new, DualProcessCategory::new, "extractionchamber", CalculatorConstants.MODID),
-    PRECISION = p(PrecisionChamberRecipes.instance(), Calculator.precisionChamber, Recipes.Precision.class, Recipes.Precision::new, DualProcessCategory::new, "extractionchamber", CalculatorConstants.MODID),
-    STONE = p(StoneSeparatorRecipes.instance(), Calculator.stoneSeparator, Recipes.Stone.class, Recipes.Stone::new, DualProcessCategory::new, "stoneseperator", CalculatorConstants.MODID),
-    ALGORITHM = p(AlgorithmSeparatorRecipes.instance(), Calculator.algorithmSeparator, Recipes.Algorithm.class, Recipes.Algorithm::new, DualProcessCategory::new, "stoneseperator", CalculatorConstants.MODID),
-
+	EXTRACTION, PRECISION, STONE, ALGORITHM,
     //CALCULATORS
-    CALCULATOR = p(CalculatorRecipes.instance(), Calculator.itemCalculator, Recipes.Calculator.class, Recipes.Calculator::new, DualCalculatorCategory::new, "calculator", CalculatorConstants.MODID),
-    SCIENTIFIC = p(ScientificRecipes.instance(), Calculator.itemScientificCalculator, Recipes.Scientific.class, Recipes.Scientific::new, DualCalculatorCategory::new, "scientificcalculator", CalculatorConstants.MODID),
-    ATOMIC = p(AtomicCalculatorRecipes.instance(), Calculator.atomicCalculator, Recipes.Atomic.class, Recipes.Atomic::new, AtomicCategory::new, "atomiccalculator", CalculatorConstants.MODID),
-    FLAWLESS = p(FlawlessCalculatorRecipes.instance(), Calculator.itemFlawlessCalculator, Recipes.Flawless.class, Recipes.Flawless::new, FlawlessCategory::new, "flawlesscalculator", CalculatorConstants.MODID),
-
+	CALCULATOR, SCIENTIFIC, ATOMIC, FLAWLESS,
     //MISC
-    HEALTH = p(HealthProcessorRecipes.instance(), Calculator.healthProcessor, Recipes.Health.class, Recipes.Health::new, ValueCategory::new, "guicalculatorplug", CalculatorConstants.MODID),
-    CONDUCTOR = p(ConductorMastRecipes.instance(), Calculator.conductorMast, Recipes.Conductor.class, Recipes.Conductor::new, ConductorMastCategory::new, "conductorMast", CalculatorConstants.MODID),
-    FABRICATION = p(FabricationChamberRecipes.instance(), Calculator.fabricationChamber, Recipes.Fabrication.class, Recipes.Fabrication::new, FabricationCategory::new, "fabrication_chamber_jei", CalculatorConstants.MODID),
-    SICKLE = p(TreeHarvestRecipes.instance(), Calculator.sickle, Recipes.Harvest.class, Recipes.Harvest::new, SickleCategory::new, "sickle_harvesting", CalculatorConstants.MODID),
-    ANALYSING = p(AnalysingChamberRecipes.instance(), Calculator.analysingChamber, Recipes.Analysing.class, Recipes.Analysing::new, AnalysingCategory::new, "guicalculatorplug", CalculatorConstants.MODID);
+	HEALTH, CONDUCTOR, FABRICATION, SICKLE, ANALYSING;
+
+	public void registerProviders(){
+		//SINGLE PROCESS
+		PROCESSING = p(ProcessingChamberRecipes.instance(), Calculator.processingChamber, Recipes.Processing.class, Recipes.Processing::new, SingleProcessCategory::new, "restorationchamber", CalculatorConstants.MODID);
+		RESTORATION = p(RestorationChamberRecipes.instance(), Calculator.restorationChamber, Recipes.Restoration.class, Recipes.Restoration::new, SingleProcessCategory::new, "restorationchamber", CalculatorConstants.MODID);
+		REASSEMBLY = p(ReassemblyChamberRecipes.instance(), Calculator.reassemblyChamber, Recipes.Reassembly.class, Recipes.Reassembly::new, SingleProcessCategory::new, "restorationchamber", CalculatorConstants.MODID);
+
+		//DUEL PROCESS
+		EXTRACTION = p(ExtractionChamberRecipes.instance(), Calculator.extractionChamber, Recipes.Extraction.class, Recipes.Extraction::new, DualProcessCategory::new, "extractionchamber", CalculatorConstants.MODID);
+		PRECISION = p(PrecisionChamberRecipes.instance(), Calculator.precisionChamber, Recipes.Precision.class, Recipes.Precision::new, DualProcessCategory::new, "extractionchamber", CalculatorConstants.MODID);
+		STONE = p(StoneSeparatorRecipes.instance(), Calculator.stoneSeparator, Recipes.Stone.class, Recipes.Stone::new, DualProcessCategory::new, "stoneseperator", CalculatorConstants.MODID);
+		ALGORITHM = p(AlgorithmSeparatorRecipes.instance(), Calculator.algorithmSeparator, Recipes.Algorithm.class, Recipes.Algorithm::new, DualProcessCategory::new, "stoneseperator", CalculatorConstants.MODID);
+
+		//CALCULATORS
+		CALCULATOR = p(CalculatorRecipes.instance(), Calculator.itemCalculator, Recipes.Calculator.class, Recipes.Calculator::new, DualCalculatorCategory::new, "calculator", CalculatorConstants.MODID);
+		SCIENTIFIC = p(ScientificRecipes.instance(), Calculator.itemScientificCalculator, Recipes.Scientific.class, Recipes.Scientific::new, DualCalculatorCategory::new, "scientificcalculator", CalculatorConstants.MODID);
+		ATOMIC = p(AtomicCalculatorRecipes.instance(), Calculator.atomicCalculator, Recipes.Atomic.class, Recipes.Atomic::new, AtomicCategory::new, "atomiccalculator", CalculatorConstants.MODID);
+		FLAWLESS = p(FlawlessCalculatorRecipes.instance(), Calculator.itemFlawlessCalculator, Recipes.Flawless.class, Recipes.Flawless::new, FlawlessCategory::new, "flawlesscalculator", CalculatorConstants.MODID);
+
+		//MISC
+		HEALTH = p(HealthProcessorRecipes.instance(), Calculator.healthProcessor, Recipes.Health.class, Recipes.Health::new, ValueCategory::new, "guicalculatorplug", CalculatorConstants.MODID);
+		CONDUCTOR = p(ConductorMastRecipes.instance(), Calculator.conductorMast, Recipes.Conductor.class, Recipes.Conductor::new, ConductorMastCategory::new, "conductorMast", CalculatorConstants.MODID);
+		FABRICATION = p(FabricationChamberRecipes.instance(), Calculator.fabricationChamber, Recipes.Fabrication.class, Recipes.Fabrication::new, FabricationCategory::new, "fabrication_chamber_jei", CalculatorConstants.MODID);
+		SICKLE = p(TreeHarvestRecipes.instance(), Calculator.sickle, Recipes.Harvest.class, Recipes.Harvest::new, SickleCategory::new, "sickle_harvesting", CalculatorConstants.MODID);
+		ANALYSING = p(AnalysingChamberRecipes.instance(), Calculator.analysingChamber, Recipes.Analysing.class, Recipes.Analysing::new, AnalysingCategory::new, "guicalculatorplug", CalculatorConstants.MODID);
+	}
 
     @Override
     public void register(IModRegistry registry) {
