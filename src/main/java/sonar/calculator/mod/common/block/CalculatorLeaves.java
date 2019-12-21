@@ -72,15 +72,23 @@ public class CalculatorLeaves extends Block implements IShearable {
 			}
 		}
 		if (blocks != 6) {
-            int randInt;
-			if (leafType == 3) {
-				randInt = rand.nextInt(10);
-			} else if (leafType < 2) {
-				randInt = rand.nextInt(8);
-			} else {
-				randInt = rand.nextInt(9);
+            int randInt = 0;
+            switch(leafType){
+				case 0:
+					randInt = rand.nextInt(8);
+					break;
+				case 1:
+					randInt = rand.nextInt(8);
+					break;
+				case 2:
+					randInt = rand.nextInt(20);
+					break;
+				case 3:
+					randInt = rand.nextInt(50);
+					break;
 			}
-			if (randInt <= 2) {
+
+			if (randInt == 1) {
 				LeafGrowth leaf = state.getValue(GROWTH);
 				if (leaf.canGrow()) {
 					world.setBlockState(pos, state.cycleProperty(GROWTH));

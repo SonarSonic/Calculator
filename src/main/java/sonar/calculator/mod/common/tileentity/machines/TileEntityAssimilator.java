@@ -266,11 +266,11 @@ public abstract class TileEntityAssimilator extends TileEntityInventory implemen
         @Override
 		public boolean harvestBlock(BlockCoords block) {
 			IBlockState state = block.getBlockState(world);
-			if (state.getValue(CalculatorLeaves.GROWTH).getMeta() > 2) {
+			if (state.getValue(CalculatorLeaves.GROWTH).getMeta() >= 2) {
 				ArrayList<ItemStack> stacks = TreeHarvestRecipes.harvestLeaves(world, block.getBlockPos(), rand.nextBoolean());
-				for(ItemStack stack : stacks){
-					if(!stack.isEmpty()){
-						stack = ItemHandlerHelper.insertItem(inv(), stack, false);
+				for(ItemStack s : stacks){
+					if(!s.isEmpty()){
+						ItemStack stack = ItemHandlerHelper.insertItem(inv(), s.copy(), false);
 						if (!stack.isEmpty()) {
 							InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 						}

@@ -19,8 +19,10 @@ public class Sickle extends SonarItem {
 	@Nonnull
     @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		ArrayList<ItemStack> stacks = TreeHarvestRecipes.harvestLeaves(world, pos, false);
-		stacks.forEach(s -> ItemHandlerHelper.giveItemToPlayer(player,s));
-		return EnumActionResult.PASS;
+		if(!world.isRemote) {
+			ArrayList<ItemStack> stacks = TreeHarvestRecipes.harvestLeaves(world, pos, false);
+			stacks.forEach(s -> ItemHandlerHelper.giveItemToPlayer(player, s));
+		}
+		return EnumActionResult.SUCCESS;
 	}
 }
