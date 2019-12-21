@@ -135,7 +135,7 @@ public class NutritionModule extends SonarItem implements IHealthStore, IHungerS
 
 	@Override
 	public int getMaxHungerPoints(ItemStack stack) {
-		return CalculatorConfig.HUNGER_MODULE_CAPACITY;
+		return CalculatorConfig.NUTRITION_MODULE_HUNGER_CAPACITY;
 	}
 
 	@Override
