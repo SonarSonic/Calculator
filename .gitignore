@@ -54,3 +54,11 @@ Temporary Items
 #Forge Stuff
 /run/
 settings.gradle
+/.gradle
+build
+/.run
+eclipse
+run
+classes
+*.psd
+resource

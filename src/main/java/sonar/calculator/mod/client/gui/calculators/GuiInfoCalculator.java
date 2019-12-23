@@ -270,8 +270,10 @@ public class GuiInfoCalculator extends GuiSonar {
 			return;
 		}
 		if (currentState == GuiState.LIST) {
-			this.currentCategory = Category.values()[button.id];
-			this.resetInfoList();
+			if(button.id < Category.values().length) {
+				this.currentCategory = Category.values()[button.id];
+				this.resetInfoList();
+			}
 		} else if (currentState == GuiState.INFO) {
 			if (button.id >= 10) {
 				IItemInfo info = infoList.get(this.currentPos);
