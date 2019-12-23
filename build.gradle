@@ -39,11 +39,11 @@ repositories {
         name = "ic2"
         url = "http://maven.ic2.player.to/"
     }
+    */
     maven { url = "http://maven.ironhide.de/" }
     flatDir {
         dirs 'libs'
     }
-    */
 }
 
 apply plugin: 'maven-publish'
