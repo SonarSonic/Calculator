@@ -108,8 +108,12 @@ dependencies {
     compileOnly "crafttweaker:CraftTweaker2:${crafttweaker_version}"
     compile group: "net.industrial-craft", name: "industrialcraft-2", version: "2.8.75-ex112", classifier: "api"
     compile group: "net.industrial-craft", name: "industrialcraft-2", version: "2.8.75-ex112", classifier: "dev"
-    compile "sonar:sonarcore:${minecraft_version}-${sonar_core_version}-${sonar_core_build_version}:deobf"
     */
+    if (!sonarcore_local) {
+        compileOnly "sonar:sonarcore:${minecraft_version}-${sonar_core_version}-${sonar_core_build_version}:deobf"
+    } else {
+        compile project(':Sonar-Core')
+    }
 }
 
 processResources
